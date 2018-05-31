@@ -1,9 +1,9 @@
 inherited frmInputCustomer: TfrmInputCustomer
   Caption = 'Input Customer'
-  ClientHeight = 524
+  ClientHeight = 663
   ClientWidth = 1058
   ExplicitWidth = 1058
-  ExplicitHeight = 524
+  ExplicitHeight = 663
   PixelsPerInch = 96
   TextHeight = 13
   object Label1: TLabel [0]
@@ -108,7 +108,7 @@ inherited frmInputCustomer: TfrmInputCustomer
     end
   end
   inherited Panel2: TPanel
-    Top = 475
+    Top = 614
     Width = 1058
     ExplicitTop = 614
     ExplicitWidth = 1058
