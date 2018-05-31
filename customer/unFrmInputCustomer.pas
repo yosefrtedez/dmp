@@ -47,6 +47,7 @@ type
     Label13: TLabel;
     procedure btnSimpanClick(Sender: TObject);
     procedure ClearAll;
+    procedure FormShow(Sender: TObject);
   private
     { Private declarations }
   public
@@ -58,7 +59,7 @@ var
 
 implementation
 
-uses unTools;
+uses unTools, unFrmLstCustomer;
 
 {$R *.dfm}
 
@@ -69,7 +70,7 @@ var
 begin
   inherited;
   if cxtKode.Text = '' then begin
-    MsgBox('Kode Harus di isi.');
+    MsgBox('Mohon isi kode customer.');
     cxtKode.SetFocus;
   end
   else begin
@@ -79,7 +80,7 @@ begin
     f:= True;
     if Self.Jenis= 'T' then begin
       if not q.IsEmpty then begin
-        MsgBox('Kode Customer Sudah Ada');
+        MsgBox('Kode customer sudah ada.');
         cxtKode.SelectAll ;
         cxtKode.SetFocus ;
         f:= False ;
@@ -90,7 +91,7 @@ begin
     end
     else begin
       if q.IsEmpty then begin
-        MsgBox('Kode Customer Belum Ada');
+        MsgBox('Kode customer belum ada.');
         cxtKode.SelectAll ;
         cxtKode.SetFocus ;
         f:= False ;
@@ -122,8 +123,9 @@ begin
       Close;
     end;
   end;
-  MsgBox('Data Sudah Disimpan');
+  MsgBox('Data customer sudah disimpan.');
   ClearAll;
+  frmLstCustomer.RefreshGrid;
   btnBatalClick(nil);
 end;
 
@@ -137,6 +139,33 @@ begin
       (Components[i] as TcxTextEdit).Text := '';
   end;
    cxChkAktif.Checked := False;
+end;
+
+procedure TfrmInputCustomer.FormShow(Sender: TObject);
+var
+  q: TZQuery;
+begin
+  inherited;
+  q := OpenRS('SELECT * FROM tbl_customer WHERE kode=''%s''', [Self.EditKey] );
+
+  with q do begin
+    cxtKode.Text    :=FieldByName('kode').AsString;
+    cxtNama.Text    :=FieldByName('nama').AsString;
+    cxtKontak.Text  :=FieldByName('kontak').AsString;
+    cxtAlamat1.Text :=FieldByName('alamat').AsString;
+    cxtAlamat2.Text :=FieldByName('alamat2').AsString;
+    cxtKota.Text    :=FieldByName('kota').AsString;
+    cxtProvinsi.Text :=FieldByName('provinsi').AsString;
+    cxtNegara.Text   :=FieldByName('negara').AsString;
+    cxtTelepon.Text  :=FieldByName('telpon').AsString;
+    cxtFax.Text      :=FieldByName('fax').AsString;
+    cxtHP.Text       :=FieldByName('hp').AsString;
+    cxtEmail.Text    :=FieldByName('email').AsString;
+    if FieldByName('f_aktif').AsInteger = 1 then
+      cxChkAktif.Checked := True
+    else
+      cxChkAktif.Checked := False;
+  end;
 end;
 
 end.

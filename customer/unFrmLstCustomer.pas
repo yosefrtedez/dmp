@@ -41,10 +41,11 @@ type
     procedure btnTambahClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure btnEditClick(Sender: TObject);
+    procedure btnRefreshClick(Sender: TObject);
   private
     { Private declarations }
   public
-    { Public declarations }
+    procedure RefreshGrid;
   end;
 
 var
@@ -67,34 +68,22 @@ begin
     ts.PageControl := frmUtama.pgMain;
     f := TfrmInputCustomer.Create(Self);
     f.Jenis := 'E';
+    f.Caption := 'Edit Customer';
+    f.EditKey := zqrCustomer.FieldByName('kode').AsString;
     f.Parent := ts;
     ts.Caption := f.Caption;
     f.Show;
-    f.cxtKode.Text := zqrCustomer.fieldbyname('kode').AsString ;
-     q := OpenRS('SELECT * FROM tbl_customer WHERE kode=''%s''',
-    [f.cxtKode.Text] );
 
-    with q do begin
-      f.cxtKode.Text    :=FieldByName('kode').AsString;
-      f.cxtNama.Text    :=FieldByName('nama').AsString;
-      f.cxtKontak.Text  :=FieldByName('kontak').AsString;
-      f.cxtAlamat1.Text :=FieldByName('alamat').AsString;
-      f.cxtAlamat2.Text :=FieldByName('alamat2').AsString;
-      f.cxtKota.Text    :=FieldByName('kota').AsString;
-      f.cxtProvinsi.Text :=FieldByName('provinsi').AsString;
-      f.cxtNegara.Text   :=FieldByName('negara').AsString;
-      f.cxtTelepon.Text  :=FieldByName('telpon').AsString;
-      f.cxtFax.Text      :=FieldByName('fax').AsString;
-      f.cxtHP.Text       :=FieldByName('hp').AsString;
-      f.cxtEmail.Text    :=FieldByName('email').AsString;
-      if FieldByName('f_aktif').AsInteger = 1 then
-      f.cxChkAktif.Checked := True
-    else
-      f.cxChkAktif.Checked := False;
-    end;
-	fu.pgMain.ActivePage := ts;
+	  fu.pgMain.ActivePage := ts;
   end;
 end;
+procedure TfrmLstCustomer.btnRefreshClick(Sender: TObject);
+begin
+  inherited;
+  zqrCustomer.Close;
+  zqrCustomer.Open;
+end;
+
 procedure TfrmLstCustomer.btnTambahClick(Sender: TObject);
 var
   f: TfrmInputCustomer;
@@ -118,6 +107,11 @@ procedure TfrmLstCustomer.FormCreate(Sender: TObject);
 begin
   inherited;
   zqrCustomer.Open;
+end;
+
+procedure TfrmLstCustomer.RefreshGrid;
+begin
+  Self.btnRefreshClick(nil);
 end;
 
 end.

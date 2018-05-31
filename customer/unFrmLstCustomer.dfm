@@ -26,6 +26,9 @@ inherited frmLstCustomer: TfrmLstCustomer
     inherited btnEdit: TButton
       OnClick = btnEditClick
     end
+    inherited btnRefresh: TButton
+      OnClick = btnRefreshClick
+    end
   end
   object cxgCustomer: TcxGrid
     Left = 0

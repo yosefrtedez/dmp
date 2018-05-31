@@ -2,6 +2,7 @@ inherited frmInputCustomer: TfrmInputCustomer
   Caption = 'Input Customer'
   ClientHeight = 524
   ClientWidth = 1058
+  OnShow = FormShow
   ExplicitWidth = 1058
   ExplicitHeight = 524
   PixelsPerInch = 96
@@ -110,7 +111,7 @@ inherited frmInputCustomer: TfrmInputCustomer
   inherited Panel2: TPanel
     Top = 475
     Width = 1058
-    ExplicitTop = 614
+    ExplicitTop = 475
     ExplicitWidth = 1058
     inherited btnSimpan: TButton
       OnClick = btnSimpanClick
