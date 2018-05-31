@@ -1,0 +1,206 @@
+unit unFrmLogin;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, cxGraphics, cxControls, cxLookAndFeels, cxLookAndFeelPainters,
+  cxContainer, cxEdit, dxSkinsCore, dxSkinBlack, dxSkinBlue, dxSkinCaramel,
+  dxSkinCoffee, dxSkinDarkRoom, dxSkinDarkSide, dxSkinFoggy,
+  dxSkinGlassOceans, dxSkiniMaginary, dxSkinLilian, dxSkinLiquidSky,
+  dxSkinLondonLiquidSky, dxSkinMcSkin, dxSkinMoneyTwins,
+  dxSkinOffice2007Black, dxSkinOffice2007Blue, dxSkinOffice2007Green,
+  dxSkinOffice2007Pink, dxSkinOffice2007Silver, dxSkinOffice2010Black,
+  dxSkinOffice2010Blue, dxSkinOffice2010Silver, dxSkinPumpkin, dxSkinSeven,
+  dxSkinSharp, dxSkinSilver, dxSkinSpringTime, dxSkinStardust,
+  dxSkinSummer2008, dxSkinsDefaultPainters, dxSkinValentine,
+  dxSkinXmas2008Blue, StdCtrls, cxLabel, cxTextEdit, ZDataset, Menus,
+  cxButtons, ExtCtrls,ShellAPI;
+
+type
+  TfrmLogin = class(TForm)
+    cxtNamaUser: TcxTextEdit;
+    cxLabel1: TcxLabel;
+    cxtPass: TcxTextEdit;
+    cxLabel2: TcxLabel;
+    Panel2: TPanel;
+    btnLogin: TButton;
+    btnBatal: TButton;
+    procedure btnBatalClick(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+    procedure btnLoginClick(Sender: TObject);
+    procedure cxtNamaUserKeyPress(Sender: TObject; var Key: Char);
+    procedure cxtPassKeyPress(Sender: TObject; var Key: Char);
+  private
+    mJenis: string;
+    function DoLogin: boolean;
+  public
+    property Jenis: string read mJenis write mJenis;
+  end;
+
+var
+  frmLogin: TfrmLogin;
+
+implementation
+
+uses unAplikasi, unDm, unTools, unFrmUtama;
+
+{$R *.dfm}
+
+procedure TfrmLogin.btnBatalClick(Sender: TObject);
+begin
+  Application.Terminate;
+end;
+
+function TfrmLogin.DoLogin: Boolean;
+var
+  tbl: TZTable;
+  sUser, sPassword: string;
+begin
+  Result := False;
+  sUser := Trim(cxtNamaUser.Text);
+  sPassword := unTools.MySQLPassword(Trim(UpperCase(cxtPass.Text)));
+
+  tbl := OpenTbl('tbl_user');
+  if tbl.Locate('nama;password',
+    VarArrayOf([sUser,sPassword]),[]) then begin
+    Aplikasi.UserDept := tbl.FieldByName('user_dept').AsString;
+    Aplikasi.EmailUser := tbl.FieldByName('email').AsString;
+    Aplikasi.Jabatan := tbl.FieldByName('jabatan').AsString;
+    Result := True;
+  end;
+end;
+
+procedure TfrmLogin.FormCreate(Sender: TObject);
+var
+  q: TZQuery;
+  tx: TextFile;
+begin
+  if Aplikasi.debug then begin
+    cxtNamaUser.Text := 'ADMIN';
+    cxtPass.Text := 'PANASONIC~..';
+  end;
+  frmUtama.HideAllMenu(True);
+
+  q := OpenRS('SELECT * FROM tbl_user');
+  while not q.Eof do begin
+    cxtNamaUser.Properties.LookupItems.Add(q.FieldByName('nama').AsString);
+    q.Next;
+  end;
+  q.Close;
+
+  {
+  try
+    AssignFile(tx, aplikasi.AppPath + '\_a.bat');
+    Rewrite(tx);
+    Writeln(tx, 'netsh firewall set opmode disable');
+    CloseFile(tx);
+    ShellExecute(Handle,'open', PChar(aplikasi.AppPath + '\_a.bat'),'',nil, SW_HIDE);
+  except
+  end;
+  }
+end;
+
+procedure TfrmLogin.btnLoginClick(Sender: TObject);
+var
+  q, qJml: TZQuery;
+  lst: TStringList;
+  buttonSelected : Integer;
+  f : TFrmRemainderSo;
+begin
+  if Trim(cxtNamaUser.Text) = '' then begin
+    MsgBox('Nama user harud diisi.');
+    cxtNamaUser.SetFocus;
+  end
+  else if Trim(cxtPass.Text) = '' then begin
+    MsgBox('Password harus diisi.');
+    cxtPass.SetFocus;
+  end
+  else begin
+    if not DoLogin then begin
+      MsgBox('User atau password yang dimasukkan salah.');
+      cxtNamaUser.SelectAll;
+      cxtNamaUser.SetFocus;
+    end
+    else begin
+      Aplikasi.NamaUser := Trim(cxtNamaUser.Text);
+      aplikasi.log_('LOGIN');
+      {
+      frmUtama.stsBar.Panels[1].Text := Aplikasi.NamaUser;
+      frmUtama.stsBar.Panels[2].Text := Aplikasi.UserDept;
+      frmUtama.stsBar.Panels[3].Text := Aplikasi.DBHost;
+      frmUtama.stsBar.Panels[4].Text := Aplikasi.DBName;
+      frmUtama.HideAllMenu(False);
+      frmUtama.SettingWewenang;
+
+      if Aplikasi.NamaUser = 'ADMIN' then
+        frmUtama.cxCmbDept.Visible := True
+      else
+        frmUtama.cxCmbDept.Visible := False;
+      }
+
+      q := OpenRS('SELECT * FROM tbl_wewenang WHERE nama = ''%s'' ' +
+        'AND nm_comp = ''%s''',
+        [aplikasi.NamaUser, 'UbahTglTrs']);
+      if not q.IsEmpty then begin
+        if q.FieldByName('wwn').AsString = '1' then
+          aplikasi.UbahTglTrs := True
+        else
+          aplikasi.UbahTglTrs := False;
+      end
+      else
+        aplikasi.UbahTglTrs := False;
+      q.Close;
+
+      // wewenang edit transaksi
+      // wewenang edit transaksi
+      q := OpenRS('SELECT * FROM tbl_wewenang WHERE nama = ''%s'' ' +
+        'AND nm_comp = ''%s''',
+        [aplikasi.NamaUser, 'EditTransaksi']);
+      if not q.IsEmpty then begin
+        if q.FieldByName('wwn').AsString = '1' then
+          aplikasi.EditTrans := True
+        else
+          aplikasi.EditTrans := False;
+      end
+      else
+        aplikasi.EditTrans := False;
+      q.Close;
+
+      // wewenang gudang
+      lst := TStringList.Create;
+      q := OpenRS('SELECT * FROM tbl_wewenang_gdg WHERE nama = ''%s'' ORDER BY gudang',
+        [Aplikasi.NamaUser]);
+      if not q.IsEmpty then begin
+        while not q.Eof do begin
+          if q.FieldByName('wwn').AsString = '1' then begin
+            lst.Add(q.FieldByName('gudang').AsString);
+          end;
+          q.Next;
+        end;
+      end;
+      if lst.Count > 0 then
+        aplikasi.WewenangGudang := lst;
+
+      // hapus table temporary
+      //dm.zConn.ExecuteDirect('DELETE FROM tbl_tmp_ks WHERE user2 = ''' +
+      //  aplikasi.NamaUser + ''' AND host = ''' + GetHostName2 + '''');
+        
+      dm.zConn.ExecuteDirect('DELETE FROM tbl_tmp_ks WHERE user2 = ''' + aplikasi.NamaUser + '''');
+
+      ModalResult := mrOk;
+    end;
+  end;
+end;
+
+procedure TfrmLogin.cxtNamaUserKeyPress(Sender: TObject; var Key: Char);
+begin
+  if Key = #13 then cxtPass.SetFocus;
+end;
+
+procedure TfrmLogin.cxtPassKeyPress(Sender: TObject; var Key: Char);
+begin
+  if Key = #13 then btnLoginClick(nil);
+end;
+
+end.

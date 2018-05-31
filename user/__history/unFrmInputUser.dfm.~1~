@@ -1,0 +1,7 @@
+inherited frmTplInput1: TfrmTplInput1
+  Caption = 'frmInputUser'
+  ExplicitWidth = 894
+  ExplicitHeight = 553
+  PixelsPerInch = 96
+  TextHeight = 13
+end

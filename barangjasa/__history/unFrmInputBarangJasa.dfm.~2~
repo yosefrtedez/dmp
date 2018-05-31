@@ -1,0 +1,27 @@
+inherited frmInputBarangJasa: TfrmInputBarangJasa
+  Caption = 'frmInputBarangJasa'
+  PixelsPerInch = 96
+  TextHeight = 13
+  object cxLabel1: TcxLabel
+    Left = 10
+    Top = 64
+    Caption = 'Kode'
+  end
+  object cxtKode: TcxTextEdit
+    Left = 104
+    Top = 63
+    TabOrder = 3
+    Width = 265
+  end
+  object cxLabel2: TcxLabel
+    Left = 10
+    Top = 91
+    Caption = 'Deskripsi'
+  end
+  object cxtDeskripsi: TcxTextEdit
+    Left = 104
+    Top = 90
+    TabOrder = 5
+    Width = 265
+  end
+end

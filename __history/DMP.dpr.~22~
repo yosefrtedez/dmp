@@ -1,0 +1,36 @@
+program DMP;
+
+uses
+  Forms,
+  Controls,
+  unFrmUtama in 'unFrmUtama.pas' {frmUtama},
+  unDM in 'unDM.pas' {DM: TDataModule},
+  unTools in 'unTools.pas',
+  unFrmLogin in 'unFrmLogin.pas' {frmLogin},
+  unAplikasi in 'unAplikasi.pas',
+  unFrmTplGrid in 'template\unFrmTplGrid.pas' {frmTplGrid},
+  unFrmLstCustomer in 'customer\unFrmLstCustomer.pas' {frmLstCustomer},
+  unFrmTplInput in 'template\unFrmTplInput.pas' {frmTplInput},
+  unFrmInputBarangJasa in 'barangjasa\unFrmInputBarangJasa.pas' {frmInputBarangJasa},
+  unFrmPilihKoneksi in 'unFrmPilihKoneksi.pas' {frmPilihKoneksi};
+
+{$R *.res}
+
+begin
+  Application.Initialize;
+  Application.MainFormOnTaskbar := True;
+  Application.CreateForm(TDM, DM);
+  Application.CreateForm(TfrmUtama, frmUtama);
+  Application.CreateForm(TfrmLogin, frmLogin);
+  frmUtama.Show;
+
+  frmLogin.ShowModal;
+
+  if frmLogin.ModalResult = mrOk then begin
+    //frmLogin.Close;
+    //frmLogin.Destroy;
+
+  end;
+
+  Application.Run;
+end.

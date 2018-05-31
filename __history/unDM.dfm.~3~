@@ -1,0 +1,11 @@
+object DM: TDM
+  OldCreateOrder = False
+  Height = 414
+  Width = 580
+  object zConn: TZConnection
+    ControlsCodePage = cCP_UTF16
+    Port = 0
+    Left = 16
+    Top = 16
+  end
+end

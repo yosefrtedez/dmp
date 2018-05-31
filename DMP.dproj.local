@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>2018/05/25 17.18.03.393.pas,C:\Users\Yosef\Documents\RAD Studio\Projects\Unit1.pas=D:\108 JSP\My Project\05. Felgito\02. Source Code\unFrmUtama.pas</Transaction>
+    <Transaction>2018/05/25 17.18.03.393.dfm,C:\Users\Yosef\Documents\RAD Studio\Projects\Unit1.dfm=D:\108 JSP\My Project\05. Felgito\02. Source Code\unFrmUtama.dfm</Transaction>
+    <Transaction>2018/05/25 17.18.11.847.dproj,C:\Users\Yosef\Documents\RAD Studio\Projects\Project1.dproj=D:\108 JSP\My Project\05. Felgito\02. Source Code\DMP.dproj</Transaction>
+    <Transaction>2018/05/25 17.20.17.377.pas,D:\108 JSP\My Project\05. Felgito\02. Source Code\Unit1.pas=D:\108 JSP\My Project\05. Felgito\02. Source Code\unDM.pas</Transaction>
+    <Transaction>2018/05/25 17.20.17.377.dfm,D:\108 JSP\My Project\05. Felgito\02. Source Code\Unit1.dfm=D:\108 JSP\My Project\05. Felgito\02. Source Code\unDM.dfm</Transaction>
+    <Transaction>2018/05/25 17.45.06.728.pas,D:\108 JSP\My Project\05. Felgito\02. Source Code\unFrmLogin.pas=</Transaction>
+    <Transaction>2018/05/25 17.45.06.728.dfm,D:\108 JSP\My Project\05. Felgito\02. Source Code\unFrmLogin.dfm=</Transaction>
+    <Transaction>2018/05/27 09.59.31.486.pas,D:\108 JSP\My Project\05. Felgito\02. Source Code\Unit1.pas=D:\108 JSP\My Project\05. Felgito\02. Source Code\unFrmTplGrid.pas</Transaction>
+    <Transaction>2018/05/27 09.59.31.486.dfm,D:\108 JSP\My Project\05. Felgito\02. Source Code\Unit1.dfm=D:\108 JSP\My Project\05. Felgito\02. Source Code\unFrmTplGrid.dfm</Transaction>
+    <Transaction>2018/05/27 10.00.01.581.pas,D:\108 JSP\My Project\05. Felgito\02. Source Code\unFrmTplGrid.pas=D:\108 JSP\My Project\05. Felgito\02. Source Code\template\unFrmTplGrid.pas</Transaction>
+    <Transaction>2018/05/27 10.00.01.581.dfm,D:\108 JSP\My Project\05. Felgito\02. Source Code\unFrmTplGrid.dfm=D:\108 JSP\My Project\05. Felgito\02. Source Code\template\unFrmTplGrid.dfm</Transaction>
+    <Transaction>2018/05/27 10.01.34.696.pas,D:\108 JSP\My Project\05. Felgito\02. Source Code\Unit1.pas=D:\108 JSP\My Project\05. Felgito\02. Source Code\barangjasa\unFrmLstBarangJasa.pas</Transaction>
+    <Transaction>2018/05/27 10.01.34.696.dfm,D:\108 JSP\My Project\05. Felgito\02. Source Code\Unit1.dfm=D:\108 JSP\My Project\05. Felgito\02. Source Code\barangjasa\unFrmLstBarangJasa.dfm</Transaction>
+    <Transaction>2018/05/27 10.28.45.117.pas,D:\108 JSP\My Project\05. Felgito\02. Source Code\Unit1.pas=D:\108 JSP\My Project\05. Felgito\02. Source Code\template\unFrmTplInput.pas</Transaction>
+    <Transaction>2018/05/27 10.28.45.117.dfm,D:\108 JSP\My Project\05. Felgito\02. Source Code\Unit1.dfm=D:\108 JSP\My Project\05. Felgito\02. Source Code\template\unFrmTplInput.dfm</Transaction>
+    <Transaction>2018/05/27 10.30.05.372.pas,D:\108 JSP\My Project\05. Felgito\02. Source Code\Unit1.pas=D:\108 JSP\My Project\05. Felgito\02. Source Code\barangjasa\unFrmInputBarangJasa.pas</Transaction>
+    <Transaction>2018/05/27 10.30.05.372.dfm,D:\108 JSP\My Project\05. Felgito\02. Source Code\Unit1.dfm=D:\108 JSP\My Project\05. Felgito\02. Source Code\barangjasa\unFrmInputBarangJasa.dfm</Transaction>
+    <Transaction>2018/05/29 11.44.48.123.pas,D:\108 JSP\My Project\05. Felgito\02. Source Code\barangjasa\unFrmLstBarangJasa.pas=D:\108 JSP\My Project\05. Felgito\02. Source Code\customer\unFrmLstCustomer.pas</Transaction>
+    <Transaction>2018/05/29 11.44.48.123.dfm,D:\108 JSP\My Project\05. Felgito\02. Source Code\barangjasa\unFrmLstBarangJasa.dfm=D:\108 JSP\My Project\05. Felgito\02. Source Code\customer\unFrmLstCustomer.dfm</Transaction>
+    <Transaction>2018/05/31 20.28.01.399.pas,D:\108 JSP\My Project\05. Felgito\02. Source Code\Unit1.pas=D:\108 JSP\My Project\05. Felgito\02. Source Code\user\unFrmInputUser.pas</Transaction>
+    <Transaction>2018/05/31 20.28.01.399.dfm,D:\108 JSP\My Project\05. Felgito\02. Source Code\Unit1.dfm=D:\108 JSP\My Project\05. Felgito\02. Source Code\user\unFrmInputUser.dfm</Transaction>
+    <Transaction>2018/05/31 20.30.13.360.pas,D:\108 JSP\My Project\05. Felgito\02. Source Code\Unit1.pas=D:\108 JSP\My Project\05. Felgito\02. Source Code\user\unFrmLstUser.pas</Transaction>
+    <Transaction>2018/05/31 20.30.13.360.dfm,D:\108 JSP\My Project\05. Felgito\02. Source Code\Unit1.dfm=D:\108 JSP\My Project\05. Felgito\02. Source Code\user\unFrmLstUser.dfm</Transaction>
+  </Transactions>
+</BorlandProject>
