@@ -16,7 +16,8 @@ uses
   dxSkinXmas2008Blue, dxSkinscxPCPainter, cxPC, StdCtrls, ExtCtrls, cxStyles,
   cxCustomData, cxFilter, cxData, cxDataStorage, cxEdit, DB, cxDBData,
   cxGridLevel, cxClasses, cxGridCustomView, cxGridCustomTableView,
-  cxGridTableView, cxGridDBTableView, cxGrid;
+  cxGridTableView, cxGridDBTableView, cxGrid, ZAbstractRODataset,
+  ZAbstractDataset, ZAbstractTable, ZDataset;
 
 type
   TfrmLstLain2 = class(TfrmTplGrid)
@@ -29,6 +30,28 @@ type
     cxGrid2: TcxGrid;
     cxGridDBTableView1: TcxGridDBTableView;
     cxGridLevel1: TcxGridLevel;
+    tblKategoriBarang: TZTable;
+    dsKategoriBarang: TDataSource;
+    cxGrid1DBTableView1kategori: TcxGridDBColumn;
+    tblDept: TZTable;
+    dsDept: TDataSource;
+    cxGridDBTableView1departemen: TcxGridDBColumn;
+    cxColID: TcxGridDBColumn;
+    cxGrid1DBTableView1kode: TcxGridDBColumn;
+    Label1: TLabel;
+    cxTabSheet3: TcxTabSheet;
+    cxGrid3: TcxGrid;
+    cxGridDBTableView2: TcxGridDBTableView;
+    cxGridLevel2: TcxGridLevel;
+    cxTabSheet4: TcxTabSheet;
+    cxGrid4: TcxGrid;
+    cxGridDBTableView3: TcxGridDBTableView;
+    cxGridDBColumn1: TcxGridDBColumn;
+    cxGridDBColumn2: TcxGridDBColumn;
+    cxGridLevel3: TcxGridLevel;
+    tblJabatan: TZTable;
+    dsJabatan: TDataSource;
+    procedure FormCreate(Sender: TObject);
   private
     { Private declarations }
   public
@@ -40,6 +63,16 @@ var
 
 implementation
 
+uses unDM;
+
 {$R *.dfm}
+
+procedure TfrmLstLain2.FormCreate(Sender: TObject);
+begin
+  inherited;
+  tblDept.Open;
+  tblKategoriBarang.Open;
+  tblJabatan.Open;
+end;
 
 end.

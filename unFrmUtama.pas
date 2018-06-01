@@ -167,6 +167,7 @@ var
   ts: TcxTabSheet;
 begin
   if not CekTabOpen('Kategori Barang - Departemen - Gudang') then begin
+    ToggleMainPage;
     ts := TcxTabSheet.Create(Self);
     ts.PageControl := pgMain;
 
@@ -185,6 +186,7 @@ var
   ts: TcxTabSheet;
 begin
   if not CekTabOpen('Mesin') then begin
+    ToggleMainPage;
     ts := TcxTabSheet.Create(Self);
     ts.PageControl := pgMain;
 

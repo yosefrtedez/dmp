@@ -21,7 +21,7 @@ uses
 
 type
   TfrmLstLain2 = class(TfrmTplGrid)
-    cxPageControl1: TcxPageControl;
+    pgLain2: TcxPageControl;
     cxTabSheet1: TcxTabSheet;
     cxTabSheet2: TcxTabSheet;
     cxGrid1DBTableView1: TcxGridDBTableView;
@@ -31,6 +31,27 @@ type
     cxGridDBTableView1: TcxGridDBTableView;
     cxGridLevel1: TcxGridLevel;
     tblKategoriBarang: TZTable;
+    dsKategoriBarang: TDataSource;
+    cxGrid1DBTableView1kategori: TcxGridDBColumn;
+    tblDept: TZTable;
+    dsDept: TDataSource;
+    cxGridDBTableView1departemen: TcxGridDBColumn;
+    cxColID: TcxGridDBColumn;
+    cxGrid1DBTableView1kode: TcxGridDBColumn;
+    Label1: TLabel;
+    cxTabSheet3: TcxTabSheet;
+    cxGrid3: TcxGrid;
+    cxGridDBTableView2: TcxGridDBTableView;
+    cxGridLevel2: TcxGridLevel;
+    cxTabSheet4: TcxTabSheet;
+    cxGrid4: TcxGrid;
+    cxGridDBTableView3: TcxGridDBTableView;
+    cxGridDBColumn1: TcxGridDBColumn;
+    cxGridDBColumn2: TcxGridDBColumn;
+    cxGridLevel3: TcxGridLevel;
+    tblJabatan: TZTable;
+    dsJabatan: TDataSource;
+    procedure FormCreate(Sender: TObject);
   private
     { Private declarations }
   public
@@ -45,5 +66,14 @@ implementation
 uses unDM;
 
 {$R *.dfm}
+
+procedure TfrmLstLain2.FormCreate(Sender: TObject);
+begin
+  inherited;
+  tblDept.Open;
+  tblKategoriBarang.Open;
+  tblJabatan.Open;
+
+end;
 
 end.

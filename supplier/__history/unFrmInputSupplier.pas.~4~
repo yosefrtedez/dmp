@@ -53,7 +53,6 @@ type
     cxlbl14: TcxLabel;
     cxlbl15: TcxLabel;
     cxlbl16: TcxLabel;
-    cxSpinEdit1: TcxSpinEdit;
     procedure btnSimpanClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);

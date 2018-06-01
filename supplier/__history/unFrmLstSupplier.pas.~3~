@@ -68,6 +68,7 @@ var
   ts: TcxTabSheet;
 begin
   inherited;
+  MsgBox('ok');
   if not fu.CekTabOpen('Edit Supplier') then begin
     ts := TcxTabSheet.Create(Self);
     ts.PageControl := frmUtama.pgMain;

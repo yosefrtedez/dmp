@@ -38,7 +38,7 @@ type
     mnMst_Lain2: TMenuItem;
     mnSys_TutupTab: TMenuItem;
     N1: TMenuItem;
-    Image1: TImage;
+    imgBackground: TImage;
     procedure FormShow(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure mnMst_BarangJasaClick(Sender: TObject);
@@ -48,8 +48,7 @@ type
     procedure mnMst_MesinClick(Sender: TObject);
     procedure mnMst_UserProgramClick(Sender: TObject);
     procedure mnMst_Lain2Click(Sender: TObject);
-    procedure MainMenuChange(Sender: TObject; Source: TMenuItem;
-      Rebuild: Boolean);
+    procedure pgMainChange(Sender: TObject);
   private
     //
   public
@@ -94,6 +93,8 @@ end;
 procedure TfrmUtama.FormCreate(Sender: TObject);
 begin
   pgMain.Align := alClient;
+  imgBackground.Align := alClient;
+  imgBackground.Picture.LoadFromFile(Aplikasi.AppPath + '/images/back.jpg');
   Caption := Aplikasi.JudulAplikasi;
 end;
 
@@ -122,18 +123,13 @@ begin
   Self.BuildMenu;
 end;
 
-procedure TfrmUtama.MainMenuChange(Sender: TObject; Source: TMenuItem;
-  Rebuild: Boolean);
-begin
-  MsgBox('ok');
-end;
-
 procedure TfrmUtama.mnMst_BarangJasaClick(Sender: TObject);
 var
   f: TfrmLstBarangJasa;
   ts: TcxTabSheet;
 begin
   if not CekTabOpen('Barang dan Jasa') then begin
+    ToggleMainPage;
     ts := TcxTabSheet.Create(Self);
     ts.PageControl := pgMain;
 
@@ -152,6 +148,7 @@ var
   ts: TcxTabSheet;
 begin
   if not CekTabOpen('Customer') then begin
+    ToggleMainPage;
     ts := TcxTabSheet.Create(Self);
     ts.PageControl := pgMain;
 
@@ -206,6 +203,7 @@ var
   ts: TcxTabSheet;
 begin
   if not CekTabOpen('Supplier') then begin
+    ToggleMainPage;
     ts := TcxTabSheet.Create(Self);
     ts.PageControl := pgMain;
 
@@ -224,6 +222,7 @@ var
   ts: TcxTabSheet;
 begin
   if not CekTabOpen('User') then begin
+    ToggleMainPage;
     ts := TcxTabSheet.Create(Self);
     ts.PageControl := pgMain;
 
@@ -239,6 +238,12 @@ end;
 procedure TfrmUtama.mnSys_KeluarClick(Sender: TObject);
 begin
   Application.Terminate;
+end;
+
+procedure TfrmUtama.pgMainChange(Sender: TObject);
+begin
+  if pgMain.TabCount = 0 then pgMain.Visible := False;
+  
 end;
 
 procedure TfrmUtama.ToggleMainPage;

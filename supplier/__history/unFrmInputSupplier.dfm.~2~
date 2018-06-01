@@ -214,12 +214,6 @@ inherited frmInputSupplier: TfrmInputSupplier
     Top = 264
     Caption = 'Email'
   end
-  object cxSpinEdit1: TcxSpinEdit
-    Left = 224
-    Top = 312
-    TabOrder = 34
-    Width = 121
-  end
   object zqrSupplier: TZReadOnlyQuery
     Connection = DM.zConn
     SQL.Strings = (

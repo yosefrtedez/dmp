@@ -29,6 +29,7 @@ type
     cxtAlamat: TcxTextEdit;
     cxtAlamat2: TcxTextEdit;
     cxtKota: TcxTextEdit;
+    cxsKodePos: TcxSpinEdit;
     cxtProvinsi: TcxTextEdit;
     cxtNegara: TcxTextEdit;
     cxtTelp: TcxTextEdit;
@@ -53,7 +54,6 @@ type
     cxlbl14: TcxLabel;
     cxlbl15: TcxLabel;
     cxlbl16: TcxLabel;
-    cxSpinEdit1: TcxSpinEdit;
     procedure btnSimpanClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -105,7 +105,7 @@ begin
     q.FieldByName('alamat').AsString := cxtAlamat.Text;
     q.FieldByName('Alamat2').AsString := cxtAlamat2.Text;
     q.FieldByName('kota').AsString := cxtKota.Text;
-    //q.FieldByName('kodepos').AsString := cxsKodePos.Text;
+    q.FieldByName('kodepos').AsString := cxsKodePos.Text;
     q.FieldByName('provinsi').AsString := cxtProvinsi.Text;
     q.FieldByName('negara').AsString := cxtNegara.Text;
     q.FieldByName('telpon').AsString := cxtTelp.Text;
@@ -119,6 +119,8 @@ begin
     end else begin
       q.FieldByName('f_aktif').AsInteger := 0;
     end;
+
+
     q.Post;
 
     MsgBox('Data supplier sudah berhasil disimpan.');
@@ -129,6 +131,9 @@ begin
     btnBatalClick(nil);
 
   end;
+
+
+
 end;
 
 procedure TfrmInputSupplier.ClearAll;
@@ -139,7 +144,7 @@ begin
     if Components[i].Tag = 1 then
       (Components[i] as TcxTextEdit).Text := '';
   end;
-  //cxsKodePos.Value := 0
+  cxsKodePos.Value := 0
 
 end;
 
@@ -170,7 +175,7 @@ begin
     cxtAlamat.Text := q.FieldByName('alamat').AsString;
     cxtAlamat2.Text := q.FieldByName('alamat2').AsString;
     cxtKota.Text := q.FieldByName('kota').AsString;
-    //cxsKodePos.EditValue := q.FieldByName('kodepos').AsInteger;
+    cxsKodePos.EditValue := q.FieldByName('kodepos').AsInteger;
     cxtProvinsi.Text := q.FieldByName('provinsi').AsString;
     cxtNegara.Text := q.FieldByName('negara').AsString;
     cxtTelp.Text := q.FieldByName('telpon').AsString;

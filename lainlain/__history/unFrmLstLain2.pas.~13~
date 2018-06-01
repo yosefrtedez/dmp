@@ -21,7 +21,7 @@ uses
 
 type
   TfrmLstLain2 = class(TfrmTplGrid)
-    pgLain2: TcxPageControl;
+    cxPageControl1: TcxPageControl;
     cxTabSheet1: TcxTabSheet;
     cxTabSheet2: TcxTabSheet;
     cxGrid1DBTableView1: TcxGridDBTableView;
@@ -72,8 +72,6 @@ begin
   inherited;
   tblDept.Open;
   tblKategoriBarang.Open;
-  tblJabatan.Open;
-  pgLain2.ActivePageIndex := 0;
 end;
 
 end.

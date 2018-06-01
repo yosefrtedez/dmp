@@ -35,6 +35,19 @@ object frmUtama: TfrmUtama
       end
       item
         PanelStyleClassName = 'TdxStatusBarTextPanelStyle'
+        Width = 100
+      end
+      item
+        PanelStyleClassName = 'TdxStatusBarTextPanelStyle'
+        Width = 100
+      end
+      item
+        PanelStyleClassName = 'TdxStatusBarTextPanelStyle'
+        Width = 100
+      end
+      item
+        PanelStyleClassName = 'TdxStatusBarTextPanelStyle'
+        Width = 100
       end>
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText

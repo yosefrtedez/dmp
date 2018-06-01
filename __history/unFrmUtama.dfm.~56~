@@ -18,11 +18,11 @@ object frmUtama: TfrmUtama
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
-  object Image1: TImage
-    Left = 72
-    Top = 128
-    Width = 105
-    Height = 105
+  object imgBackground: TImage
+    Left = 8
+    Top = 8
+    Width = 441
+    Height = 225
   end
   object stsBar: TdxStatusBar
     Left = 0
@@ -43,8 +43,8 @@ object frmUtama: TfrmUtama
     Font.Style = []
   end
   object pgMain: TcxPageControl
-    Left = 208
-    Top = 80
+    Left = 136
+    Top = 112
     Width = 289
     Height = 193
     HotTrack = True
@@ -53,6 +53,7 @@ object frmUtama: TfrmUtama
     Style = 5
     TabOrder = 1
     Visible = False
+    OnChange = pgMainChange
     ClientRectBottom = 193
     ClientRectRight = 289
     ClientRectTop = 0

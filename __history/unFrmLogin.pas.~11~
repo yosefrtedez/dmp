@@ -43,7 +43,7 @@ var
 
 implementation
 
-uses unAplikasi, unDm, unTools, unFrmUtama, UnRemainderSo;
+uses unAplikasi, unDm, unTools, unFrmUtama;
 
 {$R *.dfm}
 
@@ -64,7 +64,7 @@ begin
   tbl := OpenTbl('tbl_user');
   if tbl.Locate('nama;password',
     VarArrayOf([sUser,sPassword]),[]) then begin
-    Aplikasi.UserDept := tbl.FieldByName('user_dept').AsString;
+    Aplikasi.UserDept := tbl.FieldByName('dept').AsString;
     Aplikasi.EmailUser := tbl.FieldByName('email').AsString;
     Aplikasi.Jabatan := tbl.FieldByName('jabatan').AsString;
     Result := True;
@@ -78,9 +78,9 @@ var
 begin
   if Aplikasi.debug then begin
     cxtNamaUser.Text := 'ADMIN';
-    cxtPass.Text := 'PANASONIC~..';
+    cxtPass.Text := 'ADMIN123';
   end;
-  frmUtama.HideAllMenu(True);
+  //frmUtama.HideAllMenu(True);
 
   q := OpenRS('SELECT * FROM tbl_user');
   while not q.Eof do begin
@@ -106,7 +106,6 @@ var
   q, qJml: TZQuery;
   lst: TStringList;
   buttonSelected : Integer;
-  f : TFrmRemainderSo;
 begin
   if Trim(cxtNamaUser.Text) = '' then begin
     MsgBox('Nama user harud diisi.');
@@ -125,19 +124,20 @@ begin
     else begin
       Aplikasi.NamaUser := Trim(cxtNamaUser.Text);
       aplikasi.log_('LOGIN');
+      {
       frmUtama.stsBar.Panels[1].Text := Aplikasi.NamaUser;
       frmUtama.stsBar.Panels[2].Text := Aplikasi.UserDept;
       frmUtama.stsBar.Panels[3].Text := Aplikasi.DBHost;
       frmUtama.stsBar.Panels[4].Text := Aplikasi.DBName;
       frmUtama.HideAllMenu(False);
       frmUtama.SettingWewenang;
+
       if Aplikasi.NamaUser = 'ADMIN' then
         frmUtama.cxCmbDept.Visible := True
       else
         frmUtama.cxCmbDept.Visible := False;
+      }
 
-      // wewenang ubah tanggal
-      // wewenang ubah tanggal
       q := OpenRS('SELECT * FROM tbl_wewenang WHERE nama = ''%s'' ' +
         'AND nm_comp = ''%s''',
         [aplikasi.NamaUser, 'UbahTglTrs']);
@@ -188,6 +188,7 @@ begin
       dm.zConn.ExecuteDirect('DELETE FROM tbl_tmp_ks WHERE user2 = ''' + aplikasi.NamaUser + '''');
 
       ModalResult := mrOk;
+      frmUtama.SetFocus;
     end;
   end;
 end;

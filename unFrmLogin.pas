@@ -124,14 +124,15 @@ begin
     else begin
       Aplikasi.NamaUser := Trim(cxtNamaUser.Text);
       aplikasi.log_('LOGIN');
-      {
+
       frmUtama.stsBar.Panels[1].Text := Aplikasi.NamaUser;
       frmUtama.stsBar.Panels[2].Text := Aplikasi.UserDept;
       frmUtama.stsBar.Panels[3].Text := Aplikasi.DBHost;
       frmUtama.stsBar.Panels[4].Text := Aplikasi.DBName;
-      frmUtama.HideAllMenu(False);
-      frmUtama.SettingWewenang;
+      //frmUtama.HideAllMenu(False);
+      //frmUtama.SettingWewenang;
 
+      {
       if Aplikasi.NamaUser = 'ADMIN' then
         frmUtama.cxCmbDept.Visible := True
       else
