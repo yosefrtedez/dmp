@@ -24,5 +24,7 @@
     <Transaction>2018/05/31 20.28.01.399.dfm,D:\108 JSP\My Project\05. Felgito\02. Source Code\Unit1.dfm=D:\108 JSP\My Project\05. Felgito\02. Source Code\user\unFrmInputUser.dfm</Transaction>
     <Transaction>2018/05/31 20.30.13.360.pas,D:\108 JSP\My Project\05. Felgito\02. Source Code\Unit1.pas=D:\108 JSP\My Project\05. Felgito\02. Source Code\user\unFrmLstUser.pas</Transaction>
     <Transaction>2018/05/31 20.30.13.360.dfm,D:\108 JSP\My Project\05. Felgito\02. Source Code\Unit1.dfm=D:\108 JSP\My Project\05. Felgito\02. Source Code\user\unFrmLstUser.dfm</Transaction>
+    <Transaction>2018/06/01 00.23.56.174.pas,D:\108 JSP\My Project\05. Felgito\02. Source Code\Unit1.pas=D:\108 JSP\My Project\05. Felgito\02. Source Code\lainlain\unFrmLstLain2.pas</Transaction>
+    <Transaction>2018/06/01 00.23.56.174.dfm,D:\108 JSP\My Project\05. Felgito\02. Source Code\Unit1.dfm=D:\108 JSP\My Project\05. Felgito\02. Source Code\lainlain\unFrmLstLain2.dfm</Transaction>
   </Transactions>
 </BorlandProject>

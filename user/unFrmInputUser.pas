@@ -27,6 +27,7 @@ type
     cxlDept: TcxLookupComboBox;
     zqrDept: TZReadOnlyQuery;
     dsDept: TDataSource;
+    Label13: TLabel;
     procedure FormCreate(Sender: TObject);
     procedure btnSimpanClick(Sender: TObject);
     procedure FormShow(Sender: TObject);

@@ -14,7 +14,7 @@ uses
   dxSkinPumpkin, dxSkinSeven, dxSkinSharp, dxSkinSilver, dxSkinSpringTime,
   dxSkinStardust, dxSkinSummer2008, dxSkinsDefaultPainters, dxSkinValentine,
   dxSkinXmas2008Blue, dxSkinsdxStatusBarPainter, dxStatusBar, ZDataset,
-  dxSkinscxPCPainter, cxPC;
+  dxSkinscxPCPainter, cxPC, ExtCtrls;
 
 type
   TfrmUtama = class(TForm)
@@ -35,6 +35,10 @@ type
     PRD1: TMenuItem;
     PUR1: TMenuItem;
     mnMst_COA: TMenuItem;
+    mnMst_Lain2: TMenuItem;
+    mnSys_TutupTab: TMenuItem;
+    N1: TMenuItem;
+    imgBackground: TImage;
     procedure FormShow(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure mnMst_BarangJasaClick(Sender: TObject);
@@ -43,12 +47,15 @@ type
     procedure mnMst_SupplierClick(Sender: TObject);
     procedure mnMst_MesinClick(Sender: TObject);
     procedure mnMst_UserProgramClick(Sender: TObject);
+    procedure mnMst_Lain2Click(Sender: TObject);
+    procedure pgMainChange(Sender: TObject);
   private
     //
   public
     procedure BuildMenu;
     function CekTabOpen(sCaption: string): Boolean;
     procedure CloseTab(Frm: TForm; Sender: TObject);
+    procedure ToggleMainPage;
   end;
 
 var
@@ -60,7 +67,7 @@ implementation
 
 uses
   unTools, unFrmLstBarangJasa, unFrmLstCustomer, unFrmLstSupplier,
-  unFrmLstMesin, unFrmLstUser;
+  unFrmLstMesin, unFrmLstUser, unFrmLstLain2, unDM;
 
 {$R *.dfm}
 
@@ -86,6 +93,9 @@ end;
 procedure TfrmUtama.FormCreate(Sender: TObject);
 begin
   pgMain.Align := alClient;
+  imgBackground.Align := alClient;
+  imgBackground.Picture.LoadFromFile(Aplikasi.AppPath + '/images/back.jpg');
+  Caption := Aplikasi.JudulAplikasi;
 end;
 
 procedure TfrmUtama.CloseTab(Frm: TForm; Sender: TObject);
@@ -119,6 +129,7 @@ var
   ts: TcxTabSheet;
 begin
   if not CekTabOpen('Barang dan Jasa') then begin
+    ToggleMainPage;
     ts := TcxTabSheet.Create(Self);
     ts.PageControl := pgMain;
 
@@ -137,10 +148,29 @@ var
   ts: TcxTabSheet;
 begin
   if not CekTabOpen('Customer') then begin
+    ToggleMainPage;
     ts := TcxTabSheet.Create(Self);
     ts.PageControl := pgMain;
 
     f := TfrmLstCustomer.Create(Self);
+    f.Parent := ts;
+    ts.Caption := f.Caption;
+    f.Show;
+
+    pgMain.ActivePage := ts;
+  end;
+end;
+
+procedure TfrmUtama.mnMst_Lain2Click(Sender: TObject);
+var
+  f: TfrmLstLain2;
+  ts: TcxTabSheet;
+begin
+  if not CekTabOpen('Kategori Barang - Departemen - Gudang') then begin
+    ts := TcxTabSheet.Create(Self);
+    ts.PageControl := pgMain;
+
+    f := TfrmLstLain2.Create(Self);
     f.Parent := ts;
     ts.Caption := f.Caption;
     f.Show;
@@ -173,6 +203,7 @@ var
   ts: TcxTabSheet;
 begin
   if not CekTabOpen('Supplier') then begin
+    ToggleMainPage;
     ts := TcxTabSheet.Create(Self);
     ts.PageControl := pgMain;
 
@@ -191,6 +222,7 @@ var
   ts: TcxTabSheet;
 begin
   if not CekTabOpen('User') then begin
+    ToggleMainPage;
     ts := TcxTabSheet.Create(Self);
     ts.PageControl := pgMain;
 
@@ -206,6 +238,17 @@ end;
 procedure TfrmUtama.mnSys_KeluarClick(Sender: TObject);
 begin
   Application.Terminate;
+end;
+
+procedure TfrmUtama.pgMainChange(Sender: TObject);
+begin
+  if pgMain.TabCount = 0 then pgMain.Visible := False;
+  
+end;
+
+procedure TfrmUtama.ToggleMainPage;
+begin
+  if not pgMain.Visible then pgMain.Visible := True;
 end;
 
 function TfrmUtama.CekTabOpen(sCaption: string): Boolean;

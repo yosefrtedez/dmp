@@ -20,13 +20,33 @@ uses
 
 type
   TfrmLstSupplier = class(TfrmTplGrid)
-    cxtbCustomer: TcxGridDBTableView;
-    cxgCustomerLevel1: TcxGridLevel;
-    cxgCustomer: TcxGrid;
-    zqrCustomer: TZReadOnlyQuery;
-    dsCustomer: TDataSource;
+    cxtbSupplier: TcxGridDBTableView;
+    cxgSupplierLevel1: TcxGridLevel;
+    cxgSupplier: TcxGrid;
+    zqrSupplier: TZReadOnlyQuery;
+    dsSupllier: TDataSource;
+    cxtbSupplierkode: TcxGridDBColumn;
+    cxtbSuppliernama: TcxGridDBColumn;
+    cxtbSupplierkontak: TcxGridDBColumn;
+    cxtbSuppliertitle: TcxGridDBColumn;
+    cxtbSupplieralamat: TcxGridDBColumn;
+    cxtbSupplieralamat2: TcxGridDBColumn;
+    cxtbSupplierkota: TcxGridDBColumn;
+    cxtbSupplierkodepos: TcxGridDBColumn;
+    cxgrdbclmnSupplierprovinsi: TcxGridDBColumn;
+    cxgrdbclmnSuppliernegara: TcxGridDBColumn;
+    cxgrdbclmnSuppliertelpon: TcxGridDBColumn;
+    cxgrdbclmnSupplierfax: TcxGridDBColumn;
+    cxgrdbclmnSupplierhp: TcxGridDBColumn;
+    cxgrdbclmnSupplierdirect: TcxGridDBColumn;
+    cxgrdbclmnSupplierpembayaran: TcxGridDBColumn;
+    cxgrdbclmnSupplieremail: TcxGridDBColumn;
+    cxgrdbclmnSupplierf_aktif: TcxGridDBColumn;
     procedure btnTambahClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
+    procedure btnRefreshClick(Sender: TObject);
+    procedure btnEditClick(Sender: TObject);
+    procedure btnHapusClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -38,9 +58,66 @@ var
 
 implementation
 
-uses unFrmUtama, unDM, unFrmInputSupplier;
+uses unFrmUtama, unDM, unFrmInputSupplier, unTools;
 
 {$R *.dfm}
+
+procedure TfrmLstSupplier.btnEditClick(Sender: TObject);
+var
+  f: TfrmInputSupplier;
+  ts: TcxTabSheet;
+begin
+  inherited;
+  if not fu.CekTabOpen('Edit Supplier') then begin
+    ts := TcxTabSheet.Create(Self);
+    ts.PageControl := frmUtama.pgMain;
+
+    f := TfrmInputSupplier.Create(Self);
+    f.Caption := 'Edit User';
+    f.Jenis := 'E';
+    f.EditKey := zqrSupplier.FieldByName('kode').AsString;
+    f.Parent := ts;
+    ts.Caption := f.Caption;
+    f.Show;
+
+    fu.pgMain.ActivePage := ts;
+  end;
+end;
+
+procedure TfrmLstSupplier.btnHapusClick(Sender: TObject);
+var
+  q : TZQuery;
+begin
+  inherited;
+
+  q := OpenRS('SELECT * FROM tbl_po_head where kode_supp = ''%s''',[zqrSupplier.FieldByName('kode').AsString]);
+  if not q.Eof then begin
+        MsgBox('Data tidak bisa dihapus karena memiliki transaksi.');
+        Abort;
+  end else begin
+    try
+      DM.zConn.StartTransaction;
+      Dm.zConn.ExecuteDirect('delete from tbl_supplier where kode = ''' + zqrSupplier.FieldByName('kode').AsString);
+      DM.zConn.Commit;
+      MsgBox('Data supplier dengan kode ' + zqrSupplier.FieldByName('kode').AsString + 'sudah berhasil dihapus');
+      q.Close;
+      q.Open;
+      btnRefreshClick(nil);
+    finally
+
+    end;
+  end;
+
+
+
+end;
+
+procedure TfrmLstSupplier.btnRefreshClick(Sender: TObject);
+begin
+  inherited;
+  zqrSupplier.Close;
+  zqrSupplier.Open;
+end;
 
 procedure TfrmLstSupplier.btnTambahClick(Sender: TObject);
 var
@@ -58,13 +135,14 @@ begin
     f.Show;
 
     fu.pgMain.ActivePage := ts;
+    f.cxtKode.SetFocus;
   end;
 end;
 
 procedure TfrmLstSupplier.FormCreate(Sender: TObject);
 begin
   inherited;
-  zqrCustomer.Open;
+  zqrSupplier.Open;
 end;
 
 end.

@@ -18,6 +18,12 @@ object frmUtama: TfrmUtama
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
+  object imgBackground: TImage
+    Left = 8
+    Top = 8
+    Width = 441
+    Height = 225
+  end
   object stsBar: TdxStatusBar
     Left = 0
     Top = 588
@@ -37,14 +43,17 @@ object frmUtama: TfrmUtama
     Font.Style = []
   end
   object pgMain: TcxPageControl
-    Left = 8
-    Top = 8
+    Left = 136
+    Top = 112
     Width = 289
     Height = 193
     HotTrack = True
+    LookAndFeel.SkinName = ''
     Options = [pcoAlwaysShowGoDialogButton, pcoCloseButton, pcoGradient, pcoGradientClientArea, pcoRedrawOnResize]
     Style = 5
     TabOrder = 1
+    Visible = False
+    OnChange = pgMainChange
     ClientRectBottom = 193
     ClientRectRight = 289
     ClientRectTop = 0
@@ -54,6 +63,12 @@ object frmUtama: TfrmUtama
     Top = 40
     object mnSystem: TMenuItem
       Caption = 'System'
+      object mnSys_TutupTab: TMenuItem
+        Caption = 'Tutup Semua Tab'
+      end
+      object N1: TMenuItem
+        Caption = '-'
+      end
       object mnSys_LogOff: TMenuItem
         Caption = 'Log Off - Ganti User'
       end
@@ -84,7 +99,11 @@ object frmUtama: TfrmUtama
         Caption = 'Karyawan'
       end
       object mnMst_COA: TMenuItem
-        Caption = 'Chart Of Account - Daftar Akun'
+        Caption = 'Chart Of Account / Daftar Akun'
+      end
+      object mnMst_Lain2: TMenuItem
+        Caption = 'Kategori Barang - Departemen - Gudang'
+        OnClick = mnMst_Lain2Click
       end
       object mnMst_UserProgram: TMenuItem
         Caption = 'User Program'

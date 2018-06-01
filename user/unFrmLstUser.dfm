@@ -3,6 +3,21 @@ inherited frmLstUser: TfrmLstUser
   OnCreate = FormCreate
   PixelsPerInch = 96
   TextHeight = 13
+  inherited Panel1: TPanel
+    object Label13: TLabel
+      Left = 10
+      Top = 16
+      Width = 98
+      Height = 19
+      Caption = 'Master User'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -16
+      Font.Name = 'Tahoma'
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+  end
   inherited Panel2: TPanel
     inherited btnTambah: TButton
       OnClick = btnTambahClick
@@ -21,10 +36,6 @@ inherited frmLstUser: TfrmLstUser
     Height = 410
     Align = alClient
     TabOrder = 2
-    ExplicitLeft = 78
-    ExplicitTop = 112
-    ExplicitWidth = 250
-    ExplicitHeight = 200
     object cxtbUser: TcxGridDBTableView
       NavigatorButtons.ConfirmDelete = False
       DataController.DataSource = dsUser

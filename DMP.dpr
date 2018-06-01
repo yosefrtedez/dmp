@@ -22,7 +22,8 @@ uses
   unFrmInputKaryawan in 'karyawan\unFrmInputKaryawan.pas' {frmInputKaryawan},
   unFrmLstKaryawan in 'karyawan\unFrmLstKaryawan.pas' {frmLstkaryawan},
   unFrmInputUser in 'user\unFrmInputUser.pas' {frmInputUser},
-  unFrmLstUser in 'user\unFrmLstUser.pas' {frmLstUser};
+  unFrmLstUser in 'user\unFrmLstUser.pas' {frmLstUser},
+  unFrmLstLain2 in 'lainlain\unFrmLstLain2.pas' {frmLstLain2};
 
 {$R *.res}
 
@@ -43,6 +44,7 @@ begin
   Application.CreateForm(TfrmLstkaryawan, frmLstkaryawan);
   Application.CreateForm(TfrmInputUser, frmInputUser);
   Application.CreateForm(TfrmLstUser, frmLstUser);
+  Application.CreateForm(TfrmLstLain2, frmLstLain2);
   frmUtama.Show;
 
   frmLogin.ShowModal;

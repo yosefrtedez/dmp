@@ -10,6 +10,7 @@ type
     crH: OleVariant;
     crv: OleVariant;
   private
+    mJudulAplikasi: string;
     mNamaToko: string;
     mAlamatToko: string;
     mTelponToko: string;
@@ -188,6 +189,7 @@ type
     demo : boolean;
     constructor Create;
 
+    property JudulAplikasi: string read mJudulAplikasi write mJudulAplikasi;
     property NamaToko: string read GetNamaToko write SetNamaToko;
     property AlamatToko: string read GetAlamatToko write SetAlamatToko;
     property TelponToko: string read GetTelponToko write SetTelponToko;
@@ -308,7 +310,8 @@ begin
     self.demo := false;
     self.version := self.version + ' - ( DEMO VERSION )';
     {$ELSE}
-    Self.version := '[Ver.13.03.2018 - 14:12]';
+    mJudulAplikasi := 'PT. DMP - 010618';
+    Self.version := '';
     Self.Ver := '17112015_0902';
     self.demo := false;
     {$ENDIF}

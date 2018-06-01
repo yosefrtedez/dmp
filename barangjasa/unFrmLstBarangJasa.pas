@@ -86,6 +86,7 @@ type
     cxtbBarangleadtime: TcxGridDBColumn;
     cxtbBarangf_brg_cust: TcxGridDBColumn;
     cxtbBarangf_bs_dipakai: TcxGridDBColumn;
+    Label13: TLabel;
     procedure Button1Click(Sender: TObject);
     procedure btnTambahClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);

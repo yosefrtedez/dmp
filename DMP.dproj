@@ -95,6 +95,9 @@
 			<DCCReference Include="user\unFrmLstUser.pas">
 				<Form>frmLstUser</Form>
 			</DCCReference>
+			<DCCReference Include="lainlain\unFrmLstLain2.pas">
+				<Form>frmLstLain2</Form>
+			</DCCReference>
 			<BuildConfiguration Include="Base">
 				<Key>Base</Key>
 			</BuildConfiguration>

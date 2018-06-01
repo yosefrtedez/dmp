@@ -29,6 +29,7 @@ type
     cxtbUsernama: TcxGridDBColumn;
     cxtbUserdept: TcxGridDBColumn;
     cxtbUseremail: TcxGridDBColumn;
+    Label13: TLabel;
     procedure btnTambahClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure btnRefreshClick(Sender: TObject);
