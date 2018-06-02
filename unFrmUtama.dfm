@@ -63,10 +63,10 @@ object frmUtama: TfrmUtama
     HotTrack = True
     LookAndFeel.SkinName = ''
     Options = [pcoAlwaysShowGoDialogButton, pcoCloseButton, pcoGradient, pcoGradientClientArea, pcoRedrawOnResize]
+    ParentBackground = False
     Style = 5
     TabOrder = 1
     Visible = False
-    OnChange = pgMainChange
     ClientRectBottom = 193
     ClientRectRight = 289
     ClientRectTop = 0
@@ -78,6 +78,7 @@ object frmUtama: TfrmUtama
       Caption = 'System'
       object mnSys_TutupTab: TMenuItem
         Caption = 'Tutup Semua Tab'
+        OnClick = mnSys_TutupTabClick
       end
       object N1: TMenuItem
         Caption = '-'

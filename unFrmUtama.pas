@@ -49,8 +49,9 @@ type
     procedure mnMst_UserProgramClick(Sender: TObject);
     procedure mnMst_Lain2Click(Sender: TObject);
     procedure pgMainChange(Sender: TObject);
+    procedure mnSys_TutupTabClick(Sender: TObject);
   private
-    //
+    procedure PGChange(Sender: TObject);
   public
     procedure BuildMenu;
     function CekTabOpen(sCaption: string): Boolean;
@@ -92,6 +93,7 @@ end;
 
 procedure TfrmUtama.FormCreate(Sender: TObject);
 begin
+  pgMain.OnChange := PGChange;
   pgMain.Align := alClient;
   imgBackground.Align := alClient;
   imgBackground.Picture.LoadFromFile(Aplikasi.AppPath + '/images/back.jpg');
@@ -242,10 +244,75 @@ begin
   Application.Terminate;
 end;
 
+procedure TfrmUtama.mnSys_TutupTabClick(Sender: TObject);
+var
+  i, styleID: Integer;
+  ts: TcxTabSheet;
+  pagecontrol:TcxPageControl;
+
+  component: TComponent;
+  stream: TMemoryStream;
+
+begin
+  {
+  RegisterClass(TcxPageControl);
+  stream := TMemoryStream.Create;
+  try
+    stream.WriteComponent(pgMain);
+    stream.Position := 0;
+    component := stream.ReadComponent(nil);
+    pagecontrol := component as TcxPageControl;
+
+    pgMain.Free;
+
+    pagecontrol.Name := 'pgMain';
+    InsertComponent(pagecontrol);
+
+    pagecontrol.Parent := Self;
+    pagecontrol.Align := alClient;
+  finally
+    stream.Free;
+  end;
+  }
+
+  if not pgMain.Visible then Abort;
+
+  styleID := pgMain.Style;
+  PGMain.Free;
+  pagecontrol := TcxPageControl.Create(Self);
+
+  with pagecontrol do begin
+    pagecontrol.Name := 'PGMain';
+    pagecontrol.Align := alClient;
+    pagecontrol.Parent := frmUtama;
+    //pagecontrol.ShowFrame := True;
+    pagecontrol.HotTrack := True;
+    //pagecontrol.ParentColor := False;
+    //pagecontrol.Color := clSkyBlue;
+    //pagecontrol.LookAndFeel.Kind := lfOffice11;
+    pagecontrol.Style := styleID;
+    //pagecontrol.Visible := True;
+    //pagecontrol.HideTabs := True;
+    //pagecontrol.Options := [pcoAlwaysShowGoDialogButton,pcoCloseButton,pcoGradient,pcoGradientClientArea,pcoRedrawOnResize];
+    pagecontrol.ParentBackground := False;
+    pagecontrol.Options := [pcoAlwaysShowGoDialogButton,pcoCloseButton];
+    pagecontrol.Visible := False;
+    pagecontrol.OnChange := PGChange;
+  end;
+
+end;
+
+procedure TfrmUtama.PGChange(Sender: TObject);
+var
+  pg: TcxPageControl;
+begin
+  pg := (Sender as TcxPageControl);
+  if pg.TabCount = 0 then pg.Visible := False;
+end;
+
 procedure TfrmUtama.pgMainChange(Sender: TObject);
 begin
   if pgMain.TabCount = 0 then pgMain.Visible := False;
-  
 end;
 
 procedure TfrmUtama.ToggleMainPage;
