@@ -59,6 +59,8 @@ type
     procedure pgMainChange(Sender: TObject);
     procedure mnSys_TutupTabClick(Sender: TObject);
     procedure mnMst_KaryawanClick(Sender: TObject);
+    procedure mnMkt_SalesOrderClick(Sender: TObject);
+    procedure mnPur_PPClick(Sender: TObject);
   private
     procedure PGChange(Sender: TObject);
   public
@@ -77,7 +79,8 @@ implementation
 
 uses
   unTools, unFrmLstBarangJasa, unFrmLstCustomer, unFrmLstSupplier,
-  unFrmLstMesin, unFrmLstUser, unFrmLstLain2, unDM, unFrmLstKaryawan;
+  unFrmLstMesin, unFrmLstUser, unFrmLstLain2, unDM, unFrmLstKaryawan,
+  unFrmLstSO, unFrmLstPP;
 
 {$R *.dfm}
 
@@ -132,6 +135,25 @@ procedure TfrmUtama.FormShow(Sender: TObject);
 begin
   Self.WindowState := wsMaximized;
   Self.BuildMenu;
+end;
+
+procedure TfrmUtama.mnMkt_SalesOrderClick(Sender: TObject);
+var
+  f: TfrmLstSO;
+  ts: TcxTabSheet;
+begin
+  if not CekTabOpen('Sales Order') then begin
+    ToggleMainPage;
+    ts := TcxTabSheet.Create(Self);
+    ts.PageControl := pgMain;
+
+    f := TfrmLstSO.Create(Self);
+    f.Parent := ts;
+    ts.Caption := f.Caption;
+    f.Show;
+
+    pgMain.ActivePage := ts;
+  end;
 end;
 
 procedure TfrmUtama.mnMst_BarangJasaClick(Sender: TObject);
@@ -259,6 +281,25 @@ begin
     ts.PageControl := pgMain;
 
     f := TfrmLstUser.Create(Self);
+    f.Parent := ts;
+    ts.Caption := f.Caption;
+    f.Show;
+
+    pgMain.ActivePage := ts;
+  end;
+end;
+
+procedure TfrmUtama.mnPur_PPClick(Sender: TObject);
+var
+  f: TfrmLstPP;
+  ts: TcxTabSheet;
+begin
+  if not CekTabOpen('Permintaan Pembelian') then begin
+    ToggleMainPage;
+    ts := TcxTabSheet.Create(Self);
+    ts.PageControl := pgMain;
+
+    f := TfrmLstPP.Create(Self);
     f.Parent := ts;
     ts.Caption := f.Caption;
     f.Show;

@@ -63,10 +63,10 @@ object frmUtama: TfrmUtama
     HotTrack = True
     LookAndFeel.SkinName = ''
     Options = [pcoAlwaysShowGoDialogButton, pcoCloseButton, pcoGradient, pcoGradientClientArea, pcoRedrawOnResize]
+    ParentBackground = False
     Style = 5
     TabOrder = 1
     Visible = False
-    OnChange = pgMainChange
     ClientRectBottom = 193
     ClientRectRight = 289
     ClientRectTop = 0
@@ -78,6 +78,7 @@ object frmUtama: TfrmUtama
       Caption = 'System'
       object mnSys_TutupTab: TMenuItem
         Caption = 'Tutup Semua Tab'
+        OnClick = mnSys_TutupTabClick
       end
       object N1: TMenuItem
         Caption = '-'
@@ -110,6 +111,7 @@ object frmUtama: TfrmUtama
       end
       object mnMst_Karyawan: TMenuItem
         Caption = 'Karyawan'
+        OnClick = mnMst_KaryawanClick
       end
       object mnMst_COA: TMenuItem
         Caption = 'Chart Of Account / Daftar Akun'
@@ -123,14 +125,38 @@ object frmUtama: TfrmUtama
         OnClick = mnMst_UserProgramClick
       end
     end
+    object mnMKT: TMenuItem
+      Caption = 'MKT'
+      object mnMkt_SalesOrder: TMenuItem
+        Caption = 'Sales Order'
+      end
+    end
     object mnPPIC: TMenuItem
       Caption = 'PPIC'
+      object mnPpic_MasterOrder: TMenuItem
+        Caption = 'Master Order'
+      end
     end
     object PRD1: TMenuItem
       Caption = 'PRD'
     end
     object PUR1: TMenuItem
       Caption = 'PUR'
+      object mnPur_PP: TMenuItem
+        Caption = 'Permintaan Pembelian'
+      end
+      object mnPur_AppPP: TMenuItem
+        Caption = 'Approval Permintaan Pembelian '
+      end
+      object N2: TMenuItem
+        Caption = '-'
+      end
+      object mnPur_PO: TMenuItem
+        Caption = 'Purchase Order'
+      end
+      object mnApp_PO: TMenuItem
+        Caption = 'Approval Purchase Order'
+      end
     end
   end
 end

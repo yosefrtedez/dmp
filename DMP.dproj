@@ -104,6 +104,18 @@
 			<DCCReference Include="salesorder\unFrmLstSO.pas">
 				<Form>frmLstSO</Form>
 			</DCCReference>
+			<DCCReference Include="purchaseorder\unFrmLstPO.pas">
+				<Form>frmLstPO</Form>
+			</DCCReference>
+			<DCCReference Include="purchaseorder\unFrmInputPO.pas">
+				<Form>frmInputPO</Form>
+			</DCCReference>
+			<DCCReference Include="permintaanpembelian\unFrmLstPP.pas">
+				<Form>frmLstPP</Form>
+			</DCCReference>
+			<DCCReference Include="permintaanpembelian\unFrmInputPP.pas">
+				<Form>frmInputPP</Form>
+			</DCCReference>
 			<BuildConfiguration Include="Base">
 				<Key>Base</Key>
 			</BuildConfiguration>

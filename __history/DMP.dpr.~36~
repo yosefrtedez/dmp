@@ -27,9 +27,7 @@ uses
   unFrmInputSO in 'salesorder\unFrmInputSO.pas' {frmInputSO},
   unFrmLstSO in 'salesorder\unFrmLstSO.pas' {frmLstSO},
   unFrmLstPO in 'purchaseorder\unFrmLstPO.pas' {frmLstPO},
-  unFrmInputPO in 'purchaseorder\unFrmInputPO.pas' {frmInputPO},
-  unFrmLstPP in 'permintaanpembelian\unFrmLstPP.pas' {frmLstPP},
-  unFrmInputPP in 'permintaanpembelian\unFrmInputPP.pas' {frmInputPP};
+  unFrmInputPO in 'purchaseorder\unFrmInputPO.pas' {frmInputPO};
 
 {$R *.res}
 
@@ -55,8 +53,6 @@ begin
   Application.CreateForm(TfrmLstSO, frmLstSO);
   Application.CreateForm(TfrmLstPO, frmLstPO);
   Application.CreateForm(TfrmInputPO, frmInputPO);
-  Application.CreateForm(TfrmLstPP, frmLstPP);
-  Application.CreateForm(TfrmInputPP, frmInputPP);
   frmUtama.Show;
 
   frmLogin.ShowModal;

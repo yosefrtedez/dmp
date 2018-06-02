@@ -129,6 +129,7 @@ object frmUtama: TfrmUtama
       Caption = 'MKT'
       object mnMkt_SalesOrder: TMenuItem
         Caption = 'Sales Order'
+        OnClick = mnMkt_SalesOrderClick
       end
     end
     object mnPPIC: TMenuItem
@@ -144,6 +145,7 @@ object frmUtama: TfrmUtama
       Caption = 'PUR'
       object mnPur_PP: TMenuItem
         Caption = 'Permintaan Pembelian'
+        OnClick = mnPur_PPClick
       end
       object mnPur_AppPP: TMenuItem
         Caption = 'Approval Permintaan Pembelian '

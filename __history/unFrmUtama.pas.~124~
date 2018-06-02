@@ -39,6 +39,14 @@ type
     mnSys_TutupTab: TMenuItem;
     N1: TMenuItem;
     imgBackground: TImage;
+    mnMKT: TMenuItem;
+    mnMkt_SalesOrder: TMenuItem;
+    mnPpic_MasterOrder: TMenuItem;
+    mnPur_PP: TMenuItem;
+    mnPur_AppPP: TMenuItem;
+    N2: TMenuItem;
+    mnPur_PO: TMenuItem;
+    mnApp_PO: TMenuItem;
     procedure FormShow(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure mnMst_BarangJasaClick(Sender: TObject);
@@ -50,6 +58,7 @@ type
     procedure mnMst_Lain2Click(Sender: TObject);
     procedure pgMainChange(Sender: TObject);
     procedure mnSys_TutupTabClick(Sender: TObject);
+    procedure mnMst_KaryawanClick(Sender: TObject);
   private
     procedure PGChange(Sender: TObject);
   public
@@ -68,7 +77,7 @@ implementation
 
 uses
   unTools, unFrmLstBarangJasa, unFrmLstCustomer, unFrmLstSupplier,
-  unFrmLstMesin, unFrmLstUser, unFrmLstLain2, unDM;
+  unFrmLstMesin, unFrmLstUser, unFrmLstLain2, unDM, unFrmLstKaryawan;
 
 {$R *.dfm}
 
@@ -163,6 +172,25 @@ begin
   end;
 end;
 
+procedure TfrmUtama.mnMst_KaryawanClick(Sender: TObject);
+var
+  f: TfrmLstKaryawan;
+  ts: TcxTabSheet;
+begin
+  if not CekTabOpen('Karyawan') then begin
+    ToggleMainPage;
+    ts := TcxTabSheet.Create(Self);
+    ts.PageControl := pgMain;
+
+    f := TfrmLstKaryawan.Create(Self);
+    f.Parent := ts;
+    ts.Caption := f.Caption;
+    f.Show;
+
+    pgMain.ActivePage := ts;
+  end;
+end;
+
 procedure TfrmUtama.mnMst_Lain2Click(Sender: TObject);
 var
   f: TfrmLstLain2;
@@ -246,12 +274,13 @@ end;
 
 procedure TfrmUtama.mnSys_TutupTabClick(Sender: TObject);
 var
-  i: Integer;
+  i, styleID: Integer;
   ts: TcxTabSheet;
   pagecontrol:TcxPageControl;
 
   component: TComponent;
   stream: TMemoryStream;
+
 begin
   {
   RegisterClass(TcxPageControl);
@@ -275,7 +304,8 @@ begin
   }
 
   if not pgMain.Visible then Abort;
-  
+
+  styleID := pgMain.Style;
   PGMain.Free;
   pagecontrol := TcxPageControl.Create(Self);
 
@@ -288,7 +318,7 @@ begin
     //pagecontrol.ParentColor := False;
     //pagecontrol.Color := clSkyBlue;
     //pagecontrol.LookAndFeel.Kind := lfOffice11;
-    pagecontrol.Style := tsExtraFlat;
+    pagecontrol.Style := styleID;
     //pagecontrol.Visible := True;
     //pagecontrol.HideTabs := True;
     //pagecontrol.Options := [pcoAlwaysShowGoDialogButton,pcoCloseButton,pcoGradient,pcoGradientClientArea,pcoRedrawOnResize];

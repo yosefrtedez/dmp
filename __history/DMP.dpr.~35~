@@ -20,7 +20,13 @@ uses
   unFrmInputMesin in 'mesin\unFrmInputMesin.pas' {frmInputMesin},
   unFrmLstMesin in 'mesin\unFrmLstMesin.pas' {frmLstMesin},
   unFrmInputKaryawan in 'karyawan\unFrmInputKaryawan.pas' {frmInputKaryawan},
-  unFrmLstKaryawan in 'karyawan\unFrmLstKaryawan.pas' {frmLstkaryawan};
+  unFrmLstKaryawan in 'karyawan\unFrmLstKaryawan.pas' {frmLstkaryawan},
+  unFrmInputUser in 'user\unFrmInputUser.pas' {frmInputUser},
+  unFrmLstUser in 'user\unFrmLstUser.pas' {frmLstUser},
+  unFrmLstLain2 in 'lainlain\unFrmLstLain2.pas' {frmLstLain2},
+  unFrmInputSO in 'salesorder\unFrmInputSO.pas' {frmInputSO},
+  unFrmLstSO in 'salesorder\unFrmLstSO.pas' {frmLstSO},
+  unFrmLstPO in 'purchaseorder\unFrmLstPO.pas' {frmLstPO};
 
 {$R *.res}
 
@@ -39,6 +45,12 @@ begin
   Application.CreateForm(TfrmLstMesin, frmLstMesin);
   Application.CreateForm(TfrmInputKaryawan, frmInputKaryawan);
   Application.CreateForm(TfrmLstkaryawan, frmLstkaryawan);
+  Application.CreateForm(TfrmInputUser, frmInputUser);
+  Application.CreateForm(TfrmLstUser, frmLstUser);
+  Application.CreateForm(TfrmLstLain2, frmLstLain2);
+  Application.CreateForm(TfrmInputSO, frmInputSO);
+  Application.CreateForm(TfrmLstSO, frmLstSO);
+  Application.CreateForm(TfrmLstPO, frmLstPO);
   frmUtama.Show;
 
   frmLogin.ShowModal;

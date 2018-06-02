@@ -30,5 +30,13 @@
     <Transaction>2018/06/02 15.03.29.295.dfm,D:\108 JSP\My Project\05. Felgito\02. Source Code\Unit1.dfm=D:\108 JSP\My Project\05. Felgito\02. Source Code\salesorder\unFrmInputSO.dfm</Transaction>
     <Transaction>2018/06/02 15.05.25.894.pas,D:\108 JSP\My Project\05. Felgito\02. Source Code\Unit1.pas=D:\108 JSP\My Project\05. Felgito\02. Source Code\salesorder\unFrmLstSO.pas</Transaction>
     <Transaction>2018/06/02 15.05.25.894.dfm,D:\108 JSP\My Project\05. Felgito\02. Source Code\Unit1.dfm=D:\108 JSP\My Project\05. Felgito\02. Source Code\salesorder\unFrmLstSO.dfm</Transaction>
+    <Transaction>2018/06/02 18.46.46.486.pas,D:\108 JSP\My Project\05. Felgito\02. Source Code\Unit1.pas=D:\108 JSP\My Project\05. Felgito\02. Source Code\purchaseorder\unFrmLstPO.pas</Transaction>
+    <Transaction>2018/06/02 18.46.46.486.dfm,D:\108 JSP\My Project\05. Felgito\02. Source Code\Unit1.dfm=D:\108 JSP\My Project\05. Felgito\02. Source Code\purchaseorder\unFrmLstPO.dfm</Transaction>
+    <Transaction>2018/06/02 18.47.56.494.pas,D:\108 JSP\My Project\05. Felgito\02. Source Code\Unit1.pas=D:\108 JSP\My Project\05. Felgito\02. Source Code\purchaseorder\unFrmInputPO.pas</Transaction>
+    <Transaction>2018/06/02 18.47.56.494.dfm,D:\108 JSP\My Project\05. Felgito\02. Source Code\Unit1.dfm=D:\108 JSP\My Project\05. Felgito\02. Source Code\purchaseorder\unFrmInputPO.dfm</Transaction>
+    <Transaction>2018/06/02 18.56.10.980.pas,D:\108 JSP\My Project\05. Felgito\02. Source Code\Unit1.pas=D:\108 JSP\My Project\05. Felgito\02. Source Code\permintaanpembelian\unFrmLstPP.pas</Transaction>
+    <Transaction>2018/06/02 18.56.10.980.dfm,D:\108 JSP\My Project\05. Felgito\02. Source Code\Unit1.dfm=D:\108 JSP\My Project\05. Felgito\02. Source Code\permintaanpembelian\unFrmLstPP.dfm</Transaction>
+    <Transaction>2018/06/02 18.57.07.733.pas,D:\108 JSP\My Project\05. Felgito\02. Source Code\Unit1.pas=D:\108 JSP\My Project\05. Felgito\02. Source Code\permintaanpembelian\unFrmInputPP.pas</Transaction>
+    <Transaction>2018/06/02 18.57.07.733.dfm,D:\108 JSP\My Project\05. Felgito\02. Source Code\Unit1.dfm=D:\108 JSP\My Project\05. Felgito\02. Source Code\permintaanpembelian\unFrmInputPP.dfm</Transaction>
   </Transactions>
 </BorlandProject>
