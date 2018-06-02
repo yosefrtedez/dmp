@@ -50,7 +50,7 @@ type
   private
     { Private declarations }
   public
-    procedure RefreshGrid;
+    { Public declarations }
   end;
 
 var
@@ -108,6 +108,8 @@ begin
     end;
   end;
 
+
+
 end;
 
 procedure TfrmLstSupplier.btnRefreshClick(Sender: TObject);
@@ -142,11 +144,5 @@ begin
   inherited;
   zqrSupplier.Open;
 end;
-
-procedure TfrmLstSupplier.RefreshGrid;
-begin
-  Self.btnRefreshClick(nil);
-end;
-
 
 end.

@@ -141,6 +141,8 @@ begin
 end;
 
 procedure TfrmInputSupplier.FormCreate(Sender: TObject);
+
+
 begin
   inherited;
   cxCboPembayaran.Properties.Items.Add('KONTAN');
@@ -153,7 +155,6 @@ begin
   cxCboPembayaran.ItemIndex := 0;
   cxchkAktif.Checked := True;
 end;
-
 procedure TfrmInputSupplier.FormShow(Sender: TObject);
 var
   q: TZQuery;

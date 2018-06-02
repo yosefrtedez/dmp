@@ -121,13 +121,20 @@ begin
       q.FieldByName('f_aktif').AsInteger := 0;
     end;
 
+
     q.Post;
 
     MsgBox('Data supplier sudah berhasil disimpan.');
     ClearAll;
-    frmLstSupplier.RefreshGrid;
+
+    f := TfrmLstSupplier.Create(self);
+    f.btnRefreshClick(nil);
+    btnBatalClick(nil);
 
   end;
+
+
+
 end;
 
 procedure TfrmInputSupplier.ClearAll;
@@ -141,6 +148,8 @@ begin
 end;
 
 procedure TfrmInputSupplier.FormCreate(Sender: TObject);
+
+
 begin
   inherited;
   cxCboPembayaran.Properties.Items.Add('KONTAN');
@@ -153,7 +162,6 @@ begin
   cxCboPembayaran.ItemIndex := 0;
   cxchkAktif.Checked := True;
 end;
-
 procedure TfrmInputSupplier.FormShow(Sender: TObject);
 var
   q: TZQuery;

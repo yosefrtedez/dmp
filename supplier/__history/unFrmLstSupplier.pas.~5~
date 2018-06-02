@@ -108,6 +108,8 @@ begin
     end;
   end;
 
+
+
 end;
 
 procedure TfrmLstSupplier.btnRefreshClick(Sender: TObject);
