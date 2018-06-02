@@ -98,6 +98,12 @@
 			<DCCReference Include="lainlain\unFrmLstLain2.pas">
 				<Form>frmLstLain2</Form>
 			</DCCReference>
+			<DCCReference Include="salesorder\unFrmInputSO.pas">
+				<Form>frmInputSO</Form>
+			</DCCReference>
+			<DCCReference Include="salesorder\unFrmLstSO.pas">
+				<Form>frmLstSO</Form>
+			</DCCReference>
 			<BuildConfiguration Include="Base">
 				<Key>Base</Key>
 			</BuildConfiguration>

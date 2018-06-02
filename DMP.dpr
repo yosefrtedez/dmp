@@ -23,7 +23,9 @@ uses
   unFrmLstKaryawan in 'karyawan\unFrmLstKaryawan.pas' {frmLstkaryawan},
   unFrmInputUser in 'user\unFrmInputUser.pas' {frmInputUser},
   unFrmLstUser in 'user\unFrmLstUser.pas' {frmLstUser},
-  unFrmLstLain2 in 'lainlain\unFrmLstLain2.pas' {frmLstLain2};
+  unFrmLstLain2 in 'lainlain\unFrmLstLain2.pas' {frmLstLain2},
+  unFrmInputSO in 'salesorder\unFrmInputSO.pas' {frmInputSO},
+  unFrmLstSO in 'salesorder\unFrmLstSO.pas' {frmLstSO};
 
 {$R *.res}
 
@@ -45,6 +47,8 @@ begin
   Application.CreateForm(TfrmInputUser, frmInputUser);
   Application.CreateForm(TfrmLstUser, frmLstUser);
   Application.CreateForm(TfrmLstLain2, frmLstLain2);
+  Application.CreateForm(TfrmInputSO, frmInputSO);
+  Application.CreateForm(TfrmLstSO, frmLstSO);
   frmUtama.Show;
 
   frmLogin.ShowModal;

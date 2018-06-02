@@ -125,14 +125,38 @@ object frmUtama: TfrmUtama
         OnClick = mnMst_UserProgramClick
       end
     end
+    object mnMKT: TMenuItem
+      Caption = 'MKT'
+      object mnMkt_SalesOrder: TMenuItem
+        Caption = 'Sales Order'
+      end
+    end
     object mnPPIC: TMenuItem
       Caption = 'PPIC'
+      object mnPpic_MasterOrder: TMenuItem
+        Caption = 'Master Order'
+      end
     end
     object PRD1: TMenuItem
       Caption = 'PRD'
     end
     object PUR1: TMenuItem
       Caption = 'PUR'
+      object mnPur_PP: TMenuItem
+        Caption = 'Permintaan Pembelian'
+      end
+      object mnPur_AppPP: TMenuItem
+        Caption = 'Approval Permintaan Pembelian '
+      end
+      object N2: TMenuItem
+        Caption = '-'
+      end
+      object mnPur_PO: TMenuItem
+        Caption = 'Purchase Order'
+      end
+      object mnApp_PO: TMenuItem
+        Caption = 'Approval Purchase Order'
+      end
     end
   end
 end

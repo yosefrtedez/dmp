@@ -15,7 +15,7 @@ uses
   dxSkinSharp, dxSkinSilver, dxSkinSpringTime, dxSkinStardust, dxSkinSummer2008,
   dxSkinsDefaultPainters, dxSkinValentine, dxSkinXmas2008Blue, cxTextEdit,
   cxLabel, StdCtrls, cxMaskEdit, cxDropDownEdit, cxLookupEdit, cxDBLookupEdit,
-  cxDBLookupComboBox, ZDataset, DB, ZAbstractRODataset;
+  cxDBLookupComboBox, ZDataset, DB, ZAbstractRODataset, cxSpinEdit;
 
 type
   TfrmInputBarangJasa = class(TfrmTplInput)
@@ -28,6 +28,14 @@ type
     zqrKategori: TZReadOnlyQuery;
     dsKategori: TDataSource;
     Label13: TLabel;
+    cxLabel4: TcxLabel;
+    cxLookupComboBox1: TcxLookupComboBox;
+    cxLabel5: TcxLabel;
+    cxLookupComboBox2: TcxLookupComboBox;
+    cxLabel6: TcxLabel;
+    cxLookupComboBox3: TcxLookupComboBox;
+    cxLabel7: TcxLabel;
+    cxSpinEdit1: TcxSpinEdit;
     procedure btnSimpanClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
   private

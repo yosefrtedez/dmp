@@ -39,6 +39,14 @@ type
     mnSys_TutupTab: TMenuItem;
     N1: TMenuItem;
     imgBackground: TImage;
+    mnMKT: TMenuItem;
+    mnMkt_SalesOrder: TMenuItem;
+    mnPpic_MasterOrder: TMenuItem;
+    mnPur_PP: TMenuItem;
+    mnPur_AppPP: TMenuItem;
+    N2: TMenuItem;
+    mnPur_PO: TMenuItem;
+    mnApp_PO: TMenuItem;
     procedure FormShow(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure mnMst_BarangJasaClick(Sender: TObject);

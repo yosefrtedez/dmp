@@ -31,6 +31,7 @@ object frmPilihKoneksi: TfrmPilihKoneksi
     Height = 97
     ItemHeight = 13
     TabOrder = 0
+    OnDblClick = lstBoxKoneksiDblClick
   end
   object btnOK: TButton
     Left = 10

@@ -1,0 +1,25 @@
+unit unFrmInputSO;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, unFrmTplInput, StdCtrls, ExtCtrls;
+
+type
+  TfrmInputSO = class(TfrmTplInput)
+    Label1: TLabel;
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmInputSO: TfrmInputSO;
+
+implementation
+
+{$R *.dfm}
+
+end.

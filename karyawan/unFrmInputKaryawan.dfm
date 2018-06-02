@@ -13,6 +13,7 @@ inherited frmInputKaryawan: TfrmInputKaryawan
     Top = 64
     Width = 167
     Height = 190
+    Visible = False
   end
   inherited Panel1: TPanel
     Width = 1058
@@ -46,24 +47,11 @@ inherited frmInputKaryawan: TfrmInputKaryawan
     TabOrder = 4
     Width = 238
   end
-  object cxtJabatan: TcxTextEdit
-    Left = 99
-    Top = 118
-    Properties.CharCase = ecUpperCase
-    TabOrder = 5
-    Width = 237
-  end
-  object cxtDivisi: TcxTextEdit
-    Left = 99
-    Top = 143
-    Properties.CharCase = ecUpperCase
-    TabOrder = 6
-    Width = 237
-  end
   object cxtFoto: TcxTextEdit
     Left = 445
     Top = 259
-    TabOrder = 7
+    TabOrder = 5
+    Visible = False
     Width = 248
   end
   object cxlbl2: TcxLabel
@@ -82,7 +70,7 @@ inherited frmInputKaryawan: TfrmInputKaryawan
     Width = 59
     Height = 26
     Caption = 'Cari Foto'
-    TabOrder = 10
+    TabOrder = 8
     OnClick = btn1Click
   end
   object cxlbl4: TcxLabel
@@ -95,23 +83,94 @@ inherited frmInputKaryawan: TfrmInputKaryawan
     Top = 170
     Caption = 'Departemen'
   end
-  object cxtDepartemen: TcxTextEdit
-    Left = 99
-    Top = 167
-    Properties.CharCase = ecUpperCase
-    TabOrder = 13
-    Width = 236
-  end
   object cxchkAktif: TcxCheckBox
     Left = 208
     Top = 71
     Caption = 'Aktif'
-    TabOrder = 14
+    TabOrder = 11
     Width = 82
+  end
+  object cbbJabatan: TcxLookupComboBox
+    Left = 99
+    Top = 120
+    Properties.KeyFieldNames = 'jabatan'
+    Properties.ListColumns = <
+      item
+        Caption = 'Nama'
+        FieldName = 'jabatan'
+      end>
+    Properties.ListSource = dsJabatan
+    TabOrder = 12
+    Width = 183
+  end
+  object cbbDivisi: TcxLookupComboBox
+    Left = 99
+    Top = 142
+    Properties.KeyFieldNames = 'divisi'
+    Properties.ListColumns = <
+      item
+        Caption = 'Divisi'
+        FieldName = 'divisi'
+      end>
+    Properties.ListSource = dsDivisi
+    TabOrder = 13
+    Width = 183
+  end
+  object cbb1: TcxLookupComboBox
+    Left = 99
+    Top = 167
+    Properties.KeyFieldNames = 'divisi'
+    Properties.ListColumns = <
+      item
+        Caption = 'Divisi'
+        FieldName = 'divisi'
+      end>
+    Properties.ListSource = dsDivisi
+    TabOrder = 14
+    Width = 183
   end
   object dlgOpen1: TOpenDialog
     Filter = 'jpg'
     Left = 663
     Top = 122
+  end
+  object zqrJabatan: TZReadOnlyQuery
+    Connection = DM.zConn
+    SQL.Strings = (
+      'SELECT * FROM tbl_jabatan')
+    Params = <>
+    Left = 746
+    Top = 77
+  end
+  object dsJabatan: TDataSource
+    DataSet = zqrJabatan
+    Left = 776
+    Top = 77
+  end
+  object zqrDivisi: TZReadOnlyQuery
+    Connection = DM.zConn
+    SQL.Strings = (
+      'SELECT * FROM tbl_divisi order by divisi;')
+    Params = <>
+    Left = 835
+    Top = 80
+  end
+  object dsDivisi: TDataSource
+    DataSet = zqrDivisi
+    Left = 865
+    Top = 82
+  end
+  object zqrDepartemen: TZReadOnlyQuery
+    Connection = DM.zConn
+    SQL.Strings = (
+      'SELECT * FROM tbl_departemen  order by departemen;')
+    Params = <>
+    Left = 820
+    Top = 153
+  end
+  object dsDepartemen: TDataSource
+    DataSet = zqrDepartemen
+    Left = 899
+    Top = 155
   end
 end

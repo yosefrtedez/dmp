@@ -1,6 +1,8 @@
 inherited frmLstUser: TfrmLstUser
   Caption = 'User'
   OnCreate = FormCreate
+  ExplicitWidth = 1016
+  ExplicitHeight = 508
   PixelsPerInch = 96
   TextHeight = 13
   inherited Panel1: TPanel
@@ -67,7 +69,6 @@ inherited frmLstUser: TfrmLstUser
   end
   object zqrUser: TZReadOnlyQuery
     Connection = DM.zConn
-    Active = True
     SQL.Strings = (
       'SELECT nama_lengkap, nama, dept, email '
       'FROM tbl_user'

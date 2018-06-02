@@ -51,6 +51,7 @@ type
     cxGridLevel3: TcxGridLevel;
     tblJabatan: TZTable;
     dsJabatan: TDataSource;
+    cxTabSheet5: TcxTabSheet;
     procedure FormCreate(Sender: TObject);
   private
     { Private declarations }

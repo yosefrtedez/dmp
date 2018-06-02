@@ -15,15 +15,14 @@ uses
   dxSkinSharp, dxSkinSilver, dxSkinSpringTime, dxSkinStardust, dxSkinSummer2008,
   dxSkinsDefaultPainters, dxSkinValentine, dxSkinXmas2008Blue, cxTextEdit,
   cxLabel, StdCtrls, cxMaskEdit, cxDropDownEdit, cxLookupEdit, cxDBLookupEdit,
-  cxDBLookupComboBox, ZDataset, Menus, cxButtons, jpeg, cxCheckBox;
+  cxDBLookupComboBox, ZDataset, Menus, cxButtons, jpeg, cxCheckBox, DB,
+  ZAbstractRODataset;
 
 type
   TfrmInputKaryawan = class(TfrmTplInput)
     cxlbl1: TcxLabel;
     cxtNik: TcxTextEdit;
     cxtNama: TcxTextEdit;
-    cxtJabatan: TcxTextEdit;
-    cxtDivisi: TcxTextEdit;
     img1: TImage;
     dlgOpen1: TOpenDialog;
     cxtFoto: TcxTextEdit;
@@ -32,8 +31,16 @@ type
     btn1: TcxButton;
     cxlbl4: TcxLabel;
     cxlbl5: TcxLabel;
-    cxtDepartemen: TcxTextEdit;
     cxchkAktif: TcxCheckBox;
+    cbbJabatan: TcxLookupComboBox;
+    zqrJabatan: TZReadOnlyQuery;
+    dsJabatan: TDataSource;
+    cbbDivisi: TcxLookupComboBox;
+    zqrDivisi: TZReadOnlyQuery;
+    dsDivisi: TDataSource;
+    zqrDepartemen: TZReadOnlyQuery;
+    dsDepartemen: TDataSource;
+    cbb1: TcxLookupComboBox;
     procedure btnSimpanClick(Sender: TObject);
     procedure btn1Click(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -89,9 +96,7 @@ begin
       q.Edit;
       q.FieldByName('nik').AsString := Trim(cxtNik.Text);
       q.FieldByName('nama').AsString := Trim(cxtNama.Text);
-      q.FieldByName('jabatan').AsString := Trim(cxtJabatan.Text);
-      q.FieldByName('divisi').AsString := Trim(cxtDivisi.Text);
-      q.FieldByName('departemen').AsString := Trim(cxtDepartemen.Text);
+      q.FieldByName('jabatan').AsString := Trim(cbbJabatan.Text);
       if cxchkAktif.Checked = true then
         q.FieldByName('f_karyawan').AsInteger := 1
       else
@@ -131,9 +136,7 @@ begin
     q := OpenRS('SELECT * FROM tbl_karyawan WHERE nik = ''%s''',[Self.EditKey]);
     cxtNik.Text := q.FieldByName('nik').AsString;
     cxtNama.Text := q.FieldByName('nama').AsString;
-    cxtJabatan.Text := q.FieldByName('jabatan').AsString;
-    cxtDivisi.Text := q.FieldByName('divisi').AsString;
-    cxtDepartemen.Text := q.FieldByName('departemen').AsString;
+    cbbJabatan.Text := q.FieldByName('jabatan').AsString;
     if q.FieldByName('f_karyawan').AsInteger = 1 then
       cxchkAktif.Checked := True
     else

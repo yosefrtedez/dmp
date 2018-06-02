@@ -73,6 +73,71 @@ inherited frmInputBarangJasa: TfrmInputBarangJasa
     TabOrder = 7
     Width = 265
   end
+  object cxLabel4: TcxLabel
+    Left = 10
+    Top = 145
+    Caption = 'Sub Kategori'
+  end
+  object cxLookupComboBox1: TcxLookupComboBox
+    Left = 104
+    Top = 144
+    Properties.KeyFieldNames = 'kode'
+    Properties.ListColumns = <
+      item
+        Caption = 'Kategori'
+        FieldName = 'kategori'
+      end>
+    Properties.ListSource = dsKategori
+    TabOrder = 9
+    Width = 265
+  end
+  object cxLabel5: TcxLabel
+    Left = 10
+    Top = 172
+    Caption = 'Satuan'
+  end
+  object cxLookupComboBox2: TcxLookupComboBox
+    Left = 104
+    Top = 171
+    Properties.KeyFieldNames = 'kode'
+    Properties.ListColumns = <
+      item
+        Caption = 'Kategori'
+        FieldName = 'kategori'
+      end>
+    Properties.ListSource = dsKategori
+    TabOrder = 11
+    Width = 265
+  end
+  object cxLabel6: TcxLabel
+    Left = 10
+    Top = 199
+    Caption = 'Berat'
+  end
+  object cxLookupComboBox3: TcxLookupComboBox
+    Left = 104
+    Top = 198
+    Properties.KeyFieldNames = 'kode'
+    Properties.ListColumns = <
+      item
+        Caption = 'Kategori'
+        FieldName = 'kategori'
+      end>
+    Properties.ListSource = dsKategori
+    TabOrder = 13
+    Width = 265
+  end
+  object cxLabel7: TcxLabel
+    Left = 10
+    Top = 226
+    Caption = 'Stok'
+  end
+  object cxSpinEdit1: TcxSpinEdit
+    Left = 104
+    Top = 225
+    TabOrder = 15
+    Width = 121
+  end
   object zqrKategori: TZReadOnlyQuery
     Connection = DM.zConn
     SQL.Strings = (

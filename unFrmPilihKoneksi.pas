@@ -16,6 +16,7 @@ type
     procedure FormCreate(Sender: TObject);
     procedure btnOKClick(Sender: TObject);
     procedure btnBatalClick(Sender: TObject);
+    procedure lstBoxKoneksiDblClick(Sender: TObject);
   private
     mSection: string;
   public
@@ -49,6 +50,12 @@ begin
     lstBoxKoneksi.Items.Add(title);
   end;
 
+end;
+
+procedure TfrmPilihKoneksi.lstBoxKoneksiDblClick(Sender: TObject);
+begin
+  mSection := lstBoxSection.Items.Strings[lstBoxKoneksi.ItemIndex];
+  btnOKClick(nil);
 end;
 
 procedure TfrmPilihKoneksi.btnOKClick(Sender: TObject);
