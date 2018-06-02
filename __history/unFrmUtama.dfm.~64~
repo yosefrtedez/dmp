@@ -18,7 +18,7 @@ object frmUtama: TfrmUtama
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
-  object imgBackgroud: TImage
+  object imgBackground: TImage
     Left = 8
     Top = 8
     Width = 441
@@ -35,6 +35,19 @@ object frmUtama: TfrmUtama
       end
       item
         PanelStyleClassName = 'TdxStatusBarTextPanelStyle'
+        Width = 100
+      end
+      item
+        PanelStyleClassName = 'TdxStatusBarTextPanelStyle'
+        Width = 100
+      end
+      item
+        PanelStyleClassName = 'TdxStatusBarTextPanelStyle'
+        Width = 100
+      end
+      item
+        PanelStyleClassName = 'TdxStatusBarTextPanelStyle'
+        Width = 100
       end>
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
@@ -50,6 +63,7 @@ object frmUtama: TfrmUtama
     HotTrack = True
     LookAndFeel.SkinName = ''
     Options = [pcoAlwaysShowGoDialogButton, pcoCloseButton, pcoGradient, pcoGradientClientArea, pcoRedrawOnResize]
+    ParentBackground = False
     Style = 5
     TabOrder = 1
     Visible = False
@@ -64,6 +78,7 @@ object frmUtama: TfrmUtama
       Caption = 'System'
       object mnSys_TutupTab: TMenuItem
         Caption = 'Tutup Semua Tab'
+        OnClick = mnSys_TutupTabClick
       end
       object N1: TMenuItem
         Caption = '-'

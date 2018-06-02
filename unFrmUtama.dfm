@@ -111,6 +111,7 @@ object frmUtama: TfrmUtama
       end
       object mnMst_Karyawan: TMenuItem
         Caption = 'Karyawan'
+        OnClick = mnMst_KaryawanClick
       end
       object mnMst_COA: TMenuItem
         Caption = 'Chart Of Account / Daftar Akun'

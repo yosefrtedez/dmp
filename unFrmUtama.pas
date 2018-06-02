@@ -50,6 +50,7 @@ type
     procedure mnMst_Lain2Click(Sender: TObject);
     procedure pgMainChange(Sender: TObject);
     procedure mnSys_TutupTabClick(Sender: TObject);
+    procedure mnMst_KaryawanClick(Sender: TObject);
   private
     procedure PGChange(Sender: TObject);
   public
@@ -68,7 +69,7 @@ implementation
 
 uses
   unTools, unFrmLstBarangJasa, unFrmLstCustomer, unFrmLstSupplier,
-  unFrmLstMesin, unFrmLstUser, unFrmLstLain2, unDM;
+  unFrmLstMesin, unFrmLstUser, unFrmLstLain2, unDM, unFrmLstKaryawan;
 
 {$R *.dfm}
 
@@ -155,6 +156,25 @@ begin
     ts.PageControl := pgMain;
 
     f := TfrmLstCustomer.Create(Self);
+    f.Parent := ts;
+    ts.Caption := f.Caption;
+    f.Show;
+
+    pgMain.ActivePage := ts;
+  end;
+end;
+
+procedure TfrmUtama.mnMst_KaryawanClick(Sender: TObject);
+var
+  f: TfrmLstKaryawan;
+  ts: TcxTabSheet;
+begin
+  if not CekTabOpen('Karyawan') then begin
+    ToggleMainPage;
+    ts := TcxTabSheet.Create(Self);
+    ts.PageControl := pgMain;
+
+    f := TfrmLstKaryawan.Create(Self);
     f.Parent := ts;
     ts.Caption := f.Caption;
     f.Show;

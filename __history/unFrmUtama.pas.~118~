@@ -246,12 +246,13 @@ end;
 
 procedure TfrmUtama.mnSys_TutupTabClick(Sender: TObject);
 var
-  i: Integer;
+  i, styleID: Integer;
   ts: TcxTabSheet;
   pagecontrol:TcxPageControl;
 
   component: TComponent;
   stream: TMemoryStream;
+
 begin
   {
   RegisterClass(TcxPageControl);
@@ -275,11 +276,11 @@ begin
   }
 
   if not pgMain.Visible then Abort;
-  
+
+  styleID := pgMain.Style;
   PGMain.Free;
   pagecontrol := TcxPageControl.Create(Self);
 
-  {
   with pagecontrol do begin
     pagecontrol.Name := 'PGMain';
     pagecontrol.Align := alClient;
@@ -289,15 +290,16 @@ begin
     //pagecontrol.ParentColor := False;
     //pagecontrol.Color := clSkyBlue;
     //pagecontrol.LookAndFeel.Kind := lfOffice11;
-    //pagecontrol.Style := cxPageControl1.Style;
+    pagecontrol.Style := styleID;
     //pagecontrol.Visible := True;
     //pagecontrol.HideTabs := True;
     //pagecontrol.Options := [pcoAlwaysShowGoDialogButton,pcoCloseButton,pcoGradient,pcoGradientClientArea,pcoRedrawOnResize];
-    pagecontrol.Options := [pcoCloseButton];
+    pagecontrol.ParentBackground := False;
+    pagecontrol.Options := [pcoAlwaysShowGoDialogButton,pcoCloseButton];
     pagecontrol.Visible := False;
     pagecontrol.OnChange := PGChange;
   end;
-  }
+
 end;
 
 procedure TfrmUtama.PGChange(Sender: TObject);
