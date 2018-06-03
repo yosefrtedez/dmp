@@ -20,9 +20,9 @@ object frmPilihKoneksi: TfrmPilihKoneksi
   object Label1: TLabel
     Left = 10
     Top = 7
-    Width = 129
+    Width = 60
     Height = 13
-    Caption = 'Pilih Koneksi (Double Klik) :'
+    Caption = 'Pilih Koneksi'
   end
   object lstBoxKoneksi: TListBox
     Left = 10
@@ -52,8 +52,8 @@ object frmPilihKoneksi: TfrmPilihKoneksi
     OnClick = btnBatalClick
   end
   object lstBoxSection: TListBox
-    Left = 184
-    Top = 128
+    Left = 120
+    Top = 10
     Width = 201
     Height = 97
     ItemHeight = 13

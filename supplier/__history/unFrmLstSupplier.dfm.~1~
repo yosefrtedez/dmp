@@ -3,8 +3,6 @@ inherited frmLstSupplier: TfrmLstSupplier
   Caption = 'Supplier'
   Position = poDesigned
   OnCreate = FormCreate
-  ExplicitWidth = 1016
-  ExplicitHeight = 508
   PixelsPerInch = 96
   TextHeight = 13
   inherited Panel2: TPanel
@@ -12,7 +10,11 @@ inherited frmLstSupplier: TfrmLstSupplier
       OnClick = btnTambahClick
     end
     inherited btnEdit: TButton
+      Left = 89
+      Top = 10
       OnClick = btnEditClick
+      ExplicitLeft = 89
+      ExplicitTop = 10
     end
     inherited btnHapus: TButton
       OnClick = btnHapusClick
@@ -35,7 +37,6 @@ inherited frmLstSupplier: TfrmLstSupplier
       DataController.Summary.FooterSummaryItems = <>
       DataController.Summary.SummaryGroups = <>
       FilterRow.Visible = True
-      OptionsData.Deleting = False
       OptionsData.Editing = False
       OptionsData.Inserting = False
       object cxtbSupplierkode: TcxGridDBColumn

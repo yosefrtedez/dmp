@@ -1,4 +1,4 @@
-unit unFrmLstCOA;
+unit unFrmLstJurnalUmum;
 
 interface
 
@@ -7,8 +7,7 @@ uses
   Dialogs, unFrmTplGrid, StdCtrls, ExtCtrls;
 
 type
-  TfrmLstCOA = class(TfrmTplGrid)
-    Label13: TLabel;
+  TfrmLstJurnalUmum = class(TfrmTplGrid)
   private
     { Private declarations }
   public
@@ -16,7 +15,7 @@ type
   end;
 
 var
-  frmLstCOA: TfrmLstCOA;
+  frmLstJurnalUmum: TfrmLstJurnalUmum;
 
 implementation
 

@@ -1,6 +1,5 @@
 inherited frmLstCOA: TfrmLstCOA
   Caption = 'Daftar Akun'
-  OnCreate = FormCreate
   ExplicitWidth = 1016
   ExplicitHeight = 508
   PixelsPerInch = 96

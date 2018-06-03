@@ -8,84 +8,84 @@ inherited frmInputCustomer: TfrmInputCustomer
   PixelsPerInch = 96
   TextHeight = 13
   object Label1: TLabel [0]
-    Left = 10
+    Left = 16
     Top = 75
     Width = 24
     Height = 13
     Caption = 'Kode'
   end
   object Label2: TLabel [1]
-    Left = 10
+    Left = 16
     Top = 102
     Width = 76
     Height = 13
     Caption = 'Nama Customer'
   end
   object Label3: TLabel [2]
-    Left = 10
+    Left = 16
     Top = 129
     Width = 69
     Height = 13
     Caption = 'Kontak Person'
   end
   object Label4: TLabel [3]
-    Left = 10
+    Left = 16
     Top = 210
     Width = 22
     Height = 13
     Caption = 'Kota'
   end
   object Label5: TLabel [4]
-    Left = 10
+    Left = 16
     Top = 237
     Width = 37
     Height = 13
     Caption = 'Provinsi'
   end
   object Label6: TLabel [5]
-    Left = 10
+    Left = 16
     Top = 264
     Width = 35
     Height = 13
     Caption = 'Negara'
   end
   object Label7: TLabel [6]
-    Left = 10
+    Left = 16
     Top = 291
     Width = 55
     Height = 13
     Caption = 'No.Telepon'
   end
   object Label10: TLabel [7]
-    Left = 10
+    Left = 16
     Top = 345
     Width = 35
     Height = 13
     Caption = 'No.Fax'
   end
   object Label11: TLabel [8]
-    Left = 10
+    Left = 16
     Top = 372
     Width = 24
     Height = 13
     Caption = 'Email'
   end
   object Label8: TLabel [9]
-    Left = 10
+    Left = 16
     Top = 156
     Width = 42
     Height = 13
     Caption = 'Alamat 1'
   end
   object Label9: TLabel [10]
-    Left = 10
+    Left = 16
     Top = 183
     Width = 42
     Height = 13
     Caption = 'Alamat 2'
   end
   object Label12: TLabel [11]
-    Left = 10
+    Left = 16
     Top = 318
     Width = 30
     Height = 13

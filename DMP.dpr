@@ -32,7 +32,9 @@ uses
   unFrmInputPP in 'permintaanpembelian\unFrmInputPP.pas' {frmInputPP},
   unFrmLstCOA in 'coa\unFrmLstCOA.pas' {frmLstCOA},
   unFrmCari in 'unFrmCari.pas' {frmCari},
-  unFrmInputCOA in 'coa\unFrmInputCOA.pas' {frmInputCOA};
+  unFrmInputCOA in 'coa\unFrmInputCOA.pas' {frmInputCOA},
+  unFrmLstJurnalUmum in 'jurnalumum\unFrmLstJurnalUmum.pas' {frmLstJurnalUmum},
+  unFrmInputJurnalUmum in 'jurnalumum\unFrmInputJurnalUmum.pas' {frmInputJurnalUmum};
 
 {$R *.res}
 
@@ -62,6 +64,8 @@ begin
   Application.CreateForm(TfrmInputPP, frmInputPP);
   Application.CreateForm(TfrmLstCOA, frmLstCOA);
   Application.CreateForm(TfrmInputCOA, frmInputCOA);
+  Application.CreateForm(TfrmLstJurnalUmum, frmLstJurnalUmum);
+  Application.CreateForm(TfrmInputJurnalUmum, frmInputJurnalUmum);
   frmUtama.Show;
 
   frmLogin.ShowModal;

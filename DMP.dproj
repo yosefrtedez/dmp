@@ -125,6 +125,12 @@
 			<DCCReference Include="coa\unFrmInputCOA.pas">
 				<Form>frmInputCOA</Form>
 			</DCCReference>
+			<DCCReference Include="jurnalumum\unFrmLstJurnalUmum.pas">
+				<Form>frmLstJurnalUmum</Form>
+			</DCCReference>
+			<DCCReference Include="jurnalumum\unFrmInputJurnalUmum.pas">
+				<Form>frmInputJurnalUmum</Form>
+			</DCCReference>
 			<BuildConfiguration Include="Base">
 				<Key>Base</Key>
 			</BuildConfiguration>

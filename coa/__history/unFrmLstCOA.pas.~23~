@@ -84,7 +84,7 @@ begin
   inherited;
   zqrCOA.Close;
   zqrCOA.Open;
-  //cxtbCOA.DataController.UpdateItems(False);
+  cxtbCOA.DataController.UpdateItems(False);
 end;
 
 procedure TfrmLstCOA.btnTambahClick(Sender: TObject);

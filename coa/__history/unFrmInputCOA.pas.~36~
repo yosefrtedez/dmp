@@ -38,11 +38,9 @@ type
     dsInduk: TDataSource;
     zqrTipeAkun: TZReadOnlyQuery;
     dsTipeAkun: TDataSource;
-    Button1: TButton;
     procedure btnSimpanClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
-    procedure Button1Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -102,17 +100,10 @@ begin
     q.Post;
 
     MsgBox('Data COA sudah berhasil disimpan.');
-    //flCOA.RefreshGrid;
     if Assigned(frmLstCOA) then
       frmLstCOA.RefreshGrid;
 
   end;
-end;
-
-procedure TfrmInputCOA.Button1Click(Sender: TObject);
-begin
-  inherited;
-  frmLstCOA.btnRefreshClick(nil);
 end;
 
 procedure TfrmInputCOA.FormCreate(Sender: TObject);

@@ -1,11 +1,11 @@
 inherited frmLstCOA: TfrmLstCOA
   Caption = 'Daftar Akun'
-  OnCreate = FormCreate
   ExplicitWidth = 1016
   ExplicitHeight = 508
   PixelsPerInch = 96
   TextHeight = 13
   inherited Panel1: TPanel
+    ExplicitTop = -6
     object Label13: TLabel
       Left = 10
       Top = 16
@@ -20,17 +20,6 @@ inherited frmLstCOA: TfrmLstCOA
       ParentFont = False
     end
   end
-  inherited Panel2: TPanel
-    inherited btnTambah: TButton
-      OnClick = btnTambahClick
-    end
-    inherited btnEdit: TButton
-      OnClick = btnEditClick
-    end
-    inherited btnRefresh: TButton
-      OnClick = btnRefreshClick
-    end
-  end
   object cxgCOA: TcxGrid
     Left = 0
     Top = 49
@@ -38,16 +27,16 @@ inherited frmLstCOA: TfrmLstCOA
     Height = 410
     Align = alClient
     TabOrder = 2
+    ExplicitLeft = 336
+    ExplicitTop = 200
+    ExplicitWidth = 250
+    ExplicitHeight = 200
     object cxtbCOA: TcxGridDBTableView
       NavigatorButtons.ConfirmDelete = False
-      DataController.DataModeController.SmartRefresh = True
       DataController.DataSource = dsCOA
       DataController.Summary.DefaultGroupSummaryItems = <>
       DataController.Summary.FooterSummaryItems = <>
       DataController.Summary.SummaryGroups = <>
-      OptionsData.Deleting = False
-      OptionsData.Editing = False
-      OptionsData.Inserting = False
       object cxtbCOAnoakun: TcxGridDBColumn
         Caption = 'No. Akun'
         DataBinding.FieldName = 'noakun'
@@ -58,24 +47,19 @@ inherited frmLstCOA: TfrmLstCOA
         DataBinding.FieldName = 'nama'
       end
       object cxtbCOAinduk: TcxGridDBColumn
-        Caption = 'Induk'
         DataBinding.FieldName = 'induk'
       end
       object cxtbCOAf_subakun: TcxGridDBColumn
         DataBinding.FieldName = 'f_subakun'
-        Visible = False
       end
       object cxtbCOAf_aktif: TcxGridDBColumn
         DataBinding.FieldName = 'f_aktif'
-        Visible = False
       end
       object cxtbCOAsawal: TcxGridDBColumn
         DataBinding.FieldName = 'sawal'
-        Visible = False
       end
       object cxtbCOAdfl: TcxGridDBColumn
         DataBinding.FieldName = 'dfl'
-        Visible = False
       end
     end
     object cxgCOALevel1: TcxGridLevel

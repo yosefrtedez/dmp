@@ -1,4 +1,4 @@
-unit unFrmLstCOA;
+unit unFrmLstJurnalUmum;
 
 interface
 
@@ -16,16 +16,13 @@ uses
   dxSkinsDefaultPainters, dxSkinValentine, dxSkinXmas2008Blue,
   dxSkinscxPCPainter, cxCustomData, cxFilter, cxData, cxDataStorage, cxEdit, DB,
   cxDBData, cxGridLevel, cxClasses, cxGridCustomView, cxGridCustomTableView,
-  cxGridTableView, cxGridDBTableView, cxGrid, ZAbstractRODataset, ZDataset;
+  cxGridTableView, cxGridDBTableView, cxGrid;
 
 type
-  TfrmLstCOA = class(TfrmTplGrid)
-    Label13: TLabel;
-    cxtbCOA: TcxGridDBTableView;
-    cxgCOALevel1: TcxGridLevel;
-    cxgCOA: TcxGrid;
-    zqrCOA: TZReadOnlyQuery;
-    dsCOA: TDataSource;
+  TfrmLstJurnalUmum = class(TfrmTplGrid)
+    cxtbJurnalUmum: TcxGridDBTableView;
+    cxgJurnalUmumLevel1: TcxGridLevel;
+    cxgJurnalUmum: TcxGrid;
   private
     { Private declarations }
   public
@@ -33,11 +30,9 @@ type
   end;
 
 var
-  frmLstCOA: TfrmLstCOA;
+  frmLstJurnalUmum: TfrmLstJurnalUmum;
 
 implementation
-
-uses unDM;
 
 {$R *.dfm}
 

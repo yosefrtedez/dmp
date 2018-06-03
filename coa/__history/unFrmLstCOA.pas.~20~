@@ -36,7 +36,6 @@ type
     procedure btnTambahClick(Sender: TObject);
     procedure btnEditClick(Sender: TObject);
     procedure btnRefreshClick(Sender: TObject);
-    procedure FormCreate(Sender: TObject);
   private
     { Private declarations }
   public
@@ -82,9 +81,13 @@ end;
 procedure TfrmLstCOA.btnRefreshClick(Sender: TObject);
 begin
   inherited;
+  {
+  cxgCOA.BeginUpdate;
   zqrCOA.Close;
   zqrCOA.Open;
-  //cxtbCOA.DataController.UpdateItems(False);
+  cxgCOA.EndUpdate;
+  }
+  cxtbCOA.DataController.UpdateItems(False);
 end;
 
 procedure TfrmLstCOA.btnTambahClick(Sender: TObject);
@@ -104,12 +107,6 @@ begin
     f.Show;
     fu.pgMain.ActivePage := ts;
   end;
-end;
-
-procedure TfrmLstCOA.FormCreate(Sender: TObject);
-begin
-  inherited;
-  zqrCOA.Refresh;
 end;
 
 procedure TfrmLstCOA.RefreshGrid;

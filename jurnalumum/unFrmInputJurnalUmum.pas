@@ -1,4 +1,4 @@
-unit unFrmInputCOA;
+unit unFrmInputJurnalUmum;
 
 interface
 
@@ -7,7 +7,7 @@ uses
   Dialogs, unFrmTplInput, StdCtrls, ExtCtrls;
 
 type
-  TfrmInputCOA = class(TfrmTplInput)
+  TfrmInputJurnalUmum = class(TfrmTplInput)
   private
     { Private declarations }
   public
@@ -15,7 +15,7 @@ type
   end;
 
 var
-  frmInputCOA: TfrmInputCOA;
+  frmInputJurnalUmum: TfrmInputJurnalUmum;
 
 implementation
 

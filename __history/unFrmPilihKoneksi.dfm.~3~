@@ -52,8 +52,8 @@ object frmPilihKoneksi: TfrmPilihKoneksi
     OnClick = btnBatalClick
   end
   object lstBoxSection: TListBox
-    Left = 184
-    Top = 128
+    Left = 120
+    Top = 25
     Width = 201
     Height = 97
     ItemHeight = 13

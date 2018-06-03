@@ -1,7 +1,5 @@
 inherited frmInputCOA: TfrmInputCOA
   Caption = 'Input COA'
-  OnCreate = FormCreate
-  OnShow = FormShow
   ExplicitWidth = 894
   ExplicitHeight = 553
   PixelsPerInch = 96
@@ -142,15 +140,6 @@ inherited frmInputCOA: TfrmInputCOA
     Top = 65
     Caption = 'Tipe Akun'
     Transparent = True
-  end
-  object Button1: TButton
-    Left = 448
-    Top = 360
-    Width = 75
-    Height = 25
-    Caption = 'Button1'
-    TabOrder = 16
-    OnClick = Button1Click
   end
   object zqrInduk: TZReadOnlyQuery
     Connection = DM.zConn

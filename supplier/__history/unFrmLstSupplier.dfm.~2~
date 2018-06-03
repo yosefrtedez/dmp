@@ -35,7 +35,6 @@ inherited frmLstSupplier: TfrmLstSupplier
       DataController.Summary.FooterSummaryItems = <>
       DataController.Summary.SummaryGroups = <>
       FilterRow.Visible = True
-      OptionsData.Deleting = False
       OptionsData.Editing = False
       OptionsData.Inserting = False
       object cxtbSupplierkode: TcxGridDBColumn

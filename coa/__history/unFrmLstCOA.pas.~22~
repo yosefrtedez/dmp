@@ -82,9 +82,15 @@ end;
 procedure TfrmLstCOA.btnRefreshClick(Sender: TObject);
 begin
   inherited;
+  {
+  cxgCOA.BeginUpdate;
   zqrCOA.Close;
   zqrCOA.Open;
-  //cxtbCOA.DataController.UpdateItems(False);
+  cxgCOA.EndUpdate;
+  }
+  zqrCOA.Close;
+  zqrCOA.Open;
+  cxtbCOA.DataController.UpdateItems(False);
 end;
 
 procedure TfrmLstCOA.btnTambahClick(Sender: TObject);

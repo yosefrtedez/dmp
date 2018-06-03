@@ -1,0 +1,28 @@
+inherited frmLstJurnalUmum: TfrmLstJurnalUmum
+  Caption = 'Jurnal Umum '
+  ExplicitWidth = 1016
+  ExplicitHeight = 508
+  PixelsPerInch = 96
+  TextHeight = 13
+  object cxGrid1: TcxGrid
+    Left = 0
+    Top = 49
+    Width = 1016
+    Height = 410
+    Align = alClient
+    TabOrder = 2
+    ExplicitLeft = 456
+    ExplicitTop = 192
+    ExplicitWidth = 250
+    ExplicitHeight = 200
+    object cxGrid1DBTableView1: TcxGridDBTableView
+      NavigatorButtons.ConfirmDelete = False
+      DataController.Summary.DefaultGroupSummaryItems = <>
+      DataController.Summary.FooterSummaryItems = <>
+      DataController.Summary.SummaryGroups = <>
+    end
+    object cxGrid1Level1: TcxGridLevel
+      GridView = cxGrid1DBTableView1
+    end
+  end
+end

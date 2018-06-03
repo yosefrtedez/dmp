@@ -1,4 +1,4 @@
-unit unFrmLstCOA;
+unit unFrmLstJurnalUmum;
 
 interface
 
@@ -19,11 +19,10 @@ uses
   cxGridTableView, cxGridDBTableView, cxGrid;
 
 type
-  TfrmLstCOA = class(TfrmTplGrid)
-    Label13: TLabel;
-    cxtbCOA: TcxGridDBTableView;
-    cxgCOALevel1: TcxGridLevel;
-    cxgCOA: TcxGrid;
+  TfrmLstJurnalUmum = class(TfrmTplGrid)
+    cxGrid1DBTableView1: TcxGridDBTableView;
+    cxGrid1Level1: TcxGridLevel;
+    cxGrid1: TcxGrid;
   private
     { Private declarations }
   public
@@ -31,7 +30,7 @@ type
   end;
 
 var
-  frmLstCOA: TfrmLstCOA;
+  frmLstJurnalUmum: TfrmLstJurnalUmum;
 
 implementation
 
