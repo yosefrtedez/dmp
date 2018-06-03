@@ -92,8 +92,8 @@ end;
 
 procedure TfrmLstMesin.btnRefreshClick(Sender: TObject);
 begin
-  zqrCustomer.Close;
-  zqrCustomer.Open;
+  zqrMesin.Close;
+  zqrMesin.Open;
 end;
 
 procedure TfrmLstMesin.btnTambahClick(Sender: TObject);

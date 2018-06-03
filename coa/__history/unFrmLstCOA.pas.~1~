@@ -1,0 +1,25 @@
+unit unFrmLstCOA;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, unFrmTplGrid, StdCtrls, ExtCtrls;
+
+type
+  TfrmLstCOA = class(TfrmTplGrid)
+    Label13: TLabel;
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmLstCOA: TfrmLstCOA;
+
+implementation
+
+{$R *.dfm}
+
+end.

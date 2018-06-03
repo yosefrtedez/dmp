@@ -1,0 +1,24 @@
+unit unFrmInputCOA;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, unFrmTplInput, StdCtrls, ExtCtrls;
+
+type
+  TfrmInputCOA = class(TfrmTplInput)
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmInputCOA: TfrmInputCOA;
+
+implementation
+
+{$R *.dfm}
+
+end.

@@ -47,6 +47,8 @@ type
     N2: TMenuItem;
     mnPur_PO: TMenuItem;
     mnApp_PO: TMenuItem;
+    mnAKT: TMenuItem;
+    mnAKT_JurnalUmum: TMenuItem;
     procedure FormShow(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure mnMst_BarangJasaClick(Sender: TObject);
@@ -61,6 +63,7 @@ type
     procedure mnMst_KaryawanClick(Sender: TObject);
     procedure mnMkt_SalesOrderClick(Sender: TObject);
     procedure mnPur_PPClick(Sender: TObject);
+    procedure mnMst_COAClick(Sender: TObject);
   private
     procedure PGChange(Sender: TObject);
   public
@@ -80,7 +83,7 @@ implementation
 uses
   unTools, unFrmLstBarangJasa, unFrmLstCustomer, unFrmLstSupplier,
   unFrmLstMesin, unFrmLstUser, unFrmLstLain2, unDM, unFrmLstKaryawan,
-  unFrmLstSO, unFrmLstPP;
+  unFrmLstSO, unFrmLstPP, unFrmLstCOA;
 
 {$R *.dfm}
 
@@ -167,6 +170,25 @@ begin
     ts.PageControl := pgMain;
 
     f := TfrmLstBarangJasa.Create(Self);
+    f.Parent := ts;
+    ts.Caption := f.Caption;
+    f.Show;
+
+    pgMain.ActivePage := ts;
+  end;
+end;
+
+procedure TfrmUtama.mnMst_COAClick(Sender: TObject);
+var
+  f: TfrmLstCOA;
+  ts: TcxTabSheet;
+begin
+  if not CekTabOpen('Daftar Akun') then begin
+    ToggleMainPage;
+    ts := TcxTabSheet.Create(Self);
+    ts.PageControl := pgMain;
+
+    f := TfrmLstCOA.Create(Self);
     f.Parent := ts;
     ts.Caption := f.Caption;
     f.Show;

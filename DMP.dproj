@@ -116,6 +116,15 @@
 			<DCCReference Include="permintaanpembelian\unFrmInputPP.pas">
 				<Form>frmInputPP</Form>
 			</DCCReference>
+			<DCCReference Include="coa\unFrmLstCOA.pas">
+				<Form>frmLstCOA</Form>
+			</DCCReference>
+			<DCCReference Include="unFrmCari.pas">
+				<Form>frmCari</Form>
+			</DCCReference>
+			<DCCReference Include="coa\unFrmInputCOA.pas">
+				<Form>frmInputCOA</Form>
+			</DCCReference>
 			<BuildConfiguration Include="Base">
 				<Key>Base</Key>
 			</BuildConfiguration>

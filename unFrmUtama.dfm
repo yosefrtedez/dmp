@@ -115,6 +115,7 @@ object frmUtama: TfrmUtama
       end
       object mnMst_COA: TMenuItem
         Caption = 'Chart Of Account / Daftar Akun'
+        OnClick = mnMst_COAClick
       end
       object mnMst_Lain2: TMenuItem
         Caption = 'Kategori Barang - Departemen - Gudang'
@@ -158,6 +159,12 @@ object frmUtama: TfrmUtama
       end
       object mnApp_PO: TMenuItem
         Caption = 'Approval Purchase Order'
+      end
+    end
+    object mnAKT: TMenuItem
+      Caption = 'AKT'
+      object mnAKT_JurnalUmum: TMenuItem
+        Caption = 'Jurnal Umum'
       end
     end
   end
