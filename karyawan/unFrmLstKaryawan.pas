@@ -25,18 +25,17 @@ type
     cxgKaraywan: TcxGrid;
     zqrKaryawan: TZReadOnlyQuery;
     dsKaryawan: TDataSource;
-    cxgrdbclmnCustomerid: TcxGridDBColumn;
     cxgrdbclmnCustomernik: TcxGridDBColumn;
     cxgrdbclmnCustomernama: TcxGridDBColumn;
     cxgrdbclmnCustomerjabatan: TcxGridDBColumn;
     cxgrdbclmnCustomerdivisi: TcxGridDBColumn;
     cxgrdbclmnCustomerfoto: TcxGridDBColumn;
     cxgrdbclmnCustomerdepartemen: TcxGridDBColumn;
-    cxgrdbclmnCustomerf_karyawan: TcxGridDBColumn;
     procedure btnTambahClick(Sender: TObject);
     procedure btnHapusClick(Sender: TObject);
     procedure btnRefreshClick(Sender: TObject);
     procedure btnEditClick(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
   private
     { Private declarations }
   public
@@ -123,6 +122,12 @@ begin
     fu.pgMain.ActivePage := ts;
     f.cxtNik.SetFocus;
   end;
+end;
+
+procedure TfrmLstKaryawan.FormCreate(Sender: TObject);
+begin
+  inherited;
+  zqrKaryawan.Open;
 end;
 
 end.

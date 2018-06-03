@@ -32,19 +32,19 @@ type
     cxlbl4: TcxLabel;
     cxlbl5: TcxLabel;
     cxchkAktif: TcxCheckBox;
-    cbbJabatan: TcxLookupComboBox;
+    cxcboJabatan: TcxLookupComboBox;
     zqrJabatan: TZReadOnlyQuery;
     dsJabatan: TDataSource;
-    cbbDivisi: TcxLookupComboBox;
-    zqrDivisi: TZReadOnlyQuery;
-    dsDivisi: TDataSource;
     zqrDepartemen: TZReadOnlyQuery;
     dsDepartemen: TDataSource;
-    cbb1: TcxLookupComboBox;
+    cxcboDepartemen: TcxLookupComboBox;
+    cxCboDivisi: TcxComboBox;
     procedure btnSimpanClick(Sender: TObject);
     procedure btn1Click(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
+    procedure cxcboDepartemenClick(Sender: TObject);
+    procedure cxcboDepartemenPropertiesChange(Sender: TObject);
   private
     { Private declarations }
     procedure ClearAll;
@@ -96,14 +96,16 @@ begin
       q.Edit;
       q.FieldByName('nik').AsString := Trim(cxtNik.Text);
       q.FieldByName('nama').AsString := Trim(cxtNama.Text);
-      q.FieldByName('jabatan').AsString := Trim(cbbJabatan.Text);
+      q.FieldByName('jabatan').AsString := Trim(cxcboJabatan.Text);
+      q.FieldByName('departemen').AsString := Trim(cxcboDepartemen.Text);
+      q.FieldByName('divisi').AsString := Trim(cxCboDivisi.Text);
       if cxchkAktif.Checked = true then
         q.FieldByName('f_karyawan').AsInteger := 1
       else
         q.FieldByName('f_karyawan').AsInteger := 0;
       q.Post;
     end;
-    MsgBox('Data supplier sudah berhasil disimpan.');
+    MsgBox('Data karyawan sudah berhasil disimpan.');
     ClearAll;
     btnBatalClick(nil);
     end;
@@ -121,10 +123,35 @@ begin
 end;
 
 
+procedure TfrmInputKaryawan.cxcboDepartemenClick(Sender: TObject);
+var
+  q : TZQuery;
+begin
+
+end;
+
+procedure TfrmInputKaryawan.cxcboDepartemenPropertiesChange(Sender: TObject);
+var
+  q : TZQuery;
+begin
+  inherited;
+  cxCboDivisi.Properties.Items.Clear;
+  cxCboDivisi.Clear;
+  q := OpenRS('select * from tbl_divisi where dept = ''%s''',[cxcboDepartemen.Text]);
+  while not q.Eof  do begin
+    cxCboDivisi.Properties.Items.Add(q.FieldByName('divisi').AsString);
+    q.Next;
+  end;
+  q.Close;
+end;
+
 procedure TfrmInputKaryawan.FormCreate(Sender: TObject);
 begin
   inherited;
   cxchkAktif.Checked := True;
+
+  zqrJabatan.Open;
+  zqrDepartemen.Open;
 end;
 
 procedure TfrmInputKaryawan.FormShow(Sender: TObject);
@@ -136,7 +163,9 @@ begin
     q := OpenRS('SELECT * FROM tbl_karyawan WHERE nik = ''%s''',[Self.EditKey]);
     cxtNik.Text := q.FieldByName('nik').AsString;
     cxtNama.Text := q.FieldByName('nama').AsString;
-    cbbJabatan.Text := q.FieldByName('jabatan').AsString;
+    cxcboJabatan.Text := q.FieldByName('jabatan').AsString;
+    cxcboDepartemen.Text := q.FieldByName('departemen').AsString;
+    cxCboDivisi.Text := q.FieldByName('divisi').AsString;
     if q.FieldByName('f_karyawan').AsInteger = 1 then
       cxchkAktif.Checked := True
     else

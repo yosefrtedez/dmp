@@ -1,11 +1,15 @@
 inherited frmLstkaryawan: TfrmLstkaryawan
   BorderIcons = []
   Caption = 'Karyawan'
+  ClientHeight = 512
+  OnCreate = FormCreate
   ExplicitWidth = 1016
-  ExplicitHeight = 508
+  ExplicitHeight = 512
   PixelsPerInch = 96
   TextHeight = 13
   inherited Panel2: TPanel
+    Top = 463
+    ExplicitTop = 463
     inherited btnTambah: TButton
       OnClick = btnTambahClick
     end
@@ -25,7 +29,7 @@ inherited frmLstkaryawan: TfrmLstkaryawan
     Left = 0
     Top = 49
     Width = 1016
-    Height = 410
+    Height = 414
     Align = alClient
     TabOrder = 2
     object cxtbKaryawan: TcxGridDBTableView
@@ -37,11 +41,6 @@ inherited frmLstkaryawan: TfrmLstkaryawan
       FilterRow.Visible = True
       OptionsData.Editing = False
       OptionsData.Inserting = False
-      object cxgrdbclmnCustomerid: TcxGridDBColumn
-        Caption = 'Id'
-        DataBinding.FieldName = 'id'
-        Width = 60
-      end
       object cxgrdbclmnCustomernik: TcxGridDBColumn
         Caption = 'Nik'
         DataBinding.FieldName = 'nik'
@@ -72,10 +71,6 @@ inherited frmLstkaryawan: TfrmLstkaryawan
         DataBinding.FieldName = 'departemen'
         Width = 150
       end
-      object cxgrdbclmnCustomerf_karyawan: TcxGridDBColumn
-        Caption = 'F_Karyawan'
-        DataBinding.FieldName = 'f_karyawan'
-      end
     end
     object cxgKaraywanLevel1: TcxGridLevel
       GridView = cxtbKaryawan
@@ -83,7 +78,6 @@ inherited frmLstkaryawan: TfrmLstkaryawan
   end
   object zqrKaryawan: TZReadOnlyQuery
     Connection = DM.zConn
-    Active = True
     SQL.Strings = (
       'SELECT * FROM tbl_karyawan')
     Params = <>

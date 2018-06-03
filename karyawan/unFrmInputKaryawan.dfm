@@ -10,7 +10,7 @@ inherited frmInputKaryawan: TfrmInputKaryawan
   TextHeight = 13
   object img1: TImage [0]
     Left = 445
-    Top = 64
+    Top = 63
     Width = 167
     Height = 190
     Visible = False
@@ -71,16 +71,17 @@ inherited frmInputKaryawan: TfrmInputKaryawan
     Height = 26
     Caption = 'Cari Foto'
     TabOrder = 8
+    Visible = False
     OnClick = btn1Click
   end
   object cxlbl4: TcxLabel
-    Left = 23
-    Top = 147
+    Left = 25
+    Top = 169
     Caption = 'Divisi'
   end
   object cxlbl5: TcxLabel
-    Left = 23
-    Top = 170
+    Left = 22
+    Top = 146
     Caption = 'Departemen'
   end
   object cxchkAktif: TcxCheckBox
@@ -90,44 +91,39 @@ inherited frmInputKaryawan: TfrmInputKaryawan
     TabOrder = 11
     Width = 82
   end
-  object cbbJabatan: TcxLookupComboBox
+  object cxcboJabatan: TcxLookupComboBox
     Left = 99
-    Top = 120
+    Top = 119
     Properties.KeyFieldNames = 'jabatan'
     Properties.ListColumns = <
       item
-        Caption = 'Nama'
+        Caption = 'JABATAN'
         FieldName = 'jabatan'
       end>
     Properties.ListSource = dsJabatan
     TabOrder = 12
     Width = 183
   end
-  object cbbDivisi: TcxLookupComboBox
+  object cxcboDepartemen: TcxLookupComboBox
     Left = 99
-    Top = 142
-    Properties.KeyFieldNames = 'divisi'
+    Top = 145
+    Properties.KeyFieldNames = 'departemen'
     Properties.ListColumns = <
       item
-        Caption = 'Divisi'
-        FieldName = 'divisi'
+        Caption = 'DEPARTEMEN'
+        FieldName = 'departemen'
       end>
-    Properties.ListSource = dsDivisi
+    Properties.ListSource = dsDepartemen
+    Properties.OnChange = cxcboDepartemenPropertiesChange
     TabOrder = 13
+    OnClick = cxcboDepartemenClick
     Width = 183
   end
-  object cbb1: TcxLookupComboBox
+  object cxCboDivisi: TcxComboBox
     Left = 99
-    Top = 167
-    Properties.KeyFieldNames = 'divisi'
-    Properties.ListColumns = <
-      item
-        Caption = 'Divisi'
-        FieldName = 'divisi'
-      end>
-    Properties.ListSource = dsDivisi
+    Top = 168
     TabOrder = 14
-    Width = 183
+    Width = 200
   end
   object dlgOpen1: TOpenDialog
     Filter = 'jpg'
@@ -147,30 +143,17 @@ inherited frmInputKaryawan: TfrmInputKaryawan
     Left = 776
     Top = 77
   end
-  object zqrDivisi: TZReadOnlyQuery
-    Connection = DM.zConn
-    SQL.Strings = (
-      'SELECT * FROM tbl_divisi order by divisi;')
-    Params = <>
-    Left = 835
-    Top = 80
-  end
-  object dsDivisi: TDataSource
-    DataSet = zqrDivisi
-    Left = 865
-    Top = 82
-  end
   object zqrDepartemen: TZReadOnlyQuery
     Connection = DM.zConn
     SQL.Strings = (
-      'SELECT * FROM tbl_departemen  order by departemen;')
+      'SELECT * FROM tbl_dept  order by departemen')
     Params = <>
-    Left = 820
-    Top = 153
+    Left = 886
+    Top = 93
   end
   object dsDepartemen: TDataSource
     DataSet = zqrDepartemen
-    Left = 899
-    Top = 155
+    Left = 942
+    Top = 83
   end
 end
