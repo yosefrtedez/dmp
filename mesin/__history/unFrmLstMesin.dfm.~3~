@@ -37,7 +37,6 @@ inherited frmLstMesin: TfrmLstMesin
     end
     inherited btnRefresh: TButton
       Top = 14
-      OnClick = btnRefreshClick
       ExplicitTop = 14
     end
   end

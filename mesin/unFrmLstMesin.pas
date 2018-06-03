@@ -25,12 +25,20 @@ type
     cxgCustomer: TcxGrid;
     zqrCustomer: TZReadOnlyQuery;
     dsCustomer: TDataSource;
+    cxtbCustomernama: TcxGridDBColumn;
+    cxtbCustomerkode: TcxGridDBColumn;
+    cxtbCustomerlokasi: TcxGridDBColumn;
+    Label13: TLabel;
     procedure btnTambahClick(Sender: TObject);
+    procedure btnEditClick(Sender: TObject);
+    procedure btnRefreshClick(Sender: TObject);
+    procedure btnHapusClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
   private
     { Private declarations }
   public
     { Public declarations }
+    procedure RefreshGrid;
   end;
 
 var
@@ -38,9 +46,55 @@ var
 
 implementation
 
-uses unFrmUtama, unDM, unFrmInputMesin;
+uses unFrmUtama, unDM, unFrmInputMesin, unTools;
 
 {$R *.dfm}
+
+procedure TfrmLstMesin.btnEditClick(Sender: TObject);
+var
+ f: TfrmInputMesin;
+ ts: TcxTabSheet;
+ q: TZQuery;
+begin
+  inherited;
+   if not fu.CekTabOpen('Input Mesin') then begin
+    ts := TcxTabSheet.Create(Self);
+    ts.PageControl := frmUtama.pgMain;
+    f := TfrmInputMesin.Create(Self);
+    f.Jenis := 'E';
+    f.Caption := 'Edit Mesin';
+    f.EditKey := zqrCustomer.FieldByName('kode').AsString;
+    f.Parent := ts;
+    ts.Caption := f.Caption;
+    f.Show;
+
+	  fu.pgMain.ActivePage := ts;
+  end;
+end;
+
+procedure TfrmLstMesin.btnHapusClick(Sender: TObject);
+begin
+  inherited;
+  try
+    dm.zConn.StartTransaction;
+    dm.zConn.ExecuteDirect('DELETE from tbl_mesin WHERE kode = ''' + zqrCustomer.FieldByName('kode').AsString);
+    dm.zConn.Commit;
+    MsgBox('Kode mesin: ' + zqrCustomer.FieldByName('kode').AsString + ' sudah berhasil di Hapus.');
+    zqrCustomer.Close;
+    zqrCustomer.Open;
+  except
+    on E: Exception do begin
+      MsgBox('Error: ' + E.Message);
+      dm.zConn.Rollback;
+    end;
+  end;
+end;
+
+procedure TfrmLstMesin.btnRefreshClick(Sender: TObject);
+begin
+  zqrMesin.Close;
+  zqrMesin.Open;
+end;
 
 procedure TfrmLstMesin.btnTambahClick(Sender: TObject);
 var
@@ -53,6 +107,7 @@ begin
 
     f := TfrmInputMesin.Create(Self);
     f.Jenis := 'T';
+    f.cxChkAktif.Checked := True ;
     f.Parent := ts;
     ts.Caption := f.Caption;
     f.Show;
@@ -61,10 +116,16 @@ begin
   end;
 end;
 
+
 procedure TfrmLstMesin.FormCreate(Sender: TObject);
 begin
   inherited;
-  
+  zqrCustomer.Open ;
+end;
+
+procedure TfrmLstMesin.RefreshGrid;
+begin
+  Self.btnRefreshClick(nil);
 end;
 
 end.

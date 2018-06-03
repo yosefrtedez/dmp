@@ -7,6 +7,7 @@ inherited frmInputSO: TfrmInputSO
   TextHeight = 13
   inherited Panel1: TPanel
     Width = 968
+    ExplicitWidth = 968
     object Label1: TLabel
       Left = 10
       Top = 16
@@ -23,6 +24,7 @@ inherited frmInputSO: TfrmInputSO
   end
   inherited Panel2: TPanel
     Width = 968
+    ExplicitWidth = 968
   end
   object cxtNoSO: TcxTextEdit
     Left = 72
@@ -53,7 +55,6 @@ inherited frmInputSO: TfrmInputSO
     Height = 200
     Anchors = [akLeft, akTop, akRight]
     TabOrder = 6
-    ExplicitWidth = 876
     object cxTblSO: TcxGridDBTableView
       NavigatorButtons.ConfirmDelete = False
       DataController.Summary.DefaultGroupSummaryItems = <>

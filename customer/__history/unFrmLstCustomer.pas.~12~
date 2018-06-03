@@ -77,7 +77,6 @@ begin
 	  fu.pgMain.ActivePage := ts;
   end;
 end;
-
 procedure TfrmLstCustomer.btnRefreshClick(Sender: TObject);
 begin
   inherited;

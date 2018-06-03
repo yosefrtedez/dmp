@@ -288,12 +288,12 @@ inherited frmInputMesin: TfrmInputMesin
       'SELECT lokasi FROM tbl_lokasi'
       'ORDER BY lokasi')
     Params = <>
-    Left = 633
-    Top = 108
+    Left = 305
+    Top = 20
   end
   object dsLokasi: TDataSource
     DataSet = zqrLokasi
-    Left = 679
-    Top = 108
+    Left = 335
+    Top = 20
   end
 end

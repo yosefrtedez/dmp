@@ -144,8 +144,6 @@ begin
 
       MsgBox('Data Mesin sudah disimpan.');
 
-      frmLstMesin.RefreshGrid;
-
       ClearAll;
       frmLstMesin.zqrCustomer.Close;
       frmLstMesin.zqrCustomer.Open;

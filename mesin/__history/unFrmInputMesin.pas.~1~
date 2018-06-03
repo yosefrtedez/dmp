@@ -53,7 +53,6 @@ type
     cxLabel17: TcxLabel;
     zqrLokasi: TZQuery;
     dsLokasi: TDataSource;
-    Label13: TLabel;
     procedure btnSimpanClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure ClearAll;
@@ -143,8 +142,6 @@ begin
       end;
 
       MsgBox('Data Mesin sudah disimpan.');
-
-      frmLstMesin.RefreshGrid;
 
       ClearAll;
       frmLstMesin.zqrCustomer.Close;
