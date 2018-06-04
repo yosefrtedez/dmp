@@ -24,7 +24,17 @@ uses
   unFrmInputUser in 'user\unFrmInputUser.pas' {frmInputUser},
   unFrmLstUser in 'user\unFrmLstUser.pas' {frmLstUser},
   unFrmLstLain2 in 'lainlain\unFrmLstLain2.pas' {frmLstLain2},
-  unFrmInputSO in 'salesorder\unFrmInputSO.pas' {frmInputSO};
+  unFrmInputSO in 'salesorder\unFrmInputSO.pas' {frmInputSO},
+  unFrmLstSO in 'salesorder\unFrmLstSO.pas' {frmLstSO},
+  unFrmLstPO in 'purchaseorder\unFrmLstPO.pas' {frmLstPO},
+  unFrmInputPO in 'purchaseorder\unFrmInputPO.pas' {frmInputPO},
+  unFrmLstPP in 'permintaanpembelian\unFrmLstPP.pas' {frmLstPP},
+  unFrmInputPP in 'permintaanpembelian\unFrmInputPP.pas' {frmInputPP},
+  unFrmLstCOA in 'coa\unFrmLstCOA.pas' {frmLstCOA},
+  unFrmCari in 'unFrmCari.pas' {frmCari},
+  unFrmInputCOA in 'coa\unFrmInputCOA.pas' {frmInputCOA},
+  unFrmLstJurnalUmum in 'jurnalumum\unFrmLstJurnalUmum.pas' {frmLstJurnalUmum},
+  unFrmInputJurnalUmum in 'jurnalumum\unFrmInputJurnalUmum.pas' {frmInputJurnalUmum};
 
 {$R *.res}
 
@@ -47,6 +57,15 @@ begin
   Application.CreateForm(TfrmLstUser, frmLstUser);
   Application.CreateForm(TfrmLstLain2, frmLstLain2);
   Application.CreateForm(TfrmInputSO, frmInputSO);
+  Application.CreateForm(TfrmLstSO, frmLstSO);
+  Application.CreateForm(TfrmLstPO, frmLstPO);
+  Application.CreateForm(TfrmInputPO, frmInputPO);
+  Application.CreateForm(TfrmLstPP, frmLstPP);
+  Application.CreateForm(TfrmInputPP, frmInputPP);
+  Application.CreateForm(TfrmLstCOA, frmLstCOA);
+  Application.CreateForm(TfrmInputCOA, frmInputCOA);
+  Application.CreateForm(TfrmLstJurnalUmum, frmLstJurnalUmum);
+  Application.CreateForm(TfrmInputJurnalUmum, frmInputJurnalUmum);
   frmUtama.Show;
 
   frmLogin.ShowModal;

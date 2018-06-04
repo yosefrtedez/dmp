@@ -16,7 +16,7 @@ uses
   dxSkinsDefaultPainters, dxSkinValentine, dxSkinXmas2008Blue,
   dxSkinscxPCPainter, cxCustomData, cxFilter, cxData, cxDataStorage, cxEdit, DB,
   cxDBData, cxGridLevel, cxClasses, cxGridCustomView, cxGridCustomTableView,
-  cxGridTableView, cxGridDBTableView, cxGrid, ZAbstractRODataset, ZDataset, cxPC;
+  cxGridTableView, cxGridDBTableView, cxGrid, ZAbstractRODataset, ZDataset;
 
 type
   TfrmLstJurnalUmum = class(TfrmTplGrid)
@@ -27,13 +27,15 @@ type
     dsJurnalUmum: TDataSource;
     cxtbJurnalUmumno_jurnal: TcxGridDBColumn;
     cxtbJurnalUmumtanggal: TcxGridDBColumn;
+    cxtbJurnalUmumtgljam: TcxGridDBColumn;
     cxtbJurnalUmumketerangan: TcxGridDBColumn;
     cxtbJurnalUmumjenis: TcxGridDBColumn;
     cxtbJurnalUmumuser: TcxGridDBColumn;
     cxtbJurnalUmumuser_dept: TcxGridDBColumn;
+    cxtbJurnalUmumf_closed: TcxGridDBColumn;
+    cxtbJurnalUmumf_import: TcxGridDBColumn;
     procedure FormShow(Sender: TObject);
     procedure btnRefreshClick(Sender: TObject);
-    procedure btnTambahClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -45,7 +47,7 @@ var
 
 implementation
 
-uses unDM, unFrmInputJurnalUmum, unFrmUtama;
+uses unDM;
 
 {$R *.dfm}
 
@@ -54,24 +56,6 @@ begin
   inherited;
   zqrJurnalUmum.Close;
   zqrJurnalUmum.Open;
-end;
-
-procedure TfrmLstJurnalUmum.btnTambahClick(Sender: TObject);
-var
-  f: TfrmInputJurnalUmum;
-  ts: TcxTabSheet;
-begin
-  if not fu.CekTabOpen('Input Jurnal Umum') then begin
-    ts := TcxTabSheet.Create(Self);
-    ts.PageControl := frmUtama.pgMain;
-
-    f := TfrmInputJurnalUmum.Create(Self);
-    f.Jenis := 'T';
-    f.Parent := ts;
-    ts.Caption := f.Caption;
-    f.Show;
-    fu.pgMain.ActivePage := ts;
-  end;
 end;
 
 procedure TfrmLstJurnalUmum.FormShow(Sender: TObject);

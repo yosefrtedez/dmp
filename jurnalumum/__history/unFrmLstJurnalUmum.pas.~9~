@@ -27,6 +27,7 @@ type
     dsJurnalUmum: TDataSource;
     cxtbJurnalUmumno_jurnal: TcxGridDBColumn;
     cxtbJurnalUmumtanggal: TcxGridDBColumn;
+    cxtbJurnalUmumtgljam: TcxGridDBColumn;
     cxtbJurnalUmumketerangan: TcxGridDBColumn;
     cxtbJurnalUmumjenis: TcxGridDBColumn;
     cxtbJurnalUmumuser: TcxGridDBColumn;
@@ -67,6 +68,7 @@ begin
 
     f := TfrmInputJurnalUmum.Create(Self);
     f.Jenis := 'T';
+    f.cxChkAktif.Checked := True ;
     f.Parent := ts;
     ts.Caption := f.Caption;
     f.Show;

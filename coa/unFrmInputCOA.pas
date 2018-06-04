@@ -43,6 +43,7 @@ type
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure Button1Click(Sender: TObject);
+    procedure cxlIndukAkunPropertiesChange(Sender: TObject);
   private
     { Private declarations }
   public
@@ -113,6 +114,12 @@ procedure TfrmInputCOA.Button1Click(Sender: TObject);
 begin
   inherited;
   frmLstCOA.btnRefreshClick(nil);
+end;
+
+procedure TfrmInputCOA.cxlIndukAkunPropertiesChange(Sender: TObject);
+begin
+  inherited;
+  cxtNoAkunInduk.Text := zqrInduk.FieldByName('noakun').AsString;
 end;
 
 procedure TfrmInputCOA.FormCreate(Sender: TObject);

@@ -332,7 +332,10 @@ begin
   else if sTipe = 'spk_paket' then
     depan := 'SPP/'
   else if sTipe = 'memo' then
-    depan := 'MEMO/';
+    depan := 'MEMO/'
+  // JURNAL
+  else if sTipe = 'jurnal' then
+    depan := 'J/';
 
   head := depan + GetFaktur;
 

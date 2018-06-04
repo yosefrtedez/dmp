@@ -26,9 +26,6 @@ inherited frmLstJurnalUmum: TfrmLstJurnalUmum
       DataController.Summary.DefaultGroupSummaryItems = <>
       DataController.Summary.FooterSummaryItems = <>
       DataController.Summary.SummaryGroups = <>
-      OptionsData.Deleting = False
-      OptionsData.Editing = False
-      OptionsData.Inserting = False
       object cxtbJurnalUmumno_jurnal: TcxGridDBColumn
         Caption = 'No. Jurnal'
         DataBinding.FieldName = 'no_jurnal'

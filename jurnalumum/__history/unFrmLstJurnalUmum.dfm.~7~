@@ -6,9 +6,6 @@ inherited frmLstJurnalUmum: TfrmLstJurnalUmum
   PixelsPerInch = 96
   TextHeight = 13
   inherited Panel2: TPanel
-    inherited btnTambah: TButton
-      OnClick = btnTambahClick
-    end
     inherited btnRefresh: TButton
       OnClick = btnRefreshClick
     end
@@ -26,32 +23,26 @@ inherited frmLstJurnalUmum: TfrmLstJurnalUmum
       DataController.Summary.DefaultGroupSummaryItems = <>
       DataController.Summary.FooterSummaryItems = <>
       DataController.Summary.SummaryGroups = <>
-      OptionsData.Deleting = False
-      OptionsData.Editing = False
-      OptionsData.Inserting = False
       object cxtbJurnalUmumno_jurnal: TcxGridDBColumn
-        Caption = 'No. Jurnal'
         DataBinding.FieldName = 'no_jurnal'
       end
       object cxtbJurnalUmumtanggal: TcxGridDBColumn
-        Caption = 'Tanggal'
         DataBinding.FieldName = 'tanggal'
       end
+      object cxtbJurnalUmumtgljam: TcxGridDBColumn
+        DataBinding.FieldName = 'tgljam'
+      end
       object cxtbJurnalUmumketerangan: TcxGridDBColumn
-        Caption = 'Keterangan'
         DataBinding.FieldName = 'keterangan'
         Width = 294
       end
       object cxtbJurnalUmumjenis: TcxGridDBColumn
-        Caption = 'Jenis'
         DataBinding.FieldName = 'jenis'
       end
       object cxtbJurnalUmumuser: TcxGridDBColumn
-        Caption = 'User'
         DataBinding.FieldName = 'user'
       end
       object cxtbJurnalUmumuser_dept: TcxGridDBColumn
-        Caption = 'User Dept'
         DataBinding.FieldName = 'user_dept'
       end
     end

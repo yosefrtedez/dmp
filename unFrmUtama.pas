@@ -64,6 +64,7 @@ type
     procedure mnMkt_SalesOrderClick(Sender: TObject);
     procedure mnPur_PPClick(Sender: TObject);
     procedure mnMst_COAClick(Sender: TObject);
+    procedure mnAKT_JurnalUmumClick(Sender: TObject);
   private
     procedure PGChange(Sender: TObject);
   public
@@ -83,7 +84,7 @@ implementation
 uses
   unTools, unFrmLstBarangJasa, unFrmLstCustomer, unFrmLstSupplier,
   unFrmLstMesin, unFrmLstUser, unFrmLstLain2, unDM, unFrmLstKaryawan,
-  unFrmLstSO, unFrmLstPP, unFrmLstCOA;
+  unFrmLstSO, unFrmLstPP, unFrmLstCOA, unFrmLstJurnalUmum;
 
 {$R *.dfm}
 
@@ -138,6 +139,25 @@ procedure TfrmUtama.FormShow(Sender: TObject);
 begin
   Self.WindowState := wsMaximized;
   Self.BuildMenu;
+end;
+
+procedure TfrmUtama.mnAKT_JurnalUmumClick(Sender: TObject);
+var
+  f: TfrmLstJurnalUmum;
+  ts: TcxTabSheet;
+begin
+  if not CekTabOpen('Jurnal Umum') then begin
+    ToggleMainPage;
+    ts := TcxTabSheet.Create(Self);
+    ts.PageControl := pgMain;
+
+    f := TfrmLstJurnalUmum.Create(Self);
+    f.Parent := ts;
+    ts.Caption := f.Caption;
+    f.Show;
+
+    pgMain.ActivePage := ts;
+  end;
 end;
 
 procedure TfrmUtama.mnMkt_SalesOrderClick(Sender: TObject);

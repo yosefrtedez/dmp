@@ -72,7 +72,6 @@ inherited frmInputJurnalUmum: TfrmInputJurnalUmum
       NavigatorButtons.Insert.Visible = False
       NavigatorButtons.Append.Visible = True
       OnFocusedItemChanged = cxtbJurnalUmumFocusedItemChanged
-      OnFocusedRecordChanged = cxtbJurnalUmumFocusedRecordChanged
       DataController.Summary.DefaultGroupSummaryItems = <
         item
           Format = '#,#0.00'
@@ -115,7 +114,6 @@ inherited frmInputJurnalUmum: TfrmInputJurnalUmum
           end>
         Properties.ListSource = dsAkun
         Properties.OnChange = cxColNoAkunPropertiesChange
-        Properties.OnEditValueChanged = cxColNoAkunPropertiesEditValueChanged
         Width = 79
       end
       object cxColNamaAkun: TcxGridColumn

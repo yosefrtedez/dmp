@@ -165,6 +165,7 @@ object frmUtama: TfrmUtama
       Caption = 'AKT'
       object mnAKT_JurnalUmum: TMenuItem
         Caption = 'Jurnal Umum'
+        OnClick = mnAKT_JurnalUmumClick
       end
     end
   end

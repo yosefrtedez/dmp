@@ -72,7 +72,6 @@ inherited frmInputJurnalUmum: TfrmInputJurnalUmum
       NavigatorButtons.Insert.Visible = False
       NavigatorButtons.Append.Visible = True
       OnFocusedItemChanged = cxtbJurnalUmumFocusedItemChanged
-      OnFocusedRecordChanged = cxtbJurnalUmumFocusedRecordChanged
       DataController.Summary.DefaultGroupSummaryItems = <
         item
           Format = '#,#0.00'

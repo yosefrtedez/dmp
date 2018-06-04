@@ -44,28 +44,6 @@ begin
   Application.CreateForm(TDM, DM);
   Application.CreateForm(TfrmUtama, frmUtama);
   Application.CreateForm(TfrmLogin, frmLogin);
-  Application.CreateForm(TfrmInputBarangJasa, frmInputBarangJasa);
-  Application.CreateForm(TfrmLstBarangJasa, frmLstBarangJasa);
-  Application.CreateForm(TfrmInputCustomer, frmInputCustomer);
-  Application.CreateForm(TfrmInputSupplier, frmInputSupplier);
-  Application.CreateForm(TfrmLstSupplier, frmLstSupplier);
-  Application.CreateForm(TfrmInputMesin, frmInputMesin);
-  Application.CreateForm(TfrmLstMesin, frmLstMesin);
-  Application.CreateForm(TfrmInputKaryawan, frmInputKaryawan);
-  Application.CreateForm(TfrmLstkaryawan, frmLstkaryawan);
-  Application.CreateForm(TfrmInputUser, frmInputUser);
-  Application.CreateForm(TfrmLstUser, frmLstUser);
-  Application.CreateForm(TfrmLstLain2, frmLstLain2);
-  Application.CreateForm(TfrmInputSO, frmInputSO);
-  Application.CreateForm(TfrmLstSO, frmLstSO);
-  Application.CreateForm(TfrmLstPO, frmLstPO);
-  Application.CreateForm(TfrmInputPO, frmInputPO);
-  Application.CreateForm(TfrmLstPP, frmLstPP);
-  Application.CreateForm(TfrmInputPP, frmInputPP);
-  Application.CreateForm(TfrmLstCOA, frmLstCOA);
-  Application.CreateForm(TfrmInputCOA, frmInputCOA);
-  Application.CreateForm(TfrmLstJurnalUmum, frmLstJurnalUmum);
-  Application.CreateForm(TfrmInputJurnalUmum, frmInputJurnalUmum);
   frmUtama.Show;
 
   frmLogin.ShowModal;

@@ -12,6 +12,8 @@ c2 = 22719;
 function UnFormat(s:string): string;
 function FloatStr(i: Currency): string;
 
+function OpenRS(sql:string): TZQuery; overload;
+function OpenRS(sql:string; Args: array of const): TZQuery; overload;
 function OpenRS(sql:string; zc: TZConnection): TZQuery; overload;
 function OpenRS(sql:string; Args: array of const; zc: TZConnection): TZQuery; overload;
 
@@ -66,10 +68,7 @@ procedure OpenAllQ(f: TForm);
 function CekStok(kode, gudang: string): real;
 procedure RestoreDatabase(sNamaFile: String);
 function GetLastFakFOBJ(sHeader: string): string;
-function GetLastNoJadwal: string;
-function GetLastNo360: string;
 function GetFakturSrtPenawaran: string;
-function GetLastSrtPenawaran: string;
 procedure OpenSQL(lst: TList);
 procedure SplitStr(const Source, Delimiter: String; var DelimitedList: TStringList);
 
@@ -129,6 +128,28 @@ begin
     romawi := 'XII';
 
   Result := romawi + '/' + Copy(IntToStr(tahun),1,4);
+end;
+
+function OpenRS(sql:string): TZQuery;
+var
+  q: TZQuery;
+begin
+  q := TZQuery.Create(nil);
+  q.Connection := dm.zConn;
+  q.SQL.Text := sql;
+  q.Open;
+  Result := q;
+end;
+
+function OpenRS(sql:string; Args: array of const): TZQuery;
+var
+  q: TZQuery;
+begin
+  q := TZQuery.Create(nil);
+  q.Connection := dm.zConn;
+  q.SQL.Text := Format(sql,Args);
+  q.Open;
+  Result := q;
 end;
 
 function OpenRS(sql:string; zc: TZConnection): TZQuery;
@@ -338,7 +359,7 @@ begin
   head := header;
 
   q := OpenRS('SELECT * FROM tbl_head_no WHERE header = ''' +
-    head + '''');
+    head + '''', dm.zConn);
 
   if q.IsEmpty then
     head := head + '-1'
@@ -358,7 +379,7 @@ begin
   head := sHeader;
 
   q := OpenRS('SELECT * FROM tbl_head_no WHERE header = ''' +
-    head + '''');
+    head + '''', dm.zConn);
 
   if q.IsEmpty then
     head := head + '-1'
@@ -380,7 +401,7 @@ begin
   head := 'FOBJ/' + head + '/' + GetFaktur;
 
   q := OpenRS('SELECT * FROM tbl_head_no WHERE header = ''' +
-    head + '''');
+    head + '''', dm.zConn);
 
   if q.IsEmpty then
     head := head + '0001'
@@ -953,7 +974,7 @@ function MySQLPassword(sPassword: string): string;
 var
   q: TZQuery;
 begin
-  q := OpenRS('SELECT PASSWORD(''%s'') AS pass', [sPassword]);
+  q := OpenRS('SELECT CONVERT(PASSWORD(''%s''), CHAR(100)) AS pass', [sPassword]);
   Result := q.FieldByName('pass').AsString;
   q.Close;
 end;

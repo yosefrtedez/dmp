@@ -251,8 +251,8 @@ var
   i,j: integer;
 begin
   inherited;
+  i := AFocusedRecord.Index;
   try
-    i := AFocusedRecord.Index;
     j := APrevFocusedRecord.Index;
     with cxtbJurnalUmum.DataController do begin
       if not VarIsNull(Values[i, cxColNamaAkun.Index]) then

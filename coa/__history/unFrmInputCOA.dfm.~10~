@@ -1,5 +1,7 @@
 inherited frmInputCOA: TfrmInputCOA
   Caption = 'Input COA'
+  OnCreate = FormCreate
+  OnShow = FormShow
   ExplicitWidth = 894
   ExplicitHeight = 553
   PixelsPerInch = 96
@@ -34,6 +36,7 @@ inherited frmInputCOA: TfrmInputCOA
         FieldName = 'tipe'
       end>
     Properties.ListOptions.SyncMode = True
+    Properties.ListSource = dsTipeAkun
     TabOrder = 2
     Width = 254
   end
@@ -117,6 +120,7 @@ inherited frmInputCOA: TfrmInputCOA
         FieldName = 'noakun'
       end>
     Properties.ListOptions.SyncMode = True
+    Properties.ListSource = dsInduk
     TabOrder = 12
     Width = 209
   end
@@ -138,5 +142,43 @@ inherited frmInputCOA: TfrmInputCOA
     Top = 65
     Caption = 'Tipe Akun'
     Transparent = True
+  end
+  object Button1: TButton
+    Left = 448
+    Top = 360
+    Width = 75
+    Height = 25
+    Caption = 'Button1'
+    TabOrder = 16
+    OnClick = Button1Click
+  end
+  object zqrInduk: TZReadOnlyQuery
+    Connection = DM.zConn
+    Active = True
+    SQL.Strings = (
+      'SELECT noakun, nama FROM tbl_coa '
+      'ORDER BY nama')
+    Params = <>
+    Left = 616
+    Top = 72
+  end
+  object dsInduk: TDataSource
+    DataSet = zqrInduk
+    Left = 696
+    Top = 72
+  end
+  object zqrTipeAkun: TZReadOnlyQuery
+    Connection = DM.zConn
+    Active = True
+    SQL.Strings = (
+      'SELECT id, tipe FROM tbl_tipe_akun')
+    Params = <>
+    Left = 624
+    Top = 128
+  end
+  object dsTipeAkun: TDataSource
+    DataSet = zqrTipeAkun
+    Left = 704
+    Top = 128
   end
 end

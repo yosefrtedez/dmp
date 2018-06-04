@@ -27,6 +27,7 @@ type
     dsJurnalUmum: TDataSource;
     cxtbJurnalUmumno_jurnal: TcxGridDBColumn;
     cxtbJurnalUmumtanggal: TcxGridDBColumn;
+    cxtbJurnalUmumtgljam: TcxGridDBColumn;
     cxtbJurnalUmumketerangan: TcxGridDBColumn;
     cxtbJurnalUmumjenis: TcxGridDBColumn;
     cxtbJurnalUmumuser: TcxGridDBColumn;
@@ -45,7 +46,7 @@ var
 
 implementation
 
-uses unDM, unFrmInputJurnalUmum, unFrmUtama;
+uses unDM, unFrmInputJurnalUmum;
 
 {$R *.dfm}
 
@@ -65,8 +66,9 @@ begin
     ts := TcxTabSheet.Create(Self);
     ts.PageControl := frmUtama.pgMain;
 
-    f := TfrmInputJurnalUmum.Create(Self);
+    f := TfrmInputCustomer.Create(Self);
     f.Jenis := 'T';
+    f.cxChkAktif.Checked := True ;
     f.Parent := ts;
     ts.Caption := f.Caption;
     f.Show;

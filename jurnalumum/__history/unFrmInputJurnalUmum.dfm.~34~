@@ -12,9 +12,6 @@ inherited frmInputJurnalUmum: TfrmInputJurnalUmum
   end
   inherited Panel2: TPanel
     Width = 995
-    inherited btnSimpan: TButton
-      OnClick = btnSimpanClick
-    end
   end
   object cxLabel2: TcxLabel
     Left = 10
@@ -72,7 +69,6 @@ inherited frmInputJurnalUmum: TfrmInputJurnalUmum
       NavigatorButtons.Insert.Visible = False
       NavigatorButtons.Append.Visible = True
       OnFocusedItemChanged = cxtbJurnalUmumFocusedItemChanged
-      OnFocusedRecordChanged = cxtbJurnalUmumFocusedRecordChanged
       DataController.Summary.DefaultGroupSummaryItems = <
         item
           Format = '#,#0.00'
@@ -94,7 +90,6 @@ inherited frmInputJurnalUmum: TfrmInputJurnalUmum
           Column = cxColKredit
         end>
       DataController.Summary.SummaryGroups = <>
-      DataController.OnNewRecord = cxtbJurnalUmumDataControllerNewRecord
       OptionsData.Appending = True
       OptionsView.Navigator = True
       OptionsView.Footer = True
@@ -115,7 +110,6 @@ inherited frmInputJurnalUmum: TfrmInputJurnalUmum
           end>
         Properties.ListSource = dsAkun
         Properties.OnChange = cxColNoAkunPropertiesChange
-        Properties.OnEditValueChanged = cxColNoAkunPropertiesEditValueChanged
         Width = 79
       end
       object cxColNamaAkun: TcxGridColumn
@@ -137,7 +131,6 @@ inherited frmInputJurnalUmum: TfrmInputJurnalUmum
       end
       object cxColDebet: TcxGridColumn
         Caption = 'Debet'
-        DataBinding.ValueType = 'Float'
         PropertiesClassName = 'TcxSpinEditProperties'
         Properties.Alignment.Horz = taRightJustify
         Properties.DisplayFormat = '#,#0.00'
@@ -148,7 +141,6 @@ inherited frmInputJurnalUmum: TfrmInputJurnalUmum
       end
       object cxColKredit: TcxGridColumn
         Caption = 'Kredit'
-        DataBinding.ValueType = 'Float'
         PropertiesClassName = 'TcxSpinEditProperties'
         Properties.Alignment.Horz = taRightJustify
         Properties.DisplayFormat = '#,#0.00'

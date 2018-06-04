@@ -251,16 +251,11 @@ var
   i,j: integer;
 begin
   inherited;
-  try
-    i := AFocusedRecord.Index;
-    j := APrevFocusedRecord.Index;
-    with cxtbJurnalUmum.DataController do begin
-      if not VarIsNull(Values[i, cxColNamaAkun.Index]) then
-        Values[i, cxColNoAkun.Index] := Values[i, cxColNamaAkun.Index];
-      if not VarIsNull(Values[j, cxColNamaAkun.Index]) then
-        Values[j, cxColNoAkun.Index] := Values[j, cxColNamaAkun.Index];
-    end;
-  finally
+  i := AFocusedRecord.Index;
+  j := APrevFocusedRecord.Index;
+  with cxtbJurnalUmum.DataController do begin
+    if not VarIsNull(Values[i, cxColNamaAkun.Index]) then
+      Values[i, cxColNoAkun.Index] := Values[i, cxColNamaAkun.Index];
 
   end;
 end;

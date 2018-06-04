@@ -12,9 +12,6 @@ inherited frmInputJurnalUmum: TfrmInputJurnalUmum
   end
   inherited Panel2: TPanel
     Width = 995
-    inherited btnSimpan: TButton
-      OnClick = btnSimpanClick
-    end
   end
   object cxLabel2: TcxLabel
     Left = 10
@@ -63,7 +60,7 @@ inherited frmInputJurnalUmum: TfrmInputJurnalUmum
   end
   object cxGrd: TcxGrid
     Left = 8
-    Top = 162
+    Top = 148
     Width = 953
     Height = 249
     TabOrder = 9
@@ -72,7 +69,6 @@ inherited frmInputJurnalUmum: TfrmInputJurnalUmum
       NavigatorButtons.Insert.Visible = False
       NavigatorButtons.Append.Visible = True
       OnFocusedItemChanged = cxtbJurnalUmumFocusedItemChanged
-      OnFocusedRecordChanged = cxtbJurnalUmumFocusedRecordChanged
       DataController.Summary.DefaultGroupSummaryItems = <
         item
           Format = '#,#0.00'
@@ -84,20 +80,16 @@ inherited frmInputJurnalUmum: TfrmInputJurnalUmum
         end>
       DataController.Summary.FooterSummaryItems = <
         item
-          Format = '#,#0.00'
           Kind = skSum
           Column = cxColDebet
         end
         item
-          Format = '#,#0.00'
           Kind = skSum
           Column = cxColKredit
         end>
       DataController.Summary.SummaryGroups = <>
-      DataController.OnNewRecord = cxtbJurnalUmumDataControllerNewRecord
       OptionsData.Appending = True
       OptionsView.Navigator = True
-      OptionsView.Footer = True
       OptionsView.GroupByBox = False
       object cxColNoAkun: TcxGridColumn
         Caption = 'No. Akun'
@@ -115,7 +107,6 @@ inherited frmInputJurnalUmum: TfrmInputJurnalUmum
           end>
         Properties.ListSource = dsAkun
         Properties.OnChange = cxColNoAkunPropertiesChange
-        Properties.OnEditValueChanged = cxColNoAkunPropertiesEditValueChanged
         Width = 79
       end
       object cxColNamaAkun: TcxGridColumn
@@ -137,24 +128,14 @@ inherited frmInputJurnalUmum: TfrmInputJurnalUmum
       end
       object cxColDebet: TcxGridColumn
         Caption = 'Debet'
-        DataBinding.ValueType = 'Float'
         PropertiesClassName = 'TcxSpinEditProperties'
-        Properties.Alignment.Horz = taRightJustify
         Properties.DisplayFormat = '#,#0.00'
-        Properties.ValueType = vtFloat
-        FooterAlignmentHorz = taRightJustify
-        HeaderAlignmentHorz = taRightJustify
         Width = 101
       end
       object cxColKredit: TcxGridColumn
         Caption = 'Kredit'
-        DataBinding.ValueType = 'Float'
         PropertiesClassName = 'TcxSpinEditProperties'
-        Properties.Alignment.Horz = taRightJustify
         Properties.DisplayFormat = '#,#0.00'
-        Properties.ValueType = vtFloat
-        FooterAlignmentHorz = taRightJustify
-        HeaderAlignmentHorz = taRightJustify
         Width = 94
       end
       object cxColKeterangan: TcxGridColumn
