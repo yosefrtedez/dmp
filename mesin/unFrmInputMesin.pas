@@ -147,8 +147,8 @@ begin
       frmLstMesin.RefreshGrid;
 
       ClearAll;
-      frmLstMesin.zqrCustomer.Close;
-      frmLstMesin.zqrCustomer.Open;
+      frmLstMesin.zqrMesin.Close;
+      frmLstMesin.zqrMesin.Open;
       btnBatalClick(nil);
     end;
 

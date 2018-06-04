@@ -251,8 +251,8 @@ var
   i,j: integer;
 begin
   inherited;
-  i := AFocusedRecord.Index;
   try
+    i := AFocusedRecord.Index;
     j := APrevFocusedRecord.Index;
     with cxtbJurnalUmum.DataController do begin
       if not VarIsNull(Values[i, cxColNamaAkun.Index]) then
@@ -273,10 +273,27 @@ begin
 end;
 
 procedure TfrmInputJurnalUmum.FormShow(Sender: TObject);
+var
+  q: TZQuery;
 begin
   inherited;
   if Self.Jenis = 'T' then begin
     cxtNoBukti.Text := GetLastFak('jurnal');
+  end
+  else if Self.Jenis = 'E' then begin
+    q := OpenRS('SELECT * FROM tbl_jurnal_head WHERE no_jurnal = ''%s''',[Self.EditKey]);
+    cxtNoBukti.Text := Self.EditKey;
+    cxdTgl.Date := q.FieldByName('tanggal').AsDateTime;
+    cxtKeterangan.Text := q.FieldByName('keterangan').AsString;
+    q.Close;
+
+    q := OpenRS('SELECT * FROM tbl_jurnal_det WHERE no_jurnal = ''%s''',[Self.EditKey]);
+    while not q.Eof do begin
+      with cxtbJurnalUmum.DataController do begin
+
+      end;
+    end;
+
   end;
 end;
 

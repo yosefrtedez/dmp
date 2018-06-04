@@ -34,7 +34,6 @@ type
     procedure FormShow(Sender: TObject);
     procedure btnRefreshClick(Sender: TObject);
     procedure btnTambahClick(Sender: TObject);
-    procedure btnEditClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -49,27 +48,6 @@ implementation
 uses unDM, unFrmInputJurnalUmum, unFrmUtama;
 
 {$R *.dfm}
-
-procedure TfrmLstJurnalUmum.btnEditClick(Sender: TObject);
-var
- f: TfrmInputJurnalUmum;
- ts: TcxTabSheet;
- q: TZQuery;
-begin
- if not fu.CekTabOpen('Edit Jurnal Umum') then begin
-    ts := TcxTabSheet.Create(Self);
-    ts.PageControl := frmUtama.pgMain;
-    f := TfrmInputJurnalUmum.Create(Self);
-    f.Jenis := 'E';
-    f.Caption := 'Edit Jurnal Umum';
-    f.EditKey := zqrJurnalUmum.FieldByName('no_jurnal').AsString;
-    f.Parent := ts;
-    ts.Caption := f.Caption;
-    f.Show;
-
-	  fu.pgMain.ActivePage := ts;
-  end;
-end;
 
 procedure TfrmLstJurnalUmum.btnRefreshClick(Sender: TObject);
 begin

@@ -251,13 +251,17 @@ var
   i,j: integer;
 begin
   inherited;
-  i := AFocusedRecord.Index;
-  j := APrevFocusedRecord.Index;
-  with cxtbJurnalUmum.DataController do begin
-    if not VarIsNull(Values[i, cxColNamaAkun.Index]) then
-      Values[i, cxColNoAkun.Index] := Values[i, cxColNamaAkun.Index];
-    if not VarIsNull(Values[j, cxColNamaAkun.Index]) then
-      Values[j, cxColNoAkun.Index] := Values[j, cxColNamaAkun.Index];
+  try
+    i := AFocusedRecord.Index;
+    j := APrevFocusedRecord.Index;
+    with cxtbJurnalUmum.DataController do begin
+      if not VarIsNull(Values[i, cxColNamaAkun.Index]) then
+        Values[i, cxColNoAkun.Index] := Values[i, cxColNamaAkun.Index];
+      if not VarIsNull(Values[j, cxColNamaAkun.Index]) then
+        Values[j, cxColNoAkun.Index] := Values[j, cxColNamaAkun.Index];
+    end;
+  finally
+
   end;
 end;
 
@@ -269,10 +273,34 @@ begin
 end;
 
 procedure TfrmInputJurnalUmum.FormShow(Sender: TObject);
+var
+  q: TZQuery;
+  i: integer;
 begin
   inherited;
   if Self.Jenis = 'T' then begin
     cxtNoBukti.Text := GetLastFak('jurnal');
+  end
+  else if Self.Jenis = 'E' then begin
+    q := OpenRS('SELECT * FROM tbl_jurnal_head WHERE no_jurnal = ''%s''',[Self.EditKey]);
+    cxtNoBukti.Text := Self.EditKey;
+    cxdTgl.Date := q.FieldByName('tanggal').AsDateTime;
+    cxtKeterangan.Text := q.FieldByName('keterangan').AsString;
+    q.Close;
+
+    q := OpenRS('SELECT * FROM tbl_jurnal_det WHERE no_jurnal = ''%s''',[Self.EditKey]);
+    while not q.Eof do begin
+      with cxtbJurnalUmum.DataController do begin
+        i := AppendRecord;
+        Values[i, cxColNoAkun.Index] := q.FieldByName('akun').AsString;
+        Values[i, cxColNamaAkun.Index] := q.FieldByName('akun').AsString;
+        Values[i, cxColDebet.Index] := q.FieldByName('debet').AsFloat;
+        Values[i, cxColKredit.Index] := q.FieldByName('kredit').AsFloat;
+        Values[i, cxColKeterangan.Index] := q.FieldByName('keterangan').AsString;
+      end;
+      q.Next;
+    end;
+
   end;
 end;
 

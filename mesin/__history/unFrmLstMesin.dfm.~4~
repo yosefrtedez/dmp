@@ -28,9 +28,9 @@ inherited frmLstMesin: TfrmLstMesin
       ExplicitTop = 14
     end
     inherited btnEdit: TButton
-      Top = 14
+      Top = 6
       OnClick = btnEditClick
-      ExplicitTop = 14
+      ExplicitTop = 6
     end
     inherited btnHapus: TButton
       Top = 14
@@ -50,9 +50,9 @@ inherited frmLstMesin: TfrmLstMesin
     Height = 410
     Align = alClient
     TabOrder = 2
-    object cxtbMesin: TcxGridDBTableView
+    object cxtbCustomer: TcxGridDBTableView
       NavigatorButtons.ConfirmDelete = False
-      DataController.DataSource = dsMesin
+      DataController.DataSource = dsCustomer
       DataController.Summary.DefaultGroupSummaryItems = <>
       DataController.Summary.FooterSummaryItems = <>
       DataController.Summary.SummaryGroups = <>
@@ -60,22 +60,22 @@ inherited frmLstMesin: TfrmLstMesin
       OptionsData.Appending = True
       OptionsData.Editing = False
       OptionsData.Inserting = False
-      object cxtbMesinkode: TcxGridDBColumn
+      object cxtbCustomerkode: TcxGridDBColumn
         Caption = 'Kode Mesin'
         DataBinding.FieldName = 'kode'
       end
-      object cxtbMesinnama: TcxGridDBColumn
+      object cxtbCustomernama: TcxGridDBColumn
         Caption = 'Nama Mesin'
         DataBinding.FieldName = 'nama'
         Width = 224
       end
-      object cxtbMesinlokasi: TcxGridDBColumn
+      object cxtbCustomerlokasi: TcxGridDBColumn
         Caption = 'Lokasi'
         DataBinding.FieldName = 'lokasi'
       end
     end
     object cxgCustomerLevel1: TcxGridLevel
-      GridView = cxtbMesin
+      GridView = cxtbCustomer
     end
   end
   object zqrMesin: TZReadOnlyQuery
@@ -86,7 +86,7 @@ inherited frmLstMesin: TfrmLstMesin
     Left = 824
     Top = 192
   end
-  object dsMesin: TDataSource
+  object dsCustomer: TDataSource
     DataSet = zqrMesin
     Left = 896
     Top = 192

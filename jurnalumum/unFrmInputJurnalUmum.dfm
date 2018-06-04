@@ -9,9 +9,11 @@ inherited frmInputJurnalUmum: TfrmInputJurnalUmum
   TextHeight = 13
   inherited Panel1: TPanel
     Width = 995
+    ExplicitWidth = 995
   end
   inherited Panel2: TPanel
     Width = 995
+    ExplicitWidth = 995
     inherited btnSimpan: TButton
       OnClick = btnSimpanClick
     end
@@ -159,7 +161,7 @@ inherited frmInputJurnalUmum: TfrmInputJurnalUmum
       end
       object cxColKeterangan: TcxGridColumn
         Caption = 'Keterangan'
-        Width = 269
+        Width = 388
       end
     end
     object cxGrdLevel1: TcxGridLevel

@@ -20,14 +20,14 @@ uses
 
 type
   TfrmLstMesin = class(TfrmTplGrid)
-    cxtbMesin: TcxGridDBTableView;
+    cxtbCustomer: TcxGridDBTableView;
     cxgCustomerLevel1: TcxGridLevel;
     cxgCustomer: TcxGrid;
     zqrMesin: TZReadOnlyQuery;
-    dsMesin: TDataSource;
-    cxtbMesinnama: TcxGridDBColumn;
-    cxtbMesinkode: TcxGridDBColumn;
-    cxtbMesinlokasi: TcxGridDBColumn;
+    dsCustomer: TDataSource;
+    cxtbCustomernama: TcxGridDBColumn;
+    cxtbCustomerkode: TcxGridDBColumn;
+    cxtbCustomerlokasi: TcxGridDBColumn;
     Label13: TLabel;
     procedure btnTambahClick(Sender: TObject);
     procedure btnEditClick(Sender: TObject);

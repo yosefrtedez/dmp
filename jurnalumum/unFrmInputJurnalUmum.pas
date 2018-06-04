@@ -273,10 +273,35 @@ begin
 end;
 
 procedure TfrmInputJurnalUmum.FormShow(Sender: TObject);
+var
+  q: TZQuery;
+  i: integer;
 begin
   inherited;
   if Self.Jenis = 'T' then begin
     cxtNoBukti.Text := GetLastFak('jurnal');
+  end
+  else if Self.Jenis = 'E' then begin
+    q := OpenRS('SELECT * FROM tbl_jurnal_head WHERE no_jurnal = ''%s''',[Self.EditKey]);
+    cxtNoBukti.Text := Self.EditKey;
+    cxdTgl.Date := q.FieldByName('tanggal').AsDateTime;
+    cxtKeterangan.Text := q.FieldByName('keterangan').AsString;
+    q.Close;
+
+    q := OpenRS('SELECT * FROM tbl_jurnal_det WHERE no_jurnal = ''%s''',[Self.EditKey]);
+    while not q.Eof do begin
+      with cxtbJurnalUmum.DataController do begin
+        i := AppendRecord;
+        Values[i, cxColNoAkun.Index] := q.FieldByName('akun').AsString;
+        Values[i, cxColNamaAkun.Index] := q.FieldByName('akun').AsString;
+        Values[i, cxColDebet.Index] := q.FieldByName('debet').AsFloat;
+        Values[i, cxColKredit.Index] := q.FieldByName('kredit').AsFloat;
+        Values[i, cxColKeterangan.Index] := q.FieldByName('keterangan').AsString;
+      end;
+      q.Next;
+    end;
+    q.Close;
+
   end;
 end;
 

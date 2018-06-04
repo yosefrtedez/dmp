@@ -9,9 +9,6 @@ inherited frmLstJurnalUmum: TfrmLstJurnalUmum
     inherited btnTambah: TButton
       OnClick = btnTambahClick
     end
-    inherited btnEdit: TButton
-      OnClick = btnEditClick
-    end
     inherited btnRefresh: TButton
       OnClick = btnRefreshClick
     end
