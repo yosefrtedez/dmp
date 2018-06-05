@@ -34,7 +34,8 @@ uses
   unFrmCari in 'unFrmCari.pas' {frmCari},
   unFrmInputCOA in 'coa\unFrmInputCOA.pas' {frmInputCOA},
   unFrmLstJurnalUmum in 'jurnalumum\unFrmLstJurnalUmum.pas' {frmLstJurnalUmum},
-  unFrmInputJurnalUmum in 'jurnalumum\unFrmInputJurnalUmum.pas' {frmInputJurnalUmum};
+  unFrmInputJurnalUmum in 'jurnalumum\unFrmInputJurnalUmum.pas' {frmInputJurnalUmum},
+  unFrmAppPP in 'permintaanpembelian\unFrmAppPP.pas' {frmAppPP};
 
 {$R *.res}
 
@@ -44,6 +45,7 @@ begin
   Application.CreateForm(TDM, DM);
   Application.CreateForm(TfrmUtama, frmUtama);
   Application.CreateForm(TfrmLogin, frmLogin);
+  Application.CreateForm(TfrmAppPP, frmAppPP);
   frmUtama.Show;
 
   frmLogin.ShowModal;

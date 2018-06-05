@@ -41,16 +41,11 @@ inherited frmLstPP: TfrmLstPP
     end
   end
   object cxgrd1PP: TcxGrid
-    Left = 0
-    Top = 49
-    Width = 1110
-    Height = 410
-    Align = alClient
+    Left = 15
+    Top = 57
+    Width = 1068
+    Height = 380
     TabOrder = 2
-    ExplicitLeft = 15
-    ExplicitTop = 57
-    ExplicitWidth = 1068
-    ExplicitHeight = 380
     object cxgtblPP: TcxGridDBTableView
       NavigatorButtons.ConfirmDelete = False
       DataController.DataSource = dsPPHead

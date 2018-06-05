@@ -131,6 +131,9 @@
 			<DCCReference Include="jurnalumum\unFrmInputJurnalUmum.pas">
 				<Form>frmInputJurnalUmum</Form>
 			</DCCReference>
+			<DCCReference Include="permintaanpembelian\unFrmAppPP.pas">
+				<Form>frmAppPP</Form>
+			</DCCReference>
 			<BuildConfiguration Include="Base">
 				<Key>Base</Key>
 			</BuildConfiguration>
