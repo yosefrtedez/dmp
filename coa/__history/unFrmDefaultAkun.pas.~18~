@@ -1,0 +1,101 @@
+unit unFrmDefaultAkun;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, unFrmTplInput, StdCtrls, ExtCtrls, cxGraphics, cxControls,
+  cxLookAndFeels, cxLookAndFeelPainters, cxStyles, dxSkinsCore, dxSkinBlack,
+  dxSkinBlue, dxSkinCaramel, dxSkinCoffee, dxSkinDarkRoom, dxSkinDarkSide,
+  dxSkinFoggy, dxSkinGlassOceans, dxSkiniMaginary, dxSkinLilian,
+  dxSkinLiquidSky, dxSkinLondonLiquidSky, dxSkinMcSkin, dxSkinMoneyTwins,
+  dxSkinOffice2007Black, dxSkinOffice2007Blue, dxSkinOffice2007Green,
+  dxSkinOffice2007Pink, dxSkinOffice2007Silver, dxSkinOffice2010Black,
+  dxSkinOffice2010Blue, dxSkinOffice2010Silver, dxSkinPumpkin, dxSkinSeven,
+  dxSkinSharp, dxSkinSilver, dxSkinSpringTime, dxSkinStardust, dxSkinSummer2008,
+  dxSkinsDefaultPainters, dxSkinValentine, dxSkinXmas2008Blue,
+  dxSkinscxPCPainter, cxCustomData, cxFilter, cxData, cxDataStorage, cxEdit,
+  cxGridCustomTableView, cxGridTableView, cxGridCustomView, cxClasses, ZDataset,
+  cxGridLevel, cxGrid, cxDBLookupComboBox, DB, ZAbstractRODataset, cxTextEdit;
+
+type
+  TfrmDefaultAkun = class(TfrmTplInput)
+    cxGrid1Level1: TcxGridLevel;
+    cxGrid1: TcxGrid;
+    cxtbDefaultAkun: TcxGridTableView;
+    cxColJenis: TcxGridColumn;
+    cxColNamaAkun: TcxGridColumn;
+    cxColNoAkun: TcxGridColumn;
+    zqrDefaultAkun: TZReadOnlyQuery;
+    dsDefaultAkun: TDataSource;
+    cxColID: TcxGridColumn;
+    Label13: TLabel;
+    procedure FormShow(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+    procedure cxtbDefaultAkunDataControllerRecordChanged(
+      ADataController: TcxCustomDataController; ARecordIndex,
+      AItemIndex: Integer);
+    procedure btnSimpanClick(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmDefaultAkun: TfrmDefaultAkun;
+
+implementation
+
+uses unDM, unTools;
+
+{$R *.dfm}
+
+procedure TfrmDefaultAkun.btnSimpanClick(Sender: TObject);
+var
+  q: TZQuery;
+  i: integer;
+begin
+  inherited;
+  with cxtbDefaultAkun.DataController do begin
+    for i := 0 to RecordCount - 1 do begin
+      q := OpenRS('SELECT * FROM tbl_default_akun WHERE id = %s', [i, cxColID.Index]);
+    end;
+  end;
+end;
+
+procedure TfrmDefaultAkun.cxtbDefaultAkunDataControllerRecordChanged(
+  ADataController: TcxCustomDataController; ARecordIndex, AItemIndex: Integer);
+begin
+  inherited;
+  if AItemIndex = cxColNamaAkun.Index then
+    ADataController.Values[ARecordIndex, cxColNoAkun.Index] := ADataController.Values[ARecordIndex, cxColNamaAkun.Index];
+end;
+
+procedure TfrmDefaultAkun.FormCreate(Sender: TObject);
+begin
+  inherited;
+  zqrDefaultAkun.Open;
+end;
+
+procedure TfrmDefaultAkun.FormShow(Sender: TObject);
+var
+  q: TZQuery;
+  i: integer;
+begin
+  inherited;
+  q := OpenRS('SELECT * FROM tbl_default_akun');
+  while not q.Eof do begin
+    with cxtbDefaultAkun.DataController do begin
+      i := AppendRecord;
+      Values[i, cxColJenis.Index] := q.FieldByName('nama').AsString;
+      Values[i, cxColNamaAkun.Index] := q.FieldByName('noakun').AsString;
+      Values[i, cxColNoAkun.Index] := q.FieldByName('noakun').AsString;
+      Values[i, cxColID.Index] := q.FieldByName('id').Value;
+    end;
+    q.Next;
+  end;
+  q.Close;
+end;
+
+end.

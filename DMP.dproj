@@ -134,6 +134,9 @@
 			<DCCReference Include="permintaanpembelian\unFrmAppPP.pas">
 				<Form>frmAppPP</Form>
 			</DCCReference>
+			<DCCReference Include="coa\unFrmDefaultAkun.pas">
+				<Form>frmDefaultAkun</Form>
+			</DCCReference>
 			<BuildConfiguration Include="Base">
 				<Key>Base</Key>
 			</BuildConfiguration>

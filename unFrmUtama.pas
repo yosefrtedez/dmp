@@ -49,6 +49,7 @@ type
     mnApp_PO: TMenuItem;
     mnAKT: TMenuItem;
     mnAKT_JurnalUmum: TMenuItem;
+    mnAKT_SetDefaultAkun: TMenuItem;
     procedure FormShow(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure mnMst_BarangJasaClick(Sender: TObject);
@@ -65,6 +66,7 @@ type
     procedure mnPur_PPClick(Sender: TObject);
     procedure mnMst_COAClick(Sender: TObject);
     procedure mnAKT_JurnalUmumClick(Sender: TObject);
+    procedure mnAKT_SetDefaultAkunClick(Sender: TObject);
   private
     procedure PGChange(Sender: TObject);
   public
@@ -84,7 +86,7 @@ implementation
 uses
   unTools, unFrmLstBarangJasa, unFrmLstCustomer, unFrmLstSupplier,
   unFrmLstMesin, unFrmLstUser, unFrmLstLain2, unDM, unFrmLstKaryawan,
-  unFrmLstSO, unFrmLstPP, unFrmLstCOA, unFrmLstJurnalUmum;
+  unFrmLstSO, unFrmLstPP, unFrmLstCOA, unFrmLstJurnalUmum, unFrmDefaultAkun;
 
 {$R *.dfm}
 
@@ -152,6 +154,25 @@ begin
     ts.PageControl := pgMain;
 
     f := TfrmLstJurnalUmum.Create(Self);
+    f.Parent := ts;
+    ts.Caption := f.Caption;
+    f.Show;
+
+    pgMain.ActivePage := ts;
+  end;
+end;
+
+procedure TfrmUtama.mnAKT_SetDefaultAkunClick(Sender: TObject);
+var
+  f: TfrmDefaultAkun;
+  ts: TcxTabSheet;
+begin
+  if not CekTabOpen('Sales Order') then begin
+    ToggleMainPage;
+    ts := TcxTabSheet.Create(Self);
+    ts.PageControl := pgMain;
+
+    f := TfrmDefaultAkun.Create(Self);
     f.Parent := ts;
     ts.Caption := f.Caption;
     f.Show;

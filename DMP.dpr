@@ -35,7 +35,8 @@ uses
   unFrmInputCOA in 'coa\unFrmInputCOA.pas' {frmInputCOA},
   unFrmLstJurnalUmum in 'jurnalumum\unFrmLstJurnalUmum.pas' {frmLstJurnalUmum},
   unFrmInputJurnalUmum in 'jurnalumum\unFrmInputJurnalUmum.pas' {frmInputJurnalUmum},
-  unFrmAppPP in 'permintaanpembelian\unFrmAppPP.pas' {frmAppPP};
+  unFrmAppPP in 'permintaanpembelian\unFrmAppPP.pas' {frmAppPP},
+  unFrmDefaultAkun in 'coa\unFrmDefaultAkun.pas' {frmDefaultAkun};
 
 {$R *.res}
 
@@ -46,6 +47,7 @@ begin
   Application.CreateForm(TfrmUtama, frmUtama);
   Application.CreateForm(TfrmLogin, frmLogin);
   Application.CreateForm(TfrmAppPP, frmAppPP);
+  Application.CreateForm(TfrmDefaultAkun, frmDefaultAkun);
   frmUtama.Show;
 
   frmLogin.ShowModal;

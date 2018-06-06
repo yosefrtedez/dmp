@@ -167,6 +167,10 @@ object frmUtama: TfrmUtama
         Caption = 'Jurnal Umum'
         OnClick = mnAKT_JurnalUmumClick
       end
+      object mnAKT_SetDefaultAkun: TMenuItem
+        Caption = 'Setting Default Akun'
+        OnClick = mnAKT_SetDefaultAkunClick
+      end
     end
   end
 end
