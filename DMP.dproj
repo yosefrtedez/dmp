@@ -140,6 +140,9 @@
 			<DCCReference Include="masterorder\unFrmMasterOrder.pas">
 				<Form>frmMasterOrder</Form>
 			</DCCReference>
+			<DCCReference Include="setting\unFrmSettingWewenang.pas">
+				<Form>frmSettingWewenang</Form>
+			</DCCReference>
 			<BuildConfiguration Include="Base">
 				<Key>Base</Key>
 			</BuildConfiguration>

@@ -49,6 +49,9 @@ type
     mnApp_PO: TMenuItem;
     mnAKT: TMenuItem;
     mnAKT_JurnalUmum: TMenuItem;
+    mnAKT_SetDefaultAkun: TMenuItem;
+    mnSet: TMenuItem;
+    mnSet_WewenangUser: TMenuItem;
     procedure FormShow(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure mnMst_BarangJasaClick(Sender: TObject);
@@ -64,6 +67,10 @@ type
     procedure mnMkt_SalesOrderClick(Sender: TObject);
     procedure mnPur_PPClick(Sender: TObject);
     procedure mnMst_COAClick(Sender: TObject);
+    procedure mnAKT_JurnalUmumClick(Sender: TObject);
+    procedure mnAKT_SetDefaultAkunClick(Sender: TObject);
+    procedure mnPpic_MasterOrderClick(Sender: TObject);
+    procedure mnSys_LogOffClick(Sender: TObject);
   private
     procedure PGChange(Sender: TObject);
   public
@@ -83,7 +90,8 @@ implementation
 uses
   unTools, unFrmLstBarangJasa, unFrmLstCustomer, unFrmLstSupplier,
   unFrmLstMesin, unFrmLstUser, unFrmLstLain2, unDM, unFrmLstKaryawan,
-  unFrmLstSO, unFrmLstPP, unFrmLstCOA;
+  unFrmLstSO, unFrmLstPP, unFrmLstCOA, unFrmLstJurnalUmum, unFrmDefaultAkun,
+  unFrmMasterOrder;
 
 {$R *.dfm}
 
@@ -138,6 +146,44 @@ procedure TfrmUtama.FormShow(Sender: TObject);
 begin
   Self.WindowState := wsMaximized;
   Self.BuildMenu;
+end;
+
+procedure TfrmUtama.mnAKT_JurnalUmumClick(Sender: TObject);
+var
+  f: TfrmLstJurnalUmum;
+  ts: TcxTabSheet;
+begin
+  if not CekTabOpen('Jurnal Umum') then begin
+    ToggleMainPage;
+    ts := TcxTabSheet.Create(Self);
+    ts.PageControl := pgMain;
+
+    f := TfrmLstJurnalUmum.Create(Self);
+    f.Parent := ts;
+    ts.Caption := f.Caption;
+    f.Show;
+
+    pgMain.ActivePage := ts;
+  end;
+end;
+
+procedure TfrmUtama.mnAKT_SetDefaultAkunClick(Sender: TObject);
+var
+  f: TfrmDefaultAkun;
+  ts: TcxTabSheet;
+begin
+  if not CekTabOpen('Sales Order') then begin
+    ToggleMainPage;
+    ts := TcxTabSheet.Create(Self);
+    ts.PageControl := pgMain;
+
+    f := TfrmDefaultAkun.Create(Self);
+    f.Parent := ts;
+    ts.Caption := f.Caption;
+    f.Show;
+
+    pgMain.ActivePage := ts;
+  end;
 end;
 
 procedure TfrmUtama.mnMkt_SalesOrderClick(Sender: TObject);
@@ -311,6 +357,25 @@ begin
   end;
 end;
 
+procedure TfrmUtama.mnPpic_MasterOrderClick(Sender: TObject);
+var
+  f: TfrmMasterOrder;
+  ts: TcxTabSheet;
+begin
+  if not CekTabOpen('Master Order') then begin
+    ToggleMainPage;
+    ts := TcxTabSheet.Create(Self);
+    ts.PageControl := pgMain;
+
+    f := TfrmMasterOrder.Create(Self);
+    f.Parent := ts;
+    ts.Caption := f.Caption;
+    f.Show;
+
+    pgMain.ActivePage := ts;
+  end;
+end;
+
 procedure TfrmUtama.mnPur_PPClick(Sender: TObject);
 var
   f: TfrmLstPP;
@@ -333,6 +398,15 @@ end;
 procedure TfrmUtama.mnSys_KeluarClick(Sender: TObject);
 begin
   Application.Terminate;
+end;
+
+procedure TfrmUtama.mnSys_LogOffClick(Sender: TObject);
+begin
+  Aplikasi.NamaUser := '';
+  Aplikasi.UserDept := '';
+  Aplikasi.EmailUser := '';
+  Aplikasi.Jabatan := '';
+
 end;
 
 procedure TfrmUtama.mnSys_TutupTabClick(Sender: TObject);

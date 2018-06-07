@@ -85,6 +85,7 @@ object frmUtama: TfrmUtama
       end
       object mnSys_LogOff: TMenuItem
         Caption = 'Log Off - Ganti User'
+        OnClick = mnSys_LogOffClick
       end
       object mnSys_Keluar: TMenuItem
         Caption = 'Keluar'
@@ -171,6 +172,13 @@ object frmUtama: TfrmUtama
       object mnAKT_SetDefaultAkun: TMenuItem
         Caption = 'Setting Default Akun'
         OnClick = mnAKT_SetDefaultAkunClick
+      end
+    end
+    object mnSet: TMenuItem
+      Caption = 'Setting'
+      object mnSet_WewenangUser: TMenuItem
+        Caption = 'Wewenang User'
+        OnClick = mnSet_WewenangUserClick
       end
     end
   end

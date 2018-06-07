@@ -37,7 +37,8 @@ uses
   unFrmInputJurnalUmum in 'jurnalumum\unFrmInputJurnalUmum.pas' {frmInputJurnalUmum},
   unFrmAppPP in 'permintaanpembelian\unFrmAppPP.pas' {frmAppPP},
   unFrmDefaultAkun in 'coa\unFrmDefaultAkun.pas' {frmDefaultAkun},
-  unFrmMasterOrder in 'masterorder\unFrmMasterOrder.pas' {frmMasterOrder};
+  unFrmMasterOrder in 'masterorder\unFrmMasterOrder.pas' {frmMasterOrder},
+  unFrmSettingWewenang in 'setting\unFrmSettingWewenang.pas' {frmSettingWewenang};
 
 {$R *.res}
 
@@ -50,6 +51,7 @@ begin
   Application.CreateForm(TfrmAppPP, frmAppPP);
   Application.CreateForm(TfrmDefaultAkun, frmDefaultAkun);
   Application.CreateForm(TfrmMasterOrder, frmMasterOrder);
+  Application.CreateForm(TfrmSettingWewenang, frmSettingWewenang);
   frmUtama.Show;
 
   frmLogin.ShowModal;

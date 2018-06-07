@@ -50,6 +50,8 @@ type
     mnAKT: TMenuItem;
     mnAKT_JurnalUmum: TMenuItem;
     mnAKT_SetDefaultAkun: TMenuItem;
+    mnSet: TMenuItem;
+    mnSet_WewenangUser: TMenuItem;
     procedure FormShow(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure mnMst_BarangJasaClick(Sender: TObject);
@@ -68,6 +70,8 @@ type
     procedure mnAKT_JurnalUmumClick(Sender: TObject);
     procedure mnAKT_SetDefaultAkunClick(Sender: TObject);
     procedure mnPpic_MasterOrderClick(Sender: TObject);
+    procedure mnSys_LogOffClick(Sender: TObject);
+    procedure mnSet_WewenangUserClick(Sender: TObject);
   private
     procedure PGChange(Sender: TObject);
   public
@@ -88,7 +92,7 @@ uses
   unTools, unFrmLstBarangJasa, unFrmLstCustomer, unFrmLstSupplier,
   unFrmLstMesin, unFrmLstUser, unFrmLstLain2, unDM, unFrmLstKaryawan,
   unFrmLstSO, unFrmLstPP, unFrmLstCOA, unFrmLstJurnalUmum, unFrmDefaultAkun,
-  unFrmMasterOrder;
+  unFrmMasterOrder, unFrmLogin, unFrmSettingWewenang;
 
 {$R *.dfm}
 
@@ -375,6 +379,25 @@ end;
 
 procedure TfrmUtama.mnPur_PPClick(Sender: TObject);
 var
+  f: TfrmSettingWewenang;
+  ts: TcxTabSheet;
+begin
+  if not CekTabOpen('Permintaan Pembelian') then begin
+    ToggleMainPage;
+    ts := TcxTabSheet.Create(Self);
+    ts.PageControl := pgMain;
+
+    f := TfrmSettingWewenang.Create(Self);
+    f.Parent := ts;
+    ts.Caption := f.Caption;
+    f.Show;
+
+    pgMain.ActivePage := ts;
+  end;
+end;
+
+procedure TfrmUtama.mnSet_WewenangUserClick(Sender: TObject);
+var
   f: TfrmLstPP;
   ts: TcxTabSheet;
 begin
@@ -395,6 +418,24 @@ end;
 procedure TfrmUtama.mnSys_KeluarClick(Sender: TObject);
 begin
   Application.Terminate;
+end;
+
+procedure TfrmUtama.mnSys_LogOffClick(Sender: TObject);
+var
+  f: TFrmLogin;
+begin
+  Aplikasi.NamaUser := '';
+  Aplikasi.UserDept := '';
+  Aplikasi.EmailUser := '';
+  Aplikasi.Jabatan := '';
+
+  frmUtama.stsBar.Panels[1].Text := '';
+  frmUtama.stsBar.Panels[2].Text := '';
+  frmUtama.stsBar.Panels[3].Text := '';
+  frmUtama.stsBar.Panels[4].Text := '';
+
+  f := TfrmLogin.Create(Self);
+  f.ShowModal;
 end;
 
 procedure TfrmUtama.mnSys_TutupTabClick(Sender: TObject);
