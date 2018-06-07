@@ -69,7 +69,7 @@ uses unTools, unDM;
 procedure TfrmInputJurnalUmum.btnSimpanClick(Sender: TObject);
 var
   t1, t2: real;
-  i: integer;
+  i, ID: integer;
   f0: Boolean;
   qh, qd: TZQuery;
   sNoBukti: string;
@@ -159,6 +159,7 @@ begin
         qh.FieldByName('keterangan').AsString := Trim(cxtKeterangan.Text);
         qh.FieldByName('user').AsString := Aplikasi.NamaUser;
         qh.Post;
+        ID := LastInsertID;
 
         qd := OpenRS('SELECT * FROM tbl_jurnal_det WHERE no_jurnal = ''%s''',[sNoBukti]);
         for i := 0 to RecordCount - 1 do begin
@@ -275,6 +276,7 @@ end;
 procedure TfrmInputJurnalUmum.FormShow(Sender: TObject);
 var
   q: TZQuery;
+  i: integer;
 begin
   inherited;
   if Self.Jenis = 'T' then begin
@@ -285,6 +287,22 @@ begin
     cxtNoBukti.Text := Self.EditKey;
     cxdTgl.Date := q.FieldByName('tanggal').AsDateTime;
     cxtKeterangan.Text := q.FieldByName('keterangan').AsString;
+    q.Close;
+
+    q := OpenRS('SELECT * FROM tbl_jurnal_det WHERE no_jurnal = ''%s''',[Self.EditKey]);
+    while not q.Eof do begin
+      with cxtbJurnalUmum.DataController do begin
+        i := AppendRecord;
+        Values[i, cxColNoAkun.Index] := q.FieldByName('akun').AsString;
+        Values[i, cxColNamaAkun.Index] := q.FieldByName('akun').AsString;
+        Values[i, cxColDebet.Index] := q.FieldByName('debet').AsFloat;
+        Values[i, cxColKredit.Index] := q.FieldByName('kredit').AsFloat;
+        Values[i, cxColKeterangan.Index] := q.FieldByName('keterangan').AsString;
+      end;
+      q.Next;
+    end;
+    q.Close;
+
   end;
 end;
 

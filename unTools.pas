@@ -72,7 +72,18 @@ function GetFakturSrtPenawaran: string;
 procedure OpenSQL(lst: TList);
 procedure SplitStr(const Source, Delimiter: String; var DelimitedList: TStringList);
 
+function LastInsertID: Integer;
+
 implementation
+
+function LastInsertID: integer;
+var
+  q: TZQuery;
+begin
+  q := OpenRS('SELECT last_insert_id() as aidi',[]);
+  Result := q.FieldByName('aidi').AsInteger;
+  q.Close;
+end;
 
 function UnFormat(s:string): string;
 var

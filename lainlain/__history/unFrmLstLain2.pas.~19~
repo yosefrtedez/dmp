@@ -17,11 +17,11 @@ uses
   cxCustomData, cxFilter, cxData, cxDataStorage, cxEdit, DB, cxDBData,
   cxGridLevel, cxClasses, cxGridCustomView, cxGridCustomTableView,
   cxGridTableView, cxGridDBTableView, cxGrid, ZAbstractRODataset,
-  ZAbstractDataset, ZAbstractTable, ZDataset;
+  ZAbstractDataset, ZAbstractTable, ZDataset, cxCheckBox;
 
 type
   TfrmLstLain2 = class(TfrmTplGrid)
-    cxPageControl1: TcxPageControl;
+    pgLain2: TcxPageControl;
     cxTabSheet1: TcxTabSheet;
     cxTabSheet2: TcxTabSheet;
     cxGrid1DBTableView1: TcxGridDBTableView;
@@ -39,6 +39,31 @@ type
     cxColID: TcxGridDBColumn;
     cxGrid1DBTableView1kode: TcxGridDBColumn;
     Label1: TLabel;
+    cxTabSheet3: TcxTabSheet;
+    cxGrid3: TcxGrid;
+    cxtbGudang: TcxGridDBTableView;
+    cxGridLevel2: TcxGridLevel;
+    cxTabSheet4: TcxTabSheet;
+    cxGrid4: TcxGrid;
+    cxGridDBTableView3: TcxGridDBTableView;
+    cxGridDBColumn1: TcxGridDBColumn;
+    cxGridDBColumn2: TcxGridDBColumn;
+    cxGridLevel3: TcxGridLevel;
+    tblJabatan: TZTable;
+    dsJabatan: TDataSource;
+    cxTabSheet5: TcxTabSheet;
+    cxGrid5: TcxGrid;
+    cxGridDBTableView4: TcxGridDBTableView;
+    cxGridDBColumn3: TcxGridDBColumn;
+    cxGridDBColumn4: TcxGridDBColumn;
+    cxGridLevel4: TcxGridLevel;
+    tblGudang: TZTable;
+    dsGudang: TDataSource;
+    cxtbGudangid: TcxGridDBColumn;
+    cxtbGudangkode: TcxGridDBColumn;
+    cxtbGudangnama: TcxGridDBColumn;
+    cxtbGudangf_aktif: TcxGridDBColumn;
+    cxtbGudanglokasi: TcxGridDBColumn;
     procedure FormCreate(Sender: TObject);
   private
     { Private declarations }
@@ -60,6 +85,9 @@ begin
   inherited;
   tblDept.Open;
   tblKategoriBarang.Open;
+  tblJabatan.Open;
+  tblGudang.Open;
+  pgLain2.ActivePageIndex := 0;
 end;
 
 end.

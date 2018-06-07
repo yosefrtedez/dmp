@@ -37,12 +37,12 @@ inherited frmLstLain2: TfrmLstLain2
       Visible = False
     end
   end
-  object cxPageControl1: TcxPageControl
+  object pgLain2: TcxPageControl
     Left = 8
     Top = 55
     Width = 1000
     Height = 423
-    ActivePage = cxTabSheet4
+    ActivePage = cxTabSheet3
     Anchors = [akLeft, akTop, akRight, akBottom]
     Style = 7
     TabOrder = 2
@@ -83,6 +83,39 @@ inherited frmLstLain2: TfrmLstLain2
         end
       end
     end
+    object cxTabSheet5: TcxTabSheet
+      Caption = 'Sub Kategori Barang'
+      ImageIndex = 4
+      object cxGrid5: TcxGrid
+        Left = 16
+        Top = 16
+        Width = 585
+        Height = 241
+        TabOrder = 0
+        object cxGridDBTableView4: TcxGridDBTableView
+          NavigatorButtons.ConfirmDelete = False
+          DataController.DataSource = dsKategoriBarang
+          DataController.Summary.DefaultGroupSummaryItems = <>
+          DataController.Summary.FooterSummaryItems = <>
+          DataController.Summary.SummaryGroups = <>
+          OptionsView.Navigator = True
+          object cxGridDBColumn3: TcxGridDBColumn
+            Caption = 'ID'
+            DataBinding.FieldName = 'kode'
+            Options.Editing = False
+            Width = 41
+          end
+          object cxGridDBColumn4: TcxGridDBColumn
+            Caption = 'Kategori'
+            DataBinding.FieldName = 'kategori'
+            Width = 477
+          end
+        end
+        object cxGridLevel4: TcxGridLevel
+          GridView = cxGridDBTableView4
+        end
+      end
+    end
     object cxTabSheet2: TcxTabSheet
       Caption = 'Departemen'
       ImageIndex = 1
@@ -118,8 +151,6 @@ inherited frmLstLain2: TfrmLstLain2
     object cxTabSheet4: TcxTabSheet
       Caption = 'Jabatan'
       ImageIndex = 3
-      ExplicitLeft = 2
-      ExplicitTop = 22
       object cxGrid4: TcxGrid
         Left = 16
         Top = 16
@@ -128,7 +159,7 @@ inherited frmLstLain2: TfrmLstLain2
         TabOrder = 0
         object cxGridDBTableView3: TcxGridDBTableView
           NavigatorButtons.ConfirmDelete = False
-          DataController.DataSource = dsDept
+          DataController.DataSource = dsJabatan
           DataController.Summary.DefaultGroupSummaryItems = <>
           DataController.Summary.FooterSummaryItems = <>
           DataController.Summary.SummaryGroups = <>
@@ -137,11 +168,11 @@ inherited frmLstLain2: TfrmLstLain2
             Caption = 'ID'
             DataBinding.FieldName = 'id'
             Options.Editing = False
-            Width = 50
+            Width = 47
           end
           object cxGridDBColumn2: TcxGridDBColumn
             Caption = 'Jabatan'
-            DataBinding.FieldName = 'departemen'
+            DataBinding.FieldName = 'jabatan'
             Width = 291
           end
         end
@@ -159,15 +190,42 @@ inherited frmLstLain2: TfrmLstLain2
         Width = 585
         Height = 241
         TabOrder = 0
-        object cxGridDBTableView2: TcxGridDBTableView
+        object cxtbGudang: TcxGridDBTableView
           NavigatorButtons.ConfirmDelete = False
+          DataController.DataSource = dsGudang
           DataController.Summary.DefaultGroupSummaryItems = <>
           DataController.Summary.FooterSummaryItems = <>
           DataController.Summary.SummaryGroups = <>
           OptionsView.Navigator = True
+          object cxtbGudangid: TcxGridDBColumn
+            Caption = 'ID'
+            DataBinding.FieldName = 'id'
+            Options.Editing = False
+            Width = 32
+          end
+          object cxtbGudangf_aktif: TcxGridDBColumn
+            Caption = 'Aktif'
+            DataBinding.FieldName = 'f_aktif'
+            PropertiesClassName = 'TcxCheckBoxProperties'
+            Properties.ValueChecked = 1
+            Properties.ValueUnchecked = 0
+            Width = 38
+          end
+          object cxtbGudangkode: TcxGridDBColumn
+            Caption = 'Kode'
+            DataBinding.FieldName = 'kode'
+          end
+          object cxtbGudangnama: TcxGridDBColumn
+            Caption = 'Nama'
+            DataBinding.FieldName = 'nama'
+          end
+          object cxtbGudanglokasi: TcxGridDBColumn
+            Caption = 'Lokasi'
+            DataBinding.FieldName = 'lokasi'
+          end
         end
         object cxGridLevel2: TcxGridLevel
-          GridView = cxGridDBTableView2
+          GridView = cxtbGudang
         end
       end
     end
@@ -205,5 +263,37 @@ inherited frmLstLain2: TfrmLstLain2
     DataSet = tblJabatan
     Left = 880
     Top = 240
+  end
+  object tblGudang: TZTable
+    Connection = DM.zConn
+    Active = True
+    TableName = 'tbl_gudang'
+    Left = 696
+    Top = 288
+    object tblGudangid: TIntegerField
+      FieldName = 'id'
+      Required = True
+    end
+    object tblGudangkode: TWideStringField
+      FieldName = 'kode'
+      Required = True
+      Size = 10
+    end
+    object tblGudangnama: TWideStringField
+      DisplayLabel = 'Nama Gudang'
+      FieldName = 'nama'
+    end
+    object tblGudangf_aktif: TSmallintField
+      FieldName = 'f_aktif'
+    end
+    object tblGudanglokasi: TWideStringField
+      FieldName = 'lokasi'
+      Size = 50
+    end
+  end
+  object dsGudang: TDataSource
+    DataSet = tblGudang
+    Left = 880
+    Top = 296
   end
 end

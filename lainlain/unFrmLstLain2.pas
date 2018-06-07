@@ -17,7 +17,7 @@ uses
   cxCustomData, cxFilter, cxData, cxDataStorage, cxEdit, DB, cxDBData,
   cxGridLevel, cxClasses, cxGridCustomView, cxGridCustomTableView,
   cxGridTableView, cxGridDBTableView, cxGrid, ZAbstractRODataset,
-  ZAbstractDataset, ZAbstractTable, ZDataset;
+  ZAbstractDataset, ZAbstractTable, ZDataset, cxCheckBox;
 
 type
   TfrmLstLain2 = class(TfrmTplGrid)
@@ -41,7 +41,7 @@ type
     Label1: TLabel;
     cxTabSheet3: TcxTabSheet;
     cxGrid3: TcxGrid;
-    cxGridDBTableView2: TcxGridDBTableView;
+    cxtbGudang: TcxGridDBTableView;
     cxGridLevel2: TcxGridLevel;
     cxTabSheet4: TcxTabSheet;
     cxGrid4: TcxGrid;
@@ -52,6 +52,23 @@ type
     tblJabatan: TZTable;
     dsJabatan: TDataSource;
     cxTabSheet5: TcxTabSheet;
+    cxGrid5: TcxGrid;
+    cxGridDBTableView4: TcxGridDBTableView;
+    cxGridDBColumn3: TcxGridDBColumn;
+    cxGridDBColumn4: TcxGridDBColumn;
+    cxGridLevel4: TcxGridLevel;
+    tblGudang: TZTable;
+    dsGudang: TDataSource;
+    cxtbGudangid: TcxGridDBColumn;
+    cxtbGudangkode: TcxGridDBColumn;
+    cxtbGudangnama: TcxGridDBColumn;
+    cxtbGudangf_aktif: TcxGridDBColumn;
+    cxtbGudanglokasi: TcxGridDBColumn;
+    tblGudangid: TIntegerField;
+    tblGudangkode: TWideStringField;
+    tblGudangnama: TWideStringField;
+    tblGudangf_aktif: TSmallintField;
+    tblGudanglokasi: TWideStringField;
     procedure FormCreate(Sender: TObject);
   private
     { Private declarations }
@@ -74,6 +91,7 @@ begin
   tblDept.Open;
   tblKategoriBarang.Open;
   tblJabatan.Open;
+  tblGudang.Open;
   pgLain2.ActivePageIndex := 0;
 end;
 

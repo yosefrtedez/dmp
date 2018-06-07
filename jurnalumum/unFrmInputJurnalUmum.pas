@@ -69,7 +69,7 @@ uses unTools, unDM;
 procedure TfrmInputJurnalUmum.btnSimpanClick(Sender: TObject);
 var
   t1, t2: real;
-  i: integer;
+  i, ID: integer;
   f0: Boolean;
   qh, qd: TZQuery;
   sNoBukti: string;
@@ -160,9 +160,12 @@ begin
         qh.FieldByName('user').AsString := Aplikasi.NamaUser;
         qh.Post;
 
+        ID := LastInsertID;
+
         qd := OpenRS('SELECT * FROM tbl_jurnal_det WHERE no_jurnal = ''%s''',[sNoBukti]);
         for i := 0 to RecordCount - 1 do begin
           qd.Insert;
+          qd.FieldByName('id_ref').AsInteger := ID;
           qd.FieldByName('no_jurnal').AsString := sNoBukti;
           qd.FieldByName('akun').AsString := Values[i, cxColNoAkun.Index];
           qd.FieldByName('debet').AsFloat := Values[i, cxColDebet.Index];
@@ -251,6 +254,7 @@ var
   i,j: integer;
 begin
   inherited;
+  {
   try
     i := AFocusedRecord.Index;
     j := APrevFocusedRecord.Index;
@@ -263,6 +267,7 @@ begin
   finally
 
   end;
+  }
 end;
 
 procedure TfrmInputJurnalUmum.FormCreate(Sender: TObject);
