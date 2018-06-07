@@ -50,5 +50,7 @@
     <Transaction>2018/06/05 19.28.00.831.dfm,D:\108 JSP\My Project\05. Felgito\02. Source Code\Unit1.dfm=D:\108 JSP\My Project\05. Felgito\02. Source Code\permintaanpembelian\unFrmAppPP.dfm</Transaction>
     <Transaction>2018/06/05 22.33.56.726.pas,D:\108 JSP\My Project\05. Felgito\02. Source Code\Unit1.pas=D:\108 JSP\My Project\05. Felgito\02. Source Code\coa\unFrmDefaultAkun.pas</Transaction>
     <Transaction>2018/06/05 22.33.56.726.dfm,D:\108 JSP\My Project\05. Felgito\02. Source Code\Unit1.dfm=D:\108 JSP\My Project\05. Felgito\02. Source Code\coa\unFrmDefaultAkun.dfm</Transaction>
+    <Transaction>2018/06/07 14.06.38.552.pas,D:\108 JSP\My Project\05. Felgito\02. Source Code\Unit1.pas=D:\108 JSP\My Project\05. Felgito\02. Source Code\masterorder\unFrmMasterOrder.pas</Transaction>
+    <Transaction>2018/06/07 14.06.38.552.dfm,D:\108 JSP\My Project\05. Felgito\02. Source Code\Unit1.dfm=D:\108 JSP\My Project\05. Felgito\02. Source Code\masterorder\unFrmMasterOrder.dfm</Transaction>
   </Transactions>
 </BorlandProject>

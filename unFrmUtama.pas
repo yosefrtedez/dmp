@@ -67,6 +67,7 @@ type
     procedure mnMst_COAClick(Sender: TObject);
     procedure mnAKT_JurnalUmumClick(Sender: TObject);
     procedure mnAKT_SetDefaultAkunClick(Sender: TObject);
+    procedure mnPpic_MasterOrderClick(Sender: TObject);
   private
     procedure PGChange(Sender: TObject);
   public
@@ -86,7 +87,8 @@ implementation
 uses
   unTools, unFrmLstBarangJasa, unFrmLstCustomer, unFrmLstSupplier,
   unFrmLstMesin, unFrmLstUser, unFrmLstLain2, unDM, unFrmLstKaryawan,
-  unFrmLstSO, unFrmLstPP, unFrmLstCOA, unFrmLstJurnalUmum, unFrmDefaultAkun;
+  unFrmLstSO, unFrmLstPP, unFrmLstCOA, unFrmLstJurnalUmum, unFrmDefaultAkun,
+  unFrmMasterOrder;
 
 {$R *.dfm}
 
@@ -344,6 +346,25 @@ begin
     ts.PageControl := pgMain;
 
     f := TfrmLstUser.Create(Self);
+    f.Parent := ts;
+    ts.Caption := f.Caption;
+    f.Show;
+
+    pgMain.ActivePage := ts;
+  end;
+end;
+
+procedure TfrmUtama.mnPpic_MasterOrderClick(Sender: TObject);
+var
+  f: TfrmMasterOrder;
+  ts: TcxTabSheet;
+begin
+  if not CekTabOpen('Master Order') then begin
+    ToggleMainPage;
+    ts := TcxTabSheet.Create(Self);
+    ts.PageControl := pgMain;
+
+    f := TfrmMasterOrder.Create(Self);
     f.Parent := ts;
     ts.Caption := f.Caption;
     f.Show;

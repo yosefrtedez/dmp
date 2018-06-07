@@ -137,6 +137,9 @@
 			<DCCReference Include="coa\unFrmDefaultAkun.pas">
 				<Form>frmDefaultAkun</Form>
 			</DCCReference>
+			<DCCReference Include="masterorder\unFrmMasterOrder.pas">
+				<Form>frmMasterOrder</Form>
+			</DCCReference>
 			<BuildConfiguration Include="Base">
 				<Key>Base</Key>
 			</BuildConfiguration>

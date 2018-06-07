@@ -146,25 +146,28 @@ var
   q: TZQuery;
 begin
   inherited;
-  q := OpenRS('SELECT * FROM tbl_customer WHERE kode=''%s''', [Self.EditKey] );
+  if Self.Jenis = 'E' then begin
 
-  with q do begin
-    cxtKode.Text    :=FieldByName('kode').AsString;
-    cxtNama.Text    :=FieldByName('nama').AsString;
-    cxtKontak.Text  :=FieldByName('kontak').AsString;
-    cxtAlamat1.Text :=FieldByName('alamat').AsString;
-    cxtAlamat2.Text :=FieldByName('alamat2').AsString;
-    cxtKota.Text    :=FieldByName('kota').AsString;
-    cxtProvinsi.Text :=FieldByName('provinsi').AsString;
-    cxtNegara.Text   :=FieldByName('negara').AsString;
-    cxtTelepon.Text  :=FieldByName('telpon').AsString;
-    cxtFax.Text      :=FieldByName('fax').AsString;
-    cxtHP.Text       :=FieldByName('hp').AsString;
-    cxtEmail.Text    :=FieldByName('email').AsString;
-    if FieldByName('f_aktif').AsInteger = 1 then
-      cxChkAktif.Checked := True
-    else
-      cxChkAktif.Checked := False;
+    q := OpenRS('SELECT * FROM tbl_customer WHERE kode=''%s''', [Self.EditKey] );
+
+    with q do begin
+      cxtKode.Text    :=FieldByName('kode').AsString;
+      cxtNama.Text    :=FieldByName('nama').AsString;
+      cxtKontak.Text  :=FieldByName('kontak').AsString;
+      cxtAlamat1.Text :=FieldByName('alamat').AsString;
+      cxtAlamat2.Text :=FieldByName('alamat2').AsString;
+      cxtKota.Text    :=FieldByName('kota').AsString;
+      cxtProvinsi.Text :=FieldByName('provinsi').AsString;
+      cxtNegara.Text   :=FieldByName('negara').AsString;
+      cxtTelepon.Text  :=FieldByName('telpon').AsString;
+      cxtFax.Text      :=FieldByName('fax').AsString;
+      cxtHP.Text       :=FieldByName('hp').AsString;
+      cxtEmail.Text    :=FieldByName('email').AsString;
+      if FieldByName('f_aktif').AsInteger = 1 then
+        cxChkAktif.Checked := True
+      else
+        cxChkAktif.Checked := False;
+    end;
   end;
 end;
 

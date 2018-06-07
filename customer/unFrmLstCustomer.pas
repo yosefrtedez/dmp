@@ -42,6 +42,7 @@ type
     procedure FormCreate(Sender: TObject);
     procedure btnEditClick(Sender: TObject);
     procedure btnRefreshClick(Sender: TObject);
+    procedure btnHapusClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -75,6 +76,32 @@ begin
     f.Show;
 
 	  fu.pgMain.ActivePage := ts;
+  end;
+end;
+
+procedure TfrmLstCustomer.btnHapusClick(Sender: TObject);
+var
+  q : TZQuery;
+begin
+  inherited;
+   q := OpenRS('SELECT * FROM tbl_so_head_dmp where kode_customer = ''%s''',[zqrCustomer.FieldByName('kode').AsString]);
+  if not q.Eof then begin
+        MsgBox('Data tidak bisa dihapus karena memiliki transaksi.');
+        Abort;
+  end else begin
+      try
+      dm.zConn.StartTransaction;
+      dm.zConn.ExecuteDirect('DELETE from tbl_customer WHERE kode = ''' + zqrCustomer.FieldByName('kode').AsString + '''');
+      dm.zConn.Commit;
+      MsgBox('Customer: ' + zqrCustomer.FieldByName('kode').AsString + ' sudah berhasil di Hapus.');
+      zqrCustomer.Close;
+      zqrCustomer.Open;
+    except
+      on E: Exception do begin
+        MsgBox('Error: ' + E.Message);
+        dm.zConn.Rollback;
+      end;
+    end;
   end;
 end;
 

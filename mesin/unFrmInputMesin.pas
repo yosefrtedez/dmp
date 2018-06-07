@@ -195,30 +195,33 @@ begin
 
   zqrLokasi.Open;
 
-  q := OpenRS('SELECT * FROM tbl_mesin WHERE kode=''%s''', [Self.EditKey] );
+  if Self.Jenis= 'E' then begin
+    q := OpenRS('SELECT * FROM tbl_mesin WHERE kode=''%s''', [Self.EditKey] );
 
-  with q do begin
-    cxtKode.Text            := FieldByName('kode').AsString;
-    cxtNama.Text            := FieldByName('nama').AsString;
-    cxlLokasi.Text          := FieldByName('lokasi').AsString;
-    cxsJmlPersonil.Value    := FieldByName('jml_personil').AsInteger;
-    cxCmbGrupMesin.Text     := FieldByName('jenis').AsString;
-    cxsCycle.Value          := FieldByName('cycle_time').AsFloat;
-    cxsSetup.Value          := FieldByName('setup_time').AsFloat;
-    cxsWait.Value           := FieldByName('wait_time').AsFloat;
-    cxsOutput.Value         := FieldByName('output').AsFloat;
-    cxsMotor.Value          := FieldByName('daya_motor').AsFloat;
-    cxsHeater.Value         := FieldByName('daya_heater').AsFloat;
-    cxsLine.Value           := FieldByName('line').AsFloat;
-    cxlSatuan.Text          := FieldByName('satuan').AsString;
-    cxsDie.Value            := FieldByName('die').AsFloat;
-    cxsOperatorSet.Value    := FieldByName('operator_setup').AsString;
-    if FieldByName('f_aktif').AsInteger = 1 then
-      cxChkAktif.Checked := True
-    else
-      cxChkAktif.Checked := False;
+    with q do begin
+      cxtKode.Text            := FieldByName('kode').AsString;
+      cxtNama.Text            := FieldByName('nama').AsString;
+      cxlLokasi.Text          := FieldByName('lokasi').AsString;
+      cxsJmlPersonil.Value    := FieldByName('jml_personil').AsInteger;
+      cxCmbGrupMesin.Text     := FieldByName('jenis').AsString;
+      cxsCycle.Value          := FieldByName('cycle_time').AsFloat;
+      cxsSetup.Value          := FieldByName('setup_time').AsFloat;
+      cxsWait.Value           := FieldByName('wait_time').AsFloat;
+      cxsOutput.Value         := FieldByName('output').AsFloat;
+      cxsMotor.Value          := FieldByName('daya_motor').AsFloat;
+      cxsHeater.Value         := FieldByName('daya_heater').AsFloat;
+      cxsLine.Value           := FieldByName('line').AsFloat;
+      cxlSatuan.Text          := FieldByName('satuan').AsString;
+      cxsDie.Value            := FieldByName('die').AsFloat;
+      cxsOperatorSet.Value    := FieldByName('operator_setup').AsString;
+      if FieldByName('f_aktif').AsInteger = 1 then
+        cxChkAktif.Checked := True
+      else
+        cxChkAktif.Checked := False;
+    end;
   end;
 end;
+
 
 end.
 

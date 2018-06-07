@@ -36,7 +36,8 @@ uses
   unFrmLstJurnalUmum in 'jurnalumum\unFrmLstJurnalUmum.pas' {frmLstJurnalUmum},
   unFrmInputJurnalUmum in 'jurnalumum\unFrmInputJurnalUmum.pas' {frmInputJurnalUmum},
   unFrmAppPP in 'permintaanpembelian\unFrmAppPP.pas' {frmAppPP},
-  unFrmDefaultAkun in 'coa\unFrmDefaultAkun.pas' {frmDefaultAkun};
+  unFrmDefaultAkun in 'coa\unFrmDefaultAkun.pas' {frmDefaultAkun},
+  unFrmMasterOrder in 'masterorder\unFrmMasterOrder.pas' {frmMasterOrder};
 
 {$R *.res}
 
@@ -48,6 +49,7 @@ begin
   Application.CreateForm(TfrmLogin, frmLogin);
   Application.CreateForm(TfrmAppPP, frmAppPP);
   Application.CreateForm(TfrmDefaultAkun, frmDefaultAkun);
+  Application.CreateForm(TfrmMasterOrder, frmMasterOrder);
   frmUtama.Show;
 
   frmLogin.ShowModal;

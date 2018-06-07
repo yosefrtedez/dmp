@@ -28,6 +28,9 @@ inherited frmLstCustomer: TfrmLstCustomer
     inherited btnEdit: TButton
       OnClick = btnEditClick
     end
+    inherited btnHapus: TButton
+      OnClick = btnHapusClick
+    end
     inherited btnRefresh: TButton
       OnClick = btnRefreshClick
     end

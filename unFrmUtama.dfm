@@ -137,6 +137,7 @@ object frmUtama: TfrmUtama
       Caption = 'PPIC'
       object mnPpic_MasterOrder: TMenuItem
         Caption = 'Master Order'
+        OnClick = mnPpic_MasterOrderClick
       end
     end
     object PRD1: TMenuItem

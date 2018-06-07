@@ -28,7 +28,15 @@ uses
   unFrmLstSO in 'salesorder\unFrmLstSO.pas' {frmLstSO},
   unFrmLstPO in 'purchaseorder\unFrmLstPO.pas' {frmLstPO},
   unFrmInputPO in 'purchaseorder\unFrmInputPO.pas' {frmInputPO},
-  unFrmLstPP in 'permintaanpembelian\unFrmLstPP.pas' {frmLstPP};
+  unFrmLstPP in 'permintaanpembelian\unFrmLstPP.pas' {frmLstPP},
+  unFrmInputPP in 'permintaanpembelian\unFrmInputPP.pas' {frmInputPP},
+  unFrmLstCOA in 'coa\unFrmLstCOA.pas' {frmLstCOA},
+  unFrmCari in 'unFrmCari.pas' {frmCari},
+  unFrmInputCOA in 'coa\unFrmInputCOA.pas' {frmInputCOA},
+  unFrmLstJurnalUmum in 'jurnalumum\unFrmLstJurnalUmum.pas' {frmLstJurnalUmum},
+  unFrmInputJurnalUmum in 'jurnalumum\unFrmInputJurnalUmum.pas' {frmInputJurnalUmum},
+  unFrmAppPP in 'permintaanpembelian\unFrmAppPP.pas' {frmAppPP},
+  unFrmDefaultAkun in 'coa\unFrmDefaultAkun.pas' {frmDefaultAkun};
 
 {$R *.res}
 
@@ -38,23 +46,8 @@ begin
   Application.CreateForm(TDM, DM);
   Application.CreateForm(TfrmUtama, frmUtama);
   Application.CreateForm(TfrmLogin, frmLogin);
-  Application.CreateForm(TfrmInputBarangJasa, frmInputBarangJasa);
-  Application.CreateForm(TfrmLstBarangJasa, frmLstBarangJasa);
-  Application.CreateForm(TfrmInputCustomer, frmInputCustomer);
-  Application.CreateForm(TfrmInputSupplier, frmInputSupplier);
-  Application.CreateForm(TfrmLstSupplier, frmLstSupplier);
-  Application.CreateForm(TfrmInputMesin, frmInputMesin);
-  Application.CreateForm(TfrmLstMesin, frmLstMesin);
-  Application.CreateForm(TfrmInputKaryawan, frmInputKaryawan);
-  Application.CreateForm(TfrmLstkaryawan, frmLstkaryawan);
-  Application.CreateForm(TfrmInputUser, frmInputUser);
-  Application.CreateForm(TfrmLstUser, frmLstUser);
-  Application.CreateForm(TfrmLstLain2, frmLstLain2);
-  Application.CreateForm(TfrmInputSO, frmInputSO);
-  Application.CreateForm(TfrmLstSO, frmLstSO);
-  Application.CreateForm(TfrmLstPO, frmLstPO);
-  Application.CreateForm(TfrmInputPO, frmInputPO);
-  Application.CreateForm(TfrmLstPP, frmLstPP);
+  Application.CreateForm(TfrmAppPP, frmAppPP);
+  Application.CreateForm(TfrmDefaultAkun, frmDefaultAkun);
   frmUtama.Show;
 
   frmLogin.ShowModal;
