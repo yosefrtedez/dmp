@@ -1,10 +1,14 @@
 inherited frmAppPP: TfrmAppPP
   Caption = 'Approval Permintaan Pembelian'
-  ExplicitWidth = 894
+  ClientWidth = 896
+  OnShow = FormShow
+  ExplicitWidth = 896
   ExplicitHeight = 553
   PixelsPerInch = 96
   TextHeight = 13
   inherited Panel1: TPanel
+    Width = 896
+    ExplicitWidth = 871
     object Label13: TLabel
       Left = 10
       Top = 13
@@ -19,91 +23,105 @@ inherited frmAppPP: TfrmAppPP
       ParentFont = False
     end
   end
+  inherited Panel2: TPanel
+    Width = 896
+    ExplicitWidth = 871
+    inherited btnSimpan: TButton
+      OnClick = btnSimpanClick
+    end
+  end
   object cxGrid1: TcxGrid
     Left = 0
     Top = 49
-    Width = 894
+    Width = 896
     Height = 256
     Align = alTop
     TabOrder = 2
-    object cxtbPPHead: TcxGridTableView
+    ExplicitWidth = 871
+    object cxtbHead: TcxGridTableView
       NavigatorButtons.ConfirmDelete = False
-      OnFocusedItemChanged = cxtbPPHeadFocusedItemChanged
+      OnFocusedRecordChanged = cxtbHeadFocusedRecordChanged
       DataController.Summary.DefaultGroupSummaryItems = <>
       DataController.Summary.FooterSummaryItems = <>
       DataController.Summary.SummaryGroups = <>
-      object cxtbPPHeadColumn1: TcxGridColumn
+      DataController.OnRecordChanged = cxgrdAppPPDataControllerRecordChanged
+      object cxColChkApp: TcxGridColumn
         Caption = 'Pilih'
         DataBinding.ValueType = 'Boolean'
         PropertiesClassName = 'TcxCheckBoxProperties'
+        Properties.NullStyle = nssUnchecked
+        Properties.ValueGrayed = 'Null'
+        Properties.OnChange = cxColAppPPColumn1PropertiesChange
         HeaderAlignmentHorz = taCenter
+        Width = 71
       end
       object cxColNoPP: TcxGridColumn
         Caption = 'No. PP'
-        Width = 126
+        PropertiesClassName = 'TcxTextEditProperties'
+        Properties.ReadOnly = True
+        Width = 280
       end
     end
     object cxGrid1Level1: TcxGridLevel
-      GridView = cxtbPPHead
+      GridView = cxtbHead
     end
   end
   object Panel3: TPanel
     Left = 0
     Top = 305
-    Width = 894
+    Width = 896
     Height = 41
     Align = alTop
-    Caption = 'Panel3'
     TabOrder = 3
-    ExplicitTop = 304
-    ExplicitWidth = 185
+    ExplicitWidth = 871
   end
   object cxGrid2: TcxGrid
     Left = 0
     Top = 346
-    Width = 894
+    Width = 896
     Height = 158
     Align = alClient
     TabOrder = 4
-    ExplicitLeft = 472
-    ExplicitTop = 376
-    ExplicitWidth = 250
-    ExplicitHeight = 200
-    object cxGrid2DBTableView1: TcxGridDBTableView
+    ExplicitLeft = -301
+    ExplicitTop = 107
+    object cxTblDetail: TcxGridDBTableView
       NavigatorButtons.ConfirmDelete = False
       DataController.DataSource = dsDetPP
+      DataController.KeyFieldNames = 'no_bukti'
       DataController.Summary.DefaultGroupSummaryItems = <>
       DataController.Summary.FooterSummaryItems = <>
       DataController.Summary.SummaryGroups = <>
-      object cxGrid2DBTableView1kode_brg: TcxGridDBColumn
+      object cxColGrdDetailkode_brg: TcxGridDBColumn
         DataBinding.FieldName = 'kode_brg'
       end
-      object cxGrid2DBTableView1qty: TcxGridDBColumn
+      object cxColGrdDetailqty: TcxGridDBColumn
         DataBinding.FieldName = 'qty'
       end
-      object cxGrid2DBTableView1satuan: TcxGridDBColumn
+      object cxColGrdDetailsatuan: TcxGridDBColumn
         DataBinding.FieldName = 'satuan'
       end
-      object cxGrid2DBTableView1keterangan: TcxGridDBColumn
+      object cxColGrdDetailketerangan: TcxGridDBColumn
         DataBinding.FieldName = 'keterangan'
+        Width = 169
       end
-      object cxGrid2DBTableView1mata_uang: TcxGridDBColumn
+      object cxColGrdDetailmata_uang: TcxGridDBColumn
         DataBinding.FieldName = 'mata_uang'
       end
-      object cxGrid2DBTableView1nama_jasa: TcxGridDBColumn
+      object cxColGrdDetailnama_jasa: TcxGridDBColumn
         DataBinding.FieldName = 'nama_jasa'
+        Width = 88
       end
-      object cxGrid2DBTableView1harga: TcxGridDBColumn
+      object cxColGrdDetailharga: TcxGridDBColumn
         DataBinding.FieldName = 'harga'
+        Width = 153
       end
     end
     object cxGrid2Level1: TcxGridLevel
-      GridView = cxGrid2DBTableView1
+      GridView = cxTblDetail
     end
   end
   object zqrDetPP: TZReadOnlyQuery
     Connection = DM.zConn
-    Active = True
     SQL.Strings = (
       'SELECT * FROM tbl_pp_det WHERE no_bukti = :no_bukti')
     Params = <
@@ -112,8 +130,8 @@ inherited frmAppPP: TfrmAppPP
         Name = 'no_bukti'
         ParamType = ptUnknown
       end>
-    Left = 584
-    Top = 424
+    Left = 587
+    Top = 429
     ParamData = <
       item
         DataType = ftUnknown
@@ -123,7 +141,7 @@ inherited frmAppPP: TfrmAppPP
   end
   object dsDetPP: TDataSource
     DataSet = zqrDetPP
-    Left = 512
-    Top = 416
+    Left = 550
+    Top = 423
   end
 end

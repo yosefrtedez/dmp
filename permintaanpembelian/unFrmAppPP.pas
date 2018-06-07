@@ -16,32 +16,40 @@ uses
   dxSkinValentine, dxSkinXmas2008Blue, dxSkinscxPCPainter, cxCustomData,
   cxFilter, cxData, cxDataStorage, cxEdit, DB, cxDBData, StdCtrls, cxGridLevel,
   cxClasses, cxGridCustomView, cxGridCustomTableView, cxGridTableView,
-  cxGridDBTableView, cxGrid, ExtCtrls, cxCheckBox, ZAbstractRODataset, ZDataset;
+  cxGridDBTableView, cxGrid, ExtCtrls, cxCheckBox, ZAbstractRODataset, ZDataset, cxDateUtils,
+  cxTextEdit;
 
 type
   TfrmAppPP = class(TfrmTplInput)
     cxGrid1Level1: TcxGridLevel;
     cxGrid1: TcxGrid;
     Label13: TLabel;
-    cxtbPPHead: TcxGridTableView;
-    cxtbPPHeadColumn1: TcxGridColumn;
+    cxtbHead: TcxGridTableView;
+    cxColChkApp: TcxGridColumn;
     cxColNoPP: TcxGridColumn;
     Panel3: TPanel;
     cxGrid2Level1: TcxGridLevel;
     cxGrid2: TcxGrid;
     zqrDetPP: TZReadOnlyQuery;
     dsDetPP: TDataSource;
-    cxGrid2DBTableView1: TcxGridDBTableView;
-    cxGrid2DBTableView1kode_brg: TcxGridDBColumn;
-    cxGrid2DBTableView1qty: TcxGridDBColumn;
-    cxGrid2DBTableView1satuan: TcxGridDBColumn;
-    cxGrid2DBTableView1keterangan: TcxGridDBColumn;
-    cxGrid2DBTableView1mata_uang: TcxGridDBColumn;
-    cxGrid2DBTableView1nama_jasa: TcxGridDBColumn;
-    cxGrid2DBTableView1harga: TcxGridDBColumn;
-    procedure cxtbPPHeadFocusedItemChanged(
-      Sender: TcxCustomGridTableView; APrevFocusedItem,
-      AFocusedItem: TcxCustomGridTableItem);
+    cxTblDetail: TcxGridDBTableView;
+    cxColGrdDetailkode_brg: TcxGridDBColumn;
+    cxColGrdDetailqty: TcxGridDBColumn;
+    cxColGrdDetailsatuan: TcxGridDBColumn;
+    cxColGrdDetailketerangan: TcxGridDBColumn;
+    cxColGrdDetailmata_uang: TcxGridDBColumn;
+    cxColGrdDetailnama_jasa: TcxGridDBColumn;
+    cxColGrdDetailharga: TcxGridDBColumn;
+    procedure cxColAppPPColumn1PropertiesEditValueChanged(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+    procedure cxColAppPPColumn1PropertiesChange(Sender: TObject);
+    procedure cxgrdAppPPDataControllerRecordChanged(
+      ADataController: TcxCustomDataController; ARecordIndex,
+      AItemIndex: Integer);
+    procedure cxtbHeadFocusedRecordChanged(Sender: TcxCustomGridTableView;
+      APrevFocusedRecord, AFocusedRecord: TcxCustomGridRecord;
+      ANewItemRecordFocusingChanged: Boolean);
+    procedure btnSimpanClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -53,21 +61,92 @@ var
 
 implementation
 
-uses unDM;
+uses unDM, unTools;
 
 {$R *.dfm}
 
-procedure TfrmAppPP.cxtbPPHeadFocusedItemChanged(
-  Sender: TcxCustomGridTableView; APrevFocusedItem,
-  AFocusedItem: TcxCustomGridTableItem);
+procedure TfrmAppPP.btnSimpanClick(Sender: TObject);
 var
-  i: integer;
+  i : Integer;
+  q : TZQuery;
 begin
   inherited;
-  i := cxtbPPHead.DataController.GetFocusedRecordIndex;
+  for i := 0 to cxtbHead.DataController.RecordCount - 1 do begin
+
+    with cxtbHead.DataController do begin
+      q := OpenRS('select * from tbl_pp_head where no_bukti = ''' + Values[i, cxColNoPP.index] + '''');
+      if Values[i, cxColChkApp.index] = True then begin
+        q.Edit;
+        q.FieldByName('f_app').AsInteger := 1;
+        q.FieldByName('tgl_app').AsDateTime := Aplikasi.Tanggal;
+        q.FieldByName('user_app').AsString := Aplikasi.NamaUser;
+        q.Post;
+        q.Close;
+        MsgBox('Approval PO berhasil disimpan');
+        btnBatalClick(nil);
+      end;
+    end;
+  end;
+end;
+
+procedure TfrmAppPP.cxColAppPPColumn1PropertiesChange(Sender: TObject);
+var
+  i : Integer;
+begin
+  inherited;
+  
+end;
+
+procedure TfrmAppPP.cxColAppPPColumn1PropertiesEditValueChanged(
+  Sender: TObject);
+  var
+  i,j : Integer;
+  AValue : Variant;
+begin
+  inherited;
+ 
+  end;
+
+
+procedure TfrmAppPP.cxgrdAppPPDataControllerRecordChanged(
+  ADataController: TcxCustomDataController; ARecordIndex, AItemIndex: Integer);
+begin
+  inherited;
+  if AItemIndex = cxColChkApp.Index then begin
+
+  end;
+
+end;
+
+procedure TfrmAppPP.cxtbHeadFocusedRecordChanged(Sender: TcxCustomGridTableView;
+  APrevFocusedRecord, AFocusedRecord: TcxCustomGridRecord;
+  ANewItemRecordFocusingChanged: Boolean);
+var
+  i: integer;
+  z :TZQuery;
+begin
+  inherited;
+  i := cxtbHead.DataController.GetFocusedRecordIndex;
   zqrDetPP.Close;
-  zqrDetPP.ParamByName('no_bukti').AsString := cxtbPPHead.DataController.Values[i, cxColNoPP.Index];
+  zqrDetPP.ParamByName('no_bukti').AsString := cxtbHead.DataController.Values[i, cxColNoPP.Index];
   zqrDetPP.Open;
+end;
+
+procedure TfrmAppPP.FormShow(Sender: TObject);
+var
+  q : TZQuery;
+  i : Integer;
+begin
+  inherited;
+  q := OpenRS('select * from tbl_pp_head where f_app = 0');
+  while not q.eof do begin
+    with cxtbHead.DataController  do begin
+      i := AppendRecord;
+      Values[i, cxColNoPP.Index] := q.FieldByName('no_bukti').AsString;
+    end;
+    q.Next;
+  end;
+  q.Close;
 end;
 
 end.
