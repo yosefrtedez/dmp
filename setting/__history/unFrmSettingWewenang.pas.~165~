@@ -79,19 +79,28 @@ var
   q: TZQuery;
 begin
   inherited;
+  dm.zConn.ExecuteDirect(Format('DELETE FROM tbl_wewenang WHERE nama = ''%s''',[cxlUser.Text]));
   q := OpenRS('SELECT * FROM tbl_wewenang WHERE nama = ''%s''',[cxlUser.Text]);
   for i := 0 to cxTreeWewenang.Count - 1 do begin
     a := cxTreeWewenang.Items[i];
     q.Insert;
     q.FieldByName('nama').AsString := cxlUser.EditValue;
     q.FieldByName('nm_comp').AsString := a.Values[6];
+    q.FieldByName('b').AsInteger := a.Values[1];
+    q.FieldByName('i').AsInteger := a.Values[2];
+    q.FieldByName('e').AsInteger := a.Values[3];
+    q.FieldByName('h').AsInteger := a.Values[4];
     q.Post;
     if a.HasChildren then begin
-      for j := 0 to a.Count - 1 do
+      for j := 0 to a.Count - 1 do begin
         b := a.Items[j];
         q.Insert;
         q.FieldByName('nama').AsString := cxlUser.EditValue;
         q.FieldByName('nm_comp').AsString := b.Values[6];
+        q.FieldByName('b').AsInteger := a.Values[1];
+        q.FieldByName('i').AsInteger := a.Values[2];
+        q.FieldByName('e').AsInteger := a.Values[3];
+        q.FieldByName('h').AsInteger := a.Values[4];
         q.Post;
       end;
     end;
@@ -100,12 +109,20 @@ end;
 
 procedure TfrmSettingWewenang.Button1Click(Sender: TObject);
 var
+  q: TZQuery;
   a: TcxTreeListNode;
 begin
-  inherited;
-  //a := TcxTreeListNode.Create(nil);
-  a := cxTreeWewenang.Add;
-  a.Texts[0] := 'A';
+  if cxlUser.Text = '' then Abort;
+  q := OpenRS('SELECT * FROM tbl_wewenang WHERE nama = ''%s''',[cxlUser.Text]);
+  while not q.Eof do begin
+    a := cxTreeWewenang.FindNodeByText(q.FieldByName('nm_comp').AsString, cxtColNamaMenu);
+    if q.FieldByName('b').AsInteger = 1 then a.Values[1] := 1;
+    if q.FieldByName('i').AsInteger = 1 then a.Values[2] := 1;
+    if q.FieldByName('e').AsInteger = 1 then a.Values[3] := 1;
+    if q.FieldByName('h').AsInteger = 1 then a.Values[4] := 1;
+    q.Next;
+  end;
+  q.Close;
 end;
 
 procedure TfrmSettingWewenang.cxTreeWewenangEditing(Sender: TcxCustomTreeList;
@@ -189,7 +206,7 @@ begin
           q2.FieldByName('i').AsString +
           q2.FieldByName('e').AsString +
           q2.FieldByName('h').AsString;
-        ab.Values[6] := q.FieldByName('nm_comp').AsString;
+        ab.Values[6] := q2.FieldByName('nm_comp').AsString;
         q3 := OpenRS('SELECT * FROM tbl_tpl_wewenang WHERE parent = ''%s''',[q2.FieldByName('kode').AsString]);
         if not q3.IsEmpty then begin
           while not q3.Eof do begin
@@ -203,7 +220,7 @@ begin
               q3.FieldByName('i').AsString +
               q3.FieldByName('e').AsString +
               q3.FieldByName('h').AsString;
-            ac.Values[6] := q.FieldByName('nm_comp').AsString;
+            ac.Values[6] := q3.FieldByName('nm_comp').AsString;
             q3.Next;
           end;
         end;
@@ -213,6 +230,7 @@ begin
     q.Next;
   end;
   q.Close;
+
 end;
 
 end.

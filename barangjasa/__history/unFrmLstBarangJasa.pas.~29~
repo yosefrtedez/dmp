@@ -147,7 +147,6 @@ procedure TfrmLstBarangJasa.FormCreate(Sender: TObject);
 begin
   inherited;
   Self.NamaMenu := 'mnMst_BarangJasa';
-  TerapkanWewenang(Self.NamaMenu);
   zqrBarang.Open;
 end;
 
