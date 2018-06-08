@@ -2,7 +2,7 @@ object frmUtama: TfrmUtama
   Left = 0
   Top = 0
   Caption = 'frmUtama'
-  ClientHeight = 612
+  ClientHeight = 620
   ClientWidth = 1122
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -26,7 +26,7 @@ object frmUtama: TfrmUtama
   end
   object stsBar: TdxStatusBar
     Left = 0
-    Top = 588
+    Top = 596
     Width = 1122
     Height = 24
     Panels = <
@@ -54,6 +54,7 @@ object frmUtama: TfrmUtama
     Font.Height = -11
     Font.Name = 'Tahoma'
     Font.Style = []
+    ExplicitTop = 588
   end
   object pgMain: TcxPageControl
     Left = 136
@@ -65,7 +66,7 @@ object frmUtama: TfrmUtama
     Options = [pcoAlwaysShowGoDialogButton, pcoCloseButton, pcoGradient, pcoGradientClientArea, pcoRedrawOnResize]
     ParentBackground = False
     Style = 5
-    TabOrder = 1
+    TabOrder = 0
     Visible = False
     ClientRectBottom = 193
     ClientRectRight = 289
@@ -133,6 +134,12 @@ object frmUtama: TfrmUtama
         Caption = 'Sales Order'
         OnClick = mnMkt_SalesOrderClick
       end
+      object SuratJalan1: TMenuItem
+        Caption = 'Surat Jalan '
+      end
+      object mnMkt_ReturPenjualan: TMenuItem
+        Caption = 'Retur Penjualan'
+      end
     end
     object mnPPIC: TMenuItem
       Caption = 'PPIC'
@@ -140,9 +147,21 @@ object frmUtama: TfrmUtama
         Caption = 'Master Order'
         OnClick = mnPpic_MasterOrderClick
       end
+      object mnPpic_MasterSchedule: TMenuItem
+        Caption = 'Master Schedule'
+      end
+      object mnPpic_SOMadeToStok: TMenuItem
+        Caption = 'SO - Made To Stok'
+      end
     end
-    object PRD1: TMenuItem
+    object mnPRD: TMenuItem
       Caption = 'PRD'
+      object mnPrd_PengambilanBB: TMenuItem
+        Caption = 'Pengambilan Bahan Baku '
+      end
+      object mnPrd_InputHslProd: TMenuItem
+        Caption = 'Input Hasil Produksi '
+      end
     end
     object PUR1: TMenuItem
       Caption = 'PUR'
@@ -165,17 +184,21 @@ object frmUtama: TfrmUtama
     end
     object mnAKT: TMenuItem
       Caption = 'AKT'
-      object mnAKT_JurnalUmum: TMenuItem
+      object mnAkt_JurnalUmum: TMenuItem
         Caption = 'Jurnal Umum'
-        OnClick = mnAKT_JurnalUmumClick
+        OnClick = mnAkt_JurnalUmumClick
       end
-      object mnAKT_SetDefaultAkun: TMenuItem
+      object mnAkt_SetDefaultAkun: TMenuItem
         Caption = 'Setting Default Akun'
-        OnClick = mnAKT_SetDefaultAkunClick
+        OnClick = mnAkt_SetDefaultAkunClick
       end
     end
     object mnSet: TMenuItem
       Caption = 'Setting'
+      object mnSet_SettingProgram: TMenuItem
+        Caption = 'Setting Program'
+        OnClick = mnSet_SettingProgramClick
+      end
       object mnSet_WewenangUser: TMenuItem
         Caption = 'Wewenang User'
         OnClick = mnSet_WewenangUserClick

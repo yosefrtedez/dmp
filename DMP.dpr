@@ -38,7 +38,8 @@ uses
   unFrmAppPP in 'permintaanpembelian\unFrmAppPP.pas' {frmAppPP},
   unFrmDefaultAkun in 'coa\unFrmDefaultAkun.pas' {frmDefaultAkun},
   unFrmMasterOrder in 'masterorder\unFrmMasterOrder.pas' {frmMasterOrder},
-  unFrmSettingWewenang in 'setting\unFrmSettingWewenang.pas' {frmSettingWewenang};
+  unFrmSettingWewenang in 'setting\unFrmSettingWewenang.pas' {frmSettingWewenang},
+  unFrmSettingProgram in 'setting\unFrmSettingProgram.pas' {frmSettingProgram};
 
 {$R *.res}
 
@@ -52,6 +53,7 @@ begin
   Application.CreateForm(TfrmDefaultAkun, frmDefaultAkun);
   Application.CreateForm(TfrmMasterOrder, frmMasterOrder);
   Application.CreateForm(TfrmSettingWewenang, frmSettingWewenang);
+  Application.CreateForm(TfrmSettingProgram, frmSettingProgram);
   frmUtama.Show;
 
   frmLogin.ShowModal;

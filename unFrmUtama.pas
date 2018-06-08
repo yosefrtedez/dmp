@@ -32,7 +32,7 @@ type
     mnMst_Karyawan: TMenuItem;
     mnMst_UserProgram: TMenuItem;
     mnPPIC: TMenuItem;
-    PRD1: TMenuItem;
+    mnPRD: TMenuItem;
     PUR1: TMenuItem;
     mnMst_COA: TMenuItem;
     mnMst_Lain2: TMenuItem;
@@ -48,10 +48,17 @@ type
     mnPur_PO: TMenuItem;
     mnApp_PO: TMenuItem;
     mnAKT: TMenuItem;
-    mnAKT_JurnalUmum: TMenuItem;
-    mnAKT_SetDefaultAkun: TMenuItem;
+    mnAkt_JurnalUmum: TMenuItem;
+    mnAkt_SetDefaultAkun: TMenuItem;
     mnSet: TMenuItem;
     mnSet_WewenangUser: TMenuItem;
+    mnSet_SettingProgram: TMenuItem;
+    mnPrd_PengambilanBB: TMenuItem;
+    mnPrd_InputHslProd: TMenuItem;
+    SuratJalan1: TMenuItem;
+    mnPpic_MasterSchedule: TMenuItem;
+    mnMkt_ReturPenjualan: TMenuItem;
+    mnPpic_SOMadeToStok: TMenuItem;
     procedure FormShow(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure mnMst_BarangJasaClick(Sender: TObject);
@@ -67,11 +74,12 @@ type
     procedure mnMkt_SalesOrderClick(Sender: TObject);
     procedure mnPur_PPClick(Sender: TObject);
     procedure mnMst_COAClick(Sender: TObject);
-    procedure mnAKT_JurnalUmumClick(Sender: TObject);
-    procedure mnAKT_SetDefaultAkunClick(Sender: TObject);
+    procedure mnAkt_JurnalUmumClick(Sender: TObject);
+    procedure mnAkt_SetDefaultAkunClick(Sender: TObject);
     procedure mnPpic_MasterOrderClick(Sender: TObject);
     procedure mnSys_LogOffClick(Sender: TObject);
     procedure mnSet_WewenangUserClick(Sender: TObject);
+    procedure mnSet_SettingProgramClick(Sender: TObject);
   private
     procedure PGChange(Sender: TObject);
   public
@@ -92,7 +100,7 @@ uses
   unTools, unFrmLstBarangJasa, unFrmLstCustomer, unFrmLstSupplier,
   unFrmLstMesin, unFrmLstUser, unFrmLstLain2, unDM, unFrmLstKaryawan,
   unFrmLstSO, unFrmLstPP, unFrmLstCOA, unFrmLstJurnalUmum, unFrmDefaultAkun,
-  unFrmMasterOrder, unFrmLogin, unFrmSettingWewenang;
+  unFrmMasterOrder, unFrmLogin, unFrmSettingWewenang, unFrmSettingProgram;
 
 {$R *.dfm}
 
@@ -149,7 +157,7 @@ begin
   Self.BuildMenu;
 end;
 
-procedure TfrmUtama.mnAKT_JurnalUmumClick(Sender: TObject);
+procedure TfrmUtama.mnAkt_JurnalUmumClick(Sender: TObject);
 var
   f: TfrmLstJurnalUmum;
   ts: TcxTabSheet;
@@ -168,7 +176,7 @@ begin
   end;
 end;
 
-procedure TfrmUtama.mnAKT_SetDefaultAkunClick(Sender: TObject);
+procedure TfrmUtama.mnAkt_SetDefaultAkunClick(Sender: TObject);
 var
   f: TfrmDefaultAkun;
   ts: TcxTabSheet;
@@ -396,6 +404,25 @@ begin
   end;
 end;
 
+procedure TfrmUtama.mnSet_SettingProgramClick(Sender: TObject);
+var
+  f: TfrmSettingProgram;
+  ts: TcxTabSheet;
+begin
+  if not CekTabOpen('Setting Program') then begin
+    ToggleMainPage;
+    ts := TcxTabSheet.Create(Self);
+    ts.PageControl := pgMain;
+
+    f := TfrmSettingProgram.Create(Self);
+    f.Parent := ts;
+    ts.Caption := f.Caption;
+    f.Show;
+
+    pgMain.ActivePage := ts;
+  end;
+end;
+
 procedure TfrmUtama.mnSet_WewenangUserClick(Sender: TObject);
 var
   f: TfrmSettingWewenang;
@@ -424,7 +451,6 @@ procedure TfrmUtama.mnSys_LogOffClick(Sender: TObject);
 var
   f: TFrmLogin;
 begin
-
   Self.mnSys_TutupTabClick(nil);
 
   Aplikasi.NamaUser := '';

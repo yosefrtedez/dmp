@@ -143,6 +143,9 @@
 			<DCCReference Include="setting\unFrmSettingWewenang.pas">
 				<Form>frmSettingWewenang</Form>
 			</DCCReference>
+			<DCCReference Include="setting\unFrmSettingProgram.pas">
+				<Form>frmSettingProgram</Form>
+			</DCCReference>
 			<BuildConfiguration Include="Base">
 				<Key>Base</Key>
 			</BuildConfiguration>

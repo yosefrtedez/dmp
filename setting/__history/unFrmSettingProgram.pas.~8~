@@ -1,0 +1,51 @@
+unit unFrmSettingProgram;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, unFrmTplInput, StdCtrls, ExtCtrls, cxGraphics, cxControls,
+  cxLookAndFeels, cxLookAndFeelPainters, cxContainer, cxEdit, dxSkinsCore,
+  dxSkinBlack, dxSkinBlue, dxSkinCaramel, dxSkinCoffee, dxSkinDarkRoom,
+  dxSkinDarkSide, dxSkinFoggy, dxSkinGlassOceans, dxSkiniMaginary, dxSkinLilian,
+  dxSkinLiquidSky, dxSkinLondonLiquidSky, dxSkinMcSkin, dxSkinMoneyTwins,
+  dxSkinOffice2007Black, dxSkinOffice2007Blue, dxSkinOffice2007Green,
+  dxSkinOffice2007Pink, dxSkinOffice2007Silver, dxSkinOffice2010Black,
+  dxSkinOffice2010Blue, dxSkinOffice2010Silver, dxSkinPumpkin, dxSkinSeven,
+  dxSkinSharp, dxSkinSilver, dxSkinSpringTime, dxSkinStardust, dxSkinSummer2008,
+  dxSkinsDefaultPainters, dxSkinValentine, dxSkinXmas2008Blue, cxTextEdit,
+  cxLabel;
+
+type
+  TfrmSettingProgram = class(TfrmTplInput)
+    cxLabel1: TcxLabel;
+    Label13: TLabel;
+    cxtNamaProgram: TcxTextEdit;
+    cxtAlamat: TcxTextEdit;
+    cxLabel2: TcxLabel;
+    cxLabel3: TcxLabel;
+    cxtKota: TcxTextEdit;
+    cxLabel4: TcxLabel;
+    cxtKodePos: TcxTextEdit;
+    cxLabel5: TcxLabel;
+    cxtNPWP: TcxTextEdit;
+    cxLabel6: TcxLabel;
+    cxtTelpon: TcxTextEdit;
+    cxLabel7: TcxLabel;
+    cxtEmail: TcxTextEdit;
+    cxLabel8: TcxLabel;
+    cxtFax: TcxTextEdit;
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmSettingProgram: TfrmSettingProgram;
+
+implementation
+
+{$R *.dfm}
+
+end.
