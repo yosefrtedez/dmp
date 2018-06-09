@@ -84,10 +84,10 @@ inherited frmInputBarangJasa: TfrmInputBarangJasa
     Properties.KeyFieldNames = 'kode'
     Properties.ListColumns = <
       item
-        Caption = 'SubKategori'
-        FieldName = 'subkategori'
+        Caption = 'Kategori'
+        FieldName = 'kategori'
       end>
-    Properties.ListSource = dsSubKategori
+    Properties.ListSource = dsKategori
     TabOrder = 9
     Width = 265
   end

@@ -33,9 +33,9 @@ inherited frmLstMesin: TfrmLstMesin
       ExplicitTop = 14
     end
     inherited btnHapus: TButton
-      Top = 14
+      Top = 6
       OnClick = btnHapusClick
-      ExplicitTop = 14
+      ExplicitTop = 6
     end
     inherited btnRefresh: TButton
       Top = 14

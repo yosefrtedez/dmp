@@ -163,7 +163,6 @@ begin
   if Self.Jenis = 'E' then begin
     q := OpenRS('SELECT * FROM tbl_karyawan WHERE nik = ''%s''',[Self.EditKey]);
     cxtNik.Text := q.FieldByName('nik').AsString;
-    cxtNik.Enabled := False;
     cxtNama.Text := q.FieldByName('nama').AsString;
     cxcboJabatan.Text := q.FieldByName('jabatan').AsString;
     cxcboDepartemen.Text := q.FieldByName('departemen').AsString;

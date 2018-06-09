@@ -2,6 +2,8 @@ inherited frmLstBarangJasa: TfrmLstBarangJasa
   BorderIcons = []
   Caption = 'Barang dan Jasa'
   OnCreate = FormCreate
+  ExplicitWidth = 1016
+  ExplicitHeight = 508
   PixelsPerInch = 96
   TextHeight = 13
   inherited Panel1: TPanel
@@ -23,6 +25,9 @@ inherited frmLstBarangJasa: TfrmLstBarangJasa
     inherited btnTambah: TButton
       OnClick = btnTambahClick
     end
+    inherited btnRefresh: TButton
+      OnClick = btnRefreshClick
+    end
   end
   object cxgBarang: TcxGrid
     Left = 0
@@ -42,27 +47,37 @@ inherited frmLstBarangJasa: TfrmLstBarangJasa
       OptionsData.Inserting = False
       object cxtbBarangid: TcxGridDBColumn
         DataBinding.FieldName = 'id'
+        Visible = False
       end
       object cxtbBarangkode: TcxGridDBColumn
+        Caption = 'Kode'
         DataBinding.FieldName = 'kode'
+        Width = 132
       end
       object cxtbBarangdeskripsi: TcxGridDBColumn
+        Caption = 'Deskripsi'
         DataBinding.FieldName = 'deskripsi'
+        Width = 322
       end
       object cxtbBarangstok: TcxGridDBColumn
+        Caption = 'Stok'
         DataBinding.FieldName = 'stok'
       end
       object cxtbBarangb_stok: TcxGridDBColumn
+        Caption = 'Buffer Stok '
         DataBinding.FieldName = 'b_stok'
       end
       object cxtbBarangsatuan: TcxGridDBColumn
+        Caption = 'Satuan'
         DataBinding.FieldName = 'satuan'
+      end
+      object cxtbBarangkategori: TcxGridDBColumn
+        Caption = 'Kategori'
+        DataBinding.FieldName = 'kategori'
+        Width = 103
       end
       object cxtbBarangtipe: TcxGridDBColumn
         DataBinding.FieldName = 'tipe'
-      end
-      object cxtbBarangkategori: TcxGridDBColumn
-        DataBinding.FieldName = 'kategori'
       end
       object cxtbBarangsubkategori: TcxGridDBColumn
         DataBinding.FieldName = 'subkategori'

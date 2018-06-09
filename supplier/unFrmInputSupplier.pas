@@ -124,8 +124,7 @@ begin
     q.Post;
 
     MsgBox('Data supplier sudah berhasil disimpan.');
-    ClearAll;
-    frmLstSupplier.RefreshGrid;
+    //ClearAll;
 
   end;
 end;
@@ -162,6 +161,7 @@ begin
   if Self.Jenis = 'E' then begin
     q := OpenRS('SELECT * FROM tbl_supplier WHERE kode = ''%s''',[Self.EditKey]);
     cxtKode.Text := q.FieldByName('kode').AsString;
+    cxtKode.Enabled := False;
     cxtNama.Text := q.FieldByName('nama').AsString;
     cxtKontak.Text := q.FieldByName('kontak').AsString;
     cxtTitle.Text := q.FieldByName('title').AsString;

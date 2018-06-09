@@ -38,7 +38,6 @@ type
     dsInduk: TDataSource;
     zqrTipeAkun: TZReadOnlyQuery;
     dsTipeAkun: TDataSource;
-    Button1: TButton;
     procedure btnSimpanClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);

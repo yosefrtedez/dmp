@@ -54,7 +54,6 @@ object frmUtama: TfrmUtama
     Font.Height = -11
     Font.Name = 'Tahoma'
     Font.Style = []
-    ExplicitTop = 588
   end
   object pgMain: TcxPageControl
     Left = 136

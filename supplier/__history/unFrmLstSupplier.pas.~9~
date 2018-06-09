@@ -16,7 +16,7 @@ uses
   dxSkinValentine, dxSkinXmas2008Blue, dxSkinscxPCPainter, cxCustomData,
   cxFilter, cxData, cxDataStorage, cxEdit, DB, cxDBData, cxGridLevel, cxClasses,
   cxGridCustomView, cxGridCustomTableView, cxGridTableView, cxGridDBTableView,
-  cxGrid, ExtCtrls, StdCtrls, cxPC, ZAbstractRODataset, ZDataset;
+  cxGrid, ExtCtrls, StdCtrls, cxPC, ZAbstractRODataset, ZDataset, cxCheckBox;
 
 type
   TfrmLstSupplier = class(TfrmTplGrid)
@@ -92,9 +92,10 @@ begin
 
   q := OpenRS('SELECT * FROM tbl_po_head where kode_supp = ''%s''',[zqrSupplier.FieldByName('kode').AsString]);
   if not q.Eof then begin
-        MsgBox('Data tidak bisa dihapus karena memiliki transaksi.');
-        Abort;
-  end else begin
+    MsgBox('Data tidak bisa dihapus karena memiliki transaksi.');
+    Abort;
+  end
+  else begin
     try
       DM.zConn.StartTransaction;
       Dm.zConn.ExecuteDirect('delete from tbl_supplier where kode = ''' + zqrSupplier.FieldByName('kode').AsString);
@@ -107,8 +108,6 @@ begin
 
     end;
   end;
-
-
 
 end;
 

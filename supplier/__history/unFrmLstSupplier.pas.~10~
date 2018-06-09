@@ -91,24 +91,24 @@ begin
   inherited;
 
   q := OpenRS('SELECT * FROM tbl_po_head where kode_supp = ''%s''',[zqrSupplier.FieldByName('kode').AsString]);
-  if not q.IsEmpty then begin
-    MsgBox('Data supplier tidak bisa dihapus karena memiliki transaksi.');
-    q.Close;
+  if not q.Eof then begin
+    MsgBox('Data tidak bisa dihapus karena memiliki transaksi.');
+    Abort;
   end
   else begin
     try
       DM.zConn.StartTransaction;
-      Dm.zConn.ExecuteDirect('delete from tbl_supplier where kode = ''' + zqrSupplier.FieldByName('kode').AsString + '''');
+      Dm.zConn.ExecuteDirect('delete from tbl_supplier where kode = ''' + zqrSupplier.FieldByName('kode').AsString);
       DM.zConn.Commit;
-      MsgBox('Data supplier dengan kode : ' + zqrSupplier.FieldByName('kode').AsString + ' sudah berhasil dihapus');
+      MsgBox('Data supplier dengan kode ' + zqrSupplier.FieldByName('kode').AsString + 'sudah berhasil dihapus');
       q.Close;
       q.Open;
       btnRefreshClick(nil);
     except
       on E: Exception do begin
-        MsgBox('Error: ' + E.Message);
-        dm.zConn.Rollback;
+
       end;
+
     end;
   end;
 

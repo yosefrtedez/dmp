@@ -144,8 +144,12 @@ begin
 
       MsgBox('Data Mesin sudah disimpan.');
 
+      frmLstMesin.RefreshGrid;
+
       ClearAll;
-      //btnBatalClick(nil);
+      frmLstMesin.zqrMesin.Close;
+      frmLstMesin.zqrMesin.Open;
+      btnBatalClick(nil);
     end;
 
   end;
@@ -196,7 +200,6 @@ begin
 
     with q do begin
       cxtKode.Text            := FieldByName('kode').AsString;
-      cxtKode.Enabled := False;
       cxtNama.Text            := FieldByName('nama').AsString;
       cxlLokasi.Text          := FieldByName('lokasi').AsString;
       cxsJmlPersonil.Value    := FieldByName('jml_personil').AsInteger;

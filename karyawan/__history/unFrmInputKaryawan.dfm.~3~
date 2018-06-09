@@ -18,19 +18,6 @@ inherited frmInputKaryawan: TfrmInputKaryawan
   inherited Panel1: TPanel
     Width = 1058
     ExplicitWidth = 1058
-    object Label1: TLabel
-      Left = 10
-      Top = 16
-      Width = 130
-      Height = 19
-      Caption = 'Input Karyawan'
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -16
-      Font.Name = 'Tahoma'
-      Font.Style = [fsBold]
-      ParentFont = False
-    end
   end
   inherited Panel2: TPanel
     Top = 614
@@ -42,20 +29,20 @@ inherited frmInputKaryawan: TfrmInputKaryawan
     end
   end
   object cxlbl1: TcxLabel
-    Left = 10
-    Top = 66
+    Left = 23
+    Top = 74
     Caption = 'Nik'
   end
   object cxtNik: TcxTextEdit
-    Left = 83
-    Top = 63
+    Left = 99
+    Top = 71
     Properties.CharCase = ecUpperCase
     TabOrder = 3
     Width = 99
   end
   object cxtNama: TcxTextEdit
-    Left = 83
-    Top = 90
+    Left = 99
+    Top = 98
     Properties.CharCase = ecUpperCase
     TabOrder = 4
     Width = 238
@@ -68,13 +55,13 @@ inherited frmInputKaryawan: TfrmInputKaryawan
     Width = 248
   end
   object cxlbl2: TcxLabel
-    Left = 10
-    Top = 93
+    Left = 23
+    Top = 101
     Caption = 'Nama'
   end
   object cxlbl3: TcxLabel
-    Left = 10
-    Top = 122
+    Left = 23
+    Top = 130
     Caption = 'Jabatan'
   end
   object btn1: TcxButton
@@ -88,25 +75,25 @@ inherited frmInputKaryawan: TfrmInputKaryawan
     OnClick = btn1Click
   end
   object cxlbl4: TcxLabel
-    Left = 10
-    Top = 172
+    Left = 25
+    Top = 180
     Caption = 'Divisi'
   end
   object cxlbl5: TcxLabel
-    Left = 10
-    Top = 145
+    Left = 22
+    Top = 153
     Caption = 'Departemen'
   end
   object cxchkAktif: TcxCheckBox
-    Left = 192
-    Top = 63
+    Left = 208
+    Top = 71
     Caption = 'Aktif'
     TabOrder = 11
     Width = 82
   end
   object cxcboJabatan: TcxLookupComboBox
-    Left = 83
-    Top = 117
+    Left = 99
+    Top = 125
     Properties.KeyFieldNames = 'jabatan'
     Properties.ListColumns = <
       item
@@ -118,8 +105,8 @@ inherited frmInputKaryawan: TfrmInputKaryawan
     Width = 183
   end
   object cxcboDepartemen: TcxLookupComboBox
-    Left = 83
-    Top = 144
+    Left = 99
+    Top = 152
     Properties.KeyFieldNames = 'departemen'
     Properties.ListColumns = <
       item
@@ -133,8 +120,8 @@ inherited frmInputKaryawan: TfrmInputKaryawan
     Width = 183
   end
   object cxCboDivisi: TcxComboBox
-    Left = 83
-    Top = 171
+    Left = 99
+    Top = 179
     TabOrder = 14
     Width = 200
   end

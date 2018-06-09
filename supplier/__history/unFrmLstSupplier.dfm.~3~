@@ -119,11 +119,7 @@ inherited frmLstSupplier: TfrmLstSupplier
         Width = 100
       end
       object cxgrdbclmnSupplierf_aktif: TcxGridDBColumn
-        Caption = 'Aktif'
         DataBinding.FieldName = 'f_aktif'
-        PropertiesClassName = 'TcxCheckBoxProperties'
-        Properties.ValueChecked = 1
-        Properties.ValueUnchecked = 0
         Width = 50
       end
     end

@@ -109,21 +109,19 @@ begin
   end;
 
   try
-    DM.zConn.StartTransaction;
 
+    DM.zConn.StartTransaction;
     if Self.Jenis = 'E' then begin
-      sNoTrs := cxtNoBukti.Text;
+        sNoTrs := cxtNoBukti.Text;
     end
     else begin
-      sNoTrs := GetLastFak('permintan_pembelian');
-      UpdateFaktur(Copy(sNoTrs,1,7));
-    end;
-
+        sNoTrs := GetLastFak('permintan_pembelian');
+        UpdateFaktur(Copy(sNoTrs,1,7));
+      end;
     if Self.Jenis = 'E' then begin
       DM.zConn.ExecuteDirect('delete from tbl_pp_head where no_bukti = ''' + cxtNoBukti.Text + '''');
       DM.zConn.ExecuteDirect('delete from tbl_pp_det where no_bukti = ''' + cxtNoBukti.Text + '''');
     end;
-
     in_head := OpenTbl('tbl_pp_head');
     in_det := OpenTbl('tbl_pp_det');
     in_head.Insert;
@@ -168,9 +166,8 @@ begin
     end;
     in_det.Close;
     MsgBox('Data permintaan pembelian berhasil disimpan');
+  finally
     DM.zConn.Commit;
-  except
-
     cxgrdTblPP.DataController.RecordCount := 0;
     btnBatalClick(nil);
   end;

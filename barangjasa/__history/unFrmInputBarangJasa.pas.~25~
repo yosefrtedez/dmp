@@ -15,7 +15,7 @@ uses
   dxSkinSharp, dxSkinSilver, dxSkinSpringTime, dxSkinStardust, dxSkinSummer2008,
   dxSkinsDefaultPainters, dxSkinValentine, dxSkinXmas2008Blue, cxTextEdit,
   cxLabel, StdCtrls, cxMaskEdit, cxDropDownEdit, cxLookupEdit, cxDBLookupEdit,
-  cxDBLookupComboBox, ZDataset;
+  cxDBLookupComboBox, ZDataset, DB, ZAbstractRODataset, cxSpinEdit;
 
 type
   TfrmInputBarangJasa = class(TfrmTplInput)
@@ -24,8 +24,22 @@ type
     cxLabel2: TcxLabel;
     cxtDeskripsi: TcxTextEdit;
     cxLabel3: TcxLabel;
-    cxLookupComboBox1: TcxLookupComboBox;
+    cxlKategori: TcxLookupComboBox;
+    zqrKategori: TZReadOnlyQuery;
+    dsKategori: TDataSource;
+    Label13: TLabel;
+    cxLabel4: TcxLabel;
+    cxlSubKategori: TcxLookupComboBox;
+    cxLabel5: TcxLabel;
+    cxLookupComboBox2: TcxLookupComboBox;
+    cxLabel6: TcxLabel;
+    cxLookupComboBox3: TcxLookupComboBox;
+    cxLabel7: TcxLabel;
+    cxSpinEdit1: TcxSpinEdit;
+    zqrSubKategori: TZReadOnlyQuery;
+    dsSubKategori: TDataSource;
     procedure btnSimpanClick(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
   private
     { Private declarations }
   public
@@ -37,7 +51,7 @@ var
 
 implementation
 
-uses unTools;
+uses unTools, unDM;
 
 {$R *.dfm}
 
@@ -53,7 +67,17 @@ begin
     q.Edit;
   q.FieldByName('kode').AsString := Trim(cxtKode.text);
   q.FieldByName('deskripsi').AsString := cxtDeskripsi.Text;
+  q.FieldByName('id_kategori').AsInteger := cxlKategori.EditValue;
   q.Post;
+
+  MsgBox('Data barang sudah disimpan.');
+
+end;
+
+procedure TfrmInputBarangJasa.FormCreate(Sender: TObject);
+begin
+  inherited;
+  zqrKategori.Open;
 end;
 
 end.

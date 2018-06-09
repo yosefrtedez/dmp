@@ -109,14 +109,14 @@ begin
   end;
 
   try
-    DM.zConn.StartTransaction;
 
+    DM.zConn.StartTransaction;
     if Self.Jenis = 'E' then begin
-      sNoTrs := cxtNoBukti.Text;
+        sNoTrs := cxtNoBukti.Text;
     end
     else begin
-      sNoTrs := GetLastFak('permintan_pembelian');
-      UpdateFaktur(Copy(sNoTrs,1,7));
+        sNoTrs := GetLastFak('permintan_pembelian');
+        UpdateFaktur(Copy(sNoTrs,1,7));
     end;
 
     if Self.Jenis = 'E' then begin
@@ -168,9 +168,8 @@ begin
     end;
     in_det.Close;
     MsgBox('Data permintaan pembelian berhasil disimpan');
+  finally
     DM.zConn.Commit;
-  except
-
     cxgrdTblPP.DataController.RecordCount := 0;
     btnBatalClick(nil);
   end;

@@ -78,16 +78,16 @@ inherited frmInputBarangJasa: TfrmInputBarangJasa
     Top = 145
     Caption = 'Sub Kategori'
   end
-  object cxlSubKategori: TcxLookupComboBox
+  object cxLookupComboBox1: TcxLookupComboBox
     Left = 104
     Top = 144
     Properties.KeyFieldNames = 'kode'
     Properties.ListColumns = <
       item
-        Caption = 'SubKategori'
-        FieldName = 'subkategori'
+        Caption = 'Kategori'
+        FieldName = 'kategori'
       end>
-    Properties.ListSource = dsSubKategori
+    Properties.ListSource = dsKategori
     TabOrder = 9
     Width = 265
   end
@@ -151,19 +151,5 @@ inherited frmInputBarangJasa: TfrmInputBarangJasa
     DataSet = zqrKategori
     Left = 920
     Top = 64
-  end
-  object zqrSubKategori: TZReadOnlyQuery
-    Connection = DM.zConn
-    SQL.Strings = (
-      'SELECT * FROM tbl_subkategori_brg'
-      'ORDER BY subkategori')
-    Params = <>
-    Left = 840
-    Top = 136
-  end
-  object dsSubKategori: TDataSource
-    DataSet = zqrSubKategori
-    Left = 920
-    Top = 136
   end
 end

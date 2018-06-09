@@ -16,7 +16,7 @@ uses
   dxSkinValentine, dxSkinXmas2008Blue, dxSkinscxPCPainter, cxCustomData,
   cxFilter, cxData, cxDataStorage, cxEdit, DB, cxDBData, cxGridLevel, cxClasses,
   cxGridCustomView, cxGridCustomTableView, cxGridTableView, cxGridDBTableView,
-  cxGrid, ExtCtrls, StdCtrls, cxPC, ZAbstractRODataset, ZDataset;
+  cxGrid, ExtCtrls, StdCtrls, cxPC, ZAbstractRODataset, ZDataset, cxCheckBox;
 
 type
   TfrmLstSupplier = class(TfrmTplGrid)
@@ -50,7 +50,7 @@ type
   private
     { Private declarations }
   public
-    { Public declarations }
+    procedure RefreshGrid;
   end;
 
 var
@@ -68,13 +68,12 @@ var
   ts: TcxTabSheet;
 begin
   inherited;
-  MsgBox('ok');
   if not fu.CekTabOpen('Edit Supplier') then begin
     ts := TcxTabSheet.Create(Self);
     ts.PageControl := frmUtama.pgMain;
 
     f := TfrmInputSupplier.Create(Self);
-    f.Caption := 'Edit Supplier';
+    f.Caption := 'Edit User';
     f.Jenis := 'E';
     f.EditKey := zqrSupplier.FieldByName('kode').AsString;
     f.Parent := ts;
@@ -93,8 +92,8 @@ begin
 
   q := OpenRS('SELECT * FROM tbl_po_head where kode_supp = ''%s''',[zqrSupplier.FieldByName('kode').AsString]);
   if not q.Eof then begin
-        MsgBox('Data tidak bisa dihapus karena memiliki transaksi.');
-        Abort;
+    MsgBox('Data tidak bisa dihapus karena memiliki transaksi.');
+    Abort;
   end else begin
     try
       DM.zConn.StartTransaction;
@@ -108,8 +107,6 @@ begin
 
     end;
   end;
-
-
 
 end;
 
@@ -145,5 +142,11 @@ begin
   inherited;
   zqrSupplier.Open;
 end;
+
+procedure TfrmLstSupplier.RefreshGrid;
+begin
+  Self.btnRefreshClick(nil);
+end;
+
 
 end.

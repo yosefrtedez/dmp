@@ -115,9 +115,8 @@ inherited frmInputPP: TfrmInputPP
   object cxgrd1: TcxGrid
     Left = 10
     Top = 206
-    Width = 959
+    Width = 926
     Height = 293
-    Anchors = [akLeft, akTop, akRight, akBottom]
     TabOrder = 14
     object cxgrdTblPP: TcxGridTableView
       NavigatorButtons.ConfirmDelete = False
@@ -166,7 +165,7 @@ inherited frmInputPP: TfrmInputPP
             FieldName = 'kode'
           end>
         Properties.ListSource = dsBarang
-        Width = 204
+        Width = 149
       end
       object cxColQty: TcxGridColumn
         Caption = 'Qty'

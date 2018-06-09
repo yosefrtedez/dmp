@@ -29,13 +29,15 @@ type
     dsKategori: TDataSource;
     Label13: TLabel;
     cxLabel4: TcxLabel;
-    cxLookupComboBox1: TcxLookupComboBox;
+    cxlSubKategori: TcxLookupComboBox;
     cxLabel5: TcxLabel;
     cxLookupComboBox2: TcxLookupComboBox;
     cxLabel6: TcxLabel;
     cxLookupComboBox3: TcxLookupComboBox;
     cxLabel7: TcxLabel;
     cxSpinEdit1: TcxSpinEdit;
+    zqrSubKategori: TZReadOnlyQuery;
+    dsSubKategori: TDataSource;
     procedure btnSimpanClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
   private
@@ -66,6 +68,7 @@ begin
   q.FieldByName('kode').AsString := Trim(cxtKode.text);
   q.FieldByName('deskripsi').AsString := cxtDeskripsi.Text;
   q.FieldByName('id_kategori').AsInteger := cxlKategori.EditValue;
+  q.FieldByName('id_subkategori').AsInteger := cxlSubKategori.EditValue;
   q.Post;
 
   MsgBox('Data barang sudah disimpan.');
@@ -76,6 +79,7 @@ procedure TfrmInputBarangJasa.FormCreate(Sender: TObject);
 begin
   inherited;
   zqrKategori.Open;
+  zqrSubKategori.Open;
 end;
 
 end.

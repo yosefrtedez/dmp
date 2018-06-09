@@ -9,7 +9,7 @@ inherited frmInputPP: TfrmInputPP
   TextHeight = 13
   inherited Panel1: TPanel
     Width = 983
-    ExplicitWidth = 983
+    ExplicitWidth = 920
     object Label1: TLabel
       Left = 10
       Top = 16
@@ -29,15 +29,15 @@ inherited frmInputPP: TfrmInputPP
     Width = 983
     Height = 48
     ExplicitTop = 505
-    ExplicitWidth = 983
+    ExplicitWidth = 920
     ExplicitHeight = 48
     inherited btnSimpan: TButton
       OnClick = btnSimpanClick
     end
   end
   object cxlbl1: TcxLabel
-    Left = 10
-    Top = 63
+    Left = 21
+    Top = 66
     Caption = 'No. Bukti'
   end
   object cxtNoBukti: TcxTextEdit
@@ -46,11 +46,11 @@ inherited frmInputPP: TfrmInputPP
     Properties.CharCase = ecUpperCase
     Properties.ReadOnly = True
     TabOrder = 3
-    Width = 146
+    Width = 96
   end
   object cxlbl2: TcxLabel
-    Left = 10
-    Top = 86
+    Left = 21
+    Top = 89
     Caption = 'Tanggal'
   end
   object cxdTanggal: TcxDateEdit
@@ -60,24 +60,24 @@ inherited frmInputPP: TfrmInputPP
     Width = 147
   end
   object cxlbl3: TcxLabel
-    Left = 10
-    Top = 114
+    Left = 21
+    Top = 115
     Caption = 'Tgl Diperlukan'
   end
   object cxdTglPerlu: TcxDateEdit
     Left = 106
-    Top = 116
+    Top = 114
     TabOrder = 7
     Width = 147
   end
   object cxlbl5: TcxLabel
-    Left = 10
-    Top = 141
+    Left = 20
+    Top = 140
     Caption = 'Diajukan Oleh'
   end
   object cxtDiajukan: TcxTextEdit
-    Left = 106
-    Top = 143
+    Left = 105
+    Top = 139
     Properties.CharCase = ecUpperCase
     Properties.ReadOnly = True
     TabOrder = 9
@@ -85,7 +85,7 @@ inherited frmInputPP: TfrmInputPP
   end
   object cxrdgrp1: TcxRadioGroup
     Left = 279
-    Top = 55
+    Top = 60
     Caption = 'Level Kebutuhan'
     Properties.Items = <>
     TabOrder = 10
@@ -100,24 +100,23 @@ inherited frmInputPP: TfrmInputPP
     Width = 159
   end
   object cxlbl6: TcxLabel
-    Left = 10
-    Top = 169
+    Left = 23
+    Top = 167
     Caption = 'Departemen'
   end
   object cxtDepartemen: TcxTextEdit
-    Left = 106
-    Top = 170
+    Left = 105
+    Top = 165
     Properties.CharCase = ecUpperCase
     Properties.ReadOnly = True
     TabOrder = 13
     Width = 147
   end
   object cxgrd1: TcxGrid
-    Left = 10
-    Top = 206
-    Width = 959
+    Left = 24
+    Top = 197
+    Width = 926
     Height = 293
-    Anchors = [akLeft, akTop, akRight, akBottom]
     TabOrder = 14
     object cxgrdTblPP: TcxGridTableView
       NavigatorButtons.ConfirmDelete = False
@@ -166,7 +165,7 @@ inherited frmInputPP: TfrmInputPP
             FieldName = 'kode'
           end>
         Properties.ListSource = dsBarang
-        Width = 204
+        Width = 149
       end
       object cxColQty: TcxGridColumn
         Caption = 'Qty'

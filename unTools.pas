@@ -346,7 +346,9 @@ begin
     depan := 'MEMO/'
   // JURNAL
   else if sTipe = 'jurnal' then
-    depan := 'J/';
+    depan := 'J/'
+  else if sTipe = 'permintaan_pembelian' then
+    depan := 'PP/';
 
   head := depan + GetFaktur;
 

@@ -92,13 +92,13 @@ begin
 
   q := OpenRS('SELECT * FROM tbl_po_head where kode_supp = ''%s''',[zqrSupplier.FieldByName('kode').AsString]);
   if not q.IsEmpty then begin
-    MsgBox('Data supplier tidak bisa dihapus karena memiliki transaksi.');
-    q.Close;
+    MsgBox('Data tidak bisa dihapus karena memiliki transaksi.');
+    Abort;
   end
   else begin
     try
       DM.zConn.StartTransaction;
-      Dm.zConn.ExecuteDirect('delete from tbl_supplier where kode = ''' + zqrSupplier.FieldByName('kode').AsString + '''');
+      Dm.zConn.ExecuteDirect('delete from tbl_supplier where kode = ''' + zqrSupplier.FieldByName('kode').AsString);
       DM.zConn.Commit;
       MsgBox('Data supplier dengan kode : ' + zqrSupplier.FieldByName('kode').AsString + ' sudah berhasil dihapus');
       q.Close;
