@@ -1,0 +1,24 @@
+unit unFrmPenerimaanKas;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, unFrmTplInput, StdCtrls, ExtCtrls;
+
+type
+  TfrmPenerimaanKas = class(TfrmTplInput)
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmPenerimaanKas: TfrmPenerimaanKas;
+
+implementation
+
+{$R *.dfm}
+
+end.

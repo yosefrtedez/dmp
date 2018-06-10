@@ -10,6 +10,7 @@ type
   TDM = class(TDataModule)
     zConn: TZConnection;
     IL16: TImageList;
+    I64: TImageList;
     procedure DataModuleCreate(Sender: TObject);
   private
     { Private declarations }

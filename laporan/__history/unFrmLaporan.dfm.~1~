@@ -1,0 +1,15 @@
+inherited frmLaporan: TfrmLaporan
+  Caption = 'frmLaporan'
+  ExplicitWidth = 894
+  ExplicitHeight = 553
+  PixelsPerInch = 96
+  TextHeight = 13
+  inherited Panel2: TPanel
+    inherited btnSimpan: TButton
+      Visible = False
+    end
+    inherited btnBatal: TButton
+      Visible = False
+    end
+  end
+end

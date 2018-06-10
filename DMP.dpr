@@ -39,7 +39,10 @@ uses
   unFrmDefaultAkun in 'coa\unFrmDefaultAkun.pas' {frmDefaultAkun},
   unFrmMasterOrder in 'masterorder\unFrmMasterOrder.pas' {frmMasterOrder},
   unFrmSettingWewenang in 'setting\unFrmSettingWewenang.pas' {frmSettingWewenang},
-  unFrmSettingProgram in 'setting\unFrmSettingProgram.pas' {frmSettingProgram};
+  unFrmSettingProgram in 'setting\unFrmSettingProgram.pas' {frmSettingProgram},
+  unFrmInputPenerimaanKas in 'penerimaanpengeluarankas\unFrmInputPenerimaanKas.pas' {frmInputPenerimaanKas},
+  unFrmLaporan in 'laporan\unFrmLaporan.pas' {frmLaporan},
+  unFrmLstPenerimaanKas in 'penerimaanpengeluarankas\unFrmLstPenerimaanKas.pas' {frmLstPenerimaanKas};
 
 {$R *.res}
 
@@ -54,6 +57,9 @@ begin
   Application.CreateForm(TfrmMasterOrder, frmMasterOrder);
   Application.CreateForm(TfrmSettingWewenang, frmSettingWewenang);
   Application.CreateForm(TfrmSettingProgram, frmSettingProgram);
+  Application.CreateForm(TfrmInputPenerimaanKas, frmInputPenerimaanKas);
+  Application.CreateForm(TfrmLaporan, frmLaporan);
+  Application.CreateForm(TfrmLstPenerimaanKas, frmLstPenerimaanKas);
   frmUtama.Show;
 
   frmLogin.ShowModal;

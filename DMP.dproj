@@ -146,6 +146,15 @@
 			<DCCReference Include="setting\unFrmSettingProgram.pas">
 				<Form>frmSettingProgram</Form>
 			</DCCReference>
+			<DCCReference Include="penerimaanpengeluarankas\unFrmInputPenerimaanKas.pas">
+				<Form>frmInputPenerimaanKas</Form>
+			</DCCReference>
+			<DCCReference Include="laporan\unFrmLaporan.pas">
+				<Form>frmLaporan</Form>
+			</DCCReference>
+			<DCCReference Include="penerimaanpengeluarankas\unFrmLstPenerimaanKas.pas">
+				<Form>frmLstPenerimaanKas</Form>
+			</DCCReference>
 			<BuildConfiguration Include="Base">
 				<Key>Base</Key>
 			</BuildConfiguration>

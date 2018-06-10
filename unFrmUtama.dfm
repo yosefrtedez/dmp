@@ -183,6 +183,13 @@ object frmUtama: TfrmUtama
     end
     object mnAKT: TMenuItem
       Caption = 'AKT'
+      object mnAKT_PenerimaanKas: TMenuItem
+        Caption = 'Penerimaan Kas'
+        OnClick = mnAKT_PenerimaanKasClick
+      end
+      object mnAKT_PengeluaranKas: TMenuItem
+        Caption = 'Pengeluaran Kas'
+      end
       object mnAkt_JurnalUmum: TMenuItem
         Caption = 'Jurnal Umum'
         OnClick = mnAkt_JurnalUmumClick
@@ -202,6 +209,9 @@ object frmUtama: TfrmUtama
         Caption = 'Wewenang User'
         OnClick = mnSet_WewenangUserClick
       end
+    end
+    object mnLap: TMenuItem
+      Caption = 'Laporan'
     end
   end
 end

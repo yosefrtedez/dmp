@@ -32,7 +32,7 @@ type
     mnMst_Karyawan: TMenuItem;
     mnMst_UserProgram: TMenuItem;
     mnPPIC: TMenuItem;
-    PRD1: TMenuItem;
+    mnPRD: TMenuItem;
     PUR1: TMenuItem;
     mnMst_COA: TMenuItem;
     mnMst_Lain2: TMenuItem;
@@ -48,11 +48,19 @@ type
     mnPur_PO: TMenuItem;
     mnApp_PO: TMenuItem;
     mnAKT: TMenuItem;
-    mnAKT_JurnalUmum: TMenuItem;
-    mnAKT_SetDefaultAkun: TMenuItem;
+    mnAkt_JurnalUmum: TMenuItem;
+    mnAkt_SetDefaultAkun: TMenuItem;
     mnSet: TMenuItem;
     mnSet_WewenangUser: TMenuItem;
     mnSet_SettingProgram: TMenuItem;
+    mnPrd_PengambilanBB: TMenuItem;
+    mnPrd_InputHslProd: TMenuItem;
+    SuratJalan1: TMenuItem;
+    mnPpic_MasterSchedule: TMenuItem;
+    mnMkt_ReturPenjualan: TMenuItem;
+    mnPpic_SOMadeToStok: TMenuItem;
+    mnAKT_PenerimaanKas: TMenuItem;
+    mnAKT_PengeluaranKas: TMenuItem;
     procedure FormShow(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure mnMst_BarangJasaClick(Sender: TObject);
@@ -68,8 +76,8 @@ type
     procedure mnMkt_SalesOrderClick(Sender: TObject);
     procedure mnPur_PPClick(Sender: TObject);
     procedure mnMst_COAClick(Sender: TObject);
-    procedure mnAKT_JurnalUmumClick(Sender: TObject);
-    procedure mnAKT_SetDefaultAkunClick(Sender: TObject);
+    procedure mnAkt_JurnalUmumClick(Sender: TObject);
+    procedure mnAkt_SetDefaultAkunClick(Sender: TObject);
     procedure mnPpic_MasterOrderClick(Sender: TObject);
     procedure mnSys_LogOffClick(Sender: TObject);
     procedure mnSet_WewenangUserClick(Sender: TObject);
@@ -151,7 +159,7 @@ begin
   Self.BuildMenu;
 end;
 
-procedure TfrmUtama.mnAKT_JurnalUmumClick(Sender: TObject);
+procedure TfrmUtama.mnAkt_JurnalUmumClick(Sender: TObject);
 var
   f: TfrmLstJurnalUmum;
   ts: TcxTabSheet;
@@ -170,7 +178,7 @@ begin
   end;
 end;
 
-procedure TfrmUtama.mnAKT_SetDefaultAkunClick(Sender: TObject);
+procedure TfrmUtama.mnAkt_SetDefaultAkunClick(Sender: TObject);
 var
   f: TfrmDefaultAkun;
   ts: TcxTabSheet;

@@ -3,11 +3,13 @@ unit unDM;
 interface
 
 uses
-  SysUtils, Classes, ZAbstractConnection, ZConnection, unAplikasi, ZDataset, IniFiles, Forms, Controls;
+  SysUtils, Classes, ZAbstractConnection, ZConnection, unAplikasi, ZDataset, IniFiles, Forms, Controls,
+  ImgList;
 
 type
   TDM = class(TDataModule)
     zConn: TZConnection;
+    IL16: TImageList;
     procedure DataModuleCreate(Sender: TObject);
   private
     { Private declarations }
@@ -21,7 +23,10 @@ var
 
 implementation
 
-uses unFrmPilihKoneksi, unTools;
+uses unFrmPilihKoneksi, unTools, LbCipher, LbString;
+
+var
+  Key128: TKey128;
 
 {$R *.dfm}
 
@@ -69,6 +74,7 @@ begin
   else
     section := 'database';
 
+  {
   if ParamCount > 0 then begin
     if ParamStr(1) <> '/noupdate' then begin
       UpdateWallpaper('');
@@ -84,6 +90,7 @@ begin
     UpdateWallpaper(UpdatePath);
     CekUpdate;
   end;
+  }
 
   if (FileExists(FileIni)) then begin
 
@@ -93,16 +100,12 @@ begin
       host := Ini.ReadString(section,'host','');
       user := Ini.ReadString(section,'user','');
       password := Ini.ReadString(section,'password','');
-      aplikasi.Cabang := Ini.ReadString(section,'cabang','SBY');
       aplikasi.POTmp := Ini.ReadString(section,'potmp','');
       port := Ini.ReadString(section,'port','3306');
+
       GenerateLMDKey(Key128, SizeOf(Key128), '238');
       password := TripleDESEncryptStringCBCEx(password, Key128, False);
-      Aplikasi.ComPort := Ini.ReadString(section,'ComPort','COM3');
-
-      if aplikasi.Cabang <> 'SBY' then begin
-        Aplikasi.Cabang := TripleDESEncryptStringCBCEx(aplikasi.Cabang, Key128, False);
-      end;
+      //Aplikasi.ComPort := Ini.ReadString(section,'ComPort','COM3');
 
       zConn.Catalog := db;
       zConn.Database := db;
@@ -116,12 +119,13 @@ begin
 
     Aplikasi.DBHost := zConn.HostName;
     Aplikasi.DBName := zConn.Database;
+
+    {
     if aplikasi.debug then
       aplikasi.ServerSMTP := q.FieldByName('mail_server').AsString
     else
       aplikasi.ServerSMTP := q.FieldByName('mail_server').AsString;
-
-    aplikasi.UkuranSPK := 'B';
+    }
 
     // ambil user database
     aplikasi.DBUser := user;

@@ -59,6 +59,9 @@ type
     mnPpic_MasterSchedule: TMenuItem;
     mnMkt_ReturPenjualan: TMenuItem;
     mnPpic_SOMadeToStok: TMenuItem;
+    mnAKT_PenerimaanKas: TMenuItem;
+    mnAKT_PengeluaranKas: TMenuItem;
+    mnLap: TMenuItem;
     procedure FormShow(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure mnMst_BarangJasaClick(Sender: TObject);
@@ -80,6 +83,7 @@ type
     procedure mnSys_LogOffClick(Sender: TObject);
     procedure mnSet_WewenangUserClick(Sender: TObject);
     procedure mnSet_SettingProgramClick(Sender: TObject);
+    procedure mnAKT_PenerimaanKasClick(Sender: TObject);
   private
     procedure PGChange(Sender: TObject);
   public
@@ -100,7 +104,8 @@ uses
   unTools, unFrmLstBarangJasa, unFrmLstCustomer, unFrmLstSupplier,
   unFrmLstMesin, unFrmLstUser, unFrmLstLain2, unDM, unFrmLstKaryawan,
   unFrmLstSO, unFrmLstPP, unFrmLstCOA, unFrmLstJurnalUmum, unFrmDefaultAkun,
-  unFrmMasterOrder, unFrmLogin, unFrmSettingWewenang, unFrmSettingProgram;
+  unFrmMasterOrder, unFrmLogin, unFrmSettingWewenang, unFrmSettingProgram,
+  unFrmLstPenerimaanKas;
 
 {$R *.dfm}
 
@@ -168,6 +173,25 @@ begin
     ts.PageControl := pgMain;
 
     f := TfrmLstJurnalUmum.Create(Self);
+    f.Parent := ts;
+    ts.Caption := f.Caption;
+    f.Show;
+
+    pgMain.ActivePage := ts;
+  end;
+end;
+
+procedure TfrmUtama.mnAKT_PenerimaanKasClick(Sender: TObject);
+var
+  f: TfrmLstPenerimaanKas;
+  ts: TcxTabSheet;
+begin
+  if not CekTabOpen('Penerimaan Kas') then begin
+    ToggleMainPage;
+    ts := TcxTabSheet.Create(Self);
+    ts.PageControl := pgMain;
+
+    f := TfrmLstPenerimaanKas.Create(Self);
     f.Parent := ts;
     ts.Caption := f.Caption;
     f.Show;

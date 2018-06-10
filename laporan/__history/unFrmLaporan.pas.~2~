@@ -1,0 +1,25 @@
+unit unFrmLaporan;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, unFrmTplInput, StdCtrls, ExtCtrls;
+
+type
+  TfrmLaporan = class(TfrmTplInput)
+    ScrollBox1: TScrollBox;
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmLaporan: TfrmLaporan;
+
+implementation
+
+{$R *.dfm}
+
+end.
