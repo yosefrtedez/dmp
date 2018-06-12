@@ -45,7 +45,7 @@ type
     cxColPP1keterangan: TcxGridDBColumn;
     cxColPP1mata_uang: TcxGridDBColumn;
     cxgrdlvl1cxgrd1PPLevel1: TcxGridLevel;
-    cxgtblcxgrd1PPDBTableView1: TcxGridDBTableView;
+    cxTblcxgtblcxgrd1PPDBTableView1: TcxGridDBTableView;
     cxColcxgtblcxgrd1PPDBTableView1no_bukti: TcxGridDBColumn;
     cxColcxgtblcxgrd1PPDBTableView1kode_brg: TcxGridDBColumn;
     cxColcxgtblcxgrd1PPDBTableView1deskripsi: TcxGridDBColumn;
@@ -59,6 +59,7 @@ type
     procedure btnTambahClick(Sender: TObject);
     procedure btnRefreshClick(Sender: TObject);
     procedure btnEditClick(Sender: TObject);
+    procedure btnHapusClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -85,15 +86,46 @@ begin
   if not fu.CekTabOpen('Edit PP') then begin
     ts := TcxTabSheet.Create(Self);
     ts.PageControl := frmUtama.pgMain;
+    if zqrPPHead.FieldByName('f_app').AsString = '1' then begin
+      MsgBox('Maaf data tidak bisa diedit, karena sudah di approve');
+      Abort;
+    end;
     f := TfrmInputPP.Create(Self);
     ts.Caption := 'Edit PP';
     f.Jenis := 'E';
-    f.EditKey := zqrPPHead.FieldByName('no_bukti').AsString;
+    f.EditKey := zqrPPHead.FieldByName('id').AsString;
     f.Parent := ts;
     ts.Caption := f.Caption;
     f.Show;
     fu.pgMain.ActivePage := ts;
   end;
+end;
+
+procedure TfrmLstPP.btnHapusClick(Sender: TObject);
+var
+  q : TZQuery;
+begin
+  inherited;
+
+  q := OpenRS('SELECT * FROM tbl_po_head where no_fobj = ''%s''',[zqrPPhead.FieldByName('no_bukti').AsString]);
+  if not q.Eof then begin
+        MsgBox('Data tidak bisa dihapus karena memiliki transaksi.');
+        Abort;
+  end else begin
+    try
+      DM.zConn.StartTransaction;
+      Dm.zConn.ExecuteDirect('delete from tbl_pp_head where id = ''' + zqrPPHead.FieldByName('id').AsString +'''');
+      Dm.zConn.ExecuteDirect('delete from tbl_pp_det where id_ref = ''' + zqrPPHead.FieldByName('id').AsString +'''');
+      DM.zConn.Commit;
+      MsgBox('Data Permintaan Pembelian dengan kode ' + zqrPPHead.FieldByName('no_bukti').AsString + 'sudah berhasil dihapus');
+      q.Close;
+      q.Open;
+      btnRefreshClick(nil);
+    finally
+
+    end;
+  end;
+
 end;
 
 procedure TfrmLstPP.btnRefreshClick(Sender: TObject);
@@ -126,6 +158,8 @@ end;
 procedure TfrmLstPP.FormCreate(Sender: TObject);
 begin
   inherited;
+  zqrPPDet.Close;
+  zqrPPHead.Close;
   zqrPPDet.Open;
   zqrPPHead.Open;
 end;

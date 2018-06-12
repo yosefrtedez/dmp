@@ -64,5 +64,15 @@
     <Transaction>2018/06/10 07.11.03.205.dfm,D:\108 JSP\My Project\05. Felgito\02. Source Code\penerimaanpengeluarankas\unFrmPenerimaanKas.dfm=D:\108 JSP\My Project\05. Felgito\02. Source Code\penerimaanpengeluarankas\unFrmInputPenerimaanKas.dfm</Transaction>
     <Transaction>2018/06/10 07.11.46.746.pas,D:\108 JSP\My Project\05. Felgito\02. Source Code\Unit1.pas=D:\108 JSP\My Project\05. Felgito\02. Source Code\penerimaanpengeluarankas\unFrmLstPenerimaanKas.pas</Transaction>
     <Transaction>2018/06/10 07.11.46.746.dfm,D:\108 JSP\My Project\05. Felgito\02. Source Code\Unit1.dfm=D:\108 JSP\My Project\05. Felgito\02. Source Code\penerimaanpengeluarankas\unFrmLstPenerimaanKas.dfm</Transaction>
+    <Transaction>2018/06/10 07.56.55.608.pas,D:\108 JSP\My Project\05. Felgito\02. Source Code\Unit1.pas=D:\108 JSP\My Project\05. Felgito\02. Source Code\formula\unFrmLstFormula.pas</Transaction>
+    <Transaction>2018/06/10 07.56.55.608.dfm,D:\108 JSP\My Project\05. Felgito\02. Source Code\Unit1.dfm=D:\108 JSP\My Project\05. Felgito\02. Source Code\formula\unFrmLstFormula.dfm</Transaction>
+    <Transaction>2018/06/10 07.58.10.059.pas,D:\108 JSP\My Project\05. Felgito\02. Source Code\Unit1.pas=D:\108 JSP\My Project\05. Felgito\02. Source Code\formula\unFrmInputFormula.pas</Transaction>
+    <Transaction>2018/06/10 07.58.10.059.dfm,D:\108 JSP\My Project\05. Felgito\02. Source Code\Unit1.dfm=D:\108 JSP\My Project\05. Felgito\02. Source Code\formula\unFrmInputFormula.dfm</Transaction>
+    <Transaction>2018/06/11 14.06.14.841.pas,D:\108 JSP\My Project\05. Felgito\02. Source Code\Unit1.pas=D:\108 JSP\My Project\05. Felgito\02. Source Code\purchaseorder\unFrmAppPO.pas</Transaction>
+    <Transaction>2018/06/11 14.06.14.841.dfm,D:\108 JSP\My Project\05. Felgito\02. Source Code\Unit1.dfm=D:\108 JSP\My Project\05. Felgito\02. Source Code\purchaseorder\unFrmAppPO.dfm</Transaction>
+    <Transaction>2018/06/11 14.07.13.456.pas,D:\108 JSP\My Project\05. Felgito\02. Source Code\Unit1.pas=D:\108 JSP\My Project\05. Felgito\02. Source Code\penerimaanbarang\unFrmLstPB.pas</Transaction>
+    <Transaction>2018/06/11 14.07.13.456.dfm,D:\108 JSP\My Project\05. Felgito\02. Source Code\Unit1.dfm=D:\108 JSP\My Project\05. Felgito\02. Source Code\penerimaanbarang\unFrmLstPB.dfm</Transaction>
+    <Transaction>2018/06/11 14.09.10.006.pas,D:\108 JSP\My Project\05. Felgito\02. Source Code\Unit1.pas=D:\108 JSP\My Project\05. Felgito\02. Source Code\penerimaanbarang\unFrmInputPB.pas</Transaction>
+    <Transaction>2018/06/11 14.09.10.006.dfm,D:\108 JSP\My Project\05. Felgito\02. Source Code\Unit1.dfm=D:\108 JSP\My Project\05. Felgito\02. Source Code\penerimaanbarang\unFrmInputPB.dfm</Transaction>
   </Transactions>
 </BorlandProject>

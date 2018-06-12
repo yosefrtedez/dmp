@@ -41,16 +41,19 @@ type
     dsAkun: TDataSource;
     procedure FormShow(Sender: TObject);
     procedure FormCreate(Sender: TObject);
-    procedure cxColNoAkunPropertiesChange(Sender: TObject);
     procedure cxtbJurnalUmumFocusedItemChanged(Sender: TcxCustomGridTableView;
       APrevFocusedItem, AFocusedItem: TcxCustomGridTableItem);
     procedure btnSimpanClick(Sender: TObject);
     procedure cxtbJurnalUmumDataControllerNewRecord(
       ADataController: TcxCustomDataController; ARecordIndex: Integer);
-    procedure cxColNoAkunPropertiesEditValueChanged(Sender: TObject);
     procedure cxtbJurnalUmumFocusedRecordChanged(Sender: TcxCustomGridTableView;
       APrevFocusedRecord, AFocusedRecord: TcxCustomGridRecord;
       ANewItemRecordFocusingChanged: Boolean);
+    procedure cxtbJurnalUmumDataControllerBeforePost(
+      ADataController: TcxCustomDataController);
+    procedure cxtbJurnalUmumDataControllerRecordChanged(
+      ADataController: TcxCustomDataController; ARecordIndex,
+      AItemIndex: Integer);
   private
     { Private declarations }
   public
@@ -191,24 +194,27 @@ begin
   end;
 end;
 
-procedure TfrmInputJurnalUmum.cxColNoAkunPropertiesChange(Sender: TObject);
+procedure TfrmInputJurnalUmum.cxtbJurnalUmumDataControllerBeforePost(
+  ADataController: TcxCustomDataController);
 var
-  i: integer;
+  i,j: integer;
+  v: variant;
 begin
   inherited;
-  
-end;
 
-procedure TfrmInputJurnalUmum.cxColNoAkunPropertiesEditValueChanged(
-  Sender: TObject);
-var
-  i: Integer;
-begin
-  inherited;
-  {
-  i := cxtbJurnalUmum.DataController.GetFocusedRecordIndex;
-  MsgBox(cxtbJurnalUmum.DataController.Values[i, cxColNoAkun.Index]);
-  }
+  i := ADataController.GetEditingRecordIndex;
+  v := ADataController.Values[i, cxColNoAkun.Index];
+
+  for j := 0 to ADataController.RecordCount - 1 do begin
+    if j <> i then begin
+      if v = ADataController.Values[j, cxColNoAkun.Index] then begin
+        MsgBox('No. Akun tersebut sudah ada.');
+        ADataController.DeleteRecord(i);
+        Break;
+      end;
+    end;
+  end;
+
 end;
 
 procedure TfrmInputJurnalUmum.cxtbJurnalUmumDataControllerNewRecord(
@@ -219,6 +225,29 @@ begin
   ADataController.Values[ARecordIndex, cxColKredit.Index] := 0;
 end;
 
+procedure TfrmInputJurnalUmum.cxtbJurnalUmumDataControllerRecordChanged(
+  ADataController: TcxCustomDataController; ARecordIndex, AItemIndex: Integer);
+begin
+  inherited;
+  if AItemIndex = cxColNoAkun.Index then
+    ADataController.Values[ARecordIndex, cxColNamaAkun.Index] := ADataController.Values[ARecordIndex, cxColNoAkun.Index];
+  if AItemIndex = cxColNamaAkun.Index then
+    ADataController.Values[ARecordIndex, cxColNoAkun.Index] := ADataController.Values[ARecordIndex, cxColNamaAkun.Index];
+
+  if AItemIndex = cxColDebet.Index then begin
+    if ADataController.Values[ARecordIndex, cxColDebet.Index] > 0 then
+      ADataController.Values[ARecordIndex, cxColKredit.Index] := 0;
+    if cxColDebet.EditValue < 0 then cxColDebet.EditValue := 0;
+  end;
+
+  if AItemIndex = cxColKredit.Index then begin
+    if ADataController.Values[ARecordIndex, cxColKredit.Index] > 0 then
+      ADataController.Values[ARecordIndex, cxColDebet.Index] := 0;
+    if cxColKredit.EditValue < 0 then cxColKredit.EditValue := 0;
+
+  end;
+end;
+
 procedure TfrmInputJurnalUmum.cxtbJurnalUmumFocusedItemChanged(
   Sender: TcxCustomGridTableView; APrevFocusedItem,
   AFocusedItem: TcxCustomGridTableItem);
@@ -226,6 +255,7 @@ var
   i,p,r: integer;
 begin
   inherited;
+  {
   i := AFocusedItem.Index;
   p := APrevFocusedItem.Index;
   r := cxtbJurnalUmum.DataController.GetFocusedRecordIndex;
@@ -244,7 +274,7 @@ begin
       if Values[r, cxColKredit.Index] > 0 then Values[r, cxColDebet.Index] := 0;
     end;
   end;
-
+  }
 end;
 
 procedure TfrmInputJurnalUmum.cxtbJurnalUmumFocusedRecordChanged(

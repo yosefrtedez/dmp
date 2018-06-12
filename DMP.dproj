@@ -155,6 +155,21 @@
 			<DCCReference Include="penerimaanpengeluarankas\unFrmLstPenerimaanKas.pas">
 				<Form>frmLstPenerimaanKas</Form>
 			</DCCReference>
+			<DCCReference Include="formula\unFrmLstFormula.pas">
+				<Form>frmLstFormula</Form>
+			</DCCReference>
+			<DCCReference Include="formula\unFrmInputFormula.pas">
+				<Form>frmInputFormula</Form>
+			</DCCReference>
+			<DCCReference Include="purchaseorder\unFrmAppPO.pas">
+				<Form>frmAppPO</Form>
+			</DCCReference>
+			<DCCReference Include="penerimaanbarang\unFrmLstPB.pas">
+				<Form>frmLstPB</Form>
+			</DCCReference>
+			<DCCReference Include="penerimaanbarang\unFrmInputPB.pas">
+				<Form>frmTplInput1</Form>
+			</DCCReference>
 			<BuildConfiguration Include="Base">
 				<Key>Base</Key>
 			</BuildConfiguration>

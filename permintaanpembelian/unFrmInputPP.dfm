@@ -28,6 +28,7 @@ inherited frmInputPP: TfrmInputPP
     Top = 505
     Width = 983
     Height = 48
+    TabOrder = 15
     ExplicitTop = 505
     ExplicitWidth = 983
     ExplicitHeight = 48
@@ -36,8 +37,8 @@ inherited frmInputPP: TfrmInputPP
     end
   end
   object cxlbl1: TcxLabel
-    Left = 10
-    Top = 63
+    Left = 21
+    Top = 66
     Caption = 'No. Bukti'
   end
   object cxtNoBukti: TcxTextEdit
@@ -45,23 +46,23 @@ inherited frmInputPP: TfrmInputPP
     Top = 62
     Properties.CharCase = ecUpperCase
     Properties.ReadOnly = True
-    TabOrder = 3
-    Width = 146
+    TabOrder = 2
+    Width = 96
   end
   object cxlbl2: TcxLabel
-    Left = 10
-    Top = 86
+    Left = 21
+    Top = 89
     Caption = 'Tanggal'
   end
   object cxdTanggal: TcxDateEdit
     Left = 106
     Top = 89
-    TabOrder = 5
+    TabOrder = 6
     Width = 147
   end
   object cxlbl3: TcxLabel
-    Left = 10
-    Top = 114
+    Left = 21
+    Top = 117
     Caption = 'Tgl Diperlukan'
   end
   object cxdTglPerlu: TcxDateEdit
@@ -71,24 +72,24 @@ inherited frmInputPP: TfrmInputPP
     Width = 147
   end
   object cxlbl5: TcxLabel
-    Left = 10
-    Top = 141
+    Left = 20
+    Top = 144
     Caption = 'Diajukan Oleh'
   end
   object cxtDiajukan: TcxTextEdit
-    Left = 106
+    Left = 105
     Top = 143
     Properties.CharCase = ecUpperCase
     Properties.ReadOnly = True
-    TabOrder = 9
+    TabOrder = 10
     Width = 147
   end
   object cxrdgrp1: TcxRadioGroup
     Left = 279
-    Top = 55
+    Top = 60
     Caption = 'Level Kebutuhan'
     Properties.Items = <>
-    TabOrder = 10
+    TabOrder = 1
     Height = 63
     Width = 193
   end
@@ -96,31 +97,32 @@ inherited frmInputPP: TfrmInputPP
     Left = 299
     Top = 83
     Properties.DropDownListStyle = lsEditFixedList
-    TabOrder = 11
+    TabOrder = 4
     Width = 159
   end
   object cxlbl6: TcxLabel
-    Left = 10
-    Top = 169
+    Left = 21
+    Top = 171
     Caption = 'Departemen'
   end
   object cxtDepartemen: TcxTextEdit
-    Left = 106
+    Left = 105
     Top = 170
     Properties.CharCase = ecUpperCase
     Properties.ReadOnly = True
-    TabOrder = 13
+    TabOrder = 12
     Width = 147
   end
   object cxgrd1: TcxGrid
-    Left = 10
-    Top = 206
-    Width = 959
+    Left = 24
+    Top = 205
+    Width = 926
     Height = 293
-    Anchors = [akLeft, akTop, akRight, akBottom]
     TabOrder = 14
     object cxgrdTblPP: TcxGridTableView
       NavigatorButtons.ConfirmDelete = False
+      NavigatorButtons.Insert.Visible = False
+      NavigatorButtons.Append.Visible = True
       OnFocusedItemChanged = cxgrdTblPPFocusedItemChanged
       OnFocusedRecordChanged = cxgrdTblPPFocusedRecordChanged
       DataController.Summary.DefaultGroupSummaryItems = <>
@@ -166,7 +168,7 @@ inherited frmInputPP: TfrmInputPP
             FieldName = 'kode'
           end>
         Properties.ListSource = dsBarang
-        Width = 204
+        Width = 149
       end
       object cxColQty: TcxGridColumn
         Caption = 'Qty'
@@ -222,7 +224,7 @@ inherited frmInputPP: TfrmInputPP
     SQL.Strings = (
       'select * from tbl_pp_head order by no_bukti;')
     Params = <>
-    Left = 673
+    Left = 672
     Top = 131
   end
   object dsPP: TDataSource

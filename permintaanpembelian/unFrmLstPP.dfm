@@ -32,6 +32,9 @@ inherited frmLstPP: TfrmLstPP
     inherited btnEdit: TButton
       OnClick = btnEditClick
     end
+    inherited btnHapus: TButton
+      OnClick = btnHapusClick
+    end
     inherited btnKeluar: TButton
       Left = 1027
       ExplicitLeft = 1027
@@ -47,14 +50,10 @@ inherited frmLstPP: TfrmLstPP
     Height = 410
     Align = alClient
     TabOrder = 2
-    ExplicitLeft = 15
-    ExplicitTop = 57
-    ExplicitWidth = 1068
-    ExplicitHeight = 380
     object cxgtblPP: TcxGridDBTableView
       NavigatorButtons.ConfirmDelete = False
       DataController.DataSource = dsPPHead
-      DataController.KeyFieldNames = 'no_bukti'
+      DataController.KeyFieldNames = 'id'
       DataController.Summary.DefaultGroupSummaryItems = <>
       DataController.Summary.FooterSummaryItems = <>
       DataController.Summary.SummaryGroups = <>
@@ -141,11 +140,11 @@ inherited frmLstPP: TfrmLstPP
         Width = 100
       end
     end
-    object cxgtblcxgrd1PPDBTableView1: TcxGridDBTableView
+    object cxTblcxgtblcxgrd1PPDBTableView1: TcxGridDBTableView
       NavigatorButtons.ConfirmDelete = False
       DataController.DataSource = dsPPDet
-      DataController.DetailKeyFieldNames = 'no_bukti'
-      DataController.MasterKeyFieldNames = 'no_bukti'
+      DataController.DetailKeyFieldNames = 'id_ref'
+      DataController.MasterKeyFieldNames = 'id'
       DataController.Summary.DefaultGroupSummaryItems = <>
       DataController.Summary.FooterSummaryItems = <>
       DataController.Summary.SummaryGroups = <>
@@ -211,7 +210,7 @@ inherited frmLstPP: TfrmLstPP
     object cxgrdlvl1TblPP: TcxGridLevel
       GridView = cxgtblPP
       object cxgrdlvl1cxgrd1PPLevel1: TcxGridLevel
-        GridView = cxgtblcxgrd1PPDBTableView1
+        GridView = cxTblcxgtblcxgrd1PPDBTableView1
       end
     end
   end
@@ -221,7 +220,7 @@ inherited frmLstPP: TfrmLstPP
       'select * from tbl_pp_head order by no_bukti;')
     Params = <>
     Left = 810
-    Top = 161
+    Top = 159
   end
   object dsPPHead: TDataSource
     DataSet = zqrPPHead
@@ -232,17 +231,17 @@ inherited frmLstPP: TfrmLstPP
     Connection = DM.zConn
     SQL.Strings = (
       
-        'SELECT a.no_bukti, a.kode_brg, b.deskripsi, a.qty, b.satuan, a.h' +
-        'arga, a.keterangan, a.mata_uang'
+        'SELECT a.id, a.id_ref, a.no_bukti, a.kode_brg, b.deskripsi, a.qt' +
+        'y, b.satuan, a.harga, a.keterangan, a.mata_uang'
       'FROM tbl_pp_det a'
       'LEFT JOIN tbl_barang b ON a.kode_brg = b.kode')
     Params = <>
-    Left = 812
-    Top = 210
+    Left = 811
+    Top = 208
   end
   object dsPPDet: TDataSource
     DataSet = zqrPPDet
     Left = 842
-    Top = 212
+    Top = 209
   end
 end

@@ -42,7 +42,12 @@ uses
   unFrmSettingProgram in 'setting\unFrmSettingProgram.pas' {frmSettingProgram},
   unFrmInputPenerimaanKas in 'penerimaanpengeluarankas\unFrmInputPenerimaanKas.pas' {frmInputPenerimaanKas},
   unFrmLaporan in 'laporan\unFrmLaporan.pas' {frmLaporan},
-  unFrmLstPenerimaanKas in 'penerimaanpengeluarankas\unFrmLstPenerimaanKas.pas' {frmLstPenerimaanKas};
+  unFrmLstPenerimaanKas in 'penerimaanpengeluarankas\unFrmLstPenerimaanKas.pas' {frmLstPenerimaanKas},
+  unFrmLstFormula in 'formula\unFrmLstFormula.pas' {frmLstFormula},
+  unFrmInputFormula in 'formula\unFrmInputFormula.pas' {frmInputFormula},
+  unFrmAppPO in 'purchaseorder\unFrmAppPO.pas' {frmAppPO},
+  unFrmLstPB in 'penerimaanbarang\unFrmLstPB.pas' {frmLstPB},
+  unFrmInputPB in 'penerimaanbarang\unFrmInputPB.pas' {frmTplInput1};
 
 {$R *.res}
 
@@ -60,6 +65,11 @@ begin
   Application.CreateForm(TfrmInputPenerimaanKas, frmInputPenerimaanKas);
   Application.CreateForm(TfrmLaporan, frmLaporan);
   Application.CreateForm(TfrmLstPenerimaanKas, frmLstPenerimaanKas);
+  Application.CreateForm(TfrmLstFormula, frmLstFormula);
+  Application.CreateForm(TfrmInputFormula, frmInputFormula);
+  Application.CreateForm(TfrmAppPO, frmAppPO);
+  Application.CreateForm(TfrmLstPB, frmLstPB);
+  Application.CreateForm(TfrmTplInput1, frmTplInput1);
   frmUtama.Show;
 
   frmLogin.ShowModal;

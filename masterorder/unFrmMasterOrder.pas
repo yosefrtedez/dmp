@@ -17,7 +17,7 @@ uses
   cxFilter, cxData, cxDataStorage, cxEdit, DB, cxDBData, cxContainer, cxLabel,
   cxTextEdit, cxMaskEdit, cxDropDownEdit, cxCalendar, cxGridLevel, cxClasses,
   cxGridCustomView, cxGridCustomTableView, cxGridTableView, cxGridDBTableView,
-  cxGrid, StdCtrls, ExtCtrls;
+  cxGrid, StdCtrls, ExtCtrls,ZDataset, ZAbstractRODataset;
 
 type
   TfrmMasterOrder = class(TfrmTplInput)
@@ -34,7 +34,22 @@ type
     Button1: TButton;
     Button2: TButton;
     Button3: TButton;
-    Button4: TButton;
+    btnProses: TButton;
+    zqrMO: TZReadOnlyQuery;
+    dsMO: TDataSource;
+    cxGrid1DBTableView1no_mo: TcxGridDBColumn;
+    cxGrid1DBTableView1no_so: TcxGridDBColumn;
+    cxGrid1DBTableView1no_spk: TcxGridDBColumn;
+    cxGrid1DBTableView1tgl_spk: TcxGridDBColumn;
+    cxGrid1DBTableView1kode_brg: TcxGridDBColumn;
+    cxGrid1DBTableView1qty_mo: TcxGridDBColumn;
+    cxGrid1DBTableView1qty_so: TcxGridDBColumn;
+    cxGrid1DBTableView1deskripsi: TcxGridDBColumn;
+    cxGrid1DBTableView1tanggal: TcxGridDBColumn;
+    cxGrid1DBTableView1kode_customer: TcxGridDBColumn;
+    cxGrid1DBTableView1nama_customer: TcxGridDBColumn;
+    procedure btnProsesClick(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
   private
     { Private declarations }
   public
@@ -46,6 +61,31 @@ var
 
 implementation
 
+uses
+  unDM, unTools;
+
 {$R *.dfm}
+
+procedure TfrmMasterOrder.btnProsesClick(Sender: TObject);
+begin
+  inherited;
+  with zqrMO do begin
+    if Active then Close;
+    Screen.Cursor := crSQLWait;
+    dm.zConn.ExecuteDirect('CALL sp_tmp_mo');
+    //SQL.Text := cxMemo2.Lines.Text;
+    ParamByName('tgl1').AsDateTime := cxdTgl1.Date;
+    ParamByName('tgl2').AsDateTime := cxdTgl2.Date;
+    Open;
+    Screen.Cursor := crDefault;
+  end;
+end;
+
+procedure TfrmMasterOrder.FormCreate(Sender: TObject);
+begin
+  inherited;
+  cxdTgl1.Date := FDOM(Date);
+  cxdTgl2.Date := LDOM(Date);
+end;
 
 end.

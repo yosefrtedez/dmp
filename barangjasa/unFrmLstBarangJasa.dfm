@@ -22,10 +22,18 @@ inherited frmLstBarangJasa: TfrmLstBarangJasa
     end
   end
   inherited Panel2: TPanel
+    TabOrder = 2
     inherited btnTambah: TButton
       OnClick = btnTambahClick
     end
+    inherited btnEdit: TButton
+      OnClick = btnEditClick
+    end
+    inherited btnKeluar: TButton
+      TabOrder = 4
+    end
     inherited btnRefresh: TButton
+      TabOrder = 3
       OnClick = btnRefreshClick
     end
   end
@@ -35,7 +43,7 @@ inherited frmLstBarangJasa: TfrmLstBarangJasa
     Width = 1016
     Height = 410
     Align = alClient
-    TabOrder = 2
+    TabOrder = 1
     object cxtbBarang: TcxGridDBTableView
       NavigatorButtons.ConfirmDelete = False
       DataController.DataSource = dsBarang

@@ -28,6 +28,20 @@ type
     zqrDept: TZReadOnlyQuery;
     dsDept: TDataSource;
     Label13: TLabel;
+    cxLabel4: TcxLabel;
+    cxtPass1: TcxTextEdit;
+    cxLabel5: TcxLabel;
+    cxtPass2: TcxTextEdit;
+    cxtEmail: TcxTextEdit;
+    cxLabel6: TcxLabel;
+    cxLabel7: TcxLabel;
+    cxlJabatan: TcxLookupComboBox;
+    zqrJabatan: TZReadOnlyQuery;
+    dsJabatan: TDataSource;
+    cxLabel8: TcxLabel;
+    cxlAtasan: TcxLookupComboBox;
+    zqrAtasan: TZReadOnlyQuery;
+    dsAtasan: TDataSource;
     procedure FormCreate(Sender: TObject);
     procedure btnSimpanClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -64,6 +78,35 @@ begin
     cxlDept.SetFocus;
   end
   else begin
+
+    if Self.Jenis = 'T' then begin
+      if Trim(cxtPass1.Text) = '' then begin
+        MsgBox('Mohon isi password.');
+        cxtPass1.SetFocus;
+        Abort;
+      end;
+
+      if Trim(cxtPass2.Text) = '' then begin
+        MsgBox('Mohin isi konfirmasi password.');
+        cxtPass2.SetFocus;
+        Abort;
+      end;
+
+      if Length(Trim(cxtPass1.Text)) < 6 then begin
+        MsgBox('Panjang password minimal 6 karakter.');
+        cxtPass1.SetFocus;
+        cxtPass1.SelectAll;
+        Abort;
+      end;
+
+      if Trim(cxtPass1.Text) <> Trim(cxtPass2.Text) then begin
+        MsgBox('Password dan Konfirmasi Password harus sama.');
+        cxtPass1.SetFocus;
+        cxtPass1.SelectAll;
+        Abort;
+      end;
+    end;
+
     q := OpenRS('SELECT * FROM tbl_user WHERE nama = ''%s''',[cxtUserLogin.Text]);
     if Self.Jenis = 'T' then
       q.Insert
@@ -72,6 +115,11 @@ begin
     q.FieldByName('nama').AsString := Trim(cxtUserLogin.Text);
     q.FieldByName('nama_lengkap').AsString := Trim(cxtNamaLengkap.Text);
     q.FieldByName('dept').AsString := cxlDept.Text;
+    q.FieldByName('jabatan').AsString := cxlJabatan.Text;
+    q.FieldByName('id_atasan').AsString := VarToStr(cxlAtasan.EditValue);
+    if Self.Jenis = 'T' then
+      q.FieldByName('password').AsString := MySQLPassword(Trim(UpperCase(cxtPass1.Text)));
+    q.FieldByName('email').AsString := LowerCase(Trim(cxtEmail.Text));
     q.Post;
 
     MsgBox('Data user sudah berhasil disimpan.');
@@ -83,6 +131,7 @@ procedure TfrmInputUser.FormCreate(Sender: TObject);
 begin
   inherited;
   zqrDept.Open;
+  zqrJabatan.Open;
 end;
 
 procedure TfrmInputUser.FormShow(Sender: TObject);
@@ -96,6 +145,8 @@ begin
     cxtUserLogin.Enabled := False;
     cxtNamaLengkap.Text := q.FieldByName('nama_lengkap').AsString;
     cxlDept.EditValue := q.FieldByName('dept').AsString;
+    cxlJabatan.EditValue := q.FieldByName('jabatan').AsString;
+    cxtEmail.Text := q.FieldByName('email').AsString;
     q.Close;
   end;
 end;

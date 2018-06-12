@@ -106,6 +106,9 @@ object frmUtama: TfrmUtama
         Caption = 'Supplier'
         OnClick = mnMst_SupplierClick
       end
+      object mnMst_Formula: TMenuItem
+        Caption = 'Formula'
+      end
       object mnMst_Mesin: TMenuItem
         Caption = 'Mesin'
         OnClick = mnMst_MesinClick
@@ -170,15 +173,24 @@ object frmUtama: TfrmUtama
       end
       object mnPur_AppPP: TMenuItem
         Caption = 'Approval Permintaan Pembelian '
+        OnClick = mnPur_AppPPClick
       end
       object N2: TMenuItem
         Caption = '-'
       end
       object mnPur_PO: TMenuItem
         Caption = 'Purchase Order'
+        OnClick = mnPur_POClick
       end
-      object mnApp_PO: TMenuItem
+      object mnPur_AppPO: TMenuItem
         Caption = 'Approval Purchase Order'
+      end
+      object N3: TMenuItem
+        Caption = '-'
+      end
+      object mnPur_PB: TMenuItem
+        Caption = 'Penerimaan Barang'
+        OnClick = mnPur_PBClick
       end
     end
     object mnAKT: TMenuItem

@@ -348,7 +348,9 @@ begin
   else if sTipe = 'jurnal' then
     depan := 'J/'
   else if sTipe = 'permintaan_pembelian' then
-    depan := 'PP/';
+    depan := 'PP/'
+  else if sTipe = 'po' then
+    depan := 'PO';
 
   head := depan + GetFaktur;
 

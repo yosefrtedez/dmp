@@ -2,6 +2,8 @@ inherited frmInputUser: TfrmInputUser
   Caption = 'Input User'
   OnCreate = FormCreate
   OnShow = FormShow
+  ExplicitWidth = 894
+  ExplicitHeight = 553
   PixelsPerInch = 96
   TextHeight = 13
   inherited Panel1: TPanel
@@ -20,6 +22,7 @@ inherited frmInputUser: TfrmInputUser
     end
   end
   inherited Panel2: TPanel
+    TabOrder = 17
     inherited btnSimpan: TButton
       OnClick = btnSimpanClick
     end
@@ -32,7 +35,7 @@ inherited frmInputUser: TfrmInputUser
   object cxtUserLogin: TcxTextEdit
     Left = 104
     Top = 63
-    TabOrder = 3
+    TabOrder = 1
     Width = 265
   end
   object cxLabel2: TcxLabel
@@ -43,7 +46,7 @@ inherited frmInputUser: TfrmInputUser
   object cxtNamaLengkap: TcxTextEdit
     Left = 104
     Top = 90
-    TabOrder = 5
+    TabOrder = 3
     Width = 377
   end
   object cxLabel3: TcxLabel
@@ -61,12 +64,80 @@ inherited frmInputUser: TfrmInputUser
         FieldName = 'departemen'
       end>
     Properties.ListSource = dsDept
+    TabOrder = 5
+    Width = 265
+  end
+  object cxLabel4: TcxLabel
+    Left = 10
+    Top = 199
+    Caption = 'Password'
+  end
+  object cxtPass1: TcxTextEdit
+    Left = 104
+    Top = 198
+    TabOrder = 11
+    Width = 265
+  end
+  object cxLabel5: TcxLabel
+    Left = 10
+    Top = 226
+    Caption = 'Konfirmasi Pass.'
+  end
+  object cxtPass2: TcxTextEdit
+    Left = 104
+    Top = 225
+    TabOrder = 13
+    Width = 265
+  end
+  object cxtEmail: TcxTextEdit
+    Left = 104
+    Top = 252
+    TabOrder = 15
+    Width = 377
+  end
+  object cxLabel6: TcxLabel
+    Left = 10
+    Top = 253
+    Caption = 'Email'
+  end
+  object cxLabel7: TcxLabel
+    Left = 10
+    Top = 145
+    Caption = 'Jabatan'
+  end
+  object cxlJabatan: TcxLookupComboBox
+    Left = 104
+    Top = 144
+    Properties.KeyFieldNames = 'jabatan'
+    Properties.ListColumns = <
+      item
+        Caption = 'Jabatan'
+        FieldName = 'jabatan'
+      end>
+    Properties.ListSource = dsJabatan
     TabOrder = 7
+    Width = 265
+  end
+  object cxLabel8: TcxLabel
+    Left = 10
+    Top = 172
+    Caption = 'Atasan'
+  end
+  object cxlAtasan: TcxLookupComboBox
+    Left = 104
+    Top = 171
+    Properties.KeyFieldNames = 'id'
+    Properties.ListColumns = <
+      item
+        Caption = 'Nama Atasan'
+        FieldName = 'nama_lengkap'
+      end>
+    Properties.ListSource = dsAtasan
+    TabOrder = 9
     Width = 265
   end
   object zqrDept: TZReadOnlyQuery
     Connection = DM.zConn
-    Active = True
     SQL.Strings = (
       'SELECT * FROM tbl_dept')
     Params = <>
@@ -77,5 +148,34 @@ inherited frmInputUser: TfrmInputUser
     DataSet = zqrDept
     Left = 752
     Top = 152
+  end
+  object zqrJabatan: TZReadOnlyQuery
+    Connection = DM.zConn
+    Active = True
+    SQL.Strings = (
+      'SELECT * FROM tbl_jabatan')
+    Params = <>
+    Left = 672
+    Top = 208
+  end
+  object dsJabatan: TDataSource
+    DataSet = zqrJabatan
+    Left = 752
+    Top = 208
+  end
+  object zqrAtasan: TZReadOnlyQuery
+    Connection = DM.zConn
+    Active = True
+    SQL.Strings = (
+      'SELECT * FROM tbl_user'
+      'ORDER BY nama')
+    Params = <>
+    Left = 672
+    Top = 272
+  end
+  object dsAtasan: TDataSource
+    DataSet = zqrAtasan
+    Left = 752
+    Top = 272
   end
 end

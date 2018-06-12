@@ -13,6 +13,7 @@ inherited frmInputJurnalUmum: TfrmInputJurnalUmum
   end
   inherited Panel2: TPanel
     Width = 995
+    TabOrder = 9
     ExplicitWidth = 995
     inherited btnSimpan: TButton
       OnClick = btnSimpanClick
@@ -26,14 +27,14 @@ inherited frmInputJurnalUmum: TfrmInputJurnalUmum
   object cxdTgl: TcxDateEdit
     Left = 101
     Top = 67
-    TabOrder = 3
+    TabOrder = 1
     Width = 121
   end
   object cxChkPosting: TcxCheckBox
     Left = 224
     Top = 68
     Caption = 'Posting'
-    TabOrder = 4
+    TabOrder = 2
     Width = 121
   end
   object cxtNoBukti: TcxTextEdit
@@ -41,7 +42,7 @@ inherited frmInputJurnalUmum: TfrmInputJurnalUmum
     Top = 94
     Properties.ReadOnly = True
     Style.Color = clWindow
-    TabOrder = 5
+    TabOrder = 4
     Width = 121
   end
   object cxLabel3: TcxLabel
@@ -60,7 +61,7 @@ inherited frmInputJurnalUmum: TfrmInputJurnalUmum
     Properties.CharCase = ecUpperCase
     Properties.ReadOnly = False
     Style.Color = clWindow
-    TabOrder = 8
+    TabOrder = 6
     Width = 410
   end
   object cxGrd: TcxGrid
@@ -68,7 +69,7 @@ inherited frmInputJurnalUmum: TfrmInputJurnalUmum
     Top = 162
     Width = 953
     Height = 249
-    TabOrder = 9
+    TabOrder = 8
     object cxtbJurnalUmum: TcxGridTableView
       NavigatorButtons.ConfirmDelete = False
       NavigatorButtons.Insert.Visible = False
@@ -96,7 +97,9 @@ inherited frmInputJurnalUmum: TfrmInputJurnalUmum
           Column = cxColKredit
         end>
       DataController.Summary.SummaryGroups = <>
+      DataController.OnBeforePost = cxtbJurnalUmumDataControllerBeforePost
       DataController.OnNewRecord = cxtbJurnalUmumDataControllerNewRecord
+      DataController.OnRecordChanged = cxtbJurnalUmumDataControllerRecordChanged
       OptionsData.Appending = True
       OptionsView.Navigator = True
       OptionsView.Footer = True
@@ -116,8 +119,6 @@ inherited frmInputJurnalUmum: TfrmInputJurnalUmum
             FieldName = 'nama'
           end>
         Properties.ListSource = dsAkun
-        Properties.OnChange = cxColNoAkunPropertiesChange
-        Properties.OnEditValueChanged = cxColNoAkunPropertiesEditValueChanged
         Width = 79
       end
       object cxColNamaAkun: TcxGridColumn

@@ -8,7 +8,7 @@ inherited frmAppPP: TfrmAppPP
   TextHeight = 13
   inherited Panel1: TPanel
     Width = 896
-    ExplicitWidth = 871
+    ExplicitWidth = 896
     object Label13: TLabel
       Left = 10
       Top = 13
@@ -25,7 +25,8 @@ inherited frmAppPP: TfrmAppPP
   end
   inherited Panel2: TPanel
     Width = 896
-    ExplicitWidth = 871
+    TabOrder = 4
+    ExplicitWidth = 896
     inherited btnSimpan: TButton
       OnClick = btnSimpanClick
     end
@@ -36,8 +37,7 @@ inherited frmAppPP: TfrmAppPP
     Width = 896
     Height = 256
     Align = alTop
-    TabOrder = 2
-    ExplicitWidth = 871
+    TabOrder = 1
     object cxtbHead: TcxGridTableView
       NavigatorButtons.ConfirmDelete = False
       OnFocusedRecordChanged = cxtbHeadFocusedRecordChanged
@@ -54,6 +54,12 @@ inherited frmAppPP: TfrmAppPP
         Properties.OnChange = cxColAppPPColumn1PropertiesChange
         HeaderAlignmentHorz = taCenter
         Width = 71
+      end
+      object cxColID: TcxGridColumn
+        Caption = 'ID'
+        DataBinding.ValueType = 'Integer'
+        PropertiesClassName = 'TcxSpinEditProperties'
+        Width = 79
       end
       object cxColNoPP: TcxGridColumn
         Caption = 'No. PP'
@@ -72,8 +78,7 @@ inherited frmAppPP: TfrmAppPP
     Width = 896
     Height = 41
     Align = alTop
-    TabOrder = 3
-    ExplicitWidth = 871
+    TabOrder = 2
   end
   object cxGrid2: TcxGrid
     Left = 0
@@ -81,13 +86,12 @@ inherited frmAppPP: TfrmAppPP
     Width = 896
     Height = 158
     Align = alClient
-    TabOrder = 4
-    ExplicitLeft = -301
-    ExplicitTop = 107
+    TabOrder = 3
     object cxTblDetail: TcxGridDBTableView
       NavigatorButtons.ConfirmDelete = False
       DataController.DataSource = dsDetPP
-      DataController.KeyFieldNames = 'no_bukti'
+      DataController.DetailKeyFieldNames = 'id_ref'
+      DataController.KeyFieldNames = 'id_ref'
       DataController.Summary.DefaultGroupSummaryItems = <>
       DataController.Summary.FooterSummaryItems = <>
       DataController.Summary.SummaryGroups = <>
@@ -123,25 +127,25 @@ inherited frmAppPP: TfrmAppPP
   object zqrDetPP: TZReadOnlyQuery
     Connection = DM.zConn
     SQL.Strings = (
-      'SELECT * FROM tbl_pp_det WHERE no_bukti = :no_bukti')
+      'SELECT * FROM tbl_pp_det where id_ref = :id_ref')
     Params = <
       item
         DataType = ftUnknown
-        Name = 'no_bukti'
+        Name = 'id_ref'
         ParamType = ptUnknown
       end>
-    Left = 587
-    Top = 429
+    Left = 579
+    Top = 420
     ParamData = <
       item
         DataType = ftUnknown
-        Name = 'no_bukti'
+        Name = 'id_ref'
         ParamType = ptUnknown
       end>
   end
   object dsDetPP: TDataSource
     DataSet = zqrDetPP
     Left = 550
-    Top = 423
+    Top = 422
   end
 end

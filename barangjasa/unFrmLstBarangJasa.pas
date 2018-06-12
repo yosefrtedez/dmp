@@ -91,6 +91,7 @@ type
     procedure btnTambahClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure btnRefreshClick(Sender: TObject);
+    procedure btnEditClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -105,6 +106,27 @@ implementation
 uses unFrmUtama, unFrmInputBarangJasa, unDM;
 
 {$R *.dfm}
+
+procedure TfrmLstBarangJasa.btnEditClick(Sender: TObject);
+var
+  f: TfrmInputBarangJasa;
+  ts: TcxTabSheet;
+begin
+  if not fu.CekTabOpen('Edit Barang Jasa') then begin
+    ts := TcxTabSheet.Create(Self);
+    ts.PageControl := frmUtama.pgMain;
+
+    f := TfrmInputBarangJasa.Create(Self);
+    f.Caption := 'Edit Barang Jasa';
+    f.Jenis := 'E';
+    f.EditKey := zqrBarang.FieldByName('kode').AsString;
+    f.Parent := ts;
+    ts.Caption := f.Caption;
+    f.Show;
+
+    fu.pgMain.ActivePage := ts;
+  end;
+end;
 
 procedure TfrmLstBarangJasa.btnRefreshClick(Sender: TObject);
 begin

@@ -1,0 +1,150 @@
+inherited frmAppPP: TfrmAppPP
+  Caption = 'Approval Permintaan Pembelian'
+  ClientWidth = 896
+  OnShow = FormShow
+  ExplicitWidth = 896
+  ExplicitHeight = 553
+  PixelsPerInch = 96
+  TextHeight = 13
+  inherited Panel1: TPanel
+    Width = 896
+    ExplicitWidth = 896
+    object Label13: TLabel
+      Left = 10
+      Top = 13
+      Width = 264
+      Height = 19
+      Caption = 'Approval Permintaan Pembelian'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -16
+      Font.Name = 'Tahoma'
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+  end
+  inherited Panel2: TPanel
+    Width = 896
+    ExplicitWidth = 896
+    inherited btnSimpan: TButton
+      OnClick = btnSimpanClick
+    end
+  end
+  object cxGrid1: TcxGrid
+    Left = 0
+    Top = 49
+    Width = 896
+    Height = 256
+    Align = alTop
+    TabOrder = 2
+    object cxtbHead: TcxGridTableView
+      NavigatorButtons.ConfirmDelete = False
+      OnFocusedRecordChanged = cxtbHeadFocusedRecordChanged
+      DataController.Summary.DefaultGroupSummaryItems = <>
+      DataController.Summary.FooterSummaryItems = <>
+      DataController.Summary.SummaryGroups = <>
+      DataController.OnRecordChanged = cxgrdAppPPDataControllerRecordChanged
+      object cxColChkApp: TcxGridColumn
+        Caption = 'Pilih'
+        DataBinding.ValueType = 'Boolean'
+        PropertiesClassName = 'TcxCheckBoxProperties'
+        Properties.NullStyle = nssUnchecked
+        Properties.ValueGrayed = 'Null'
+        Properties.OnChange = cxColAppPPColumn1PropertiesChange
+        HeaderAlignmentHorz = taCenter
+        Width = 71
+      end
+      object cxColID: TcxGridColumn
+        Caption = 'ID'
+        DataBinding.ValueType = 'Integer'
+        PropertiesClassName = 'TcxSpinEditProperties'
+        Width = 79
+      end
+      object cxColNoPP: TcxGridColumn
+        Caption = 'No. PP'
+        PropertiesClassName = 'TcxTextEditProperties'
+        Properties.ReadOnly = True
+        Width = 280
+      end
+    end
+    object cxGrid1Level1: TcxGridLevel
+      GridView = cxtbHead
+    end
+  end
+  object Panel3: TPanel
+    Left = 0
+    Top = 305
+    Width = 896
+    Height = 41
+    Align = alTop
+    TabOrder = 3
+  end
+  object cxGrid2: TcxGrid
+    Left = 0
+    Top = 346
+    Width = 896
+    Height = 158
+    Align = alClient
+    TabOrder = 4
+    object cxTblDetail: TcxGridDBTableView
+      NavigatorButtons.ConfirmDelete = False
+      DataController.DataSource = dsDetPP
+      DataController.DetailKeyFieldNames = 'id_ref'
+      DataController.KeyFieldNames = 'id_ref'
+      DataController.Summary.DefaultGroupSummaryItems = <>
+      DataController.Summary.FooterSummaryItems = <>
+      DataController.Summary.SummaryGroups = <>
+      object cxColGrdDetailkode_brg: TcxGridDBColumn
+        DataBinding.FieldName = 'kode_brg'
+      end
+      object cxColGrdDetailqty: TcxGridDBColumn
+        DataBinding.FieldName = 'qty'
+      end
+      object cxColGrdDetailsatuan: TcxGridDBColumn
+        DataBinding.FieldName = 'satuan'
+      end
+      object cxColGrdDetailketerangan: TcxGridDBColumn
+        DataBinding.FieldName = 'keterangan'
+        Width = 169
+      end
+      object cxColGrdDetailmata_uang: TcxGridDBColumn
+        DataBinding.FieldName = 'mata_uang'
+      end
+      object cxColGrdDetailnama_jasa: TcxGridDBColumn
+        DataBinding.FieldName = 'nama_jasa'
+        Width = 88
+      end
+      object cxColGrdDetailharga: TcxGridDBColumn
+        DataBinding.FieldName = 'harga'
+        Width = 153
+      end
+    end
+    object cxGrid2Level1: TcxGridLevel
+      GridView = cxTblDetail
+    end
+  end
+  object zqrDetPP: TZReadOnlyQuery
+    Connection = DM.zConn
+    SQL.Strings = (
+      'SELECT * FROM tbl_pp_det where id_ref = :id_ref')
+    Params = <
+      item
+        DataType = ftUnknown
+        Name = 'id_ref'
+        ParamType = ptUnknown
+      end>
+    Left = 579
+    Top = 420
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'id_ref'
+        ParamType = ptUnknown
+      end>
+  end
+  object dsDetPP: TDataSource
+    DataSet = zqrDetPP
+    Left = 550
+    Top = 422
+  end
+end

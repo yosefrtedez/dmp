@@ -97,7 +97,7 @@ procedure TfrmInputPP.btnSimpanClick(Sender: TObject);
 var
   in_head, in_det : TZTable;
   sNoTrs, s: string;
-  i : integer;
+  i, ID : integer;
   b : Boolean;
   q, z : TZQuery;
 begin
@@ -109,21 +109,19 @@ begin
   end;
 
   try
-    DM.zConn.StartTransaction;
 
+    DM.zConn.StartTransaction;
     if Self.Jenis = 'E' then begin
-      sNoTrs := cxtNoBukti.Text;
+        sNoTrs := cxtNoBukti.Text;
     end
     else begin
-      sNoTrs := GetLastFak('permintan_pembelian');
-      UpdateFaktur(Copy(sNoTrs,1,7));
-    end;
-
+        sNoTrs := GetLastFak('permintaan_pembelian');
+        UpdateFaktur(Copy(sNoTrs,1,7));
+      end;
     if Self.Jenis = 'E' then begin
       DM.zConn.ExecuteDirect('delete from tbl_pp_head where no_bukti = ''' + cxtNoBukti.Text + '''');
       DM.zConn.ExecuteDirect('delete from tbl_pp_det where no_bukti = ''' + cxtNoBukti.Text + '''');
     end;
-
     in_head := OpenTbl('tbl_pp_head');
     in_det := OpenTbl('tbl_pp_det');
     in_head.Insert;
@@ -149,9 +147,12 @@ begin
     end;
     in_head.Post;
     in_head.Close;
+
+    ID := LastInsertID;
     with cxgrdTblPP.DataController do begin
       for i := 0 to cxgrdTblPP.DataController.RecordCount - 1 do begin
         in_det.Insert;
+        in_det.FieldByName('id_ref').AsInteger := ID;
         in_det.FieldByName('no_bukti').AsString := cxtNoBukti.Text;
         in_det.FieldByName('kode_brg').AsString := Values[i, cxColKodeBrg.Index];
         in_det.FieldByName('qty').AsFloat := Values[i, cxColQty.Index];
@@ -167,14 +168,20 @@ begin
       end;
     end;
     in_det.Close;
-    MsgBox('Data permintaan pembelian berhasil disimpan');
-    DM.zConn.Commit;
-  except
+    MsgBox('Data permintaan pembelian dengan nomer  ' + cxtNoBukti.Text + '  berhasil disimpan');
 
+    DM.zConn.Commit;
     cxgrdTblPP.DataController.RecordCount := 0;
     btnBatalClick(nil);
+    ClearAll;
+  except
+    on E : Exception do begin
+      MsgBox('Error:' + e.message);
+      DM.zConn.Rollback;
+      Abort;
+    end;
   end;
-  ClearAll;
+
 end;
 
 procedure TfrmInputPP.ClearAll;
@@ -235,6 +242,7 @@ begin
         with cxgrdTblPP.DataController do begin
           Values[i, cxColSatuan.Index] := q.FieldByName('satuan').AsString;
         end;
+        q.Close;
       finally
         cxgrdTblPP.EndUpdate;
       end;
@@ -340,11 +348,11 @@ begin
     cxdTanggal.Date := Aplikasi.Tanggal;
     cxdTglPerlu.Date := Aplikasi.Tanggal;
     cxtDiajukan.Text := Aplikasi.NamaUser;
-    cxtDepartemen.Text := aplikasi.UserDept;
+    cxtDepartemen.Text := Aplikasi.UserDept;
   end
   else if Self.Jenis = 'E' then begin
-    q := OpenRS('SELECT * FROM tbl_pp_head WHERE no_bukti = ''%s''',[Self.EditKey]);
-    cxtNoBukti.Text := Self.EditKey;
+    q := OpenRS('SELECT * FROM tbl_pp_head WHERE id = ''%s''',[Self.EditKey]);
+    cxtNoBukti.Text := q.FieldByName('no_bukti').AsString;
     cxdTanggal.Date := q.FieldByName('tanggal').AsDateTime;
     cxdTglPerlu.Date := q.FieldByName('tgl_diperlukan').AsDateTime;
     cxtDiajukan.Text := q.FieldByName('diajukan_oleh').AsString;
@@ -352,8 +360,10 @@ begin
     cxCboLevel.Text := q.FieldByName('level_kebutuhan').AsString;
     q.Close;
 
-    z := OpenRS('SELECT a.kode_brg, b.deskripsi, a.qty, b.satuan, a.keterangan, a.mata_uang, a.harga, (a.qty * a.harga) as total FROM tbl_pp_det a left join tbl_barang b on a.kode_brg = b.kode WHERE no_bukti = ''%s''',[Self.EditKey]);
+    z := OpenRS('SELECT a.kode_brg, b.deskripsi, a.qty, b.satuan, a.keterangan, a.mata_uang, a.harga, (a.qty * a.harga) as total FROM tbl_pp_det a left join tbl_barang b on a.kode_brg = b.kode WHERE id_ref = ''%s''',[Self.EditKey]);
     nomer := 1;
+    zqrBarang.Close;
+    zqrBarang.Open;
     while not z.Eof do begin
       with cxgrdTblPP.DataController do begin
         i := AppendRecord;
