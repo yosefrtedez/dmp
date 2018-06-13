@@ -11,7 +11,7 @@ inherited frmAppPP: TfrmAppPP
     ExplicitWidth = 896
     object Label13: TLabel
       Left = 10
-      Top = 13
+      Top = 12
       Width = 264
       Height = 19
       Caption = 'Approval Permintaan Pembelian'
@@ -44,14 +44,12 @@ inherited frmAppPP: TfrmAppPP
       DataController.Summary.DefaultGroupSummaryItems = <>
       DataController.Summary.FooterSummaryItems = <>
       DataController.Summary.SummaryGroups = <>
-      DataController.OnRecordChanged = cxgrdAppPPDataControllerRecordChanged
       object cxColChkApp: TcxGridColumn
         Caption = 'Pilih'
         DataBinding.ValueType = 'Boolean'
         PropertiesClassName = 'TcxCheckBoxProperties'
         Properties.NullStyle = nssUnchecked
         Properties.ValueGrayed = 'Null'
-        Properties.OnChange = cxColAppPPColumn1PropertiesChange
         HeaderAlignmentHorz = taCenter
         Width = 71
       end
@@ -59,12 +57,15 @@ inherited frmAppPP: TfrmAppPP
         Caption = 'ID'
         DataBinding.ValueType = 'Integer'
         PropertiesClassName = 'TcxSpinEditProperties'
+        Visible = False
+        Options.Editing = False
         Width = 79
       end
       object cxColNoPP: TcxGridColumn
         Caption = 'No. PP'
         PropertiesClassName = 'TcxTextEditProperties'
         Properties.ReadOnly = True
+        Options.Editing = False
         Width = 280
       end
     end
@@ -96,27 +97,41 @@ inherited frmAppPP: TfrmAppPP
       DataController.Summary.FooterSummaryItems = <>
       DataController.Summary.SummaryGroups = <>
       object cxColGrdDetailkode_brg: TcxGridDBColumn
+        Caption = 'Kode Brg'
         DataBinding.FieldName = 'kode_brg'
+        Options.Editing = False
       end
       object cxColGrdDetailqty: TcxGridDBColumn
+        Caption = 'Qty'
         DataBinding.FieldName = 'qty'
+        Options.Editing = False
       end
       object cxColGrdDetailsatuan: TcxGridDBColumn
+        Caption = 'Satuan'
         DataBinding.FieldName = 'satuan'
+        Options.Editing = False
       end
       object cxColGrdDetailketerangan: TcxGridDBColumn
+        Caption = 'Keterangan'
         DataBinding.FieldName = 'keterangan'
+        Options.Editing = False
         Width = 169
       end
       object cxColGrdDetailmata_uang: TcxGridDBColumn
+        Caption = 'Mata Uang'
         DataBinding.FieldName = 'mata_uang'
+        Options.Editing = False
       end
       object cxColGrdDetailnama_jasa: TcxGridDBColumn
+        Caption = 'Jasa'
         DataBinding.FieldName = 'nama_jasa'
+        Options.Editing = False
         Width = 88
       end
       object cxColGrdDetailharga: TcxGridDBColumn
+        Caption = 'Harga'
         DataBinding.FieldName = 'harga'
+        Options.Editing = False
         Width = 153
       end
     end

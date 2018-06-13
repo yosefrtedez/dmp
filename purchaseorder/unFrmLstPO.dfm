@@ -53,7 +53,6 @@ inherited frmLstPO: TfrmLstPO
     Height = 409
     Align = alClient
     TabOrder = 2
-    ExplicitTop = 50
     object cxTblHead: TcxGridDBTableView
       NavigatorButtons.ConfirmDelete = False
       DataController.DataSource = dsPO
@@ -66,60 +65,72 @@ inherited frmLstPO: TfrmLstPO
       object cxColTblHeadno_bukti: TcxGridDBColumn
         Caption = 'No. Bukti'
         DataBinding.FieldName = 'no_bukti'
+        Options.Editing = False
         Width = 90
       end
       object cxColTblHeadno_fobj: TcxGridDBColumn
         Caption = 'No PP'
         DataBinding.FieldName = 'no_fobj'
+        Options.Filtering = False
         Width = 90
       end
       object cxColTblHeadnama: TcxGridDBColumn
         Caption = 'Nama'
         DataBinding.FieldName = 'nama'
+        Options.Editing = False
         Width = 150
       end
       object cxColTblHeadkontak: TcxGridDBColumn
         DataBinding.FieldName = 'kontak'
+        Options.Editing = False
         Width = 120
       end
       object cxColTblHeadtgl_required: TcxGridDBColumn
         Caption = 'Tgl Kedatangan'
         DataBinding.FieldName = 'tgl_required'
+        Options.Editing = False
         Width = 90
       end
       object cxColTblHeaduser: TcxGridDBColumn
         Caption = 'User'
         DataBinding.FieldName = 'user'
+        Options.Editing = False
         Width = 100
       end
       object cxColTblHeaduser_dept: TcxGridDBColumn
         Caption = 'Departemen'
         DataBinding.FieldName = 'user_dept'
+        Options.Editing = False
         Width = 100
       end
       object cxColTblHeadpembayaran: TcxGridDBColumn
         Caption = 'Pembayaran'
         DataBinding.FieldName = 'pembayaran'
+        Options.Editing = False
         Width = 100
       end
       object cxColTblHeadnopol: TcxGridDBColumn
         Caption = 'Nopol'
         DataBinding.FieldName = 'nopol'
+        Options.Editing = False
         Width = 90
       end
       object cxColTblHeaddriver: TcxGridDBColumn
         Caption = 'Driver'
         DataBinding.FieldName = 'driver'
+        Options.Editing = False
         Width = 120
       end
       object cxColTblHeadf_approval: TcxGridDBColumn
         Caption = 'F_App'
         DataBinding.FieldName = 'f_approval'
+        Options.Editing = False
         Width = 50
       end
       object cxColTblHeadf_completed: TcxGridDBColumn
         Caption = 'F_Komplit'
         DataBinding.FieldName = 'f_completed'
+        Options.Editing = False
       end
     end
     object cxTblDet: TcxGridDBTableView

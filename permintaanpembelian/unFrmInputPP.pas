@@ -41,8 +41,8 @@ type
     dsBarang: TDataSource;
     zqrBarang: TZReadOnlyQuery;
     cxgrdlvl1Grid1Level1: TcxGridLevel;
-    cxgrd1: TcxGrid;
-    cxgrdTblPP: TcxGridTableView;
+    cxgrdPP: TcxGrid;
+    cxGrdTblPP: TcxGridTableView;
     cxColNo: TcxGridColumn;
     cxColKodeBrg: TcxGridColumn;
     cxColDeskripsi: TcxGridColumn;
@@ -54,25 +54,21 @@ type
     cxColTotal: TcxGridColumn;
     cxlbltemp: TcxLabel;
     procedure FormCreate(Sender: TObject);
-    procedure cxgrdTblDataControllerRecordChanged(
+    {procedure cxgrdTblDataControllerRecordChanged(
       ADataController: TcxCustomDataController; ARecordIndex,
       AItemIndex: Integer);
-    procedure btnSimpanClick(Sender: TObject);
     procedure cxgrdTblDataControllerBeforePost(
-      ADataController: TcxCustomDataController);
-    procedure cxColNoGetDisplayText(Sender: TcxCustomGridTableItem;
-      ARecord: TcxCustomGridRecord; var AText: string);
+      ADataController: TcxCustomDataController);}
     procedure cxgrd1TableView1DataControllerRecordChanged(
       ADataController: TcxCustomDataController; ARecordIndex,
       AItemIndex: Integer);
     procedure cxgrd1TableView1DataControllerBeforePost(
       ADataController: TcxCustomDataController);
     procedure FormShow(Sender: TObject);
-    procedure cxgrdTblPPFocusedRecordChanged(Sender: TcxCustomGridTableView;
-      APrevFocusedRecord, AFocusedRecord: TcxCustomGridRecord;
-      ANewItemRecordFocusingChanged: Boolean);
-    procedure cxgrdTblPPFocusedItemChanged(Sender: TcxCustomGridTableView;
-      APrevFocusedItem, AFocusedItem: TcxCustomGridTableItem);
+    procedure cxColNoGetDisplayText(Sender: TcxCustomGridTableItem;
+      ARecord: TcxCustomGridRecord; var AText: string);
+    procedure btnSimpanClick(Sender: TObject);
+
   private
     { Private declarations }
     mStatus: string;
@@ -95,94 +91,124 @@ uses
 
 procedure TfrmInputPP.btnSimpanClick(Sender: TObject);
 var
-  in_head, in_det : TZTable;
-  sNoTrs, s: string;
-  i, ID : integer;
-  b : Boolean;
-  q, z : TZQuery;
+  i, ID: integer;
+  f0: Boolean;
+  qh, qd: TZQuery;
+  sNoBukti: string;
 begin
   inherited;
-  if cxdTanggal.Date > cxdTglPerlu.Date then begin
-    MsgBox('Tanggal perlu lebih kecil dari tanggal terbit permintaan pembelian');
-    cxdTglPerlu.SetFocus;
+
+  if (cxGrdTblPP.DataController.EditState = [dceInsert, dceModified]) or (cxGrdTblPP.DataController.EditState = [dceEdit, dceModified]) then begin
+    MsgBox('Mohon selesaikan pengeditan detail sebelum disimpan.');
     Abort;
   end;
 
-  try
-
-    DM.zConn.StartTransaction;
-    if Self.Jenis = 'E' then begin
-        sNoTrs := cxtNoBukti.Text;
-    end
-    else begin
-        sNoTrs := GetLastFak('permintaan_pembelian');
-        UpdateFaktur(Copy(sNoTrs,1,7));
-      end;
-    if Self.Jenis = 'E' then begin
-      DM.zConn.ExecuteDirect('delete from tbl_pp_head where no_bukti = ''' + cxtNoBukti.Text + '''');
-      DM.zConn.ExecuteDirect('delete from tbl_pp_det where no_bukti = ''' + cxtNoBukti.Text + '''');
-    end;
-    in_head := OpenTbl('tbl_pp_head');
-    in_det := OpenTbl('tbl_pp_det');
-    in_head.Insert;
-    in_head.FieldByName('no_bukti').AsString := sNoTrs;
-    in_head.FieldByName('tanggal').AsDateTime := cxdTanggal.Date;
-    in_head.FieldByName('tgl_diperlukan').AsDateTime := cxdTglPerlu.Date;
-    in_head.FieldByName('diajukan_oleh').AsString := cxtDiajukan.Text;
-    in_head.FieldByName('diajukan_dept').AsString := cxtDepartemen.Text;
-    in_head.FieldByName('level_kebutuhan').AsString := cxCboLevel.Text;
-    in_head.FieldByName('user').AsString := Aplikasi.NamaUser;
-    in_head.FieldByName('user_dept').AsString := Aplikasi.UserDept;
-    in_head.FieldByName('tgl_input').AsDateTime := Aplikasi.Tanggal;
-    in_head.FieldByName('f_penawaran').AsInteger := 0;
-    in_head.FieldByName('f_po').AsInteger := 0;
-    in_head.FieldByName('f_app').AsInteger := 0;
-    in_head.FieldByName('jenis_fobj').AsString := 'st';
-    if Self.Jenis = 'edit' then begin
-      in_head.FieldByName('f_edit').AsInteger := 1;
-      in_head.FieldByName('user_edit').AsString := Aplikasi.NamaUser;
-      in_head.FieldByName('tg_edit').AsDateTime := Aplikasi.Tanggal;
-    end else begin
-      in_head.FieldByName('f_edit').AsInteger := 0;
-    end;
-    in_head.Post;
-    in_head.Close;
-
-    ID := LastInsertID;
-    with cxgrdTblPP.DataController do begin
-      for i := 0 to cxgrdTblPP.DataController.RecordCount - 1 do begin
-        in_det.Insert;
-        in_det.FieldByName('id_ref').AsInteger := ID;
-        in_det.FieldByName('no_bukti').AsString := cxtNoBukti.Text;
-        in_det.FieldByName('kode_brg').AsString := Values[i, cxColKodeBrg.Index];
-        in_det.FieldByName('qty').AsFloat := Values[i, cxColQty.Index];
-        in_det.FieldByName('satuan').AsString := Values[i, cxColSatuan.Index];
-        if VarIsNull(Values[i,cxColKeterangan.Index]) = True then begin
-          in_det.FieldByName('keterangan').AsString := '';
-        end else begin
-          in_det.FieldByName('keterangan').AsString := Values[i, cxColKeterangan.Index];
-        end;
-        in_det.FieldByName('mata_uang').AsString := Values[i, cxColValuta.Index];
-        in_det.FieldByName('harga').AsFloat := Values[i, cxColHarga.Index];
-        in_det.Post;
-      end;
-    end;
-    in_det.Close;
-    MsgBox('Data permintaan pembelian dengan nomer  ' + cxtNoBukti.Text + '  berhasil disimpan');
-
-    DM.zConn.Commit;
-    cxgrdTblPP.DataController.RecordCount := 0;
-    btnBatalClick(nil);
-    ClearAll;
-  except
-    on E : Exception do begin
-      MsgBox('Error:' + e.message);
-      DM.zConn.Rollback;
+  with cxgrdTblPP.DataController do begin
+    if RecordCount = 0 then begin
+      MsgBox('Detail transaksi masih kosong.');
       Abort;
     end;
-  end;
 
+    f0 := False;
+    for i  := 0 to RecordCount - 1 do begin
+      //if (VarIsNull(Values[i, cxColKodeBrg.Index])) or (VarToStr(Values[i, cxColKodeBrg.Index]) = '') then begin
+      if (VarToStr(Values[i, cxColKodeBrg.Index]) = '') then begin
+        f0 := True;
+        Break;
+      end;
+    end;
+    if f0 then begin
+      MsgBox('Kode barang masih kosong.');
+      Abort;
+    end;
+    f0 := False;
+    for i  := 0 to RecordCount - 1 do begin
+      if (Values[i, cxColHarga.Index] = 0) and (Values[i, cxColHarga.Index] = 0) then begin
+        f0 := True;
+        Break;
+      end;
+    end;
+    if f0 then begin
+      MsgBox('Harga ada yang masih 0.');
+      Abort;
+    end;
+
+    if Self.Jenis = 'T' then begin
+      sNoBukti := GetLastFak('permintaan_pembelian');
+      UpdateFaktur(Copy(sNoBukti,1,7));
+    end
+    else begin
+      sNoBukti := cxtNoBukti.text;
+    end;
+
+    try
+      dm.zConn.StartTransaction;
+      qh := OpenRS('SELECT * FROM tbl_pp_head WHERE no_bukti = ''%s''',[sNoBukti]);
+      if Self.Jenis = 'T' then begin
+        qh.Insert;
+      end else begin
+        qh.Edit;
+        dm.zConn.ExecuteDirect(Format('DELETE FROM tbl_pp_det WHERE no_bukti = ''%s''',[sNoBukti]));
+      end;
+
+      qh.FieldByName('no_bukti').AsString := sNoBukti;
+      qh.FieldByName('tanggal').AsDateTime := cxdTanggal.Date;
+      qh.FieldByName('tgl_diperlukan').AsDateTime := cxdTglPerlu.Date;
+      qh.FieldByName('diajukan_oleh').AsString := cxtDiajukan.Text;
+      qh.FieldByName('diajukan_dept').AsString := cxtDepartemen.Text;
+      qh.FieldByName('level_kebutuhan').AsString := cxCboLevel.Text;
+      qh.FieldByName('user').AsString := Aplikasi.NamaUser;
+      qh.FieldByName('user_dept').AsString := Aplikasi.UserDept;
+      qh.FieldByName('tgl_input').AsDateTime := Aplikasi.Tanggal;
+      qh.FieldByName('f_penawaran').AsInteger := 0;
+      qh.FieldByName('f_po').AsInteger := 0;
+      qh.FieldByName('f_app').AsInteger := 0;
+      qh.FieldByName('jenis_fobj').AsString := 'st';
+      if Self.Jenis = 'edit' then begin
+        qh.FieldByName('f_edit').AsInteger := 1;
+        qh.FieldByName('user_edit').AsString := Aplikasi.NamaUser;
+        qh.FieldByName('tg_edit').AsDateTime := Aplikasi.Tanggal;
+      end else begin
+        qh.FieldByName('f_edit').AsInteger := 0;
+      end;
+      qh.Post;
+
+      if Self.Jenis = 'T' then  ID := LastInsertID;
+      qd := OpenRS('SELECT * FROM tbl_pp_det WHERE no_bukti = ''%s''',[sNoBukti]);
+      for i := 0 to cxgrdTblPP.DataController.RecordCount - 1 do begin
+        qd.Insert;
+        if Self.Jenis = 'T' then begin
+          qd.FieldByName('id_ref').AsInteger := ID;
+        end else begin
+          qd.FieldByName('id_ref').AsString := qh.FieldByName('id').AsString;
+        end;
+        qd.FieldByName('no_bukti').AsString := sNoBukti;
+        qd.FieldByName('kode_brg').AsString := Values[i, cxColKodeBrg.Index];
+        qd.FieldByName('qty').AsFloat := Values[i, cxColQty.Index];
+        qd.FieldByName('satuan').AsString := Values[i, cxColSatuan.Index];
+        if VarIsNull(Values[i,cxColKeterangan.Index]) = True then begin
+          qd.FieldByName('keterangan').AsString := '';
+        end else begin
+          qd.FieldByName('keterangan').AsString := Values[i, cxColKeterangan.Index];
+        end;
+        qd.FieldByName('mata_uang').AsString := Values[i, cxColValuta.Index];
+        qd.FieldByName('harga').AsFloat := Values[i, cxColHarga.Index];
+        qd.Post;
+      end;
+      qh.Close;
+      qd.Close;
+      dm.zConn.Commit;
+      MsgBox('Transaksi permintaan pembelian sudah disimpan dengan No. Bukti : ' + sNoBukti);
+
+    except
+      on E: Exception do begin
+        dm.zConn.Rollback;
+        MsgBox('Error: ' + E.Message);
+      end;
+    end;
+  end;
 end;
+
 
 procedure TfrmInputPP.ClearAll;
 var
@@ -204,130 +230,92 @@ begin
   AText := IntToStr(Row+1);
 end;
 
+
 procedure TfrmInputPP.cxgrd1TableView1DataControllerBeforePost(
   ADataController: TcxCustomDataController);
-  var
-  i : Integer;
+var
+  i,j,k: integer;
+  v: variant;
 begin
   inherited;
   i := ADataController.FocusedRowIndex;
-  if (VarIsNull(ADataController.Values[i, cxColKodeBrg.Index])) or (Trim(ADataController.Values[i, cxColKodeBrg.Index]) = '') then begin
-    MsgBox('kode barang harus diisi');
-    Abort;
-  end;
+  k := ADataController.GetEditingRecordIndex;
+  v := ADataController.Values[i, cxColKodeBrg.Index];
 
-  if (VarIsNull(ADataController.Values[i, cxColHarga.Index])) or (Trim(ADataController.Values[i, cxColHarga.Index]) = '0') then begin
-    MsgBox('harga masih kosoong');
-    Abort;
-  end;
+  for j := 0 to ADataController.RecordCount - 1 do begin
+    if j <> k then begin
+      if v = ADataController.Values[j, cxColKodeBrg.Index] then begin
+        MsgBox('Item tersebut sudah ada.');
+        ADataController.DeleteRecord(i);
+        Abort;
+      end;
+    end
+    else if (VarIsNull(ADataController.Values[i, cxColKodeBrg.Index])) or
+      (Trim(ADataController.Values[i, cxColKodeBrg.Index]) = '')  then begin
+      MsgBox('Kode barang harus di isi.');
+      Abort;
+    end
+    else if ADataController.Values[i, cxColQty.Index] <= 0 then begin
+      MsgBox('Qty tidak boleh minus.');
+      ADataController.DeleteRecord(i);
+      Abort;
+    end;
 
+    if (VarIsNull(ADataController.Values[i, cxColHarga.Index]))  then begin
+      MsgBox('harga masih kosong');
+      Abort;
+    end;
+  end;
 end;
 
 procedure TfrmInputPP.cxgrd1TableView1DataControllerRecordChanged(
   ADataController: TcxCustomDataController; ARecordIndex, AItemIndex: Integer);
-  var
-  i : Integer;
-  z, q : TZQuery;
-begin
-  inherited;
-  if mStatus = '' then begin
-    if AItemIndex = cxColDeskripsi.Index then begin
-      try
-        cxgrdTblPP.BeginUpdate;
-        ADataController.Values[ARecordIndex, cxColKodeBrg.Index] := ADataController.Values[ARecordIndex, cxColDeskripsi.Index];
-        cxlbltemp.Caption := ADataController.Values[ARecordIndex, cxColKodeBrg.Index];
-        ADataController.Values[ARecordIndex, cxcolqty.Index] := 1;
-        ADataController.Values[ARecordIndex, cxColValuta.Index] := 'IDR';
-        q := OpenRS('select * from tbl_barang where kode = ''%s''',[cxlbltemp.Caption]);
-        with cxgrdTblPP.DataController do begin
-          Values[i, cxColSatuan.Index] := q.FieldByName('satuan').AsString;
-        end;
-        q.Close;
-      finally
-        cxgrdTblPP.EndUpdate;
-      end;
-    end else if (AItemIndex = cxColQty.Index) or (AItemIndex = cxColHarga.Index) then  begin
-      try
-        cxgrdTblPP.BeginUpdate;
-        ADataController.Values[ARecordIndex, cxColTotal.Index] := ADataController.Values[ARecordIndex, cxColQty.Index] * ADataController.Values[ARecordIndex, cxColHarga.Index];
-      finally
-        cxgrdTblPP.EndUpdate;
-      end;
-    end;
-  end;
-end;
-
-procedure TfrmInputPP.cxgrdTblDataControllerBeforePost(
-  ADataController: TcxCustomDataController);
-  var
-    i : Integer;
-begin
-  inherited;
-
-end;
-
-procedure TfrmInputPP.cxgrdTblDataControllerRecordChanged(
-  ADataController: TcxCustomDataController; ARecordIndex, AItemIndex: Integer);
-
-  var
+var
   q: TZQuery;
-  t, t1, t2, t3 : Real;
   i: Integer ;
 begin
   inherited;
+  //if (Self.Jenis = 'T') and (cxLuNoPP.Text = '')  then begin      --> kondisi iki membuat bawahnya tidak di eksekusi eong cxllunopp selalu ada isinya
 
-end;
-
-procedure TfrmInputPP.cxgrdTblPPFocusedItemChanged(
-  Sender: TcxCustomGridTableView; APrevFocusedItem,
-  AFocusedItem: TcxCustomGridTableItem);
-  var
-  i,p,r: integer;
-begin
-  inherited;
- { i := AFocusedItem.Index;
-  p := APrevFocusedItem.Index;
-  r := cxgrdTblPP.DataController.GetFocusedRecordIndex;
-
-  with cxgrdTblPP.DataController do begin
-    if p = cxColKodeBrg.Index then begin
-      if not VarIsNull(Values[r, cxColKodeBrg.Index]) then Values[r, cxColKodeBrg.Index] := Values[r, cxColKodeBrg.Index];
+  if (Self.Jenis = 'T') or (Self.Jenis = 'E')then begin
+    if AItemIndex = cxColDeskripsi.Index then begin
+      try
+        cxGrdTblPP.BeginUpdate;
+        ADataController.Values[ARecordIndex, cxColKodeBrg.Index] :=  ADataController.Values[ARecordIndex, cxColDeskripsi.Index];
+        cxlbltemp.Caption := ADataController.Values[ARecordIndex, cxColKodeBrg.Index];
+        q := OpenRS('SELECT satuan FROM tbl_barang WHERE kode = ''%s''',[cxlbltemp.Caption]);
+        ADataController.Values[ARecordIndex, cxColSatuan.Index] := q.FieldByName('satuan').AsString;
+        ADataController.Values[ARecordIndex, cxColqty.Index] := '1';
+        ADataController.Values[ARecordIndex, cxColValuta.Index] := 'IDR';
+        q.Close;
+      finally
+        cxGrdTblPP.EndUpdate
+      end;
     end;
-    if p = cxColDeskripsi.Index then begin
-      if not VarIsNull(Values[r, cxColDeskripsi.Index]) then Values[r, cxColDeskripsi.Index] := Values[r, cxColDeskripsi.Index];
+    if AItemIndex = cxColHarga.Index then begin
+      try
+        cxGrdTblPP.BeginUpdate;
+        cxColTotal.EditValue := cxColQty.EditValue * cxColHarga.EditValue;
+        cxGrdTblPP.DataController.RefreshExternalData;
+      finally
+        cxGrdTblPP.EndUpdate;
+      end;
     end;
-    if p = cxColSatuan.Index then begin
-      if not VarIsNull(Values[r, cxColSatuan.Index]) then Values[r, cxColSatuan.Index] := Values[r, cxColSatuan.Index];
+    if AItemIndex = cxColQty.Index then begin
+      try
+        cxGrdTblPP.BeginUpdate;
+        cxColTotal.EditValue := cxColQty.EditValue * cxColHarga.EditValue;
+        cxGrdTblPP.DataController.RefreshExternalData;
+      finally
+        cxGrdTblPP.EndUpdate;
+      end;
     end;
-  end; }
-end;
-
-procedure TfrmInputPP.cxgrdTblPPFocusedRecordChanged(
-  Sender: TcxCustomGridTableView; APrevFocusedRecord,
-  AFocusedRecord: TcxCustomGridRecord; ANewItemRecordFocusingChanged: Boolean);
-  var
-  i,j: integer;
-begin
-  inherited;
-
- { try
-    i := AFocusedRecord.Index;
-    j := APrevFocusedRecord.Index;
-    with cxgrdTblPP.DataController do begin
-      if not VarIsNull(Values[i, cxColKodeBrg.Index]) then
-        Values[i, cxColKodeBrg.Index] := Values[i, cxColKodeBrg.Index];
-      if not VarIsNull(Values[j, cxColDeskripsi.Index]) then
-        Values[j, cxColDeskripsi.Index] := Values[j, cxColDeskripsi.Index];
-    end;
-  finally
-
-  end;}
+  end;
 end;
 
 procedure TfrmInputPP.FormCreate(Sender: TObject);
 begin
   inherited;
-
   cxCboLevel.Properties.Items.Add('PENTING');
   cxCboLevel.Properties.Items.Add('MENDESAK');
   cxCboLevel.ItemIndex := 0;
@@ -362,8 +350,7 @@ begin
 
     z := OpenRS('SELECT a.kode_brg, b.deskripsi, a.qty, b.satuan, a.keterangan, a.mata_uang, a.harga, (a.qty * a.harga) as total FROM tbl_pp_det a left join tbl_barang b on a.kode_brg = b.kode WHERE id_ref = ''%s''',[Self.EditKey]);
     nomer := 1;
-    zqrBarang.Close;
-    zqrBarang.Open;
+    cxGrdTblPP.DataController.OnRecordChanged := nil;
     while not z.Eof do begin
       with cxgrdTblPP.DataController do begin
         i := AppendRecord;
@@ -380,8 +367,7 @@ begin
       z.Next;
     end;
     z.Close;
-
+    cxGrdTblPP.DataController.OnRecordChanged :=  Self.cxgrd1TableView1DataControllerRecordChanged;
   end;
 end;
-
 end.

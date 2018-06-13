@@ -41,12 +41,7 @@ type
     cxColGrdDetailnama_jasa: TcxGridDBColumn;
     cxColGrdDetailharga: TcxGridDBColumn;
     cxColID: TcxGridColumn;
-    procedure cxColAppPPColumn1PropertiesEditValueChanged(Sender: TObject);
     procedure FormShow(Sender: TObject);
-    procedure cxColAppPPColumn1PropertiesChange(Sender: TObject);
-    procedure cxgrdAppPPDataControllerRecordChanged(
-      ADataController: TcxCustomDataController; ARecordIndex,
-      AItemIndex: Integer);
     procedure cxtbHeadFocusedRecordChanged(Sender: TcxCustomGridTableView;
       APrevFocusedRecord, AFocusedRecord: TcxCustomGridRecord;
       ANewItemRecordFocusingChanged: Boolean);
@@ -73,7 +68,6 @@ var
 begin
   inherited;
   for i := 0 to cxtbHead.DataController.RecordCount - 1 do begin
-
     with cxtbHead.DataController do begin
       q := OpenRS('select * from tbl_pp_head where no_bukti = ''' + Values[i, cxColNoPP.index] + '''');
       if Values[i, cxColChkApp.index] = True then begin
@@ -90,34 +84,6 @@ begin
   end;
 end;
 
-procedure TfrmAppPP.cxColAppPPColumn1PropertiesChange(Sender: TObject);
-var
-  i : Integer;
-begin
-  inherited;
-  
-end;
-
-procedure TfrmAppPP.cxColAppPPColumn1PropertiesEditValueChanged(
-  Sender: TObject);
-  var
-  i,j : Integer;
-  AValue : Variant;
-begin
-  inherited;
- 
-  end;
-
-
-procedure TfrmAppPP.cxgrdAppPPDataControllerRecordChanged(
-  ADataController: TcxCustomDataController; ARecordIndex, AItemIndex: Integer);
-begin
-  inherited;
-  if AItemIndex = cxColChkApp.Index then begin
-
-  end;
-
-end;
 
 procedure TfrmAppPP.cxtbHeadFocusedRecordChanged(Sender: TcxCustomGridTableView;
   APrevFocusedRecord, AFocusedRecord: TcxCustomGridRecord;

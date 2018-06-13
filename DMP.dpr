@@ -47,7 +47,9 @@ uses
   unFrmInputFormula in 'formula\unFrmInputFormula.pas' {frmInputFormula},
   unFrmAppPO in 'purchaseorder\unFrmAppPO.pas' {frmAppPO},
   unFrmLstPB in 'penerimaanbarang\unFrmLstPB.pas' {frmLstPB},
-  unFrmInputPB in 'penerimaanbarang\unFrmInputPB.pas' {frmTplInput1};
+  unFrmInputPB in 'penerimaanbarang\unFrmInputPB.pas' {frmTplInput1},
+  unFrmLstPengeluaranKas in 'penerimaanpengeluarankas\unFrmLstPengeluaranKas.pas' {frmLstPengeluaranKas},
+  unFrmInputPengeluaranKas in 'penerimaanpengeluarankas\unFrmInputPengeluaranKas.pas' {frmInputPengeluaranKas};
 
 {$R *.res}
 
@@ -70,6 +72,8 @@ begin
   Application.CreateForm(TfrmAppPO, frmAppPO);
   Application.CreateForm(TfrmLstPB, frmLstPB);
   Application.CreateForm(TfrmTplInput1, frmTplInput1);
+  Application.CreateForm(TfrmLstPengeluaranKas, frmLstPengeluaranKas);
+  Application.CreateForm(TfrmInputPengeluaranKas, frmInputPengeluaranKas);
   frmUtama.Show;
 
   frmLogin.ShowModal;

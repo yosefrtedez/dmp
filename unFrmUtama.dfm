@@ -201,6 +201,7 @@ object frmUtama: TfrmUtama
       end
       object mnAKT_PengeluaranKas: TMenuItem
         Caption = 'Pengeluaran Kas'
+        OnClick = mnAKT_PengeluaranKasClick
       end
       object mnAkt_JurnalUmum: TMenuItem
         Caption = 'Jurnal Umum'

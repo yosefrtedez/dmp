@@ -13,7 +13,7 @@ inherited frmInputPO: TfrmInputPO
     ExplicitWidth = 1009
     object Label1: TLabel
       Left = 10
-      Top = 16
+      Top = 13
       Width = 174
       Height = 19
       Caption = 'Input Purchase Order'
@@ -36,8 +36,8 @@ inherited frmInputPO: TfrmInputPO
     end
   end
   object cxgrdPP: TcxGrid
-    Left = 12
-    Top = 325
+    Left = 10
+    Top = 337
     Width = 975
     Height = 293
     TabOrder = 28
@@ -146,48 +146,48 @@ inherited frmInputPO: TfrmInputPO
     end
   end
   object cxlbl1: TcxLabel
-    Left = 18
+    Left = 10
     Top = 62
     Caption = 'No. Bukti'
   end
   object cxlbl2: TcxLabel
-    Left = 18
-    Top = 87
+    Left = 10
+    Top = 89
     Caption = 'No. PP'
   end
   object cxlbl3: TcxLabel
-    Left = 18
-    Top = 115
+    Left = 10
+    Top = 116
     Caption = 'Tanggal'
   end
   object cxlbl4: TcxLabel
-    Left = 18
-    Top = 138
+    Left = 10
+    Top = 143
     Caption = 'Tgl. Kedatangan'
   end
   object cxlbl5: TcxLabel
-    Left = 18
-    Top = 165
+    Left = 10
+    Top = 170
     Caption = 'Nama Supplier'
   end
   object cxlbl6: TcxLabel
-    Left = 20
-    Top = 191
+    Left = 10
+    Top = 197
     Caption = 'Alamat'
   end
   object cxlbl7: TcxLabel
-    Left = 19
-    Top = 215
-    Caption = 'NO POL'
+    Left = 10
+    Top = 224
+    Caption = 'Nopol'
   end
   object cxlbl8: TcxLabel
-    Left = 21
-    Top = 242
+    Left = 10
+    Top = 251
     Caption = 'Sopir'
   end
   object cxLuNoPP: TcxLookupComboBox
     Left = 112
-    Top = 85
+    Top = 88
     Properties.CharCase = ecUpperCase
     Properties.KeyFieldNames = 'no_bukti'
     Properties.ListColumns = <
@@ -198,24 +198,24 @@ inherited frmInputPO: TfrmInputPO
       end>
     Properties.ListSource = dsPPHead
     Properties.OnChange = cxLuNoPPPropertiesChange
-    TabOrder = 4
+    TabOrder = 5
     Width = 122
   end
   object cxdTgl: TcxDateEdit
     Left = 112
-    Top = 111
+    Top = 115
     TabOrder = 7
     Width = 146
   end
   object cxdTglDatang: TcxDateEdit
     Left = 112
-    Top = 137
+    Top = 142
     TabOrder = 9
     Width = 146
   end
   object cxLuSupplier: TcxLookupComboBox
     Left = 112
-    Top = 164
+    Top = 169
     Properties.KeyFieldNames = 'kode'
     Properties.ListColumns = <
       item
@@ -228,7 +228,7 @@ inherited frmInputPO: TfrmInputPO
   end
   object cxtAlamat: TcxTextEdit
     Left = 112
-    Top = 189
+    Top = 196
     TabOrder = 13
     Width = 351
   end
@@ -240,16 +240,16 @@ inherited frmInputPO: TfrmInputPO
   end
   object cxtNopol: TcxTextEdit
     Left = 112
-    Top = 214
+    Top = 223
     Properties.CharCase = ecUpperCase
-    TabOrder = 15
+    TabOrder = 16
     Width = 113
   end
   object cxtSopir: TcxTextEdit
-    Left = 113
-    Top = 239
+    Left = 112
+    Top = 250
     Properties.CharCase = ecUpperCase
-    TabOrder = 17
+    TabOrder = 18
     Width = 113
   end
   object cxchk1: TcxCheckBox
@@ -260,10 +260,10 @@ inherited frmInputPO: TfrmInputPO
     Width = 104
   end
   object cxgrpbx1: TcxGroupBox
-    Left = 320
-    Top = 86
+    Left = 387
+    Top = 62
     Caption = 'User Requesting'
-    TabOrder = 5
+    TabOrder = 4
     Height = 89
     Width = 233
     object cxlbl9: TcxLabel
@@ -296,13 +296,13 @@ inherited frmInputPO: TfrmInputPO
     end
   end
   object cxlbl11: TcxLabel
-    Left = 21
-    Top = 266
+    Left = 10
+    Top = 278
     Caption = 'Pembayaran'
   end
   object cxCboPembayaran: TcxComboBox
-    Left = 112
-    Top = 263
+    Left = 111
+    Top = 277
     Properties.DropDownListStyle = lsEditFixedList
     Properties.Items.Strings = (
       'Cash On Delivery (COD)'
@@ -311,51 +311,51 @@ inherited frmInputPO: TfrmInputPO
       '14 Hari'
       '30 Hari'
       '45 Hari')
-    TabOrder = 19
+    TabOrder = 20
     Width = 146
   end
   object cxlbl12: TcxLabel
     Left = 266
-    Top = 266
+    Top = 278
     Caption = 'Valuta'
   end
   object cxCboRate: TcxComboBox
     Left = 309
-    Top = 265
+    Top = 277
     Properties.DropDownListStyle = lsEditFixedList
     Properties.Items.Strings = (
       'IDR'
       'USD')
     Properties.OnChange = cxCbo2PropertiesChange
-    TabOrder = 20
+    TabOrder = 21
     Width = 63
   end
   object cxlbl13: TcxLabel
-    Left = 380
-    Top = 269
+    Left = 378
+    Top = 278
     Caption = 'Rate'
   end
   object cxlbl14: TcxLabel
-    Left = 23
-    Top = 291
+    Left = 10
+    Top = 305
     Caption = 'Keterangan'
   end
   object cxtKeterangan: TcxTextEdit
-    Left = 112
-    Top = 289
+    Left = 111
+    Top = 304
     Properties.CharCase = ecUpperCase
     TabOrder = 26
     Width = 416
   end
   object cxtRate: TcxTextEdit
     Left = 411
-    Top = 265
-    TabOrder = 21
+    Top = 277
+    TabOrder = 22
     Width = 113
   end
   object cxlbltemp: TcxLabel
-    Left = 571
-    Top = 271
+    Left = 478
+    Top = 197
     Caption = 'cxlbltemp'
     Visible = False
   end

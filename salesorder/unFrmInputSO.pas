@@ -111,6 +111,13 @@ var
   tbl_tmp: TZTable;
 begin
   inherited;
+
+  if (cxTblSO.DataController.EditState = [dceInsert, dceModified]) or
+    (cxTblSO.DataController.EditState = [dceEdit, dceModified]) then begin
+    MsgBox('Mohon selesaikan pengeditan detail sebelum disimpan.');
+    Abort;
+  end;
+
   if cxsNet.EditValue = 0 then begin
     MsgBox('Detail Transaksi masih kosong.');
   end
@@ -125,6 +132,7 @@ begin
     Abort;
   end
   else begin
+
     //Cek Qty
     for i := 0 to cxTblSO.DataController.RecordCount - 1 do begin
       if VarIsNull(cxTblSO.DataController.Values[i, cxColQty.Index]) then begin
@@ -438,7 +446,7 @@ begin
       if v = ADataController.Values[j, cxColKode.Index] then begin
         MsgBox('Item tersebut sudah ada.');
         ADataController.DeleteRecord(i);
-        Break;
+        Abort
       end;
     end;
   end;

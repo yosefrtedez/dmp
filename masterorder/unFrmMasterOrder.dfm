@@ -1,11 +1,13 @@
 inherited frmMasterOrder: TfrmMasterOrder
-  Caption = 'frmMasterOrder'
+  Caption = 'Master Order'
+  ClientWidth = 1076
   OnCreate = FormCreate
-  ExplicitWidth = 894
+  ExplicitWidth = 1076
   ExplicitHeight = 553
   PixelsPerInch = 96
   TextHeight = 13
   inherited Panel1: TPanel
+    Width = 1076
     object Label13: TLabel
       Left = 10
       Top = 16
@@ -22,19 +24,21 @@ inherited frmMasterOrder: TfrmMasterOrder
   end
   inherited Panel2: TPanel
     Align = alNone
+    TabOrder = 4
     Visible = False
   end
   object Panel3: TPanel
     Left = 0
     Top = 49
-    Width = 894
+    Width = 1076
     Height = 41
     Align = alTop
-    TabOrder = 2
+    TabOrder = 1
+    ExplicitWidth = 894
     object cxdTgl1: TcxDateEdit
       Left = 62
       Top = 9
-      TabOrder = 0
+      TabOrder = 1
       Width = 121
     end
     object cxLabel1: TcxLabel
@@ -50,26 +54,27 @@ inherited frmMasterOrder: TfrmMasterOrder
     object cxdTgl2: TcxDateEdit
       Left = 211
       Top = 9
-      TabOrder = 3
+      TabOrder = 2
       Width = 121
     end
     object btnProses: TButton
       Left = 338
-      Top = 6
+      Top = 7
       Width = 75
       Height = 25
       Caption = 'Proses'
-      TabOrder = 4
+      TabOrder = 0
       OnClick = btnProsesClick
     end
   end
   object cxGrid1: TcxGrid
     Left = 0
     Top = 90
-    Width = 894
+    Width = 1076
     Height = 295
     Align = alClient
-    TabOrder = 3
+    TabOrder = 2
+    ExplicitWidth = 894
     object cxGrid1DBTableView1: TcxGridDBTableView
       NavigatorButtons.ConfirmDelete = False
       DataController.DataSource = dsMO
@@ -95,6 +100,7 @@ inherited frmMasterOrder: TfrmMasterOrder
       object cxGrid1DBTableView1kode_brg: TcxGridDBColumn
         Caption = 'Kode Barang'
         DataBinding.FieldName = 'kode_brg'
+        Width = 89
       end
       object cxGrid1DBTableView1deskripsi: TcxGridDBColumn
         Caption = 'Nama Barang'
@@ -116,10 +122,12 @@ inherited frmMasterOrder: TfrmMasterOrder
       object cxGrid1DBTableView1kode_customer: TcxGridDBColumn
         Caption = 'Kode Customer'
         DataBinding.FieldName = 'kode_customer'
+        Width = 100
       end
       object cxGrid1DBTableView1nama_customer: TcxGridDBColumn
         Caption = 'Nama Customer'
         DataBinding.FieldName = 'nama_customer'
+        Width = 175
       end
     end
     object cxGrid1Level1: TcxGridLevel
@@ -129,10 +137,11 @@ inherited frmMasterOrder: TfrmMasterOrder
   object Panel4: TPanel
     Left = 0
     Top = 385
-    Width = 894
+    Width = 1076
     Height = 168
     Align = alBottom
-    TabOrder = 4
+    TabOrder = 3
+    ExplicitWidth = 894
     object Button1: TButton
       Left = 10
       Top = 6

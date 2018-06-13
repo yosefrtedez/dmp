@@ -109,8 +109,8 @@ begin
 
   q := OpenRS('SELECT * FROM tbl_po_head where no_fobj = ''%s''',[zqrPPhead.FieldByName('no_bukti').AsString]);
   if not q.Eof then begin
-        MsgBox('Data tidak bisa dihapus karena memiliki transaksi.');
-        Abort;
+    MsgBox('Data tidak bisa dihapus karena memiliki transaksi.');
+    Abort;
   end else begin
     try
       DM.zConn.StartTransaction;
@@ -143,13 +143,13 @@ var
   ts: TcxTabSheet;
 begin
   inherited;
-   if not fu.CekTabOpen('Input PP') then begin
+   if not fu.CekTabOpen('Input Permintaan Pembelian') then begin
     ts := TcxTabSheet.Create(Self);
     ts.PageControl := frmUtama.pgMain;
     f := TfrmInputPP.Create(Self);
     f.Jenis := 'T';
     f.Parent := ts;
-    ts.Caption := 'Add PP';
+    ts.Caption := 'Input Permintaan Pembelian';
     f.Show;
     fu.pgMain.ActivePage := ts;
   end;

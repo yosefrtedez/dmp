@@ -60,33 +60,41 @@ inherited frmLstPP: TfrmLstPP
       object cxColPPno_bukti: TcxGridDBColumn
         Caption = 'No Bukti'
         DataBinding.FieldName = 'no_bukti'
+        Options.Editing = False
       end
       object cxColPPtanggal: TcxGridDBColumn
         Caption = 'Tanggal'
         DataBinding.FieldName = 'tanggal'
+        Options.Editing = False
         Width = 92
       end
       object cxColPPtgl_diperlukan: TcxGridDBColumn
-        DataBinding.FieldName = 'Tgl. Diperlukan'
+        Caption = 'Tgl Diperlukan'
+        DataBinding.FieldName = 'tgl_diperlukan'
+        Options.Editing = False
         Width = 94
       end
       object cxColPPdiajukan_oleh: TcxGridDBColumn
         Caption = 'User'
         DataBinding.FieldName = 'user'
+        Options.Editing = False
       end
       object cxColPPdiajukan_dept: TcxGridDBColumn
         Caption = 'Departemen'
         DataBinding.FieldName = 'user_dept'
+        Options.Editing = False
         Width = 230
       end
       object cxColPPlevel_kebutuhan: TcxGridDBColumn
         Caption = 'Level'
         DataBinding.FieldName = 'level_kebutuhan'
+        Options.Editing = False
         Width = 164
       end
       object cxColPPLevel1_f_app: TcxGridDBColumn
         Caption = 'Approval'
         DataBinding.FieldName = 'f_app'
+        Options.Editing = False
       end
     end
     object cxgtblPP1: TcxGridDBTableView
@@ -142,6 +150,7 @@ inherited frmLstPP: TfrmLstPP
     end
     object cxTblcxgtblcxgrd1PPDBTableView1: TcxGridDBTableView
       NavigatorButtons.ConfirmDelete = False
+      DataController.DataModeController.SmartRefresh = True
       DataController.DataSource = dsPPDet
       DataController.DetailKeyFieldNames = 'id_ref'
       DataController.MasterKeyFieldNames = 'id'
@@ -149,6 +158,7 @@ inherited frmLstPP: TfrmLstPP
       DataController.Summary.FooterSummaryItems = <>
       DataController.Summary.SummaryGroups = <>
       OptionsView.GroupByBox = False
+      OptionsView.GroupSummaryLayout = gslAlignWithColumns
       object cxColcxgtblcxgrd1PPDBTableView1no_bukti: TcxGridDBColumn
         Caption = 'No Bukti'
         DataBinding.FieldName = 'no_bukti'
@@ -240,6 +250,7 @@ inherited frmLstPP: TfrmLstPP
     Top = 208
   end
   object dsPPDet: TDataSource
+    AutoEdit = False
     DataSet = zqrPPDet
     Left = 842
     Top = 209

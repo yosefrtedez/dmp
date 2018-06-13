@@ -73,6 +73,7 @@ procedure OpenSQL(lst: TList);
 procedure SplitStr(const Source, Delimiter: String; var DelimitedList: TStringList);
 
 function LastInsertID: Integer;
+function Terbilang(sValue: string): string;
 
 implementation
 
@@ -350,7 +351,11 @@ begin
   else if sTipe = 'permintaan_pembelian' then
     depan := 'PP/'
   else if sTipe = 'po' then
-    depan := 'PO';
+    depan := 'PO/'
+  else if sTipe = 'penerimaan_kas' then
+    depan := 'PNK/'
+  else if sTipe = 'pengeluaran_kas' then
+    depan := 'PLK/';
 
   head := depan + GetFaktur;
 
@@ -1201,6 +1206,73 @@ begin
     inc(s, DelimiterIndex + Length(Delimiter)-1);
   until DelimiterIndex = 0;
   DelimitedList.Add(s);
+end;
+
+function terbilang(sValue: string): string;
+const
+  Angka : array [1..20] of string = ('', 'Satu', 'Dua', 'Tiga', 'Empat',
+                                    'Lima', 'Enam', 'Tujuh', 'Delapan',
+                                    'Sembilan', 'Sepuluh', 'Sebelas',
+                                    'Dua Belas', 'Tiga Belas', 'Empat Belas',
+                                    'Lima Belas', 'Enam Belas', 'Tujuh Belas',
+                                    'Delapan Belas', 'Sembilan Belas');
+  sPattern: string = '000000000000000';
+var
+  S, Rupiah, Satu, Dua, Tiga, Belas, Gabung, Sen, Sen1, Sen2, curr: string;
+  Hitung, one, two, three: integer;
+
+begin
+  curr := '';
+  One := 4;
+  Two := 5;
+  Three := 6;
+  Hitung := 1;
+  Rupiah := '';
+  S := copy(sPattern, 1, length(sPattern) - length(trim(sValue))) + sValue;
+  Sen1 := Copy(S, 14, 1);
+  Sen2 := Copy(S, 15, 1);
+  Sen := Sen1 + Sen2;
+  while Hitung < 5 do begin
+    Satu := Copy(S, One, 1);
+    Dua := Copy(S, Two, 1);
+    Tiga := Copy(S, Three, 1);
+    Gabung := Satu + Dua + Tiga;
+
+    if StrToInt(Satu) = 1 then
+      Rupiah := Rupiah + 'Seratus '
+    else if StrToInt(Satu) > 1 Then
+      Rupiah := Rupiah + Angka[StrToInt(satu)+1] + ' Ratus ';
+
+    if StrToInt(Dua) = 1 then begin
+      Belas := Dua + Tiga;
+      Rupiah := Rupiah + Angka[StrToInt(Belas)+1];
+    end else if StrToInt(Dua) > 1 Then
+      Rupiah := Rupiah + Angka[StrToInt(Dua)+1] + ' Puluh ' +
+      Angka[StrToInt(Tiga)+1]
+    else if (StrToInt(Dua) = 0) and (StrToInt(Tiga) > 0) Then begin
+      if ((Hitung = 3) and (Gabung = '001')) or ((Hitung = 3) and (Gabung = ' 1')) then
+        Rupiah := Rupiah + 'Seribu '
+      else
+        Rupiah := Rupiah + Angka[StrToInt(Tiga)+1];
+    end;
+
+    if (hitung = 1) and (StrToInt(Gabung) > 0) then
+      Rupiah := Rupiah + ' Milyar '
+    else if (Hitung = 2) and (StrToInt(Gabung) > 0) then
+      Rupiah := Rupiah + ' Juta '
+    else if (Hitung = 3) and (StrToInt(Gabung) > 0) then begin
+      if (Gabung = '001') or (Gabung = ' 1') then
+        Rupiah := Rupiah + ''
+      else
+        Rupiah := Rupiah + ' Ribu ';
+    end;
+    Hitung := Hitung + 1;
+    One := One + 3;
+    Two := Two + 3;
+    Three := Three + 3;
+  end;
+  if length(Rupiah) > 1 then Rupiah := Rupiah + ' ' +curr;
+  Result := Rupiah;
 end;
 
 end.

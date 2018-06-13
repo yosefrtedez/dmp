@@ -90,6 +90,7 @@ type
     procedure mnPur_AppPPClick(Sender: TObject);
     procedure mnPur_POClick(Sender: TObject);
     procedure mnPur_PBClick(Sender: TObject);
+    procedure mnAKT_PengeluaranKasClick(Sender: TObject);
   private
     procedure PGChange(Sender: TObject);
   public
@@ -111,7 +112,8 @@ uses
   unFrmLstMesin, unFrmLstUser, unFrmLstLain2, unDM, unFrmLstKaryawan,
   unFrmLstSO, unFrmLstPP, unFrmLstCOA, unFrmLstJurnalUmum, unFrmDefaultAkun,
   unFrmMasterOrder, unFrmLogin, unFrmSettingWewenang, unFrmSettingProgram,
-  unFrmLstPenerimaanKas, unFrmAppPP, unFrmInputPO, unFrmLstPO, unFrmLstPB;
+  unFrmLstPenerimaanKas, unFrmAppPP, unFrmInputPO, unFrmLstPO, unFrmLstPB,
+  unFrmLstPengeluaranKas;
 
 {$R *.dfm}
 
@@ -198,6 +200,25 @@ begin
     ts.PageControl := pgMain;
 
     f := TfrmLstPenerimaanKas.Create(Self);
+    f.Parent := ts;
+    ts.Caption := f.Caption;
+    f.Show;
+
+    pgMain.ActivePage := ts;
+  end;
+end;
+
+procedure TfrmUtama.mnAKT_PengeluaranKasClick(Sender: TObject);
+var
+  f: TfrmLstPengeluaranKas;
+  ts: TcxTabSheet;
+begin
+  if not CekTabOpen('Pengeluaran Kas') then begin
+    ToggleMainPage;
+    ts := TcxTabSheet.Create(Self);
+    ts.PageControl := pgMain;
+
+    f := TfrmLstPengeluaranKas.Create(Self);
     f.Parent := ts;
     ts.Caption := f.Caption;
     f.Show;
