@@ -67,6 +67,7 @@ type
     mnPur_PB: TMenuItem;
     mnWHL: TMenuItem;
     mnWhl_TransferBarang: TMenuItem;
+    mnMst_Sales: TMenuItem;
     procedure FormShow(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure mnMst_BarangJasaClick(Sender: TObject);
@@ -94,6 +95,7 @@ type
     procedure mnPur_PBClick(Sender: TObject);
     procedure mnAKT_PengeluaranKasClick(Sender: TObject);
     procedure mnWhl_TransferBarangClick(Sender: TObject);
+    procedure mnMst_SalesClick(Sender: TObject);
   private
     procedure PGChange(Sender: TObject);
   public
@@ -116,7 +118,7 @@ uses
   unFrmLstSO, unFrmLstPP, unFrmLstCOA, unFrmLstJurnalUmum, unFrmDefaultAkun,
   unFrmMasterOrder, unFrmLogin, unFrmSettingWewenang, unFrmSettingProgram,
   unFrmLstPenerimaanKas, unFrmAppPP, unFrmInputPO, unFrmLstPO, unFrmLstPB,
-  unFrmLstPengeluaranKas, unFrmLstTransferBarang;
+  unFrmLstPengeluaranKas, unFrmLstTransferBarang, unFrmLstSales;
 
 {$R *.dfm}
 
@@ -381,6 +383,26 @@ begin
     pgMain.ActivePage := ts;
   end;
 end;
+
+procedure TfrmUtama.mnMst_SalesClick(Sender: TObject);
+var
+  f: TfrmLstSales;
+  ts: TcxTabSheet;
+begin
+  if not CekTabOpen('Sales') then begin
+    ToggleMainPage;
+    ts := TcxTabSheet.Create(Self);
+    ts.PageControl := pgMain;
+
+    f := TfrmLstSales.Create(Self);
+    f.Parent := ts;
+    ts.Caption := f.Caption;
+    f.Show;
+
+    pgMain.ActivePage := ts;
+  end;
+end;
+
 
 procedure TfrmUtama.mnMst_SupplierClick(Sender: TObject);
 var

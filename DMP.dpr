@@ -47,11 +47,13 @@ uses
   unFrmInputFormula in 'formula\unFrmInputFormula.pas' {frmInputFormula},
   unFrmAppPO in 'purchaseorder\unFrmAppPO.pas' {frmAppPO},
   unFrmLstPB in 'penerimaanbarang\unFrmLstPB.pas' {frmLstPB},
-  unFrmInputPB in 'penerimaanbarang\unFrmInputPB.pas' {frmTplInput1},
+  unFrmInputPB in 'penerimaanbarang\unFrmInputPB.pas' {frmInputPB},
   unFrmLstPengeluaranKas in 'penerimaanpengeluarankas\unFrmLstPengeluaranKas.pas' {frmLstPengeluaranKas},
   unFrmInputPengeluaranKas in 'penerimaanpengeluarankas\unFrmInputPengeluaranKas.pas' {frmInputPengeluaranKas},
   unFrmLstTransferBarang in 'transferbarang\unFrmLstTransferBarang.pas' {frmLstTransferBarang},
-  unFrmInputTransferBarang in 'transferbarang\unFrmInputTransferBarang.pas' {frmTplInput2};
+  unFrmInputTransferBarang in 'transferbarang\unFrmInputTransferBarang.pas' {frmTplInput2},
+  unFrmLstSales in 'sales\unFrmLstSales.pas' {frmLstSales},
+  unFrmInputSales in 'sales\unFrmInputSales.pas' {frmInputSales};
 
 {$R *.res}
 
@@ -73,11 +75,13 @@ begin
   Application.CreateForm(TfrmInputFormula, frmInputFormula);
   Application.CreateForm(TfrmAppPO, frmAppPO);
   Application.CreateForm(TfrmLstPB, frmLstPB);
-  Application.CreateForm(TfrmTplInput1, frmTplInput1);
+  Application.CreateForm(TfrmInputPB, frmInputPB);
   Application.CreateForm(TfrmLstPengeluaranKas, frmLstPengeluaranKas);
   Application.CreateForm(TfrmInputPengeluaranKas, frmInputPengeluaranKas);
   Application.CreateForm(TfrmLstTransferBarang, frmLstTransferBarang);
   Application.CreateForm(TfrmTplInput2, frmTplInput2);
+  Application.CreateForm(TfrmLstSales, frmLstSales);
+  Application.CreateForm(TfrmInputSales, frmInputSales);
   frmUtama.Show;
 
   frmLogin.ShowModal;

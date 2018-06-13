@@ -1,0 +1,7 @@
+inherited frmInputSales: TfrmInputSales
+  Caption = 'Input Sales'
+  ExplicitWidth = 894
+  ExplicitHeight = 553
+  PixelsPerInch = 96
+  TextHeight = 13
+end

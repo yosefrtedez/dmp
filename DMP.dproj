@@ -168,7 +168,7 @@
 				<Form>frmLstPB</Form>
 			</DCCReference>
 			<DCCReference Include="penerimaanbarang\unFrmInputPB.pas">
-				<Form>frmTplInput1</Form>
+				<Form>frmInputPB</Form>
 			</DCCReference>
 			<DCCReference Include="penerimaanpengeluarankas\unFrmLstPengeluaranKas.pas">
 				<Form>frmLstPengeluaranKas</Form>
@@ -181,6 +181,12 @@
 			</DCCReference>
 			<DCCReference Include="transferbarang\unFrmInputTransferBarang.pas">
 				<Form>frmTplInput2</Form>
+			</DCCReference>
+			<DCCReference Include="sales\unFrmLstSales.pas">
+				<Form>frmLstSales</Form>
+			</DCCReference>
+			<DCCReference Include="sales\unFrmInputSales.pas">
+				<Form>frmInputSales</Form>
 			</DCCReference>
 			<BuildConfiguration Include="Base">
 				<Key>Base</Key>

@@ -7,7 +7,7 @@ uses
   Dialogs, unFrmTplInput, StdCtrls, ExtCtrls;
 
 type
-  TfrmInputPB = class(TfrmTplInput)
+  TfrmTplInput1 = class(TfrmTplInput)
     Label1: TLabel;
   private
     { Private declarations }
@@ -16,7 +16,7 @@ type
   end;
 
 var
-  frmInputPB: TfrmInputPB;
+  frmTplInput1: TfrmTplInput1;
 
 implementation
 

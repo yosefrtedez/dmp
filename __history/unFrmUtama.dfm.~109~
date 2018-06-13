@@ -106,6 +106,9 @@ object frmUtama: TfrmUtama
         Caption = 'Supplier'
         OnClick = mnMst_SupplierClick
       end
+      object mnMst_Formula: TMenuItem
+        Caption = 'Formula'
+      end
       object mnMst_Mesin: TMenuItem
         Caption = 'Mesin'
         OnClick = mnMst_MesinClick
@@ -121,6 +124,10 @@ object frmUtama: TfrmUtama
       object mnMst_Lain2: TMenuItem
         Caption = 'Kategori Barang - Departemen - Gudang'
         OnClick = mnMst_Lain2Click
+      end
+      object mnMst_Sales: TMenuItem
+        Caption = 'Sales'
+        OnClick = mnMst_SalesClick
       end
       object mnMst_UserProgram: TMenuItem
         Caption = 'User Program'
@@ -153,6 +160,13 @@ object frmUtama: TfrmUtama
         Caption = 'SO - Made To Stok'
       end
     end
+    object mnWHL: TMenuItem
+      Caption = 'WHL'
+      object mnWhl_TransferBarang: TMenuItem
+        Caption = 'Transfer Antar Gudang'
+        OnClick = mnWhl_TransferBarangClick
+      end
+    end
     object mnPRD: TMenuItem
       Caption = 'PRD'
       object mnPrd_PengambilanBB: TMenuItem
@@ -170,24 +184,35 @@ object frmUtama: TfrmUtama
       end
       object mnPur_AppPP: TMenuItem
         Caption = 'Approval Permintaan Pembelian '
+        OnClick = mnPur_AppPPClick
       end
       object N2: TMenuItem
         Caption = '-'
       end
       object mnPur_PO: TMenuItem
         Caption = 'Purchase Order'
+        OnClick = mnPur_POClick
       end
-      object mnApp_PO: TMenuItem
+      object mnPur_AppPO: TMenuItem
         Caption = 'Approval Purchase Order'
+      end
+      object N3: TMenuItem
+        Caption = '-'
+      end
+      object mnPur_PB: TMenuItem
+        Caption = 'Penerimaan Barang'
+        OnClick = mnPur_PBClick
       end
     end
     object mnAKT: TMenuItem
       Caption = 'AKT'
       object mnAKT_PenerimaanKas: TMenuItem
         Caption = 'Penerimaan Kas'
+        OnClick = mnAKT_PenerimaanKasClick
       end
       object mnAKT_PengeluaranKas: TMenuItem
         Caption = 'Pengeluaran Kas'
+        OnClick = mnAKT_PengeluaranKasClick
       end
       object mnAkt_JurnalUmum: TMenuItem
         Caption = 'Jurnal Umum'

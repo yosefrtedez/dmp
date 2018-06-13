@@ -125,6 +125,10 @@ object frmUtama: TfrmUtama
         Caption = 'Kategori Barang - Departemen - Gudang'
         OnClick = mnMst_Lain2Click
       end
+      object mnMst_Sales: TMenuItem
+        Caption = 'Sales'
+        OnClick = mnMst_SalesClick
+      end
       object mnMst_UserProgram: TMenuItem
         Caption = 'User Program'
         OnClick = mnMst_UserProgramClick

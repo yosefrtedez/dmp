@@ -1,4 +1,4 @@
-inherited frmInputPB: TfrmInputPB
+inherited frmTplInput1: TfrmTplInput1
   Caption = 'frmInputPB'
   ExplicitWidth = 894
   ExplicitHeight = 553

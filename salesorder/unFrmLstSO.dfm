@@ -41,8 +41,6 @@ inherited frmLstSO: TfrmLstSO
     Height = 410
     Align = alClient
     TabOrder = 2
-    ExplicitLeft = 8
-    ExplicitTop = 55
     object cxtbSO: TcxGridDBTableView
       NavigatorButtons.ConfirmDelete = False
       DataController.DataSource = dsSO
