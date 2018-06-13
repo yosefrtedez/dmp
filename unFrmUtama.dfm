@@ -156,6 +156,13 @@ object frmUtama: TfrmUtama
         Caption = 'SO - Made To Stok'
       end
     end
+    object mnWHL: TMenuItem
+      Caption = 'WHL'
+      object mnWhl_TransferBarang: TMenuItem
+        Caption = 'Transfer Antar Gudang'
+        OnClick = mnWhl_TransferBarangClick
+      end
+    end
     object mnPRD: TMenuItem
       Caption = 'PRD'
       object mnPrd_PengambilanBB: TMenuItem

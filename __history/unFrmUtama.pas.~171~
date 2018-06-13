@@ -46,7 +46,7 @@ type
     mnPur_AppPP: TMenuItem;
     N2: TMenuItem;
     mnPur_PO: TMenuItem;
-    mnApp_PO: TMenuItem;
+    mnPur_AppPO: TMenuItem;
     mnAKT: TMenuItem;
     mnAkt_JurnalUmum: TMenuItem;
     mnAkt_SetDefaultAkun: TMenuItem;
@@ -62,6 +62,9 @@ type
     mnAKT_PenerimaanKas: TMenuItem;
     mnAKT_PengeluaranKas: TMenuItem;
     mnLap: TMenuItem;
+    mnMst_Formula: TMenuItem;
+    N3: TMenuItem;
+    mnPur_PB: TMenuItem;
     procedure FormShow(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure mnMst_BarangJasaClick(Sender: TObject);
@@ -84,6 +87,10 @@ type
     procedure mnSet_WewenangUserClick(Sender: TObject);
     procedure mnSet_SettingProgramClick(Sender: TObject);
     procedure mnAKT_PenerimaanKasClick(Sender: TObject);
+    procedure mnPur_AppPPClick(Sender: TObject);
+    procedure mnPur_POClick(Sender: TObject);
+    procedure mnPur_PBClick(Sender: TObject);
+    procedure mnAKT_PengeluaranKasClick(Sender: TObject);
   private
     procedure PGChange(Sender: TObject);
   public
@@ -105,7 +112,8 @@ uses
   unFrmLstMesin, unFrmLstUser, unFrmLstLain2, unDM, unFrmLstKaryawan,
   unFrmLstSO, unFrmLstPP, unFrmLstCOA, unFrmLstJurnalUmum, unFrmDefaultAkun,
   unFrmMasterOrder, unFrmLogin, unFrmSettingWewenang, unFrmSettingProgram,
-  unFrmLstPenerimaanKas;
+  unFrmLstPenerimaanKas, unFrmAppPP, unFrmInputPO, unFrmLstPO, unFrmLstPB,
+  unFrmLstPengeluaranKas;
 
 {$R *.dfm}
 
@@ -192,6 +200,25 @@ begin
     ts.PageControl := pgMain;
 
     f := TfrmLstPenerimaanKas.Create(Self);
+    f.Parent := ts;
+    ts.Caption := f.Caption;
+    f.Show;
+
+    pgMain.ActivePage := ts;
+  end;
+end;
+
+procedure TfrmUtama.mnAKT_PengeluaranKasClick(Sender: TObject);
+var
+  f: TfrmLstPengeluaranKas;
+  ts: TcxTabSheet;
+begin
+  if not CekTabOpen('Pengeluaran Kas') then begin
+    ToggleMainPage;
+    ts := TcxTabSheet.Create(Self);
+    ts.PageControl := pgMain;
+
+    f := TfrmLstPengeluaranKas.Create(Self);
     f.Parent := ts;
     ts.Caption := f.Caption;
     f.Show;
@@ -401,6 +428,63 @@ begin
     ts.PageControl := pgMain;
 
     f := TfrmMasterOrder.Create(Self);
+    f.Parent := ts;
+    ts.Caption := f.Caption;
+    f.Show;
+
+    pgMain.ActivePage := ts;
+  end;
+end;
+
+procedure TfrmUtama.mnPur_AppPPClick(Sender: TObject);
+var
+  f: TfrmAppPP;
+  ts: TcxTabSheet;
+begin
+  if not CekTabOpen('Approval PP') then begin
+    ToggleMainPage;
+    ts := TcxTabSheet.Create(Self);
+    ts.PageControl := pgMain;
+
+    f := TfrmAppPP.Create(Self);
+    f.Parent := ts;
+    ts.Caption := f.Caption;
+    f.Show;
+
+    pgMain.ActivePage := ts;
+  end;
+end;
+
+procedure TfrmUtama.mnPur_PBClick(Sender: TObject);
+var
+  f: TfrmLstPB;
+  ts: TcxTabSheet;
+begin
+  if not CekTabOpen('Penerimaan Barang') then begin
+    ToggleMainPage;
+    ts := TcxTabSheet.Create(Self);
+    ts.PageControl := pgMain;
+
+    f := TfrmLstPB.Create(Self);
+    f.Parent := ts;
+    ts.Caption := f.Caption;
+    f.Show;
+
+    pgMain.ActivePage := ts;
+  end;
+end;
+
+procedure TfrmUtama.mnPur_POClick(Sender: TObject);
+var
+  f: TfrmLstPO;
+  ts: TcxTabSheet;
+begin
+  if not CekTabOpen('Purchase Order') then begin
+    ToggleMainPage;
+    ts := TcxTabSheet.Create(Self);
+    ts.PageControl := pgMain;
+
+    f := TfrmLstPO.Create(Self);
     f.Parent := ts;
     ts.Caption := f.Caption;
     f.Show;

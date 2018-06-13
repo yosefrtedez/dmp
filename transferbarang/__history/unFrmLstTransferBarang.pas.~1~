@@ -1,0 +1,25 @@
+unit unFrmLstTransferBarang;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, unFrmTplGrid, StdCtrls, ExtCtrls;
+
+type
+  TfrmLstTransferBarang = class(TfrmTplGrid)
+    Label1: TLabel;
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmLstTransferBarang: TfrmLstTransferBarang;
+
+implementation
+
+{$R *.dfm}
+
+end.

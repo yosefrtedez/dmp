@@ -74,5 +74,9 @@
     <Transaction>2018/06/11 14.07.13.456.dfm,D:\108 JSP\My Project\05. Felgito\02. Source Code\Unit1.dfm=D:\108 JSP\My Project\05. Felgito\02. Source Code\penerimaanbarang\unFrmLstPB.dfm</Transaction>
     <Transaction>2018/06/11 14.09.10.006.pas,D:\108 JSP\My Project\05. Felgito\02. Source Code\Unit1.pas=D:\108 JSP\My Project\05. Felgito\02. Source Code\penerimaanbarang\unFrmInputPB.pas</Transaction>
     <Transaction>2018/06/11 14.09.10.006.dfm,D:\108 JSP\My Project\05. Felgito\02. Source Code\Unit1.dfm=D:\108 JSP\My Project\05. Felgito\02. Source Code\penerimaanbarang\unFrmInputPB.dfm</Transaction>
+    <Transaction>2018/06/13 14.05.48.044.pas,D:\108 JSP\My Project\05. Felgito\02. Source Code\Unit1.pas=D:\108 JSP\My Project\05. Felgito\02. Source Code\transferbarang\unFrmLstTransferBarang.pas</Transaction>
+    <Transaction>2018/06/13 14.05.48.044.dfm,D:\108 JSP\My Project\05. Felgito\02. Source Code\Unit1.dfm=D:\108 JSP\My Project\05. Felgito\02. Source Code\transferbarang\unFrmLstTransferBarang.dfm</Transaction>
+    <Transaction>2018/06/13 14.07.10.683.pas,D:\108 JSP\My Project\05. Felgito\02. Source Code\Unit2.pas=D:\108 JSP\My Project\05. Felgito\02. Source Code\transferbarang\unFrmInputTransferBarang.pas</Transaction>
+    <Transaction>2018/06/13 14.07.10.683.dfm,D:\108 JSP\My Project\05. Felgito\02. Source Code\Unit2.dfm=D:\108 JSP\My Project\05. Felgito\02. Source Code\transferbarang\unFrmInputTransferBarang.dfm</Transaction>
   </Transactions>
 </BorlandProject>

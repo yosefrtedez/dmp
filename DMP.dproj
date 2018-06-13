@@ -176,6 +176,12 @@
 			<DCCReference Include="penerimaanpengeluarankas\unFrmInputPengeluaranKas.pas">
 				<Form>frmInputPengeluaranKas</Form>
 			</DCCReference>
+			<DCCReference Include="transferbarang\unFrmLstTransferBarang.pas">
+				<Form>frmLstTransferBarang</Form>
+			</DCCReference>
+			<DCCReference Include="transferbarang\unFrmInputTransferBarang.pas">
+				<Form>frmTplInput2</Form>
+			</DCCReference>
 			<BuildConfiguration Include="Base">
 				<Key>Base</Key>
 			</BuildConfiguration>

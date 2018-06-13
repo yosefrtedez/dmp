@@ -65,6 +65,8 @@ type
     mnMst_Formula: TMenuItem;
     N3: TMenuItem;
     mnPur_PB: TMenuItem;
+    mnWHL: TMenuItem;
+    mnWhl_TransferBarang: TMenuItem;
     procedure FormShow(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure mnMst_BarangJasaClick(Sender: TObject);
@@ -91,6 +93,7 @@ type
     procedure mnPur_POClick(Sender: TObject);
     procedure mnPur_PBClick(Sender: TObject);
     procedure mnAKT_PengeluaranKasClick(Sender: TObject);
+    procedure mnWhl_TransferBarangClick(Sender: TObject);
   private
     procedure PGChange(Sender: TObject);
   public
@@ -113,7 +116,7 @@ uses
   unFrmLstSO, unFrmLstPP, unFrmLstCOA, unFrmLstJurnalUmum, unFrmDefaultAkun,
   unFrmMasterOrder, unFrmLogin, unFrmSettingWewenang, unFrmSettingProgram,
   unFrmLstPenerimaanKas, unFrmAppPP, unFrmInputPO, unFrmLstPO, unFrmLstPB,
-  unFrmLstPengeluaranKas;
+  unFrmLstPengeluaranKas, unFrmLstTransferBarang;
 
 {$R *.dfm}
 
@@ -631,6 +634,25 @@ begin
     pagecontrol.OnChange := PGChange;
   end;
 
+end;
+
+procedure TfrmUtama.mnWhl_TransferBarangClick(Sender: TObject);
+var
+  f: TfrmLstTransferBarang;
+  ts: TcxTabSheet;
+begin
+  if not CekTabOpen('Transfer Barang') then begin
+    ToggleMainPage;
+    ts := TcxTabSheet.Create(Self);
+    ts.PageControl := pgMain;
+
+    f := TfrmLstTransferBarang.Create(Self);
+    f.Parent := ts;
+    ts.Caption := f.Caption;
+    f.Show;
+
+    pgMain.ActivePage := ts;
+  end;
 end;
 
 procedure TfrmUtama.PGChange(Sender: TObject);

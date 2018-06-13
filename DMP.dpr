@@ -49,7 +49,9 @@ uses
   unFrmLstPB in 'penerimaanbarang\unFrmLstPB.pas' {frmLstPB},
   unFrmInputPB in 'penerimaanbarang\unFrmInputPB.pas' {frmTplInput1},
   unFrmLstPengeluaranKas in 'penerimaanpengeluarankas\unFrmLstPengeluaranKas.pas' {frmLstPengeluaranKas},
-  unFrmInputPengeluaranKas in 'penerimaanpengeluarankas\unFrmInputPengeluaranKas.pas' {frmInputPengeluaranKas};
+  unFrmInputPengeluaranKas in 'penerimaanpengeluarankas\unFrmInputPengeluaranKas.pas' {frmInputPengeluaranKas},
+  unFrmLstTransferBarang in 'transferbarang\unFrmLstTransferBarang.pas' {frmLstTransferBarang},
+  unFrmInputTransferBarang in 'transferbarang\unFrmInputTransferBarang.pas' {frmTplInput2};
 
 {$R *.res}
 
@@ -74,6 +76,8 @@ begin
   Application.CreateForm(TfrmTplInput1, frmTplInput1);
   Application.CreateForm(TfrmLstPengeluaranKas, frmLstPengeluaranKas);
   Application.CreateForm(TfrmInputPengeluaranKas, frmInputPengeluaranKas);
+  Application.CreateForm(TfrmLstTransferBarang, frmLstTransferBarang);
+  Application.CreateForm(TfrmTplInput2, frmTplInput2);
   frmUtama.Show;
 
   frmLogin.ShowModal;
