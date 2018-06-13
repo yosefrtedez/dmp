@@ -58,6 +58,6 @@ begin
     f.Show;
     fu.pgMain.ActivePage := ts;
   end;
-end;
+end;;
 
 end.

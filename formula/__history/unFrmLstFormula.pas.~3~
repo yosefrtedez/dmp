@@ -16,7 +16,7 @@ uses
   dxSkinsDefaultPainters, dxSkinValentine, dxSkinXmas2008Blue,
   dxSkinscxPCPainter, cxCustomData, cxFilter, cxData, cxDataStorage, cxEdit, DB,
   cxDBData, cxGridLevel, cxClasses, cxGridCustomView, cxGridCustomTableView,
-  cxGridTableView, cxGridDBTableView, cxGrid, cxPC;
+  cxGridTableView, cxGridDBTableView, cxGrid;
 
 type
   TfrmLstFormula = class(TfrmTplGrid)
@@ -27,7 +27,6 @@ type
     cxGrid2DBTableView1: TcxGridDBTableView;
     cxGrid2Level1: TcxGridLevel;
     cxGrid2: TcxGrid;
-    procedure btnTambahClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -39,25 +38,6 @@ var
 
 implementation
 
-uses unFrmInputFormula, unFrmUtama;
-
 {$R *.dfm}
-
-procedure TfrmLstFormula.btnTambahClick(Sender: TObject);
-var
-  f: TfrmInputFormula;
-  ts: TcxTabSheet;
-begin
-  if not fu.CekTabOpen('Input Formula') then begin
-    ts := TcxTabSheet.Create(Self);
-    ts.PageControl := frmUtama.pgMain;
-    f := TfrmInputFormula.Create(Self);
-    f.Jenis := 'T';
-    f.Parent := ts;
-    ts.Caption := f.Caption;
-    f.Show;
-    fu.pgMain.ActivePage := ts;
-  end;
-end;
 
 end.

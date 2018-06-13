@@ -1,0 +1,37 @@
+inherited frmLstFormula: TfrmLstFormula
+  Caption = 'Formula'
+  ExplicitWidth = 1016
+  ExplicitHeight = 508
+  PixelsPerInch = 96
+  TextHeight = 13
+  inherited Panel2: TPanel
+    TabOrder = 2
+    inherited btnKeluar: TButton
+      TabOrder = 4
+    end
+    inherited btnRefresh: TButton
+      TabOrder = 3
+    end
+  end
+  object cxGrid1: TcxGrid
+    Left = 0
+    Top = 49
+    Width = 1016
+    Height = 410
+    Align = alClient
+    TabOrder = 1
+    ExplicitLeft = 152
+    ExplicitTop = 96
+    ExplicitWidth = 250
+    ExplicitHeight = 200
+    object cxGrid1DBTableView1: TcxGridDBTableView
+      NavigatorButtons.ConfirmDelete = False
+      DataController.Summary.DefaultGroupSummaryItems = <>
+      DataController.Summary.FooterSummaryItems = <>
+      DataController.Summary.SummaryGroups = <>
+    end
+    object cxGrid1Level1: TcxGridLevel
+      GridView = cxGrid1DBTableView1
+    end
+  end
+end

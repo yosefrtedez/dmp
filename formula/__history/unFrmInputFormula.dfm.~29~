@@ -142,20 +142,17 @@ inherited frmInputFormula: TfrmInputFormula
         DataController.Summary.FooterSummaryItems = <>
         DataController.Summary.SummaryGroups = <>
         DataController.OnBeforePost = cxtbFormulaDetDataControllerBeforePost
-        DataController.OnRecordChanged = cxtbFormulaDetDataControllerRecordChanged
         OptionsData.Appending = True
         OptionsView.Navigator = True
-        OptionsView.GroupByBox = False
-        object cxColKodeBrg: TcxGridColumn
+        object cxGridColumn1: TcxGridColumn
           Caption = 'Kode Barang'
           PropertiesClassName = 'TcxTextEditProperties'
           Properties.ReadOnly = True
           Width = 114
         end
-        object cxColDeskripsi: TcxGridColumn
+        object cxGridColumn2: TcxGridColumn
           Caption = 'Deskripsi'
           PropertiesClassName = 'TcxLookupComboBoxProperties'
-          Properties.KeyFieldNames = 'id'
           Properties.ListColumns = <
             item
               Caption = 'Deskripsi'
@@ -168,7 +165,7 @@ inherited frmInputFormula: TfrmInputFormula
           Properties.ListSource = dsBrg2
           Width = 273
         end
-        object cxColQty: TcxGridColumn
+        object cxtbFormulaDetColumn1: TcxGridColumn
           Caption = 'Qty.'
           DataBinding.ValueType = 'Float'
           PropertiesClassName = 'TcxSpinEditProperties'
@@ -176,7 +173,7 @@ inherited frmInputFormula: TfrmInputFormula
           Properties.ValueType = vtFloat
           Width = 116
         end
-        object cxColSatuan: TcxGridColumn
+        object cxtbFormulaDetColumn2: TcxGridColumn
           Caption = 'Satuan'
           Width = 95
         end

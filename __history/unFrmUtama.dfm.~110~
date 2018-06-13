@@ -125,6 +125,10 @@ object frmUtama: TfrmUtama
         Caption = 'Kategori Barang - Departemen - Gudang'
         OnClick = mnMst_Lain2Click
       end
+      object mnMst_Sales: TMenuItem
+        Caption = 'Sales'
+        OnClick = mnMst_SalesClick
+      end
       object mnMst_UserProgram: TMenuItem
         Caption = 'User Program'
         OnClick = mnMst_UserProgramClick
@@ -156,6 +160,13 @@ object frmUtama: TfrmUtama
         Caption = 'SO - Made To Stok'
       end
     end
+    object mnWHL: TMenuItem
+      Caption = 'WHL'
+      object mnWhl_TransferBarang: TMenuItem
+        Caption = 'Transfer Antar Gudang'
+        OnClick = mnWhl_TransferBarangClick
+      end
+    end
     object mnPRD: TMenuItem
       Caption = 'PRD'
       object mnPrd_PengambilanBB: TMenuItem
@@ -180,9 +191,17 @@ object frmUtama: TfrmUtama
       end
       object mnPur_PO: TMenuItem
         Caption = 'Purchase Order'
+        OnClick = mnPur_POClick
       end
-      object mnApp_PO: TMenuItem
+      object mnPur_AppPO: TMenuItem
         Caption = 'Approval Purchase Order'
+      end
+      object N3: TMenuItem
+        Caption = '-'
+      end
+      object mnPur_PB: TMenuItem
+        Caption = 'Penerimaan Barang'
+        OnClick = mnPur_PBClick
       end
     end
     object mnAKT: TMenuItem
@@ -193,6 +212,7 @@ object frmUtama: TfrmUtama
       end
       object mnAKT_PengeluaranKas: TMenuItem
         Caption = 'Pengeluaran Kas'
+        OnClick = mnAKT_PengeluaranKasClick
       end
       object mnAkt_JurnalUmum: TMenuItem
         Caption = 'Jurnal Umum'

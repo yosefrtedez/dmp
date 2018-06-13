@@ -96,6 +96,7 @@ type
     procedure mnAKT_PengeluaranKasClick(Sender: TObject);
     procedure mnWhl_TransferBarangClick(Sender: TObject);
     procedure mnMst_SalesClick(Sender: TObject);
+    procedure mnMst_FormulaClick(Sender: TObject);
   private
     procedure PGChange(Sender: TObject);
   public
@@ -118,7 +119,8 @@ uses
   unFrmLstSO, unFrmLstPP, unFrmLstCOA, unFrmLstJurnalUmum, unFrmDefaultAkun,
   unFrmMasterOrder, unFrmLogin, unFrmSettingWewenang, unFrmSettingProgram,
   unFrmLstPenerimaanKas, unFrmAppPP, unFrmInputPO, unFrmLstPO, unFrmLstPB,
-  unFrmLstPengeluaranKas, unFrmLstTransferBarang, unFrmLstSales;
+  unFrmLstPengeluaranKas, unFrmLstTransferBarang, unFrmLstSales,
+  unFrmLstFormula;
 
 {$R *.dfm}
 
@@ -319,6 +321,25 @@ begin
     ts.PageControl := pgMain;
 
     f := TfrmLstCustomer.Create(Self);
+    f.Parent := ts;
+    ts.Caption := f.Caption;
+    f.Show;
+
+    pgMain.ActivePage := ts;
+  end;
+end;
+
+procedure TfrmUtama.mnMst_FormulaClick(Sender: TObject);
+var
+  f: TfrmLstFormula;
+  ts: TcxTabSheet;
+begin
+  if not CekTabOpen('Formula') then begin
+    ToggleMainPage;
+    ts := TcxTabSheet.Create(Self);
+    ts.PageControl := pgMain;
+
+    f := TfrmLstFormula.Create(Self);
     f.Parent := ts;
     ts.Caption := f.Caption;
     f.Show;

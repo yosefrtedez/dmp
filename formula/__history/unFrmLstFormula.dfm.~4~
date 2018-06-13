@@ -8,9 +8,6 @@ inherited frmLstFormula: TfrmLstFormula
   inherited Panel2: TPanel
     Top = 494
     TabOrder = 4
-    inherited btnTambah: TButton
-      OnClick = btnTambahClick
-    end
     inherited btnKeluar: TButton
       TabOrder = 4
     end

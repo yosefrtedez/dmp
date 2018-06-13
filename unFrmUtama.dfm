@@ -108,6 +108,7 @@ object frmUtama: TfrmUtama
       end
       object mnMst_Formula: TMenuItem
         Caption = 'Formula'
+        OnClick = mnMst_FormulaClick
       end
       object mnMst_Mesin: TMenuItem
         Caption = 'Mesin'

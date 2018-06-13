@@ -125,7 +125,7 @@ var
 begin
   inherited;
   if AItemIndex = cxColDeskripsi.Index then begin
-    q := OpenRS('SELECT kode FROM tbl_barang WHERE id = %s',[VarToStr(cxColDeskripsi.EditValue)]);
+    q := OpenRS('SELECT kode_brg FROM tbl_barang WHERE id = %s',[VarToStr(cxColDeskripsi.EditValue)]);
     cxColKodeBrg.EditValue := q.FieldByName('kode').AsString;
     q.Close;
   end;

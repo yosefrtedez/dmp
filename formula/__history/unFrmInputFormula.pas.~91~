@@ -88,8 +88,7 @@ procedure TfrmInputFormula.cxtbFormulaDetDataControllerBeforePost(
   ADataController: TcxCustomDataController);
 var
   q: TZQuery;
-  i: Integer;
-  id_det, id_head: string;
+  i, id_det, id_head: integer;
 begin
   inherited;
 
@@ -100,17 +99,17 @@ begin
   end;
 
   i := cxtbFormulaHead.DataController.GetFocusedRecordIndex;
-  id_det := VarToStr(cxtbFormulaHead.DataController.Values[i, cxColHID.Index]);
-  id_head := VarToStr(cxtbFormulaHead.DataController.Values[i, cxColHID_HEAD.Index]);
+  id_det := cxtbFormulaHead.DataController.Values[i, cxColHID.Index];
+  id_head := cxtbFormulaHead.DataController.Values[i, cxColHID_HEAD.Index];
 
-  q := OpenRS('SELECT * FROM tbl_formula_subdet WHERE id = %s AND id_ref = %s',[id_det, id_head]);
+  q := OpenRS('SELECT * FROM tbl_formula_subdet WHERE id = %d AND id_ref = %d',[id_det, id_head]);
   if q.IsEmpty then
     q.Insert
   else
     q.Edit;
 
-  q.FieldByName('id_head').AsString := id_head;
-  q.FieldByName('id_ref').AsString := id_det;
+  q.FieldByName('id_head').AsInteger := id_head;
+  q.FieldByName('id_ref').AsInteger := id_det;
   q.FieldByName('id_brg').AsInteger := cxColDeskripsi.EditValue;
   q.FieldByName('qty').AsFloat := cxColQty.EditValue;
   q.Post;
@@ -125,8 +124,8 @@ var
 begin
   inherited;
   if AItemIndex = cxColDeskripsi.Index then begin
-    q := OpenRS('SELECT kode FROM tbl_barang WHERE id = %s',[VarToStr(cxColDeskripsi.EditValue)]);
-    cxColKodeBrg.EditValue := q.FieldByName('kode').AsString;
+    q := OpenRS('SELECT kode_brg FROM tbl_barang WHERE id = %d',[cxColDeskripsi.EditValue]);
+    cxColKodeBrg.EditValue := q.FieldByName('kode_brg').AsString;
     q.Close;
   end;
 end;

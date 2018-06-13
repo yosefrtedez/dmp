@@ -142,7 +142,6 @@ inherited frmInputFormula: TfrmInputFormula
         DataController.Summary.FooterSummaryItems = <>
         DataController.Summary.SummaryGroups = <>
         DataController.OnBeforePost = cxtbFormulaDetDataControllerBeforePost
-        DataController.OnRecordChanged = cxtbFormulaDetDataControllerRecordChanged
         OptionsData.Appending = True
         OptionsView.Navigator = True
         OptionsView.GroupByBox = False
