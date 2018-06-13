@@ -48,13 +48,6 @@ type
     cxtbFormulaSDkode: TcxGridDBColumn;
     procedure btnTambahClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
-    procedure cxtbFormulaHFocusedRecordChanged(Sender: TcxCustomGridTableView;
-      APrevFocusedRecord, AFocusedRecord: TcxCustomGridRecord;
-      ANewItemRecordFocusingChanged: Boolean);
-    procedure cxtbFormulaDFocusedRecordChanged(Sender: TcxCustomGridTableView;
-      APrevFocusedRecord, AFocusedRecord: TcxCustomGridRecord;
-      ANewItemRecordFocusingChanged: Boolean);
-    procedure btnEditClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -69,28 +62,6 @@ implementation
 uses unFrmInputFormula, unFrmUtama, unDM, unTools;
 
 {$R *.dfm}
-
-procedure TfrmLstFormula.btnEditClick(Sender: TObject);
-var
- f: TfrmInputFormula;
- ts: TcxTabSheet;
- q: TZQuery;
-begin
-  inherited;
-   if not fu.CekTabOpen('Edit Formula') then begin
-    ts := TcxTabSheet.Create(Self);
-    ts.PageControl := frmUtama.pgMain;
-    f := TfrmInputFormula.Create(Self);
-    f.Jenis := 'E';
-    f.Caption := 'Edit Formula';
-    f.EditKey := zqrFormulaH.FieldByName('id').AsString;
-    f.Parent := ts;
-    ts.Caption := f.Caption;
-    f.Show;
-
-	  fu.pgMain.ActivePage := ts;
-  end;
-end;
 
 procedure TfrmLstFormula.btnTambahClick(Sender: TObject);
 var
@@ -107,27 +78,6 @@ begin
     f.Show;
     fu.pgMain.ActivePage := ts;
   end;
-end;
-
-procedure TfrmLstFormula.cxtbFormulaDFocusedRecordChanged(
-  Sender: TcxCustomGridTableView; APrevFocusedRecord,
-  AFocusedRecord: TcxCustomGridRecord; ANewItemRecordFocusingChanged: Boolean);
-begin
-  inherited;
-  zqrFormulaSD.Close;
-  zqrFormulaSD.ParamByName('id_ref').AsInteger := zqrFormulaD.FieldByName('id').AsInteger;
-  zqrFormulaSD.ParamByName('id_head').AsInteger := zqrFormulaH.FieldByName('id').AsInteger;
-  zqrFormulaSD.Open;
-end;
-
-procedure TfrmLstFormula.cxtbFormulaHFocusedRecordChanged(
-  Sender: TcxCustomGridTableView; APrevFocusedRecord,
-  AFocusedRecord: TcxCustomGridRecord; ANewItemRecordFocusingChanged: Boolean);
-begin
-  inherited;
-  zqrFormulaD.Close;
-  zqrFormulaD.ParamByName('id_ref').AsInteger := zqrFormulaH.FieldByName('id').AsInteger;
-  zqrFormulaD.Open;
 end;
 
 procedure TfrmLstFormula.FormCreate(Sender: TObject);

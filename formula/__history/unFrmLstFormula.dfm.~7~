@@ -1,11 +1,31 @@
 inherited frmLstFormula: TfrmLstFormula
   Caption = 'Formula'
+  ClientHeight = 543
   ExplicitWidth = 1016
-  ExplicitHeight = 508
+  ExplicitHeight = 543
   PixelsPerInch = 96
   TextHeight = 13
+  inherited Panel1: TPanel
+    object Label13: TLabel
+      Left = 10
+      Top = 13
+      Width = 66
+      Height = 19
+      Caption = 'Formula'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -16
+      Font.Name = 'Tahoma'
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+  end
   inherited Panel2: TPanel
+    Top = 494
     TabOrder = 4
+    inherited btnTambah: TButton
+      OnClick = btnTambahClick
+    end
     inherited btnKeluar: TButton
       TabOrder = 4
     end
@@ -17,10 +37,10 @@ inherited frmLstFormula: TfrmLstFormula
     Left = 0
     Top = 49
     Width = 1016
-    Height = 191
-    Align = alTop
+    Height = 226
+    Align = alClient
     TabOrder = 1
-    ExplicitTop = 262
+    ExplicitHeight = 184
     object cxGrid1DBTableView1: TcxGridDBTableView
       NavigatorButtons.ConfirmDelete = False
       DataController.Summary.DefaultGroupSummaryItems = <>
@@ -33,22 +53,22 @@ inherited frmLstFormula: TfrmLstFormula
   end
   object Panel3: TPanel
     Left = 0
-    Top = 240
+    Top = 275
     Width = 1016
     Height = 56
     Align = alBottom
-    Caption = 'Panel3'
     TabOrder = 2
     ExplicitLeft = -24
     ExplicitTop = 265
   end
   object cxGrid2: TcxGrid
     Left = 0
-    Top = 296
+    Top = 331
     Width = 1016
     Height = 163
     Align = alBottom
     TabOrder = 3
+    ExplicitTop = 296
     object cxGrid2DBTableView1: TcxGridDBTableView
       NavigatorButtons.ConfirmDelete = False
       DataController.Summary.DefaultGroupSummaryItems = <>
@@ -58,5 +78,15 @@ inherited frmLstFormula: TfrmLstFormula
     object cxGrid2Level1: TcxGridLevel
       GridView = cxGrid2DBTableView1
     end
+  end
+  object zqrFormulaH: TZReadOnlyQuery
+    Params = <>
+    Left = 648
+    Top = 8
+  end
+  object dsFormulaH: TDataSource
+    DataSet = zqrFormulaH
+    Left = 720
+    Top = 16
   end
 end

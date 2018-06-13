@@ -1,7 +1,6 @@
 inherited frmLstFormula: TfrmLstFormula
   Caption = 'Formula'
   ClientHeight = 695
-  OnCreate = FormCreate
   ExplicitWidth = 1016
   ExplicitHeight = 695
   PixelsPerInch = 96
@@ -27,9 +26,6 @@ inherited frmLstFormula: TfrmLstFormula
     inherited btnTambah: TButton
       OnClick = btnTambahClick
     end
-    inherited btnEdit: TButton
-      OnClick = btnEditClick
-    end
     inherited btnKeluar: TButton
       TabOrder = 4
     end
@@ -47,7 +43,6 @@ inherited frmLstFormula: TfrmLstFormula
     ExplicitHeight = 184
     object cxtbFormulaH: TcxGridDBTableView
       NavigatorButtons.ConfirmDelete = False
-      OnFocusedRecordChanged = cxtbFormulaHFocusedRecordChanged
       DataController.DataSource = dsFormulaH
       DataController.Summary.DefaultGroupSummaryItems = <>
       DataController.Summary.FooterSummaryItems = <>
@@ -85,7 +80,6 @@ inherited frmLstFormula: TfrmLstFormula
     ExplicitTop = 208
     object cxtbFormulaD: TcxGridDBTableView
       NavigatorButtons.ConfirmDelete = False
-      OnFocusedRecordChanged = cxtbFormulaDFocusedRecordChanged
       DataController.DataSource = dsFormulaD
       DataController.Summary.DefaultGroupSummaryItems = <>
       DataController.Summary.FooterSummaryItems = <>
@@ -155,7 +149,7 @@ inherited frmLstFormula: TfrmLstFormula
     Connection = DM.zConn
     Active = True
     SQL.Strings = (
-      'SELECT a.id, a.kode_brg, b.deskripsi'
+      'SELECT a.kode_brg, b.deskripsi'
       'FROM tbl_formula_head a'
       'LEFT JOIN tbl_barang b '
       'ON a.kode_brg = b.kode ')

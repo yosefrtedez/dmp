@@ -16,18 +16,41 @@ uses
   dxSkinsDefaultPainters, dxSkinValentine, dxSkinXmas2008Blue,
   dxSkinscxPCPainter, cxCustomData, cxFilter, cxData, cxDataStorage, cxEdit, DB,
   cxDBData, cxGridLevel, cxClasses, cxGridCustomView, cxGridCustomTableView,
-  cxGridTableView, cxGridDBTableView, cxGrid, cxPC;
+  cxGridTableView, cxGridDBTableView, cxGrid, cxPC, ZAbstractRODataset, ZDataset;
 
 type
   TfrmLstFormula = class(TfrmTplGrid)
-    cxGrid1DBTableView1: TcxGridDBTableView;
+    cxtbFormulaH: TcxGridDBTableView;
     cxGrid1Level1: TcxGridLevel;
     cxGrid1: TcxGrid;
     Panel3: TPanel;
-    cxGrid2DBTableView1: TcxGridDBTableView;
+    cxtbFormulaD: TcxGridDBTableView;
     cxGrid2Level1: TcxGridLevel;
     cxGrid2: TcxGrid;
+    Label13: TLabel;
+    zqrFormulaH: TZReadOnlyQuery;
+    dsFormulaH: TDataSource;
+    cxtbFormulaHkode_brg: TcxGridDBColumn;
+    cxtbFormulaHdeskripsi: TcxGridDBColumn;
+    cxGrid3: TcxGrid;
+    cxtbFormulaSD: TcxGridDBTableView;
+    cxGridLevel1: TcxGridLevel;
+    dsFormulaD: TDataSource;
+    zqrFormulaD: TZReadOnlyQuery;
+    cxtbFormulaDnama: TcxGridDBColumn;
+    cxtbFormulaDketerangan: TcxGridDBColumn;
+    Panel4: TPanel;
+    zqrFormulaSD: TZReadOnlyQuery;
+    dsFormulaSD: TDataSource;
+    cxtbFormulaSDqty: TcxGridDBColumn;
+    cxtbFormulaSDsatuan: TcxGridDBColumn;
+    cxtbFormulaSDdeskripsi: TcxGridDBColumn;
+    cxtbFormulaSDkode: TcxGridDBColumn;
     procedure btnTambahClick(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+    procedure cxtbFormulaHFocusedRecordChanged(Sender: TcxCustomGridTableView;
+      APrevFocusedRecord, AFocusedRecord: TcxCustomGridRecord;
+      ANewItemRecordFocusingChanged: Boolean);
   private
     { Private declarations }
   public
@@ -39,7 +62,7 @@ var
 
 implementation
 
-uses unFrmInputFormula;
+uses unFrmInputFormula, unFrmUtama, unDM, unTools;
 
 {$R *.dfm}
 
@@ -57,8 +80,23 @@ begin
     ts.Caption := f.Caption;
     f.Show;
     fu.pgMain.ActivePage := ts;
-    f.cxtNik.SetFocus;
   end;
-end;;
+end;
+
+procedure TfrmLstFormula.cxtbFormulaHFocusedRecordChanged(
+  Sender: TcxCustomGridTableView; APrevFocusedRecord,
+  AFocusedRecord: TcxCustomGridRecord; ANewItemRecordFocusingChanged: Boolean);
+begin
+  inherited;
+  zqrFormulaD.Close;
+  zqrFormulaD.ParamByName('id_ref').AsInteger := zqrFormulaH.FieldByName('id').AsInteger;
+  zqrFormulaD.Open;
+end;
+
+procedure TfrmLstFormula.FormCreate(Sender: TObject);
+begin
+  inherited;
+  zqrFormulaH.Open;
+end;
 
 end.

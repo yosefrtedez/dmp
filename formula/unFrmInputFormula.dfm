@@ -2,6 +2,7 @@ inherited frmInputFormula: TfrmInputFormula
   Caption = 'Input Formula'
   ClientHeight = 650
   OnCreate = FormCreate
+  OnShow = FormShow
   ExplicitWidth = 894
   ExplicitHeight = 650
   PixelsPerInch = 96
@@ -93,6 +94,7 @@ inherited frmInputFormula: TfrmInputFormula
         DataController.Summary.DefaultGroupSummaryItems = <>
         DataController.Summary.FooterSummaryItems = <>
         DataController.Summary.SummaryGroups = <>
+        DataController.OnBeforeInsert = cxtbFormulaHeadDataControllerBeforeInsert
         DataController.OnBeforePost = cxtbFormulaHeadDataControllerBeforePost
         OptionsData.Appending = True
         OptionsView.Navigator = True
@@ -141,6 +143,7 @@ inherited frmInputFormula: TfrmInputFormula
         DataController.Summary.DefaultGroupSummaryItems = <>
         DataController.Summary.FooterSummaryItems = <>
         DataController.Summary.SummaryGroups = <>
+        DataController.OnBeforeInsert = cxtbFormulaDetDataControllerBeforeInsert
         DataController.OnBeforePost = cxtbFormulaDetDataControllerBeforePost
         DataController.OnRecordChanged = cxtbFormulaDetDataControllerRecordChanged
         OptionsData.Appending = True
@@ -179,6 +182,9 @@ inherited frmInputFormula: TfrmInputFormula
         object cxColSatuan: TcxGridColumn
           Caption = 'Satuan'
           Width = 95
+        end
+        object cxColID_SD: TcxGridColumn
+          DataBinding.ValueType = 'Integer'
         end
       end
       object cxGridLevel1: TcxGridLevel

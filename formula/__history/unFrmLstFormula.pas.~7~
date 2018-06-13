@@ -1,0 +1,64 @@
+unit unFrmLstFormula;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, unFrmTplGrid, StdCtrls, ExtCtrls, cxGraphics, cxControls,
+  cxLookAndFeels, cxLookAndFeelPainters, cxStyles, dxSkinsCore, dxSkinBlack,
+  dxSkinBlue, dxSkinCaramel, dxSkinCoffee, dxSkinDarkRoom, dxSkinDarkSide,
+  dxSkinFoggy, dxSkinGlassOceans, dxSkiniMaginary, dxSkinLilian,
+  dxSkinLiquidSky, dxSkinLondonLiquidSky, dxSkinMcSkin, dxSkinMoneyTwins,
+  dxSkinOffice2007Black, dxSkinOffice2007Blue, dxSkinOffice2007Green,
+  dxSkinOffice2007Pink, dxSkinOffice2007Silver, dxSkinOffice2010Black,
+  dxSkinOffice2010Blue, dxSkinOffice2010Silver, dxSkinPumpkin, dxSkinSeven,
+  dxSkinSharp, dxSkinSilver, dxSkinSpringTime, dxSkinStardust, dxSkinSummer2008,
+  dxSkinsDefaultPainters, dxSkinValentine, dxSkinXmas2008Blue,
+  dxSkinscxPCPainter, cxCustomData, cxFilter, cxData, cxDataStorage, cxEdit, DB,
+  cxDBData, cxGridLevel, cxClasses, cxGridCustomView, cxGridCustomTableView,
+  cxGridTableView, cxGridDBTableView, cxGrid, cxPC;
+
+type
+  TfrmLstFormula = class(TfrmTplGrid)
+    cxGrid1DBTableView1: TcxGridDBTableView;
+    cxGrid1Level1: TcxGridLevel;
+    cxGrid1: TcxGrid;
+    Panel3: TPanel;
+    cxGrid2DBTableView1: TcxGridDBTableView;
+    cxGrid2Level1: TcxGridLevel;
+    cxGrid2: TcxGrid;
+    Label13: TLabel;
+    procedure btnTambahClick(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmLstFormula: TfrmLstFormula;
+
+implementation
+
+uses unFrmInputFormula, unFrmUtama;
+
+{$R *.dfm}
+
+procedure TfrmLstFormula.btnTambahClick(Sender: TObject);
+var
+  f: TfrmInputFormula;
+  ts: TcxTabSheet;
+begin
+  if not fu.CekTabOpen('Input Formula') then begin
+    ts := TcxTabSheet.Create(Self);
+    ts.PageControl := frmUtama.pgMain;
+    f := TfrmInputFormula.Create(Self);
+    f.Jenis := 'T';
+    f.Parent := ts;
+    ts.Caption := f.Caption;
+    f.Show;
+    fu.pgMain.ActivePage := ts;
+  end;
+end;
+
+end.

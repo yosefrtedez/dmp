@@ -89,6 +89,7 @@ inherited frmInputFormula: TfrmInputFormula
         NavigatorButtons.ConfirmDelete = False
         NavigatorButtons.Insert.Visible = False
         NavigatorButtons.Append.Visible = True
+        OnFocusedRecordChanged = cxtbFormulaHeadFocusedRecordChanged
         DataController.Summary.DefaultGroupSummaryItems = <>
         DataController.Summary.FooterSummaryItems = <>
         DataController.Summary.SummaryGroups = <>
@@ -141,17 +142,20 @@ inherited frmInputFormula: TfrmInputFormula
         DataController.Summary.FooterSummaryItems = <>
         DataController.Summary.SummaryGroups = <>
         DataController.OnBeforePost = cxtbFormulaDetDataControllerBeforePost
+        DataController.OnRecordChanged = cxtbFormulaDetDataControllerRecordChanged
         OptionsData.Appending = True
         OptionsView.Navigator = True
-        object cxGridColumn1: TcxGridColumn
+        OptionsView.GroupByBox = False
+        object cxColKodeBrg: TcxGridColumn
           Caption = 'Kode Barang'
           PropertiesClassName = 'TcxTextEditProperties'
           Properties.ReadOnly = True
           Width = 114
         end
-        object cxGridColumn2: TcxGridColumn
+        object cxColDeskripsi: TcxGridColumn
           Caption = 'Deskripsi'
           PropertiesClassName = 'TcxLookupComboBoxProperties'
+          Properties.KeyFieldNames = 'id'
           Properties.ListColumns = <
             item
               Caption = 'Deskripsi'
@@ -164,7 +168,7 @@ inherited frmInputFormula: TfrmInputFormula
           Properties.ListSource = dsBrg2
           Width = 273
         end
-        object cxtbFormulaDetColumn1: TcxGridColumn
+        object cxColQty: TcxGridColumn
           Caption = 'Qty.'
           DataBinding.ValueType = 'Float'
           PropertiesClassName = 'TcxSpinEditProperties'
@@ -172,7 +176,7 @@ inherited frmInputFormula: TfrmInputFormula
           Properties.ValueType = vtFloat
           Width = 116
         end
-        object cxtbFormulaDetColumn2: TcxGridColumn
+        object cxColSatuan: TcxGridColumn
           Caption = 'Satuan'
           Width = 95
         end

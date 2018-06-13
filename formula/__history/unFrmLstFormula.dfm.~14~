@@ -27,9 +27,6 @@ inherited frmLstFormula: TfrmLstFormula
     inherited btnTambah: TButton
       OnClick = btnTambahClick
     end
-    inherited btnEdit: TButton
-      OnClick = btnEditClick
-    end
     inherited btnKeluar: TButton
       TabOrder = 4
     end
