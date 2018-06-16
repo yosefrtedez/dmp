@@ -100,6 +100,8 @@ type
     mTrial: Boolean;
     mPOTmp: String;
 
+    mGdgPB: Integer;
+
     procedure SetNamaToko(value: string);
     function GetNamaToko: string;
 
@@ -296,6 +298,8 @@ type
     property Trial: boolean read mTrial write mTrial;
 
     property POTmp: string read mPOTmp write mPOTmp;
+
+    property GdgPB: Integer read mGdgPB write mGdgPB;
   end;
 
 implementation

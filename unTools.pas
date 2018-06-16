@@ -75,6 +75,9 @@ procedure SplitStr(const Source, Delimiter: String; var DelimitedList: TStringLi
 function LastInsertID: Integer;
 function Terbilang(sValue: string): string;
 
+function GetStokAkhir(id_brg: integer; id_gdg: Integer): real;
+function GetHpp(id_brg: integer; id_gdg: Integer): real;
+
 implementation
 
 function LastInsertID: integer;
@@ -1273,6 +1276,24 @@ begin
   end;
   if length(Rupiah) > 1 then Rupiah := Rupiah + ' ' +curr;
   Result := Rupiah;
+end;
+
+function GetStokAkhir(id_brg: integer; id_gdg: Integer): real;
+var
+  q: TZQuery;
+begin
+  q := OpenRS('SELECT sf_get_stokakhir(%d,%d) stokakhir',[id_brg, id_gdg]);
+  Result := q.FieldByName('stokakhir').AsFloat;
+  q.Close;
+end;
+
+function GetHpp(id_brg: integer; id_gdg: Integer): real;
+var
+  q: TZQuery;
+begin
+  q := OpenRS('SELECT sf_get_hpp(%d,%d) hpp',[id_brg, id_gdg]);
+  Result := q.FieldByName('hpp').AsFloat;
+  q.Close;
 end;
 
 end.

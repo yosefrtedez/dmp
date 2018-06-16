@@ -101,7 +101,9 @@ begin
     try
       dm.zConn.StartTransaction;
       for i := 0 to lst.Count - 1 do begin
-        dm.zConn.ExecuteDirect(Format('UPDATE tbl_pp_head SET f_app = 1 WHERE no_bukti = ''%s''',[lst.Strings[i]]));
+        dm.zConn.ExecuteDirect(
+          Format('UPDATE tbl_pp_head SET f_app = 1, user_app = ''%s'', tgl_app = now() WHERE no_bukti = ''%s''',
+          [Aplikasi.NamaUser, lst.Strings[i]]));
       end;
       dm.zConn.Commit;
       MsgBox('Permintaan pembelian sudah di Approval.');

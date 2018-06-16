@@ -196,6 +196,7 @@ object frmUtama: TfrmUtama
       end
       object mnPur_AppPO: TMenuItem
         Caption = 'Approval Purchase Order'
+        OnClick = mnPur_AppPOClick
       end
       object N3: TMenuItem
         Caption = '-'

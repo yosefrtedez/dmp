@@ -17,38 +17,57 @@ uses
   dxSkinscxPCPainter, cxCustomData, cxFilter, cxData, cxDataStorage, cxEdit, DB,
   cxDBData, cxGridLevel, cxClasses, cxGridCustomView, cxGridCustomTableView,
   cxGridTableView, cxGridDBTableView, cxGrid, cxCheckBox, cxSpinEdit, cxTextEdit,
-  ZAbstractRODataset, ZDataset;
+  ZAbstractRODataset, ZDataset, cxContainer, cxLabel;
 
 type
   TfrmAppPO = class(TfrmTplInput)
     lbl1: TLabel;
+    zqrPO: TZReadOnlyQuery;
+    dsPO: TDataSource;
+    zqrPoDet: TZReadOnlyQuery;
+    dsPoDet: TDataSource;
     cxgrd1: TcxGrid;
-    cxTblHead: TcxGridTableView;
-    cxColChkApp: TcxGridColumn;
-    cxColID: TcxGridColumn;
-    cxColNoPO: TcxGridColumn;
+    cxtbPOHead: TcxGridDBTableView;
+    cxColTblHeadno_bukti: TcxGridDBColumn;
+    cxColTblHeadno_fobj: TcxGridDBColumn;
+    cxColTblHeadnama: TcxGridDBColumn;
+    cxColTblHeadkontak: TcxGridDBColumn;
+    cxColTblHeadtgl_required: TcxGridDBColumn;
+    cxColTblHeaduser: TcxGridDBColumn;
+    cxColTblHeaduser_dept: TcxGridDBColumn;
+    cxColTblHeadpembayaran: TcxGridDBColumn;
+    cxColTblHeadnopol: TcxGridDBColumn;
+    cxColTblHeaddriver: TcxGridDBColumn;
+    cxColTblHeadf_approval: TcxGridDBColumn;
+    cxColTblHeadf_completed: TcxGridDBColumn;
+    cxTblDet: TcxGridDBTableView;
+    cxColTblDetid: TcxGridDBColumn;
+    cxColTblDetid_ref: TcxGridDBColumn;
+    cxColTblDetno_bukti: TcxGridDBColumn;
+    cxColTblDetkode_brg: TcxGridDBColumn;
+    cxColTblDetdeskripsi: TcxGridDBColumn;
+    cxColTblDetqty: TcxGridDBColumn;
+    cxColTblDetsatuan: TcxGridDBColumn;
+    cxColTblDetharga: TcxGridDBColumn;
+    cxColTblDetmata_uang: TcxGridDBColumn;
     cxgrdlvl1Grid1Level1: TcxGridLevel;
-    pnl1: TPanel;
-    cxColNoPP: TcxGridColumn;
-    cxgrd2: TcxGrid;
-    cxTblDetail: TcxGridDBTableView;
-    cxgrdlvl1Grid2Level1: TcxGridLevel;
-    dsDetPO: TDataSource;
-    zqrDetPO: TZReadOnlyQuery;
-    cxColTblDetailid: TcxGridDBColumn;
-    cxColTblDetailid_ref: TcxGridDBColumn;
-    cxColTblDetailno_bukti: TcxGridDBColumn;
-    cxColTblDetailkode_brg: TcxGridDBColumn;
-    cxColTblDetaildeskripsi: TcxGridDBColumn;
-    cxColTblDetailqty: TcxGridDBColumn;
-    cxColTblDetailsatuan: TcxGridDBColumn;
-    cxColTblDetailharga: TcxGridDBColumn;
-    cxColTblDetailppn: TcxGridDBColumn;
+    Panel3: TPanel;
+    cxLabel1: TcxLabel;
+    cxGrid1: TcxGrid;
+    cxtbPODet: TcxGridDBTableView;
+    cxtbPODetkode_brg: TcxGridDBColumn;
+    cxtbPODetdeskripsi: TcxGridDBColumn;
+    cxtbPODetqty: TcxGridDBColumn;
+    cxtbPODetsatuan: TcxGridDBColumn;
+    cxtbPODetharga: TcxGridDBColumn;
+    cxtbPODetmata_uang: TcxGridDBColumn;
+    cxGrid1Level1: TcxGridLevel;
     procedure FormShow(Sender: TObject);
-    procedure cxTblHeadDataControllerRecordChanged(
-      ADataController: TcxCustomDataController; ARecordIndex,
-      AItemIndex: Integer);
     procedure btnSimpanClick(Sender: TObject);
+    procedure cxtbPOHeadFocusedRecordChanged(Sender: TcxCustomGridTableView;
+      APrevFocusedRecord, AFocusedRecord: TcxCustomGridRecord;
+      ANewItemRecordFocusingChanged: Boolean);
+    procedure FormCreate(Sender: TObject);
   private
     { Private declarations }
   public
@@ -67,61 +86,86 @@ uses
 
 procedure TfrmAppPO.btnSimpanClick(Sender: TObject);
 var
-  i : Integer;
-  q : TZQuery;
+  i: Integer;
+  lst: TStringList;
+  chk, sNoSO: string;
+  qCek: TZQuery;
 begin
-  inherited;
-  for i := 0 to cxtblHead.DataController.RecordCount - 1 do begin
-    with cxtblHead.DataController do begin
-      q := OpenRS('select * from tbl_po_head where no_bukti = ''' + Values[i, cxColNoPo.index] + '''');
-      if Values[i, cxColChkApp.index] = True then begin
-        q.Edit;
-        q.FieldByName('f_approval').AsInteger := 1;
-        q.FieldByName('tgl_app').AsDateTime := Aplikasi.Tanggal;
-        q.FieldByName('user_app').AsString := Aplikasi.NamaUser;
-        q.Post;
-        q.Close;
-        MsgBox('Approval purchase order berhasil disimpan');
-        //btnBatalClick(nil);
+
+  lst := TStringList.Create;
+  for i := 0 to cxtbPOHead.DataController.RecordCount - 1 do begin
+
+    if VarIsNull(cxtbPOHead.DataController.Values[i,0]) then
+      chk := ''
+    else
+      chk := cxtbPOHead.DataController.Values[i,0];
+
+    if chk = 'T' then begin
+      lst.Add(cxtbPOHead.DataController.Values[i,1]);
+    end;
+  end;
+
+  if lst.Count > 0 then begin
+    try
+      dm.zConn.StartTransaction;
+      for i := 0 to lst.Count - 1 do begin
+        dm.zConn.ExecuteDirect(
+          Format('UPDATE tbl_po_head SET f_app = 1, user_app = ''%s'', tgl_app = NOW() WHERE no_bukti = ''%s''',
+          [Aplikasi.NamaUser, lst.Strings[i]]));
+      end;
+      dm.zConn.Commit;
+      MsgBox('Purchase Order sudah di Approval.');
+      zqrPO.Close;
+      zqrPO.Open;
+    except
+      on E: Exception do begin
+        MsgBox('Error: ' + E.Message);
+        dm.zConn.Rollback;
       end;
     end;
   end;
+
 end;
 
-procedure TfrmAppPO.cxTblHeadDataControllerRecordChanged(
-  ADataController: TcxCustomDataController; ARecordIndex, AItemIndex: Integer);
-var
-  i: integer;
-  z :TZQuery;
+procedure TfrmAppPO.cxtbPOHeadFocusedRecordChanged(
+  Sender: TcxCustomGridTableView; APrevFocusedRecord,
+  AFocusedRecord: TcxCustomGridRecord; ANewItemRecordFocusingChanged: Boolean);
 begin
   inherited;
-  i := cxtblHead.DataController.GetFocusedRecordIndex;
-  zqrDetPO.Close;
-  if VarIsNull(cxTblHead.DataController.Values[i, cxColNoPP.Index])  then begin
-    zqrDetPO.ParamByName('id_ref').AsString := '';
-  end else begin
-    zqrDetPO.ParamByName('id_ref').AsInteger := cxtblHead.DataController.Values[i, cxColID.Index];
+  try
+    zqrPoDet.Close;
+    zqrPoDet.ParamByName('id_ref').AsInteger := zqrPO.FieldByName('id').AsInteger;
+    zqrPoDet.Open;
+  except
   end;
-  zqrDetPO.Open;
+end;
+
+procedure TfrmAppPO.FormCreate(Sender: TObject);
+begin
+  inherited;
+  zqrPO.Open;
 end;
 
 procedure TfrmAppPO.FormShow(Sender: TObject);
 var
-  q : TZQuery;
-  i : Integer;
+  aCol: TcxGridDBColumn;
+  i : integer;
 begin
-  inherited;
-  q := OpenRS('select * from tbl_po_head where f_approval = 0');
-  while not q.eof do begin
-    with cxtblHead.DataController  do begin
-      i := AppendRecord;
-      Values[i, cxColID.Index] := q.FieldByName('id').AsInteger;
-      Values[i, cxColNoPO.Index] := q.FieldByName('no_bukti').AsString;
-      Values[i, cxColNoPP.Index] := q.FieldByName('no_fobj').AsString;
-    end;
-    q.Next;
+  aCol := cxtbPOHead.CreateColumn;
+  with aCol do begin
+    Name := 'colUnbound';
+    Caption := 'Check';
   end;
-  q.Close;
+  aCol.DataBinding.ValueTypeClass := TcxStringValueType;
+  aCol.PropertiesClass := TcxCheckBoxProperties;
+  with aCol.Properties as TcxCheckBoxProperties do begin
+    AllowGrayed := false;
+    ValueChecked := 'T';
+    ValueUnchecked := 'F';
+    NullStyle := nssUnchecked;
+    ImmediatePost := True;
+  end;
+  aCol.Index := 0;
 end;
 
 end.

@@ -3,6 +3,7 @@ inherited frmLstPO: TfrmLstPO
   ClientHeight = 507
   ClientWidth = 1169
   OnCreate = FormCreate
+  ExplicitLeft = -24
   ExplicitWidth = 1169
   ExplicitHeight = 507
   PixelsPerInch = 96
@@ -128,7 +129,7 @@ inherited frmLstPO: TfrmLstPO
       end
       object cxColTblHeadf_approval: TcxGridDBColumn
         Caption = 'Approval'
-        DataBinding.FieldName = 'f_approval'
+        DataBinding.FieldName = 'f_app'
         PropertiesClassName = 'TcxCheckBoxProperties'
         Properties.ValueChecked = 1
         Properties.ValueUnchecked = 0
@@ -240,6 +241,7 @@ inherited frmLstPO: TfrmLstPO
       end
       object cxtbPODetmata_uang: TcxGridDBColumn
         DataBinding.FieldName = 'mata_uang'
+        Visible = False
       end
     end
     object cxGrid1Level1: TcxGridLevel
@@ -264,15 +266,14 @@ inherited frmLstPO: TfrmLstPO
     SQL.Strings = (
       
         'SELECT a.id, a.no_bukti, a.tgl_required, jenis_po, a.user, a.use' +
-        'r_dept, a.pembayaran, a.f_approval, a.nopol, a.driver, a.f_compl' +
-        'eted,'
+        'r_dept, a.pembayaran, a.f_app, a.nopol, a.driver, a.f_completed,'
       'b.nama, b.kontak, c.no_bukti no_pp, d.nama nama_supplier'
       'FROM tbl_po_head a '
       'LEFT JOIN tbl_supplier b ON a.kode_supp = b.kode'
       'LEFT JOIN tbl_pp_head c ON c.id = a.id_pp'
       'LEFT JOIN tbl_supplier d ON d.id = a.id_supplier')
     Params = <>
-    Left = 775
+    Left = 759
     Top = 196
   end
   object dsPO: TDataSource

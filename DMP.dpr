@@ -63,25 +63,6 @@ begin
   Application.CreateForm(TDM, DM);
   Application.CreateForm(TfrmUtama, frmUtama);
   Application.CreateForm(TfrmLogin, frmLogin);
-  Application.CreateForm(TfrmAppPP, frmAppPP);
-  Application.CreateForm(TfrmDefaultAkun, frmDefaultAkun);
-  Application.CreateForm(TfrmMasterOrder, frmMasterOrder);
-  Application.CreateForm(TfrmSettingWewenang, frmSettingWewenang);
-  Application.CreateForm(TfrmSettingProgram, frmSettingProgram);
-  Application.CreateForm(TfrmInputPenerimaanKas, frmInputPenerimaanKas);
-  Application.CreateForm(TfrmLaporan, frmLaporan);
-  Application.CreateForm(TfrmLstPenerimaanKas, frmLstPenerimaanKas);
-  Application.CreateForm(TfrmLstFormula, frmLstFormula);
-  Application.CreateForm(TfrmInputFormula, frmInputFormula);
-  Application.CreateForm(TfrmAppPO, frmAppPO);
-  Application.CreateForm(TfrmLstPB, frmLstPB);
-  Application.CreateForm(TfrmInputPB, frmInputPB);
-  Application.CreateForm(TfrmLstPengeluaranKas, frmLstPengeluaranKas);
-  Application.CreateForm(TfrmInputPengeluaranKas, frmInputPengeluaranKas);
-  Application.CreateForm(TfrmLstTransferBarang, frmLstTransferBarang);
-  Application.CreateForm(TfrmTplInput2, frmTplInput2);
-  Application.CreateForm(TfrmLstSales, frmLstSales);
-  Application.CreateForm(TfrmInputSales, frmInputSales);
   frmUtama.Show;
 
   frmLogin.ShowModal;

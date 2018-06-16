@@ -39,9 +39,6 @@ inherited frmAppPP: TfrmAppPP
     Height = 214
     Align = alClient
     TabOrder = 1
-    ExplicitLeft = -214
-    ExplicitWidth = 1110
-    ExplicitHeight = 169
     object cxtbPP: TcxGridDBTableView
       NavigatorButtons.ConfirmDelete = False
       OnFocusedRecordChanged = cxtbPPFocusedRecordChanged
@@ -153,9 +150,6 @@ inherited frmAppPP: TfrmAppPP
     Height = 41
     Align = alBottom
     TabOrder = 2
-    ExplicitLeft = -214
-    ExplicitTop = 218
-    ExplicitWidth = 1110
     object cxLabel1: TcxLabel
       Left = 10
       Top = 11
@@ -169,9 +163,6 @@ inherited frmAppPP: TfrmAppPP
     Height = 200
     Align = alBottom
     TabOrder = 3
-    ExplicitLeft = -214
-    ExplicitTop = 259
-    ExplicitWidth = 1110
     object cxGrid1DBTableView1: TcxGridDBTableView
       NavigatorButtons.ConfirmDelete = False
       DataController.DataSource = dsPPDet

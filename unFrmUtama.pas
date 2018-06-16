@@ -97,6 +97,7 @@ type
     procedure mnWhl_TransferBarangClick(Sender: TObject);
     procedure mnMst_SalesClick(Sender: TObject);
     procedure mnMst_FormulaClick(Sender: TObject);
+    procedure mnPur_AppPOClick(Sender: TObject);
   private
     procedure PGChange(Sender: TObject);
   public
@@ -120,7 +121,7 @@ uses
   unFrmMasterOrder, unFrmLogin, unFrmSettingWewenang, unFrmSettingProgram,
   unFrmLstPenerimaanKas, unFrmAppPP, unFrmInputPO, unFrmLstPO, unFrmLstPB,
   unFrmLstPengeluaranKas, unFrmLstTransferBarang, unFrmLstSales,
-  unFrmLstFormula;
+  unFrmLstFormula, unFrmAppPO;
 
 {$R *.dfm}
 
@@ -482,12 +483,31 @@ begin
   end;
 end;
 
+procedure TfrmUtama.mnPur_AppPOClick(Sender: TObject);
+var
+  f: TfrmAppPO;
+  ts: TcxTabSheet;
+begin
+  if not CekTabOpen('Approval Purchase Order') then begin
+    ToggleMainPage;
+    ts := TcxTabSheet.Create(Self);
+    ts.PageControl := pgMain;
+
+    f := TfrmAppPO.Create(Self);
+    f.Parent := ts;
+    ts.Caption := f.Caption;
+    f.Show;
+
+    pgMain.ActivePage := ts;
+  end;
+end;
+
 procedure TfrmUtama.mnPur_AppPPClick(Sender: TObject);
 var
   f: TfrmAppPP;
   ts: TcxTabSheet;
 begin
-  if not CekTabOpen('Approval PP') then begin
+  if not CekTabOpen('Approval Permintaan Pembelian') then begin
     ToggleMainPage;
     ts := TcxTabSheet.Create(Self);
     ts.PageControl := pgMain;
