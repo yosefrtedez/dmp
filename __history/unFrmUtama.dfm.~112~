@@ -205,13 +205,6 @@ object frmUtama: TfrmUtama
         Caption = 'Penerimaan Barang'
         OnClick = mnPur_PBClick
       end
-      object N4: TMenuItem
-        Caption = '-'
-      end
-      object mnPur_ReturPembelian: TMenuItem
-        Caption = 'Retur Pembelian'
-        OnClick = mnPur_ReturPembelianClick
-      end
     end
     object mnAKT: TMenuItem
       Caption = 'AKT'

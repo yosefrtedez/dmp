@@ -1,0 +1,25 @@
+unit unFrmLstReturPembelian;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, unFrmTplGrid, StdCtrls, ExtCtrls;
+
+type
+  TfrmLstReturPembelian = class(TfrmTplGrid)
+    Label13: TLabel;
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmLstReturPembelian: TfrmLstReturPembelian;
+
+implementation
+
+{$R *.dfm}
+
+end.

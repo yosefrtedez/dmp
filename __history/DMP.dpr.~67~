@@ -53,9 +53,7 @@ uses
   unFrmLstTransferBarang in 'transferbarang\unFrmLstTransferBarang.pas' {frmLstTransferBarang},
   unFrmInputTransferBarang in 'transferbarang\unFrmInputTransferBarang.pas' {frmTplInput2},
   unFrmLstSales in 'sales\unFrmLstSales.pas' {frmLstSales},
-  unFrmInputSales in 'sales\unFrmInputSales.pas' {frmInputSales},
-  unFrmLstReturPembelian in 'returpembelian\unFrmLstReturPembelian.pas' {frmLstReturPembelian},
-  unFrmInputReturPembelian in 'returpembelian\unFrmInputReturPembelian.pas' {frmInputReturPembelian};
+  unFrmInputSales in 'sales\unFrmInputSales.pas' {frmInputSales};
 
 {$R *.res}
 

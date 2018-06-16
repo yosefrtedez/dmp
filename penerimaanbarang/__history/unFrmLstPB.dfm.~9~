@@ -1,7 +1,6 @@
 inherited frmLstPB: TfrmLstPB
   Caption = 'Penerimaan Barang'
   ClientHeight = 613
-  OnCreate = FormCreate
   ExplicitWidth = 1016
   ExplicitHeight = 613
   PixelsPerInch = 96
@@ -32,7 +31,6 @@ inherited frmLstPB: TfrmLstPB
     end
     inherited btnRefresh: TButton
       TabOrder = 3
-      OnClick = btnRefreshClick
     end
   end
   object cxgrd1: TcxGrid
@@ -42,11 +40,11 @@ inherited frmLstPB: TfrmLstPB
     Height = 274
     Align = alClient
     TabOrder = 1
-    ExplicitTop = 43
+    ExplicitLeft = -153
+    ExplicitWidth = 1169
+    ExplicitHeight = 168
     object cxtbPBHead: TcxGridDBTableView
       NavigatorButtons.ConfirmDelete = False
-      OnFocusedRecordChanged = cxtbPBHeadFocusedRecordChanged
-      DataController.DataSource = dsPBHead
       DataController.KeyFieldNames = 'id'
       DataController.Summary.DefaultGroupSummaryItems = <>
       DataController.Summary.FooterSummaryItems = <>
@@ -54,40 +52,81 @@ inherited frmLstPB: TfrmLstPB
       FilterRow.Visible = True
       OptionsView.CellTextMaxLineCount = 10
       Preview.MaxLineCount = 10
-      object cxtbPBHeadno_bukti: TcxGridDBColumn
+      object cxColTblHeadno_bukti: TcxGridDBColumn
         Caption = 'No. Bukti'
         DataBinding.FieldName = 'no_bukti'
-        Width = 86
+        Options.Editing = False
+        Width = 90
       end
-      object cxtbPBHeadno_po: TcxGridDBColumn
+      object cxColTblHeadno_fobj: TcxGridDBColumn
         Caption = 'No. PO'
-        DataBinding.FieldName = 'no_po'
+        DataBinding.FieldName = 'no_pp'
+        Options.Filtering = False
+        Width = 90
       end
-      object cxtbPBHeadnama_supplier: TcxGridDBColumn
-        Caption = 'Supplier'
+      object cxColTblHeadnama: TcxGridDBColumn
+        Caption = 'Nama'
         DataBinding.FieldName = 'nama_supplier'
-        Width = 264
+        Options.Editing = False
+        Width = 150
       end
-      object cxtbPBHeadtanggal: TcxGridDBColumn
-        DataBinding.FieldName = 'tanggal'
+      object cxColTblHeadkontak: TcxGridDBColumn
+        DataBinding.FieldName = 'kontak'
+        Options.Editing = False
+        Width = 120
       end
-      object cxtbPBHeaduser: TcxGridDBColumn
+      object cxColTblHeadtgl_required: TcxGridDBColumn
+        Caption = 'Tgl Kedatangan'
+        DataBinding.FieldName = 'tgl_required'
+        Options.Editing = False
+        Width = 90
+      end
+      object cxColTblHeaduser: TcxGridDBColumn
+        Caption = 'User'
         DataBinding.FieldName = 'user'
+        Options.Editing = False
+        Width = 100
       end
-      object cxtbPBHeaduser_dept: TcxGridDBColumn
+      object cxColTblHeaduser_dept: TcxGridDBColumn
+        Caption = 'Departemen'
         DataBinding.FieldName = 'user_dept'
+        Options.Editing = False
+        Width = 100
       end
-      object cxtbPBHeadnopol: TcxGridDBColumn
+      object cxColTblHeadpembayaran: TcxGridDBColumn
+        Caption = 'Pembayaran'
+        DataBinding.FieldName = 'pembayaran'
+        Options.Editing = False
+        Width = 100
+      end
+      object cxColTblHeadnopol: TcxGridDBColumn
+        Caption = 'Nopol'
         DataBinding.FieldName = 'nopol'
+        Options.Editing = False
+        Width = 90
       end
-      object cxtbPBHeaddriver: TcxGridDBColumn
+      object cxColTblHeaddriver: TcxGridDBColumn
+        Caption = 'Driver'
         DataBinding.FieldName = 'driver'
+        Options.Editing = False
+        Width = 120
       end
-      object cxtbPBHeadno_sj: TcxGridDBColumn
-        DataBinding.FieldName = 'no_sj'
+      object cxColTblHeadf_approval: TcxGridDBColumn
+        Caption = 'Approval'
+        DataBinding.FieldName = 'f_app'
+        PropertiesClassName = 'TcxCheckBoxProperties'
+        Properties.ValueChecked = 1
+        Properties.ValueUnchecked = 0
+        Options.Editing = False
+        Width = 50
       end
-      object cxtbPBHeadno_po_1: TcxGridDBColumn
-        DataBinding.FieldName = 'no_po_1'
+      object cxColTblHeadf_completed: TcxGridDBColumn
+        Caption = 'Komplit'
+        DataBinding.FieldName = 'f_completed'
+        PropertiesClassName = 'TcxCheckBoxProperties'
+        Properties.ValueChecked = 1
+        Properties.ValueUnchecked = 0
+        Options.Editing = False
       end
     end
     object cxTblDet: TcxGridDBTableView
@@ -171,57 +210,39 @@ inherited frmLstPB: TfrmLstPB
     ExplicitWidth = 1169
     object cxtbPBDet: TcxGridDBTableView
       NavigatorButtons.ConfirmDelete = False
-      DataController.DataSource = dsPBDet
       DataController.Summary.DefaultGroupSummaryItems = <>
       DataController.Summary.FooterSummaryItems = <>
       DataController.Summary.SummaryGroups = <>
-      object cxtbPBDetno_bukti: TcxGridDBColumn
-        DataBinding.FieldName = 'no_bukti'
-      end
       object cxtbPBDetkode_brg: TcxGridDBColumn
+        Caption = 'Kode Brg.'
         DataBinding.FieldName = 'kode_brg'
+        Width = 103
       end
       object cxtbPBDetdeskripsi: TcxGridDBColumn
+        Caption = 'Deskripsi'
         DataBinding.FieldName = 'deskripsi'
-      end
-      object cxtbPBDetsatuan2: TcxGridDBColumn
-        DataBinding.FieldName = 'satuan2'
-      end
-      object cxtbPBDetqty_retur: TcxGridDBColumn
-        DataBinding.FieldName = 'qty_retur'
-      end
-      object cxtbPBDetqty_so: TcxGridDBColumn
-        DataBinding.FieldName = 'qty_so'
+        Width = 374
       end
       object cxtbPBDetqty: TcxGridDBColumn
+        Caption = 'Qty.'
         DataBinding.FieldName = 'qty'
+        PropertiesClassName = 'TcxSpinEditProperties'
+        Properties.DisplayFormat = '#,#0.00'
+        HeaderAlignmentHorz = taRightJustify
       end
       object cxtbPBDetsatuan: TcxGridDBColumn
+        Caption = 'Satuan'
         DataBinding.FieldName = 'satuan'
-      end
-      object cxtbPBDetid_satuan: TcxGridDBColumn
-        DataBinding.FieldName = 'id_satuan'
+        Width = 54
       end
       object cxtbPBDetharga: TcxGridDBColumn
+        Caption = 'Harga'
         DataBinding.FieldName = 'harga'
-      end
-      object cxtbPBDetketerangan: TcxGridDBColumn
-        DataBinding.FieldName = 'keterangan'
-      end
-      object cxtbPBDetf_posted: TcxGridDBColumn
-        DataBinding.FieldName = 'f_posted'
+        HeaderAlignmentHorz = taRightJustify
       end
       object cxtbPBDetmata_uang: TcxGridDBColumn
         DataBinding.FieldName = 'mata_uang'
-      end
-      object cxtbPBDetlokasi: TcxGridDBColumn
-        DataBinding.FieldName = 'lokasi'
-      end
-      object cxtbPBDetkondisi: TcxGridDBColumn
-        DataBinding.FieldName = 'kondisi'
-      end
-      object cxtbPBDetgudang: TcxGridDBColumn
-        DataBinding.FieldName = 'gudang'
+        Visible = False
       end
     end
     object cxGrid1Level1: TcxGridLevel
@@ -229,14 +250,6 @@ inherited frmLstPB: TfrmLstPB
     end
   end
   object zqrPBHead: TZReadOnlyQuery
-    Connection = DM.zConn
-    Active = True
-    SQL.Strings = (
-      'SELECT a.*,  b.no_bukti no_po, c.nama nama_supplier'
-      'FROM tbl_pb_head a'
-      'LEFT JOIN tbl_po_head b ON a.id_po = b.id'
-      'LEFT JOIN tbl_supplier c ON c.id = a.id_supplier'
-      'ORDER BY a.tanggal')
     Params = <>
     Left = 784
     Top = 112
@@ -245,34 +258,5 @@ inherited frmLstPB: TfrmLstPB
     DataSet = zqrPBHead
     Left = 872
     Top = 112
-  end
-  object zqrPBDet: TZReadOnlyQuery
-    Connection = DM.zConn
-    Active = True
-    SQL.Strings = (
-      'SELECT a.*, b.deskripsi, c.satuan satuan2'
-      'FROM tbl_pb_det a'
-      'LEFT JOIN tbl_barang b ON a.id_brg = b.id'
-      'LEFT JOIN tbl_satuan c ON a.id_satuan = c.id'
-      'WHERE a.id_ref = :id_ref')
-    Params = <
-      item
-        DataType = ftUnknown
-        Name = 'id_ref'
-        ParamType = ptUnknown
-      end>
-    Left = 784
-    Top = 176
-    ParamData = <
-      item
-        DataType = ftUnknown
-        Name = 'id_ref'
-        ParamType = ptUnknown
-      end>
-  end
-  object dsPBDet: TDataSource
-    DataSet = zqrPBDet
-    Left = 872
-    Top = 176
   end
 end

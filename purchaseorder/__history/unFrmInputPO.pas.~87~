@@ -121,7 +121,7 @@ begin
   end;
 
   if (cxtbTblPO.DataController.EditState = [dceInsert, dceModified]) or (cxtbTblPO.DataController.EditState = [dceEdit, dceModified]) then begin
-    MsgBox('Mohon selesaikan pengeditan detail sebelum disimpan.');
+    MsgBox('Pengeditan detail masih belum selesai.');
     Abort;
   end;
 

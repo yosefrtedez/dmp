@@ -42,13 +42,27 @@ type
     cxGrid1Level1: TcxGridLevel;
     zqrPBHead: TZReadOnlyQuery;
     dsPBHead: TDataSource;
+    cxtbPBHeadid: TcxGridDBColumn;
     cxtbPBHeadno_bukti: TcxGridDBColumn;
+    cxtbPBHeadid_po: TcxGridDBColumn;
+    cxtbPBHeadid_supplier: TcxGridDBColumn;
+    cxtbPBHeadno_penerimaan: TcxGridDBColumn;
     cxtbPBHeadno_po: TcxGridDBColumn;
+    cxtbPBHeadno_retur: TcxGridDBColumn;
+    cxtbPBHeadno_ccr: TcxGridDBColumn;
+    cxtbPBHeadno_so: TcxGridDBColumn;
     cxtbPBHeadtanggal: TcxGridDBColumn;
+    cxtbPBHeadjam: TcxGridDBColumn;
+    cxtbPBHeadketerangan: TcxGridDBColumn;
     cxtbPBHeaduser: TcxGridDBColumn;
     cxtbPBHeaduser_dept: TcxGridDBColumn;
+    cxtbPBHeadtgl_input: TcxGridDBColumn;
+    cxtbPBHeadf_completed: TcxGridDBColumn;
+    cxtbPBHeadhost: TcxGridDBColumn;
     cxtbPBHeadnopol: TcxGridDBColumn;
     cxtbPBHeaddriver: TcxGridDBColumn;
+    cxtbPBHeadkode_supp: TcxGridDBColumn;
+    cxtbPBHeadkode_cust: TcxGridDBColumn;
     cxtbPBHeadno_sj: TcxGridDBColumn;
     cxtbPBHeadno_po_1: TcxGridDBColumn;
     zqrPBDet: TZReadOnlyQuery;
@@ -69,13 +83,11 @@ type
     cxtbPBDetgudang: TcxGridDBColumn;
     cxtbPBDetdeskripsi: TcxGridDBColumn;
     cxtbPBDetsatuan2: TcxGridDBColumn;
-    cxtbPBHeadnama_supplier: TcxGridDBColumn;
     procedure btnTambahClick(Sender: TObject);
     procedure cxtbPBHeadFocusedRecordChanged(Sender: TcxCustomGridTableView;
       APrevFocusedRecord, AFocusedRecord: TcxCustomGridRecord;
       ANewItemRecordFocusingChanged: Boolean);
     procedure btnRefreshClick(Sender: TObject);
-    procedure FormCreate(Sender: TObject);
   private
     { Private declarations }
   public
@@ -127,12 +139,6 @@ begin
     zqrPBDet.Open;
   except
   end;
-end;
-
-procedure TfrmLstPB.FormCreate(Sender: TObject);
-begin
-  inherited;
-  zqrPBHead.Open;
 end;
 
 end.

@@ -114,6 +114,7 @@ begin
     Abort;
   end;
 
+
   if (cxtbPB.DataController.EditState = [dceEdit, dceModified]) or
     (cxtbPB.DataController.EditState = [dceInsert, dceModified]) then begin
     MsgBox('Mohon selesaikan pengeditan detail sebelum disimpan.');

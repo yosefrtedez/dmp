@@ -210,7 +210,6 @@ object frmUtama: TfrmUtama
       end
       object mnPur_ReturPembelian: TMenuItem
         Caption = 'Retur Pembelian'
-        OnClick = mnPur_ReturPembelianClick
       end
     end
     object mnAKT: TMenuItem

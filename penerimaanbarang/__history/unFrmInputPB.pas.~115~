@@ -111,8 +111,9 @@ begin
 
   if cxtbPB.DataController.RecordCount = 0 then begin
     MsgBox('Detail transaksi tidak boleh kosong.');
-    Abort;
+
   end;
+
 
   if (cxtbPB.DataController.EditState = [dceEdit, dceModified]) or
     (cxtbPB.DataController.EditState = [dceInsert, dceModified]) then begin

@@ -100,7 +100,6 @@ type
     procedure mnMst_SalesClick(Sender: TObject);
     procedure mnMst_FormulaClick(Sender: TObject);
     procedure mnPur_AppPOClick(Sender: TObject);
-    procedure mnPur_ReturPembelianClick(Sender: TObject);
   private
     procedure PGChange(Sender: TObject);
   public
@@ -124,7 +123,7 @@ uses
   unFrmMasterOrder, unFrmLogin, unFrmSettingWewenang, unFrmSettingProgram,
   unFrmLstPenerimaanKas, unFrmAppPP, unFrmInputPO, unFrmLstPO, unFrmLstPB,
   unFrmLstPengeluaranKas, unFrmLstTransferBarang, unFrmLstSales,
-  unFrmLstFormula, unFrmAppPO, unFrmLstReturPembelian;
+  unFrmLstFormula, unFrmAppPO;
 
 {$R *.dfm}
 
@@ -573,25 +572,6 @@ begin
     ts.PageControl := pgMain;
 
     f := TfrmLstPP.Create(Self);
-    f.Parent := ts;
-    ts.Caption := f.Caption;
-    f.Show;
-
-    pgMain.ActivePage := ts;
-  end;
-end;
-
-procedure TfrmUtama.mnPur_ReturPembelianClick(Sender: TObject);
-var
-  f: TfrmLstReturPembelian;
-  ts: TcxTabSheet;
-begin
-  if not CekTabOpen('Retur Pembelian') then begin
-    ToggleMainPage;
-    ts := TcxTabSheet.Create(Self);
-    ts.PageControl := pgMain;
-
-    f := TfrmLstReturPembelian.Create(Self);
     f.Parent := ts;
     ts.Caption := f.Caption;
     f.Show;

@@ -47,8 +47,12 @@ type
     cxtbPBHeadtanggal: TcxGridDBColumn;
     cxtbPBHeaduser: TcxGridDBColumn;
     cxtbPBHeaduser_dept: TcxGridDBColumn;
+    cxtbPBHeadtgl_input: TcxGridDBColumn;
+    cxtbPBHeadhost: TcxGridDBColumn;
     cxtbPBHeadnopol: TcxGridDBColumn;
     cxtbPBHeaddriver: TcxGridDBColumn;
+    cxtbPBHeadkode_supp: TcxGridDBColumn;
+    cxtbPBHeadkode_cust: TcxGridDBColumn;
     cxtbPBHeadno_sj: TcxGridDBColumn;
     cxtbPBHeadno_po_1: TcxGridDBColumn;
     zqrPBDet: TZReadOnlyQuery;

@@ -81,9 +81,6 @@ type
     procedure cxtbPBDataControllerBeforePost(
       ADataController: TcxCustomDataController);
     procedure btnSimpanClick(Sender: TObject);
-    procedure cxtbPBDataControllerRecordChanged(
-      ADataController: TcxCustomDataController; ARecordIndex,
-      AItemIndex: Integer);
   private
     id_supplier: integer;
   public
@@ -109,11 +106,6 @@ var
 begin
   inherited;
 
-  if cxtbPB.DataController.RecordCount = 0 then begin
-    MsgBox('Detail transaksi tidak boleh kosong.');
-    Abort;
-  end;
-
   if (cxtbPB.DataController.EditState = [dceEdit, dceModified]) or
     (cxtbPB.DataController.EditState = [dceInsert, dceModified]) then begin
     MsgBox('Mohon selesaikan pengeditan detail sebelum disimpan.');
@@ -135,8 +127,7 @@ begin
   f0 := false;
   with cxtbPB.DataController do begin
     for i := 0 to RecordCount - 1 do begin
-      if (VarIsNull(Values[i, cxColQtyTerima.Index])) or
-        (Values[i, cxColQtyTerima.Index] = 0) then begin
+      if Values[i, cxColQtyTerima.Index] = 0 then begin
         f0 := True;
         Break;
       end;
@@ -224,7 +215,6 @@ begin
           hst.Post;
         end;
       end;
-      dm.zConn.ExecuteDirect('UPDATE tbl_pb_head SET f_posted = 1 WHERE id = %d',[ID]);
     end;
 
     dm.zConn.Commit;
@@ -294,15 +284,6 @@ begin
 
   end;
 
-end;
-
-procedure TfrmInputPB.cxtbPBDataControllerRecordChanged(
-  ADataController: TcxCustomDataController; ARecordIndex, AItemIndex: Integer);
-begin
-  inherited;
-  if AItemIndex = cxColQtyTerima.Index then begin
-    cxColTotal.EditValue := cxColQtyTerima.EditValue * cxColHarga.Index;
-  end;
 end;
 
 procedure TfrmInputPB.FormCreate(Sender: TObject);

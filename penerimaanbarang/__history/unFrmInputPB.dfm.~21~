@@ -235,11 +235,7 @@ inherited frmInputPB: TfrmInputPB
     object cxtbPB: TcxGridTableView
       NavigatorButtons.ConfirmDelete = False
       NavigatorButtons.Insert.Visible = False
-      NavigatorButtons.Append.Visible = False
-      NavigatorButtons.Refresh.Visible = False
-      NavigatorButtons.SaveBookmark.Visible = False
-      NavigatorButtons.GotoBookmark.Visible = False
-      NavigatorButtons.Filter.Visible = False
+      NavigatorButtons.Append.Visible = True
       DataController.Summary.DefaultGroupSummaryItems = <>
       DataController.Summary.FooterSummaryItems = <
         item
@@ -254,8 +250,7 @@ inherited frmInputPB: TfrmInputPB
         end>
       DataController.Summary.SummaryGroups = <>
       DataController.OnBeforePost = cxtbPBDataControllerBeforePost
-      DataController.OnRecordChanged = cxtbPBDataControllerRecordChanged
-      OptionsData.Inserting = False
+      OptionsData.Appending = True
       OptionsView.Navigator = True
       OptionsView.Footer = True
       OptionsView.GroupByBox = False
@@ -317,7 +312,7 @@ inherited frmInputPB: TfrmInputPB
         Width = 106
       end
       object cxColPPn: TcxGridColumn
-        Caption = 'PPN'
+        Caption = 'PPn'
         PropertiesClassName = 'TcxComboBoxProperties'
         Properties.Items.Strings = (
           'NON PPN'
@@ -346,10 +341,8 @@ inherited frmInputPB: TfrmInputPB
       end
       object cxColIdSatuan: TcxGridColumn
         DataBinding.ValueType = 'Integer'
-        Visible = False
       end
       object cxColIdBrg: TcxGridColumn
-        Visible = False
       end
     end
     object cxgrdlvl1Grid1Level1: TcxGridLevel

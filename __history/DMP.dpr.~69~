@@ -65,6 +65,8 @@ begin
   Application.CreateForm(TDM, DM);
   Application.CreateForm(TfrmUtama, frmUtama);
   Application.CreateForm(TfrmLogin, frmLogin);
+  Application.CreateForm(TfrmLstReturPembelian, frmLstReturPembelian);
+  Application.CreateForm(TfrmInputReturPembelian, frmInputReturPembelian);
   frmUtama.Show;
 
   frmLogin.ShowModal;

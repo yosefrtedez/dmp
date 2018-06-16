@@ -1,7 +1,6 @@
 inherited frmLstPB: TfrmLstPB
   Caption = 'Penerimaan Barang'
   ClientHeight = 613
-  OnCreate = FormCreate
   ExplicitWidth = 1016
   ExplicitHeight = 613
   PixelsPerInch = 96
@@ -32,7 +31,6 @@ inherited frmLstPB: TfrmLstPB
     end
     inherited btnRefresh: TButton
       TabOrder = 3
-      OnClick = btnRefreshClick
     end
   end
   object cxgrd1: TcxGrid
@@ -42,7 +40,9 @@ inherited frmLstPB: TfrmLstPB
     Height = 274
     Align = alClient
     TabOrder = 1
-    ExplicitTop = 43
+    ExplicitLeft = -153
+    ExplicitWidth = 1169
+    ExplicitHeight = 168
     object cxtbPBHead: TcxGridDBTableView
       NavigatorButtons.ConfirmDelete = False
       OnFocusedRecordChanged = cxtbPBHeadFocusedRecordChanged
@@ -54,22 +54,41 @@ inherited frmLstPB: TfrmLstPB
       FilterRow.Visible = True
       OptionsView.CellTextMaxLineCount = 10
       Preview.MaxLineCount = 10
+      object cxtbPBHeadid: TcxGridDBColumn
+        DataBinding.FieldName = 'id'
+      end
       object cxtbPBHeadno_bukti: TcxGridDBColumn
-        Caption = 'No. Bukti'
         DataBinding.FieldName = 'no_bukti'
-        Width = 86
+      end
+      object cxtbPBHeadid_po: TcxGridDBColumn
+        DataBinding.FieldName = 'id_po'
+      end
+      object cxtbPBHeadid_supplier: TcxGridDBColumn
+        DataBinding.FieldName = 'id_supplier'
+      end
+      object cxtbPBHeadno_penerimaan: TcxGridDBColumn
+        DataBinding.FieldName = 'no_penerimaan'
       end
       object cxtbPBHeadno_po: TcxGridDBColumn
-        Caption = 'No. PO'
         DataBinding.FieldName = 'no_po'
       end
-      object cxtbPBHeadnama_supplier: TcxGridDBColumn
-        Caption = 'Supplier'
-        DataBinding.FieldName = 'nama_supplier'
-        Width = 264
+      object cxtbPBHeadno_retur: TcxGridDBColumn
+        DataBinding.FieldName = 'no_retur'
+      end
+      object cxtbPBHeadno_ccr: TcxGridDBColumn
+        DataBinding.FieldName = 'no_ccr'
+      end
+      object cxtbPBHeadno_so: TcxGridDBColumn
+        DataBinding.FieldName = 'no_so'
       end
       object cxtbPBHeadtanggal: TcxGridDBColumn
         DataBinding.FieldName = 'tanggal'
+      end
+      object cxtbPBHeadjam: TcxGridDBColumn
+        DataBinding.FieldName = 'jam'
+      end
+      object cxtbPBHeadketerangan: TcxGridDBColumn
+        DataBinding.FieldName = 'keterangan'
       end
       object cxtbPBHeaduser: TcxGridDBColumn
         DataBinding.FieldName = 'user'
@@ -77,11 +96,26 @@ inherited frmLstPB: TfrmLstPB
       object cxtbPBHeaduser_dept: TcxGridDBColumn
         DataBinding.FieldName = 'user_dept'
       end
+      object cxtbPBHeadtgl_input: TcxGridDBColumn
+        DataBinding.FieldName = 'tgl_input'
+      end
+      object cxtbPBHeadf_completed: TcxGridDBColumn
+        DataBinding.FieldName = 'f_completed'
+      end
+      object cxtbPBHeadhost: TcxGridDBColumn
+        DataBinding.FieldName = 'host'
+      end
       object cxtbPBHeadnopol: TcxGridDBColumn
         DataBinding.FieldName = 'nopol'
       end
       object cxtbPBHeaddriver: TcxGridDBColumn
         DataBinding.FieldName = 'driver'
+      end
+      object cxtbPBHeadkode_supp: TcxGridDBColumn
+        DataBinding.FieldName = 'kode_supp'
+      end
+      object cxtbPBHeadkode_cust: TcxGridDBColumn
+        DataBinding.FieldName = 'kode_cust'
       end
       object cxtbPBHeadno_sj: TcxGridDBColumn
         DataBinding.FieldName = 'no_sj'
@@ -232,10 +266,9 @@ inherited frmLstPB: TfrmLstPB
     Connection = DM.zConn
     Active = True
     SQL.Strings = (
-      'SELECT a.*,  b.no_bukti no_po, c.nama nama_supplier'
+      'SELECT a.*,  b.no_bukti no_po'
       'FROM tbl_pb_head a'
       'LEFT JOIN tbl_po_head b ON a.id_po = b.id'
-      'LEFT JOIN tbl_supplier c ON c.id = a.id_supplier'
       'ORDER BY a.tanggal')
     Params = <>
     Left = 784

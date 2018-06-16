@@ -188,6 +188,12 @@
 			<DCCReference Include="sales\unFrmInputSales.pas">
 				<Form>frmInputSales</Form>
 			</DCCReference>
+			<DCCReference Include="returpembelian\unFrmLstReturPembelian.pas">
+				<Form>frmLstReturPembelian</Form>
+			</DCCReference>
+			<DCCReference Include="returpembelian\unFrmInputReturPembelian.pas">
+				<Form>frmInputReturPembelian</Form>
+			</DCCReference>
 			<BuildConfiguration Include="Base">
 				<Key>Base</Key>
 			</BuildConfiguration>

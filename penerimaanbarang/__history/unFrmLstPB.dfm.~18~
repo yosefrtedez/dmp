@@ -77,11 +77,23 @@ inherited frmLstPB: TfrmLstPB
       object cxtbPBHeaduser_dept: TcxGridDBColumn
         DataBinding.FieldName = 'user_dept'
       end
+      object cxtbPBHeadtgl_input: TcxGridDBColumn
+        DataBinding.FieldName = 'tgl_input'
+      end
+      object cxtbPBHeadhost: TcxGridDBColumn
+        DataBinding.FieldName = 'host'
+      end
       object cxtbPBHeadnopol: TcxGridDBColumn
         DataBinding.FieldName = 'nopol'
       end
       object cxtbPBHeaddriver: TcxGridDBColumn
         DataBinding.FieldName = 'driver'
+      end
+      object cxtbPBHeadkode_supp: TcxGridDBColumn
+        DataBinding.FieldName = 'kode_supp'
+      end
+      object cxtbPBHeadkode_cust: TcxGridDBColumn
+        DataBinding.FieldName = 'kode_cust'
       end
       object cxtbPBHeadno_sj: TcxGridDBColumn
         DataBinding.FieldName = 'no_sj'
