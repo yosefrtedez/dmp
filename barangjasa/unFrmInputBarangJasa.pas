@@ -18,7 +18,7 @@ uses
   cxDBLookupComboBox, ZDataset, DB, ZAbstractRODataset, cxSpinEdit, cxStyles,
   dxSkinscxPCPainter, cxCustomData, cxFilter, cxData, cxDataStorage,
   cxGridCustomTableView, cxGridTableView, cxGridCustomView, cxClasses,
-  cxGridLevel, cxGrid, cxPC;
+  cxGridLevel, cxGrid, cxPC, cxCheckBox;
 
 type
   TfrmInputBarangJasa = class(TfrmTplInput)
@@ -39,7 +39,7 @@ type
     dsSubKategori: TDataSource;
     zqrSatuan: TZReadOnlyQuery;
     dsSatuan: TDataSource;
-    cxPageControl1: TcxPageControl;
+    cxBrgDet: TcxPageControl;
     cxTabSheet1: TcxTabSheet;
     cxTabSheet2: TcxTabSheet;
     cxGrid1: TcxGrid;
@@ -64,6 +64,11 @@ type
     cxSpinEdit7: TcxSpinEdit;
     cxLabel14: TcxLabel;
     cxSpinEdit8: TcxSpinEdit;
+    cxLabel6: TcxLabel;
+    cxlTipe: TcxLookupComboBox;
+    zqrTipe: TZReadOnlyQuery;
+    dsTipe: TDataSource;
+    cxChkAktif: TcxCheckBox;
     procedure btnSimpanClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -90,38 +95,80 @@ var
   i, ID: integer;
 begin
   inherited;
-  q := OpenRS('SELECT * FROM tbl_barang WHERE kode = ''%s''',[cxtKode.Text]);
-  if Self.Jenis = 'T' then
-    q.Insert
+
+  if Trim(cxtKode.Text) = '' then begin
+    MsgBox('Mohon isi kode barang.');
+    cxtKode.SetFocus;
+  end
+  else if Trim(cxtDeskripsi.Text) = '' then begin
+    MsgBox('Mohon isi deskripsi barang.');
+    cxtDeskripsi.SetFocus;
+  end
+  else if cxlKategori.Text = '' then begin
+    MsgBox('Mohon pilih kategori barang.');
+    cxlKategori.SetFocus;
+  end
+  else if cxlTipe.Text = '' then begin
+    MsgBox('Mohon pilih tipe barang.');
+    cxlTipe.SetFocus;
+  end
   else begin
-    q.Edit;
-    ID := q.FieldByName('id').AsInteger;
-  end;
-  q.FieldByName('kode').AsString := Trim(cxtKode.text);
-  q.FieldByName('deskripsi').AsString := cxtDeskripsi.Text;
-  q.FieldByName('id_kategori').AsInteger := cxlKategori.EditValue;
-  q.FieldByName('id_subkategori').AsInteger := cxlSubKategori.EditValue;
-  q.FieldByName('id_satuan').AsString := VarToStr(cxlSatuan.EditValue);
-  q.Post;
+    q := OpenRS('SELECT * FROM tbl_barang WHERE kode = ''%s''',[cxtKode.Text]);
 
-  if cxtbSatuan.DataController.RecordCount > 0 then begin
-    q := OpenRS('SELECT * FROM tbl_konv_brg WHERE id_barang = %d', [ID]);
-    with cxtbSatuan.DataController do begin
-      for i := 0 to RecordCount - 1 do begin
-        if q.Locate('id_barang;id_satuan',VarArrayOf([ID, Values[i, cxColSatuan.Index]]),[]) then begin
-          q.Edit;
-        end
-        else
-          q.Insert;
-        q.FieldByName('id_barang').AsInteger := ID;
-        q.FieldByName('id_satuan').AsInteger := Values[i, cxColSatuan.Index];
-        q.FieldByName('qty').AsFloat := Values[i, cxColQty.Index];
-        q.Post;
-      end;                       
+    if Self.Jenis = 'T' then
+      q.Insert
+    else begin
+      q.Edit;
+      ID := q.FieldByName('id').AsInteger;
     end;
-  end;
 
-  MsgBox('Data barang sudah disimpan.');
+    q.FieldByName('kode').AsString := Trim(cxtKode.text);
+    q.FieldByName('deskripsi').AsString := cxtDeskripsi.Text;
+    q.FieldByName('id_kategori').AsInteger := cxlKategori.EditValue;
+    q.FieldByName('id_subkategori').AsInteger := cxlSubKategori.EditValue;
+    q.FieldByName('id_satuan').AsString := VarToStr(cxlSatuan.EditValue);
+    q.FieldByName('id_tipe').AsInteger := cxlTipe.EditValue;
+    if Self.Jenis = 'T' then begin
+      q.FieldByName('user_input').AsString := Aplikasi.NamaUser;
+      q.FieldByName('tgl_input').AsDateTime := Aplikasi.NowServer;
+    end
+    else begin
+      q.FieldByName('user_edit').AsString := Aplikasi.NamaUser;
+      q.FieldByName('tgl_edit').AsDateTime := Aplikasi.NowServer;
+    end;
+    if cxChkAktif.Checked then
+      q.FieldByName('f_aktif').AsInteger := 1
+    else
+      q.FieldByName('f_aktif').AsInteger := 0;
+    q.Post;
+
+    if Self.Jenis = 'T' then ID := LastInsertID;
+
+    if cxtbSatuan.DataController.RecordCount > 0 then begin
+      q := OpenRS('SELECT * FROM tbl_konv_brg WHERE id_barang = %d', [ID]);
+      with cxtbSatuan.DataController do begin
+        for i := 0 to RecordCount - 1 do begin
+          if q.Locate('id_barang;id_satuan',VarArrayOf([ID, Values[i, cxColSatuan.Index]]),[]) then begin
+            q.Edit;
+          end
+          else
+            q.Insert;
+          q.FieldByName('id_barang').AsInteger := ID;
+          q.FieldByName('id_satuan').AsInteger := Values[i, cxColSatuan.Index];
+          q.FieldByName('qty').AsFloat := Values[i, cxColQty.Index];
+          q.Post;
+        end;
+      end;
+    end;
+
+    MsgBox('Data barang sudah disimpan.');
+
+    if Self.Jenis = 'T' then begin
+      Self.Jenis := 'E';
+      cxtKode.Enabled := False;
+    end;
+
+  end;
 
 end;
 
@@ -152,6 +199,9 @@ begin
   zqrKategori.Open;
   zqrSubKategori.Open;
   zqrSatuan.Open;
+  zqrTipe.Open;
+  cxBrgDet.ActivePageIndex := 0;
+  cxChkAktif.Checked := True;
 end;
 
 procedure TfrmInputBarangJasa.FormShow(Sender: TObject);

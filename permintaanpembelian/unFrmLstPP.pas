@@ -17,7 +17,7 @@ uses
   cxFilter, cxData, cxDataStorage, cxEdit, DB, cxDBData, cxGridLevel, cxClasses,
   cxGridCustomView, cxGridCustomTableView, cxGridTableView, cxGridDBTableView,
   cxGrid, ExtCtrls, StdCtrls, cxPC, ZAbstractRODataset, ZDataset, cxTextEdit,
-  cxSpinEdit;
+  cxSpinEdit, cxContainer, cxLabel;
 
 type
   TfrmLstPP = class(TfrmTplGrid)
@@ -26,7 +26,7 @@ type
     dsPPHead: TDataSource;
     zqrPPDet: TZReadOnlyQuery;
     dsPPDet: TDataSource;
-    cxgtblPP: TcxGridDBTableView;
+    cxtbPP: TcxGridDBTableView;
     cxgrdlvl1TblPP: TcxGridLevel;
     cxgrd1PP: TcxGrid;
     cxgtblPP1: TcxGridDBTableView;
@@ -44,22 +44,25 @@ type
     cxColPP1harga: TcxGridDBColumn;
     cxColPP1keterangan: TcxGridDBColumn;
     cxColPP1mata_uang: TcxGridDBColumn;
-    cxgrdlvl1cxgrd1PPLevel1: TcxGridLevel;
-    cxTblcxgtblcxgrd1PPDBTableView1: TcxGridDBTableView;
-    cxColcxgtblcxgrd1PPDBTableView1no_bukti: TcxGridDBColumn;
-    cxColcxgtblcxgrd1PPDBTableView1kode_brg: TcxGridDBColumn;
-    cxColcxgtblcxgrd1PPDBTableView1deskripsi: TcxGridDBColumn;
-    cxColcxgtblcxgrd1PPDBTableView1qty: TcxGridDBColumn;
-    cxColcxgtblcxgrd1PPDBTableView1satuan: TcxGridDBColumn;
-    cxColcxgtblcxgrd1PPDBTableView1harga: TcxGridDBColumn;
-    cxColcxgtblcxgrd1PPDBTableView1keterangan: TcxGridDBColumn;
-    cxColcxgtblcxgrd1PPDBTableView1mata_uang: TcxGridDBColumn;
     cxColPPLevel1_f_app: TcxGridDBColumn;
+    Panel3: TPanel;
+    cxGrid1Level1: TcxGridLevel;
+    cxGrid1: TcxGrid;
+    cxtbPPDet: TcxGridDBTableView;
+    cxtbPPDetkode_brg: TcxGridDBColumn;
+    cxtbPPDetdeskripsi: TcxGridDBColumn;
+    cxtbPPDetqty: TcxGridDBColumn;
+    cxtbPPDetsatuan: TcxGridDBColumn;
+    cxtbPPDetketerangan: TcxGridDBColumn;
+    cxLabel1: TcxLabel;
     procedure FormCreate(Sender: TObject);
     procedure btnTambahClick(Sender: TObject);
     procedure btnRefreshClick(Sender: TObject);
     procedure btnEditClick(Sender: TObject);
     procedure btnHapusClick(Sender: TObject);
+    procedure cxtbPPFocusedRecordChanged(Sender: TcxCustomGridTableView;
+      APrevFocusedRecord, AFocusedRecord: TcxCustomGridRecord;
+      ANewItemRecordFocusingChanged: Boolean);
   private
     { Private declarations }
   public
@@ -155,12 +158,23 @@ begin
   end;
 end;
 
+procedure TfrmLstPP.cxtbPPFocusedRecordChanged(Sender: TcxCustomGridTableView;
+  APrevFocusedRecord, AFocusedRecord: TcxCustomGridRecord;
+  ANewItemRecordFocusingChanged: Boolean);
+begin
+  inherited;
+  try
+    zqrPPDet.Close;
+    zqrPPDet.ParamByName('id_ref').AsInteger := zqrPPHead.FieldByName('id').AsInteger;
+    zqrPPDet.Open;
+  except
+
+  end;
+end;
+
 procedure TfrmLstPP.FormCreate(Sender: TObject);
 begin
   inherited;
-  zqrPPDet.Close;
-  zqrPPHead.Close;
-  zqrPPDet.Open;
   zqrPPHead.Open;
 end;
 

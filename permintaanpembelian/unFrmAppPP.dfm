@@ -1,6 +1,7 @@
 inherited frmAppPP: TfrmAppPP
   Caption = 'Approval Permintaan Pembelian'
   ClientWidth = 896
+  OnCreate = FormCreate
   OnShow = FormShow
   ExplicitWidth = 896
   ExplicitHeight = 553
@@ -11,7 +12,7 @@ inherited frmAppPP: TfrmAppPP
     ExplicitWidth = 896
     object Label13: TLabel
       Left = 10
-      Top = 12
+      Top = 16
       Width = 264
       Height = 19
       Caption = 'Approval Permintaan Pembelian'
@@ -31,126 +32,219 @@ inherited frmAppPP: TfrmAppPP
       OnClick = btnSimpanClick
     end
   end
-  object cxGrid1: TcxGrid
+  object cxgrd1PP: TcxGrid
     Left = 0
     Top = 49
     Width = 896
-    Height = 256
-    Align = alTop
+    Height = 214
+    Align = alClient
     TabOrder = 1
-    object cxtbHead: TcxGridTableView
+    ExplicitLeft = -214
+    ExplicitWidth = 1110
+    ExplicitHeight = 169
+    object cxtbPP: TcxGridDBTableView
       NavigatorButtons.ConfirmDelete = False
-      OnFocusedRecordChanged = cxtbHeadFocusedRecordChanged
+      OnFocusedRecordChanged = cxtbPPFocusedRecordChanged
+      DataController.DataSource = dsPPHead
+      DataController.KeyFieldNames = 'id'
       DataController.Summary.DefaultGroupSummaryItems = <>
       DataController.Summary.FooterSummaryItems = <>
       DataController.Summary.SummaryGroups = <>
-      object cxColChkApp: TcxGridColumn
-        Caption = 'Pilih'
-        DataBinding.ValueType = 'Boolean'
-        PropertiesClassName = 'TcxCheckBoxProperties'
-        Properties.NullStyle = nssUnchecked
-        Properties.ValueGrayed = 'Null'
-        HeaderAlignmentHorz = taCenter
-        Width = 71
-      end
-      object cxColID: TcxGridColumn
-        Caption = 'ID'
-        DataBinding.ValueType = 'Integer'
-        PropertiesClassName = 'TcxSpinEditProperties'
-        Visible = False
+      FilterRow.Visible = True
+      object cxColPPno_bukti: TcxGridDBColumn
+        Caption = 'No Bukti'
+        DataBinding.FieldName = 'no_bukti'
         Options.Editing = False
-        Width = 79
       end
-      object cxColNoPP: TcxGridColumn
-        Caption = 'No. PP'
-        PropertiesClassName = 'TcxTextEditProperties'
-        Properties.ReadOnly = True
+      object cxColPPtanggal: TcxGridDBColumn
+        Caption = 'Tanggal'
+        DataBinding.FieldName = 'tanggal'
         Options.Editing = False
-        Width = 280
+        Width = 92
+      end
+      object cxColPPtgl_diperlukan: TcxGridDBColumn
+        Caption = 'Tgl Diperlukan'
+        DataBinding.FieldName = 'tgl_diperlukan'
+        Options.Editing = False
+        Width = 94
+      end
+      object cxColPPdiajukan_oleh: TcxGridDBColumn
+        Caption = 'User'
+        DataBinding.FieldName = 'user'
+        Options.Editing = False
+      end
+      object cxColPPdiajukan_dept: TcxGridDBColumn
+        Caption = 'Departemen'
+        DataBinding.FieldName = 'user_dept'
+        Options.Editing = False
+        Width = 230
+      end
+      object cxColPPlevel_kebutuhan: TcxGridDBColumn
+        Caption = 'Level'
+        DataBinding.FieldName = 'level_kebutuhan'
+        Options.Editing = False
+        Width = 164
+      end
+      object cxColPPLevel1_f_app: TcxGridDBColumn
+        Caption = 'Approval'
+        DataBinding.FieldName = 'f_app'
+        Options.Editing = False
       end
     end
-    object cxGrid1Level1: TcxGridLevel
-      GridView = cxtbHead
+    object cxgtblPP1: TcxGridDBTableView
+      NavigatorButtons.ConfirmDelete = False
+      DataController.DataSource = dsPPDet
+      DataController.DetailKeyFieldNames = 'kode_brg'
+      DataController.KeyFieldNames = 'kode_brg'
+      DataController.MasterKeyFieldNames = 'no_bukti'
+      DataController.Summary.DefaultGroupSummaryItems = <>
+      DataController.Summary.FooterSummaryItems = <>
+      DataController.Summary.SummaryGroups = <>
+      OptionsView.CellAutoHeight = True
+      object cxColPP1no_bukti: TcxGridDBColumn
+        Caption = 'No Bukti'
+        DataBinding.FieldName = 'no_bukti'
+        Width = 100
+      end
+      object cxColPP1kode_brg: TcxGridDBColumn
+        Caption = 'Kode Brg'
+        DataBinding.FieldName = 'kode_brg'
+        Width = 100
+      end
+      object cxColPP1deskripsi: TcxGridDBColumn
+        Caption = 'Deskripsi'
+        DataBinding.FieldName = 'deskripsi'
+        Width = 150
+      end
+      object cxColPP1qty: TcxGridDBColumn
+        Caption = 'Qty'
+        DataBinding.FieldName = 'qty'
+        Width = 80
+      end
+      object cxColPP1satuan: TcxGridDBColumn
+        Caption = 'Satuan'
+        DataBinding.FieldName = 'satuan'
+        Width = 80
+      end
+      object cxColPP1harga: TcxGridDBColumn
+        Caption = 'Harga'
+        DataBinding.FieldName = 'harga'
+        Width = 90
+      end
+      object cxColPP1keterangan: TcxGridDBColumn
+        Caption = 'Keterangan'
+        DataBinding.FieldName = 'keterangan'
+        Width = 200
+      end
+      object cxColPP1mata_uang: TcxGridDBColumn
+        Caption = 'Valuta'
+        DataBinding.FieldName = 'mata_uang'
+        Width = 100
+      end
+    end
+    object cxgrdlvl1TblPP: TcxGridLevel
+      GridView = cxtbPP
     end
   end
   object Panel3: TPanel
     Left = 0
-    Top = 305
+    Top = 263
     Width = 896
     Height = 41
-    Align = alTop
+    Align = alBottom
     TabOrder = 2
+    ExplicitLeft = -214
+    ExplicitTop = 218
+    ExplicitWidth = 1110
+    object cxLabel1: TcxLabel
+      Left = 10
+      Top = 11
+      Caption = 'Detail Permintaan Pembelian'
+    end
   end
-  object cxGrid2: TcxGrid
+  object cxGrid1: TcxGrid
     Left = 0
-    Top = 346
+    Top = 304
     Width = 896
-    Height = 158
-    Align = alClient
+    Height = 200
+    Align = alBottom
     TabOrder = 3
-    object cxTblDetail: TcxGridDBTableView
+    ExplicitLeft = -214
+    ExplicitTop = 259
+    ExplicitWidth = 1110
+    object cxGrid1DBTableView1: TcxGridDBTableView
       NavigatorButtons.ConfirmDelete = False
-      DataController.DataSource = dsDetPP
-      DataController.DetailKeyFieldNames = 'id_ref'
-      DataController.KeyFieldNames = 'id_ref'
+      DataController.DataSource = dsPPDet
       DataController.Summary.DefaultGroupSummaryItems = <>
       DataController.Summary.FooterSummaryItems = <>
       DataController.Summary.SummaryGroups = <>
-      object cxColGrdDetailkode_brg: TcxGridDBColumn
-        Caption = 'Kode Brg'
+      object cxGrid1DBTableView1kode_brg: TcxGridDBColumn
+        Caption = 'Kode Brg.'
         DataBinding.FieldName = 'kode_brg'
-        Options.Editing = False
+        Width = 91
       end
-      object cxColGrdDetailqty: TcxGridDBColumn
-        Caption = 'Qty'
+      object cxGrid1DBTableView1deskripsi: TcxGridDBColumn
+        Caption = 'Deskripsi'
+        DataBinding.FieldName = 'deskripsi'
+        Width = 377
+      end
+      object cxGrid1DBTableView1qty: TcxGridDBColumn
+        Caption = 'Qty.'
         DataBinding.FieldName = 'qty'
-        Options.Editing = False
+        PropertiesClassName = 'TcxSpinEditProperties'
+        Properties.Alignment.Horz = taRightJustify
+        Properties.DisplayFormat = '#,#0.00'
+        HeaderAlignmentHorz = taRightJustify
+        Width = 86
       end
-      object cxColGrdDetailsatuan: TcxGridDBColumn
+      object cxGrid1DBTableView1satuan: TcxGridDBColumn
         Caption = 'Satuan'
         DataBinding.FieldName = 'satuan'
-        Options.Editing = False
+        Width = 77
       end
-      object cxColGrdDetailketerangan: TcxGridDBColumn
+      object cxGrid1DBTableView1keterangan: TcxGridDBColumn
         Caption = 'Keterangan'
         DataBinding.FieldName = 'keterangan'
-        Options.Editing = False
-        Width = 169
-      end
-      object cxColGrdDetailmata_uang: TcxGridDBColumn
-        Caption = 'Mata Uang'
-        DataBinding.FieldName = 'mata_uang'
-        Options.Editing = False
-      end
-      object cxColGrdDetailnama_jasa: TcxGridDBColumn
-        Caption = 'Jasa'
-        DataBinding.FieldName = 'nama_jasa'
-        Options.Editing = False
-        Width = 88
-      end
-      object cxColGrdDetailharga: TcxGridDBColumn
-        Caption = 'Harga'
-        DataBinding.FieldName = 'harga'
-        Options.Editing = False
-        Width = 153
+        Width = 396
       end
     end
-    object cxGrid2Level1: TcxGridLevel
-      GridView = cxTblDetail
+    object cxGrid1Level1: TcxGridLevel
+      GridView = cxGrid1DBTableView1
     end
   end
-  object zqrDetPP: TZReadOnlyQuery
+  object zqrPPHead: TZReadOnlyQuery
     Connection = DM.zConn
     SQL.Strings = (
-      'SELECT * FROM tbl_pp_det where id_ref = :id_ref')
+      'select * from tbl_pp_head '
+      'WHERE f_app = 0'
+      'order by tanggal')
+    Params = <>
+    Left = 594
+    Top = 145
+  end
+  object dsPPHead: TDataSource
+    DataSet = zqrPPHead
+    Left = 664
+    Top = 139
+  end
+  object zqrPPDet: TZReadOnlyQuery
+    Connection = DM.zConn
+    SQL.Strings = (
+      
+        'SELECT a.id, a.id_ref, a.no_bukti, a.kode_brg, b.deskripsi, a.qt' +
+        'y, c.satuan, a.harga, a.keterangan, a.mata_uang'
+      'FROM tbl_pp_det a'
+      'LEFT JOIN tbl_barang b ON a.kode_brg = b.kode'
+      'LEFT JOIN tbl_satuan c ON a.id_satuan = c.id'
+      'WHERE a.id_ref = :id_ref')
     Params = <
       item
         DataType = ftUnknown
         Name = 'id_ref'
         ParamType = ptUnknown
       end>
-    Left = 579
-    Top = 420
+    Left = 611
+    Top = 218
     ParamData = <
       item
         DataType = ftUnknown
@@ -158,9 +252,10 @@ inherited frmAppPP: TfrmAppPP
         ParamType = ptUnknown
       end>
   end
-  object dsDetPP: TDataSource
-    DataSet = zqrDetPP
-    Left = 550
-    Top = 422
+  object dsPPDet: TDataSource
+    AutoEdit = False
+    DataSet = zqrPPDet
+    Left = 674
+    Top = 219
   end
 end

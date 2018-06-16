@@ -92,6 +92,7 @@ type
     procedure FormCreate(Sender: TObject);
     procedure btnRefreshClick(Sender: TObject);
     procedure btnEditClick(Sender: TObject);
+    procedure btnHapusClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -103,7 +104,7 @@ var
 
 implementation
 
-uses unFrmUtama, unFrmInputBarangJasa, unDM;
+uses unFrmUtama, unFrmInputBarangJasa, unDM, unTools;
 
 {$R *.dfm}
 
@@ -125,6 +126,28 @@ begin
     f.Show;
 
     fu.pgMain.ActivePage := ts;
+  end;
+end;
+
+procedure TfrmLstBarangJasa.btnHapusClick(Sender: TObject);
+var
+  i: integer;
+begin
+  inherited;
+  try
+    dm.zConn.StartTransaction;
+    i := unTools.QBox(Self, 'Hapus data barang ini ?', 'Hapus');
+    if i = IDYES then begin
+      dm.zConn.ExecuteDirect(Format('UPDATE tbl_barang SET f_aktif = 0 WHERE id = %s',[zqrBarang.FieldByName('id').AsString]));
+    end;
+    dm.zConn.Commit;
+    zqrBarang.Close;
+    zqrBarang.Open;
+  except
+    on E: Exception do begin
+      dm.zConn.Rollback;
+      MsgBox('Error: ' + E.Message);
+    end;
   end;
 end;
 

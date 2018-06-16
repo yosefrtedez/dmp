@@ -1,16 +1,16 @@
 inherited frmInputPO: TfrmInputPO
-  Caption = 'frmInputPO'
+  Caption = 'Input Purchase Order'
   ClientHeight = 690
-  ClientWidth = 1009
+  ClientWidth = 1063
   OnCreate = FormCreate
   OnShow = FormShow
-  ExplicitWidth = 1009
+  ExplicitWidth = 1063
   ExplicitHeight = 690
   PixelsPerInch = 96
   TextHeight = 13
   inherited Panel1: TPanel
-    Width = 1009
-    ExplicitWidth = 1009
+    Width = 1063
+    ExplicitWidth = 1063
     object Label1: TLabel
       Left = 10
       Top = 13
@@ -27,10 +27,10 @@ inherited frmInputPO: TfrmInputPO
   end
   inherited Panel2: TPanel
     Top = 641
-    Width = 1009
-    TabOrder = 29
+    Width = 1063
+    TabOrder = 28
     ExplicitTop = 641
-    ExplicitWidth = 1009
+    ExplicitWidth = 1063
     inherited btnSimpan: TButton
       OnClick = btnSimpanClick
     end
@@ -38,9 +38,10 @@ inherited frmInputPO: TfrmInputPO
   object cxgrdPP: TcxGrid
     Left = 10
     Top = 337
-    Width = 975
+    Width = 1045
     Height = 293
-    TabOrder = 28
+    Anchors = [akLeft, akTop, akRight]
+    TabOrder = 27
     object cxtbTblPO: TcxGridTableView
       NavigatorButtons.ConfirmDelete = False
       NavigatorButtons.Insert.Visible = False
@@ -63,23 +64,24 @@ inherited frmInputPO: TfrmInputPO
       OptionsData.Appending = True
       OptionsView.Navigator = True
       OptionsView.Footer = True
+      OptionsView.GroupByBox = False
       object cxColNo: TcxGridColumn
         Caption = 'No'
         PropertiesClassName = 'TcxTextEditProperties'
         Properties.ReadOnly = False
         OnGetDisplayText = cxColNoGetDisplayText
-        Width = 42
+        Width = 32
       end
       object cxColKodeBrg: TcxGridColumn
         Caption = 'Kode Brg'
         PropertiesClassName = 'TcxTextEditProperties'
-        Properties.ReadOnly = False
-        Width = 102
+        Properties.ReadOnly = True
+        Width = 95
       end
       object cxColDeskripsi: TcxGridColumn
         Caption = 'Deskripsi'
         PropertiesClassName = 'TcxLookupComboBoxProperties'
-        Properties.KeyFieldNames = 'kode'
+        Properties.KeyFieldNames = 'id'
         Properties.ListColumns = <
           item
             FieldName = 'deskripsi'
@@ -88,7 +90,7 @@ inherited frmInputPO: TfrmInputPO
             FieldName = 'kode'
           end>
         Properties.ListSource = dsBarang
-        Width = 149
+        Width = 237
       end
       object cxColQty: TcxGridColumn
         Caption = 'Qty'
@@ -100,7 +102,7 @@ inherited frmInputPO: TfrmInputPO
       object cxColSatuan: TcxGridColumn
         Caption = 'Satuan'
         PropertiesClassName = 'TcxTextEditProperties'
-        Properties.ReadOnly = False
+        Properties.ReadOnly = True
         Width = 82
       end
       object cxColHarga: TcxGridColumn
@@ -123,8 +125,6 @@ inherited frmInputPO: TfrmInputPO
         Properties.Items.Strings = (
           'IDR'
           'USD')
-        SortIndex = 0
-        SortOrder = soAscending
         Width = 61
       end
       object cxColKeterangan: TcxGridColumn
@@ -139,6 +139,9 @@ inherited frmInputPO: TfrmInputPO
         Properties.DisplayFormat = '#,##.00'
         Properties.ReadOnly = False
         Width = 112
+      end
+      object cxColIdSatuan: TcxGridColumn
+        DataBinding.ValueType = 'Integer'
       end
     end
     object cxgrdlvl1Grid1Level1: TcxGridLevel
@@ -185,21 +188,30 @@ inherited frmInputPO: TfrmInputPO
     Top = 251
     Caption = 'Sopir'
   end
-  object cxLuNoPP: TcxLookupComboBox
+  object cxlNoPP: TcxLookupComboBox
     Left = 112
     Top = 88
     Properties.CharCase = ecUpperCase
-    Properties.KeyFieldNames = 'no_bukti'
+    Properties.DropDownAutoSize = True
+    Properties.KeyFieldNames = 'id'
     Properties.ListColumns = <
       item
         Caption = 'No Bukti'
         Width = 80
         FieldName = 'no_bukti'
+      end
+      item
+        Caption = 'User'
+        FieldName = 'user'
+      end
+      item
+        Caption = 'Dept'
+        FieldName = 'user_dept'
       end>
     Properties.ListSource = dsPPHead
     Properties.OnChange = cxLuNoPPPropertiesChange
     TabOrder = 5
-    Width = 122
+    Width = 146
   end
   object cxdTgl: TcxDateEdit
     Left = 112
@@ -213,18 +225,24 @@ inherited frmInputPO: TfrmInputPO
     TabOrder = 9
     Width = 146
   end
-  object cxLuSupplier: TcxLookupComboBox
+  object cxlSupplier: TcxLookupComboBox
     Left = 112
     Top = 169
-    Properties.KeyFieldNames = 'kode'
+    Properties.DropDownAutoSize = True
+    Properties.KeyFieldNames = 'id'
     Properties.ListColumns = <
       item
+        Caption = 'Nama Supplier'
         FieldName = 'nama'
+      end
+      item
+        Caption = 'Kode Supplier'
+        FieldName = 'kode'
       end>
     Properties.ListSource = dsSupplier
     Properties.OnChange = cxLuSupplierPropertiesChange
     TabOrder = 11
-    Width = 203
+    Width = 351
   end
   object cxtAlamat: TcxTextEdit
     Left = 112
@@ -235,28 +253,28 @@ inherited frmInputPO: TfrmInputPO
   object cxtNoBukti: TcxTextEdit
     Left = 112
     Top = 61
-    TabOrder = 2
-    Width = 113
+    TabOrder = 1
+    Width = 146
   end
   object cxtNopol: TcxTextEdit
     Left = 112
     Top = 223
     Properties.CharCase = ecUpperCase
-    TabOrder = 16
+    TabOrder = 15
     Width = 113
   end
   object cxtSopir: TcxTextEdit
     Left = 112
     Top = 250
     Properties.CharCase = ecUpperCase
-    TabOrder = 18
+    TabOrder = 17
     Width = 113
   end
   object cxchk1: TcxCheckBox
-    Left = 261
-    Top = 60
+    Left = 266
+    Top = 61
     Caption = 'Komplit / Selesai'
-    TabOrder = 1
+    TabOrder = 2
     Width = 104
   end
   object cxgrpbx1: TcxGroupBox
@@ -301,7 +319,7 @@ inherited frmInputPO: TfrmInputPO
     Caption = 'Pembayaran'
   end
   object cxCboPembayaran: TcxComboBox
-    Left = 111
+    Left = 112
     Top = 277
     Properties.DropDownListStyle = lsEditFixedList
     Properties.Items.Strings = (
@@ -311,27 +329,27 @@ inherited frmInputPO: TfrmInputPO
       '14 Hari'
       '30 Hari'
       '45 Hari')
-    TabOrder = 20
-    Width = 146
+    TabOrder = 19
+    Width = 198
   end
   object cxlbl12: TcxLabel
-    Left = 266
+    Left = 317
     Top = 278
     Caption = 'Valuta'
   end
   object cxCboRate: TcxComboBox
-    Left = 309
+    Left = 361
     Top = 277
     Properties.DropDownListStyle = lsEditFixedList
     Properties.Items.Strings = (
       'IDR'
       'USD')
     Properties.OnChange = cxCbo2PropertiesChange
-    TabOrder = 21
+    TabOrder = 20
     Width = 63
   end
   object cxlbl13: TcxLabel
-    Left = 378
+    Left = 430
     Top = 278
     Caption = 'Rate'
   end
@@ -341,29 +359,23 @@ inherited frmInputPO: TfrmInputPO
     Caption = 'Keterangan'
   end
   object cxtKeterangan: TcxTextEdit
-    Left = 111
+    Left = 112
     Top = 304
     Properties.CharCase = ecUpperCase
-    TabOrder = 26
+    TabOrder = 25
     Width = 416
   end
   object cxtRate: TcxTextEdit
-    Left = 411
+    Left = 463
     Top = 277
-    TabOrder = 22
+    TabOrder = 21
     Width = 113
-  end
-  object cxlbltemp: TcxLabel
-    Left = 478
-    Top = 197
-    Caption = 'cxlbltemp'
-    Visible = False
   end
   object zqrPPHead: TZReadOnlyQuery
     Connection = DM.zConn
     AutoCalcFields = False
     SQL.Strings = (
-      'SELECT no_bukti'
+      'SELECT id, no_bukti, user, user_dept'
       'FROM tbl_pp_head WHERE f_app = 1;')
     Params = <>
     Left = 692
@@ -377,10 +389,12 @@ inherited frmInputPO: TfrmInputPO
   object zqrSupplier: TZReadOnlyQuery
     Connection = DM.zConn
     AutoCalcFields = False
+    Active = True
     SQL.Strings = (
-      'select * from tbl_supplier order by nama')
+      'select id, kode, nama '
+      'from tbl_supplier order by nama')
     Params = <>
-    Left = 731
+    Left = 707
     Top = 182
   end
   object dsSupplier: TDataSource
@@ -392,7 +406,7 @@ inherited frmInputPO: TfrmInputPO
     Connection = DM.zConn
     AutoCalcFields = False
     SQL.Strings = (
-      'select * from tbl_barang')
+      'select id, kode, deskripsi from tbl_barang')
     Params = <>
     Properties.Strings = (
       
@@ -403,7 +417,7 @@ inherited frmInputPO: TfrmInputPO
   end
   object dsBarang: TDataSource
     DataSet = zqrBarang
-    Left = 734
+    Left = 766
     Top = 245
   end
 end

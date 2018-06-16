@@ -1,5 +1,5 @@
 inherited frmLstPO: TfrmLstPO
-  Caption = 'frmLstPO'
+  Caption = 'Purchase Order'
   ClientHeight = 507
   ClientWidth = 1169
   OnCreate = FormCreate
@@ -27,6 +27,7 @@ inherited frmLstPO: TfrmLstPO
   inherited Panel2: TPanel
     Top = 458
     Width = 1169
+    TabOrder = 4
     ExplicitTop = 458
     ExplicitWidth = 1169
     inherited btnTambah: TButton
@@ -40,9 +41,11 @@ inherited frmLstPO: TfrmLstPO
     end
     inherited btnKeluar: TButton
       Left = 1086
+      TabOrder = 4
       ExplicitLeft = 1086
     end
     inherited btnRefresh: TButton
+      TabOrder = 3
       OnClick = btnRefreshClick
     end
   end
@@ -50,16 +53,18 @@ inherited frmLstPO: TfrmLstPO
     Left = 0
     Top = 49
     Width = 1169
-    Height = 409
+    Height = 168
     Align = alClient
-    TabOrder = 2
-    object cxTblHead: TcxGridDBTableView
+    TabOrder = 1
+    object cxtbPOHead: TcxGridDBTableView
       NavigatorButtons.ConfirmDelete = False
+      OnFocusedRecordChanged = cxtbPOHeadFocusedRecordChanged
       DataController.DataSource = dsPO
       DataController.KeyFieldNames = 'id'
       DataController.Summary.DefaultGroupSummaryItems = <>
       DataController.Summary.FooterSummaryItems = <>
       DataController.Summary.SummaryGroups = <>
+      FilterRow.Visible = True
       OptionsView.CellTextMaxLineCount = 10
       Preview.MaxLineCount = 10
       object cxColTblHeadno_bukti: TcxGridDBColumn
@@ -70,13 +75,13 @@ inherited frmLstPO: TfrmLstPO
       end
       object cxColTblHeadno_fobj: TcxGridDBColumn
         Caption = 'No PP'
-        DataBinding.FieldName = 'no_fobj'
+        DataBinding.FieldName = 'no_pp'
         Options.Filtering = False
         Width = 90
       end
       object cxColTblHeadnama: TcxGridDBColumn
         Caption = 'Nama'
-        DataBinding.FieldName = 'nama'
+        DataBinding.FieldName = 'nama_supplier'
         Options.Editing = False
         Width = 150
       end
@@ -122,14 +127,20 @@ inherited frmLstPO: TfrmLstPO
         Width = 120
       end
       object cxColTblHeadf_approval: TcxGridDBColumn
-        Caption = 'F_App'
+        Caption = 'Approval'
         DataBinding.FieldName = 'f_approval'
+        PropertiesClassName = 'TcxCheckBoxProperties'
+        Properties.ValueChecked = 1
+        Properties.ValueUnchecked = 0
         Options.Editing = False
         Width = 50
       end
       object cxColTblHeadf_completed: TcxGridDBColumn
-        Caption = 'F_Komplit'
+        Caption = 'Komplit'
         DataBinding.FieldName = 'f_completed'
+        PropertiesClassName = 'TcxCheckBoxProperties'
+        Properties.ValueChecked = 1
+        Properties.ValueUnchecked = 0
         Options.Editing = False
       end
     end
@@ -184,22 +195,82 @@ inherited frmLstPO: TfrmLstPO
       end
     end
     object cxgrdlvl1Grid1Level1: TcxGridLevel
-      GridView = cxTblHead
-      object cxgrdlvl1cxgrd1Level1: TcxGridLevel
-        GridView = cxTblDet
+      GridView = cxtbPOHead
+    end
+  end
+  object cxGrid1: TcxGrid
+    Left = 0
+    Top = 258
+    Width = 1169
+    Height = 200
+    Align = alBottom
+    TabOrder = 3
+    object cxtbPODet: TcxGridDBTableView
+      NavigatorButtons.ConfirmDelete = False
+      DataController.DataSource = dsPoDet
+      DataController.Summary.DefaultGroupSummaryItems = <>
+      DataController.Summary.FooterSummaryItems = <>
+      DataController.Summary.SummaryGroups = <>
+      object cxtbPODetkode_brg: TcxGridDBColumn
+        Caption = 'Kode Brg.'
+        DataBinding.FieldName = 'kode_brg'
+        Width = 103
       end
+      object cxtbPODetdeskripsi: TcxGridDBColumn
+        Caption = 'Deskripsi'
+        DataBinding.FieldName = 'deskripsi'
+        Width = 374
+      end
+      object cxtbPODetqty: TcxGridDBColumn
+        Caption = 'Qty.'
+        DataBinding.FieldName = 'qty'
+        PropertiesClassName = 'TcxSpinEditProperties'
+        Properties.DisplayFormat = '#,#0.00'
+        HeaderAlignmentHorz = taRightJustify
+      end
+      object cxtbPODetsatuan: TcxGridDBColumn
+        Caption = 'Satuan'
+        DataBinding.FieldName = 'satuan'
+        Width = 54
+      end
+      object cxtbPODetharga: TcxGridDBColumn
+        Caption = 'Harga'
+        DataBinding.FieldName = 'harga'
+        HeaderAlignmentHorz = taRightJustify
+      end
+      object cxtbPODetmata_uang: TcxGridDBColumn
+        DataBinding.FieldName = 'mata_uang'
+      end
+    end
+    object cxGrid1Level1: TcxGridLevel
+      GridView = cxtbPODet
+    end
+  end
+  object Panel3: TPanel
+    Left = 0
+    Top = 217
+    Width = 1169
+    Height = 41
+    Align = alBottom
+    TabOrder = 2
+    object cxLabel1: TcxLabel
+      Left = 10
+      Top = 11
+      Caption = 'Detail Purchase Order'
     end
   end
   object zqrPO: TZReadOnlyQuery
     Connection = DM.zConn
     SQL.Strings = (
       
-        'SELECT a.id, a.no_bukti, a.no_fobj, a.tgl_required, jenis_po, a.' +
-        'user, a.user_dept, a.pembayaran, a.f_approval, a.nopol, a.driver' +
-        ', a.f_completed,'
-      'b.nama, b.kontak'
+        'SELECT a.id, a.no_bukti, a.tgl_required, jenis_po, a.user, a.use' +
+        'r_dept, a.pembayaran, a.f_approval, a.nopol, a.driver, a.f_compl' +
+        'eted,'
+      'b.nama, b.kontak, c.no_bukti no_pp, d.nama nama_supplier'
       'FROM tbl_po_head a '
-      'LEFT JOIN tbl_supplier b ON a.kode_supp = b.kode;')
+      'LEFT JOIN tbl_supplier b ON a.kode_supp = b.kode'
+      'LEFT JOIN tbl_pp_head c ON c.id = a.id_pp'
+      'LEFT JOIN tbl_supplier d ON d.id = a.id_supplier')
     Params = <>
     Left = 775
     Top = 196
@@ -215,12 +286,25 @@ inherited frmLstPO: TfrmLstPO
     SQL.Strings = (
       
         'SELECT a.id,  a.id_ref, a.no_bukti, a.kode_brg, b.deskripsi, a.q' +
-        'ty, b.satuan, a.harga, a.mata_uang'
+        'ty, c.satuan, a.harga, a.mata_uang'
       'FROM tbl_po_det a'
-      'LEFT JOIN tbl_barang b ON a.kode_brg = b.kode ')
-    Params = <>
+      'LEFT JOIN tbl_barang b ON a.kode_brg = b.kode '
+      'LEFT JOIN tbl_satuan c ON c.id = a.id_satuan'
+      'WHERE a.id_ref = :id_ref')
+    Params = <
+      item
+        DataType = ftUnknown
+        Name = 'id_ref'
+        ParamType = ptUnknown
+      end>
     Left = 764
     Top = 252
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'id_ref'
+        ParamType = ptUnknown
+      end>
   end
   object dsPoDet: TDataSource
     DataSet = zqrPoDet

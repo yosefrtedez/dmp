@@ -24,6 +24,7 @@ inherited frmLstFormula: TfrmLstFormula
   inherited Panel2: TPanel
     Top = 646
     TabOrder = 6
+    ExplicitTop = 646
     inherited btnTambah: TButton
       OnClick = btnTambahClick
     end
@@ -44,7 +45,6 @@ inherited frmLstFormula: TfrmLstFormula
     Height = 239
     Align = alClient
     TabOrder = 1
-    ExplicitHeight = 184
     object cxtbFormulaH: TcxGridDBTableView
       NavigatorButtons.ConfirmDelete = False
       OnFocusedRecordChanged = cxtbFormulaHFocusedRecordChanged
@@ -73,7 +73,11 @@ inherited frmLstFormula: TfrmLstFormula
     Height = 36
     Align = alBottom
     TabOrder = 2
-    ExplicitTop = 282
+    object cxLabel1: TcxLabel
+      Left = 10
+      Top = 9
+      Caption = 'Formula'
+    end
   end
   object cxGrid2: TcxGrid
     Left = 0
@@ -82,7 +86,6 @@ inherited frmLstFormula: TfrmLstFormula
     Height = 89
     Align = alBottom
     TabOrder = 3
-    ExplicitTop = 208
     object cxtbFormulaD: TcxGridDBTableView
       NavigatorButtons.ConfirmDelete = False
       OnFocusedRecordChanged = cxtbFormulaDFocusedRecordChanged
@@ -111,7 +114,6 @@ inherited frmLstFormula: TfrmLstFormula
     Height = 197
     Align = alBottom
     TabOrder = 5
-    ExplicitTop = 305
     object cxtbFormulaSD: TcxGridDBTableView
       NavigatorButtons.ConfirmDelete = False
       DataController.DataSource = dsFormulaSD
@@ -149,11 +151,14 @@ inherited frmLstFormula: TfrmLstFormula
     Height = 36
     Align = alBottom
     TabOrder = 4
-    ExplicitTop = 436
+    object cxLabel2: TcxLabel
+      Left = 10
+      Top = 9
+      Caption = 'Detail Formula'
+    end
   end
   object zqrFormulaH: TZReadOnlyQuery
     Connection = DM.zConn
-    Active = True
     SQL.Strings = (
       'SELECT a.id, a.kode_brg, b.deskripsi'
       'FROM tbl_formula_head a'
@@ -175,7 +180,6 @@ inherited frmLstFormula: TfrmLstFormula
   end
   object zqrFormulaD: TZReadOnlyQuery
     Connection = DM.zConn
-    Active = True
     SQL.Strings = (
       'SELECT * FROM tbl_formula_det '
       'WHERE id_ref = :id_ref')
@@ -196,7 +200,6 @@ inherited frmLstFormula: TfrmLstFormula
   end
   object zqrFormulaSD: TZReadOnlyQuery
     Connection = DM.zConn
-    Active = True
     SQL.Strings = (
       'SELECT a.*, b.deskripsi, b.kode'
       'FROM tbl_formula_subdet a'

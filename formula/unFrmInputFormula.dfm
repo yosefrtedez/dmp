@@ -25,6 +25,24 @@ inherited frmInputFormula: TfrmInputFormula
   inherited Panel2: TPanel
     Top = 601
     TabOrder = 2
+    ExplicitTop = 601
+    inherited btnSimpan: TButton
+      TabOrder = 1
+      Visible = False
+    end
+    inherited btnBatal: TButton
+      TabOrder = 2
+      Visible = False
+    end
+    object btnKeluar: TButton
+      Left = 10
+      Top = 12
+      Width = 75
+      Height = 25
+      Caption = 'Keluar'
+      TabOrder = 0
+      OnClick = btnKeluarClick
+    end
   end
   object ScrollBox1: TScrollBox
     Left = 0
@@ -36,7 +54,6 @@ inherited frmInputFormula: TfrmInputFormula
     BevelOuter = bvNone
     BorderStyle = bsNone
     TabOrder = 1
-    ExplicitTop = 55
     object cxGroupBox1: TcxGroupBox
       Left = 10
       Top = 6
@@ -181,6 +198,14 @@ inherited frmInputFormula: TfrmInputFormula
         end
         object cxColSatuan: TcxGridColumn
           Caption = 'Satuan'
+          PropertiesClassName = 'TcxLookupComboBoxProperties'
+          Properties.KeyFieldNames = 'id'
+          Properties.ListColumns = <
+            item
+              Caption = 'Satuan'
+              FieldName = 'satuan'
+            end>
+          Properties.ListSource = dsSatuan
           Width = 95
         end
         object cxColID_SD: TcxGridColumn
@@ -194,7 +219,6 @@ inherited frmInputFormula: TfrmInputFormula
   end
   object zqrBrg: TZReadOnlyQuery
     Connection = DM.zConn
-    Active = True
     SQL.Strings = (
       'SELECT id, kode, deskripsi '
       'FROM tbl_barang')
@@ -209,7 +233,6 @@ inherited frmInputFormula: TfrmInputFormula
   end
   object zqrBrg2: TZReadOnlyQuery
     Connection = DM.zConn
-    Active = True
     SQL.Strings = (
       'SELECT id, kode, deskripsi '
       'FROM tbl_barang')
@@ -221,5 +244,20 @@ inherited frmInputFormula: TfrmInputFormula
     DataSet = zqrBrg2
     Left = 744
     Top = 200
+  end
+  object zqrSatuan: TZReadOnlyQuery
+    Connection = DM.zConn
+    SQL.Strings = (
+      'SELECT id, satuan '
+      'FROM tbl_satuan '
+      'ORDER BY satuan')
+    Params = <>
+    Left = 712
+    Top = 273
+  end
+  object dsSatuan: TDataSource
+    DataSet = zqrSatuan
+    Left = 760
+    Top = 272
   end
 end

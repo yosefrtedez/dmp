@@ -25,6 +25,7 @@ inherited frmLstPP: TfrmLstPP
   end
   inherited Panel2: TPanel
     Width = 1110
+    TabOrder = 4
     ExplicitWidth = 1110
     inherited btnTambah: TButton
       OnClick = btnTambahClick
@@ -37,9 +38,11 @@ inherited frmLstPP: TfrmLstPP
     end
     inherited btnKeluar: TButton
       Left = 1027
+      TabOrder = 4
       ExplicitLeft = 1027
     end
     inherited btnRefresh: TButton
+      TabOrder = 3
       OnClick = btnRefreshClick
     end
   end
@@ -47,16 +50,19 @@ inherited frmLstPP: TfrmLstPP
     Left = 0
     Top = 49
     Width = 1110
-    Height = 410
+    Height = 169
     Align = alClient
-    TabOrder = 2
-    object cxgtblPP: TcxGridDBTableView
+    TabOrder = 1
+    ExplicitTop = 43
+    object cxtbPP: TcxGridDBTableView
       NavigatorButtons.ConfirmDelete = False
+      OnFocusedRecordChanged = cxtbPPFocusedRecordChanged
       DataController.DataSource = dsPPHead
       DataController.KeyFieldNames = 'id'
       DataController.Summary.DefaultGroupSummaryItems = <>
       DataController.Summary.FooterSummaryItems = <>
       DataController.Summary.SummaryGroups = <>
+      FilterRow.Visible = True
       object cxColPPno_bukti: TcxGridDBColumn
         Caption = 'No Bukti'
         DataBinding.FieldName = 'no_bukti'
@@ -148,80 +154,72 @@ inherited frmLstPP: TfrmLstPP
         Width = 100
       end
     end
-    object cxTblcxgtblcxgrd1PPDBTableView1: TcxGridDBTableView
+    object cxgrdlvl1TblPP: TcxGridLevel
+      GridView = cxtbPP
+    end
+  end
+  object Panel3: TPanel
+    Left = 0
+    Top = 218
+    Width = 1110
+    Height = 41
+    Align = alBottom
+    TabOrder = 2
+    ExplicitLeft = 472
+    ExplicitTop = 418
+    ExplicitWidth = 185
+    object cxLabel1: TcxLabel
+      Left = 10
+      Top = 11
+      Caption = 'Detail Permintaan Pembelian'
+    end
+  end
+  object cxGrid1: TcxGrid
+    Left = 0
+    Top = 259
+    Width = 1110
+    Height = 200
+    Align = alBottom
+    TabOrder = 3
+    ExplicitTop = 253
+    object cxtbPPDet: TcxGridDBTableView
       NavigatorButtons.ConfirmDelete = False
-      DataController.DataModeController.SmartRefresh = True
       DataController.DataSource = dsPPDet
-      DataController.DetailKeyFieldNames = 'id_ref'
-      DataController.MasterKeyFieldNames = 'id'
       DataController.Summary.DefaultGroupSummaryItems = <>
       DataController.Summary.FooterSummaryItems = <>
       DataController.Summary.SummaryGroups = <>
-      OptionsView.GroupByBox = False
-      OptionsView.GroupSummaryLayout = gslAlignWithColumns
-      object cxColcxgtblcxgrd1PPDBTableView1no_bukti: TcxGridDBColumn
-        Caption = 'No Bukti'
-        DataBinding.FieldName = 'no_bukti'
-        PropertiesClassName = 'TcxTextEditProperties'
-        Properties.ReadOnly = True
-        Width = 100
-      end
-      object cxColcxgtblcxgrd1PPDBTableView1kode_brg: TcxGridDBColumn
-        Caption = 'Kode Brg'
+      object cxtbPPDetkode_brg: TcxGridDBColumn
+        Caption = 'Kode Brg.'
         DataBinding.FieldName = 'kode_brg'
-        PropertiesClassName = 'TcxTextEditProperties'
-        Properties.ReadOnly = True
-        Width = 100
+        Width = 91
       end
-      object cxColcxgtblcxgrd1PPDBTableView1deskripsi: TcxGridDBColumn
+      object cxtbPPDetdeskripsi: TcxGridDBColumn
         Caption = 'Deskripsi'
         DataBinding.FieldName = 'deskripsi'
-        PropertiesClassName = 'TcxTextEditProperties'
-        Properties.ReadOnly = True
-        Width = 150
+        Width = 377
       end
-      object cxColcxgtblcxgrd1PPDBTableView1qty: TcxGridDBColumn
-        Caption = 'Qty'
+      object cxtbPPDetqty: TcxGridDBColumn
+        Caption = 'Qty.'
         DataBinding.FieldName = 'qty'
         PropertiesClassName = 'TcxSpinEditProperties'
-        Properties.DisplayFormat = '#,##.00'
-        Width = 90
+        Properties.Alignment.Horz = taRightJustify
+        Properties.DisplayFormat = '#,#0.00'
+        HeaderAlignmentHorz = taRightJustify
+        Width = 86
       end
-      object cxColcxgtblcxgrd1PPDBTableView1satuan: TcxGridDBColumn
+      object cxtbPPDetsatuan: TcxGridDBColumn
         Caption = 'Satuan'
         DataBinding.FieldName = 'satuan'
-        PropertiesClassName = 'TcxTextEditProperties'
-        Properties.ReadOnly = True
-        Width = 80
+        Width = 77
       end
-      object cxColcxgtblcxgrd1PPDBTableView1harga: TcxGridDBColumn
-        Caption = 'Harga'
-        DataBinding.FieldName = 'harga'
-        PropertiesClassName = 'TcxSpinEditProperties'
-        Properties.AssignedValues.EditFormat = True
-        Properties.DisplayFormat = '#,##.00'
-        Width = 100
-      end
-      object cxColcxgtblcxgrd1PPDBTableView1keterangan: TcxGridDBColumn
+      object cxtbPPDetketerangan: TcxGridDBColumn
         Caption = 'Keterangan'
         DataBinding.FieldName = 'keterangan'
-        PropertiesClassName = 'TcxTextEditProperties'
-        Properties.ReadOnly = True
-        Width = 150
-      end
-      object cxColcxgtblcxgrd1PPDBTableView1mata_uang: TcxGridDBColumn
-        Caption = 'Valuta'
-        DataBinding.FieldName = 'mata_uang'
-        PropertiesClassName = 'TcxTextEditProperties'
-        Properties.ReadOnly = True
-        Width = 100
+        Width = 396
       end
     end
-    object cxgrdlvl1TblPP: TcxGridLevel
-      GridView = cxgtblPP
-      object cxgrdlvl1cxgrd1PPLevel1: TcxGridLevel
-        GridView = cxTblcxgtblcxgrd1PPDBTableView1
-      end
+    object cxGrid1Level1: TcxGridLevel
+      GridView = cxtbPPDet
     end
   end
   object zqrPPHead: TZReadOnlyQuery
@@ -230,29 +228,42 @@ inherited frmLstPP: TfrmLstPP
       'select * from tbl_pp_head order by no_bukti;')
     Params = <>
     Left = 810
-    Top = 159
+    Top = 153
   end
   object dsPPHead: TDataSource
     DataSet = zqrPPHead
     Left = 840
-    Top = 161
+    Top = 155
   end
   object zqrPPDet: TZReadOnlyQuery
     Connection = DM.zConn
     SQL.Strings = (
       
         'SELECT a.id, a.id_ref, a.no_bukti, a.kode_brg, b.deskripsi, a.qt' +
-        'y, b.satuan, a.harga, a.keterangan, a.mata_uang'
+        'y, c.satuan, a.harga, a.keterangan, a.mata_uang'
       'FROM tbl_pp_det a'
-      'LEFT JOIN tbl_barang b ON a.kode_brg = b.kode')
-    Params = <>
-    Left = 811
-    Top = 208
+      'LEFT JOIN tbl_barang b ON a.kode_brg = b.kode'
+      'LEFT JOIN tbl_satuan c ON a.id_satuan = c.id'
+      'WHERE a.id_ref = :id_ref')
+    Params = <
+      item
+        DataType = ftUnknown
+        Name = 'id_ref'
+        ParamType = ptUnknown
+      end>
+    Left = 795
+    Top = 202
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'id_ref'
+        ParamType = ptUnknown
+      end>
   end
   object dsPPDet: TDataSource
     AutoEdit = False
     DataSet = zqrPPDet
     Left = 842
-    Top = 209
+    Top = 203
   end
 end

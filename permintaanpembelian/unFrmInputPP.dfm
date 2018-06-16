@@ -1,15 +1,15 @@
 inherited frmInputPP: TfrmInputPP
   Caption = 'Input Permintaan Pembelian'
-  ClientWidth = 983
+  ClientWidth = 1099
   OnCreate = FormCreate
   OnShow = FormShow
-  ExplicitWidth = 983
+  ExplicitWidth = 1099
   ExplicitHeight = 553
   PixelsPerInch = 96
   TextHeight = 13
   inherited Panel1: TPanel
-    Width = 983
-    ExplicitWidth = 983
+    Width = 1099
+    ExplicitWidth = 1099
     object Label1: TLabel
       Left = 10
       Top = 16
@@ -26,11 +26,11 @@ inherited frmInputPP: TfrmInputPP
   end
   inherited Panel2: TPanel
     Top = 505
-    Width = 983
+    Width = 1099
     Height = 48
     TabOrder = 15
     ExplicitTop = 505
-    ExplicitWidth = 983
+    ExplicitWidth = 1099
     ExplicitHeight = 48
     inherited btnSimpan: TButton
       Top = 11
@@ -118,8 +118,9 @@ inherited frmInputPP: TfrmInputPP
   object cxgrdPP: TcxGrid
     Left = 10
     Top = 204
-    Width = 926
+    Width = 1075
     Height = 293
+    Anchors = [akLeft, akTop, akRight]
     TabOrder = 14
     object cxGrdTblPP: TcxGridTableView
       NavigatorButtons.ConfirmDelete = False
@@ -135,7 +136,6 @@ inherited frmInputPP: TfrmInputPP
         item
           Format = '#,##.00'
           Kind = skSum
-          Column = cxColTotal
         end>
       DataController.Summary.SummaryGroups = <>
       DataController.OnBeforePost = cxgrd1TableView1DataControllerBeforePost
@@ -143,6 +143,7 @@ inherited frmInputPP: TfrmInputPP
       OptionsData.Appending = True
       OptionsView.Navigator = True
       OptionsView.Footer = True
+      OptionsView.GroupByBox = False
       object cxColNo: TcxGridColumn
         Caption = 'No'
         PropertiesClassName = 'TcxTextEditProperties'
@@ -154,12 +155,12 @@ inherited frmInputPP: TfrmInputPP
         PropertiesClassName = 'TcxTextEditProperties'
         Properties.ReadOnly = True
         Options.Editing = False
-        Width = 102
+        Width = 84
       end
       object cxColDeskripsi: TcxGridColumn
         Caption = 'Deskripsi'
         PropertiesClassName = 'TcxLookupComboBoxProperties'
-        Properties.KeyFieldNames = 'kode'
+        Properties.KeyFieldNames = 'id'
         Properties.ListColumns = <
           item
             Caption = 'Deskripsi'
@@ -170,7 +171,7 @@ inherited frmInputPP: TfrmInputPP
             FieldName = 'kode'
           end>
         Properties.ListSource = dsBarang
-        Width = 149
+        Width = 252
       end
       object cxColQty: TcxGridColumn
         Caption = 'Qty'
@@ -180,38 +181,18 @@ inherited frmInputPP: TfrmInputPP
       object cxColSatuan: TcxGridColumn
         Caption = 'Satuan'
         PropertiesClassName = 'TcxTextEditProperties'
+        Properties.ReadOnly = True
         Options.Editing = False
         Width = 82
-      end
-      object cxColHarga: TcxGridColumn
-        Caption = 'Harga'
-        DataBinding.ValueType = 'Float'
-        PropertiesClassName = 'TcxSpinEditProperties'
-        Properties.DisplayFormat = '#,##.00'
-        Width = 88
-      end
-      object cxColValuta: TcxGridColumn
-        Caption = 'Valuta'
-        PropertiesClassName = 'TcxComboBoxProperties'
-        Properties.Items.Strings = (
-          'IDR'
-          'USD')
-        SortIndex = 0
-        SortOrder = soAscending
-        Width = 61
       end
       object cxColKeterangan: TcxGridColumn
         Caption = 'Keterangan'
         PropertiesClassName = 'TcxTextEditProperties'
-        Width = 200
+        Width = 306
       end
-      object cxColTotal: TcxGridColumn
-        Caption = 'Total'
-        DataBinding.ValueType = 'Float'
-        PropertiesClassName = 'TcxSpinEditProperties'
-        Properties.DisplayFormat = '#,##.00'
-        Options.Editing = False
-        Width = 112
+      object cxColIdSatuan: TcxGridColumn
+        DataBinding.ValueType = 'Integer'
+        Visible = False
       end
     end
     object cxgrdlvl1Grid1Level1: TcxGridLevel
@@ -244,7 +225,9 @@ inherited frmInputPP: TfrmInputPP
   object zqrBarang: TZReadOnlyQuery
     Connection = DM.zConn
     SQL.Strings = (
-      'select kode, deskripsi, satuan from tbl_barang order by kode;')
+      
+        'select id, kode, deskripsi, satuan from tbl_barang order by kode' +
+        ';')
     Params = <>
     Left = 670
     Top = 94

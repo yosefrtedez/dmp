@@ -1,0 +1,246 @@
+inherited frmInputFormula: TfrmInputFormula
+  Caption = 'Input Formula'
+  ClientHeight = 650
+  OnCreate = FormCreate
+  OnShow = FormShow
+  ExplicitWidth = 894
+  ExplicitHeight = 650
+  PixelsPerInch = 96
+  TextHeight = 13
+  inherited Panel1: TPanel
+    object Label13: TLabel
+      Left = 10
+      Top = 13
+      Width = 115
+      Height = 19
+      Caption = 'Input Formula'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -16
+      Font.Name = 'Tahoma'
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+  end
+  inherited Panel2: TPanel
+    Top = 601
+    TabOrder = 2
+    ExplicitTop = 601
+  end
+  object ScrollBox1: TScrollBox
+    Left = 0
+    Top = 49
+    Width = 894
+    Height = 552
+    Align = alClient
+    BevelInner = bvNone
+    BevelOuter = bvNone
+    BorderStyle = bsNone
+    TabOrder = 1
+    object cxGroupBox1: TcxGroupBox
+      Left = 10
+      Top = 6
+      Caption = ' Barang Jadi '
+      TabOrder = 0
+      Height = 105
+      Width = 855
+      object cxLabel1: TcxLabel
+        Left = 11
+        Top = 24
+        Caption = 'Kode Brg. '
+      end
+      object cxtKodeBrg: TcxTextEdit
+        Left = 81
+        Top = 23
+        TabOrder = 0
+        Width = 136
+      end
+      object cxLabel2: TcxLabel
+        Left = 11
+        Top = 51
+        Caption = 'Deskripsi'
+      end
+      object cxlDeskripsi: TcxLookupComboBox
+        Left = 81
+        Top = 50
+        Properties.KeyFieldNames = 'id'
+        Properties.ListColumns = <
+          item
+            Caption = 'Deskripsi'
+            FieldName = 'deskripsi'
+          end
+          item
+            Caption = 'Kode Brg.'
+            FieldName = 'kode'
+          end>
+        Properties.ListOptions.SyncMode = True
+        Properties.ListSource = dsBrg
+        Properties.OnEditValueChanged = cxlDeskripsiPropertiesEditValueChanged
+        TabOrder = 2
+        Width = 488
+      end
+    end
+    object cxGrid1: TcxGrid
+      Left = 10
+      Top = 138
+      Width = 583
+      Height = 145
+      TabOrder = 2
+      object cxtbFormulaHead: TcxGridTableView
+        NavigatorButtons.ConfirmDelete = False
+        NavigatorButtons.Insert.Visible = False
+        NavigatorButtons.Append.Visible = True
+        OnFocusedRecordChanged = cxtbFormulaHeadFocusedRecordChanged
+        DataController.Summary.DefaultGroupSummaryItems = <>
+        DataController.Summary.FooterSummaryItems = <>
+        DataController.Summary.SummaryGroups = <>
+        DataController.OnBeforeInsert = cxtbFormulaHeadDataControllerBeforeInsert
+        DataController.OnBeforePost = cxtbFormulaHeadDataControllerBeforePost
+        OptionsData.Appending = True
+        OptionsView.Navigator = True
+        OptionsView.GroupByBox = False
+        object cxColHNamaFormula: TcxGridColumn
+          Caption = 'Nama Formula'
+          Width = 155
+        end
+        object cxColHKeterangan: TcxGridColumn
+          Caption = 'Keterangan'
+          Width = 254
+        end
+        object cxColHID: TcxGridColumn
+          Caption = 'ID'
+          DataBinding.ValueType = 'Integer'
+        end
+        object cxColHID_HEAD: TcxGridColumn
+          Caption = 'ID_HEAD'
+          DataBinding.ValueType = 'Integer'
+        end
+      end
+      object cxGrid1Level1: TcxGridLevel
+        GridView = cxtbFormulaHead
+      end
+    end
+    object cxLabel3: TcxLabel
+      Left = 10
+      Top = 117
+      Caption = 'Formula'
+    end
+    object cxLabel4: TcxLabel
+      Left = 10
+      Top = 292
+      Caption = 'Formula Detail'
+    end
+    object cxGrid2: TcxGrid
+      Left = 10
+      Top = 314
+      Width = 671
+      Height = 191
+      TabOrder = 4
+      object cxtbFormulaDet: TcxGridTableView
+        NavigatorButtons.ConfirmDelete = False
+        NavigatorButtons.Insert.Visible = False
+        NavigatorButtons.Append.Visible = True
+        DataController.Summary.DefaultGroupSummaryItems = <>
+        DataController.Summary.FooterSummaryItems = <>
+        DataController.Summary.SummaryGroups = <>
+        DataController.OnBeforeInsert = cxtbFormulaDetDataControllerBeforeInsert
+        DataController.OnBeforePost = cxtbFormulaDetDataControllerBeforePost
+        DataController.OnRecordChanged = cxtbFormulaDetDataControllerRecordChanged
+        OptionsData.Appending = True
+        OptionsView.Navigator = True
+        OptionsView.GroupByBox = False
+        object cxColKodeBrg: TcxGridColumn
+          Caption = 'Kode Barang'
+          PropertiesClassName = 'TcxTextEditProperties'
+          Properties.ReadOnly = True
+          Width = 114
+        end
+        object cxColDeskripsi: TcxGridColumn
+          Caption = 'Deskripsi'
+          PropertiesClassName = 'TcxLookupComboBoxProperties'
+          Properties.KeyFieldNames = 'id'
+          Properties.ListColumns = <
+            item
+              Caption = 'Deskripsi'
+              FieldName = 'deskripsi'
+            end
+            item
+              Caption = 'Kode Brg.'
+              FieldName = 'kode'
+            end>
+          Properties.ListSource = dsBrg2
+          Width = 273
+        end
+        object cxColQty: TcxGridColumn
+          Caption = 'Qty.'
+          DataBinding.ValueType = 'Float'
+          PropertiesClassName = 'TcxSpinEditProperties'
+          Properties.DisplayFormat = '#,#0.00'
+          Properties.ValueType = vtFloat
+          Width = 116
+        end
+        object cxColSatuan: TcxGridColumn
+          Caption = 'Satuan'
+          PropertiesClassName = 'TcxLookupComboBoxProperties'
+          Properties.KeyFieldNames = 'id'
+          Properties.ListColumns = <
+            item
+              Caption = 'Satuan'
+              FieldName = 'satuan'
+            end>
+          Properties.ListSource = dsSatuan
+          Width = 95
+        end
+        object cxColID_SD: TcxGridColumn
+          DataBinding.ValueType = 'Integer'
+        end
+      end
+      object cxGridLevel1: TcxGridLevel
+        GridView = cxtbFormulaDet
+      end
+    end
+  end
+  object zqrBrg: TZReadOnlyQuery
+    Connection = DM.zConn
+    SQL.Strings = (
+      'SELECT id, kode, deskripsi '
+      'FROM tbl_barang')
+    Params = <>
+    Left = 632
+    Top = 73
+  end
+  object dsBrg: TDataSource
+    DataSet = zqrBrg
+    Left = 680
+    Top = 72
+  end
+  object zqrBrg2: TZReadOnlyQuery
+    Connection = DM.zConn
+    SQL.Strings = (
+      'SELECT id, kode, deskripsi '
+      'FROM tbl_barang')
+    Params = <>
+    Left = 696
+    Top = 201
+  end
+  object dsBrg2: TDataSource
+    DataSet = zqrBrg2
+    Left = 744
+    Top = 200
+  end
+  object zqrSatuan: TZReadOnlyQuery
+    Connection = DM.zConn
+    SQL.Strings = (
+      'SELECT id, satuan '
+      'FROM tbl_satuan '
+      'ORDER BY satuan')
+    Params = <>
+    Left = 712
+    Top = 273
+  end
+  object dsSatuan: TDataSource
+    DataSet = zqrSatuan
+    Left = 760
+    Top = 272
+  end
+end

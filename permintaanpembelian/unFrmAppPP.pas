@@ -17,35 +17,50 @@ uses
   cxFilter, cxData, cxDataStorage, cxEdit, DB, cxDBData, StdCtrls, cxGridLevel,
   cxClasses, cxGridCustomView, cxGridCustomTableView, cxGridTableView,
   cxGridDBTableView, cxGrid, ExtCtrls, cxCheckBox, ZAbstractRODataset, ZDataset, cxDateUtils,
-  cxTextEdit, cxSpinEdit;
+  cxTextEdit, cxSpinEdit, cxContainer, cxLabel;
 
 type
   TfrmAppPP = class(TfrmTplInput)
-    cxGrid1Level1: TcxGridLevel;
-    cxGrid1: TcxGrid;
     Label13: TLabel;
-    cxtbHead: TcxGridTableView;
-    cxColChkApp: TcxGridColumn;
-    cxColNoPP: TcxGridColumn;
+    zqrPPHead: TZReadOnlyQuery;
+    dsPPHead: TDataSource;
+    zqrPPDet: TZReadOnlyQuery;
+    dsPPDet: TDataSource;
+    cxgrd1PP: TcxGrid;
+    cxtbPP: TcxGridDBTableView;
+    cxColPPno_bukti: TcxGridDBColumn;
+    cxColPPtanggal: TcxGridDBColumn;
+    cxColPPtgl_diperlukan: TcxGridDBColumn;
+    cxColPPdiajukan_oleh: TcxGridDBColumn;
+    cxColPPdiajukan_dept: TcxGridDBColumn;
+    cxColPPlevel_kebutuhan: TcxGridDBColumn;
+    cxColPPLevel1_f_app: TcxGridDBColumn;
+    cxgtblPP1: TcxGridDBTableView;
+    cxColPP1no_bukti: TcxGridDBColumn;
+    cxColPP1kode_brg: TcxGridDBColumn;
+    cxColPP1deskripsi: TcxGridDBColumn;
+    cxColPP1qty: TcxGridDBColumn;
+    cxColPP1satuan: TcxGridDBColumn;
+    cxColPP1harga: TcxGridDBColumn;
+    cxColPP1keterangan: TcxGridDBColumn;
+    cxColPP1mata_uang: TcxGridDBColumn;
+    cxgrdlvl1TblPP: TcxGridLevel;
     Panel3: TPanel;
-    cxGrid2Level1: TcxGridLevel;
-    cxGrid2: TcxGrid;
-    zqrDetPP: TZReadOnlyQuery;
-    dsDetPP: TDataSource;
-    cxTblDetail: TcxGridDBTableView;
-    cxColGrdDetailkode_brg: TcxGridDBColumn;
-    cxColGrdDetailqty: TcxGridDBColumn;
-    cxColGrdDetailsatuan: TcxGridDBColumn;
-    cxColGrdDetailketerangan: TcxGridDBColumn;
-    cxColGrdDetailmata_uang: TcxGridDBColumn;
-    cxColGrdDetailnama_jasa: TcxGridDBColumn;
-    cxColGrdDetailharga: TcxGridDBColumn;
-    cxColID: TcxGridColumn;
+    cxLabel1: TcxLabel;
+    cxGrid1: TcxGrid;
+    cxGrid1DBTableView1: TcxGridDBTableView;
+    cxGrid1DBTableView1kode_brg: TcxGridDBColumn;
+    cxGrid1DBTableView1deskripsi: TcxGridDBColumn;
+    cxGrid1DBTableView1qty: TcxGridDBColumn;
+    cxGrid1DBTableView1satuan: TcxGridDBColumn;
+    cxGrid1DBTableView1keterangan: TcxGridDBColumn;
+    cxGrid1Level1: TcxGridLevel;
     procedure FormShow(Sender: TObject);
-    procedure cxtbHeadFocusedRecordChanged(Sender: TcxCustomGridTableView;
+    procedure btnSimpanClick(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+    procedure cxtbPPFocusedRecordChanged(Sender: TcxCustomGridTableView;
       APrevFocusedRecord, AFocusedRecord: TcxCustomGridRecord;
       ANewItemRecordFocusingChanged: Boolean);
-    procedure btnSimpanClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -63,58 +78,82 @@ uses unDM, unTools;
 
 procedure TfrmAppPP.btnSimpanClick(Sender: TObject);
 var
-  i : Integer;
-  q : TZQuery;
+  i: Integer;
+  lst: TStringList;
+  chk, sNoSO: string;
+  qCek: TZQuery;
 begin
-  inherited;
-  for i := 0 to cxtbHead.DataController.RecordCount - 1 do begin
-    with cxtbHead.DataController do begin
-      q := OpenRS('select * from tbl_pp_head where no_bukti = ''' + Values[i, cxColNoPP.index] + '''');
-      if Values[i, cxColChkApp.index] = True then begin
-        q.Edit;
-        q.FieldByName('f_app').AsInteger := 1;
-        q.FieldByName('tgl_app').AsDateTime := Aplikasi.Tanggal;
-        q.FieldByName('user_app').AsString := Aplikasi.NamaUser;
-        q.Post;
-        q.Close;
-        MsgBox('Approval Permintaan Pembelian berhasil disimpan');
-        btnBatalClick(nil);
+
+  lst := TStringList.Create;
+  for i := 0 to cxtbPP.DataController.RecordCount - 1 do begin
+
+    if VarIsNull(cxtbPP.DataController.Values[i,0]) then
+      chk := ''
+    else
+      chk := cxtbPP.DataController.Values[i,0];
+
+    if chk = 'T' then begin
+      lst.Add(cxtbPP.DataController.Values[i,1]);
+    end;
+  end;
+
+  if lst.Count > 0 then begin
+    try
+      dm.zConn.StartTransaction;
+      for i := 0 to lst.Count - 1 do begin
+        dm.zConn.ExecuteDirect(Format('UPDATE tbl_pp_head SET f_app = 1 WHERE no_bukti = ''%s''',[lst.Strings[i]]));
+      end;
+      dm.zConn.Commit;
+      MsgBox('Permintaan pembelian sudah di Approval.');
+      zqrPPHead.Close;
+      zqrPPHead.Open;
+    except
+      on E: Exception do begin
+        MsgBox('Error: ' + E.Message);
+        dm.zConn.Rollback;
       end;
     end;
   end;
+
 end;
 
 
-procedure TfrmAppPP.cxtbHeadFocusedRecordChanged(Sender: TcxCustomGridTableView;
+procedure TfrmAppPP.cxtbPPFocusedRecordChanged(Sender: TcxCustomGridTableView;
   APrevFocusedRecord, AFocusedRecord: TcxCustomGridRecord;
   ANewItemRecordFocusingChanged: Boolean);
-var
-  i: integer;
-  z :TZQuery;
 begin
   inherited;
-  i := cxtbHead.DataController.GetFocusedRecordIndex;
-  zqrDetPP.Close;
-  zqrDetPP.ParamByName('id_ref').AsInteger := cxtbHead.DataController.Values[i, cxColID.Index];
-  zqrDetPP.Open;
+  zqrPPDet.Close;
+  zqrPPDet.ParamByName('id_ref').AsString := zqrPPHead.FieldByName('id').AsString;
+  zqrPPDet.Open;
+end;
+
+procedure TfrmAppPP.FormCreate(Sender: TObject);
+begin
+  inherited;
+  zqrPPHead.Open;
 end;
 
 procedure TfrmAppPP.FormShow(Sender: TObject);
 var
-  q : TZQuery;
-  i : Integer;
+  aCol: TcxGridDBColumn;
+  i : integer;
 begin
-  inherited;
-  q := OpenRS('select * from tbl_pp_head where f_app = 0');
-  while not q.eof do begin
-    with cxtbHead.DataController  do begin
-      i := AppendRecord;
-      Values[i, cxColID.Index] := q.FieldByName('id').AsInteger;
-      Values[i, cxColNoPP.Index] := q.FieldByName('no_bukti').AsString;
-    end;
-    q.Next;
+  aCol := cxtbPP.CreateColumn;
+  with aCol do begin
+    Name := 'colUnbound';
+    Caption := 'Check';
   end;
-  q.Close;
+  aCol.DataBinding.ValueTypeClass := TcxStringValueType;
+  aCol.PropertiesClass := TcxCheckBoxProperties;
+  with aCol.Properties as TcxCheckBoxProperties do begin
+    AllowGrayed := false;
+    ValueChecked := 'T';
+    ValueUnchecked := 'F';
+    NullStyle := nssUnchecked;
+    ImmediatePost := True;
+  end;
+  aCol.Index := 0;
 end;
 
 end.

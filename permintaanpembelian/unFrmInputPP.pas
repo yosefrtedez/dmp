@@ -48,11 +48,9 @@ type
     cxColDeskripsi: TcxGridColumn;
     cxColQty: TcxGridColumn;
     cxColSatuan: TcxGridColumn;
-    cxColHarga: TcxGridColumn;
-    cxColValuta: TcxGridColumn;
     cxColKeterangan: TcxGridColumn;
-    cxColTotal: TcxGridColumn;
     cxlbltemp: TcxLabel;
+    cxColIdSatuan: TcxGridColumn;
     procedure FormCreate(Sender: TObject);
     {procedure cxgrdTblDataControllerRecordChanged(
       ADataController: TcxCustomDataController; ARecordIndex,
@@ -121,17 +119,6 @@ begin
       MsgBox('Kode barang masih kosong.');
       Abort;
     end;
-    f0 := False;
-    for i  := 0 to RecordCount - 1 do begin
-      if (Values[i, cxColHarga.Index] = 0) and (Values[i, cxColHarga.Index] = 0) then begin
-        f0 := True;
-        Break;
-      end;
-    end;
-    if f0 then begin
-      MsgBox('Harga ada yang masih 0.');
-      Abort;
-    end;
 
     if Self.Jenis = 'T' then begin
       sNoBukti := GetLastFak('permintaan_pembelian');
@@ -174,6 +161,7 @@ begin
       qh.Post;
 
       if Self.Jenis = 'T' then  ID := LastInsertID;
+
       qd := OpenRS('SELECT * FROM tbl_pp_det WHERE no_bukti = ''%s''',[sNoBukti]);
       for i := 0 to cxgrdTblPP.DataController.RecordCount - 1 do begin
         qd.Insert;
@@ -184,15 +172,14 @@ begin
         end;
         qd.FieldByName('no_bukti').AsString := sNoBukti;
         qd.FieldByName('kode_brg').AsString := Values[i, cxColKodeBrg.Index];
+        qd.FieldByName('id_brg').AsInteger := Values[i, cxColDeskripsi.Index];
         qd.FieldByName('qty').AsFloat := Values[i, cxColQty.Index];
-        qd.FieldByName('satuan').AsString := Values[i, cxColSatuan.Index];
+        qd.FieldByName('id_satuan').AsString := Values[i, cxColIdSatuan.Index];
         if VarIsNull(Values[i,cxColKeterangan.Index]) = True then begin
           qd.FieldByName('keterangan').AsString := '';
         end else begin
           qd.FieldByName('keterangan').AsString := Values[i, cxColKeterangan.Index];
         end;
-        qd.FieldByName('mata_uang').AsString := Values[i, cxColValuta.Index];
-        qd.FieldByName('harga').AsFloat := Values[i, cxColHarga.Index];
         qd.Post;
       end;
       qh.Close;
@@ -245,27 +232,23 @@ begin
   for j := 0 to ADataController.RecordCount - 1 do begin
     if j <> k then begin
       if v = ADataController.Values[j, cxColKodeBrg.Index] then begin
-        MsgBox('Item tersebut sudah ada.');
+        MsgBox('Kode barang tersebut sudah ada.');
         ADataController.DeleteRecord(i);
         Abort;
       end;
-    end
-    else if (VarIsNull(ADataController.Values[i, cxColKodeBrg.Index])) or
-      (Trim(ADataController.Values[i, cxColKodeBrg.Index]) = '')  then begin
-      MsgBox('Kode barang harus di isi.');
-      Abort;
-    end
-    else if ADataController.Values[i, cxColQty.Index] <= 0 then begin
-      MsgBox('Qty tidak boleh minus.');
-      ADataController.DeleteRecord(i);
-      Abort;
-    end;
-
-    if (VarIsNull(ADataController.Values[i, cxColHarga.Index]))  then begin
-      MsgBox('harga masih kosong');
-      Abort;
     end;
   end;
+
+  if (VarIsNull(ADataController.Values[i, cxColKodeBrg.Index])) or
+    (Trim(ADataController.Values[i, cxColKodeBrg.Index]) = '')  then begin
+    MsgBox('Mohon masukkan kode barang.');
+    Abort;
+  end
+  else if ADataController.Values[i, cxColQty.Index] <= 0 then begin
+    MsgBox('Qty. PP tidak boleh nol atau minus.');
+    Abort;
+  end;
+
 end;
 
 procedure TfrmInputPP.cxgrd1TableView1DataControllerRecordChanged(
@@ -275,42 +258,22 @@ var
   i: Integer ;
 begin
   inherited;
-  //if (Self.Jenis = 'T') and (cxLuNoPP.Text = '')  then begin      --> kondisi iki membuat bawahnya tidak di eksekusi eong cxllunopp selalu ada isinya
 
-  if (Self.Jenis = 'T') or (Self.Jenis = 'E')then begin
-    if AItemIndex = cxColDeskripsi.Index then begin
-      try
-        cxGrdTblPP.BeginUpdate;
-        ADataController.Values[ARecordIndex, cxColKodeBrg.Index] :=  ADataController.Values[ARecordIndex, cxColDeskripsi.Index];
-        cxlbltemp.Caption := ADataController.Values[ARecordIndex, cxColKodeBrg.Index];
-        q := OpenRS('SELECT satuan FROM tbl_barang WHERE kode = ''%s''',[cxlbltemp.Caption]);
-        ADataController.Values[ARecordIndex, cxColSatuan.Index] := q.FieldByName('satuan').AsString;
-        ADataController.Values[ARecordIndex, cxColqty.Index] := '1';
-        ADataController.Values[ARecordIndex, cxColValuta.Index] := 'IDR';
-        q.Close;
-      finally
-        cxGrdTblPP.EndUpdate
-      end;
-    end;
-    if AItemIndex = cxColHarga.Index then begin
-      try
-        cxGrdTblPP.BeginUpdate;
-        cxColTotal.EditValue := cxColQty.EditValue * cxColHarga.EditValue;
-        cxGrdTblPP.DataController.RefreshExternalData;
-      finally
-        cxGrdTblPP.EndUpdate;
-      end;
-    end;
-    if AItemIndex = cxColQty.Index then begin
-      try
-        cxGrdTblPP.BeginUpdate;
-        cxColTotal.EditValue := cxColQty.EditValue * cxColHarga.EditValue;
-        cxGrdTblPP.DataController.RefreshExternalData;
-      finally
-        cxGrdTblPP.EndUpdate;
-      end;
+  if AItemIndex = cxColDeskripsi.Index then begin
+    try
+      cxGrdTblPP.BeginUpdate;
+      ADataController.Values[ARecordIndex, cxColKodeBrg.Index] :=  ADataController.Values[ARecordIndex, cxColDeskripsi.Index];
+      q := OpenRS('SELECT a.id_satuan, b.satuan FROM tbl_barang a ' +
+        'LEFT JOIN tbl_satuan b ON a.id_satuan = b.id WHERE kode = ''%s''',[cxColKodeBrg.EditValue]);
+      ADataController.Values[ARecordIndex, cxColSatuan.Index] := q.FieldByName('satuan').AsString;
+      ADataController.Values[ARecordIndex, cxColIdSatuan.Index] := q.FieldByName('id_satuan').AsInteger;
+      q.Close;
+      ADataController.Values[ARecordIndex, cxColqty.Index] := '1';
+    finally
+      cxGrdTblPP.EndUpdate;
     end;
   end;
+
 end;
 
 procedure TfrmInputPP.FormCreate(Sender: TObject);
@@ -339,6 +302,7 @@ begin
     cxtDepartemen.Text := Aplikasi.UserDept;
   end
   else if Self.Jenis = 'E' then begin
+
     q := OpenRS('SELECT * FROM tbl_pp_head WHERE id = ''%s''',[Self.EditKey]);
     cxtNoBukti.Text := q.FieldByName('no_bukti').AsString;
     cxdTanggal.Date := q.FieldByName('tanggal').AsDateTime;
@@ -348,8 +312,11 @@ begin
     cxCboLevel.Text := q.FieldByName('level_kebutuhan').AsString;
     q.Close;
 
-    z := OpenRS('SELECT a.kode_brg, b.deskripsi, a.qty, b.satuan, a.keterangan, a.mata_uang, a.harga, (a.qty * a.harga) as total FROM tbl_pp_det a left join tbl_barang b on a.kode_brg = b.kode WHERE id_ref = ''%s''',[Self.EditKey]);
+    z := OpenRS('SELECT a.kode_brg, b.deskripsi, a.qty, c.satuan, a.id_satuan, a.keterangan, a.mata_uang ' +
+      'FROM tbl_pp_det a left join tbl_barang b on a.kode_brg = b.kode ' +
+      'LEFT JOIN tbl_satuan c ON c.id = a.id_satuan WHERE id_ref = %s',[Self.EditKey]);
     nomer := 1;
+
     cxGrdTblPP.DataController.OnRecordChanged := nil;
     while not z.Eof do begin
       with cxgrdTblPP.DataController do begin
@@ -359,15 +326,15 @@ begin
         Values[i, cxColDeskripsi.Index] := z.FieldByName('kode_brg').AsString;
         Values[i, cxColQty.Index] := z.FieldByName('qty').AsString;
         Values[i, cxColSatuan.Index] := z.FieldByName('satuan').AsString;
-        Values[i, cxColHarga.Index] := z.FieldByName('harga').AsFloat;
-        Values[i, cxColValuta.Index] := z.FieldByName('mata_uang').AsString;
-        Values[i, cxColTotal.Index] := z.FieldByName('total').AsString;
+        Values[i, cxColIdSatuan.Index] := z.FieldByName('id_satuan').AsInteger;
+        Values[i, cxColKeterangan.Index] := z.FieldByName('keterangan').AsString;
         nomer := nomer +1;
       end;
       z.Next;
     end;
     z.Close;
     cxGrdTblPP.DataController.OnRecordChanged :=  Self.cxgrd1TableView1DataControllerRecordChanged;
+
   end;
 end;
 end.

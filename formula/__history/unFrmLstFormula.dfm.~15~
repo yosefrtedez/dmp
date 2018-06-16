@@ -1,0 +1,235 @@
+inherited frmLstFormula: TfrmLstFormula
+  Caption = 'Formula'
+  ClientHeight = 695
+  OnCreate = FormCreate
+  ExplicitWidth = 1016
+  ExplicitHeight = 695
+  PixelsPerInch = 96
+  TextHeight = 13
+  inherited Panel1: TPanel
+    object Label13: TLabel
+      Left = 10
+      Top = 13
+      Width = 66
+      Height = 19
+      Caption = 'Formula'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -16
+      Font.Name = 'Tahoma'
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+  end
+  inherited Panel2: TPanel
+    Top = 646
+    TabOrder = 6
+    inherited btnTambah: TButton
+      OnClick = btnTambahClick
+    end
+    inherited btnEdit: TButton
+      OnClick = btnEditClick
+    end
+    inherited btnKeluar: TButton
+      TabOrder = 4
+    end
+    inherited btnRefresh: TButton
+      TabOrder = 3
+    end
+  end
+  object cxGrid1: TcxGrid
+    Left = 0
+    Top = 49
+    Width = 1016
+    Height = 239
+    Align = alClient
+    TabOrder = 1
+    ExplicitHeight = 184
+    object cxtbFormulaH: TcxGridDBTableView
+      NavigatorButtons.ConfirmDelete = False
+      OnFocusedRecordChanged = cxtbFormulaHFocusedRecordChanged
+      DataController.DataSource = dsFormulaH
+      DataController.Summary.DefaultGroupSummaryItems = <>
+      DataController.Summary.FooterSummaryItems = <>
+      DataController.Summary.SummaryGroups = <>
+      object cxtbFormulaHkode_brg: TcxGridDBColumn
+        Caption = 'Kode Brg.'
+        DataBinding.FieldName = 'kode_brg'
+        Width = 105
+      end
+      object cxtbFormulaHdeskripsi: TcxGridDBColumn
+        Caption = 'Deksripsi'
+        DataBinding.FieldName = 'deskripsi'
+      end
+    end
+    object cxGrid1Level1: TcxGridLevel
+      GridView = cxtbFormulaH
+    end
+  end
+  object Panel3: TPanel
+    Left = 0
+    Top = 288
+    Width = 1016
+    Height = 36
+    Align = alBottom
+    TabOrder = 2
+    ExplicitTop = 282
+  end
+  object cxGrid2: TcxGrid
+    Left = 0
+    Top = 324
+    Width = 1016
+    Height = 89
+    Align = alBottom
+    TabOrder = 3
+    ExplicitTop = 208
+    object cxtbFormulaD: TcxGridDBTableView
+      NavigatorButtons.ConfirmDelete = False
+      OnFocusedRecordChanged = cxtbFormulaDFocusedRecordChanged
+      DataController.DataSource = dsFormulaD
+      DataController.Summary.DefaultGroupSummaryItems = <>
+      DataController.Summary.FooterSummaryItems = <>
+      DataController.Summary.SummaryGroups = <>
+      OptionsView.GroupByBox = False
+      object cxtbFormulaDnama: TcxGridDBColumn
+        Caption = 'Nama Formula'
+        DataBinding.FieldName = 'nama'
+      end
+      object cxtbFormulaDketerangan: TcxGridDBColumn
+        Caption = 'Keterangan'
+        DataBinding.FieldName = 'keterangan'
+      end
+    end
+    object cxGrid2Level1: TcxGridLevel
+      GridView = cxtbFormulaD
+    end
+  end
+  object cxGrid3: TcxGrid
+    Left = 0
+    Top = 449
+    Width = 1016
+    Height = 197
+    Align = alBottom
+    TabOrder = 5
+    ExplicitTop = 305
+    object cxtbFormulaSD: TcxGridDBTableView
+      NavigatorButtons.ConfirmDelete = False
+      DataController.DataSource = dsFormulaSD
+      DataController.Summary.DefaultGroupSummaryItems = <>
+      DataController.Summary.FooterSummaryItems = <>
+      DataController.Summary.SummaryGroups = <>
+      OptionsView.GroupByBox = False
+      object cxtbFormulaSDkode: TcxGridDBColumn
+        Caption = 'Kode Brg.'
+        DataBinding.FieldName = 'kode'
+        Width = 125
+      end
+      object cxtbFormulaSDdeskripsi: TcxGridDBColumn
+        Caption = 'Deskripsi'
+        DataBinding.FieldName = 'deskripsi'
+        Width = 402
+      end
+      object cxtbFormulaSDqty: TcxGridDBColumn
+        Caption = 'Qty.'
+        DataBinding.FieldName = 'qty'
+      end
+      object cxtbFormulaSDsatuan: TcxGridDBColumn
+        Caption = 'Satuan'
+        DataBinding.FieldName = 'satuan'
+      end
+    end
+    object cxGridLevel1: TcxGridLevel
+      GridView = cxtbFormulaSD
+    end
+  end
+  object Panel4: TPanel
+    Left = 0
+    Top = 413
+    Width = 1016
+    Height = 36
+    Align = alBottom
+    TabOrder = 4
+    ExplicitTop = 436
+  end
+  object zqrFormulaH: TZReadOnlyQuery
+    Connection = DM.zConn
+    Active = True
+    SQL.Strings = (
+      'SELECT a.id, a.kode_brg, b.deskripsi'
+      'FROM tbl_formula_head a'
+      'LEFT JOIN tbl_barang b '
+      'ON a.kode_brg = b.kode ')
+    Params = <>
+    Left = 648
+    Top = 8
+  end
+  object dsFormulaH: TDataSource
+    DataSet = zqrFormulaH
+    Left = 728
+    Top = 8
+  end
+  object dsFormulaD: TDataSource
+    DataSet = zqrFormulaD
+    Left = 568
+    Top = 8
+  end
+  object zqrFormulaD: TZReadOnlyQuery
+    Connection = DM.zConn
+    Active = True
+    SQL.Strings = (
+      'SELECT * FROM tbl_formula_det '
+      'WHERE id_ref = :id_ref')
+    Params = <
+      item
+        DataType = ftUnknown
+        Name = 'id_ref'
+        ParamType = ptUnknown
+      end>
+    Left = 488
+    Top = 8
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'id_ref'
+        ParamType = ptUnknown
+      end>
+  end
+  object zqrFormulaSD: TZReadOnlyQuery
+    Connection = DM.zConn
+    Active = True
+    SQL.Strings = (
+      'SELECT a.*, b.deskripsi, b.kode'
+      'FROM tbl_formula_subdet a'
+      'LEFT JOIN tbl_barang b ON a.id_brg = b.id'
+      'WHERE id_head = :id_head AND id_ref = :id_ref')
+    Params = <
+      item
+        DataType = ftUnknown
+        Name = 'id_head'
+        ParamType = ptUnknown
+      end
+      item
+        DataType = ftUnknown
+        Name = 'id_ref'
+        ParamType = ptUnknown
+      end>
+    Left = 808
+    Top = 8
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'id_head'
+        ParamType = ptUnknown
+      end
+      item
+        DataType = ftUnknown
+        Name = 'id_ref'
+        ParamType = ptUnknown
+      end>
+  end
+  object dsFormulaSD: TDataSource
+    DataSet = zqrFormulaSD
+    Left = 888
+    Top = 8
+  end
+end

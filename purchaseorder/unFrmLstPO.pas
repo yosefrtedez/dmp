@@ -16,17 +16,17 @@ uses
   dxSkinsDefaultPainters, dxSkinValentine, dxSkinXmas2008Blue,
   dxSkinscxPCPainter, cxCustomData, cxFilter, cxData, cxDataStorage, cxEdit, DB,
   cxDBData, cxGridCustomTableView, cxGridTableView, cxGridDBTableView,
-  ZAbstractRODataset, ZDataset, cxGridLevel, cxClasses, cxGridCustomView, cxPC, cxGrid;
+  ZAbstractRODataset, ZDataset, cxGridLevel, cxClasses, cxGridCustomView, cxPC, cxGrid,
+  cxSpinEdit, cxContainer, cxLabel, cxCheckBox;
 
 type
   TfrmLstPO = class(TfrmTplGrid)
     Label1: TLabel;
-    cxTblHead: TcxGridDBTableView;
+    cxtbPOHead: TcxGridDBTableView;
     cxgrdlvl1Grid1Level1: TcxGridLevel;
     cxgrd1: TcxGrid;
     zqrPO: TZReadOnlyQuery;
     dsPO: TDataSource;
-    cxgrdlvl1cxgrd1Level1: TcxGridLevel;
     cxTblDet: TcxGridDBTableView;
     zqrPoDet: TZReadOnlyQuery;
     dsPoDet: TDataSource;
@@ -51,11 +51,25 @@ type
     cxColTblHeadnama: TcxGridDBColumn;
     cxColTblHeadkontak: TcxGridDBColumn;
     cxColTblHeadf_completed: TcxGridDBColumn;
+    cxGrid1: TcxGrid;
+    cxtbPODet: TcxGridDBTableView;
+    cxGrid1Level1: TcxGridLevel;
+    Panel3: TPanel;
+    cxLabel1: TcxLabel;
+    cxtbPODetkode_brg: TcxGridDBColumn;
+    cxtbPODetdeskripsi: TcxGridDBColumn;
+    cxtbPODetqty: TcxGridDBColumn;
+    cxtbPODetsatuan: TcxGridDBColumn;
+    cxtbPODetharga: TcxGridDBColumn;
+    cxtbPODetmata_uang: TcxGridDBColumn;
     procedure FormCreate(Sender: TObject);
     procedure btnRefreshClick(Sender: TObject);
     procedure btnTambahClick(Sender: TObject);
     procedure btnEditClick(Sender: TObject);
     procedure btnHapusClick(Sender: TObject);
+    procedure cxtbPOHeadFocusedRecordChanged(Sender: TcxCustomGridTableView;
+      APrevFocusedRecord, AFocusedRecord: TcxCustomGridRecord;
+      ANewItemRecordFocusingChanged: Boolean);
   private
     { Private declarations }
     mjenis : string;
@@ -80,7 +94,7 @@ var
  q: TZQuery;
 begin
   inherited;
-  if not fu.CekTabOpen('Edit PO') then begin
+  if not fu.CekTabOpen('Edit Purchase Order') then begin
     ts := TcxTabSheet.Create(Self);
     ts.PageControl := frmUtama.pgMain;
     if zqrPO.FieldByName('f_approval').AsString = '1' then begin
@@ -88,7 +102,7 @@ begin
       Abort;
     end;
     f := TfrmInputPO.Create(Self);
-    ts.Caption := 'Edit PP';
+    ts.Caption := 'Edit Purchase Order';
     f.Jenis := 'E';
     f.EditKey := zqrPO.FieldByName('id').AsString;
     f.Parent := ts;
@@ -142,15 +156,28 @@ var
   ts: TcxTabSheet;
 begin
   inherited;
-   if not fu.CekTabOpen('Input PO') then begin
+   if not fu.CekTabOpen('Input Purchase Order') then begin
     ts := TcxTabSheet.Create(Self);
     ts.PageControl := frmUtama.pgMain;
     f := TfrmInputPO.Create(Self);
     f.Jenis := 'T';
     f.Parent := ts;
-    ts.Caption := 'Add PO';
+    ts.Caption := f.Caption;
     f.Show;
     fu.pgMain.ActivePage := ts;
+  end;
+end;
+
+procedure TfrmLstPO.cxtbPOHeadFocusedRecordChanged(
+  Sender: TcxCustomGridTableView; APrevFocusedRecord,
+  AFocusedRecord: TcxCustomGridRecord; ANewItemRecordFocusingChanged: Boolean);
+begin
+  inherited;
+  try
+    zqrPoDet.Close;
+    zqrPoDet.ParamByName('id_ref').AsInteger := zqrPO.FieldByName('id').AsInteger;
+    zqrPoDet.Open;
+  except
   end;
 end;
 
@@ -158,7 +185,6 @@ procedure TfrmLstPO.FormCreate(Sender: TObject);
 begin
   inherited;
   zqrPO.Open;
-  zqrPoDet.Open;
 end;
 
 end.

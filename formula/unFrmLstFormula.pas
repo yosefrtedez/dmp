@@ -16,7 +16,8 @@ uses
   dxSkinsDefaultPainters, dxSkinValentine, dxSkinXmas2008Blue,
   dxSkinscxPCPainter, cxCustomData, cxFilter, cxData, cxDataStorage, cxEdit, DB,
   cxDBData, cxGridLevel, cxClasses, cxGridCustomView, cxGridCustomTableView,
-  cxGridTableView, cxGridDBTableView, cxGrid, cxPC, ZAbstractRODataset, ZDataset;
+  cxGridTableView, cxGridDBTableView, cxGrid, cxPC, ZAbstractRODataset, ZDataset,
+  cxContainer, cxLabel;
 
 type
   TfrmLstFormula = class(TfrmTplGrid)
@@ -46,6 +47,8 @@ type
     cxtbFormulaSDsatuan: TcxGridDBColumn;
     cxtbFormulaSDdeskripsi: TcxGridDBColumn;
     cxtbFormulaSDkode: TcxGridDBColumn;
+    cxLabel1: TcxLabel;
+    cxLabel2: TcxLabel;
     procedure btnTambahClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure cxtbFormulaHFocusedRecordChanged(Sender: TcxCustomGridTableView;

@@ -50,6 +50,9 @@ type
     zqrBrg2: TZReadOnlyQuery;
     dsBrg2: TDataSource;
     cxColID_SD: TcxGridColumn;
+    zqrSatuan: TZReadOnlyQuery;
+    dsSatuan: TDataSource;
+    btnKeluar: TButton;
     procedure cxlDeskripsiPropertiesEditValueChanged(Sender: TObject);
     procedure cxtbFormulaHeadDataControllerBeforePost(
       ADataController: TcxCustomDataController);
@@ -68,6 +71,7 @@ type
     procedure cxtbFormulaHeadDataControllerBeforeInsert(
       ADataController: TcxCustomDataController);
     procedure FormShow(Sender: TObject);
+    procedure btnKeluarClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -82,6 +86,12 @@ implementation
 uses unDM, unTools;
 
 {$R *.dfm}
+
+procedure TfrmInputFormula.btnKeluarClick(Sender: TObject);
+begin
+  inherited;
+  btnBatalClick(nil);
+end;
 
 procedure TfrmInputFormula.cxlDeskripsiPropertiesEditValueChanged(
   Sender: TObject);
@@ -144,6 +154,7 @@ begin
   q.FieldByName('id_ref').AsString := id_det;
   q.FieldByName('id_brg').AsInteger := cxColDeskripsi.EditValue;
   q.FieldByName('qty').AsFloat := cxColQty.EditValue;
+  q.FieldByName('id_satuan').AsInteger := cxColSatuan.EditValue;
   q.Post;
   q.Close;
 
@@ -255,6 +266,7 @@ begin
       Values[i, cxColDeskripsi.Index] := q.FieldByName('id_brg').AsInteger;
       Values[i, cxColQty.Index] := q.FieldByName('qty').AsFloat;
       Values[i, cxColID_SD.Index] := q.FieldByName('id').AsInteger;
+      Values[i, cxColSatuan.Index] := q.FieldByName('id_satuan').AsInteger;
     end;
     q.Next;
   end;

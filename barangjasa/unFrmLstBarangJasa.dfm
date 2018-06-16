@@ -29,6 +29,9 @@ inherited frmLstBarangJasa: TfrmLstBarangJasa
     inherited btnEdit: TButton
       OnClick = btnEditClick
     end
+    inherited btnHapus: TButton
+      OnClick = btnHapusClick
+    end
     inherited btnKeluar: TButton
       TabOrder = 4
     end
@@ -84,167 +87,223 @@ inherited frmLstBarangJasa: TfrmLstBarangJasa
         DataBinding.FieldName = 'kategori'
         Width = 103
       end
-      object cxtbBarangtipe: TcxGridDBColumn
-        DataBinding.FieldName = 'tipe'
-      end
       object cxtbBarangsubkategori: TcxGridDBColumn
+        Caption = 'Sub Kategori'
         DataBinding.FieldName = 'subkategori'
+        Width = 97
+      end
+      object cxtbBarangtipe: TcxGridDBColumn
+        Caption = 'Tipe'
+        DataBinding.FieldName = 'tipe'
+        Width = 72
       end
       object cxtbBarangdivisi: TcxGridDBColumn
         DataBinding.FieldName = 'divisi'
+        Visible = False
       end
       object cxtbBarangpackinfo: TcxGridDBColumn
         DataBinding.FieldName = 'packinfo'
+        Visible = False
       end
       object cxtbBarangf_aktif: TcxGridDBColumn
         DataBinding.FieldName = 'f_aktif'
+        Visible = False
       end
       object cxtbBaranguser_input: TcxGridDBColumn
         DataBinding.FieldName = 'user_input'
+        Visible = False
       end
       object cxtbBarangtgl_input: TcxGridDBColumn
         DataBinding.FieldName = 'tgl_input'
+        Visible = False
       end
       object cxtbBaranguser_edit: TcxGridDBColumn
         DataBinding.FieldName = 'user_edit'
+        Visible = False
       end
       object cxtbBarangtgl_edit: TcxGridDBColumn
         DataBinding.FieldName = 'tgl_edit'
+        Visible = False
       end
       object cxtbBarangberat: TcxGridDBColumn
         DataBinding.FieldName = 'berat'
+        Visible = False
       end
       object cxtbBarangpacking: TcxGridDBColumn
         DataBinding.FieldName = 'packing'
+        Visible = False
       end
       object cxtbBarangberat_per_unit: TcxGridDBColumn
         DataBinding.FieldName = 'berat_per_unit'
+        Visible = False
       end
       object cxtbBarangs_berat: TcxGridDBColumn
         DataBinding.FieldName = 's_berat'
+        Visible = False
       end
       object cxtbBarangisi_pak: TcxGridDBColumn
         DataBinding.FieldName = 'isi_pak'
+        Visible = False
       end
       object cxtbBarangimage: TcxGridDBColumn
         DataBinding.FieldName = 'image'
+        Visible = False
       end
       object cxtbBarangwarna: TcxGridDBColumn
         DataBinding.FieldName = 'warna'
+        Visible = False
       end
       object cxtbBarangpanjang: TcxGridDBColumn
         DataBinding.FieldName = 'panjang'
+        Visible = False
       end
       object cxtbBarangs_panjang: TcxGridDBColumn
         DataBinding.FieldName = 's_panjang'
+        Visible = False
       end
       object cxtbBaranglebar: TcxGridDBColumn
         DataBinding.FieldName = 'lebar'
+        Visible = False
       end
       object cxtbBarangs_lebar: TcxGridDBColumn
         DataBinding.FieldName = 's_lebar'
+        Visible = False
       end
       object cxtbBarangtebal: TcxGridDBColumn
         DataBinding.FieldName = 'tebal'
+        Visible = False
       end
       object cxtbBarangs_tebal: TcxGridDBColumn
         DataBinding.FieldName = 's_tebal'
+        Visible = False
       end
       object cxtbBarangdiameter: TcxGridDBColumn
         DataBinding.FieldName = 'diameter'
+        Visible = False
       end
       object cxtbBarangs_diameter: TcxGridDBColumn
         DataBinding.FieldName = 's_diameter'
+        Visible = False
       end
       object cxtbBarangberat_per_unit_b: TcxGridDBColumn
         DataBinding.FieldName = 'berat_per_unit_b'
+        Visible = False
       end
       object cxtbBarangs_berat_per_unit_b: TcxGridDBColumn
         DataBinding.FieldName = 's_berat_per_unit_b'
+        Visible = False
       end
       object cxtbBarangf_dijual: TcxGridDBColumn
         DataBinding.FieldName = 'f_dijual'
+        Visible = False
       end
       object cxtbBarangf_dibeli: TcxGridDBColumn
         DataBinding.FieldName = 'f_dibeli'
+        Visible = False
       end
       object cxtbBarangf_joborder: TcxGridDBColumn
         DataBinding.FieldName = 'f_joborder'
+        Visible = False
       end
       object cxtbBarangflow_process: TcxGridDBColumn
         DataBinding.FieldName = 'flow_process'
+        Visible = False
       end
       object cxtbBarangdiameter_dalam: TcxGridDBColumn
         DataBinding.FieldName = 'diameter_dalam'
+        Visible = False
       end
       object cxtbBarangs_diameter_dalam: TcxGridDBColumn
         DataBinding.FieldName = 's_diameter_dalam'
+        Visible = False
       end
       object cxtbBarangdiameter_luar: TcxGridDBColumn
         DataBinding.FieldName = 'diameter_luar'
+        Visible = False
       end
       object cxtbBarangs_diameter_luar: TcxGridDBColumn
         DataBinding.FieldName = 's_diameter_luar'
+        Visible = False
       end
       object cxtbBarangpanjang_lurus: TcxGridDBColumn
         DataBinding.FieldName = 'panjang_lurus'
+        Visible = False
       end
       object cxtbBarangberat_per_unit_old: TcxGridDBColumn
         DataBinding.FieldName = 'berat_per_unit_old'
+        Visible = False
       end
       object cxtbBarangf_ed: TcxGridDBColumn
         DataBinding.FieldName = 'f_ed'
+        Visible = False
       end
       object cxtbBaranged: TcxGridDBColumn
         DataBinding.FieldName = 'ed'
+        Visible = False
       end
       object cxtbBarangf_tds: TcxGridDBColumn
         DataBinding.FieldName = 'f_tds'
+        Visible = False
       end
       object cxtbBarangtds: TcxGridDBColumn
         DataBinding.FieldName = 'tds'
+        Visible = False
       end
       object cxtbBaranghrg_kel1: TcxGridDBColumn
         DataBinding.FieldName = 'hrg_kel1'
+        Visible = False
       end
       object cxtbBaranghrg_kel2: TcxGridDBColumn
         DataBinding.FieldName = 'hrg_kel2'
+        Visible = False
       end
       object cxtbBaranglokasi: TcxGridDBColumn
         DataBinding.FieldName = 'lokasi'
+        Visible = False
       end
       object cxtbBaranglokasi_grid: TcxGridDBColumn
         DataBinding.FieldName = 'lokasi_grid'
+        Visible = False
       end
       object cxtbBarangf_consumable: TcxGridDBColumn
         DataBinding.FieldName = 'f_consumable'
+        Visible = False
       end
       object cxtbBarangdeskripsi2: TcxGridDBColumn
         DataBinding.FieldName = 'deskripsi2'
+        Visible = False
       end
       object cxtbBarangberat_per_unit_pack: TcxGridDBColumn
         DataBinding.FieldName = 'berat_per_unit_pack'
+        Visible = False
       end
       object cxtbBarangf_lotnumber: TcxGridDBColumn
         DataBinding.FieldName = 'f_lotnumber'
+        Visible = False
       end
       object cxtbBarangf_sml: TcxGridDBColumn
         DataBinding.FieldName = 'f_sml'
+        Visible = False
       end
       object cxtbBarangf_fai: TcxGridDBColumn
         DataBinding.FieldName = 'f_fai'
+        Visible = False
       end
       object cxtbBarangqty_per_pallet: TcxGridDBColumn
         DataBinding.FieldName = 'qty_per_pallet'
+        Visible = False
       end
       object cxtbBarangleadtime: TcxGridDBColumn
         DataBinding.FieldName = 'leadtime'
+        Visible = False
       end
       object cxtbBarangf_brg_cust: TcxGridDBColumn
         DataBinding.FieldName = 'f_brg_cust'
+        Visible = False
       end
       object cxtbBarangf_bs_dipakai: TcxGridDBColumn
         DataBinding.FieldName = 'f_bs_dipakai'
+        Visible = False
       end
     end
     object cxgBarangLevel1: TcxGridLevel
@@ -254,7 +313,9 @@ inherited frmLstBarangJasa: TfrmLstBarangJasa
   object zqrBarang: TZReadOnlyQuery
     Connection = DM.zConn
     SQL.Strings = (
-      'SELECT * FROM tbl_barang')
+      'SELECT * FROM v_lst_barang'
+      'WHERE f_aktif = 1'
+      'ORDER BY deskripsi')
     Params = <>
     Left = 824
     Top = 192
