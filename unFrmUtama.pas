@@ -70,6 +70,9 @@ type
     mnMst_Sales: TMenuItem;
     N4: TMenuItem;
     mnPur_ReturPembelian: TMenuItem;
+    N5: TMenuItem;
+    mnPur_FakturPembelian: TMenuItem;
+    mnPur_PembayaranHutUsaha: TMenuItem;
     procedure FormShow(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure mnMst_BarangJasaClick(Sender: TObject);

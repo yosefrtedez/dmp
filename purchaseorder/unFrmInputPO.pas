@@ -388,16 +388,18 @@ begin
       (Trim(ADataController.Values[i, cxColKodeBrg.Index]) = '')  then begin
       MsgBox('Kode barang harus di isi.');
       Abort;
-  end else
+  end;
+
   if ADataController.Values[i, cxColQty.Index] <= 0 then begin
     MsgBox('Qty tidak boleh minus');
-    ADataController.DeleteRecord(i);
     Abort;
   end;
+
   if (VarIsNull(ADataController.Values[i, cxColHarga.Index]))  then begin
     MsgBox('harga masih kosong');
     Abort;
   end;
+
   if ADataController.Values[i, cxColHarga.Index] <= 0 then begin
     MsgBox('harga tidak boleh minus');
     abort

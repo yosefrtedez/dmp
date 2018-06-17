@@ -179,6 +179,8 @@ begin
     qh.FieldByName('user').AsString := Aplikasi.NamaUser;
     qh.FieldByName('user_dept').AsString := Aplikasi.UserDept;
     qh.FieldByName('id_supplier').AsInteger := id_supplier;
+    qh.FieldByName('nopol').AsString := cxtNopol.text;
+    qh.FieldByName('sopir').AsString := cxtSopir.text;
     qh.Post;
 
     if Self.Jenis = 'E' then begin
@@ -261,7 +263,6 @@ begin
   cxdTglPO.Date := q.FieldByName('tanggal').AsDateTime;
   cxtNamaSupp.Text := q.FieldByName('nama_supplier').AsString;
   cxtAlamat.Text := q.FieldByName('alamat').AsString;
-  cxtNopol.Text := q.FieldByName('nopol').AsString;
   id_ref := q.FieldByName('id').AsInteger;
   id_supplier := q.FieldByName('id_supplier').AsInteger;
   q.Close;
@@ -283,6 +284,8 @@ begin
       Values[i, cxColHarga.Index] := q.FieldByName('harga').AsFloat;
       Values[i, cxColIdBrg.Index] := q.FieldByName('id_brg').AsInteger;
       Values[i, cxColGdg.Index] := Aplikasi.GdgPB;
+      Values[i, cxColPPn.Index] := q.FieldByName('ppn').AsString;
+      Values[i, cxColKeterangan.Index] := q.FieldByName('keterangan').AsString;
     end;
     q.Next;
   end;
@@ -299,9 +302,20 @@ begin
 
   i := cxtbPB.DataController.GetFocusedRecordIndex;
 
-  with cxtbPB.DataController do begin
+  if ADataController.Values[i, cxColQtyTerima.Index] <= 0 then begin
+    MsgBox('Qty Terima tidak boleh minus');
+    ADataController.DeleteRecord(i);
+    Abort;
+  end;
 
+  if (VarIsNull(ADataController.Values[i, cxColHarga.Index]))  then begin
+    MsgBox('Harga barang harus di isi.');
+    Abort;
+  end;
 
+  if ADataController.Values[i, cxColHarga.Index] <= 0 then begin
+    MsgBox('Harga barang tidak boleh minus.');
+    abort
   end;
 
 end;
@@ -320,6 +334,9 @@ procedure TfrmInputPB.FormCreate(Sender: TObject);
 begin
   inherited;
   cxtNoBukti.Text := GetLastFak('penerimaan');
+  zqrPO.Open;
+  zqrBarang.Open;
+  zqrGdg.Open;
 end;
 
 procedure TfrmInputPB.FormShow(Sender: TObject);
@@ -346,9 +363,9 @@ begin
     id_po := q.FieldByName('id_po').AsInteger;
     q.Close;
 
-    q := OpenRS('SELECT a.*, b.nama nama_supplier FROM tbl_po_head a ' +
+    q := OpenRS('SELECT a.*, b.nama nama_supplier, b.alamat FROM tbl_po_head a ' +
       'LEFT JOIN tbl_supplier b ON b.id = a.id_supplier ' +
-      'WHERE id = %d',[id_po]);
+      'WHERE a.id = %d',[id_po]);
     id_supplier := q.FieldByname('id_supplier').AsInteger;
     cxtNamaSupp.Text := q.FieldByname('nama_supplier').AsString;
     cxtAlamat.Text := q.FieldByName('alamat').AsString;

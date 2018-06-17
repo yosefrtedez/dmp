@@ -330,6 +330,7 @@ inherited frmInputPB: TfrmInputPB
         Properties.Items.Strings = (
           'NON PPN'
           'PPN')
+        Properties.ReadOnly = True
       end
       object cxColValuta: TcxGridColumn
         Caption = 'Valuta'

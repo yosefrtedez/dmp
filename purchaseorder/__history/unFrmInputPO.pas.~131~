@@ -69,6 +69,7 @@ type
     cxtKeterangan: TcxTextEdit;
     cxtRate: TcxTextEdit;
     cxColIdSatuan: TcxGridColumn;
+    cxChkApproval: TcxCheckBox;
     procedure cxLuNoPPPropertiesChange(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure cxLuSupplierPropertiesChange(Sender: TObject);
@@ -230,6 +231,7 @@ begin
           end else begin
             qd.FieldByName('ppn').AsString := Values[i, cxColPPn.index];
           end;
+          qd.FieldByname('keterangan').AsString := Values[i, cxColKeterangan.Index];
           qd.Post;
         end;
       end;
@@ -489,6 +491,7 @@ begin
     cxdTglDatang.Date := Aplikasi.Tanggal;
     cxtUser.Text := Aplikasi.NamaUser;
     cxtDepartemen.Text := Aplikasi.UserDept;
+    cxChkApproval.Visible := False;
   end
   else if Self.Jenis = 'E' then begin
     q := OpenRS('SELECT * FROM tbl_po_head WHERE id = %s',[Self.EditKey]);
@@ -500,6 +503,9 @@ begin
     cxdTglDatang.Date := q.FieldByName('tgl_required').AsDateTime;
     cxtUser.Text := q.FieldByName('user').AsString;
     cxtDepartemen.Text := q.FieldByName('user_dept').AsString;
+    if q.FieldByName('f_app').AsInteger = 1 then cxChkApproval.Checked := True;
+    cxlNoPP.Properties.ReadOnly := True;
+
     q.Close;
     z := OpenRS('SELECT a.*, b.deskripsi, c.satuan satuan2 FROM tbl_po_det a ' +
       'left join tbl_barang b on a.id_brg = b.id ' +
@@ -515,7 +521,7 @@ begin
         Values[i, cxColKodeBrg.Index] := z.FieldByName('kode_brg').AsString;
         Values[i, cxColDeskripsi.Index] := z.FieldByName('id_brg').AsString;
         Values[i, cxColQty.Index] := z.FieldByName('qty').AsFloat;
-        Values[i, cxColSatuan.Index] := z.FieldByName('satuan2').AsInteger;
+        Values[i, cxColSatuan.Index] := z.FieldByName('satuan2').AsString;
         Values[i, cxColIdSatuan.Index] := z.FieldByname('id_satuan').AsInteger;
         Values[i, cxColValuta.Index] := z.FieldByName('mata_uang').AsString;
         Values[i, cxColHarga.Index] := z.FieldByName('harga').AsFloat;
@@ -525,13 +531,13 @@ begin
         end else begin
           Values[i, cxColTotal.Index] := z.FieldByName('qty').AsFloat * z.FieldByName('harga').AsFloat
         end;
+        Values[i, cxColKeterangan.Index] := z.FieldByName('keterangan').AsString;
         nomer := nomer +1;
       end;
       z.Next;
     end;
     z.Close;
     cxtbTblPO.DataController.OnRecordChanged := Self.cxtbTblPODataControllerRecordChanged;
-
 
   end;
 end;

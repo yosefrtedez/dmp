@@ -212,6 +212,15 @@ object frmUtama: TfrmUtama
         Caption = 'Retur Pembelian'
         OnClick = mnPur_ReturPembelianClick
       end
+      object N5: TMenuItem
+        Caption = '-'
+      end
+      object mnPur_FakturPembelian: TMenuItem
+        Caption = 'Faktur Pembelian'
+      end
+      object mnPur_PembayaranHutUsaha: TMenuItem
+        Caption = 'Pembayarang Hutang Usaha'
+      end
     end
     object mnAKT: TMenuItem
       Caption = 'AKT'

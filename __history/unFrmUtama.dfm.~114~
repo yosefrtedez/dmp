@@ -108,6 +108,7 @@ object frmUtama: TfrmUtama
       end
       object mnMst_Formula: TMenuItem
         Caption = 'Formula'
+        OnClick = mnMst_FormulaClick
       end
       object mnMst_Mesin: TMenuItem
         Caption = 'Mesin'
@@ -124,6 +125,10 @@ object frmUtama: TfrmUtama
       object mnMst_Lain2: TMenuItem
         Caption = 'Kategori Barang - Departemen - Gudang'
         OnClick = mnMst_Lain2Click
+      end
+      object mnMst_Sales: TMenuItem
+        Caption = 'Sales'
+        OnClick = mnMst_SalesClick
       end
       object mnMst_UserProgram: TMenuItem
         Caption = 'User Program'
@@ -156,6 +161,13 @@ object frmUtama: TfrmUtama
         Caption = 'SO - Made To Stok'
       end
     end
+    object mnWHL: TMenuItem
+      Caption = 'WHL'
+      object mnWhl_TransferBarang: TMenuItem
+        Caption = 'Transfer Antar Gudang'
+        OnClick = mnWhl_TransferBarangClick
+      end
+    end
     object mnPRD: TMenuItem
       Caption = 'PRD'
       object mnPrd_PengambilanBB: TMenuItem
@@ -184,6 +196,7 @@ object frmUtama: TfrmUtama
       end
       object mnPur_AppPO: TMenuItem
         Caption = 'Approval Purchase Order'
+        OnClick = mnPur_AppPOClick
       end
       object N3: TMenuItem
         Caption = '-'
@@ -191,6 +204,13 @@ object frmUtama: TfrmUtama
       object mnPur_PB: TMenuItem
         Caption = 'Penerimaan Barang'
         OnClick = mnPur_PBClick
+      end
+      object N4: TMenuItem
+        Caption = '-'
+      end
+      object mnPur_ReturPembelian: TMenuItem
+        Caption = 'Retur Pembelian'
+        OnClick = mnPur_ReturPembelianClick
       end
     end
     object mnAKT: TMenuItem
@@ -201,6 +221,7 @@ object frmUtama: TfrmUtama
       end
       object mnAKT_PengeluaranKas: TMenuItem
         Caption = 'Pengeluaran Kas'
+        OnClick = mnAKT_PengeluaranKasClick
       end
       object mnAkt_JurnalUmum: TMenuItem
         Caption = 'Jurnal Umum'

@@ -284,6 +284,8 @@ begin
       Values[i, cxColHarga.Index] := q.FieldByName('harga').AsFloat;
       Values[i, cxColIdBrg.Index] := q.FieldByName('id_brg').AsInteger;
       Values[i, cxColGdg.Index] := Aplikasi.GdgPB;
+      Values[i, cxColPPn.Index] := q.FieldByName('ppn').AsString;
+      Values[i, cxColKeterangan.Index] := q.FieldByName('keterangan').AsString;
     end;
     q.Next;
   end;
@@ -300,9 +302,20 @@ begin
 
   i := cxtbPB.DataController.GetFocusedRecordIndex;
 
-  with cxtbPB.DataController do begin
+  if ADataController.Values[i, cxColQtyTerima.Index] <= 0 then begin
+    MsgBox('Qty Terima tidak boleh minus');
+    ADataController.DeleteRecord(i);
+    Abort;
+  end;
 
+  if (VarIsNull(ADataController.Values[i, cxColHarga.Index]))  then begin
+    MsgBox('Harga barang harus di isi.');
+    Abort;
+  end;
 
+  if ADataController.Values[i, cxColHarga.Index] <= 0 then begin
+    MsgBox('Harga barang tidak boleh minus.');
+    abort
   end;
 
 end;
@@ -315,12 +328,28 @@ begin
     ADataController.Values[ARecordIndex, cxColTotal.Index] :=
       ADataController.Values[ARecordIndex, cxColQtyTerima.Index] * ADataController.Values[ARecordIndex, cxColHarga.Index];
   end;
+
+  if AItemIndex = cxColHarga.Index then begin
+    try
+      if cxColPPn.EditValue = 'PPN' then begin
+        cxColtotal.EditValue := cxColQtyTerima.EditValue *  cxColHarga.EditValue * 110 /100 ;
+      end
+      else begin
+        cxColTotal.EditValue := cxColQtyTerima.EditValue * cxColHarga.EditValue;
+
+      end;
+    finally
+    end;
+  end;
 end;
 
 procedure TfrmInputPB.FormCreate(Sender: TObject);
 begin
   inherited;
   cxtNoBukti.Text := GetLastFak('penerimaan');
+  zqrPO.Open;
+  zqrBarang.Open;
+  zqrGdg.Open;
 end;
 
 procedure TfrmInputPB.FormShow(Sender: TObject);

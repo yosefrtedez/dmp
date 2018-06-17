@@ -257,6 +257,9 @@ var
   i, id_ref: integer;
 begin
   inherited;
+
+  cxtbPB.DataController.OnRecordChanged := nil;
+
   q := OpenRS('SELECT a.*, b.nama nama_supplier, b.alamat FROM tbl_po_head a ' +
               'LEFT JOIN tbl_supplier b ON b.id = a.id_supplier ' +
               'WHERE a.id = %s',[cxlNoPO.EditValue]);
@@ -284,10 +287,14 @@ begin
       Values[i, cxColHarga.Index] := q.FieldByName('harga').AsFloat;
       Values[i, cxColIdBrg.Index] := q.FieldByName('id_brg').AsInteger;
       Values[i, cxColGdg.Index] := Aplikasi.GdgPB;
+      Values[i, cxColPPn.Index] := q.FieldByName('ppn').AsString;
+      Values[i, cxColKeterangan.Index] := q.FieldByName('keterangan').AsString;
     end;
     q.Next;
   end;
   q.Close;
+
+  cxtbPB.DataController.OnRecordChanged := Self.cxtbPBDataControllerRecordChanged;
 
 end;
 
@@ -300,9 +307,19 @@ begin
 
   i := cxtbPB.DataController.GetFocusedRecordIndex;
 
-  with cxtbPB.DataController do begin
+  if ADataController.Values[i, cxColQtyTerima.Index] <= 0 then begin
+    MsgBox('Qty Terima tidak boleh minus');
+    Abort;
+  end;
 
+  if (VarIsNull(ADataController.Values[i, cxColHarga.Index]))  then begin
+    MsgBox('Harga barang harus di isi.');
+    Abort;
+  end;
 
+  if ADataController.Values[i, cxColHarga.Index] <= 0 then begin
+    MsgBox('Harga barang tidak boleh minus.');
+    abort
   end;
 
 end;
@@ -315,6 +332,27 @@ begin
     ADataController.Values[ARecordIndex, cxColTotal.Index] :=
       ADataController.Values[ARecordIndex, cxColQtyTerima.Index] * ADataController.Values[ARecordIndex, cxColHarga.Index];
   end;
+
+  if AItemIndex = cxColQtyTerima.Index then begin
+    if ADataController.Values[ARecordIndex, cxColQtyTerima.Index] > ADataController.Values[ARecordIndex, cxColQtyPO.Index] then begin
+      MsgBox('Qty. Terima tidak boleh melebihi Qty. PO.');
+      Abort;
+    end;
+  end;
+
+  if AItemIndex = cxColHarga.Index then begin
+    try
+      if cxColPPn.EditValue = 'PPN' then begin
+        cxColtotal.EditValue := cxColQtyTerima.EditValue *  cxColHarga.EditValue * 110 /100 ;
+      end
+      else begin
+        cxColTotal.EditValue := cxColQtyTerima.EditValue * cxColHarga.EditValue;
+      end;
+    except
+    end;
+  end;
+
+
 end;
 
 procedure TfrmInputPB.FormCreate(Sender: TObject);
