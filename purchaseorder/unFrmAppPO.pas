@@ -36,10 +36,7 @@ type
     cxColTblHeaduser: TcxGridDBColumn;
     cxColTblHeaduser_dept: TcxGridDBColumn;
     cxColTblHeadpembayaran: TcxGridDBColumn;
-    cxColTblHeadnopol: TcxGridDBColumn;
-    cxColTblHeaddriver: TcxGridDBColumn;
     cxColTblHeadf_approval: TcxGridDBColumn;
-    cxColTblHeadf_completed: TcxGridDBColumn;
     cxTblDet: TcxGridDBTableView;
     cxColTblDetid: TcxGridDBColumn;
     cxColTblDetid_ref: TcxGridDBColumn;
@@ -62,6 +59,8 @@ type
     cxtbPODetharga: TcxGridDBColumn;
     cxtbPODetmata_uang: TcxGridDBColumn;
     cxGrid1Level1: TcxGridLevel;
+    cxtbPODetColumn1: TcxGridDBColumn;
+    cxtbPODetColumn2: TcxGridDBColumn;
     procedure FormShow(Sender: TObject);
     procedure btnSimpanClick(Sender: TObject);
     procedure cxtbPOHeadFocusedRecordChanged(Sender: TcxCustomGridTableView;

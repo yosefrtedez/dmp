@@ -3,13 +3,14 @@ inherited frmInputPB: TfrmInputPB
   ClientHeight = 739
   ClientWidth = 1172
   OnCreate = FormCreate
-  ExplicitTop = -58
+  OnShow = FormShow
   ExplicitWidth = 1172
   ExplicitHeight = 739
   PixelsPerInch = 96
   TextHeight = 13
   inherited Panel1: TPanel
     Width = 1172
+    ExplicitWidth = 1172
     object Label1: TLabel
       Left = 10
       Top = 16
@@ -28,6 +29,8 @@ inherited frmInputPB: TfrmInputPB
     Top = 690
     Width = 1172
     TabOrder = 28
+    ExplicitTop = 690
+    ExplicitWidth = 1172
     inherited btnSimpan: TButton
       OnClick = btnSimpanClick
     end
@@ -68,8 +71,8 @@ inherited frmInputPB: TfrmInputPB
     Caption = 'Nopol'
   end
   object cxlbl8: TcxLabel
-    Left = 10
-    Top = 251
+    Left = 234
+    Top = 224
     Caption = 'Sopir'
   end
   object cxlNoPO: TcxLookupComboBox
@@ -87,6 +90,10 @@ inherited frmInputPB: TfrmInputPB
       item
         Caption = 'Tanggal'
         FieldName = 'tanggal'
+      end
+      item
+        Caption = 'Nama Supplier'
+        FieldName = 'nama_supplier'
       end>
     Properties.ListSource = dsPO
     Properties.OnChange = cxlNoPPPropertiesChange
@@ -125,17 +132,18 @@ inherited frmInputPB: TfrmInputPB
     Width = 113
   end
   object cxtSopir: TcxTextEdit
-    Left = 112
-    Top = 250
+    Left = 268
+    Top = 223
     Properties.CharCase = ecUpperCase
-    TabOrder = 17
-    Width = 113
+    TabOrder = 16
+    Width = 198
   end
   object cxgrpbx1: TcxGroupBox
     Left = 653
     Top = 55
     Caption = 'User Requesting'
     TabOrder = 1
+    Visible = False
     Height = 89
     Width = 233
     object cxlbl9: TcxLabel
@@ -169,12 +177,12 @@ inherited frmInputPB: TfrmInputPB
   end
   object cxlbl11: TcxLabel
     Left = 10
-    Top = 278
+    Top = 251
     Caption = 'Pembayaran'
   end
   object cxCboPembayaran: TcxComboBox
     Left = 112
-    Top = 277
+    Top = 250
     Properties.DropDownListStyle = lsEditFixedList
     Properties.Items.Strings = (
       'Cash On Delivery (COD)'
@@ -188,12 +196,12 @@ inherited frmInputPB: TfrmInputPB
   end
   object cxlbl12: TcxLabel
     Left = 317
-    Top = 278
+    Top = 251
     Caption = 'Valuta'
   end
   object cxCboRate: TcxComboBox
     Left = 361
-    Top = 277
+    Top = 250
     Properties.DropDownListStyle = lsEditFixedList
     Properties.Items.Strings = (
       'IDR'
@@ -203,35 +211,34 @@ inherited frmInputPB: TfrmInputPB
   end
   object cxlbl13: TcxLabel
     Left = 430
-    Top = 278
+    Top = 251
     Caption = 'Rate'
   end
   object cxlbl14: TcxLabel
     Left = 10
-    Top = 305
+    Top = 278
     Caption = 'Keterangan'
   end
   object cxtKeterangan: TcxTextEdit
     Left = 112
-    Top = 304
+    Top = 277
     Properties.CharCase = ecUpperCase
     TabOrder = 25
-    Width = 416
+    Width = 464
   end
   object cxtRate: TcxTextEdit
     Left = 463
-    Top = 277
+    Top = 250
     TabOrder = 21
     Width = 113
   end
   object cxgrdPP: TcxGrid
     Left = 10
-    Top = 337
+    Top = 308
     Width = 1150
     Height = 293
     Anchors = [akLeft, akTop, akRight]
     TabOrder = 27
-    ExplicitWidth = 1078
     object cxtbPB: TcxGridTableView
       NavigatorButtons.ConfirmDelete = False
       NavigatorButtons.Insert.Visible = False
@@ -245,7 +252,7 @@ inherited frmInputPB: TfrmInputPB
         item
           Format = '#,##.00'
           Kind = skSum
-          Column = cxColQty
+          Column = cxColQtyPO
         end
         item
           Format = '#,##.00'
@@ -277,7 +284,7 @@ inherited frmInputPB: TfrmInputPB
         Properties.ReadOnly = True
         Width = 237
       end
-      object cxColQty: TcxGridColumn
+      object cxColQtyPO: TcxGridColumn
         Caption = 'Qty. PO'
         DataBinding.ValueType = 'Float'
         PropertiesClassName = 'TcxSpinEditProperties'
@@ -302,6 +309,7 @@ inherited frmInputPB: TfrmInputPB
         DataBinding.ValueType = 'Float'
         PropertiesClassName = 'TcxSpinEditProperties'
         Properties.DisplayFormat = '#,##.00'
+        Properties.ReadOnly = True
         Width = 88
       end
       object cxColGdg: TcxGridColumn
@@ -372,19 +380,20 @@ inherited frmInputPB: TfrmInputPB
   end
   object zqrPO: TZReadOnlyQuery
     Connection = DM.zConn
-    Active = True
     SQL.Strings = (
-      'SELECT id, no_bukti, tanggal'
-      'FROM tbl_po_head '
-      'WHERE f_completed = 0')
+      'SELECT a.id, a.no_bukti, a.tanggal, b.nama nama_supplier'
+      'FROM tbl_po_head a'
+      'LEFT JOIN tbl_supplier b ON b.id = a.id_supplier'
+      'WHERE f_completed = 0'
+      'ORDER BY tanggal')
     Params = <>
     Left = 776
-    Top = 232
+    Top = 248
   end
   object dsPO: TDataSource
     DataSet = zqrPO
     Left = 832
-    Top = 232
+    Top = 248
   end
   object zqrBarang: TZReadOnlyQuery
     Connection = DM.zConn

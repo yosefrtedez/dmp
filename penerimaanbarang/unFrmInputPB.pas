@@ -56,7 +56,7 @@ type
     cxColNo: TcxGridColumn;
     cxColKodeBrg: TcxGridColumn;
     cxColDeskripsi: TcxGridColumn;
-    cxColQty: TcxGridColumn;
+    cxColQtyPO: TcxGridColumn;
     cxColSatuan: TcxGridColumn;
     cxColHarga: TcxGridColumn;
     cxColPPn: TcxGridColumn;
@@ -84,8 +84,10 @@ type
     procedure cxtbPBDataControllerRecordChanged(
       ADataController: TcxCustomDataController; ARecordIndex,
       AItemIndex: Integer);
+    procedure FormShow(Sender: TObject);
   private
     id_supplier: integer;
+    f_posted: Boolean;
   public
     { Public declarations }
   end;
@@ -132,6 +134,11 @@ begin
     Abort;
   end;
 
+  if f_posted then begin
+    MsgBox('Transaksi ini sudah di posting, tidak bisa di edit.');
+    Abort;
+  end;
+
   f0 := false;
   with cxtbPB.DataController do begin
     for i := 0 to RecordCount - 1 do begin
@@ -172,6 +179,8 @@ begin
     qh.FieldByName('user').AsString := Aplikasi.NamaUser;
     qh.FieldByName('user_dept').AsString := Aplikasi.UserDept;
     qh.FieldByName('id_supplier').AsInteger := id_supplier;
+    qh.FieldByName('nopol').AsString := cxtNopol.text;
+    qh.FieldByName('sopir').AsString := cxtSopir.text;
     qh.Post;
 
     if Self.Jenis = 'E' then begin
@@ -191,6 +200,7 @@ begin
         qd.FieldByname('kode_brg').AsString := Values[i, cxColKodeBrg.Index];
         qd.FieldByname('qty').AsFloat := Values[i, cxColQtyTerima.Index];
         qd.FieldByName('id_satuan').AsInteger := Values[i, cxColIdSatuan.Index];
+        qd.FieldByName('harga').AsFloat := Values[i, cxColHarga.Index];
         qd.Post;
       end;
     end;
@@ -224,12 +234,14 @@ begin
           hst.Post;
         end;
       end;
-      dm.zConn.ExecuteDirect('UPDATE tbl_pb_head SET f_posted = 1 WHERE id = %d',[ID]);
+      dm.zConn.ExecuteDirect(Format('UPDATE tbl_pb_head SET f_posted = 1 WHERE id = %d',[ID]));
     end;
 
     dm.zConn.Commit;
 
     MsgBox('Penerimaan barang sudah disimpan dengan nomor: ' + sNoTrs);
+
+    btnBatalClick(nil);
   except
     on E: Exception do begin
       dm.zConn.Rollback;
@@ -251,7 +263,6 @@ begin
   cxdTglPO.Date := q.FieldByName('tanggal').AsDateTime;
   cxtNamaSupp.Text := q.FieldByName('nama_supplier').AsString;
   cxtAlamat.Text := q.FieldByName('alamat').AsString;
-  cxtNopol.Text := q.FieldByName('nopol').AsString;
   id_ref := q.FieldByName('id').AsInteger;
   id_supplier := q.FieldByName('id_supplier').AsInteger;
   q.Close;
@@ -267,7 +278,7 @@ begin
       i := AppendRecord;
       Values[i, cxColKodeBrg.Index] := q.FieldByName('kode_brg').AsString;
       Values[i, cxColDeskripsi.Index] := q.FieldByName('deskripsi').AsString;
-      Values[i, cxColQty.Index] := q.FieldByName('qty').AsFloat;
+      Values[i, cxColQtyPO.Index] := q.FieldByName('qty').AsFloat;
       Values[i, cxColSatuan.Index] := q.FieldByName('satuan2').AsString;
       Values[i, cxColIdSatuan.Index] := q.FieldByName('id_satuan').AsInteger;
       Values[i, cxColHarga.Index] := q.FieldByName('harga').AsFloat;
@@ -301,7 +312,8 @@ procedure TfrmInputPB.cxtbPBDataControllerRecordChanged(
 begin
   inherited;
   if AItemIndex = cxColQtyTerima.Index then begin
-    cxColTotal.EditValue := cxColQtyTerima.EditValue * cxColHarga.Index;
+    ADataController.Values[ARecordIndex, cxColTotal.Index] :=
+      ADataController.Values[ARecordIndex, cxColQtyTerima.Index] * ADataController.Values[ARecordIndex, cxColHarga.Index];
   end;
 end;
 
@@ -309,6 +321,73 @@ procedure TfrmInputPB.FormCreate(Sender: TObject);
 begin
   inherited;
   cxtNoBukti.Text := GetLastFak('penerimaan');
+  zqrPO.Open;
+  zqrBarang.Open;
+  zqrGdg.Open;
+end;
+
+procedure TfrmInputPB.FormShow(Sender: TObject);
+var
+  q, po, pod: TZQuery;
+  i, ID, id_po: integer;
+begin
+  inherited;
+
+  if Self.Jenis = 'E' then begin
+    cxlNoPO.Properties.OnChange := nil;
+
+    q := OpenRS('SELECT a.* FROM tbl_pb_head a ' +
+      'WHERE id = %s',[Self.EditKey]);
+    cxtNoBukti.Text := q.FieldByName('no_bukti').AsString;
+    cxlNoPO.EditValue := q.FieldByName('id_po').AsInteger;
+    cxdTglDatang.Date := q.FieldByName('tanggal').AsDateTime;
+    if q.FieldByName('f_posted').AsInteger = 1 then begin
+      cxChkPosting.Checked := True;
+      cxChkPosting.Properties.ReadOnly := True;
+      f_posted := true;
+    end;
+    ID := q.FieldByname('id').AsInteger;
+    id_po := q.FieldByName('id_po').AsInteger;
+    q.Close;
+
+    q := OpenRS('SELECT a.*, b.nama nama_supplier, b.alamat FROM tbl_po_head a ' +
+      'LEFT JOIN tbl_supplier b ON b.id = a.id_supplier ' +
+      'WHERE a.id = %d',[id_po]);
+    id_supplier := q.FieldByname('id_supplier').AsInteger;
+    cxtNamaSupp.Text := q.FieldByname('nama_supplier').AsString;
+    cxtAlamat.Text := q.FieldByName('alamat').AsString;
+    q.Close;
+
+    q := OpenRS('SELECT a.*, b.deskripsi, c.satuan satuan2 FROM tbl_pb_det a ' +
+      'LEFT JOIN tbl_barang b ON b.id = a.id_brg ' +
+      'LEFT JOIN tbl_satuan c ON c.id = a.id_satuan ' +
+      'LEFT JOIN tbl_pb_head d ON d.id = a.id_ref ' +
+      'WHERE a.id_ref = %d',[ID]);
+
+    while not q.Eof do begin
+      with cxtbPB.DataController do begin
+        i := AppendRecord;
+        Values[i, cxColKodeBrg.Index] := q.FieldByName('kode_brg').AsString;
+        Values[i, cxColDeskripsi.Index] := q.FieldByName('deskripsi').AsString;
+        Values[i, cxColSatuan.Index] := q.FieldByName('satuan2').AsString;
+        Values[i, cxColIdSatuan.Index] := q.FieldByName('id_satuan').AsInteger;
+        Values[i, cxColHarga.Index] := q.FieldByName('harga').AsFloat;
+        Values[i, cxColIdBrg.Index] := q.FieldByName('id_brg').AsInteger;
+        Values[i, cxColQtyTerima.Index] := q.FieldByName('qty').AsFloat;
+        Values[i, cxColGdg.Index] := Aplikasi.GdgPB;
+
+        pod := OpenRS('SELECT qty FROM tbl_po_det WHERE id_ref = %d AND id_brg = %d',[id_po, q.FieldByName('id_brg').AsInteger]);
+        Values[i, cxColQtyPO.Index] := pod.FieldByName('qty').AsFloat;
+        pod.Close;
+      end;
+      q.Next;
+    end;
+
+    q.Close;
+    cxlNoPO.Properties.OnChange := Self.cxlNoPPPropertiesChange;
+
+  end;
+
 end;
 
 end.

@@ -3,7 +3,6 @@ inherited frmLstPO: TfrmLstPO
   ClientHeight = 507
   ClientWidth = 1169
   OnCreate = FormCreate
-  ExplicitLeft = -24
   ExplicitWidth = 1169
   ExplicitHeight = 507
   PixelsPerInch = 96
@@ -115,18 +114,6 @@ inherited frmLstPO: TfrmLstPO
         Options.Editing = False
         Width = 100
       end
-      object cxColTblHeadnopol: TcxGridDBColumn
-        Caption = 'Nopol'
-        DataBinding.FieldName = 'nopol'
-        Options.Editing = False
-        Width = 90
-      end
-      object cxColTblHeaddriver: TcxGridDBColumn
-        Caption = 'Driver'
-        DataBinding.FieldName = 'driver'
-        Options.Editing = False
-        Width = 120
-      end
       object cxColTblHeadf_approval: TcxGridDBColumn
         Caption = 'Approval'
         DataBinding.FieldName = 'f_app'
@@ -210,8 +197,14 @@ inherited frmLstPO: TfrmLstPO
       NavigatorButtons.ConfirmDelete = False
       DataController.DataSource = dsPoDet
       DataController.Summary.DefaultGroupSummaryItems = <>
-      DataController.Summary.FooterSummaryItems = <>
+      DataController.Summary.FooterSummaryItems = <
+        item
+          Format = '#,#0.00'
+          Kind = skSum
+          Column = cxtbPODetColumn2
+        end>
       DataController.Summary.SummaryGroups = <>
+      OptionsView.Footer = True
       object cxtbPODetkode_brg: TcxGridDBColumn
         Caption = 'Kode Brg.'
         DataBinding.FieldName = 'kode_brg'
@@ -226,6 +219,7 @@ inherited frmLstPO: TfrmLstPO
         Caption = 'Qty.'
         DataBinding.FieldName = 'qty'
         PropertiesClassName = 'TcxSpinEditProperties'
+        Properties.Alignment.Horz = taRightJustify
         Properties.DisplayFormat = '#,#0.00'
         HeaderAlignmentHorz = taRightJustify
       end
@@ -237,11 +231,29 @@ inherited frmLstPO: TfrmLstPO
       object cxtbPODetharga: TcxGridDBColumn
         Caption = 'Harga'
         DataBinding.FieldName = 'harga'
+        PropertiesClassName = 'TcxSpinEditProperties'
+        Properties.Alignment.Horz = taRightJustify
+        Properties.DisplayFormat = '#,#0.00'
         HeaderAlignmentHorz = taRightJustify
       end
       object cxtbPODetmata_uang: TcxGridDBColumn
         DataBinding.FieldName = 'mata_uang'
         Visible = False
+      end
+      object cxtbPODetColumn1: TcxGridDBColumn
+        Caption = 'Keterangan'
+        DataBinding.FieldName = 'keterangan'
+        Width = 370
+      end
+      object cxtbPODetColumn2: TcxGridDBColumn
+        Caption = 'Subtotal'
+        DataBinding.FieldName = 'subtotal'
+        PropertiesClassName = 'TcxSpinEditProperties'
+        Properties.Alignment.Horz = taRightJustify
+        Properties.DisplayFormat = '#,#0.00'
+        FooterAlignmentHorz = taRightJustify
+        HeaderAlignmentHorz = taRightJustify
+        Width = 97
       end
     end
     object cxGrid1Level1: TcxGridLevel
@@ -266,7 +278,7 @@ inherited frmLstPO: TfrmLstPO
     SQL.Strings = (
       
         'SELECT a.id, a.no_bukti, a.tgl_required, jenis_po, a.user, a.use' +
-        'r_dept, a.pembayaran, a.f_app, a.nopol, a.driver, a.f_completed,'
+        'r_dept, a.pembayaran, a.f_app, a.f_completed,'
       'b.nama, b.kontak, c.no_bukti no_pp, d.nama nama_supplier'
       'FROM tbl_po_head a '
       'LEFT JOIN tbl_supplier b ON a.kode_supp = b.kode'
@@ -286,8 +298,8 @@ inherited frmLstPO: TfrmLstPO
     AutoCalcFields = False
     SQL.Strings = (
       
-        'SELECT a.id,  a.id_ref, a.no_bukti, a.kode_brg, b.deskripsi, a.q' +
-        'ty, c.satuan, a.harga, a.mata_uang'
+        'SELECT a.*, b.deskripsi, a.qty, c.satuan, a.harga, a.mata_uang, ' +
+        'a.qty * a.harga subtotal'
       'FROM tbl_po_det a'
       'LEFT JOIN tbl_barang b ON a.kode_brg = b.kode '
       'LEFT JOIN tbl_satuan c ON c.id = a.id_satuan'

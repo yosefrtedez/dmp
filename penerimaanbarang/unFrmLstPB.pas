@@ -47,35 +47,23 @@ type
     cxtbPBHeadtanggal: TcxGridDBColumn;
     cxtbPBHeaduser: TcxGridDBColumn;
     cxtbPBHeaduser_dept: TcxGridDBColumn;
-    cxtbPBHeadnopol: TcxGridDBColumn;
-    cxtbPBHeaddriver: TcxGridDBColumn;
-    cxtbPBHeadno_sj: TcxGridDBColumn;
-    cxtbPBHeadno_po_1: TcxGridDBColumn;
     zqrPBDet: TZReadOnlyQuery;
     dsPBDet: TDataSource;
-    cxtbPBDetno_bukti: TcxGridDBColumn;
     cxtbPBDetkode_brg: TcxGridDBColumn;
-    cxtbPBDetqty_retur: TcxGridDBColumn;
-    cxtbPBDetqty_so: TcxGridDBColumn;
     cxtbPBDetqty: TcxGridDBColumn;
-    cxtbPBDetsatuan: TcxGridDBColumn;
-    cxtbPBDetid_satuan: TcxGridDBColumn;
     cxtbPBDetharga: TcxGridDBColumn;
     cxtbPBDetketerangan: TcxGridDBColumn;
-    cxtbPBDetf_posted: TcxGridDBColumn;
-    cxtbPBDetmata_uang: TcxGridDBColumn;
-    cxtbPBDetlokasi: TcxGridDBColumn;
-    cxtbPBDetkondisi: TcxGridDBColumn;
-    cxtbPBDetgudang: TcxGridDBColumn;
     cxtbPBDetdeskripsi: TcxGridDBColumn;
     cxtbPBDetsatuan2: TcxGridDBColumn;
     cxtbPBHeadnama_supplier: TcxGridDBColumn;
+    cxtbPBHeadColumn1: TcxGridDBColumn;
     procedure btnTambahClick(Sender: TObject);
     procedure cxtbPBHeadFocusedRecordChanged(Sender: TcxCustomGridTableView;
       APrevFocusedRecord, AFocusedRecord: TcxCustomGridRecord;
       ANewItemRecordFocusingChanged: Boolean);
     procedure btnRefreshClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
+    procedure btnEditClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -90,6 +78,26 @@ implementation
 uses unFrmInputPB, unFrmUtama, unDM;
 
 {$R *.dfm}
+
+procedure TfrmLstPB.btnEditClick(Sender: TObject);
+var
+  f: TfrmInputPB;
+  ts: TcxTabSheet;
+begin
+  inherited;
+   if not fu.CekTabOpen('Edit Penerimaan Barang') then begin
+    ts := TcxTabSheet.Create(Self);
+    ts.PageControl := frmUtama.pgMain;
+    f := TfrmInputPB.Create(Self);
+    f.Jenis := 'E';
+    f.EditKey := zqrPBHead.FieldByName('id').AsString;
+    f.Parent := ts;
+    f.Caption := 'Edit Penerimaan Barang';
+    ts.Caption := f.Caption;
+    f.Show;
+    fu.pgMain.ActivePage := ts;
+  end;
+end;
 
 procedure TfrmLstPB.btnRefreshClick(Sender: TObject);
 begin

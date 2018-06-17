@@ -39,9 +39,6 @@ inherited frmAppPO: TfrmAppPO
     Height = 214
     Align = alClient
     TabOrder = 1
-    ExplicitLeft = -230
-    ExplicitWidth = 1169
-    ExplicitHeight = 168
     object cxtbPOHead: TcxGridDBTableView
       NavigatorButtons.ConfirmDelete = False
       OnFocusedRecordChanged = cxtbPOHeadFocusedRecordChanged
@@ -100,18 +97,6 @@ inherited frmAppPO: TfrmAppPO
         Options.Editing = False
         Width = 100
       end
-      object cxColTblHeadnopol: TcxGridDBColumn
-        Caption = 'Nopol'
-        DataBinding.FieldName = 'nopol'
-        Options.Editing = False
-        Width = 90
-      end
-      object cxColTblHeaddriver: TcxGridDBColumn
-        Caption = 'Driver'
-        DataBinding.FieldName = 'driver'
-        Options.Editing = False
-        Width = 120
-      end
       object cxColTblHeadf_approval: TcxGridDBColumn
         Caption = 'Approval'
         DataBinding.FieldName = 'f_app'
@@ -121,14 +106,6 @@ inherited frmAppPO: TfrmAppPO
         Visible = False
         Options.Editing = False
         Width = 50
-      end
-      object cxColTblHeadf_completed: TcxGridDBColumn
-        Caption = 'Komplit'
-        DataBinding.FieldName = 'f_completed'
-        PropertiesClassName = 'TcxCheckBoxProperties'
-        Properties.ValueChecked = 1
-        Properties.ValueUnchecked = 0
-        Options.Editing = False
       end
     end
     object cxTblDet: TcxGridDBTableView
@@ -192,9 +169,6 @@ inherited frmAppPO: TfrmAppPO
     Height = 41
     Align = alBottom
     TabOrder = 2
-    ExplicitLeft = -230
-    ExplicitTop = 217
-    ExplicitWidth = 1169
     object cxLabel1: TcxLabel
       Left = 10
       Top = 11
@@ -208,15 +182,18 @@ inherited frmAppPO: TfrmAppPO
     Height = 200
     Align = alBottom
     TabOrder = 3
-    ExplicitLeft = -230
-    ExplicitTop = 258
-    ExplicitWidth = 1169
     object cxtbPODet: TcxGridDBTableView
       NavigatorButtons.ConfirmDelete = False
       DataController.DataSource = dsPoDet
       DataController.Summary.DefaultGroupSummaryItems = <>
-      DataController.Summary.FooterSummaryItems = <>
+      DataController.Summary.FooterSummaryItems = <
+        item
+          Format = '#,#0.00'
+          Kind = skSum
+          Column = cxtbPODetColumn1
+        end>
       DataController.Summary.SummaryGroups = <>
+      OptionsView.Footer = True
       object cxtbPODetkode_brg: TcxGridDBColumn
         Caption = 'Kode Brg.'
         DataBinding.FieldName = 'kode_brg'
@@ -242,11 +219,30 @@ inherited frmAppPO: TfrmAppPO
       object cxtbPODetharga: TcxGridDBColumn
         Caption = 'Harga'
         DataBinding.FieldName = 'harga'
+        PropertiesClassName = 'TcxSpinEditProperties'
+        Properties.Alignment.Horz = taRightJustify
+        Properties.DisplayFormat = '#,#0.00'
         HeaderAlignmentHorz = taRightJustify
       end
       object cxtbPODetmata_uang: TcxGridDBColumn
         DataBinding.FieldName = 'mata_uang'
         Visible = False
+      end
+      object cxtbPODetColumn2: TcxGridDBColumn
+        Caption = 'Keterangan'
+        DataBinding.FieldName = 'keterangan'
+        Width = 184
+      end
+      object cxtbPODetColumn1: TcxGridDBColumn
+        Caption = 'Subtotal'
+        DataBinding.FieldName = 'subtotal'
+        PropertiesClassName = 'TcxSpinEditProperties'
+        Properties.Alignment.Horz = taRightJustify
+        Properties.DisplayFormat = '#,#0.00'
+        Properties.ReadOnly = True
+        FooterAlignmentHorz = taRightJustify
+        HeaderAlignmentHorz = taRightJustify
+        Width = 98
       end
     end
     object cxGrid1Level1: TcxGridLevel
@@ -258,7 +254,7 @@ inherited frmAppPO: TfrmAppPO
     SQL.Strings = (
       
         'SELECT a.id, a.no_bukti, a.tgl_required, jenis_po, a.user, a.use' +
-        'r_dept, a.pembayaran, a.f_app, a.nopol, a.driver, a.f_completed,'
+        'r_dept, a.pembayaran, a.f_app, a.f_completed,'
       'b.nama, b.kontak, c.no_bukti no_pp, d.nama nama_supplier'
       'FROM tbl_po_head a '
       'LEFT JOIN tbl_supplier b ON a.kode_supp = b.kode'
@@ -280,7 +276,8 @@ inherited frmAppPO: TfrmAppPO
     SQL.Strings = (
       
         'SELECT a.id,  a.id_ref, a.no_bukti, a.kode_brg, b.deskripsi, a.q' +
-        'ty, c.satuan, a.harga, a.mata_uang'
+        'ty, c.satuan, a.harga, a.mata_uang,'
+      'a.qty * a.harga subtotal, a.keterangan'
       'FROM tbl_po_det a'
       'LEFT JOIN tbl_barang b ON a.kode_brg = b.kode '
       'LEFT JOIN tbl_satuan c ON c.id = a.id_satuan'

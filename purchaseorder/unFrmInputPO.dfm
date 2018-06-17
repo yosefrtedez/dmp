@@ -28,7 +28,7 @@ inherited frmInputPO: TfrmInputPO
   inherited Panel2: TPanel
     Top = 641
     Width = 1063
-    TabOrder = 28
+    TabOrder = 25
     ExplicitTop = 641
     ExplicitWidth = 1063
     inherited btnSimpan: TButton
@@ -37,11 +37,11 @@ inherited frmInputPO: TfrmInputPO
   end
   object cxgrdPP: TcxGrid
     Left = 10
-    Top = 337
+    Top = 281
     Width = 1045
     Height = 293
     Anchors = [akLeft, akTop, akRight]
-    TabOrder = 27
+    TabOrder = 24
     object cxtbTblPO: TcxGridTableView
       NavigatorButtons.ConfirmDelete = False
       NavigatorButtons.Insert.Visible = False
@@ -142,6 +142,7 @@ inherited frmInputPO: TfrmInputPO
       end
       object cxColIdSatuan: TcxGridColumn
         DataBinding.ValueType = 'Integer'
+        Visible = False
       end
     end
     object cxgrdlvl1Grid1Level1: TcxGridLevel
@@ -178,16 +179,6 @@ inherited frmInputPO: TfrmInputPO
     Top = 197
     Caption = 'Alamat'
   end
-  object cxlbl7: TcxLabel
-    Left = 10
-    Top = 224
-    Caption = 'Nopol'
-  end
-  object cxlbl8: TcxLabel
-    Left = 10
-    Top = 251
-    Caption = 'Sopir'
-  end
   object cxlNoPP: TcxLookupComboBox
     Left = 112
     Top = 88
@@ -210,19 +201,19 @@ inherited frmInputPO: TfrmInputPO
       end>
     Properties.ListSource = dsPPHead
     Properties.OnChange = cxLuNoPPPropertiesChange
-    TabOrder = 5
+    TabOrder = 6
     Width = 146
   end
   object cxdTgl: TcxDateEdit
     Left = 112
     Top = 115
-    TabOrder = 7
+    TabOrder = 8
     Width = 146
   end
   object cxdTglDatang: TcxDateEdit
     Left = 112
     Top = 142
-    TabOrder = 9
+    TabOrder = 10
     Width = 146
   end
   object cxlSupplier: TcxLookupComboBox
@@ -241,13 +232,13 @@ inherited frmInputPO: TfrmInputPO
       end>
     Properties.ListSource = dsSupplier
     Properties.OnChange = cxLuSupplierPropertiesChange
-    TabOrder = 11
+    TabOrder = 12
     Width = 351
   end
   object cxtAlamat: TcxTextEdit
     Left = 112
     Top = 196
-    TabOrder = 13
+    TabOrder = 14
     Width = 351
   end
   object cxtNoBukti: TcxTextEdit
@@ -255,20 +246,6 @@ inherited frmInputPO: TfrmInputPO
     Top = 61
     TabOrder = 1
     Width = 146
-  end
-  object cxtNopol: TcxTextEdit
-    Left = 112
-    Top = 223
-    Properties.CharCase = ecUpperCase
-    TabOrder = 15
-    Width = 113
-  end
-  object cxtSopir: TcxTextEdit
-    Left = 112
-    Top = 250
-    Properties.CharCase = ecUpperCase
-    TabOrder = 17
-    Width = 113
   end
   object cxchk1: TcxCheckBox
     Left = 266
@@ -315,12 +292,12 @@ inherited frmInputPO: TfrmInputPO
   end
   object cxlbl11: TcxLabel
     Left = 10
-    Top = 278
+    Top = 224
     Caption = 'Pembayaran'
   end
   object cxCboPembayaran: TcxComboBox
     Left = 112
-    Top = 277
+    Top = 223
     Properties.DropDownListStyle = lsEditFixedList
     Properties.Items.Strings = (
       'Cash On Delivery (COD)'
@@ -329,47 +306,55 @@ inherited frmInputPO: TfrmInputPO
       '14 Hari'
       '30 Hari'
       '45 Hari')
-    TabOrder = 19
+    TabOrder = 16
     Width = 198
   end
   object cxlbl12: TcxLabel
-    Left = 317
-    Top = 278
+    Left = 318
+    Top = 224
     Caption = 'Valuta'
   end
   object cxCboRate: TcxComboBox
-    Left = 361
-    Top = 277
+    Left = 358
+    Top = 223
     Properties.DropDownListStyle = lsEditFixedList
     Properties.Items.Strings = (
       'IDR'
       'USD')
     Properties.OnChange = cxCbo2PropertiesChange
-    TabOrder = 20
+    TabOrder = 17
     Width = 63
   end
   object cxlbl13: TcxLabel
-    Left = 430
-    Top = 278
+    Left = 427
+    Top = 224
     Caption = 'Rate'
   end
   object cxlbl14: TcxLabel
     Left = 10
-    Top = 305
+    Top = 251
     Caption = 'Keterangan'
   end
   object cxtKeterangan: TcxTextEdit
     Left = 112
-    Top = 304
+    Top = 250
     Properties.CharCase = ecUpperCase
-    TabOrder = 25
+    TabOrder = 22
     Width = 416
   end
   object cxtRate: TcxTextEdit
-    Left = 463
-    Top = 277
-    TabOrder = 21
+    Left = 460
+    Top = 223
+    TabOrder = 18
     Width = 113
+  end
+  object cxChkApproval: TcxCheckBox
+    Left = 266
+    Top = 81
+    Caption = 'Approval'
+    Properties.ReadOnly = True
+    TabOrder = 5
+    Width = 104
   end
   object zqrPPHead: TZReadOnlyQuery
     Connection = DM.zConn

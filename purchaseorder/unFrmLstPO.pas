@@ -46,8 +46,6 @@ type
     cxColTblHeaduser_dept: TcxGridDBColumn;
     cxColTblHeadpembayaran: TcxGridDBColumn;
     cxColTblHeadf_approval: TcxGridDBColumn;
-    cxColTblHeadnopol: TcxGridDBColumn;
-    cxColTblHeaddriver: TcxGridDBColumn;
     cxColTblHeadnama: TcxGridDBColumn;
     cxColTblHeadkontak: TcxGridDBColumn;
     cxColTblHeadf_completed: TcxGridDBColumn;
@@ -62,6 +60,8 @@ type
     cxtbPODetsatuan: TcxGridDBColumn;
     cxtbPODetharga: TcxGridDBColumn;
     cxtbPODetmata_uang: TcxGridDBColumn;
+    cxtbPODetColumn1: TcxGridDBColumn;
+    cxtbPODetColumn2: TcxGridDBColumn;
     procedure FormCreate(Sender: TObject);
     procedure btnRefreshClick(Sender: TObject);
     procedure btnTambahClick(Sender: TObject);
@@ -97,10 +97,6 @@ begin
   if not fu.CekTabOpen('Edit Purchase Order') then begin
     ts := TcxTabSheet.Create(Self);
     ts.PageControl := frmUtama.pgMain;
-    if zqrPO.FieldByName('f_approval').AsString = '1' then begin
-      MsgBox('Maaf data tidak bisa diedit, karena sudah di approve');
-      Abort;
-    end;
     f := TfrmInputPO.Create(Self);
     ts.Caption := 'Edit Purchase Order';
     f.Jenis := 'E';
