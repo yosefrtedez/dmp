@@ -1,0 +1,25 @@
+unit unFrmAppRetur;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, unFrmTplInput, StdCtrls, ExtCtrls;
+
+type
+  TfrmAppRetur = class(TfrmTplInput)
+    Label13: TLabel;
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmAppRetur: TfrmAppRetur;
+
+implementation
+
+{$R *.dfm}
+
+end.

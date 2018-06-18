@@ -55,7 +55,8 @@ uses
   unFrmLstSales in 'sales\unFrmLstSales.pas' {frmLstSales},
   unFrmInputSales in 'sales\unFrmInputSales.pas' {frmInputSales},
   unFrmLstReturPembelian in 'returpembelian\unFrmLstReturPembelian.pas' {frmLstReturPembelian},
-  unFrmInputReturPembelian in 'returpembelian\unFrmInputReturPembelian.pas' {frmInputReturPembelian};
+  unFrmInputReturPembelian in 'returpembelian\unFrmInputReturPembelian.pas' {frmInputReturPembelian},
+  unFrmAppRetur in 'returpembelian\unFrmAppRetur.pas' {frmAppRetur};
 
 {$R *.res}
 
@@ -65,6 +66,7 @@ begin
   Application.CreateForm(TDM, DM);
   Application.CreateForm(TfrmUtama, frmUtama);
   Application.CreateForm(TfrmLogin, frmLogin);
+  Application.CreateForm(TfrmAppRetur, frmAppRetur);
   frmUtama.Show;
 
   frmLogin.ShowModal;

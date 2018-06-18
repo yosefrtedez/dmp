@@ -1,0 +1,7 @@
+inherited frmAppRetur: TfrmAppRetur
+  Caption = 'Approval Retur'
+  ExplicitWidth = 894
+  ExplicitHeight = 553
+  PixelsPerInch = 96
+  TextHeight = 13
+end

@@ -194,6 +194,9 @@
 			<DCCReference Include="returpembelian\unFrmInputReturPembelian.pas">
 				<Form>frmInputReturPembelian</Form>
 			</DCCReference>
+			<DCCReference Include="returpembelian\unFrmAppRetur.pas">
+				<Form>frmAppRetur</Form>
+			</DCCReference>
 			<BuildConfiguration Include="Base">
 				<Key>Base</Key>
 			</BuildConfiguration>
