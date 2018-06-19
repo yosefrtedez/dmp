@@ -49,7 +49,6 @@ inherited frmLstSO: TfrmLstSO
     ExplicitHeight = 410
     object cxtbSO: TcxGridDBTableView
       NavigatorButtons.ConfirmDelete = False
-      OnFocusedRecordChanged = cxtbSOFocusedRecordChanged
       DataController.DataSource = dsSO
       DataController.Summary.DefaultGroupSummaryItems = <>
       DataController.Summary.FooterSummaryItems = <>
@@ -75,6 +74,13 @@ inherited frmLstSO: TfrmLstSO
         Caption = 'Nama Customer'
         DataBinding.FieldName = 'nama'
         Width = 486
+      end
+      object cxtbSOf_approve: TcxGridDBColumn
+        Caption = 'Approve'
+        DataBinding.FieldName = 'f_approve'
+        PropertiesClassName = 'TcxCheckBoxProperties'
+        Properties.ValueChecked = 1
+        Properties.ValueUnchecked = 0
       end
     end
     object cxgCustomerLevel1: TcxGridLevel
@@ -109,7 +115,6 @@ inherited frmLstSO: TfrmLstSO
     ExplicitWidth = 1169
     object cxtbSODet: TcxGridDBTableView
       NavigatorButtons.ConfirmDelete = False
-      DataController.DataSource = dsSODet
       DataController.Summary.DefaultGroupSummaryItems = <>
       DataController.Summary.FooterSummaryItems = <
         item
@@ -176,10 +181,11 @@ inherited frmLstSO: TfrmLstSO
   end
   object zqrSO: TZReadOnlyQuery
     Connection = DM.zConn
+    Active = True
     SQL.Strings = (
-      'SELECT a.*,b.nama '
-      'FROM tbl_so_head_dmp a '
-      'left join tbl_customer b on a.id_cust = b.id')
+      
+        'SELECT a.*,b.nama FROM tbl_so_head_dmp as a join tbl_customer as' +
+        ' b on a.kode_customer=b.kode')
     Params = <>
     Left = 720
     Top = 118

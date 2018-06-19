@@ -30,6 +30,7 @@ type
     cxtbSOno_bukti: TcxGridDBColumn;
     cxtbSOtanggal: TcxGridDBColumn;
     cxtbSOpo: TcxGridDBColumn;
+    cxtbSOf_approve: TcxGridDBColumn;
     cxtbSOnama: TcxGridDBColumn;
     Panel3: TPanel;
     cxLabel1: TcxLabel;
@@ -77,13 +78,13 @@ var
  q: TZQuery;
 begin
   inherited;
-  if not fu.CekTabOpen('Edit Sales Order') then begin
+  if not fu.CekTabOpen('Input Sales Order') then begin
     ts := TcxTabSheet.Create(Self);
     ts.PageControl := frmUtama.pgMain;
     f := TfrmInputSO.Create(Self);
     f.Jenis := 'E';
-    f.Caption := 'Edit Sales Order';
-    f.EditKey := zqrSO.FieldByName('id').AsString;
+    f.Caption := 'Edit Mesin';
+    f.EditKey := zqrSO.FieldByName('no_bukti').AsString;
     f.Parent := ts;
     ts.Caption := f.Caption;
     f.Show;
@@ -144,8 +145,7 @@ procedure TfrmLstSO.cxtbSOFocusedRecordChanged(Sender: TcxCustomGridTableView;
 begin
   inherited;
   zqrSODet.Close;
-  zqrSODet.ParamByName('id_ref').AsInteger := zqrSO.FieldByName('id').AsInteger;
-  zqrSODet.Open;
+  zqrSODet.ParamByName('id_ref').AsInteger :=
 end;
 
 procedure TfrmLstSO.FormCreate(Sender: TObject);

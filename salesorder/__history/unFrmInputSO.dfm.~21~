@@ -1,5 +1,5 @@
 inherited frmInputSO: TfrmInputSO
-  Caption = 'frmInputSO'
+  Caption = 'Input Sales Order'
   ClientHeight = 646
   ClientWidth = 1048
   OnCreate = FormCreate
@@ -79,7 +79,7 @@ inherited frmInputSO: TfrmInputSO
     Top = 145
     Properties.DropDownSizeable = True
     Properties.DropDownWidth = 3000
-    Properties.KeyFieldNames = 'kode'
+    Properties.KeyFieldNames = 'id'
     Properties.ListColumns = <
       item
         Caption = 'Nama Customer'
@@ -279,7 +279,15 @@ inherited frmInputSO: TfrmInputSO
       NavigatorButtons.ConfirmDelete = False
       NavigatorButtons.Insert.Visible = False
       NavigatorButtons.Append.Visible = True
-      DataController.Summary.DefaultGroupSummaryItems = <>
+      DataController.Summary.DefaultGroupSummaryItems = <
+        item
+          Kind = skSum
+          Position = spFooter
+        end
+        item
+          Kind = skSum
+          Column = cxColGross
+        end>
       DataController.Summary.FooterSummaryItems = <
         item
           Format = '#,###'
@@ -373,12 +381,11 @@ inherited frmInputSO: TfrmInputSO
       end
       object cxColGross: TcxGridColumn
         Caption = 'Harga Gross'
+        DataBinding.ValueType = 'Float'
         PropertiesClassName = 'TcxSpinEditProperties'
         Properties.Alignment.Horz = taRightJustify
         Properties.DisplayFormat = '#,###'
-        Properties.EditFormat = '#,###'
         Properties.ReadOnly = True
-        Properties.ValueType = vtFloat
         HeaderAlignmentHorz = taCenter
         Width = 98
       end
@@ -412,6 +419,7 @@ inherited frmInputSO: TfrmInputSO
       end
       object cxColTaxAmount: TcxGridColumn
         Caption = 'PPN'
+        DataBinding.ValueType = 'Float'
         PropertiesClassName = 'TcxSpinEditProperties'
         Properties.Alignment.Horz = taRightJustify
         Properties.DisplayFormat = '#,###'
@@ -423,6 +431,7 @@ inherited frmInputSO: TfrmInputSO
       end
       object cxColNetAmount: TcxGridColumn
         Caption = 'Net Amount'
+        DataBinding.ValueType = 'Float'
         PropertiesClassName = 'TcxSpinEditProperties'
         Properties.Alignment.Horz = taRightJustify
         Properties.DisplayFormat = '#,###'
@@ -441,7 +450,7 @@ inherited frmInputSO: TfrmInputSO
     Tag = 12
     Connection = DM.zConn
     SQL.Strings = (
-      'SELECT * FROM tbl_customer'
+      'SELECT id, kode, nama FROM tbl_customer'
       'WHERE f_aktif = 1'
       'ORDER BY nama')
     Params = <>

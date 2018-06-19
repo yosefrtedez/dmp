@@ -76,6 +76,13 @@ inherited frmLstSO: TfrmLstSO
         DataBinding.FieldName = 'nama'
         Width = 486
       end
+      object cxtbSOf_approve: TcxGridDBColumn
+        Caption = 'Approve'
+        DataBinding.FieldName = 'f_approve'
+        PropertiesClassName = 'TcxCheckBoxProperties'
+        Properties.ValueChecked = 1
+        Properties.ValueUnchecked = 0
+      end
     end
     object cxgCustomerLevel1: TcxGridLevel
       GridView = cxtbSO
@@ -109,7 +116,6 @@ inherited frmLstSO: TfrmLstSO
     ExplicitWidth = 1169
     object cxtbSODet: TcxGridDBTableView
       NavigatorButtons.ConfirmDelete = False
-      DataController.DataSource = dsSODet
       DataController.Summary.DefaultGroupSummaryItems = <>
       DataController.Summary.FooterSummaryItems = <
         item

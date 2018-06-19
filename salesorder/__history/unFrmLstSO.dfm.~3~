@@ -49,7 +49,6 @@ inherited frmLstSO: TfrmLstSO
     ExplicitHeight = 410
     object cxtbSO: TcxGridDBTableView
       NavigatorButtons.ConfirmDelete = False
-      OnFocusedRecordChanged = cxtbSOFocusedRecordChanged
       DataController.DataSource = dsSO
       DataController.Summary.DefaultGroupSummaryItems = <>
       DataController.Summary.FooterSummaryItems = <>
@@ -75,6 +74,13 @@ inherited frmLstSO: TfrmLstSO
         Caption = 'Nama Customer'
         DataBinding.FieldName = 'nama'
         Width = 486
+      end
+      object cxtbSOf_approve: TcxGridDBColumn
+        Caption = 'Approve'
+        DataBinding.FieldName = 'f_approve'
+        PropertiesClassName = 'TcxCheckBoxProperties'
+        Properties.ValueChecked = 1
+        Properties.ValueUnchecked = 0
       end
     end
     object cxgCustomerLevel1: TcxGridLevel
@@ -109,7 +115,6 @@ inherited frmLstSO: TfrmLstSO
     ExplicitWidth = 1169
     object cxtbSODet: TcxGridDBTableView
       NavigatorButtons.ConfirmDelete = False
-      DataController.DataSource = dsSODet
       DataController.Summary.DefaultGroupSummaryItems = <>
       DataController.Summary.FooterSummaryItems = <
         item
@@ -176,45 +181,18 @@ inherited frmLstSO: TfrmLstSO
   end
   object zqrSO: TZReadOnlyQuery
     Connection = DM.zConn
+    Active = True
     SQL.Strings = (
-      'SELECT a.*,b.nama '
-      'FROM tbl_so_head_dmp a '
-      'left join tbl_customer b on a.id_cust = b.id')
+      
+        'SELECT a.*,b.nama FROM tbl_so_head_dmp as a join tbl_customer as' +
+        ' b on a.kode_customer=b.kode')
     Params = <>
-    Left = 720
-    Top = 118
+    Left = 832
+    Top = 198
   end
   object dsSO: TDataSource
     DataSet = zqrSO
-    Left = 776
-    Top = 118
-  end
-  object dsSODet: TDataSource
-    DataSet = zqrSODet
-    Left = 776
-    Top = 174
-  end
-  object zqrSODet: TZReadOnlyQuery
-    Connection = DM.zConn
-    SQL.Strings = (
-      'SELECT a.*, b.deskripsi, c.satuan satuan2'
-      'FROM tbl_so_det_dmp a'
-      'LEFT JOIN tbl_barang b ON a.id_brg = b.id  '
-      'LEFT JOIN tbl_satuan c ON c.id = a.id_satuan'
-      'WHERE a.id_ref = :id_ref')
-    Params = <
-      item
-        DataType = ftUnknown
-        Name = 'id_ref'
-        ParamType = ptUnknown
-      end>
-    Left = 720
-    Top = 174
-    ParamData = <
-      item
-        DataType = ftUnknown
-        Name = 'id_ref'
-        ParamType = ptUnknown
-      end>
+    Left = 904
+    Top = 198
   end
 end

@@ -72,6 +72,7 @@ type
     cxColTaxable: TcxGridColumn;
     cxColTaxAmount: TcxGridColumn;
     cxColNetAmount: TcxGridColumn;
+    cxColIdSatuan: TcxGridColumn;
     procedure FormShow(Sender: TObject);
     procedure cxCmbCurrPropertiesEditValueChanged(Sender: TObject);
     procedure cxColNoGetDisplayText(Sender: TcxCustomGridTableItem;
@@ -114,7 +115,7 @@ begin
 
   if (cxTblSO.DataController.EditState = [dceInsert, dceModified]) or
     (cxTblSO.DataController.EditState = [dceEdit, dceModified]) then begin
-    MsgBox('Pengeditan detail masih belum selesai.');
+    MsgBox('Mohon selesaikan pengeditan detail sebelum disimpan.');
     Abort;
   end;
 
@@ -180,15 +181,18 @@ begin
 
       if Self.Jenis = 'T' then
         q.Insert
-      else
+      else begin
         q.Edit;
+        ID := q.FieldByName('id').AsInteger;
+      end;
 
       with q do begin
         FieldByName('no_bukti').AsString          := cxtNoSO.Text;
         FieldByName('po#').AsString               := cxtPO.Text;
         FieldByName('tanggal').AsDateTime         := cxdTanggal.EditValue;
-        FieldByName('kode_customer').AsString     := cxLUCust.EditValue;
-        FieldByName('sales').AsString             := cxlSales.EditValue;
+        //FieldByName('kode_customer').AsString     := cxLUCust.EditValue;
+        FieldByName('id_cust').AsInteger := cxLUCust.EditValue;
+        FieldByName('id_sales').AsString          := cxlSales.EditValue;
         FieldByName('currency').AsString          := cxCmbCurr.Text;
         FieldByName('rate').AsFloat               := cxsKurs.EditValue;
         FieldByName('tax').AsString               := cxCmbTax.Text;
@@ -216,6 +220,9 @@ begin
       if Self.Jenis = 'E' then
         dm.zConn.ExecuteDirect(Format('DELETE FROM tbl_so_det_dmp WHERE no_bukti = ''%s''',[sNoTrs]));
 
+      if Self.Jenis = 'T' then
+        ID := LastInsertID;
+
       if (cxsNet.EditValue <> 0) then begin
         with cxTblSO.DataController  do begin
           for i := 0 to RecordCount -1 do begin
@@ -223,9 +230,12 @@ begin
             z.Insert;
             z.FieldByName('no').AsInteger           := i+1;
             z.FieldByName('no_bukti').AsString      := sNoTrs;
+            z.FieldByname('id_ref').AsInteger       := ID;
             z.FieldByName('kode_brg').AsString      := Values[i, cxColKode.index];
+            z.FieldByName('id_brg').AsInteger       := Values[i, cxColDeskripsi.Index];
             z.FieldByName('qty').AsFloat            := Values[i, cxColQty.Index];
             z.FieldByName('satuan').AsString        := Values[i, cxColSatuan.Index];
+            z.FieldByName('id_satuan').AsInteger    := Values[i, cxColIdSatuan.Index];
             z.FieldByName('harga').AsFloat          := Values[i, cxColHarga.Index];
             z.FieldByName('harga_gross').asFloat    := Values[i, cxColGross.Index];
             if Values[i, cxColDisc.Index]<> null then
@@ -450,6 +460,7 @@ begin
       end;
     end;
   end;
+
   if (VarIsNull(ADataController.Values[i, cxColKode.Index])) or
     (Trim(ADataController.Values[i, cxColKode.Index]) = '')  then begin
     MsgBox('Kode barang harus di isi.');
@@ -469,10 +480,12 @@ begin
         cxTblSO.BeginUpdate;
         ADataController.Values[ARecordIndex, cxColKode.Index] :=
         ADataController.Values[ARecordIndex, cxColDeskripsi.Index];
-        {z := OpenRS('SELECT unitid FROM tbl_barang where kode =''%s''',[Label1.caption]) ;
-        with cxTblSO.DataController do begin
-         Values[i, cxColSatuan.Index] := z.FieldByName('unitid').AsString ;
-        end; }
+        q := OpenRS('SELECT a.id_satuan, b.satuan FROM tbl_barang a ' +
+          'LEFT JOIN tbl_satuan b ON a.id_satuan = b.id ' +
+          'WHERE a.id = %s',[ADataController.Values[ARecordIndex, cxColDeskripsi.Index]]);
+        ADataController.Values[ARecordIndex, cxColSatuan.Index] := q.FieldByName('satuan').AsString;
+        ADataController.Values[ARecordIndex, cxColIdSatuan.Index] := q.FieldByName('id_satuan').AsInteger;
+        q.Close;
       finally
         cxTblSO.EndUpdate;
       end;
@@ -589,14 +602,15 @@ begin
   end
   else if Self.Jenis= 'E' then begin
 
-    q := OpenRS('SELECT * FROM tbl_so_head_dmp WHERE no_bukti=''%s''', [Self.EditKey] );
+    q := OpenRS('SELECT * FROM tbl_so_head_dmp WHERE id =%s', [Self.EditKey] );
+    cxTblSO.DataController.OnRecordChanged := nil;
 
     with q do begin
       cxtNoSO.Text                  := FieldByName('no_bukti').AsString;
       cxtPO.Text                    := FieldByName('po#').AsString;
       cxdTanggal.EditValue          := FieldByName('tanggal').AsDateTime;
-      cxLUCust.EditValue            := FieldByName('kode_customer').AsString;
-      cxlSales.EditValue            := FieldByName('sales').AsString;
+      cxLUCust.EditValue            := FieldByName('id_cust').AsInteger;
+      cxlSales.EditValue            := FieldByName('id_sales').AsInteger;
       cxCmbCurr.Text                := FieldByName('currency').AsString;
       cxsKurs.Text                  := FieldByName('rate').AsString;
       cxCmbTax.Text                 := FieldByName('tax').AsString;
@@ -607,16 +621,19 @@ begin
       cxsTax.EditValue              := FieldByName('tax_amount').AsFloat;
       cxsNet.EditValue              := FieldByName('net_amount').AsFloat;
 
-      z := OpenRS('SELECT * FROM tbl_so_det_dmp where no_bukti =''%s'' order by no asc',[Self.EditKey]) ;
+      z := OpenRS('SELECT a.*, b.kode kode_brg, b.satuan satuan2 FROM tbl_so_det_dmp a ' +
+        'LEFT JOIN tbl_satuan b ON a.id_satuan = b.id ' +
+        'where id_ref = %s order by no asc',[Self.EditKey]) ;
       while not z.Eof do begin
         cxGrid1.BeginUpdate;
         with cxTblSO.DataController do begin
           i := AppendRecord ;
           Values[i, cxColNo.Index]          := z.FieldByName('no').AsInteger ;
           Values[i, cxColkode.index]        := z.FieldByName('kode_brg').AsString;
-          Values[i, cxColDeskripsi.Index]   := z.FieldByName('kode_brg').AsString;
+          Values[i, cxColDeskripsi.Index]   := z.FieldByName('id_brg').AsInteger;
           Values[i, cxColQty.Index]         := z.FieldByName('qty').AsFloat ;
-          Values[i, cxColSatuan.Index]      := z.FieldByName('satuan').AsString ;
+          Values[i, cxColSatuan.Index]      := z.FieldByName('satuan2').AsString ;
+          Values[i, cxColIdSatuan.Index] := z.FieldByName('id_satuan').AsString;
           Values[i, cxColHarga.Index]       := z.FieldByName('harga').AsFloat;
           Values[i, cxColGross.Index]       := z.FieldByName('harga_gross').asstring;
           Values[i, cxColDisc.Index]        := z.FieldByName('disc').AsFloat ;
@@ -628,10 +645,11 @@ begin
         cxGrid1.EndUpdate;
         z.Next;
       end;
-        z.Close;
+      z.Close;
 
-        if cxTblSO.DataController.RecordCount = 0 then cxCmbTax.Enabled := False;
+      if cxTblSO.DataController.RecordCount = 0 then cxCmbTax.Enabled := False;
     end;
+    cxTblSO.DataController.OnRecordChanged := Self.cxTblSODataControllerRecordChanged;
 
   end;
   if cxCmbCurr.Text<>'IDR' then cxsKurs.Enabled := True else cxsKurs.Enabled := False ;

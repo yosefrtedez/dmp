@@ -30,6 +30,7 @@ type
     cxtbSOno_bukti: TcxGridDBColumn;
     cxtbSOtanggal: TcxGridDBColumn;
     cxtbSOpo: TcxGridDBColumn;
+    cxtbSOf_approve: TcxGridDBColumn;
     cxtbSOnama: TcxGridDBColumn;
     Panel3: TPanel;
     cxLabel1: TcxLabel;
@@ -44,16 +45,11 @@ type
     cxtbSODetColumn1: TcxGridDBColumn;
     cxtbSODetColumn2: TcxGridDBColumn;
     cxGrid1Level1: TcxGridLevel;
-    dsSODet: TDataSource;
-    zqrSODet: TZReadOnlyQuery;
     procedure btnRefreshClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure btnTambahClick(Sender: TObject);
     procedure btnEditClick(Sender: TObject);
     procedure btnHapusClick(Sender: TObject);
-    procedure cxtbSOFocusedRecordChanged(Sender: TcxCustomGridTableView;
-      APrevFocusedRecord, AFocusedRecord: TcxCustomGridRecord;
-      ANewItemRecordFocusingChanged: Boolean);
   private
     { Private declarations }
   public
@@ -77,13 +73,13 @@ var
  q: TZQuery;
 begin
   inherited;
-  if not fu.CekTabOpen('Edit Sales Order') then begin
+  if not fu.CekTabOpen('Input Sales Order') then begin
     ts := TcxTabSheet.Create(Self);
     ts.PageControl := frmUtama.pgMain;
     f := TfrmInputSO.Create(Self);
     f.Jenis := 'E';
-    f.Caption := 'Edit Sales Order';
-    f.EditKey := zqrSO.FieldByName('id').AsString;
+    f.Caption := 'Edit Mesin';
+    f.EditKey := zqrSO.FieldByName('no_bukti').AsString;
     f.Parent := ts;
     ts.Caption := f.Caption;
     f.Show;
@@ -136,16 +132,6 @@ begin
 
     fu.pgMain.ActivePage := ts;
   end;
-end;
-
-procedure TfrmLstSO.cxtbSOFocusedRecordChanged(Sender: TcxCustomGridTableView;
-  APrevFocusedRecord, AFocusedRecord: TcxCustomGridRecord;
-  ANewItemRecordFocusingChanged: Boolean);
-begin
-  inherited;
-  zqrSODet.Close;
-  zqrSODet.ParamByName('id_ref').AsInteger := zqrSO.FieldByName('id').AsInteger;
-  zqrSODet.Open;
 end;
 
 procedure TfrmLstSO.FormCreate(Sender: TObject);

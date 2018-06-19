@@ -1,16 +1,16 @@
 inherited frmInputSO: TfrmInputSO
-  Caption = 'frmInputSO'
-  ClientHeight = 591
-  ClientWidth = 968
+  Caption = 'Input Sales Order'
+  ClientHeight = 646
+  ClientWidth = 1048
   OnCreate = FormCreate
   OnShow = FormShow
-  ExplicitWidth = 968
-  ExplicitHeight = 591
+  ExplicitWidth = 1048
+  ExplicitHeight = 646
   PixelsPerInch = 96
   TextHeight = 13
   inherited Panel1: TPanel
-    Width = 968
-    ExplicitWidth = 968
+    Width = 1048
+    ExplicitWidth = 1048
     object Label1: TLabel
       Left = 10
       Top = 16
@@ -26,11 +26,11 @@ inherited frmInputSO: TfrmInputSO
     end
   end
   inherited Panel2: TPanel
-    Top = 542
-    Width = 968
+    Top = 597
+    Width = 1048
     TabOrder = 23
-    ExplicitTop = 542
-    ExplicitWidth = 968
+    ExplicitTop = 597
+    ExplicitWidth = 1048
     inherited btnSimpan: TButton
       OnClick = btnSimpanClick
     end
@@ -79,7 +79,7 @@ inherited frmInputSO: TfrmInputSO
     Top = 145
     Properties.DropDownSizeable = True
     Properties.DropDownWidth = 3000
-    Properties.KeyFieldNames = 'kode'
+    Properties.KeyFieldNames = 'id'
     Properties.ListColumns = <
       item
         Caption = 'Nama Customer'
@@ -206,15 +206,15 @@ inherited frmInputSO: TfrmInputSO
     Width = 160
   end
   object cxLabel11: TcxLabel
-    Left = 707
-    Top = 418
+    Left = 710
+    Top = 414
     Caption = 'Harga Gross'
   end
   object cxsGross: TcxSpinEdit
-    Left = 796
-    Top = 418
+    Left = 799
+    Top = 414
     Properties.Alignment.Horz = taRightJustify
-    Properties.DisplayFormat = '#,###'
+    Properties.DisplayFormat = '#,#0.00'
     Properties.ReadOnly = True
     Properties.ValueType = vtFloat
     Style.HotTrack = True
@@ -222,15 +222,15 @@ inherited frmInputSO: TfrmInputSO
     Width = 161
   end
   object cxLabel12: TcxLabel
-    Left = 707
-    Top = 444
+    Left = 710
+    Top = 443
     Caption = 'Disc Amount'
   end
   object cxsDisc: TcxSpinEdit
-    Left = 796
-    Top = 442
+    Left = 799
+    Top = 441
     Properties.Alignment.Horz = taRightJustify
-    Properties.DisplayFormat = '#,###'
+    Properties.DisplayFormat = '#,#0.00'
     Properties.ReadOnly = True
     Properties.ValueType = vtFloat
     Style.HotTrack = True
@@ -238,15 +238,15 @@ inherited frmInputSO: TfrmInputSO
     Width = 161
   end
   object cxLabel5: TcxLabel
-    Left = 706
-    Top = 467
+    Left = 709
+    Top = 471
     Caption = 'Tax Amount'
   end
   object cxsTax: TcxSpinEdit
-    Left = 796
-    Top = 464
+    Left = 799
+    Top = 468
     Properties.Alignment.Horz = taRightJustify
-    Properties.DisplayFormat = '#,###'
+    Properties.DisplayFormat = '#,#0.00'
     Properties.ReadOnly = True
     Properties.ValueType = vtFloat
     Style.HotTrack = True
@@ -254,15 +254,15 @@ inherited frmInputSO: TfrmInputSO
     Width = 161
   end
   object cxLabel6: TcxLabel
-    Left = 707
-    Top = 490
+    Left = 710
+    Top = 496
     Caption = 'Net Amount'
   end
   object cxsNet: TcxSpinEdit
-    Left = 796
-    Top = 489
+    Left = 799
+    Top = 495
     Properties.Alignment.Horz = taRightJustify
-    Properties.DisplayFormat = '#,###'
+    Properties.DisplayFormat = '#,#0.00'
     Properties.ReadOnly = True
     Properties.ValueType = vtFloat
     Style.HotTrack = True
@@ -272,14 +272,23 @@ inherited frmInputSO: TfrmInputSO
   object cxGrid1: TcxGrid
     Left = 8
     Top = 208
-    Width = 952
+    Width = 1032
     Height = 200
+    Anchors = [akLeft, akTop, akRight]
     TabOrder = 14
     object cxTblSO: TcxGridTableView
       NavigatorButtons.ConfirmDelete = False
       NavigatorButtons.Insert.Visible = False
       NavigatorButtons.Append.Visible = True
-      DataController.Summary.DefaultGroupSummaryItems = <>
+      DataController.Summary.DefaultGroupSummaryItems = <
+        item
+          Kind = skSum
+          Position = spFooter
+        end
+        item
+          Kind = skSum
+          Column = cxColGross
+        end>
       DataController.Summary.FooterSummaryItems = <
         item
           Format = '#,###'
@@ -305,6 +314,7 @@ inherited frmInputSO: TfrmInputSO
       DataController.OnAfterDelete = cxTblSODataControllerAfterDelete
       DataController.OnBeforePost = cxTblSODataControllerBeforePost
       DataController.OnRecordChanged = cxTblSODataControllerRecordChanged
+      OptionsData.Appending = True
       OptionsView.Navigator = True
       OptionsView.GroupByBox = False
       object cxColNo: TcxGridColumn
@@ -319,13 +329,12 @@ inherited frmInputSO: TfrmInputSO
         Caption = 'Kode Brg'
         PropertiesClassName = 'TcxTextEditProperties'
         Properties.ReadOnly = True
-        HeaderAlignmentHorz = taCenter
         Width = 108
       end
       object cxColDeskripsi: TcxGridColumn
         Caption = 'Deskripsi'
         PropertiesClassName = 'TcxLookupComboBoxProperties'
-        Properties.KeyFieldNames = 'kode'
+        Properties.KeyFieldNames = 'id'
         Properties.ListColumns = <
           item
             FieldName = 'deskripsi'
@@ -334,7 +343,6 @@ inherited frmInputSO: TfrmInputSO
             FieldName = 'kode'
           end>
         Properties.ListSource = dsBarang
-        HeaderAlignmentHorz = taCenter
         Width = 193
       end
       object cxColQty: TcxGridColumn
@@ -344,20 +352,12 @@ inherited frmInputSO: TfrmInputSO
         Properties.DisplayFormat = '#,###'
         Properties.EditFormat = '#,###'
         Properties.ValueType = vtFloat
-        HeaderAlignmentHorz = taCenter
+        HeaderAlignmentHorz = taRightJustify
       end
       object cxColSatuan: TcxGridColumn
         Caption = 'Satuan'
-        PropertiesClassName = 'TcxComboBoxProperties'
-        Properties.Items.Strings = (
-          'M'
-          'CM'
-          'KG'
-          'GR'
-          'ROLL'
-          'PCS'
-          'TON')
-        HeaderAlignmentHorz = taCenter
+        PropertiesClassName = 'TcxTextEditProperties'
+        Properties.ReadOnly = True
         Width = 72
       end
       object cxColHarga: TcxGridColumn
@@ -372,12 +372,11 @@ inherited frmInputSO: TfrmInputSO
       end
       object cxColGross: TcxGridColumn
         Caption = 'Harga Gross'
+        DataBinding.ValueType = 'Float'
         PropertiesClassName = 'TcxSpinEditProperties'
         Properties.Alignment.Horz = taRightJustify
         Properties.DisplayFormat = '#,###'
-        Properties.EditFormat = '#,###'
         Properties.ReadOnly = True
-        Properties.ValueType = vtFloat
         HeaderAlignmentHorz = taCenter
         Width = 98
       end
@@ -411,6 +410,7 @@ inherited frmInputSO: TfrmInputSO
       end
       object cxColTaxAmount: TcxGridColumn
         Caption = 'PPN'
+        DataBinding.ValueType = 'Float'
         PropertiesClassName = 'TcxSpinEditProperties'
         Properties.Alignment.Horz = taRightJustify
         Properties.DisplayFormat = '#,###'
@@ -422,6 +422,7 @@ inherited frmInputSO: TfrmInputSO
       end
       object cxColNetAmount: TcxGridColumn
         Caption = 'Net Amount'
+        DataBinding.ValueType = 'Float'
         PropertiesClassName = 'TcxSpinEditProperties'
         Properties.Alignment.Horz = taRightJustify
         Properties.DisplayFormat = '#,###'
@@ -430,6 +431,8 @@ inherited frmInputSO: TfrmInputSO
         Properties.ValueType = vtFloat
         HeaderAlignmentHorz = taCenter
         Width = 133
+      end
+      object cxColIdSatuan: TcxGridColumn
       end
     end
     object cxGrid1Level1: TcxGridLevel
@@ -440,7 +443,7 @@ inherited frmInputSO: TfrmInputSO
     Tag = 12
     Connection = DM.zConn
     SQL.Strings = (
-      'SELECT * FROM tbl_customer'
+      'SELECT id, kode, nama FROM tbl_customer'
       'WHERE f_aktif = 1'
       'ORDER BY nama')
     Params = <>
@@ -471,7 +474,10 @@ inherited frmInputSO: TfrmInputSO
   object zqrBarang: TZReadOnlyQuery
     Connection = DM.zConn
     SQL.Strings = (
-      'select kode, deskripsi, satuan from tbl_barang order by kode;')
+      'select a.id, a.kode, a.deskripsi, a.id_satuan, b.satuan from '
+      'tbl_barang a '
+      'left join tbl_satuan b on a.id_satuan = b.id'
+      'order by kode;')
     Params = <>
     Left = 430
     Top = 14
