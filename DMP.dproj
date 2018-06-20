@@ -197,6 +197,9 @@
 			<DCCReference Include="returpembelian\unFrmAppRetur.pas">
 				<Form>frmAppRetur</Form>
 			</DCCReference>
+			<DCCReference Include="unFrmCariBrg.pas">
+				<Form>frmCariBrg</Form>
+			</DCCReference>
 			<BuildConfiguration Include="Base">
 				<Key>Base</Key>
 			</BuildConfiguration>

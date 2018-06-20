@@ -47,9 +47,17 @@ uses
   unFrmInputFormula in 'formula\unFrmInputFormula.pas' {frmInputFormula},
   unFrmAppPO in 'purchaseorder\unFrmAppPO.pas' {frmAppPO},
   unFrmLstPB in 'penerimaanbarang\unFrmLstPB.pas' {frmLstPB},
-  unFrmInputPB in 'penerimaanbarang\unFrmInputPB.pas' {frmTplInput1},
+  unFrmInputPB in 'penerimaanbarang\unFrmInputPB.pas' {frmInputPB},
   unFrmLstPengeluaranKas in 'penerimaanpengeluarankas\unFrmLstPengeluaranKas.pas' {frmLstPengeluaranKas},
-  unFrmInputPengeluaranKas in 'penerimaanpengeluarankas\unFrmInputPengeluaranKas.pas' {frmInputPengeluaranKas};
+  unFrmInputPengeluaranKas in 'penerimaanpengeluarankas\unFrmInputPengeluaranKas.pas' {frmInputPengeluaranKas},
+  unFrmLstTransferBarang in 'transferbarang\unFrmLstTransferBarang.pas' {frmLstTransferBarang},
+  unFrmInputTransferBarang in 'transferbarang\unFrmInputTransferBarang.pas' {frmTplInput2},
+  unFrmLstSales in 'sales\unFrmLstSales.pas' {frmLstSales},
+  unFrmInputSales in 'sales\unFrmInputSales.pas' {frmInputSales},
+  unFrmLstReturPembelian in 'returpembelian\unFrmLstReturPembelian.pas' {frmLstReturPembelian},
+  unFrmInputReturPembelian in 'returpembelian\unFrmInputReturPembelian.pas' {frmInputReturPembelian},
+  unFrmAppRetur in 'returpembelian\unFrmAppRetur.pas' {frmAppRetur},
+  unFrmCariBrg in 'unFrmCariBrg.pas' {frmCariBrg};
 
 {$R *.res}
 
@@ -59,21 +67,8 @@ begin
   Application.CreateForm(TDM, DM);
   Application.CreateForm(TfrmUtama, frmUtama);
   Application.CreateForm(TfrmLogin, frmLogin);
-  Application.CreateForm(TfrmAppPP, frmAppPP);
-  Application.CreateForm(TfrmDefaultAkun, frmDefaultAkun);
-  Application.CreateForm(TfrmMasterOrder, frmMasterOrder);
-  Application.CreateForm(TfrmSettingWewenang, frmSettingWewenang);
-  Application.CreateForm(TfrmSettingProgram, frmSettingProgram);
-  Application.CreateForm(TfrmInputPenerimaanKas, frmInputPenerimaanKas);
-  Application.CreateForm(TfrmLaporan, frmLaporan);
-  Application.CreateForm(TfrmLstPenerimaanKas, frmLstPenerimaanKas);
-  Application.CreateForm(TfrmLstFormula, frmLstFormula);
-  Application.CreateForm(TfrmInputFormula, frmInputFormula);
-  Application.CreateForm(TfrmAppPO, frmAppPO);
-  Application.CreateForm(TfrmLstPB, frmLstPB);
-  Application.CreateForm(TfrmTplInput1, frmTplInput1);
-  Application.CreateForm(TfrmLstPengeluaranKas, frmLstPengeluaranKas);
-  Application.CreateForm(TfrmInputPengeluaranKas, frmInputPengeluaranKas);
+  Application.CreateForm(TfrmAppRetur, frmAppRetur);
+  Application.CreateForm(TfrmCariBrg, frmCariBrg);
   frmUtama.Show;
 
   frmLogin.ShowModal;
