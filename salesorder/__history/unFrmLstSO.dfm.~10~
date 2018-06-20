@@ -178,7 +178,7 @@ inherited frmLstSO: TfrmLstSO
     Connection = DM.zConn
     SQL.Strings = (
       'SELECT a.*,b.nama '
-      'FROM tbl_so_head a '
+      'FROM tbl_so_head_dmp a '
       'left join tbl_customer b on a.id_cust = b.id')
     Params = <>
     Left = 720
@@ -198,7 +198,7 @@ inherited frmLstSO: TfrmLstSO
     Connection = DM.zConn
     SQL.Strings = (
       'SELECT a.*, b.deskripsi, c.satuan satuan2'
-      'FROM tbl_so_det a'
+      'FROM tbl_so_det_dmp a'
       'LEFT JOIN tbl_barang b ON a.id_brg = b.id  '
       'LEFT JOIN tbl_satuan c ON c.id = a.id_satuan'
       'WHERE a.id_ref = :id_ref')

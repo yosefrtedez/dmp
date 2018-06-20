@@ -110,7 +110,7 @@ inherited frmInputSO: TfrmInputSO
     Top = 172
     Properties.DropDownSizeable = True
     Properties.DropDownWidth = 500
-    Properties.KeyFieldNames = 'kode_sales'
+    Properties.KeyFieldNames = 'id'
     Properties.ListColumns = <
       item
         Width = 100
@@ -327,13 +327,20 @@ inherited frmInputSO: TfrmInputSO
       end
       object cxColKode: TcxGridColumn
         Caption = 'Kode Brg'
-        PropertiesClassName = 'TcxTextEditProperties'
-        Properties.ReadOnly = True
+        PropertiesClassName = 'TcxButtonEditProperties'
+        Properties.Buttons = <
+          item
+            Default = True
+            Kind = bkEllipsis
+          end>
+        Properties.OnButtonClick = cxColKodePropertiesButtonClick
+        Options.Editing = False
         Width = 108
       end
       object cxColDeskripsi: TcxGridColumn
         Caption = 'Deskripsi'
         PropertiesClassName = 'TcxLookupComboBoxProperties'
+        Properties.DropDownAutoSize = True
         Properties.KeyFieldNames = 'id'
         Properties.ListColumns = <
           item
@@ -431,6 +438,12 @@ inherited frmInputSO: TfrmInputSO
         Properties.ValueType = vtFloat
         HeaderAlignmentHorz = taCenter
         Width = 133
+      end
+      object cxColKeterangan: TcxGridColumn
+        Caption = 'Keterangan'
+        PropertiesClassName = 'TcxTextEditProperties'
+        Properties.CharCase = ecUpperCase
+        Width = 281
       end
       object cxColIdSatuan: TcxGridColumn
       end

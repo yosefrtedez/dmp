@@ -110,7 +110,7 @@ inherited frmInputSO: TfrmInputSO
     Top = 172
     Properties.DropDownSizeable = True
     Properties.DropDownWidth = 500
-    Properties.KeyFieldNames = 'kode_sales'
+    Properties.KeyFieldNames = 'id'
     Properties.ListColumns = <
       item
         Width = 100
@@ -327,13 +327,19 @@ inherited frmInputSO: TfrmInputSO
       end
       object cxColKode: TcxGridColumn
         Caption = 'Kode Brg'
-        PropertiesClassName = 'TcxTextEditProperties'
-        Properties.ReadOnly = True
+        PropertiesClassName = 'TcxButtonEditProperties'
+        Properties.Buttons = <
+          item
+            Default = True
+            Kind = bkEllipsis
+          end>
+        Options.Editing = False
         Width = 108
       end
       object cxColDeskripsi: TcxGridColumn
         Caption = 'Deskripsi'
         PropertiesClassName = 'TcxLookupComboBoxProperties'
+        Properties.DropDownAutoSize = True
         Properties.KeyFieldNames = 'id'
         Properties.ListColumns = <
           item
@@ -356,25 +362,18 @@ inherited frmInputSO: TfrmInputSO
       end
       object cxColSatuan: TcxGridColumn
         Caption = 'Satuan'
-        PropertiesClassName = 'TcxComboBoxProperties'
-        Properties.Items.Strings = (
-          'M'
-          'CM'
-          'KG'
-          'GR'
-          'ROLL'
-          'PCS'
-          'TON')
+        PropertiesClassName = 'TcxTextEditProperties'
+        Properties.ReadOnly = True
         Width = 72
       end
       object cxColHarga: TcxGridColumn
         Caption = 'Harga'
         PropertiesClassName = 'TcxSpinEditProperties'
         Properties.Alignment.Horz = taRightJustify
-        Properties.DisplayFormat = '#,###'
-        Properties.EditFormat = '#,###'
+        Properties.AssignedValues.EditFormat = True
+        Properties.DisplayFormat = '#,#0.00'
         Properties.ValueType = vtFloat
-        HeaderAlignmentHorz = taCenter
+        HeaderAlignmentHorz = taRightJustify
         Width = 87
       end
       object cxColGross: TcxGridColumn
@@ -382,9 +381,9 @@ inherited frmInputSO: TfrmInputSO
         DataBinding.ValueType = 'Float'
         PropertiesClassName = 'TcxSpinEditProperties'
         Properties.Alignment.Horz = taRightJustify
-        Properties.DisplayFormat = '#,###'
+        Properties.DisplayFormat = '#,#0.00'
         Properties.ReadOnly = True
-        HeaderAlignmentHorz = taCenter
+        HeaderAlignmentHorz = taRightJustify
         Width = 98
       end
       object cxColDisc: TcxGridColumn
@@ -438,6 +437,12 @@ inherited frmInputSO: TfrmInputSO
         Properties.ValueType = vtFloat
         HeaderAlignmentHorz = taCenter
         Width = 133
+      end
+      object cxColKeterangan: TcxGridColumn
+        Caption = 'Keterangan'
+        PropertiesClassName = 'TcxTextEditProperties'
+        Properties.CharCase = ecUpperCase
+        Width = 281
       end
       object cxColIdSatuan: TcxGridColumn
       end

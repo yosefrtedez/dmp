@@ -79,7 +79,7 @@ inherited frmInputSO: TfrmInputSO
     Top = 145
     Properties.DropDownSizeable = True
     Properties.DropDownWidth = 3000
-    Properties.KeyFieldNames = 'kode'
+    Properties.KeyFieldNames = 'id'
     Properties.ListColumns = <
       item
         Caption = 'Nama Customer'
@@ -110,7 +110,7 @@ inherited frmInputSO: TfrmInputSO
     Top = 172
     Properties.DropDownSizeable = True
     Properties.DropDownWidth = 500
-    Properties.KeyFieldNames = 'kode_sales'
+    Properties.KeyFieldNames = 'id'
     Properties.ListColumns = <
       item
         Width = 100
@@ -272,8 +272,9 @@ inherited frmInputSO: TfrmInputSO
   object cxGrid1: TcxGrid
     Left = 8
     Top = 208
-    Width = 952
+    Width = 1032
     Height = 200
+    Anchors = [akLeft, akTop, akRight]
     TabOrder = 14
     object cxTblSO: TcxGridTableView
       NavigatorButtons.ConfirmDelete = False
@@ -326,15 +327,20 @@ inherited frmInputSO: TfrmInputSO
       end
       object cxColKode: TcxGridColumn
         Caption = 'Kode Brg'
-        PropertiesClassName = 'TcxTextEditProperties'
-        Properties.ReadOnly = True
-        HeaderAlignmentHorz = taCenter
+        PropertiesClassName = 'TcxButtonEditProperties'
+        Properties.Buttons = <
+          item
+            Default = True
+            Kind = bkEllipsis
+          end>
+        Options.Editing = False
         Width = 108
       end
       object cxColDeskripsi: TcxGridColumn
         Caption = 'Deskripsi'
         PropertiesClassName = 'TcxLookupComboBoxProperties'
-        Properties.KeyFieldNames = 'kode'
+        Properties.DropDownAutoSize = True
+        Properties.KeyFieldNames = 'id'
         Properties.ListColumns = <
           item
             FieldName = 'deskripsi'
@@ -343,7 +349,6 @@ inherited frmInputSO: TfrmInputSO
             FieldName = 'kode'
           end>
         Properties.ListSource = dsBarang
-        HeaderAlignmentHorz = taCenter
         Width = 193
       end
       object cxColQty: TcxGridColumn
@@ -353,30 +358,22 @@ inherited frmInputSO: TfrmInputSO
         Properties.DisplayFormat = '#,###'
         Properties.EditFormat = '#,###'
         Properties.ValueType = vtFloat
-        HeaderAlignmentHorz = taCenter
+        HeaderAlignmentHorz = taRightJustify
       end
       object cxColSatuan: TcxGridColumn
         Caption = 'Satuan'
-        PropertiesClassName = 'TcxComboBoxProperties'
-        Properties.Items.Strings = (
-          'M'
-          'CM'
-          'KG'
-          'GR'
-          'ROLL'
-          'PCS'
-          'TON')
-        HeaderAlignmentHorz = taCenter
+        PropertiesClassName = 'TcxTextEditProperties'
+        Properties.ReadOnly = True
         Width = 72
       end
       object cxColHarga: TcxGridColumn
         Caption = 'Harga'
         PropertiesClassName = 'TcxSpinEditProperties'
         Properties.Alignment.Horz = taRightJustify
-        Properties.DisplayFormat = '#,###'
-        Properties.EditFormat = '#,###'
+        Properties.AssignedValues.EditFormat = True
+        Properties.DisplayFormat = '#,#0.00'
         Properties.ValueType = vtFloat
-        HeaderAlignmentHorz = taCenter
+        HeaderAlignmentHorz = taRightJustify
         Width = 87
       end
       object cxColGross: TcxGridColumn
@@ -384,9 +381,9 @@ inherited frmInputSO: TfrmInputSO
         DataBinding.ValueType = 'Float'
         PropertiesClassName = 'TcxSpinEditProperties'
         Properties.Alignment.Horz = taRightJustify
-        Properties.DisplayFormat = '#,###'
+        Properties.DisplayFormat = '#,#0.00'
         Properties.ReadOnly = True
-        HeaderAlignmentHorz = taCenter
+        HeaderAlignmentHorz = taRightJustify
         Width = 98
       end
       object cxColDisc: TcxGridColumn
@@ -441,6 +438,14 @@ inherited frmInputSO: TfrmInputSO
         HeaderAlignmentHorz = taCenter
         Width = 133
       end
+      object cxColKeterangan: TcxGridColumn
+        Caption = 'Keterangan'
+        PropertiesClassName = 'TcxTextEditProperties'
+        Properties.CharCase = ecUpperCase
+        Width = 281
+      end
+      object cxColIdSatuan: TcxGridColumn
+      end
     end
     object cxGrid1Level1: TcxGridLevel
       GridView = cxTblSO
@@ -450,7 +455,7 @@ inherited frmInputSO: TfrmInputSO
     Tag = 12
     Connection = DM.zConn
     SQL.Strings = (
-      'SELECT * FROM tbl_customer'
+      'SELECT id, kode, nama FROM tbl_customer'
       'WHERE f_aktif = 1'
       'ORDER BY nama')
     Params = <>
@@ -481,7 +486,10 @@ inherited frmInputSO: TfrmInputSO
   object zqrBarang: TZReadOnlyQuery
     Connection = DM.zConn
     SQL.Strings = (
-      'select kode, deskripsi, satuan from tbl_barang order by kode;')
+      'select a.id, a.kode, a.deskripsi, a.id_satuan, b.satuan from '
+      'tbl_barang a '
+      'left join tbl_satuan b on a.id_satuan = b.id'
+      'order by kode;')
     Params = <>
     Left = 430
     Top = 14

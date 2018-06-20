@@ -18,7 +18,7 @@ uses
   cxDataStorage, DB, cxDBData, cxGridLevel, cxClasses, cxGridCustomView,
   cxGridCustomTableView, cxGridTableView, cxGridDBTableView, cxGrid,
   ZAbstractRODataset, ZDataset, cxDropDownEdit, cxLookupEdit, cxDBLookupEdit,
-  cxDBLookupComboBox, cxMaskEdit, cxCalendar, cxSpinEdit;
+  cxDBLookupComboBox, cxMaskEdit, cxCalendar, cxSpinEdit, cxButtonEdit;
 
 type
   TfrmInputSO = class(TfrmTplInput)
@@ -73,6 +73,7 @@ type
     cxColTaxAmount: TcxGridColumn;
     cxColNetAmount: TcxGridColumn;
     cxColIdSatuan: TcxGridColumn;
+    cxColKeterangan: TcxGridColumn;
     procedure FormShow(Sender: TObject);
     procedure cxCmbCurrPropertiesEditValueChanged(Sender: TObject);
     procedure cxColNoGetDisplayText(Sender: TcxCustomGridTableItem;
@@ -156,7 +157,7 @@ begin
       end;
     end;
     //Cek Status SO
-    q := OpenRS('SELECT * FROM tbl_so_head_dmp WHERE no_bukti = ''%s''',[cxtNoSO.Text]);
+    q := OpenRS('SELECT * FROM tbl_so_head WHERE no_bukti = ''%s''',[cxtNoSO.Text]);
     if not q.IsEmpty then begin
       if q.FieldByName('f_completed').AsInteger = 1 then begin
         MsgBox('SO ini sudah komplit / selesai. Tidak bisa di edit.');
@@ -177,7 +178,7 @@ begin
       end;
 
       // header SO
-      q := OpenRS('SELECT * FROM tbl_so_head_dmp where no_bukti =''%s''',[sNoTrs]);
+      q := OpenRS('SELECT * FROM tbl_so_head where no_bukti =''%s''',[sNoTrs]);
 
       if Self.Jenis = 'T' then
         q.Insert
@@ -218,7 +219,7 @@ begin
 
       // detail SO
       if Self.Jenis = 'E' then
-        dm.zConn.ExecuteDirect(Format('DELETE FROM tbl_so_det_dmp WHERE no_bukti = ''%s''',[sNoTrs]));
+        dm.zConn.ExecuteDirect(Format('DELETE FROM tbl_so_det WHERE no_bukti = ''%s''',[sNoTrs]));
 
       if Self.Jenis = 'T' then
         ID := LastInsertID;
@@ -226,7 +227,7 @@ begin
       if (cxsNet.EditValue <> 0) then begin
         with cxTblSO.DataController  do begin
           for i := 0 to RecordCount -1 do begin
-            z := OpenRS('SELECT * FROM tbl_so_det_dmp where no_bukti =''%s''',[sNoTrs]) ;
+            z := OpenRS('SELECT * FROM tbl_so_det where no_bukti =''%s''',[sNoTrs]) ;
             z.Insert;
             z.FieldByName('no').AsInteger           := i+1;
             z.FieldByName('no_bukti').AsString      := sNoTrs;
@@ -244,6 +245,7 @@ begin
             z.FieldByName('taxable').AsFloat        := Values[i, cxColTaxable.Index];
             z.FieldByName('taxamount').AsFloat      := Values[i, cxColTaxAmount.Index];
             z.FieldByName('net_amount').AsFloat     := Values[i, cxColNetAmount.Index];
+            z.FieldByName('keterangan').AsString := VarToStr(Values[i, cxColKeterangan.Index]);
             z.Post;
             z.Close;
 
@@ -258,11 +260,14 @@ begin
                 Insert;
                 FieldByName('no_mo').AsString     := sNoMO;
                 FieldByName('no_so').AsString     := sNoTrs;
+                FieldByName('id_so').AsInteger    := ID;
                 FieldByName('kode_brg').AsString  := Values[i, cxColKode.index];
+                FieldByName('id_brg').AsInteger   := Values[i, cxColDeskripsi.Index];
                 FieldByName('qty_mo').AsFloat     := Values[i, cxColQty.Index];
                 FieldByName('qty_so').AsFloat     := Values[i, cxColQty.Index];
                 FieldByName('jenis').AsString     := 'BJ';
                 FieldByName('app_cft').AsInteger  := 1;
+                FieldByName('keterangan').AsString := Values[i, cxColKeterangan.Index];
                 Post;
               end;
             end
@@ -297,91 +302,6 @@ begin
       btnBatalClick(nil);
       dm.zConn.Commit;
 
-      {
-      else begin
-        q.Edit;
-        sNoTrs := cxtNoSO.Text;
-
-        q := OpenRS('SELECT kode_brg, qty FROM tbl_so_det_dmp WHERE no_bukti = ''%s''',[cxtNoSO.Text]);
-
-        dm.zConn.ExecuteDirect('DROP TABLE IF EXISTS tmp_so');
-        dm.zConn.ExecuteDirect('CREATE TEMPORARY TABLE tmp_so ( ' +
-          'kode_brg VARCHAR(50), ' +
-          'qty FLOAT(11,2)' +
-          ')');
-
-        tbl_tmp := OpenTbl('tmp_so');
-        while not q.Eof do begin
-          tbl_tmp.Insert;
-          tbl_tmp.FieldByName('kode_brg').AsString := q.FieldByName('kode_brg').AsString;
-          tbl_tmp.FieldByName('qty').AsFloat := q.FieldByName('qty').AsFloat;
-          tbl_tmp.Post;
-          q.Next;
-        end;
-        q.Close;
-        q := nil;
-
-        // hapus detail so
-        dm.zConn.ExecuteDirect('DELETE FROM tbl_so_det_dmp WHERE no_bukti = ''' + cxtNoSO.Text + '''');
-
-        with cxTblSO.DataController  do begin
-          for i := 0 to cxTblSO.DataController.RowCount -1 do begin
-            z := OpenRS('SELECT * FROM tbl_so_det_dmp where no_bukti =''%s''',
-              [cxtNoSO.Text]) ;
-            z.Insert;
-            z.FieldByName('no').AsInteger           := Values[i, cxColNo.Index];
-            z.FieldByName('no_bukti').AsString      := sNoTrs;
-            z.FieldByName('kode_brg').AsString      := Values[i, cxColKode.index];
-            z.FieldByName('qty').AsFloat            := Values[i, cxColQty.Index];
-            z.FieldByName('satuan').AsString        := Values[i, cxColSatuan.Index];
-            z.FieldByName('harga').AsFloat          := Values[i, cxColHarga.Index];
-            z.FieldByName('harga_gross').asFloat    := Values[i, cxColGross.Index];
-            if Values[i, cxColDisc.Index] <> null then
-              z.FieldByName('disc').AsInteger         := Values[i, cxColDisc.Index];
-            z.FieldByName('invoice_disc').AsFloat   := Values[i, cxColDiscAmount.Index] ;
-            z.FieldByName('taxable').AsFloat        := Values[i, cxColTaxable.Index];
-            z.FieldByName('taxamount').AsFloat      := Values[i, cxColTaxAmount.Index];
-            z.FieldByName('net_amount').AsFloat     := Values[i, cxColNetAmount.Index];
-            z.Post;
-            z.Close;
-
-            qCekMO := OpenRS('SELECT * FROM tbl_mo WHERE no_so = ''%s'' ' +
-              'AND kode_brg = ''%s''',[sNoTrs, Values[i, cxColKode.index]]);
-
-            if tbl_tmp.Locate('kode_brg',Values[i, cxColKode.index],[]) then begin
-
-            if tbl_tmp.FieldByName('qty').AsFloat <> Values[i, cxColQty.Index] then begin
-
-              // update qty lama tbl_mo
-              if tbl_tmp.Locate('kode_brg',Values[i, cxColKode.index],[]) then begin
-                qCekMO.Edit;
-                qCekMO.FieldByName('qty_mo').AsFloat := Values[i, cxColQty.Index];
-                qCekMO.FieldByName('qty_so').AsFloat := Values[i, cxColQty.Index];
-                qCekMO.FieldByName('qty_lama').AsFloat := tbl_tmp.FieldByName('qty').AsFloat;
-                qCekMO.FieldByName('jml_revisi').AsInteger := qCekMO.FieldByName('jml_revisi').AsInteger + 1;
-                qCekMO.Post;
-              end;
-
-              // update jml_revisi tbl_so_det
-              z.FieldByName('no').AsInteger := z.FieldByName('no').AsInteger + 1;
-            end;
-            end;
-
-            qCekMO.Close;
-            qCekMO := nil;
-          end;
-        end;
-
-
-
-        Close;
-        MsgBox('Sales Order sudah disimpan.');
-        frmLstSO.zqrSO.Close ;
-        frmLstSO.zqrSO.Open ;
-        cxTblSO.DataController.RecordCount := 0;
-        btnBatalClick(nil);
-      end;
-      }
     except
       on E: Exception do begin
         MsgBox('Error: ' + E.Message);
@@ -478,11 +398,10 @@ begin
    if AItemIndex = cxColDeskripsi.Index then begin
       try
         cxTblSO.BeginUpdate;
-        ADataController.Values[ARecordIndex, cxColKode.Index] :=
-        ADataController.Values[ARecordIndex, cxColDeskripsi.Index];
-        q := OpenRS('SELECT a.id_satuan, b.satuan FROM tbl_barang a ' +
+        q := OpenRS('SELECT a.kode, a.id_satuan, b.satuan FROM tbl_barang a ' +
           'LEFT JOIN tbl_satuan b ON a.id_satuan = b.id ' +
           'WHERE a.id = %s',[ADataController.Values[ARecordIndex, cxColDeskripsi.Index]]);
+        ADataController.Values[ARecordIndex, cxColKode.Index] := q.FieldByname('kode').AsString;
         ADataController.Values[ARecordIndex, cxColSatuan.Index] := q.FieldByName('satuan').AsString;
         ADataController.Values[ARecordIndex, cxColIdSatuan.Index] := q.FieldByName('id_satuan').AsInteger;
         q.Close;
@@ -602,7 +521,8 @@ begin
   end
   else if Self.Jenis= 'E' then begin
 
-    q := OpenRS('SELECT * FROM tbl_so_head_dmp WHERE id =%s', [Self.EditKey] );
+    Label1.Caption := 'Edit Sales Order';
+    q := OpenRS('SELECT * FROM tbl_so_head WHERE id =%s', [Self.EditKey] );
     cxTblSO.DataController.OnRecordChanged := nil;
 
     with q do begin
@@ -621,15 +541,16 @@ begin
       cxsTax.EditValue              := FieldByName('tax_amount').AsFloat;
       cxsNet.EditValue              := FieldByName('net_amount').AsFloat;
 
-      z := OpenRS('SELECT a.*, b.kode kode_brg, b.satuan satuan2 FROM tbl_so_det_dmp a ' +
+      z := OpenRS('SELECT a.*, c.kode kode_brg2, b.satuan satuan2 FROM tbl_so_det a ' +
         'LEFT JOIN tbl_satuan b ON a.id_satuan = b.id ' +
+        'LEFT JOIN tbl_barang c ON c.id = a.id_brg ' +
         'where id_ref = %s order by no asc',[Self.EditKey]) ;
       while not z.Eof do begin
         cxGrid1.BeginUpdate;
         with cxTblSO.DataController do begin
           i := AppendRecord ;
           Values[i, cxColNo.Index]          := z.FieldByName('no').AsInteger ;
-          Values[i, cxColkode.index]        := z.FieldByName('kode_brg').AsString;
+          Values[i, cxColkode.index]        := z.FieldByName('kode_brg2').AsString;
           Values[i, cxColDeskripsi.Index]   := z.FieldByName('id_brg').AsInteger;
           Values[i, cxColQty.Index]         := z.FieldByName('qty').AsFloat ;
           Values[i, cxColSatuan.Index]      := z.FieldByName('satuan2').AsString ;
@@ -641,6 +562,7 @@ begin
           Values[i, cxColTaxable.Index]     := z.FieldByName('taxable').AsFloat ;
           Values[i, cxColTaxAmount.Index]   := z.FieldByName('taxamount').AsFloat ;
           Values[i, cxColNetAmount.Index]   := z.FieldByName('net_amount').AsFloat ;
+          Values[i, cxColKeterangan.Index] := z.FieldByname('keterangan').AsString;
         end;
         cxGrid1.EndUpdate;
         z.Next;
