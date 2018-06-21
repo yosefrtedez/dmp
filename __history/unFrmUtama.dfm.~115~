@@ -108,6 +108,7 @@ object frmUtama: TfrmUtama
       end
       object mnMst_Formula: TMenuItem
         Caption = 'Formula'
+        OnClick = mnMst_FormulaClick
       end
       object mnMst_Mesin: TMenuItem
         Caption = 'Mesin'
@@ -124,6 +125,10 @@ object frmUtama: TfrmUtama
       object mnMst_Lain2: TMenuItem
         Caption = 'Kategori Barang - Departemen - Gudang'
         OnClick = mnMst_Lain2Click
+      end
+      object mnMst_Sales: TMenuItem
+        Caption = 'Sales'
+        OnClick = mnMst_SalesClick
       end
       object mnMst_UserProgram: TMenuItem
         Caption = 'User Program'
@@ -160,6 +165,7 @@ object frmUtama: TfrmUtama
       Caption = 'WHL'
       object mnWhl_TransferBarang: TMenuItem
         Caption = 'Transfer Antar Gudang'
+        OnClick = mnWhl_TransferBarangClick
       end
     end
     object mnPRD: TMenuItem
@@ -190,6 +196,7 @@ object frmUtama: TfrmUtama
       end
       object mnPur_AppPO: TMenuItem
         Caption = 'Approval Purchase Order'
+        OnClick = mnPur_AppPOClick
       end
       object N3: TMenuItem
         Caption = '-'
@@ -197,6 +204,22 @@ object frmUtama: TfrmUtama
       object mnPur_PB: TMenuItem
         Caption = 'Penerimaan Barang'
         OnClick = mnPur_PBClick
+      end
+      object N4: TMenuItem
+        Caption = '-'
+      end
+      object mnPur_ReturPembelian: TMenuItem
+        Caption = 'Retur Pembelian'
+        OnClick = mnPur_ReturPembelianClick
+      end
+      object N5: TMenuItem
+        Caption = '-'
+      end
+      object mnPur_FakturPembelian: TMenuItem
+        Caption = 'Faktur Pembelian'
+      end
+      object mnPur_PembayaranHutUsaha: TMenuItem
+        Caption = 'Pembayarang Hutang Usaha'
       end
     end
     object mnAKT: TMenuItem

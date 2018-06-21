@@ -21,7 +21,6 @@ inherited frmLstReturPembelian: TfrmLstReturPembelian
     end
   end
   inherited Panel2: TPanel
-    TabOrder = 4
     inherited btnTambah: TButton
       OnClick = btnTambahClick
     end
@@ -45,7 +44,7 @@ inherited frmLstReturPembelian: TfrmLstReturPembelian
     Width = 1016
     Height = 169
     Align = alClient
-    TabOrder = 1
+    TabOrder = 2
     object cxTblReturPembHead: TcxGridDBTableView
       NavigatorButtons.ConfirmDelete = False
       OnFocusedRecordChanged = cxTblReturPembHeadFocusedRecordChanged
@@ -64,7 +63,6 @@ inherited frmLstReturPembelian: TfrmLstReturPembelian
       end
       object cxColPOHeadid_invoice: TcxGridDBColumn
         DataBinding.FieldName = 'id_invoice'
-        Visible = False
         Width = 90
       end
       object cxColPOHeadnama: TcxGridDBColumn
@@ -95,7 +93,6 @@ inherited frmLstReturPembelian: TfrmLstReturPembelian
         DataBinding.FieldName = 'user_dept'
       end
       object cxColPOHeadf_app: TcxGridDBColumn
-        Caption = 'Approval'
         DataBinding.FieldName = 'f_app'
       end
     end
@@ -158,7 +155,7 @@ inherited frmLstReturPembelian: TfrmLstReturPembelian
     Width = 1016
     Height = 41
     Align = alBottom
-    TabOrder = 2
+    TabOrder = 3
     object cxLabel1: TcxLabel
       Left = 10
       Top = 11
@@ -171,7 +168,7 @@ inherited frmLstReturPembelian: TfrmLstReturPembelian
     Width = 1016
     Height = 200
     Align = alBottom
-    TabOrder = 3
+    TabOrder = 4
     object cxTblReturPembDet: TcxGridDBTableView
       NavigatorButtons.ConfirmDelete = False
       DataController.DataSource = dsReturPembDet

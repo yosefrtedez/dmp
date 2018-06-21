@@ -1,10 +1,15 @@
 inherited frmAppRetur: TfrmAppRetur
-  Caption = 'Approval Retur'
-  ExplicitWidth = 894
+  Caption = 'Approval Retur Pembelian'
+  ClientWidth = 1134
+  OnCreate = FormCreate
+  OnShow = FormShow
+  ExplicitWidth = 1134
   ExplicitHeight = 553
   PixelsPerInch = 96
   TextHeight = 13
   inherited Panel1: TPanel
+    Width = 1134
+    ExplicitWidth = 1134
     object Label13: TLabel
       Left = 10
       Top = 13
@@ -20,19 +25,23 @@ inherited frmAppRetur: TfrmAppRetur
     end
   end
   inherited Panel2: TPanel
+    Width = 1134
     TabOrder = 4
+    ExplicitWidth = 1134
+    inherited btnSimpan: TButton
+      OnClick = btnSimpanClick
+    end
   end
   object cxgrd1: TcxGrid
     Left = 0
     Top = 49
-    Width = 894
+    Width = 1134
     Height = 214
     Align = alClient
     TabOrder = 1
-    ExplicitLeft = -45
-    ExplicitWidth = 939
-    object cxtbPOHead: TcxGridDBTableView
+    object cxTblAppReturHead: TcxGridDBTableView
       NavigatorButtons.ConfirmDelete = False
+      OnFocusedRecordChanged = cxTblAppReturHeadFocusedRecordChanged
       DataController.DataSource = dsRet
       DataController.KeyFieldNames = 'id'
       DataController.Summary.DefaultGroupSummaryItems = <>
@@ -41,62 +50,44 @@ inherited frmAppRetur: TfrmAppRetur
       FilterRow.Visible = True
       OptionsView.CellTextMaxLineCount = 10
       Preview.MaxLineCount = 10
-      object cxColTblHeadno_bukti: TcxGridDBColumn
+      object cxColTblAppReturHeadno_bukti: TcxGridDBColumn
         Caption = 'No. Bukti'
         DataBinding.FieldName = 'no_bukti'
         Options.Editing = False
-        Width = 90
+        Width = 100
       end
-      object cxColTblHeadno_fobj: TcxGridDBColumn
-        Caption = 'No PP'
-        DataBinding.FieldName = 'no_pp'
-        Options.Filtering = False
-        Width = 90
+      object cxColTblAppReturHeadid_invoice: TcxGridDBColumn
+        Caption = 'Invoice'
+        DataBinding.FieldName = 'id_invoice'
+        Options.Editing = False
+        Width = 100
       end
-      object cxColTblHeadnama: TcxGridDBColumn
-        Caption = 'Nama'
-        DataBinding.FieldName = 'nama_supplier'
+      object cxColTblAppReturHeadnama: TcxGridDBColumn
+        Caption = 'Supplier'
+        DataBinding.FieldName = 'nama'
         Options.Editing = False
         Width = 150
       end
-      object cxColTblHeadkontak: TcxGridDBColumn
-        DataBinding.FieldName = 'kontak'
+      object cxColTblAppReturHeadketerangan: TcxGridDBColumn
+        Caption = 'Keterangan'
+        DataBinding.FieldName = 'keterangan'
         Options.Editing = False
-        Width = 120
+        Width = 200
       end
-      object cxColTblHeadtgl_required: TcxGridDBColumn
-        Caption = 'Tgl Kedatangan'
-        DataBinding.FieldName = 'tgl_required'
+      object cxColTblAppReturHeadtanggal: TcxGridDBColumn
+        Caption = 'Tanggal'
+        DataBinding.FieldName = 'tanggal'
         Options.Editing = False
-        Width = 90
       end
-      object cxColTblHeaduser: TcxGridDBColumn
+      object cxColTblAppReturHeaduser: TcxGridDBColumn
         Caption = 'User'
         DataBinding.FieldName = 'user'
         Options.Editing = False
-        Width = 100
       end
-      object cxColTblHeaduser_dept: TcxGridDBColumn
+      object cxColTblAppReturHeaduser_dept: TcxGridDBColumn
         Caption = 'Departemen'
         DataBinding.FieldName = 'user_dept'
         Options.Editing = False
-        Width = 100
-      end
-      object cxColTblHeadpembayaran: TcxGridDBColumn
-        Caption = 'Pembayaran'
-        DataBinding.FieldName = 'pembayaran'
-        Options.Editing = False
-        Width = 100
-      end
-      object cxColTblHeadf_approval: TcxGridDBColumn
-        Caption = 'Approval'
-        DataBinding.FieldName = 'f_app'
-        PropertiesClassName = 'TcxCheckBoxProperties'
-        Properties.ValueChecked = 1
-        Properties.ValueUnchecked = 0
-        Visible = False
-        Options.Editing = False
-        Width = 50
       end
     end
     object cxTblDet: TcxGridDBTableView
@@ -150,18 +141,16 @@ inherited frmAppRetur: TfrmAppRetur
       end
     end
     object cxgrdlvl1Grid1Level1: TcxGridLevel
-      GridView = cxtbPOHead
+      GridView = cxTblAppReturHead
     end
   end
   object Panel5: TPanel
     Left = 0
     Top = 263
-    Width = 894
+    Width = 1134
     Height = 41
     Align = alBottom
     TabOrder = 2
-    ExplicitLeft = -45
-    ExplicitWidth = 939
     object cxLabel1: TcxLabel
       Left = 10
       Top = 11
@@ -171,13 +160,11 @@ inherited frmAppRetur: TfrmAppRetur
   object cxGrid1: TcxGrid
     Left = 0
     Top = 304
-    Width = 894
+    Width = 1134
     Height = 200
     Align = alBottom
     TabOrder = 3
-    ExplicitLeft = -45
-    ExplicitWidth = 939
-    object cxtbPODet: TcxGridDBTableView
+    object cxTblAppReturDet: TcxGridDBTableView
       NavigatorButtons.ConfirmDelete = False
       DataController.DataSource = dsRetDet
       DataController.Summary.DefaultGroupSummaryItems = <>
@@ -185,97 +172,109 @@ inherited frmAppRetur: TfrmAppRetur
         item
           Format = '#,#0.00'
           Kind = skSum
-          Column = cxtbPODetColumn1
         end>
       DataController.Summary.SummaryGroups = <>
       OptionsView.Footer = True
-      object cxtbPODetkode_brg: TcxGridDBColumn
-        Caption = 'Kode Brg.'
-        DataBinding.FieldName = 'kode_brg'
-        Width = 103
+      object cxColTblAppReturDetno_bukti: TcxGridDBColumn
+        Caption = 'No. Bukti'
+        DataBinding.FieldName = 'no_bukti'
+        Options.Editing = False
+        Width = 100
       end
-      object cxtbPODetdeskripsi: TcxGridDBColumn
+      object cxColTblAppReturDetkode_brg: TcxGridDBColumn
+        Caption = 'Kode Brg'
+        DataBinding.FieldName = 'kode_brg'
+        Options.Editing = False
+        Width = 90
+      end
+      object cxColTblAppReturDetdeskripsi: TcxGridDBColumn
         Caption = 'Deskripsi'
         DataBinding.FieldName = 'deskripsi'
-        Width = 374
+        Options.Editing = False
+        Width = 150
       end
-      object cxtbPODetqty: TcxGridDBColumn
-        Caption = 'Qty.'
+      object cxColTblAppReturDetqty: TcxGridDBColumn
+        Caption = 'Qty'
         DataBinding.FieldName = 'qty'
-        PropertiesClassName = 'TcxSpinEditProperties'
-        Properties.DisplayFormat = '#,#0.00'
-        HeaderAlignmentHorz = taRightJustify
+        Options.Editing = False
       end
-      object cxtbPODetsatuan: TcxGridDBColumn
+      object cxColTblAppReturDetsatuan: TcxGridDBColumn
         Caption = 'Satuan'
         DataBinding.FieldName = 'satuan'
-        Width = 54
+        Options.Editing = False
+        Width = 70
       end
-      object cxtbPODetharga: TcxGridDBColumn
+      object cxColTblAppReturDetharga: TcxGridDBColumn
         Caption = 'Harga'
         DataBinding.FieldName = 'harga'
-        PropertiesClassName = 'TcxSpinEditProperties'
-        Properties.Alignment.Horz = taRightJustify
-        Properties.DisplayFormat = '#,#0.00'
-        HeaderAlignmentHorz = taRightJustify
+        Options.Editing = False
+        Width = 100
       end
-      object cxtbPODetmata_uang: TcxGridDBColumn
-        DataBinding.FieldName = 'mata_uang'
-        Visible = False
-      end
-      object cxtbPODetColumn2: TcxGridDBColumn
+      object cxColTblAppReturDetketerangan: TcxGridDBColumn
         Caption = 'Keterangan'
         DataBinding.FieldName = 'keterangan'
-        Width = 184
+        Options.Editing = False
+        Width = 200
       end
-      object cxtbPODetColumn1: TcxGridDBColumn
-        Caption = 'Subtotal'
-        DataBinding.FieldName = 'subtotal'
-        PropertiesClassName = 'TcxSpinEditProperties'
-        Properties.Alignment.Horz = taRightJustify
-        Properties.DisplayFormat = '#,#0.00'
-        Properties.ReadOnly = True
-        FooterAlignmentHorz = taRightJustify
-        HeaderAlignmentHorz = taRightJustify
-        Width = 98
+      object cxColTblAppReturDetkode: TcxGridDBColumn
+        Caption = 'Gudang'
+        DataBinding.FieldName = 'kode'
+        Options.Editing = False
+      end
+      object cxColTblAppReturDetmata_uang: TcxGridDBColumn
+        Caption = 'Valuta'
+        DataBinding.FieldName = 'mata_uang'
+        Options.Editing = False
+      end
+      object cxColTblAppReturDetnilai_tukar: TcxGridDBColumn
+        Caption = 'Rate'
+        DataBinding.FieldName = 'nilai_tukar'
+        Options.Editing = False
+      end
+      object cxColTblAppReturDetppn: TcxGridDBColumn
+        Caption = 'PPn'
+        DataBinding.FieldName = 'ppn'
+        Options.Editing = False
+      end
+      object cxColTblAppReturDettotal: TcxGridDBColumn
+        Caption = 'Total'
+        DataBinding.FieldName = 'total'
+        Options.Editing = False
+        Width = 100
       end
     end
     object cxGrid1Level1: TcxGridLevel
-      GridView = cxtbPODet
+      GridView = cxTblAppReturDet
     end
   end
   object zqrRet: TZReadOnlyQuery
     Connection = DM.zConn
     SQL.Strings = (
-      
-        'SELECT a.id, a.no_bukti, a.tgl_required, jenis_po, a.user, a.use' +
-        'r_dept, a.pembayaran, a.f_app, a.f_completed,'
-      'b.nama, b.kontak, c.no_bukti no_pp, d.nama nama_supplier'
-      'FROM tbl_po_head a '
-      'LEFT JOIN tbl_supplier b ON a.kode_supp = b.kode'
-      'LEFT JOIN tbl_pp_head c ON c.id = a.id_pp'
-      'LEFT JOIN tbl_supplier d ON d.id = a.id_supplier'
-      'WHERE a.f_app = 0')
+      'SELECT a.*, b.nama'
+      'FROM tbl_trsreturpemb_head a'
+      'LEFT JOIN tbl_supplier b ON a.id_supplier = b.id'
+      'where a.f_app = 0')
     Params = <>
-    Left = 775
-    Top = 196
+    Left = 734
+    Top = 202
   end
   object dsRet: TDataSource
     DataSet = zqrRet
-    Left = 803
-    Top = 197
+    Left = 766
+    Top = 202
   end
   object zqrRetDet: TZReadOnlyQuery
     Connection = DM.zConn
     AutoCalcFields = False
     SQL.Strings = (
+      'SELECT a.*, b.deskripsi, c.kode, d.satuan,'
       
-        'SELECT a.id,  a.id_ref, a.no_bukti, a.kode_brg, b.deskripsi, a.q' +
-        'ty, c.satuan, a.harga, a.mata_uang,'
-      'a.qty * a.harga subtotal, a.keterangan'
-      'FROM tbl_po_det a'
-      'LEFT JOIN tbl_barang b ON a.kode_brg = b.kode '
-      'LEFT JOIN tbl_satuan c ON c.id = a.id_satuan'
+        'IF(ppn='#39'PPN'#39',a.qty * a.harga * 110/100, a.qty * a.harga) AS tota' +
+        'l'
+      'FROM tbl_trsreturpemb_det a'
+      'LEFT JOIN tbl_barang b ON a.kode_brg = b.kode'
+      'LEFT JOIN tbl_gudang c ON a.id_gdg = c.id'
+      'LEFT JOIN tbl_satuan d ON a.id_satuan = d.id'
       'WHERE a.id_ref = :id_ref')
     Params = <
       item
@@ -283,7 +282,7 @@ inherited frmAppRetur: TfrmAppRetur
         Name = 'id_ref'
         ParamType = ptUnknown
       end>
-    Left = 764
+    Left = 732
     Top = 252
     ParamData = <
       item

@@ -141,7 +141,7 @@ object frmUtama: TfrmUtama
         Caption = 'Sales Order'
         OnClick = mnMkt_SalesOrderClick
       end
-      object SuratJalan1: TMenuItem
+      object mnMkt_SuratJalan: TMenuItem
         Caption = 'Surat Jalan '
       end
       object mnMkt_ReturPenjualan: TMenuItem
@@ -212,6 +212,10 @@ object frmUtama: TfrmUtama
         Caption = 'Retur Pembelian'
         OnClick = mnPur_ReturPembelianClick
       end
+      object mnPur_AppReturPembelian: TMenuItem
+        Caption = 'Approval Retur Pembelian'
+        OnClick = mnPur_AppReturPembelianClick
+      end
       object N5: TMenuItem
         Caption = '-'
       end
@@ -219,7 +223,7 @@ object frmUtama: TfrmUtama
         Caption = 'Faktur Pembelian'
       end
       object mnPur_PembayaranHutUsaha: TMenuItem
-        Caption = 'Pembayarang Hutang Usaha'
+        Caption = 'Pembayaran Hutang Usaha'
       end
     end
     object mnAKT: TMenuItem

@@ -1,14 +1,15 @@
-unit unFrmInputReturPembelian;
+unit unFrmLaporan;
 
 interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, unFrmTplInput, StdCtrls, ExtCtrls;
+  Dialogs, unFrmTplInput, StdCtrls, ExtCtrls, Buttons;
 
 type
-  TfrmInputReturPembelian = class(TfrmTplInput)
-    Label13: TLabel;
+  TfrmLaporan = class(TfrmTplInput)
+    ScrollBox1: TScrollBox;
+    BitBtn1: TBitBtn;
   private
     { Private declarations }
   public
@@ -16,9 +17,11 @@ type
   end;
 
 var
-  frmInputReturPembelian: TfrmInputReturPembelian;
+  frmLaporan: TfrmLaporan;
 
 implementation
+
+uses unDM;
 
 {$R *.dfm}
 

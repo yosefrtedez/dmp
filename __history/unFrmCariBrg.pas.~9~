@@ -37,7 +37,6 @@ type
     cxtbBrgid: TcxGridDBColumn;
     cxtbBrgkode: TcxGridDBColumn;
     cxtbBrgdeskripsi: TcxGridDBColumn;
-    procedure FormCreate(Sender: TObject);
   private
     { Private declarations }
   public
@@ -52,10 +51,5 @@ implementation
 uses unDM, unTools;
 
 {$R *.dfm}
-
-procedure TfrmCariBrg.FormCreate(Sender: TObject);
-begin
-  zqrBrg.Open;
-end;
 
 end.

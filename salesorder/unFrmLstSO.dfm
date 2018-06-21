@@ -46,7 +46,6 @@ inherited frmLstSO: TfrmLstSO
     Height = 169
     Align = alClient
     TabOrder = 1
-    ExplicitHeight = 410
     object cxtbSO: TcxGridDBTableView
       NavigatorButtons.ConfirmDelete = False
       OnFocusedRecordChanged = cxtbSOFocusedRecordChanged
@@ -88,9 +87,6 @@ inherited frmLstSO: TfrmLstSO
     Height = 41
     Align = alBottom
     TabOrder = 2
-    ExplicitLeft = -153
-    ExplicitTop = 217
-    ExplicitWidth = 1169
     object cxLabel1: TcxLabel
       Left = 10
       Top = 11
@@ -104,9 +100,6 @@ inherited frmLstSO: TfrmLstSO
     Height = 200
     Align = alBottom
     TabOrder = 3
-    ExplicitLeft = -153
-    ExplicitTop = 258
-    ExplicitWidth = 1169
     object cxtbSODet: TcxGridDBTableView
       NavigatorButtons.ConfirmDelete = False
       DataController.DataSource = dsSODet

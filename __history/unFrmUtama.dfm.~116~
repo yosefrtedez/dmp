@@ -108,6 +108,7 @@ object frmUtama: TfrmUtama
       end
       object mnMst_Formula: TMenuItem
         Caption = 'Formula'
+        OnClick = mnMst_FormulaClick
       end
       object mnMst_Mesin: TMenuItem
         Caption = 'Mesin'
@@ -125,6 +126,10 @@ object frmUtama: TfrmUtama
         Caption = 'Kategori Barang - Departemen - Gudang'
         OnClick = mnMst_Lain2Click
       end
+      object mnMst_Sales: TMenuItem
+        Caption = 'Sales'
+        OnClick = mnMst_SalesClick
+      end
       object mnMst_UserProgram: TMenuItem
         Caption = 'User Program'
         OnClick = mnMst_UserProgramClick
@@ -136,7 +141,7 @@ object frmUtama: TfrmUtama
         Caption = 'Sales Order'
         OnClick = mnMkt_SalesOrderClick
       end
-      object SuratJalan1: TMenuItem
+      object mnMkt_SuratJalan: TMenuItem
         Caption = 'Surat Jalan '
       end
       object mnMkt_ReturPenjualan: TMenuItem
@@ -154,6 +159,13 @@ object frmUtama: TfrmUtama
       end
       object mnPpic_SOMadeToStok: TMenuItem
         Caption = 'SO - Made To Stok'
+      end
+    end
+    object mnWHL: TMenuItem
+      Caption = 'WHL'
+      object mnWhl_TransferBarang: TMenuItem
+        Caption = 'Transfer Antar Gudang'
+        OnClick = mnWhl_TransferBarangClick
       end
     end
     object mnPRD: TMenuItem
@@ -184,6 +196,7 @@ object frmUtama: TfrmUtama
       end
       object mnPur_AppPO: TMenuItem
         Caption = 'Approval Purchase Order'
+        OnClick = mnPur_AppPOClick
       end
       object N3: TMenuItem
         Caption = '-'
@@ -191,6 +204,22 @@ object frmUtama: TfrmUtama
       object mnPur_PB: TMenuItem
         Caption = 'Penerimaan Barang'
         OnClick = mnPur_PBClick
+      end
+      object N4: TMenuItem
+        Caption = '-'
+      end
+      object mnPur_ReturPembelian: TMenuItem
+        Caption = 'Retur Pembelian'
+        OnClick = mnPur_ReturPembelianClick
+      end
+      object N5: TMenuItem
+        Caption = '-'
+      end
+      object mnPur_FakturPembelian: TMenuItem
+        Caption = 'Faktur Pembelian'
+      end
+      object mnPur_PembayaranHutUsaha: TMenuItem
+        Caption = 'Pembayaran Hutang Usaha'
       end
     end
     object mnAKT: TMenuItem

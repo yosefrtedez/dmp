@@ -20,13 +20,13 @@ inherited frmLaporan: TfrmLaporan
     end
   end
   inherited Panel2: TPanel
-    Left = 752
-    Top = 416
+    Left = 352
+    Top = 384
     Align = alNone
     TabOrder = 2
     Visible = False
-    ExplicitLeft = 752
-    ExplicitTop = 416
+    ExplicitLeft = 352
+    ExplicitTop = 384
     inherited btnSimpan: TButton
       Visible = False
     end

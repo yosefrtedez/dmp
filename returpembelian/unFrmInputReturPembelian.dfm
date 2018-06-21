@@ -1,14 +1,16 @@
 inherited frmInputReturPembelian: TfrmInputReturPembelian
-  Caption = 'frmInputReturPembelian'
+  Caption = 'Input Retur Pembelian'
   ClientHeight = 656
-  ClientWidth = 960
+  ClientWidth = 1142
   OnCreate = FormCreate
-  ExplicitWidth = 960
+  OnShow = FormShow
+  ExplicitWidth = 1142
   ExplicitHeight = 656
   PixelsPerInch = 96
   TextHeight = 13
   inherited Panel1: TPanel
-    Width = 960
+    Width = 1142
+    ExplicitWidth = 1142
     object Label13: TLabel
       Left = 10
       Top = 13
@@ -25,8 +27,13 @@ inherited frmInputReturPembelian: TfrmInputReturPembelian
   end
   inherited Panel2: TPanel
     Top = 607
-    Width = 960
-    TabOrder = 15
+    Width = 1142
+    TabOrder = 16
+    ExplicitTop = 607
+    ExplicitWidth = 1142
+    inherited btnSimpan: TButton
+      OnClick = btnSimpanClick
+    end
   end
   object cxlbl1: TcxLabel
     Left = 11
@@ -53,7 +60,7 @@ inherited frmInputReturPembelian: TfrmInputReturPembelian
     Top = 170
     Caption = 'Alamat'
   end
-  object cxlNoPP: TcxLookupComboBox
+  object cxLuInvoice: TcxLookupComboBox
     Left = 112
     Top = 88
     Properties.CharCase = ecUpperCase
@@ -73,16 +80,16 @@ inherited frmInputReturPembelian: TfrmInputReturPembelian
         Caption = 'Dept'
         FieldName = 'user_dept'
       end>
-    TabOrder = 4
+    TabOrder = 3
     Width = 146
   end
   object cxdTglDatang: TcxDateEdit
     Left = 112
     Top = 115
-    TabOrder = 6
+    TabOrder = 5
     Width = 146
   end
-  object cxlSupplier: TcxLookupComboBox
+  object cxLuSupplier: TcxLookupComboBox
     Left = 112
     Top = 142
     Properties.DropDownAutoSize = True
@@ -98,14 +105,14 @@ inherited frmInputReturPembelian: TfrmInputReturPembelian
       end>
     Properties.ListSource = dsSupplier
     Properties.OnChange = cxlSupplierPropertiesChange
-    TabOrder = 8
+    TabOrder = 7
     Width = 351
   end
   object cxtAlamat: TcxTextEdit
     Left = 112
     Top = 169
     Properties.ReadOnly = True
-    TabOrder = 10
+    TabOrder = 9
     Width = 416
   end
   object cxtNoBukti: TcxTextEdit
@@ -113,13 +120,6 @@ inherited frmInputReturPembelian: TfrmInputReturPembelian
     Top = 61
     TabOrder = 1
     Width = 146
-  end
-  object cxChkPosting: TcxCheckBox
-    Left = 266
-    Top = 61
-    Caption = 'Posting'
-    TabOrder = 2
-    Width = 104
   end
   object cxlbl14: TcxLabel
     Left = 10
@@ -130,16 +130,16 @@ inherited frmInputReturPembelian: TfrmInputReturPembelian
     Left = 112
     Top = 196
     Properties.CharCase = ecUpperCase
-    TabOrder = 12
+    TabOrder = 11
     Width = 416
   end
   object cxgrdPP: TcxGrid
     Left = 10
-    Top = 231
-    Width = 942
+    Top = 253
+    Width = 1124
     Height = 293
     Anchors = [akLeft, akTop, akRight]
-    TabOrder = 14
+    TabOrder = 15
     object cxtbRetur: TcxGridTableView
       NavigatorButtons.ConfirmDelete = False
       NavigatorButtons.Insert.Visible = False
@@ -157,6 +157,8 @@ inherited frmInputReturPembelian: TfrmInputReturPembelian
           Column = cxColTotal
         end>
       DataController.Summary.SummaryGroups = <>
+      DataController.OnBeforePost = cxtbReturDataControllerBeforePost
+      DataController.OnRecordChanged = cxtbReturDataControllerRecordChanged
       OptionsData.Appending = True
       OptionsView.Navigator = True
       OptionsView.Footer = True
@@ -165,6 +167,7 @@ inherited frmInputReturPembelian: TfrmInputReturPembelian
         Caption = 'No'
         PropertiesClassName = 'TcxTextEditProperties'
         Properties.ReadOnly = False
+        OnGetDisplayText = cxColNoGetDisplayText
         Width = 32
       end
       object cxColKodeBrg: TcxGridColumn
@@ -195,6 +198,22 @@ inherited frmInputReturPembelian: TfrmInputReturPembelian
         Properties.DisplayFormat = '#,##.00'
         Properties.ReadOnly = False
         Width = 73
+      end
+      object cxColGudang: TcxGridColumn
+        Caption = 'Gudang'
+        PropertiesClassName = 'TcxLookupComboBoxProperties'
+        Properties.KeyFieldNames = 'id'
+        Properties.ListColumns = <
+          item
+            Caption = 'Kode'
+            FieldName = 'kode'
+          end
+          item
+            Caption = 'ID'
+            FieldName = 'id'
+          end>
+        Properties.ListSource = dsGudang
+        Width = 80
       end
       object cxColSatuan: TcxGridColumn
         Caption = 'Satuan'
@@ -239,22 +258,37 @@ inherited frmInputReturPembelian: TfrmInputReturPembelian
       end
       object cxColIdSatuan: TcxGridColumn
         DataBinding.ValueType = 'Integer'
+        Visible = False
       end
     end
     object cxgrdlvl1Grid1Level1: TcxGridLevel
       GridView = cxtbRetur
     end
   end
+  object cxlbl3: TcxLabel
+    Left = 10
+    Top = 224
+    Caption = 'Rate'
+  end
+  object cxsrate: TcxSpinEdit
+    Left = 111
+    Top = 222
+    Properties.SpinButtons.Visible = False
+    Style.ButtonStyle = btsFlat
+    StyleFocused.ButtonStyle = btsFlat
+    StyleHot.ButtonStyle = btsFlat
+    TabOrder = 13
+    Width = 126
+  end
   object zqrSupplier: TZReadOnlyQuery
     Connection = DM.zConn
     AutoCalcFields = False
-    Active = True
     SQL.Strings = (
       'select id, kode, nama '
       'from tbl_supplier order by nama')
     Params = <>
-    Left = 755
-    Top = 78
+    Left = 756
+    Top = 77
   end
   object dsSupplier: TDataSource
     DataSet = zqrSupplier
@@ -271,12 +305,30 @@ inherited frmInputReturPembelian: TfrmInputReturPembelian
       
         'select kode, deskripsi, satuan from tbl_barang order by deskrips' +
         'i')
-    Left = 753
+    Left = 752
     Top = 147
   end
   object dsBarang: TDataSource
     DataSet = zqrBarang
     Left = 814
     Top = 149
+  end
+  object zqrGudang: TZReadOnlyQuery
+    Connection = DM.zConn
+    AutoCalcFields = False
+    SQL.Strings = (
+      'select * from tbl_gudang order by id')
+    Params = <>
+    Properties.Strings = (
+      
+        'select kode, deskripsi, satuan from tbl_barang order by deskrips' +
+        'i')
+    Left = 930
+    Top = 162
+  end
+  object dsGudang: TDataSource
+    DataSet = zqrGudang
+    Left = 991
+    Top = 164
   end
 end

@@ -23,16 +23,7 @@ type
   TfrmAppRetur = class(TfrmTplInput)
     Label13: TLabel;
     cxgrd1: TcxGrid;
-    cxtbPOHead: TcxGridDBTableView;
-    cxColTblHeadno_bukti: TcxGridDBColumn;
-    cxColTblHeadno_fobj: TcxGridDBColumn;
-    cxColTblHeadnama: TcxGridDBColumn;
-    cxColTblHeadkontak: TcxGridDBColumn;
-    cxColTblHeadtgl_required: TcxGridDBColumn;
-    cxColTblHeaduser: TcxGridDBColumn;
-    cxColTblHeaduser_dept: TcxGridDBColumn;
-    cxColTblHeadpembayaran: TcxGridDBColumn;
-    cxColTblHeadf_approval: TcxGridDBColumn;
+    cxTblAppReturHead: TcxGridDBTableView;
     cxTblDet: TcxGridDBTableView;
     cxColTblDetid: TcxGridDBColumn;
     cxColTblDetid_ref: TcxGridDBColumn;
@@ -47,20 +38,38 @@ type
     Panel5: TPanel;
     cxLabel1: TcxLabel;
     cxGrid1: TcxGrid;
-    cxtbPODet: TcxGridDBTableView;
-    cxtbPODetkode_brg: TcxGridDBColumn;
-    cxtbPODetdeskripsi: TcxGridDBColumn;
-    cxtbPODetqty: TcxGridDBColumn;
-    cxtbPODetsatuan: TcxGridDBColumn;
-    cxtbPODetharga: TcxGridDBColumn;
-    cxtbPODetmata_uang: TcxGridDBColumn;
-    cxtbPODetColumn2: TcxGridDBColumn;
-    cxtbPODetColumn1: TcxGridDBColumn;
+    cxTblAppReturDet: TcxGridDBTableView;
     cxGrid1Level1: TcxGridLevel;
     zqrRet: TZReadOnlyQuery;
     dsRet: TDataSource;
     zqrRetDet: TZReadOnlyQuery;
     dsRetDet: TDataSource;
+    cxColTblAppReturDetno_bukti: TcxGridDBColumn;
+    cxColTblAppReturDetkode_brg: TcxGridDBColumn;
+    cxColTblAppReturDetqty: TcxGridDBColumn;
+    cxColTblAppReturDetketerangan: TcxGridDBColumn;
+    cxColTblAppReturDetharga: TcxGridDBColumn;
+    cxColTblAppReturDetmata_uang: TcxGridDBColumn;
+    cxColTblAppReturDetnilai_tukar: TcxGridDBColumn;
+    cxColTblAppReturDetppn: TcxGridDBColumn;
+    cxColTblAppReturDetdeskripsi: TcxGridDBColumn;
+    cxColTblAppReturDetkode: TcxGridDBColumn;
+    cxColTblAppReturDetsatuan: TcxGridDBColumn;
+    cxColTblAppReturDettotal: TcxGridDBColumn;
+    cxColTblAppReturHeadno_bukti: TcxGridDBColumn;
+    cxColTblAppReturHeadid_invoice: TcxGridDBColumn;
+    cxColTblAppReturHeadketerangan: TcxGridDBColumn;
+    cxColTblAppReturHeadtanggal: TcxGridDBColumn;
+    cxColTblAppReturHeaduser: TcxGridDBColumn;
+    cxColTblAppReturHeaduser_dept: TcxGridDBColumn;
+    cxColTblAppReturHeadnama: TcxGridDBColumn;
+    procedure FormShow(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+    procedure cxTblAppReturHeadFocusedRecordChanged(
+      Sender: TcxCustomGridTableView; APrevFocusedRecord,
+      AFocusedRecord: TcxCustomGridRecord;
+      ANewItemRecordFocusingChanged: Boolean);
+    procedure btnSimpanClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -72,6 +81,92 @@ var
 
 implementation
 
+uses unDM, unTools, unFrmLstReturPembelian;
+
 {$R *.dfm}
 
-end.
+procedure TfrmAppRetur.btnSimpanClick(Sender: TObject);
+var
+  i: Integer;
+  lst: TStringList;
+  chk, sNoBukti: string;
+  qCek: TZQuery;
+begin
+
+  lst := TStringList.Create;
+  for i := 0 to cxTblAppReturHead.DataController.RecordCount - 1 do begin
+
+    if VarIsNull(cxTblAppReturHead.DataController.Values[i,0]) then
+      chk := ''
+    else
+      chk := cxTblAppReturHead.DataController.Values[i,0];
+
+    if chk = 'T' then begin
+      lst.Add(cxTblAppReturHead.DataController.Values[i,1]);
+    end;
+  end;
+
+  if lst.Count > 0 then begin
+    try
+      dm.zConn.StartTransaction;
+      for i := 0 to lst.Count - 1 do begin
+        dm.zConn.ExecuteDirect(
+          Format('UPDATE tbl_trsreturpemb_head SET f_app = 1, user_app = ''%s'', tgl_app = NOW() WHERE no_bukti = ''%s''',
+          [Aplikasi.NamaUser, lst.Strings[i]]));
+      end;
+      dm.zConn.Commit;
+      MsgBox('Retur pembelian sudah di Approval.');
+      zqrRet.Close;
+      zqrRet.Open;
+    except
+      on E: Exception do begin
+        MsgBox('Error: ' + E.Message);
+        dm.zConn.Rollback;
+      end;
+    end;
+  end;
+
+end;
+
+procedure TfrmAppRetur.cxTblAppReturHeadFocusedRecordChanged(
+  Sender: TcxCustomGridTableView; APrevFocusedRecord,
+  AFocusedRecord: TcxCustomGridRecord; ANewItemRecordFocusingChanged: Boolean);
+begin
+  inherited;
+  try
+    zqrRetDet.Close;
+    zqrRetDet.ParamByName('id_ref').AsInteger := zqrRet.FieldByName('id').AsInteger;
+    zqrRetDet.Open;
+  except
+  end;
+end;
+
+procedure TfrmAppRetur.FormCreate(Sender: TObject);
+begin
+  inherited;
+  zqrRet.Open;
+end;
+
+procedure TfrmAppRetur.FormShow(Sender: TObject);
+var
+  aCol: TcxGridDBColumn;
+  i : integer;
+begin
+  aCol := cxTblAppReturHead.CreateColumn;
+  with aCol do begin
+    Name := 'colUnbound';
+    Caption := 'Check';
+  end;
+  aCol.DataBinding.ValueTypeClass := TcxStringValueType;
+  aCol.PropertiesClass := TcxCheckBoxProperties;
+  with aCol.Properties as TcxCheckBoxProperties do begin
+    AllowGrayed := false;
+    ValueChecked := 'T';
+    ValueUnchecked := 'F';
+    NullStyle := nssUnchecked;
+    ImmediatePost := True;
+  end;
+  aCol.Index := 0;
+end;
+
+End.

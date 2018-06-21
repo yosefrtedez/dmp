@@ -55,7 +55,7 @@ type
     mnSet_SettingProgram: TMenuItem;
     mnPrd_PengambilanBB: TMenuItem;
     mnPrd_InputHslProd: TMenuItem;
-    SuratJalan1: TMenuItem;
+    mnMkt_SuratJalan: TMenuItem;
     mnPpic_MasterSchedule: TMenuItem;
     mnMkt_ReturPenjualan: TMenuItem;
     mnPpic_SOMadeToStok: TMenuItem;
@@ -73,6 +73,7 @@ type
     N5: TMenuItem;
     mnPur_FakturPembelian: TMenuItem;
     mnPur_PembayaranHutUsaha: TMenuItem;
+    mnPur_AppReturPembelian: TMenuItem;
     procedure FormShow(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure mnMst_BarangJasaClick(Sender: TObject);
@@ -104,6 +105,7 @@ type
     procedure mnMst_FormulaClick(Sender: TObject);
     procedure mnPur_AppPOClick(Sender: TObject);
     procedure mnPur_ReturPembelianClick(Sender: TObject);
+    procedure mnPur_AppReturPembelianClick(Sender: TObject);
   private
     procedure PGChange(Sender: TObject);
   public
@@ -127,7 +129,7 @@ uses
   unFrmMasterOrder, unFrmLogin, unFrmSettingWewenang, unFrmSettingProgram,
   unFrmLstPenerimaanKas, unFrmAppPP, unFrmInputPO, unFrmLstPO, unFrmLstPB,
   unFrmLstPengeluaranKas, unFrmLstTransferBarang, unFrmLstSales,
-  unFrmLstFormula, unFrmAppPO, unFrmLstReturPembelian;
+  unFrmLstFormula, unFrmAppPO, unFrmLstReturPembelian, unFrmAppRetur;
 
 {$R *.dfm}
 
@@ -519,6 +521,25 @@ begin
     ts.PageControl := pgMain;
 
     f := TfrmAppPP.Create(Self);
+    f.Parent := ts;
+    ts.Caption := f.Caption;
+    f.Show;
+
+    pgMain.ActivePage := ts;
+  end;
+end;
+
+procedure TfrmUtama.mnPur_AppReturPembelianClick(Sender: TObject);
+var
+  f: TfrmAppRetur;
+  ts: TcxTabSheet;
+begin
+  if not CekTabOpen('Approval Retur Pembelian') then begin
+    ToggleMainPage;
+    ts := TcxTabSheet.Create(Self);
+    ts.PageControl := pgMain;
+
+    f := TfrmAppRetur.Create(Self);
     f.Parent := ts;
     ts.Caption := f.Caption;
     f.Show;

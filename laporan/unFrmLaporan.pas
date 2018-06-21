@@ -10,6 +10,7 @@ type
   TfrmLaporan = class(TfrmTplInput)
     ScrollBox1: TScrollBox;
     BitBtn1: TBitBtn;
+    Label1: TLabel;
   private
     { Private declarations }
   public
