@@ -29,7 +29,11 @@ inherited frmAppRetur: TfrmAppRetur
     TabOrder = 4
     ExplicitWidth = 1134
     inherited btnSimpan: TButton
+      Left = 9
+      Top = 11
       OnClick = btnSimpanClick
+      ExplicitLeft = 9
+      ExplicitTop = 11
     end
   end
   object cxgrd1: TcxGrid

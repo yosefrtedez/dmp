@@ -90,7 +90,7 @@ var
   i: Integer;
   lst: TStringList;
   chk, sNoBukti: string;
-  qCek: TZQuery;
+  qCek, qBrg, qGdg, qBrgDet, qHst: TZQuery;
 begin
 
   lst := TStringList.Create;
@@ -113,6 +113,52 @@ begin
         dm.zConn.ExecuteDirect(
           Format('UPDATE tbl_trsreturpemb_head SET f_app = 1, user_app = ''%s'', tgl_app = NOW() WHERE no_bukti = ''%s''',
           [Aplikasi.NamaUser, lst.Strings[i]]));
+
+        qCek := OpenRS('SELECT a.no_bukti, a.tanggal, b.kode_brg, b.id_brg, b.id_satuan, b.id_gdg, c.deskripsi, c.satuan, b.qty, b.id_gdg,' +
+        ' d.kode FROM tbl_trsreturpemb_head a LEFT JOIN tbl_trsreturpemb_det b ON a.no_bukti = b.no_bukti ' +
+        'LEFT JOIN tbl_barang c ON b.kode_brg = c.kode LEFT JOIN tbl_gudang d ON b.id_gdg = d.id WHERE a.`no_bukti` = ''%s''',[lst.Strings[i]]);
+        while not qCek.Eof do begin
+          //update tbl_history
+          qHst := OpenRS('select * from tbl_history where no_bukti = ''%s''',[qCek.FieldByName('no_bukti').AsString]);
+          qHst.Insert;
+          qHst.FieldByName('no_bukti').AsString := qCek.FieldByName('no_Bukti').AsString;
+          qHst.FieldByName('tanggal').AsDateTime := qCek.FieldByName('tanggal').AsDateTime;
+          qHst.FieldByName('jam').AsString := Aplikasi.JamString;
+          qHst.FieldByName('kode_brg').AsString := qCek.FieldByName('kode_brg').AsString;
+          qHst.FieldByName('id_brg').AsInteger := qCek.FieldByName('id_brg').AsInteger;
+          qHst.FieldByName('tipe').AsString := 'i';
+          qHst.FieldByName('qty').AsInteger := qCek.FieldByName('qty').AsInteger;
+          qHst.FieldByName('satuan').AsString := qCek.FieldByName('satuan').AsString;
+          qHst.FieldByName('id_satuan').AsInteger := qCek.FieldByName('id_satuan').AsInteger;
+          qHst.FieldByName('gudang').AsString := qCek.FieldByName('kode').AsString;
+          qHst.FieldByName('id_gdg').AsString := qCek.FieldByName('id_gdg').AsString;
+          qHst.FieldByName('user').AsString := aplikasi.NamaUser;
+          qHst.FieldByName('user_dept').AsString := Aplikasi.UserDept;
+          //untuk so masih dikosongin dulu nunggu sistem selanjutnya
+          qHst.FieldByName('no_so').AsString := '';
+          qHst.FieldByName('tgl_input').AsDateTime := Aplikasi.Tanggal;
+          qHst.Post;
+          qHst.Close;
+
+          //update tbl_barang
+          qBrg := OpenRS('SELECT * from tbl_barang WHERE kode = ''%s''',[qCek.FieldByName('kode_brg').AsString]);
+          if not qBrg.Eof then begin
+            qBrg.Edit;
+            qBrg.FieldByName('stok').AsFloat := qBrg.FieldByName('stok').AsFloat + qCek.FieldByName('qty').AsFloat;
+            qBrg.Post;
+          end;
+          qBrg.Close;
+
+          //update tbl_barang_det
+          qBrgDet := OpenRS('select * from tbl_barang_det where kode_brg = ''%s'' and kode_gdg = ''%s''', [qCek.FieldByName('kode_brg').AsString, qCek.FieldByName('kode').AsString]);
+          if not qBrgDet.Eof then begin
+            qBrgDet.Edit;
+            qBrgDet.FieldByName('stok').AsFloat := qBrgDet.FieldByName('stok').AsFloat + qCek.FieldByName('qty').AsFloat;
+            qBrgDet.Post;
+          end;
+          qBrgDet.Close;
+          qCek.Next;
+        end;
       end;
       dm.zConn.Commit;
       MsgBox('Retur pembelian sudah di Approval.');
