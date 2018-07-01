@@ -2,8 +2,8 @@ object frmUtama: TfrmUtama
   Left = 0
   Top = 0
   Caption = 'frmUtama'
-  ClientHeight = 620
-  ClientWidth = 1122
+  ClientHeight = 704
+  ClientWidth = 1162
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -26,8 +26,8 @@ object frmUtama: TfrmUtama
   end
   object stsBar: TdxStatusBar
     Left = 0
-    Top = 596
-    Width = 1122
+    Top = 680
+    Width = 1162
     Height = 24
     Panels = <
       item
@@ -56,8 +56,8 @@ object frmUtama: TfrmUtama
     Font.Style = []
   end
   object pgMain: TcxPageControl
-    Left = 136
-    Top = 112
+    Left = 8
+    Top = 248
     Width = 289
     Height = 193
     HotTrack = True
@@ -141,7 +141,7 @@ object frmUtama: TfrmUtama
         Caption = 'Sales Order'
         OnClick = mnMkt_SalesOrderClick
       end
-      object SuratJalan1: TMenuItem
+      object mnMkt_SuratJalan: TMenuItem
         Caption = 'Surat Jalan '
       end
       object mnMkt_ReturPenjualan: TMenuItem
@@ -166,6 +166,12 @@ object frmUtama: TfrmUtama
       object mnWhl_TransferBarang: TMenuItem
         Caption = 'Transfer Antar Gudang'
         OnClick = mnWhl_TransferBarangClick
+      end
+      object mnWhl_BarangMasuk: TMenuItem
+        Caption = 'Barang Masuk'
+      end
+      object mnWhl_BarangKeluar: TMenuItem
+        Caption = 'Barang Keluar'
       end
     end
     object mnPRD: TMenuItem
@@ -196,6 +202,7 @@ object frmUtama: TfrmUtama
       end
       object mnPur_AppPO: TMenuItem
         Caption = 'Approval Purchase Order'
+        OnClick = mnPur_AppPOClick
       end
       object N3: TMenuItem
         Caption = '-'
@@ -203,6 +210,26 @@ object frmUtama: TfrmUtama
       object mnPur_PB: TMenuItem
         Caption = 'Penerimaan Barang'
         OnClick = mnPur_PBClick
+      end
+      object N4: TMenuItem
+        Caption = '-'
+      end
+      object mnPur_ReturPembelian: TMenuItem
+        Caption = 'Retur Pembelian'
+        OnClick = mnPur_ReturPembelianClick
+      end
+      object mnPur_AppReturPembelian: TMenuItem
+        Caption = 'Approval Retur Pembelian'
+        OnClick = mnPur_AppReturPembelianClick
+      end
+      object N5: TMenuItem
+        Caption = '-'
+      end
+      object mnPur_FakturPembelian: TMenuItem
+        Caption = 'Faktur Pembelian'
+      end
+      object mnPur_PembayaranHutUsaha: TMenuItem
+        Caption = 'Pembayaran Hutang Usaha'
       end
     end
     object mnAKT: TMenuItem

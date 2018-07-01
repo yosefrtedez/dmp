@@ -74,6 +74,8 @@ type
     mnPur_FakturPembelian: TMenuItem;
     mnPur_PembayaranHutUsaha: TMenuItem;
     mnPur_AppReturPembelian: TMenuItem;
+    mnWhl_BarangMasuk: TMenuItem;
+    mnWhl_BarangKeluar: TMenuItem;
     procedure FormShow(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure mnMst_BarangJasaClick(Sender: TObject);
@@ -106,6 +108,7 @@ type
     procedure mnPur_AppPOClick(Sender: TObject);
     procedure mnPur_ReturPembelianClick(Sender: TObject);
     procedure mnPur_AppReturPembelianClick(Sender: TObject);
+    procedure mnWhl_BarangMasukClick(Sender: TObject);
   private
     procedure PGChange(Sender: TObject);
   public
@@ -129,7 +132,8 @@ uses
   unFrmMasterOrder, unFrmLogin, unFrmSettingWewenang, unFrmSettingProgram,
   unFrmLstPenerimaanKas, unFrmAppPP, unFrmInputPO, unFrmLstPO, unFrmLstPB,
   unFrmLstPengeluaranKas, unFrmLstTransferBarang, unFrmLstSales,
-  unFrmLstFormula, unFrmAppPO, unFrmLstReturPembelian, unFrmAppRetur;
+  unFrmLstFormula, unFrmAppPO, unFrmLstReturPembelian, unFrmAppRetur,
+  unFrmInputBarangMasuk, unFrmLstBarangMasuk;
 
 {$R *.dfm}
 
@@ -743,6 +747,25 @@ begin
     pagecontrol.OnChange := PGChange;
   end;
 
+end;
+
+procedure TfrmUtama.mnWhl_BarangMasukClick(Sender: TObject);
+var
+  f: TfrmLstBarangMasuk;
+  ts: TcxTabSheet;
+begin
+  if not CekTabOpen('Barang Masuk') then begin
+    ToggleMainPage;
+    ts := TcxTabSheet.Create(Self);
+    ts.PageControl := pgMain;
+
+    f := TfrmLstBarangMasuk.Create(Self);
+    f.Parent := ts;
+    ts.Caption := f.Caption;
+    f.Show;
+
+    pgMain.ActivePage := ts;
+  end;
 end;
 
 procedure TfrmUtama.mnWhl_TransferBarangClick(Sender: TObject);

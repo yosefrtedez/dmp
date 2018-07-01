@@ -54,8 +54,6 @@ object frmUtama: TfrmUtama
     Font.Height = -11
     Font.Name = 'Tahoma'
     Font.Style = []
-    ExplicitTop = 596
-    ExplicitWidth = 1122
   end
   object pgMain: TcxPageControl
     Left = 8
@@ -168,6 +166,13 @@ object frmUtama: TfrmUtama
       object mnWhl_TransferBarang: TMenuItem
         Caption = 'Transfer Antar Gudang'
         OnClick = mnWhl_TransferBarangClick
+      end
+      object mnWhl_BarangMasuk: TMenuItem
+        Caption = 'Barang Masuk'
+        OnClick = mnWhl_BarangMasukClick
+      end
+      object mnWhl_BarangKeluar: TMenuItem
+        Caption = 'Barang Keluar'
       end
     end
     object mnPRD: TMenuItem
