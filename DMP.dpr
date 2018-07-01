@@ -59,7 +59,9 @@ uses
   unFrmAppRetur in 'returpembelian\unFrmAppRetur.pas' {frmAppRetur},
   unFrmCariBrg in 'unFrmCariBrg.pas' {frmCariBrg},
   unFrmInputBarangMasuk in 'barangmasuk\unFrmInputBarangMasuk.pas' {frmInputBarangMasuk},
-  unFrmLstBarangMasuk in 'barangmasuk\unFrmLstBarangMasuk.pas' {frmLstBarangMasuk};
+  unFrmLstBarangMasuk in 'barangmasuk\unFrmLstBarangMasuk.pas' {frmLstBarangMasuk},
+  unFrmInputBarangKeluar in 'barangkeluar\unFrmInputBarangKeluar.pas' {frmInputBarangKeluar},
+  unFrmLstBarangKeluar in 'barangkeluar\unFrmLstBarangKeluar.pas' {frmLstBarangKeluar};
 
 {$R *.res}
 
@@ -71,6 +73,8 @@ begin
   Application.CreateForm(TfrmLogin, frmLogin);
   Application.CreateForm(TfrmInputBarangMasuk, frmInputBarangMasuk);
   Application.CreateForm(TfrmLstBarangMasuk, frmLstBarangMasuk);
+  Application.CreateForm(TfrmInputBarangKeluar, frmInputBarangKeluar);
+  Application.CreateForm(TfrmLstBarangKeluar, frmLstBarangKeluar);
   frmUtama.Show;
 
   frmLogin.ShowModal;

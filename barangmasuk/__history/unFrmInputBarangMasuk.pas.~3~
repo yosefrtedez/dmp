@@ -88,6 +88,11 @@ begin
     Abort;
   end;
 
+  if cxluSupplier.Text = '' then begin
+    MsgBox('Nama supllier masih kosong.');
+    Abort;
+  end;
+
   // cek approval PO
   if Self.Jenis = 'E' then begin
     q := OpenRS('SELECT f_app FROM tbl_trsreturpemb_head WHERE id = %s',[Self.EditKey]);

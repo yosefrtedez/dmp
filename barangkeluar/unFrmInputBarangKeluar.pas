@@ -1,4 +1,4 @@
-unit unFrmInputBarangMasuk;
+unit unFrmInputBarangKeluar;
 
 interface
 
@@ -21,7 +21,7 @@ uses
   cxGridTableView, cxClasses, cxGridCustomView, cxGrid, Spin;
 
 type
-  TfrmInputBarangMasuk = class(TfrmTplInput)
+  TfrmInputBarangKeluar = class(TfrmTplInput)
     Label13: TLabel;
     cxlbl1: TcxLabel;
     cxlbl4: TcxLabel;
@@ -65,7 +65,7 @@ type
   end;
 
 var
-  frmInputBarangMasuk: TfrmInputBarangMasuk;
+  frmInputBarangKeluar: TfrmInputBarangKeluar;
 
 implementation
 
@@ -73,7 +73,7 @@ uses unDM, unTools;
 
 {$R *.dfm}
 
-procedure TfrmInputBarangMasuk.btnSimpanClick(Sender: TObject);
+procedure TfrmInputBarangKeluar.btnSimpanClick(Sender: TObject);
 var
   q, qh, qd : TZQuery;
   sNoBukti : string;
@@ -85,6 +85,11 @@ begin
 
   if (cxtbRetur.DataController.EditState = [dceInsert, dceModified]) or (cxtbRetur.DataController.EditState = [dceEdit, dceModified]) then begin
     MsgBox('Mohon selesaikan pengeditan detail sebelum disimpan.');
+    Abort;
+  end;
+
+  if cxluSupplier.Text = '' then begin
+    MsgBox('Nama supllier masih kosong.');
     Abort;
   end;
 
@@ -193,7 +198,7 @@ begin
 
 end;
 
-procedure TfrmInputBarangMasuk.cxColNoGetDisplayText(
+procedure TfrmInputBarangKeluar.cxColNoGetDisplayText(
   Sender: TcxCustomGridTableItem; ARecord: TcxCustomGridRecord;
   var AText: string);
 var
@@ -204,7 +209,7 @@ begin
   AText := IntToStr(Row+1);
 end;
 
-procedure TfrmInputBarangMasuk.cxlSupplierPropertiesChange(Sender: TObject);
+procedure TfrmInputBarangKeluar.cxlSupplierPropertiesChange(Sender: TObject);
 var
   q: TZQuery;
 begin
@@ -214,7 +219,7 @@ begin
   q.Close;
 end;
 
-procedure TfrmInputBarangMasuk.cxtbReturDataControllerBeforePost(
+procedure TfrmInputBarangKeluar.cxtbReturDataControllerBeforePost(
   ADataController: TcxCustomDataController);
 var
   i,j,k: integer;
@@ -272,7 +277,7 @@ begin
 
 end;
 
-procedure TfrmInputBarangMasuk.cxtbReturDataControllerRecordChanged(
+procedure TfrmInputBarangKeluar.cxtbReturDataControllerRecordChanged(
   ADataController: TcxCustomDataController; ARecordIndex, AItemIndex: Integer);
 var
   q: TZQuery;
@@ -332,7 +337,7 @@ begin
 
 end;
 
-procedure TfrmInputBarangMasuk.FormCreate(Sender: TObject);
+procedure TfrmInputBarangKeluar.FormCreate(Sender: TObject);
 begin
   inherited;
   cxdTglDatang.Date := Aplikasi.Tanggal;
@@ -342,7 +347,7 @@ begin
   cxsrate.Text := '1';
 end;
 
-procedure TfrmInputBarangMasuk.FormShow(Sender: TObject);
+procedure TfrmInputBarangKeluar.FormShow(Sender: TObject);
   var
    q,z : TZQuery;
    i, nomer: integer;

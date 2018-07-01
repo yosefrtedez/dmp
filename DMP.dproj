@@ -206,6 +206,12 @@
 			<DCCReference Include="barangmasuk\unFrmLstBarangMasuk.pas">
 				<Form>frmLstBarangMasuk</Form>
 			</DCCReference>
+			<DCCReference Include="barangkeluar\unFrmInputBarangKeluar.pas">
+				<Form>frmInputBarangKeluar</Form>
+			</DCCReference>
+			<DCCReference Include="barangkeluar\unFrmLstBarangKeluar.pas">
+				<Form>frmLstBarangKeluar</Form>
+			</DCCReference>
 			<BuildConfiguration Include="Base">
 				<Key>Base</Key>
 			</BuildConfiguration>
