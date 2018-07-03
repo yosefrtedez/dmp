@@ -28,7 +28,7 @@ inherited frmInputBarangJasa: TfrmInputBarangJasa
   inherited Panel2: TPanel
     Top = 614
     Width = 1058
-    TabOrder = 15
+    TabOrder = 16
     ExplicitTop = 614
     ExplicitWidth = 1058
     inherited btnSimpan: TButton
@@ -54,7 +54,7 @@ inherited frmInputBarangJasa: TfrmInputBarangJasa
   object cxtDeskripsi: TcxTextEdit
     Left = 104
     Top = 90
-    TabOrder = 4
+    TabOrder = 5
     Width = 633
   end
   object cxLabel3: TcxLabel
@@ -65,14 +65,14 @@ inherited frmInputBarangJasa: TfrmInputBarangJasa
   object cxlKategori: TcxLookupComboBox
     Left = 104
     Top = 117
-    Properties.KeyFieldNames = 'kode'
+    Properties.KeyFieldNames = 'id'
     Properties.ListColumns = <
       item
         Caption = 'Kategori'
         FieldName = 'kategori'
       end>
     Properties.ListSource = dsKategori
-    TabOrder = 6
+    TabOrder = 7
     Width = 265
   end
   object cxLabel4: TcxLabel
@@ -83,14 +83,14 @@ inherited frmInputBarangJasa: TfrmInputBarangJasa
   object cxlSubKategori: TcxLookupComboBox
     Left = 104
     Top = 144
-    Properties.KeyFieldNames = 'kode'
+    Properties.KeyFieldNames = 'id'
     Properties.ListColumns = <
       item
         Caption = 'SubKategori'
         FieldName = 'subkategori'
       end>
     Properties.ListSource = dsSubKategori
-    TabOrder = 8
+    TabOrder = 9
     Width = 265
   end
   object cxLabel5: TcxLabel
@@ -108,7 +108,7 @@ inherited frmInputBarangJasa: TfrmInputBarangJasa
         FieldName = 'satuan'
       end>
     Properties.ListSource = dsSatuan
-    TabOrder = 10
+    TabOrder = 11
     Width = 137
   end
   object cxBrgDet: TcxPageControl
@@ -116,10 +116,10 @@ inherited frmInputBarangJasa: TfrmInputBarangJasa
     Top = 264
     Width = 1042
     Height = 344
-    ActivePage = cxTabSheet3
+    ActivePage = cxTabSheet4
     Anchors = [akLeft, akTop, akRight, akBottom]
     Style = 7
-    TabOrder = 14
+    TabOrder = 15
     ClientRectBottom = 343
     ClientRectLeft = 1
     ClientRectRight = 1041
@@ -233,6 +233,22 @@ inherited frmInputBarangJasa: TfrmInputBarangJasa
         Width = 121
       end
     end
+    object cxTabSheet4: TcxTabSheet
+      Caption = 'Spesifikasi'
+      ImageIndex = 3
+      object cxLabel7: TcxLabel
+        Left = 14
+        Top = 16
+        Caption = 'Dimensi'
+      end
+      object cxtDimensi: TcxTextEdit
+        Left = 130
+        Top = 15
+        Properties.ReadOnly = True
+        TabOrder = 0
+        Width = 135
+      end
+    end
     object cxTabSheet1: TcxTabSheet
       Caption = 'Konversi Satuan'
       ImageIndex = 0
@@ -305,7 +321,7 @@ inherited frmInputBarangJasa: TfrmInputBarangJasa
         FieldName = 'tipe'
       end>
     Properties.ListSource = dsTipe
-    TabOrder = 12
+    TabOrder = 13
     Width = 265
   end
   object cxChkAktif: TcxCheckBox
@@ -313,6 +329,13 @@ inherited frmInputBarangJasa: TfrmInputBarangJasa
     Top = 63
     Caption = 'Aktif'
     TabOrder = 2
+    Width = 58
+  end
+  object cxChkPPN: TcxCheckBox
+    Left = 432
+    Top = 63
+    Caption = 'PPN'
+    TabOrder = 3
     Width = 121
   end
   object zqrKategori: TZReadOnlyQuery
@@ -358,7 +381,6 @@ inherited frmInputBarangJasa: TfrmInputBarangJasa
   end
   object zqrTipe: TZReadOnlyQuery
     Connection = DM.zConn
-    Active = True
     SQL.Strings = (
       'SELECT * FROM tbl_tipe_brg ORDER BY tipe')
     Params = <>

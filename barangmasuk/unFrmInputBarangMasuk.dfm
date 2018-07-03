@@ -1,16 +1,16 @@
 inherited frmInputBarangMasuk: TfrmInputBarangMasuk
   Caption = 'Input Barang Masuk'
-  ClientHeight = 656
-  ClientWidth = 1142
+  ClientHeight = 533
+  ClientWidth = 973
   OnCreate = FormCreate
   OnShow = FormShow
-  ExplicitWidth = 1142
-  ExplicitHeight = 656
+  ExplicitWidth = 973
+  ExplicitHeight = 533
   PixelsPerInch = 96
   TextHeight = 13
   inherited Panel1: TPanel
-    Width = 1142
-    ExplicitWidth = 1142
+    Width = 973
+    ExplicitWidth = 973
     object Label13: TLabel
       Left = 10
       Top = 13
@@ -26,13 +26,15 @@ inherited frmInputBarangMasuk: TfrmInputBarangMasuk
     end
   end
   inherited Panel2: TPanel
-    Top = 607
-    Width = 1142
+    Top = 484
+    Width = 973
     TabOrder = 8
-    ExplicitTop = 607
-    ExplicitWidth = 1142
+    ExplicitTop = 484
+    ExplicitWidth = 973
     inherited btnSimpan: TButton
+      Top = 11
       OnClick = btnSimpanClick
+      ExplicitTop = 11
     end
   end
   object cxlbl1: TcxLabel
@@ -54,6 +56,7 @@ inherited frmInputBarangMasuk: TfrmInputBarangMasuk
   object cxtNoBukti: TcxTextEdit
     Left = 112
     Top = 61
+    Properties.ReadOnly = True
     TabOrder = 1
     Width = 146
   end
@@ -70,13 +73,13 @@ inherited frmInputBarangMasuk: TfrmInputBarangMasuk
     Width = 416
   end
   object cxgrdPP: TcxGrid
-    Left = 10
-    Top = 149
-    Width = 1124
-    Height = 293
+    Left = 8
+    Top = 146
+    Width = 957
+    Height = 313
     Anchors = [akLeft, akTop, akRight]
     TabOrder = 7
-    object cxtbRetur: TcxGridTableView
+    object cxtbBarangMasuk: TcxGridTableView
       NavigatorButtons.ConfirmDelete = False
       NavigatorButtons.Insert.Visible = False
       NavigatorButtons.Append.Visible = True
@@ -90,11 +93,10 @@ inherited frmInputBarangMasuk: TfrmInputBarangMasuk
         item
           Format = '#,##.00'
           Kind = skSum
-          Column = cxColTotal
         end>
       DataController.Summary.SummaryGroups = <>
-      DataController.OnBeforePost = cxtbReturDataControllerBeforePost
-      DataController.OnRecordChanged = cxtbReturDataControllerRecordChanged
+      DataController.OnBeforePost = cxtbBarangMasukDataControllerBeforePost
+      DataController.OnRecordChanged = cxtbBarangMasukDataControllerRecordChanged
       OptionsData.Appending = True
       OptionsView.Navigator = True
       OptionsView.Footer = True
@@ -162,55 +164,34 @@ inherited frmInputBarangMasuk: TfrmInputBarangMasuk
         PropertiesClassName = 'TcxTextEditProperties'
         Width = 200
       end
-      object cxColTotal: TcxGridColumn
-        Caption = 'Total'
-        DataBinding.ValueType = 'Float'
-        PropertiesClassName = 'TcxSpinEditProperties'
-        Properties.DisplayFormat = '#,##.00'
-        Properties.ReadOnly = False
-        Width = 112
-      end
       object cxColIdSatuan: TcxGridColumn
         DataBinding.ValueType = 'Integer'
         Visible = False
       end
     end
     object cxgrdlvl1Grid1Level1: TcxGridLevel
-      GridView = cxtbRetur
+      GridView = cxtbBarangMasuk
     end
-  end
-  object zqrSupplier: TZReadOnlyQuery
-    Connection = DM.zConn
-    AutoCalcFields = False
-    SQL.Strings = (
-      'select id, kode, nama '
-      'from tbl_supplier order by nama')
-    Params = <>
-    Left = 756
-    Top = 77
-  end
-  object dsSupplier: TDataSource
-    DataSet = zqrSupplier
-    Left = 816
-    Top = 77
   end
   object zqrBarang: TZReadOnlyQuery
     Connection = DM.zConn
     AutoCalcFields = False
     SQL.Strings = (
-      'select id, kode, deskripsi from tbl_barang')
+      'select id, kode, deskripsi '
+      'from tbl_barang'
+      'where f_aktif = 1')
     Params = <>
     Properties.Strings = (
       
         'select kode, deskripsi, satuan from tbl_barang order by deskrips' +
         'i')
-    Left = 752
-    Top = 147
+    Left = 581
+    Top = 56
   end
   object dsBarang: TDataSource
     DataSet = zqrBarang
-    Left = 814
-    Top = 149
+    Left = 633
+    Top = 56
   end
   object zqrGudang: TZReadOnlyQuery
     Connection = DM.zConn
@@ -222,12 +203,12 @@ inherited frmInputBarangMasuk: TfrmInputBarangMasuk
       
         'select kode, deskripsi, satuan from tbl_barang order by deskrips' +
         'i')
-    Left = 930
-    Top = 162
+    Left = 717
+    Top = 63
   end
   object dsGudang: TDataSource
     DataSet = zqrGudang
-    Left = 991
-    Top = 164
+    Left = 752
+    Top = 63
   end
 end

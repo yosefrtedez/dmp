@@ -2,8 +2,8 @@ object frmUtama: TfrmUtama
   Left = 0
   Top = 0
   Caption = 'frmUtama'
-  ClientHeight = 704
-  ClientWidth = 1162
+  ClientHeight = 523
+  ClientWidth = 744
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -26,8 +26,8 @@ object frmUtama: TfrmUtama
   end
   object stsBar: TdxStatusBar
     Left = 0
-    Top = 680
-    Width = 1162
+    Top = 499
+    Width = 744
     Height = 24
     Panels = <
       item
@@ -54,11 +54,13 @@ object frmUtama: TfrmUtama
     Font.Height = -11
     Font.Name = 'Tahoma'
     Font.Style = []
+    ExplicitTop = 680
+    ExplicitWidth = 1162
   end
   object pgMain: TcxPageControl
     Left = 8
     Top = 248
-    Width = 289
+    Width = 441
     Height = 193
     HotTrack = True
     LookAndFeel.SkinName = ''
@@ -68,7 +70,7 @@ object frmUtama: TfrmUtama
     TabOrder = 0
     Visible = False
     ClientRectBottom = 193
-    ClientRectRight = 289
+    ClientRectRight = 441
     ClientRectTop = 0
   end
   object MainMenu: TMainMenu
@@ -173,6 +175,7 @@ object frmUtama: TfrmUtama
       end
       object mnWhl_BarangKeluar: TMenuItem
         Caption = 'Barang Keluar'
+        OnClick = mnWhl_BarangKeluarClick
       end
     end
     object mnPRD: TMenuItem

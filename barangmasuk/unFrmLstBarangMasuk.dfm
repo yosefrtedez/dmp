@@ -46,9 +46,9 @@ inherited frmLstBarangMasuk: TfrmLstBarangMasuk
     Height = 169
     Align = alClient
     TabOrder = 1
-    object cxTblReturPembHead: TcxGridDBTableView
+    object cxTblTrsMasukHead: TcxGridDBTableView
       NavigatorButtons.ConfirmDelete = False
-      OnFocusedRecordChanged = cxTblReturPembHeadFocusedRecordChanged
+      OnFocusedRecordChanged = cxTblTrsMasukHeadFocusedRecordChanged
       DataController.DataSource = dsBarangMasuk
       DataController.KeyFieldNames = 'id'
       DataController.Summary.DefaultGroupSummaryItems = <>
@@ -57,28 +57,28 @@ inherited frmLstBarangMasuk: TfrmLstBarangMasuk
       FilterRow.Visible = True
       OptionsView.CellTextMaxLineCount = 10
       Preview.MaxLineCount = 10
-      object cxColPOHeadno_bukti: TcxGridDBColumn
+      object cxColTblTrsMasukHeadno_bukti: TcxGridDBColumn
         Caption = 'No. Bukti'
         DataBinding.FieldName = 'no_bukti'
-        Width = 80
+        Options.Editing = False
+        Width = 100
       end
-      object cxColPOHeadid_invoice: TcxGridDBColumn
-        DataBinding.FieldName = 'id_invoice'
-        Visible = False
-        Width = 90
-      end
-      object cxColPOHeadketerangan: TcxGridDBColumn
-        Caption = 'Keterangan'
-        DataBinding.FieldName = 'keterangan'
-        Width = 200
-      end
-      object cxColPOHeadtanggal: TcxGridDBColumn
+      object cxColTblTrsMasukHeadtanggal: TcxGridDBColumn
         Caption = 'Tanggal'
         DataBinding.FieldName = 'tanggal'
+        Options.Editing = False
+        Width = 100
       end
-      object cxColPOHeaduser: TcxGridDBColumn
+      object cxColTblTrsMasukHeaduser: TcxGridDBColumn
         Caption = 'User'
         DataBinding.FieldName = 'user'
+        Options.Editing = False
+        Width = 120
+      end
+      object cxColTblTrsMasukHeaduser_dept: TcxGridDBColumn
+        Caption = 'Departemen'
+        DataBinding.FieldName = 'user_dept'
+        Options.Editing = False
       end
     end
     object cxTblDet: TcxGridDBTableView
@@ -131,7 +131,7 @@ inherited frmLstBarangMasuk: TfrmLstBarangMasuk
       end
     end
     object cxgrdlvl1Grid1Level1: TcxGridLevel
-      GridView = cxTblReturPembHead
+      GridView = cxTblTrsMasukHead
     end
   end
   object Panel3: TPanel
@@ -154,78 +154,98 @@ inherited frmLstBarangMasuk: TfrmLstBarangMasuk
     Height = 200
     Align = alBottom
     TabOrder = 3
-    object cxTblReturPembDet: TcxGridDBTableView
+    object cxTblTrsMasukDet: TcxGridDBTableView
       NavigatorButtons.ConfirmDelete = False
       DataController.DataSource = dsBarangMasukDet
       DataController.Summary.DefaultGroupSummaryItems = <>
       DataController.Summary.FooterSummaryItems = <>
       DataController.Summary.SummaryGroups = <>
-      object cxColPODetno_bukti: TcxGridDBColumn
+      object cxColTblTrsMasukDetno_bukti: TcxGridDBColumn
         Caption = 'No. Bukti'
         DataBinding.FieldName = 'no_bukti'
-        Width = 80
+        Options.Editing = False
+        Width = 100
       end
-      object cxColPODetkode_brg: TcxGridDBColumn
+      object cxColTblTrsMasukDetkode_brg: TcxGridDBColumn
         Caption = 'Kode Brg'
         DataBinding.FieldName = 'kode_brg'
-        Width = 90
+        Options.Editing = False
+        Width = 100
       end
-      object cxColPODetdeskripsi: TcxGridDBColumn
+      object cxColTblTrsMasukDetdeskripsi: TcxGridDBColumn
         Caption = 'Deskripsi'
         DataBinding.FieldName = 'deskripsi'
+        Options.Editing = False
         Width = 200
       end
-      object cxColPODetqty: TcxGridDBColumn
+      object cxColTblTrsMasukDetsatuan: TcxGridDBColumn
+        Caption = 'Satuan'
+        DataBinding.FieldName = 'satuan'
+        Options.Editing = False
+        Width = 80
+      end
+      object cxColTblTrsMasukDetqty: TcxGridDBColumn
         Caption = 'Qty'
         DataBinding.FieldName = 'qty'
+        Options.Editing = False
+        Width = 80
       end
-      object cxColPODetsatuan: TcxGridDBColumn
-        DataBinding.FieldName = 'satuan'
-        Width = 60
-      end
-      object cxColPODetketerangan: TcxGridDBColumn
+      object cxColTblTrsMasukDetketerangan: TcxGridDBColumn
         Caption = 'Keterangan'
         DataBinding.FieldName = 'keterangan'
+        Options.Editing = False
         Width = 200
       end
-      object cxColPODetid_gdg: TcxGridDBColumn
-        Caption = 'Gudang'
-        DataBinding.FieldName = 'kode'
+      object cxColTblTrsMasukDetno_so: TcxGridDBColumn
+        Caption = 'No. SO'
+        DataBinding.FieldName = 'no_so'
+        Options.Editing = False
+        Width = 100
+      end
+      object cxColTblTrsMasukDetno_spk: TcxGridDBColumn
+        Caption = 'No. SPK'
+        DataBinding.FieldName = 'no_spk'
+        Options.Editing = False
+        Width = 100
+      end
+      object cxColTblTrsMasukDetnO_spmb: TcxGridDBColumn
+        Caption = 'No. Spmb'
+        DataBinding.FieldName = 'nO_spmb'
+        Options.Editing = False
+        Width = 100
       end
     end
     object cxGrid1Level1: TcxGridLevel
-      GridView = cxTblReturPembDet
+      GridView = cxTblTrsMasukDet
     end
   end
   object zqrBarangMasuk: TZReadOnlyQuery
     Connection = DM.zConn
+    Active = True
     SQL.Strings = (
-      
-        'SELECT a.id, a.no_bukti, a.id_invoice, b.nama, b.kontak, a.keter' +
-        'angan, a.tanggal, a.user, a.user_dept, a.f_app'
-      'FROM tbl_trsreturpemb_head a'
-      'LEFT JOIN tbl_supplier b ON a.`id_supplier` = b.id')
+      'select * from  tbl_trsmasuk_head order by no_bukti')
     Params = <>
-    Left = 647
-    Top = 350
+    Left = 649
+    Top = 154
   end
   object dsBarangMasuk: TDataSource
     DataSet = zqrBarangMasuk
-    Left = 747
-    Top = 319
+    Left = 693
+    Top = 154
   end
   object zqrBarangMasukDet: TZReadOnlyQuery
     Connection = DM.zConn
     AutoCalcFields = False
     SQL.Strings = (
       
-        'SELECT a.id_ref, a.no_bukti, a.kode_brg, b.deskripsi, a.qty, a.k' +
-        'eterangan, d.kode, c.`satuan`, a.`harga`, a.`mata_uang`, a.`nila' +
-        'i_tukar`, a.`ppn`'
-      'FROM tbl_trsreturpemb_det a'
-      'LEFT JOIN tbl_barang b ON a.`id_brg` = b.`id`'
-      'LEFT JOIN tbl_satuan c ON a.`id_satuan` = c.`id`'
-      'left join tbl_gudang d on a.id_gdg = d.id'
+        'SELECT a.id, a.id_ref, a.no_bukti, a.kode_brg, b.deskripsi, c.sa' +
+        'tuan, a.qty, a.qty_baik, a.qty_afkir, a.qty_retur, a.keterangan,' +
+        ' '
+      'a.no_so, a.no_spk, a.nO_spmb'
+      'FROM tbl_trsmasuk_det a'
+      'LEFT JOIN tbl_barang b ON a.kode_brg = b.`kode`'
+      'LEFT JOIN tbl_satuan c ON a.id_brg = c.`id`'
+      'LEFT JOIN tbl_gudang d ON d.id = a.kode_gdg'
       'where a.id_ref = :id_ref')
     Params = <
       item
@@ -233,8 +253,8 @@ inherited frmLstBarangMasuk: TfrmLstBarangMasuk
         Name = 'id_ref'
         ParamType = ptUnknown
       end>
-    Left = 428
-    Top = 150
+    Left = 621
+    Top = 384
     ParamData = <
       item
         DataType = ftUnknown
@@ -244,7 +264,7 @@ inherited frmLstBarangMasuk: TfrmLstBarangMasuk
   end
   object dsBarangMasukDet: TDataSource
     DataSet = zqrBarangMasukDet
-    Left = 553
-    Top = 157
+    Left = 690
+    Top = 368
   end
 end

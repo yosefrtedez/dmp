@@ -71,10 +71,6 @@ begin
   Application.CreateForm(TDM, DM);
   Application.CreateForm(TfrmUtama, frmUtama);
   Application.CreateForm(TfrmLogin, frmLogin);
-  Application.CreateForm(TfrmInputBarangMasuk, frmInputBarangMasuk);
-  Application.CreateForm(TfrmLstBarangMasuk, frmLstBarangMasuk);
-  Application.CreateForm(TfrmInputBarangKeluar, frmInputBarangKeluar);
-  Application.CreateForm(TfrmLstBarangKeluar, frmLstBarangKeluar);
   frmUtama.Show;
 
   frmLogin.ShowModal;

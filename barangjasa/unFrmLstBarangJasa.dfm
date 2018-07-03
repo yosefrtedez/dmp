@@ -80,21 +80,22 @@ inherited frmLstBarangJasa: TfrmLstBarangJasa
       end
       object cxtbBarangsatuan: TcxGridDBColumn
         Caption = 'Satuan'
-        DataBinding.FieldName = 'satuan'
+        DataBinding.FieldName = 'satuan2'
+        Width = 54
       end
       object cxtbBarangkategori: TcxGridDBColumn
         Caption = 'Kategori'
-        DataBinding.FieldName = 'kategori'
+        DataBinding.FieldName = 'kategori2'
         Width = 103
       end
       object cxtbBarangsubkategori: TcxGridDBColumn
         Caption = 'Sub Kategori'
-        DataBinding.FieldName = 'subkategori'
+        DataBinding.FieldName = 'subkategori2'
         Width = 97
       end
       object cxtbBarangtipe: TcxGridDBColumn
         Caption = 'Tipe'
-        DataBinding.FieldName = 'tipe'
+        DataBinding.FieldName = 'tipe2'
         Width = 72
       end
       object cxtbBarangdivisi: TcxGridDBColumn
@@ -313,9 +314,14 @@ inherited frmLstBarangJasa: TfrmLstBarangJasa
   object zqrBarang: TZReadOnlyQuery
     Connection = DM.zConn
     SQL.Strings = (
-      'SELECT * FROM v_lst_barang'
-      'WHERE f_aktif = 1'
-      'ORDER BY deskripsi')
+      
+        'SELECT a.*, b.satuan satuan2, c.kategori kategori2, d.subkategor' +
+        'i subkategori2, e.tipe tipe2'
+      'FROM tbl_barang a'
+      'LEFT JOIN tbl_satuan b ON a.id_satuan = b.id'
+      'LEFT JOIN tbl_kategori_brg c ON a.id_kategori = c.id'
+      'LEFT JOIN tbl_subkategori_brg d ON a.id_subkategori = d.id'
+      'LEFT JOIN tbl_tipe_brg e ON a.id_tipe = e.id')
     Params = <>
     Left = 824
     Top = 192

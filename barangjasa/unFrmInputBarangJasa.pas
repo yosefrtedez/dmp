@@ -69,6 +69,10 @@ type
     zqrTipe: TZReadOnlyQuery;
     dsTipe: TDataSource;
     cxChkAktif: TcxCheckBox;
+    cxTabSheet4: TcxTabSheet;
+    cxLabel7: TcxLabel;
+    cxtDimensi: TcxTextEdit;
+    cxChkPPN: TcxCheckBox;
     procedure btnSimpanClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -140,6 +144,7 @@ begin
       q.FieldByName('f_aktif').AsInteger := 1
     else
       q.FieldByName('f_aktif').AsInteger := 0;
+    q.FieldByName('f_ppn').AsInteger := 1;
     q.Post;
 
     if Self.Jenis = 'T' then ID := LastInsertID;
@@ -220,6 +225,7 @@ begin
     cxlSubKategori.EditValue := q.FieldByName('id_subkategori').AsString;
     if not q.FieldByName('id_satuan').IsNull then
       cxlSatuan.EditValue := q.FieldByName('id_satuan').AsString;
+    cxChkPPN.Checked := q.FieldByName('f_ppn').AsBoolean;
     q.Close; 
 
     q := OpenRS('SELECT * FROM tbl_konv_brg WHERE id_barang = %d',[ID]);

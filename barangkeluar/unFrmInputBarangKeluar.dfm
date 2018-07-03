@@ -76,7 +76,7 @@ inherited frmInputBarangKeluar: TfrmInputBarangKeluar
     Height = 293
     Anchors = [akLeft, akTop, akRight]
     TabOrder = 7
-    object cxtbRetur: TcxGridTableView
+    object cxtbBrgKeluar: TcxGridTableView
       NavigatorButtons.ConfirmDelete = False
       NavigatorButtons.Insert.Visible = False
       NavigatorButtons.Append.Visible = True
@@ -176,7 +176,7 @@ inherited frmInputBarangKeluar: TfrmInputBarangKeluar
       end
     end
     object cxgrdlvl1Grid1Level1: TcxGridLevel
-      GridView = cxtbRetur
+      GridView = cxtbBrgKeluar
     end
   end
   object zqrSupplier: TZReadOnlyQuery
@@ -204,13 +204,13 @@ inherited frmInputBarangKeluar: TfrmInputBarangKeluar
       
         'select kode, deskripsi, satuan from tbl_barang order by deskrips' +
         'i')
-    Left = 752
-    Top = 147
+    Left = 912
+    Top = 83
   end
   object dsBarang: TDataSource
     DataSet = zqrBarang
-    Left = 814
-    Top = 149
+    Left = 982
+    Top = 85
   end
   object zqrGudang: TZReadOnlyQuery
     Connection = DM.zConn
@@ -222,12 +222,12 @@ inherited frmInputBarangKeluar: TfrmInputBarangKeluar
       
         'select kode, deskripsi, satuan from tbl_barang order by deskrips' +
         'i')
-    Left = 930
-    Top = 162
+    Left = 1034
+    Top = 90
   end
   object dsGudang: TDataSource
     DataSet = zqrGudang
-    Left = 991
-    Top = 164
+    Left = 1071
+    Top = 92
   end
 end

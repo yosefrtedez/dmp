@@ -250,9 +250,9 @@ var
   depan, head: string;
   counter: integer;
 begin
-  if sTipe = 'brg_in' then
+  if sTipe = 'brg-masuk' then
     depan := 'IN/'
-  else if sTipe = 'brg_out' then
+  else if sTipe = 'brg-keluar' then
     depan := 'OT/'
   else if sTipe = 'brg_in_cst' then
     depan := 'INCST/'

@@ -109,6 +109,7 @@ type
     procedure mnPur_ReturPembelianClick(Sender: TObject);
     procedure mnPur_AppReturPembelianClick(Sender: TObject);
     procedure mnWhl_BarangMasukClick(Sender: TObject);
+    procedure mnWhl_BarangKeluarClick(Sender: TObject);
   private
     procedure PGChange(Sender: TObject);
   public
@@ -133,7 +134,7 @@ uses
   unFrmLstPenerimaanKas, unFrmAppPP, unFrmInputPO, unFrmLstPO, unFrmLstPB,
   unFrmLstPengeluaranKas, unFrmLstTransferBarang, unFrmLstSales,
   unFrmLstFormula, unFrmAppPO, unFrmLstReturPembelian, unFrmAppRetur,
-  unFrmInputBarangMasuk, unFrmLstBarangMasuk;
+  unFrmInputBarangMasuk, unFrmLstBarangMasuk, unFrmLstBarangKeluar;
 
 {$R *.dfm}
 
@@ -161,7 +162,7 @@ begin
   pgMain.OnChange := PGChange;
   pgMain.Align := alClient;
   imgBackground.Align := alClient;
-  imgBackground.Picture.LoadFromFile(Aplikasi.AppPath + '/images/back.jpg');
+  imgBackground.Picture.LoadFromFile(Aplikasi.AppPath + '/images/back2.jpg');
   Caption := Aplikasi.JudulAplikasi;
 end;
 
@@ -747,6 +748,25 @@ begin
     pagecontrol.OnChange := PGChange;
   end;
 
+end;
+
+procedure TfrmUtama.mnWhl_BarangKeluarClick(Sender: TObject);
+var
+  f: TfrmLstBarangKeluar;
+  ts: TcxTabSheet;
+begin
+  if not CekTabOpen('Barang Keluar') then begin
+    ToggleMainPage;
+    ts := TcxTabSheet.Create(Self);
+    ts.PageControl := pgMain;
+
+    f := TfrmLstBarangKeluar.Create(Self);
+    f.Parent := ts;
+    ts.Caption := f.Caption;
+    f.Show;
+
+    pgMain.ActivePage := ts;
+  end;
 end;
 
 procedure TfrmUtama.mnWhl_BarangMasukClick(Sender: TObject);

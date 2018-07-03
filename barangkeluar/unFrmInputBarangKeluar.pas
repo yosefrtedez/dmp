@@ -32,7 +32,7 @@ type
     zqrSupplier: TZReadOnlyQuery;
     dsSupplier: TDataSource;
     cxgrdPP: TcxGrid;
-    cxtbRetur: TcxGridTableView;
+    cxtbBrgKeluar: TcxGridTableView;
     cxColNo: TcxGridColumn;
     cxColKodeBrg: TcxGridColumn;
     cxColDeskripsi: TcxGridColumn;
@@ -48,7 +48,6 @@ type
     zqrGudang: TZReadOnlyQuery;
     dsGudang: TDataSource;
     procedure FormCreate(Sender: TObject);
-    procedure cxlSupplierPropertiesChange(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure cxtbReturDataControllerRecordChanged(
       ADataController: TcxCustomDataController; ARecordIndex,
@@ -75,7 +74,7 @@ uses unDM, unTools;
 
 procedure TfrmInputBarangKeluar.btnSimpanClick(Sender: TObject);
 var
-  q, qh, qd : TZQuery;
+  q, qh, qd, qhst, qbrg : TZQuery;
   sNoBukti : string;
   i, id : integer;
   f0: Boolean;
@@ -83,33 +82,19 @@ var
 begin
   inherited;
 
-  if (cxtbRetur.DataController.EditState = [dceInsert, dceModified]) or (cxtbRetur.DataController.EditState = [dceEdit, dceModified]) then begin
+  if (cxtbBrgKeluar.DataController.EditState = [dceInsert, dceModified]) or (cxtbBrgKeluar.DataController.EditState = [dceEdit, dceModified]) then begin
     MsgBox('Mohon selesaikan pengeditan detail sebelum disimpan.');
     Abort;
   end;
 
-  if cxluSupplier.Text = '' then begin
-    MsgBox('Nama supllier masih kosong.');
-    Abort;
-  end;
-
-  // cek approval PO
-  if Self.Jenis = 'E' then begin
-    q := OpenRS('SELECT f_app FROM tbl_trsreturpemb_head WHERE id = %s',[Self.EditKey]);
-    if q.FieldByName('f_app').AsInteger = 1 then begin
-      MsgBox('Retur pembelian tidak bisa di edit karena sudah di Approval.');
-      Abort;
-    end;
-  end;
-
-  with cxtbRetur.DataController do begin
+  with cxtbBrgKeluar.DataController do begin
     if RecordCount = 0 then begin
       MsgBox('Detail transaksi masih kosong.');
       Abort;
     end;
 
     if Self.Jenis = 'T' then begin
-      sNoBukti := GetLastFak('retur-pemb');
+      sNoBukti := GetLastFak('brg-keluar');
       UpdateFaktur(Copy(sNoBukti,1,7));
     end
     else begin
@@ -119,24 +104,17 @@ begin
     try
       dm.zConn.StartTransaction;
 
-      qh := OpenRS('SELECT * FROM tbl_trsreturpemb_head WHERE no_bukti = ''%s''',[sNoBukti]);
+      qh := OpenRS('SELECT * FROM tbl_trskeluar_head WHERE no_bukti = ''%s''',[sNoBukti]);
       if Self.Jenis = 'T' then begin
         qh.Insert;
       end
       else begin
         qh.Edit;
         ID := qh.FieldByName('id').AsInteger;
-        dm.zConn.ExecuteDirect(Format('DELETE FROM tbl_trsreturpemb_det WHERE id_ref = %s',[Self.EditKey]));
+        dm.zConn.ExecuteDirect(Format('DELETE FROM tbl_trskeluar_det WHERE id_ref = %s',[Self.EditKey]));
       end;
 
       qh.FieldByName('no_bukti').AsString := sNoBukti;
-      if cxLuInvoice.Text = '' then begin
-        qh.FieldByName('id_invoice').AsString := '';
-      end
-      else begin
-        qh.FieldByName('id_invoice').AsString := cxLuInvoice.EditValue;
-      end;
-      qh.FieldByName('id_supplier').AsString := cxLuSupplier.EditValue;
       qh.FieldByName('keterangan').AsString := cxtKeterangan.Text;
       qh.FieldByName('tanggal').AsDateTime := Aplikasi.Tanggal;
       qh.FieldByName('user').AsString := Aplikasi.NamaUser;
@@ -146,8 +124,10 @@ begin
 
       if Self.Jenis = 'T' then  ID := LastInsertID;
 
-      qd := OpenRS('SELECT * FROM tbl_trsreturpemb_det WHERE no_bukti = ''%s''',[sNoBukti]);
-      with cxtbRetur.DataController do begin
+      qd := OpenRS('SELECT * FROM tbl_trskeluar_det WHERE no_bukti = ''%s''',[sNoBukti]);
+      qhst := OpenRS('SELECT * FROM tbl_history WHERE no_bukti = ''%s''',[sNoBukti]);
+
+      with cxtbBrgKeluar.DataController do begin
         for i := 0 to RecordCount - 1 do begin
           qd.Insert;
           if Self.Jenis = 'T' then begin
@@ -160,33 +140,56 @@ begin
           qd.FieldByName('id_brg').AsInteger := Values[i, cxColDeskripsi.Index];
           qd.FieldByName('qty').AsFloat := Values[i, cxColQty.Index];
           qd.FieldByName('id_satuan').AsString := Values[i, cxColIdSatuan.Index];
-          qd.FieldByName('harga').AsFloat := Values[i, cxColHarga.Index];
           qd.FieldByName('id_gdg').AsString := Values[i, cxColGudang.Index];
-          if Values[i, cxColValuta.Index] = 'IDR' then begin
-            qd.FieldByName('mata_uang').AsString := 'IDR';
-            qd.FieldByName('nilai_tukar').AsString := '1';
-          end else begin
-            qd.FieldByName('mata_uang').AsString := Values[i, cxColValuta.Index];
-            qd.FieldByName('nilai_tukar').AsString := cxsrate.Text;
-          end;
-          if VarIsNull(Values[i, cxColPPn.index]) = True then begin
-            qd.FieldByName('ppn').AsString := '';
-          end else begin
-            qd.FieldByName('ppn').AsString := Values[i, cxColPPn.index];
-          end;
           if VarIsNull(Values[i, cxColKeterangan.index]) = True then begin
             qd.FieldByName('keterangan').AsString := '';
           end else begin
             qd.FieldByName('keterangan').AsString := Values[i, cxColKeterangan.Index];
           end;
           qd.Post;
+
+          with qhst do begin
+            Insert;
+            FieldByName('no_bukti').AsString := sNoBukti;
+            FieldByName('tanggal').AsDateTime := Aplikasi.TanggalServer;
+            FieldByName('kode_brg').AsString := Values[i, cxColKodeBrg.Index];
+            FieldByName('id_brg').AsInteger := Values[i, cxColDeskripsi.Index];
+            FieldByName('qty').AsFloat := Values[i, cxColQty.Index];
+            FieldByName('tipe').AsString := 'o';
+            FieldByName('id_satuan').AsInteger := Values[i, cxColIdSatuan.Index];
+            FieldByname('id_gdg').AsInteger := Values[i, cxColGudang.Index];
+            FieldByName('keterangan').AsString := Values[i, cxColKeterangan.Index];
+            FieldByName('tgl_input').AsDateTime := Aplikasi.NowServer;
+            Post;
+          end;
+
+          qbrg := OpenRS('SELECT * FROM tbl_barang WHERE id = %s',[Values[i, cxColDeskripsi.Index]]);
+          qbrg.Edit;
+          qbrg.FieldByName('stok').AsFloat := qbrg.FieldByName('stok').AsFloat - Values[i, cxColQty.Index];
+          qbrg.Post;
+          qbrg.Close;
+
+          qbrg := OpenRS('SELECT * FROM tbl_barang_det WHERE id_brg = %s AND id_gdg = %s',
+            [Values[i, cxColDeskripsi.Index], Values[i, cxColGudang.Index]]);
+          if qbrg.IsEmpty then begin
+            qbrg.Insert;
+            qbrg.FieldByName('id_brg').AsInteger := Values[i, cxColDeskripsi.Index];
+            qbrg.FieldByName('kode_brg').AsString := Values[i, cxColKodeBrg.Index];
+            qbrg.FieldByName('id_gdg').AsInteger := Values[i, cxColGudang.Index];
+          end
+          else
+            qbrg.Edit;
+          qbrg.FieldByName('stok').AsFloat := qbrg.FieldByName('stok').AsFloat - Values[i, cxColQty.Index];
+          qbrg.Post;
+          qbrg.Close;
+
         end;
       end;
       dm.zConn.Commit;
       qh.Close;
       qd.Close;
       Self.Jenis := '';
-      MsgBox('Transaksi retur pembelian sudah disimpan dengan No. Bukti : ' + sNoBukti);
+      MsgBox('Transaksi barang keluar sudah disimpan dengan No. Bukti : ' + sNoBukti);
       btnBatalClick(nil);
     except
       on E: Exception do begin
@@ -207,16 +210,6 @@ begin
   inherited;
   Row := Sender.GridView.DataController.GetRowIndexByRecordIndex(ARecord.RecordIndex, False);
   AText := IntToStr(Row+1);
-end;
-
-procedure TfrmInputBarangKeluar.cxlSupplierPropertiesChange(Sender: TObject);
-var
-  q: TZQuery;
-begin
-  inherited;
-  q := OpenRS('SELECT alamat FROM tbl_supplier WHERE id = %s',[cxluSupplier.EditValue]);
-  cxtAlamat.Text := q.FieldByName('alamat').AsString;
-  q.Close;
 end;
 
 procedure TfrmInputBarangKeluar.cxtbReturDataControllerBeforePost(
@@ -257,24 +250,6 @@ begin
     Abort;
   end;
 
-  if (VarIsNull(ADataController.Values[i, cxColHarga.Index]))  then begin
-    MsgBox('harga masih kosong');
-    Abort;
-  end;
-
-  if ADataController.Values[i, cxColHarga.Index] <= 0 then begin
-    MsgBox('harga tidak boleh minus');
-    abort
-  end;
-
-  if ADataController.Values[i, cxColValuta.Index] = 'USD' then begin
-    if cxsrate.Text = '1'  then begin
-      MsgBox('Periksa Lagi Rate Anda');
-      Abort;
-    end;
-  end;
-
-
 end;
 
 procedure TfrmInputBarangKeluar.cxtbReturDataControllerRecordChanged(
@@ -288,53 +263,18 @@ begin
 
   if AItemIndex = cxColDeskripsi.Index then begin
     try
-      cxtbRetur.BeginUpdate;
+      cxtbBrgKeluar.BeginUpdate;
       q := OpenRS('SELECT a.*, b.satuan satuan2 FROM tbl_barang a LEFT JOIN tbl_satuan b ON a.id_satuan = b.id WHERE a.id = %s',
       [ADataController.Values[ARecordIndex, cxColDeskripsi.Index]]);
       ADataController.Values[ARecordIndex, cxColKodeBrg.Index] :=  q.FieldByName('kode').AsString;
       ADataController.Values[ARecordIndex, cxColSatuan.Index] := q.FieldByName('satuan2').AsString;
       ADataController.Values[ARecordIndex, cxColIdSatuan.Index] := q.FieldByName('id_satuan').AsInteger;
       ADataController.Values[ARecordIndex, cxColqty.Index] := '1';
-      ADataController.Values[ARecordIndex, cxColPPn.Index] := 'NON PPN';
-      ADataController.Values[ARecordIndex, cxColValuta.Index] := 'IDR';
       q.Close;
     finally
-      cxtbRetur.EndUpdate
+      cxtbBrgKeluar.EndUpdate
     end;
   end;
-
-  if AItemIndex = cxColHarga.Index then begin
-    try
-      cxtbRetur.BeginUpdate;
-      if cxColPPn.EditValue = 'PPN' then begin
-        cxColtotal.EditValue := cxColQty.EditValue *  cxColHarga.EditValue * 110 /100 ;
-        cxtbRetur.DataController.RefreshExternalData;
-      end
-      else begin
-        cxColTotal.EditValue := cxColQty.EditValue * cxColHarga.EditValue;
-        cxtbRetur.DataController.RefreshExternalData;
-      end;
-    finally
-      cxtbRetur.EndUpdate
-    end;
-  end;
-
-  if AItemIndex = cxColPPn.Index then begin
-    try
-      cxtbRetur.BeginUpdate;
-      if cxColPPn.EditValue = 'PPN' then begin
-        cxColTotal.EditValue := cxColQty.EditValue * cxColHarga.EditValue * 110 /100;
-        cxtbRetur.DataController.RefreshExternalData;
-      end
-      else begin
-        cxColtotal.EditValue := cxColQty.EditValue * cxColHarga.EditValue;
-        cxtbRetur.DataController.RefreshExternalData;
-      end;
-    finally
-      cxtbRetur.EndUpdate;
-    end;
-  end;
-
 end;
 
 procedure TfrmInputBarangKeluar.FormCreate(Sender: TObject);
@@ -344,7 +284,6 @@ begin
   zqrBarang.Open;
   zqrSupplier.Open;
   zqrGudang.Open;
-  cxsrate.Text := '1';
 end;
 
 procedure TfrmInputBarangKeluar.FormShow(Sender: TObject);
@@ -355,7 +294,7 @@ procedure TfrmInputBarangKeluar.FormShow(Sender: TObject);
 begin
   inherited;
   if Self.Jenis = 'T' then begin
-    sNoTrs := GetLastFak('retur-pemb');
+    sNoTrs := GetLastFak('brg-keluar');
     cxtNoBukti.Text := sNoTrs;
     cxdTglDatang.Date := Aplikasi.Tanggal;
 
@@ -363,7 +302,6 @@ begin
   else if Self.Jenis = 'E' then begin
     q := OpenRS('SELECT * FROM tbl_trsreturpemb_head WHERE id = %s',[Self.EditKey]);
     cxtNoBukti.Text := q.FieldByName('no_bukti').AsString;
-    cxluSupplier.EditValue := q.FieldByName('id_supplier').AsInteger;
     cxtKeterangan.Text := q.FieldByName('keterangan').AsString;
 
     q.Close;
@@ -373,9 +311,9 @@ begin
       'WHERE id_ref = %s',[Self.EditKey]);
     nomer := 1;
 
-    cxtbRetur.DataController.OnRecordChanged := nil;
+    cxtbBrgKeluar.DataController.OnRecordChanged := nil;
     while not z.Eof do begin
-      with cxtbRetur.DataController do begin
+      with cxtbBrgKeluar.DataController do begin
         i := AppendRecord;
         Values[i, cxColNo.Index] := nomer;
         Values[i, cxColKodeBrg.Index] := z.FieldByName('kode_brg').AsString;
@@ -383,21 +321,13 @@ begin
         Values[i, cxColQty.Index] := z.FieldByName('qty').AsFloat;
         Values[i, cxColSatuan.Index] := z.FieldByName('satuan2').AsString;
         Values[i, cxColIdSatuan.Index] := z.FieldByname('id_satuan').AsInteger;
-        Values[i, cxColValuta.Index] := z.FieldByName('mata_uang').AsString;
-        Values[i, cxColHarga.Index] := z.FieldByName('harga').AsFloat;
-        Values[i, cxColPPn.Index] := z.FieldByName('PPN').AsString;
-        if Values[i, cxColPPn.Index] = 'PPN' then begin
-          Values[i, cxColTotal.Index] := z.FieldByName('qty').AsFloat * z.FieldByName('harga').AsFloat * 110/100;
-        end else begin
-          Values[i, cxColTotal.Index] := z.FieldByName('qty').AsFloat * z.FieldByName('harga').AsFloat
-        end;
         Values[i, cxColKeterangan.Index] := z.FieldByName('keterangan').AsString;
         nomer := nomer +1;
       end;
       z.Next;
     end;
     z.Close;
-    cxtbRetur.DataController.OnRecordChanged := Self.cxtbReturDataControllerRecordChanged;
+    cxtbBrgKeluar.DataController.OnRecordChanged := Self.cxtbReturDataControllerRecordChanged;
 
   end;
 end;

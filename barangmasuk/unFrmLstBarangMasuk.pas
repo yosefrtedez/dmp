@@ -23,7 +23,7 @@ type
   TfrmLstBarangMasuk = class(TfrmTplGrid)
     Label13: TLabel;
     cxgrd1: TcxGrid;
-    cxTblReturPembHead: TcxGridDBTableView;
+    cxTblTrsMasukHead: TcxGridDBTableView;
     cxTblDet: TcxGridDBTableView;
     cxColTblDetid: TcxGridDBColumn;
     cxColTblDetid_ref: TcxGridDBColumn;
@@ -38,28 +38,29 @@ type
     Panel3: TPanel;
     cxLabel1: TcxLabel;
     cxGrid1: TcxGrid;
-    cxTblReturPembDet: TcxGridDBTableView;
+    cxTblTrsMasukDet: TcxGridDBTableView;
     cxGrid1Level1: TcxGridLevel;
     zqrBarangMasuk: TZReadOnlyQuery;
     dsBarangMasuk: TDataSource;
     zqrBarangMasukDet: TZReadOnlyQuery;
     dsBarangMasukDet: TDataSource;
-    cxColPOHeadno_bukti: TcxGridDBColumn;
-    cxColPOHeadid_invoice: TcxGridDBColumn;
-    cxColPOHeadketerangan: TcxGridDBColumn;
-    cxColPOHeadtanggal: TcxGridDBColumn;
-    cxColPOHeaduser: TcxGridDBColumn;
-    cxColPODetno_bukti: TcxGridDBColumn;
-    cxColPODetkode_brg: TcxGridDBColumn;
-    cxColPODetdeskripsi: TcxGridDBColumn;
-    cxColPODetqty: TcxGridDBColumn;
-    cxColPODetketerangan: TcxGridDBColumn;
-    cxColPODetid_gdg: TcxGridDBColumn;
-    cxColPODetsatuan: TcxGridDBColumn;
+    cxColTblTrsMasukDetno_bukti: TcxGridDBColumn;
+    cxColTblTrsMasukDetkode_brg: TcxGridDBColumn;
+    cxColTblTrsMasukDetdeskripsi: TcxGridDBColumn;
+    cxColTblTrsMasukDetsatuan: TcxGridDBColumn;
+    cxColTblTrsMasukDetqty: TcxGridDBColumn;
+    cxColTblTrsMasukDetketerangan: TcxGridDBColumn;
+    cxColTblTrsMasukDetno_so: TcxGridDBColumn;
+    cxColTblTrsMasukDetno_spk: TcxGridDBColumn;
+    cxColTblTrsMasukDetnO_spmb: TcxGridDBColumn;
+    cxColTblTrsMasukHeadno_bukti: TcxGridDBColumn;
+    cxColTblTrsMasukHeadtanggal: TcxGridDBColumn;
+    cxColTblTrsMasukHeaduser: TcxGridDBColumn;
+    cxColTblTrsMasukHeaduser_dept: TcxGridDBColumn;
     procedure btnTambahClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure btnRefreshClick(Sender: TObject);
-    procedure cxTblReturPembHeadFocusedRecordChanged(Sender: TcxCustomGridTableView;
+    procedure cxTblTrsMasukHeadFocusedRecordChanged(Sender: TcxCustomGridTableView;
       APrevFocusedRecord, AFocusedRecord: TcxCustomGridRecord;
       ANewItemRecordFocusingChanged: Boolean);
     procedure btnEditClick(Sender: TObject);
@@ -83,22 +84,22 @@ uses unDM, unTools, unFrmInputReturPembelian, unFrmUtama, unFrmInputBarangJasa,
 
 procedure TfrmLstBarangMasuk.btnEditClick(Sender: TObject);
 var
- f: TfrmInputReturPembelian;
+ f: TfrmInputBarangMasuk;
  ts: TcxTabSheet;
  q: TZQuery;
 begin
   inherited;
-  if not fu.CekTabOpen('Edit Retur Pembelian') then begin
+  if not fu.CekTabOpen('Edit Barang Masuk') then begin
     ts := TcxTabSheet.Create(Self);
     ts.PageControl := frmUtama.pgMain;
-    if zqrReturPembHead.FieldByName('f_app').AsString = '1' then begin
-      MsgBox('Maaf data retur pembelian tidak bisa diedit, karena sudah di approve');
+    if zqrBarangMasuk.FieldByName('f_app').AsString = '1' then begin
+      MsgBox('Maaf data barang masuk tidak bisa diedit, karena sudah di approve');
       Abort;
     end;
-    f := TfrmInputReturPembelian.Create(Self);
-    ts.Caption := 'Edit Retur Pembelian';
+    f := TfrmInputBarangMasuk.Create(Self);
+    ts.Caption := 'Edit Barang Masuk';
     f.Jenis := 'E';
-    f.EditKey := zqrReturPembHead.FieldByName('id').AsString;
+    f.EditKey := zqrBarangMasuk.FieldByName('id').AsString;
     f.Parent := ts;
     ts.Caption := f.Caption;
     f.Show;
@@ -112,7 +113,7 @@ var
   q : TZQuery;
 begin
   inherited;
-  q := OpenRS('select * from tbl_trsreturpemb_head where f_app = ''1'' and no_bukti = ''%s''',[zqrReturPembHead.FieldByName('no_bukti').AsString]);
+  {q := OpenRS('select * from tbl_trsreturpemb_head where f_app = ''1'' and no_bukti = ''%s''',[zqrReturPembHead.FieldByName('no_bukti').AsString]);
   if not q.Eof then begin
     MsgBox('Maaf data tidak bisa dihapus, karena sudah di approve atasan');
     Abort;
@@ -131,7 +132,7 @@ begin
          mjenis := '';
        end;
     end;
-  end;
+  end;}
 
 
 end;
@@ -140,10 +141,10 @@ end;
 procedure TfrmLstBarangMasuk.btnRefreshClick(Sender: TObject);
 begin
   inherited;
-  zqrReturPembHead.Close;
-  zqrReturPembHead.Open;
-  zqrReturPembDet.Close;
-  zqrReturPembDet.Open;
+  zqrBarangMasuk.Close;
+  zqrBarangMasuk.Open;
+  zqrBarangMasukDet.Close;
+  zqrBarangMasukDet.Open;
 end;
 
 procedure TfrmLstBarangMasuk.btnTambahClick(Sender: TObject);
@@ -164,15 +165,15 @@ begin
   end;
 end;
 
-procedure TfrmLstBarangMasuk.cxTblReturPembHeadFocusedRecordChanged(
+procedure TfrmLstBarangMasuk.cxTblTrsMasukHeadFocusedRecordChanged(
   Sender: TcxCustomGridTableView; APrevFocusedRecord,
   AFocusedRecord: TcxCustomGridRecord; ANewItemRecordFocusingChanged: Boolean);
 begin
   inherited;
   try
-    zqrReturPembDet.Close;
-    zqrReturPembDet.ParamByName('id_ref').AsInteger := zqrReturPembHead.FieldByName('id').AsInteger;
-    zqrReturPembDet.Open;
+    zqrBarangMasukDet.Close;
+    zqrBarangMasukDet.ParamByName('id_ref').AsInteger := zqrBarangMasuk.FieldByName('id').AsInteger;
+    zqrBarangMasukDet.Open;
   except
   end;
 end;
@@ -180,7 +181,7 @@ end;
 procedure TfrmLstBarangMasuk.FormCreate(Sender: TObject);
 begin
   inherited;
-  zqrReturPembHead.Open;
+  zqrBarangMasuk.Open;
 end;
 
 end.
