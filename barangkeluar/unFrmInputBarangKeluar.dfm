@@ -1,15 +1,15 @@
 inherited frmInputBarangKeluar: TfrmInputBarangKeluar
   Caption = 'Input Barang Keluar'
-  ClientHeight = 656
-  ClientWidth = 1142
+  ClientHeight = 694
+  ClientWidth = 1165
   OnCreate = FormCreate
   OnShow = FormShow
-  ExplicitWidth = 1142
-  ExplicitHeight = 656
+  ExplicitWidth = 1165
+  ExplicitHeight = 694
   PixelsPerInch = 96
   TextHeight = 13
   inherited Panel1: TPanel
-    Width = 1142
+    Width = 1165
     ExplicitWidth = 1142
     object Label13: TLabel
       Left = 10
@@ -26,9 +26,9 @@ inherited frmInputBarangKeluar: TfrmInputBarangKeluar
     end
   end
   inherited Panel2: TPanel
-    Top = 607
-    Width = 1142
-    TabOrder = 8
+    Top = 645
+    Width = 1165
+    TabOrder = 22
     ExplicitTop = 607
     ExplicitWidth = 1142
     inherited btnSimpan: TButton
@@ -58,24 +58,24 @@ inherited frmInputBarangKeluar: TfrmInputBarangKeluar
     Width = 146
   end
   object cxlbl14: TcxLabel
-    Left = 10
-    Top = 116
+    Left = 11
+    Top = 143
     Caption = 'Keterangan'
   end
   object cxtKeterangan: TcxTextEdit
     Left = 112
-    Top = 115
+    Top = 142
     Properties.CharCase = ecUpperCase
-    TabOrder = 5
+    TabOrder = 7
     Width = 416
   end
   object cxgrdPP: TcxGrid
     Left = 10
-    Top = 149
-    Width = 1124
+    Top = 200
+    Width = 1147
     Height = 293
     Anchors = [akLeft, akTop, akRight]
-    TabOrder = 7
+    TabOrder = 11
     object cxtbBrgKeluar: TcxGridTableView
       NavigatorButtons.ConfirmDelete = False
       NavigatorButtons.Insert.Visible = False
@@ -128,12 +128,23 @@ inherited frmInputBarangKeluar: TfrmInputBarangKeluar
         Width = 237
       end
       object cxColQty: TcxGridColumn
-        Caption = 'Qty. Masuk'
+        Caption = 'Qty. Keluar'
         DataBinding.ValueType = 'Float'
         PropertiesClassName = 'TcxSpinEditProperties'
+        Properties.Alignment.Horz = taRightJustify
         Properties.DisplayFormat = '#,##.00'
         Properties.ReadOnly = False
+        HeaderAlignmentHorz = taRightJustify
         Width = 73
+      end
+      object cxColHarga: TcxGridColumn
+        Caption = 'Harga Jual'
+        PropertiesClassName = 'TcxSpinEditProperties'
+        Properties.Alignment.Horz = taRightJustify
+        Properties.DisplayFormat = '#,#0.00'
+        Properties.ValueType = vtFloat
+        HeaderAlignmentHorz = taRightJustify
+        Width = 101
       end
       object cxColGudang: TcxGridColumn
         Caption = 'Gudang'
@@ -166,8 +177,10 @@ inherited frmInputBarangKeluar: TfrmInputBarangKeluar
         Caption = 'Total'
         DataBinding.ValueType = 'Float'
         PropertiesClassName = 'TcxSpinEditProperties'
+        Properties.Alignment.Horz = taRightJustify
         Properties.DisplayFormat = '#,##.00'
-        Properties.ReadOnly = False
+        Properties.ReadOnly = True
+        HeaderAlignmentHorz = taRightJustify
         Width = 112
       end
       object cxColIdSatuan: TcxGridColumn
@@ -178,6 +191,114 @@ inherited frmInputBarangKeluar: TfrmInputBarangKeluar
     object cxgrdlvl1Grid1Level1: TcxGridLevel
       GridView = cxtbBrgKeluar
     end
+  end
+  object cxlCustomer: TcxLookupComboBox
+    Left = 112
+    Top = 115
+    Properties.KeyFieldNames = 'id'
+    Properties.ListColumns = <
+      item
+        Caption = 'Nama'
+        FieldName = 'nama'
+      end>
+    Properties.ListSource = dsCust
+    TabOrder = 5
+    Width = 416
+  end
+  object cxLabel1: TcxLabel
+    Left = 11
+    Top = 116
+    Caption = 'Customer'
+  end
+  object cxLabel2: TcxLabel
+    Left = 824
+    Top = 500
+    Caption = 'Diskon (%)'
+  end
+  object cxsDiskon: TcxSpinEdit
+    Left = 912
+    Top = 499
+    Properties.Alignment.Horz = taRightJustify
+    Properties.DisplayFormat = '#,#0.00'
+    Properties.MaxValue = 100.000000000000000000
+    Properties.ValueType = vtFloat
+    Properties.OnChange = cxsDiskonPropertiesChange
+    TabOrder = 12
+    Width = 121
+  end
+  object DPP: TcxLabel
+    Left = 824
+    Top = 527
+    Caption = 'Setelah Diskon'
+  end
+  object cxsStlhDiskon: TcxSpinEdit
+    Left = 912
+    Top = 526
+    Properties.Alignment.Horz = taRightJustify
+    Properties.DisplayFormat = '#,#0.00'
+    Properties.MaxValue = 100.000000000000000000
+    Properties.ValueType = vtFloat
+    TabOrder = 14
+    Width = 121
+  end
+  object cxsPPN: TcxSpinEdit
+    Left = 912
+    Top = 580
+    Properties.Alignment.Horz = taRightJustify
+    Properties.DisplayFormat = '#,#0.00'
+    Properties.MaxValue = 100.000000000000000000
+    Properties.ValueType = vtFloat
+    TabOrder = 19
+    Width = 121
+  end
+  object cxChkPPN: TcxCheckBox
+    Left = 824
+    Top = 580
+    Caption = 'PPN (10%)'
+    TabOrder = 18
+    OnClick = cxChkPPNClick
+    Width = 82
+  end
+  object cxLabel3: TcxLabel
+    Left = 824
+    Top = 554
+    Caption = 'DPP'
+  end
+  object cxsDPP: TcxSpinEdit
+    Left = 912
+    Top = 553
+    Properties.Alignment.Horz = taRightJustify
+    Properties.DisplayFormat = '#,#0.00'
+    Properties.MaxValue = 100.000000000000000000
+    Properties.ValueType = vtFloat
+    TabOrder = 16
+    Width = 121
+  end
+  object cxLabel4: TcxLabel
+    Left = 824
+    Top = 608
+    Caption = 'Harga Total'
+  end
+  object cxsHargaTotal: TcxSpinEdit
+    Left = 912
+    Top = 607
+    Properties.Alignment.Horz = taRightJustify
+    Properties.DisplayFormat = '#,#0.00'
+    Properties.MaxValue = 100.000000000000000000
+    Properties.ValueType = vtFloat
+    TabOrder = 20
+    Width = 121
+  end
+  object cxLabel5: TcxLabel
+    Left = 11
+    Top = 170
+    Caption = 'Tgl. Jatuh Tempo'
+  end
+  object cxdTglJthTempo: TcxDateEdit
+    Left = 112
+    Top = 169
+    TabOrder = 9
+    Width = 146
   end
   object zqrSupplier: TZReadOnlyQuery
     Connection = DM.zConn
@@ -229,5 +350,21 @@ inherited frmInputBarangKeluar: TfrmInputBarangKeluar
     DataSet = zqrGudang
     Left = 1071
     Top = 92
+  end
+  object zqrCust: TZReadOnlyQuery
+    Connection = DM.zConn
+    AutoCalcFields = False
+    Active = True
+    SQL.Strings = (
+      'select id, kode, nama '
+      'from tbl_customer order by nama')
+    Params = <>
+    Left = 588
+    Top = 77
+  end
+  object dsCust: TDataSource
+    DataSet = zqrCust
+    Left = 648
+    Top = 77
   end
 end

@@ -4,7 +4,7 @@ interface
 
 uses
   SysUtils, Classes, ZAbstractConnection, ZConnection, unAplikasi, ZDataset, IniFiles, Forms, Controls,
-  ImgList;
+  ImgList, Windows;
 
 type
   TDM = class(TDataModule)
@@ -13,7 +13,7 @@ type
     I64: TImageList;
     procedure DataModuleCreate(Sender: TObject);
   private
-    { Private declarations }
+    procedure CekUpdate;
   public
     { Public declarations }
   end;
@@ -21,10 +21,11 @@ type
 var
   DM: TDM;
   Aplikasi: TAplikasi;
+  UpdatePath: string;
 
 implementation
 
-uses unFrmPilihKoneksi, unTools, LbCipher, LbString;
+uses unFrmPilihKoneksi, unTools, LbCipher, LbString, unFrmKetUpdate;
 
 var
   Key128: TKey128;
@@ -46,9 +47,10 @@ var
   lstSec: TStringList;
 begin
   Aplikasi := TAplikasi.Create;
-  if ParamStr(1) = '/debug' then Aplikasi.debug := true;
+  if ParamStr(2) = '/debug' then Aplikasi.debug := true;
 
   Aplikasi.AppPath := ExtractFilePath(Application.ExeName);
+  Aplikasi.ExeName := 'dmp';
 
   if not FileExists(Aplikasi.AppPath + 'setting.ini') then begin
     MsgBox('Error, file setting.ini tidak ditemukan.');
@@ -75,10 +77,12 @@ begin
   else
     section := 'database';
 
-  {
+  // get update_path
+  Ini2 := TIniFile.Create(FileIni);
+  UpdatePath := Ini2.ReadString(section,'update_path','');
+
   if ParamCount > 0 then begin
     if ParamStr(1) <> '/noupdate' then begin
-      UpdateWallpaper('');
       CekUpdate;
     end;
     if ParamStr(2) = '/admin:admin1' then begin
@@ -86,12 +90,8 @@ begin
     end;
   end
   else begin
-    Ini2 := TIniFile.Create(FileIni);
-    UpdatePath := Ini2.ReadString(section,'update_path','');
-    UpdateWallpaper(UpdatePath);
     CekUpdate;
   end;
-  }
 
   if (FileExists(FileIni)) then begin
 
@@ -145,6 +145,54 @@ begin
     q.Close;
   end;
 
+end;
+
+procedure Tdm.CekUpdate;
+var
+  mSourcePath, mTargetPath, BackName, ExeName: string;
+  f: TfrmKetUpdate;
+  lstIP: TStringList;
+begin
+
+  if UpdatePath <> '' then
+    mSourcePath := UpdatePath
+  else
+    mSourcePath := '\\192.168.0.241\PUBLIC\SOFTWARE UPDATER\MutasiStok\';
+
+  ExeName := Aplikasi.ExeName;
+  BackName := ExtractFilePath(Application.ExeName) + ExeName + '.old';
+  mTargetPath := ExtractFilePath(Application.ExeName) + ExeName + '.exe';
+
+  if DirectoryExists(mSourcePath) then begin
+
+    if FileExists(mSourcePath+ '\' + ExeName + '.exe') then begin
+      f := TfrmKetUpdate.Create(Self);
+
+      if FileExists(BackName) then begin
+        DeleteFile(PChar(BackName));
+      end;
+
+      zConn.Disconnect;
+      if FileAge(mSourcePath + '\' + ExeName + '.exe') <> FileAge(mTargetPath) then begin
+
+        f.Show;
+        f.Refresh;
+
+        RenameFile(Application.ExeName, BackName);
+        try
+          CopyFile(PChar(mSourcePath + '\' + ExeName + '.exe'),PChar(mTargetPath), False);
+          f.Close;
+          MsgBox('Update berhasil, silahkan jalankan program kembali.');
+          Application.Terminate;
+        except
+          on E: Exception do begin
+            MsgBox('Update gagal, silahkan jalankan program kembali.');
+            Application.Terminate;
+          end;
+        end;
+      end;
+    end;
+  end;
 end;
 
 end.

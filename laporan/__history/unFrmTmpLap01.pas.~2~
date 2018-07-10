@@ -1,0 +1,25 @@
+unit unFrmTmpLap01;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, frxClass;
+
+type
+  TfrmTmpLap01 = class(TForm)
+    rptSJ01: TfrxReport;
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmTmpLap01: TfrmTmpLap01;
+
+implementation
+
+{$R *.dfm}
+
+end.

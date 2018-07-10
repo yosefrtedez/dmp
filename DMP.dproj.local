@@ -90,5 +90,7 @@
     <Transaction>2018/06/18 23.56.51.762.dfm,D:\108 JSP\My Project\05. Felgito\02. Source Code\Unit1.dfm=D:\108 JSP\My Project\05. Felgito\02. Source Code\returpembelian\unFrmAppRetur.dfm</Transaction>
     <Transaction>2018/06/20 08.43.15.256.pas,D:\108 JSP\My Project\05. Felgito\02. Source Code\Unit1.pas=D:\108 JSP\My Project\05. Felgito\02. Source Code\unFrmCariBrg.pas</Transaction>
     <Transaction>2018/06/20 08.43.15.256.dfm,D:\108 JSP\My Project\05. Felgito\02. Source Code\Unit1.dfm=D:\108 JSP\My Project\05. Felgito\02. Source Code\unFrmCariBrg.dfm</Transaction>
+    <Transaction>2018/07/09 14.15.07.722.pas,D:\108 JSP\My Project\05. Felgito\02. Source Code\Unit1.pas=D:\108 JSP\My Project\05. Felgito\02. Source Code\laporan\unFrmTmpLap01.pas</Transaction>
+    <Transaction>2018/07/09 14.15.07.722.dfm,D:\108 JSP\My Project\05. Felgito\02. Source Code\Unit1.dfm=D:\108 JSP\My Project\05. Felgito\02. Source Code\laporan\unFrmTmpLap01.dfm</Transaction>
   </Transactions>
 </BorlandProject>

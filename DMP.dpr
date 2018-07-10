@@ -61,7 +61,9 @@ uses
   unFrmInputBarangMasuk in 'barangmasuk\unFrmInputBarangMasuk.pas' {frmInputBarangMasuk},
   unFrmLstBarangMasuk in 'barangmasuk\unFrmLstBarangMasuk.pas' {frmLstBarangMasuk},
   unFrmInputBarangKeluar in 'barangkeluar\unFrmInputBarangKeluar.pas' {frmInputBarangKeluar},
-  unFrmLstBarangKeluar in 'barangkeluar\unFrmLstBarangKeluar.pas' {frmLstBarangKeluar};
+  unFrmLstBarangKeluar in 'barangkeluar\unFrmLstBarangKeluar.pas' {frmLstBarangKeluar},
+  unFrmKetUpdate in 'unFrmKetUpdate.pas' {frmKetUpdate},
+  unFrmTmpLap01 in 'laporan\unFrmTmpLap01.pas' {frmTmpLap01};
 
 {$R *.res}
 
@@ -71,6 +73,7 @@ begin
   Application.CreateForm(TDM, DM);
   Application.CreateForm(TfrmUtama, frmUtama);
   Application.CreateForm(TfrmLogin, frmLogin);
+  Application.CreateForm(TfrmTmpLap01, frmTmpLap01);
   frmUtama.Show;
 
   frmLogin.ShowModal;

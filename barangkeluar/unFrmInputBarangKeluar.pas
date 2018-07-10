@@ -47,6 +47,23 @@ type
     cxColGudang: TcxGridColumn;
     zqrGudang: TZReadOnlyQuery;
     dsGudang: TDataSource;
+    cxColHarga: TcxGridColumn;
+    cxlCustomer: TcxLookupComboBox;
+    cxLabel1: TcxLabel;
+    zqrCust: TZReadOnlyQuery;
+    dsCust: TDataSource;
+    cxLabel2: TcxLabel;
+    cxsDiskon: TcxSpinEdit;
+    DPP: TcxLabel;
+    cxsStlhDiskon: TcxSpinEdit;
+    cxsPPN: TcxSpinEdit;
+    cxChkPPN: TcxCheckBox;
+    cxLabel3: TcxLabel;
+    cxsDPP: TcxSpinEdit;
+    cxLabel4: TcxLabel;
+    cxsHargaTotal: TcxSpinEdit;
+    cxLabel5: TcxLabel;
+    cxdTglJthTempo: TcxDateEdit;
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure cxtbReturDataControllerRecordChanged(
@@ -57,8 +74,10 @@ type
     procedure cxColNoGetDisplayText(Sender: TcxCustomGridTableItem;
       ARecord: TcxCustomGridRecord; var AText: string);
     procedure btnSimpanClick(Sender: TObject);
+    procedure cxChkPPNClick(Sender: TObject);
+    procedure cxsDiskonPropertiesChange(Sender: TObject);
   private
-    { Private declarations }
+    procedure HitungTotal;
   public
     { Public declarations }
   end;
@@ -120,6 +139,13 @@ begin
       qh.FieldByName('user').AsString := Aplikasi.NamaUser;
       qh.FieldByName('user_dept').AsString := Aplikasi.UserDept;
       qh.FieldByName('tgl_input').AsDateTime := Aplikasi.Tanggal;
+      if cxlCustomer.Text <> '' then
+        qh.FieldByName('id_customer').AsInteger := cxlCustomer.EditValue;
+      qh.FieldByName('diskon').AsFloat := cxsDiskon.Value;
+      if cxChkPPN.Checked = true then
+        qh.FieldByName('f_ppn').AsInteger := 1;
+      if Trim(cxdTglJthTempo.Text) <> '' then
+        qh.FieldByName('jatuh_tempo').AsDateTime := cxdTglJthTempo.Date;
       qh.Post;
 
       if Self.Jenis = 'T' then  ID := LastInsertID;
@@ -146,6 +172,8 @@ begin
           end else begin
             qd.FieldByName('keterangan').AsString := Values[i, cxColKeterangan.Index];
           end;
+          if not VarIsNull(Values[i, cxColHarga.Index]) then
+            qd.FieldByName('hrgjual').AsFloat := Values[i, cxColHarga.Index];
           qd.Post;
 
           with qhst do begin
@@ -201,6 +229,17 @@ begin
 
 end;
 
+procedure TfrmInputBarangKeluar.cxChkPPNClick(Sender: TObject);
+begin
+  inherited;
+  if cxChkPPN.Checked then
+    cxsPPN.Value := 10
+  else
+    cxsPPN.Value := 0;
+
+  HitungTotal;
+end;
+
 procedure TfrmInputBarangKeluar.cxColNoGetDisplayText(
   Sender: TcxCustomGridTableItem; ARecord: TcxCustomGridRecord;
   var AText: string);
@@ -210,6 +249,12 @@ begin
   inherited;
   Row := Sender.GridView.DataController.GetRowIndexByRecordIndex(ARecord.RecordIndex, False);
   AText := IntToStr(Row+1);
+end;
+
+procedure TfrmInputBarangKeluar.cxsDiskonPropertiesChange(Sender: TObject);
+begin
+  inherited;
+  HitungTotal;
 end;
 
 procedure TfrmInputBarangKeluar.cxtbReturDataControllerBeforePost(
@@ -275,6 +320,16 @@ begin
       cxtbBrgKeluar.EndUpdate
     end;
   end;
+
+  if (AItemIndex = cxColHarga.Index) or (AItemIndex = cxColQty.Index) then begin
+    try
+      ADataController.Values[ARecordIndex, cxColTotal.Index] :=
+        ADataController.Values[ARecordIndex, cxColQty.Index] * ADataController.Values[ARecordIndex, cxColHarga.Index];
+    finally
+    end;
+    HitungTotal;
+  end;
+
 end;
 
 procedure TfrmInputBarangKeluar.FormCreate(Sender: TObject);
@@ -284,6 +339,7 @@ begin
   zqrBarang.Open;
   zqrSupplier.Open;
   zqrGudang.Open;
+  zqrCust.Open;
 end;
 
 procedure TfrmInputBarangKeluar.FormShow(Sender: TObject);
@@ -300,12 +356,17 @@ begin
 
   end
   else if Self.Jenis = 'E' then begin
-    q := OpenRS('SELECT * FROM tbl_trsreturpemb_head WHERE id = %s',[Self.EditKey]);
+    q := OpenRS('SELECT * FROM tbl_trskeluar_head WHERE id = %s',[Self.EditKey]);
     cxtNoBukti.Text := q.FieldByName('no_bukti').AsString;
     cxtKeterangan.Text := q.FieldByName('keterangan').AsString;
+    cxlCustomer.EditValue := q.FieldByName('id_customer').AsInteger;
+    cxdTglJthTempo.Date := q.FieldByname('jatuh_tempo').AsDateTime;
+    if q.FieldByName('f_ppn').AsInteger = 1 then
+      cxChkPPN.Checked := True;
+    cxsDiskon.Value := q.FieldByname('diskon').AsFloat;
 
     q.Close;
-    z := OpenRS('SELECT a.*, b.deskripsi, c.satuan satuan2 FROM tbl_trsreturpemb_det a ' +
+    z := OpenRS('SELECT a.*, b.deskripsi, c.satuan satuan2 FROM tbl_trskeluar_det a ' +
       'left join tbl_barang b on a.id_brg = b.id ' +
       'LEFT JOIN tbl_satuan c on c.id = a.id_satuan ' +
       'WHERE id_ref = %s',[Self.EditKey]);
@@ -322,6 +383,9 @@ begin
         Values[i, cxColSatuan.Index] := z.FieldByName('satuan2').AsString;
         Values[i, cxColIdSatuan.Index] := z.FieldByname('id_satuan').AsInteger;
         Values[i, cxColKeterangan.Index] := z.FieldByName('keterangan').AsString;
+        Values[i, cxColHarga.Index] := z.FieldByname('hrgjual').AsFloat;
+        Values[i, cxColTotal.Index] := z.FieldByname('hrgjual').AsFloat * z.FieldByname('qty').AsFloat;
+        Values[i, cxColGudang.Index] := z.FieldByName('id_gdg').AsInteger;
         nomer := nomer +1;
       end;
       z.Next;
@@ -329,6 +393,36 @@ begin
     z.Close;
     cxtbBrgKeluar.DataController.OnRecordChanged := Self.cxtbReturDataControllerRecordChanged;
 
+    HitungTotal;
+  end;
+end;
+
+procedure TfrmInputBarangKeluar.HitungTotal;
+var
+  i: integer;
+  tot, diskon, ppn: real;
+begin
+  try
+
+    tot := 0;
+    for i := 0 to cxtbBrgKeluar.DataController.RecordCount - 1 do begin
+      tot := tot + cxtbBrgKeluar.DataController.Values[i, cxColTotal.Index];
+    end;
+
+    diskon := 0;
+    if cxsDiskon.Value > 0 then
+      diskon := (cxsDiskon.Value /100) * tot;
+
+    cxsStlhDiskon.Value := tot - diskon;
+
+    cxsDPP.Value := cxsStlhDiskon.Value / 1.1;
+
+    ppn := 0;
+    if cxChkPPN.Checked then
+      ppn := (10 / 100) * cxsDPP.Value;
+
+    cxsHargaTotal.Value := cxsDPP.Value + ppn;
+  except
   end;
 end;
 

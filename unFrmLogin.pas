@@ -179,13 +179,10 @@ begin
           q.Next;
         end;
       end;
+
       if lst.Count > 0 then
         aplikasi.WewenangGudang := lst;
 
-      // hapus table temporary
-      //dm.zConn.ExecuteDirect('DELETE FROM tbl_tmp_ks WHERE user2 = ''' +
-      //  aplikasi.NamaUser + ''' AND host = ''' + GetHostName2 + '''');
-        
       dm.zConn.ExecuteDirect('DELETE FROM tbl_tmp_ks WHERE user2 = ''' + aplikasi.NamaUser + '''');
 
       ModalResult := mrOk;

@@ -16,7 +16,9 @@ uses
   dxSkinValentine, dxSkinXmas2008Blue, dxSkinscxPCPainter, cxCustomData,
   cxFilter, cxData, cxDataStorage, cxEdit, DB, cxDBData, cxGridLevel, cxClasses,
   cxGridCustomView, cxGridCustomTableView, cxGridTableView, cxGridDBTableView,
-  cxGrid, ExtCtrls, StdCtrls, cxPC, ZAbstractRODataset, ZDataset;
+  cxGrid, ExtCtrls, StdCtrls, cxPC, ZAbstractRODataset, ZDataset, cxContainer,
+  cxLabel, cxTextEdit, cxMaskEdit, cxDropDownEdit, cxLookupEdit, cxDBLookupEdit,
+  cxDBLookupComboBox;
 
 type
   TfrmLstBarangJasa = class(TfrmTplGrid)
@@ -87,12 +89,41 @@ type
     cxtbBarangf_brg_cust: TcxGridDBColumn;
     cxtbBarangf_bs_dipakai: TcxGridDBColumn;
     Label13: TLabel;
+    Panel3: TPanel;
+    cxtbBarangDet: TcxGridDBTableView;
+    cxGrid1Level1: TcxGridLevel;
+    cxGrid1: TcxGrid;
+    cxLabel1: TcxLabel;
+    cxlGudang: TcxLookupComboBox;
+    zqrGudang: TZReadOnlyQuery;
+    dsGudang: TDataSource;
+    zqrBarangDet: TZReadOnlyQuery;
+    dsBarangDet: TDataSource;
+    btnProses: TButton;
+    cxtbBarangDetno_bukti: TcxGridDBColumn;
+    cxtbBarangDettanggal: TcxGridDBColumn;
+    cxtbBarangDetkode_brg: TcxGridDBColumn;
+    cxtbBarangDetid_brg: TcxGridDBColumn;
+    cxtbBarangDetqty: TcxGridDBColumn;
+    cxtbBarangDettipe: TcxGridDBColumn;
+    cxtbBarangDettipe_text: TcxGridDBColumn;
+    cxtbBarangDetid_satuan: TcxGridDBColumn;
+    cxtbBarangDetdeskripsi: TcxGridDBColumn;
+    cxtbBarangDetsatuan: TcxGridDBColumn;
+    cxtbBarangDetid_gdg: TcxGridDBColumn;
+    cxtbBarangDetkode: TcxGridDBColumn;
+    cxtbBarangDetuser: TcxGridDBColumn;
+    cxtbBarangDetuser_dept: TcxGridDBColumn;
     procedure Button1Click(Sender: TObject);
     procedure btnTambahClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure btnRefreshClick(Sender: TObject);
     procedure btnEditClick(Sender: TObject);
     procedure btnHapusClick(Sender: TObject);
+    procedure cxtbBarangFocusedRecordChanged(Sender: TcxCustomGridTableView;
+      APrevFocusedRecord, AFocusedRecord: TcxCustomGridRecord;
+      ANewItemRecordFocusingChanged: Boolean);
+    procedure btnProsesClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -151,6 +182,17 @@ begin
   end;
 end;
 
+procedure TfrmLstBarangJasa.btnProsesClick(Sender: TObject);
+begin
+  inherited;
+  with zqrBarangDet do begin
+    Close;
+    ParamByname('id_brg').AsInteger := zqrBarang.FieldByName('id').AsInteger;
+    ParamByName('id_gdg').AsInteger := cxlGudang.EditValue;
+    Open;
+  end;
+end;
+
 procedure TfrmLstBarangJasa.btnRefreshClick(Sender: TObject);
 begin
   inherited;
@@ -196,12 +238,24 @@ begin
   end;
 end;
 
+procedure TfrmLstBarangJasa.cxtbBarangFocusedRecordChanged(
+  Sender: TcxCustomGridTableView; APrevFocusedRecord,
+  AFocusedRecord: TcxCustomGridRecord; ANewItemRecordFocusingChanged: Boolean);
+begin
+  inherited;
+  with zqrBarangDet do begin
+    Close;
+    ParamByName('id_brg').AsInteger := zqrBarang.FieldByName('id').AsInteger;
+  end;
+end;
+
 procedure TfrmLstBarangJasa.FormCreate(Sender: TObject);
 begin
   inherited;
   Self.NamaMenu := 'mnMst_BarangJasa';
   TerapkanWewenang(Self.NamaMenu);
   zqrBarang.Open;
+  zqrGudang.Open;
 end;
 
 end.

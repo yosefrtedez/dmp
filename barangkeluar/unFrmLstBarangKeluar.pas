@@ -56,6 +56,7 @@ type
     cxColPODetid_gdg: TcxGridDBColumn;
     cxColPODetsatuan: TcxGridDBColumn;
     cxtbBarangKeluarDetColumn1: TcxGridDBColumn;
+    Button1: TButton;
     procedure btnTambahClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure btnRefreshClick(Sender: TObject);
@@ -63,6 +64,7 @@ type
       APrevFocusedRecord, AFocusedRecord: TcxCustomGridRecord;
       ANewItemRecordFocusingChanged: Boolean);
     procedure btnEditClick(Sender: TObject);
+    procedure Button1Click(Sender: TObject);
   private
     { Private declarations }
     mjenis : string;
@@ -76,7 +78,7 @@ var
 implementation
 
 uses unDM, unTools, unFrmInputReturPembelian, unFrmUtama, unFrmInputBarangJasa,
-  unFrmInputBarangMasuk, unFrmInputBarangKeluar;
+  unFrmInputBarangMasuk, unFrmInputBarangKeluar, unFrmTmpLap01;
 
 {$R *.dfm}
 
@@ -90,12 +92,8 @@ begin
   if not fu.CekTabOpen('Edit Barang Keluar') then begin
     ts := TcxTabSheet.Create(Self);
     ts.PageControl := frmUtama.pgMain;
-    if zqrBarangKeluar.FieldByName('f_app').AsString = '1' then begin
-      MsgBox('Maaf data retur pembelian tidak bisa diedit, karena sudah di approve');
-      Abort;
-    end;
     f := TfrmInputBarangKeluar.Create(Self);
-    ts.Caption := 'Edit Retur Pembelian';
+    ts.Caption := 'Edit Barang Keluar';
     f.Jenis := 'E';
     f.EditKey := zqrBarangKeluar.FieldByName('id').AsString;
     f.Parent := ts;
@@ -130,6 +128,19 @@ begin
     ts.Caption := f.Caption;
     f.Show;
     fu.pgMain.ActivePage := ts;
+  end;
+end;
+
+procedure TfrmLstBarangKeluar.Button1Click(Sender: TObject);
+var
+  f: TfrmTmpLap01;
+begin
+  inherited;
+  f := TfrmTmpLap01.Create(Self);
+  with f do begin
+    zqrSJ01.ParamByName('id').AsInteger := zqrBarangKeluar.FieldByName('id').AsInteger;
+    rptSJ01.ShowReport(True);
+    rptFakturPenjualan.ShowReport(True);
   end;
 end;
 

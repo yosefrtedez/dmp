@@ -26,6 +26,7 @@ inherited frmInputTransferBarang: TfrmInputTransferBarang
   end
   inherited Panel2: TPanel
     Width = 971
+    TabOrder = 8
     ExplicitWidth = 971
     inherited btnSimpan: TButton
       OnClick = btnSimpanClick
@@ -41,7 +42,7 @@ inherited frmInputTransferBarang: TfrmInputTransferBarang
     Left = 91
     Top = 62
     Properties.ReadOnly = True
-    TabOrder = 3
+    TabOrder = 1
     Width = 121
   end
   object cxLabel6: TcxLabel
@@ -53,7 +54,7 @@ inherited frmInputTransferBarang: TfrmInputTransferBarang
     Left = 91
     Top = 89
     Properties.ReadOnly = False
-    TabOrder = 5
+    TabOrder = 3
     Width = 121
   end
   object cxGrid1: TcxGrid
@@ -61,7 +62,7 @@ inherited frmInputTransferBarang: TfrmInputTransferBarang
     Top = 152
     Width = 952
     Height = 216
-    TabOrder = 6
+    TabOrder = 7
     object cxTblTransBarang: TcxGridTableView
       NavigatorButtons.ConfirmDelete = False
       NavigatorButtons.Insert.Visible = False
@@ -109,8 +110,7 @@ inherited frmInputTransferBarang: TfrmInputTransferBarang
         Caption = 'Kode Brg'
         PropertiesClassName = 'TcxTextEditProperties'
         Properties.ReadOnly = True
-        HeaderAlignmentHorz = taCenter
-        Width = 108
+        Width = 78
       end
       object cxColDeskripsi: TcxGridColumn
         Caption = 'Deskripsi'
@@ -124,8 +124,7 @@ inherited frmInputTransferBarang: TfrmInputTransferBarang
             FieldName = 'kode'
           end>
         Properties.ListSource = dsBarang
-        HeaderAlignmentHorz = taCenter
-        Width = 193
+        Width = 250
       end
       object cxColGudangAsal: TcxGridColumn
         Caption = 'Gudang Asal'
@@ -140,7 +139,6 @@ inherited frmInputTransferBarang: TfrmInputTransferBarang
             FieldName = 'kode'
           end>
         Properties.ListSource = dsGudang
-        HeaderAlignmentHorz = taCenter
         Width = 123
       end
       object cxColGudangTujuan: TcxGridColumn
@@ -156,15 +154,13 @@ inherited frmInputTransferBarang: TfrmInputTransferBarang
             FieldName = 'kode'
           end>
         Properties.ListSource = dsGudang
-        HeaderAlignmentHorz = taCenter
-        Width = 151
+        Width = 110
       end
       object cxColIdSatuan: TcxGridColumn
         Visible = False
       end
       object cxColSatuan: TcxGridColumn
         Caption = 'Satuan'
-        HeaderAlignmentHorz = taCenter
         Width = 72
       end
       object cxColStock: TcxGridColumn
@@ -204,7 +200,7 @@ inherited frmInputTransferBarang: TfrmInputTransferBarang
     Left = 91
     Top = 114
     Properties.ReadOnly = False
-    TabOrder = 8
+    TabOrder = 5
     Width = 462
   end
   object zqrBarang: TZReadOnlyQuery

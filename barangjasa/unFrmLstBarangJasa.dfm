@@ -1,12 +1,15 @@
 inherited frmLstBarangJasa: TfrmLstBarangJasa
   BorderIcons = []
   Caption = 'Barang dan Jasa'
+  ClientWidth = 1119
   OnCreate = FormCreate
-  ExplicitWidth = 1016
+  ExplicitWidth = 1119
   ExplicitHeight = 508
   PixelsPerInch = 96
   TextHeight = 13
   inherited Panel1: TPanel
+    Width = 1119
+    ExplicitWidth = 1119
     object Label13: TLabel
       Left = 10
       Top = 16
@@ -22,7 +25,9 @@ inherited frmLstBarangJasa: TfrmLstBarangJasa
     end
   end
   inherited Panel2: TPanel
-    TabOrder = 2
+    Width = 1119
+    TabOrder = 4
+    ExplicitWidth = 1119
     inherited btnTambah: TButton
       OnClick = btnTambahClick
     end
@@ -33,7 +38,9 @@ inherited frmLstBarangJasa: TfrmLstBarangJasa
       OnClick = btnHapusClick
     end
     inherited btnKeluar: TButton
+      Left = 1036
       TabOrder = 4
+      ExplicitLeft = 1036
     end
     inherited btnRefresh: TButton
       TabOrder = 3
@@ -43,12 +50,13 @@ inherited frmLstBarangJasa: TfrmLstBarangJasa
   object cxgBarang: TcxGrid
     Left = 0
     Top = 49
-    Width = 1016
-    Height = 410
+    Width = 1119
+    Height = 169
     Align = alClient
     TabOrder = 1
     object cxtbBarang: TcxGridDBTableView
       NavigatorButtons.ConfirmDelete = False
+      OnFocusedRecordChanged = cxtbBarangFocusedRecordChanged
       DataController.DataSource = dsBarang
       DataController.Summary.DefaultGroupSummaryItems = <>
       DataController.Summary.FooterSummaryItems = <>
@@ -311,6 +319,118 @@ inherited frmLstBarangJasa: TfrmLstBarangJasa
       GridView = cxtbBarang
     end
   end
+  object Panel3: TPanel
+    Left = 0
+    Top = 218
+    Width = 1119
+    Height = 41
+    Align = alBottom
+    TabOrder = 2
+    object cxLabel1: TcxLabel
+      Left = 10
+      Top = 12
+      Caption = 'Detail History Barang '
+    end
+    object cxlGudang: TcxLookupComboBox
+      Left = 124
+      Top = 11
+      Properties.KeyFieldNames = 'id'
+      Properties.ListColumns = <
+        item
+          Caption = 'Gudang'
+          FieldName = 'nama'
+        end>
+      Properties.ListSource = dsGudang
+      TabOrder = 1
+      Width = 205
+    end
+    object btnProses: TButton
+      Left = 335
+      Top = 9
+      Width = 75
+      Height = 25
+      Caption = 'Proses'
+      TabOrder = 0
+      OnClick = btnProsesClick
+    end
+  end
+  object cxGrid1: TcxGrid
+    Left = 0
+    Top = 259
+    Width = 1119
+    Height = 200
+    Align = alBottom
+    TabOrder = 3
+    object cxtbBarangDet: TcxGridDBTableView
+      NavigatorButtons.ConfirmDelete = False
+      DataController.DataSource = dsBarangDet
+      DataController.Summary.DefaultGroupSummaryItems = <>
+      DataController.Summary.FooterSummaryItems = <>
+      DataController.Summary.SummaryGroups = <>
+      object cxtbBarangDetno_bukti: TcxGridDBColumn
+        Caption = 'No. Bukti'
+        DataBinding.FieldName = 'no_bukti'
+        Width = 100
+      end
+      object cxtbBarangDettanggal: TcxGridDBColumn
+        Caption = 'Tanggal'
+        DataBinding.FieldName = 'tanggal'
+      end
+      object cxtbBarangDettipe_text: TcxGridDBColumn
+        Caption = 'Jenis'
+        DataBinding.FieldName = 'tipe_text'
+        Width = 61
+      end
+      object cxtbBarangDetkode_brg: TcxGridDBColumn
+        Caption = 'Kode Brg.'
+        DataBinding.FieldName = 'kode_brg'
+      end
+      object cxtbBarangDetdeskripsi: TcxGridDBColumn
+        Caption = 'Deskripsi'
+        DataBinding.FieldName = 'deskripsi'
+        Width = 396
+      end
+      object cxtbBarangDetid_brg: TcxGridDBColumn
+        DataBinding.FieldName = 'id_brg'
+        Visible = False
+      end
+      object cxtbBarangDetqty: TcxGridDBColumn
+        Caption = 'Qty.'
+        DataBinding.FieldName = 'qty'
+      end
+      object cxtbBarangDettipe: TcxGridDBColumn
+        DataBinding.FieldName = 'tipe'
+        Visible = False
+      end
+      object cxtbBarangDetid_satuan: TcxGridDBColumn
+        DataBinding.FieldName = 'id_satuan'
+        Visible = False
+      end
+      object cxtbBarangDetsatuan: TcxGridDBColumn
+        Caption = 'Satuan'
+        DataBinding.FieldName = 'satuan'
+      end
+      object cxtbBarangDetid_gdg: TcxGridDBColumn
+        DataBinding.FieldName = 'id_gdg'
+        Visible = False
+      end
+      object cxtbBarangDetkode: TcxGridDBColumn
+        DataBinding.FieldName = 'kode'
+        Visible = False
+      end
+      object cxtbBarangDetuser: TcxGridDBColumn
+        Caption = 'User'
+        DataBinding.FieldName = 'user'
+      end
+      object cxtbBarangDetuser_dept: TcxGridDBColumn
+        Caption = 'Dept'
+        DataBinding.FieldName = 'user_dept'
+      end
+    end
+    object cxGrid1Level1: TcxGridLevel
+      GridView = cxtbBarangDet
+    end
+  end
   object zqrBarang: TZReadOnlyQuery
     Connection = DM.zConn
     SQL.Strings = (
@@ -323,12 +443,62 @@ inherited frmLstBarangJasa: TfrmLstBarangJasa
       'LEFT JOIN tbl_subkategori_brg d ON a.id_subkategori = d.id'
       'LEFT JOIN tbl_tipe_brg e ON a.id_tipe = e.id')
     Params = <>
-    Left = 824
-    Top = 192
+    Left = 784
+    Top = 152
   end
   object dsBarang: TDataSource
     DataSet = zqrBarang
-    Left = 896
-    Top = 192
+    Left = 864
+    Top = 160
+  end
+  object zqrGudang: TZReadOnlyQuery
+    Connection = DM.zConn
+    Active = True
+    SQL.Strings = (
+      'SELECT * FROM tbl_gudang')
+    Params = <>
+    Left = 608
+    Top = 152
+  end
+  object dsGudang: TDataSource
+    DataSet = zqrGudang
+    Left = 672
+    Top = 152
+  end
+  object zqrBarangDet: TZReadOnlyQuery
+    Connection = DM.zConn
+    SQL.Strings = (
+      'SELECT * '
+      'FROM v_hist_brg_det'
+      'WHERE id_brg = :id_brg AND id_gdg = :id_gdg')
+    Params = <
+      item
+        DataType = ftUnknown
+        Name = 'id_brg'
+        ParamType = ptUnknown
+      end
+      item
+        DataType = ftUnknown
+        Name = 'id_gdg'
+        ParamType = ptUnknown
+      end>
+    Left = 728
+    Top = 344
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'id_brg'
+        ParamType = ptUnknown
+      end
+      item
+        DataType = ftUnknown
+        Name = 'id_gdg'
+        ParamType = ptUnknown
+      end>
+  end
+  object dsBarangDet: TDataSource
+    DataSet = zqrBarangDet
+    Left = 824
+    Top = 344
   end
 end

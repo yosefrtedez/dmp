@@ -1,11 +1,14 @@
 inherited frmLstBarangKeluar: TfrmLstBarangKeluar
   Caption = 'Barang Masuk'
+  ClientWidth = 1049
   OnCreate = FormCreate
-  ExplicitWidth = 1016
+  ExplicitWidth = 1049
   ExplicitHeight = 508
   PixelsPerInch = 96
   TextHeight = 13
   inherited Panel1: TPanel
+    Width = 1049
+    ExplicitWidth = 1049
     object Label13: TLabel
       Left = 10
       Top = 13
@@ -21,7 +24,9 @@ inherited frmLstBarangKeluar: TfrmLstBarangKeluar
     end
   end
   inherited Panel2: TPanel
+    Width = 1049
     TabOrder = 4
+    ExplicitWidth = 1049
     inherited btnTambah: TButton
       OnClick = btnTambahClick
     end
@@ -29,7 +34,9 @@ inherited frmLstBarangKeluar: TfrmLstBarangKeluar
       OnClick = btnEditClick
     end
     inherited btnKeluar: TButton
+      Left = 966
       TabOrder = 4
+      ExplicitLeft = 966
     end
     inherited btnRefresh: TButton
       TabOrder = 3
@@ -39,7 +46,7 @@ inherited frmLstBarangKeluar: TfrmLstBarangKeluar
   object cxgrd1: TcxGrid
     Left = 0
     Top = 49
-    Width = 1016
+    Width = 1049
     Height = 169
     Align = alClient
     TabOrder = 1
@@ -134,20 +141,33 @@ inherited frmLstBarangKeluar: TfrmLstBarangKeluar
   object Panel3: TPanel
     Left = 0
     Top = 218
-    Width = 1016
+    Width = 1049
     Height = 41
     Align = alBottom
     TabOrder = 2
+    DesignSize = (
+      1049
+      41)
     object cxLabel1: TcxLabel
       Left = 10
       Top = 12
       Caption = 'Detail Barang Masuk'
     end
+    object Button1: TButton
+      Left = 792
+      Top = 8
+      Width = 249
+      Height = 25
+      Anchors = [akTop, akRight]
+      Caption = 'Cetak Faktur Penjualan + Surat Jalan'
+      TabOrder = 0
+      OnClick = Button1Click
+    end
   end
   object cxGrid1: TcxGrid
     Left = 0
     Top = 259
-    Width = 1016
+    Width = 1049
     Height = 200
     Align = alBottom
     TabOrder = 3

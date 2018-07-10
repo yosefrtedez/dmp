@@ -73,11 +73,45 @@ type
     cxLabel7: TcxLabel;
     cxtDimensi: TcxTextEdit;
     cxChkPPN: TcxCheckBox;
+    cxLabel15: TcxLabel;
+    cxsBeratPerLbr: TcxSpinEdit;
+    cxLabel16: TcxLabel;
+    cxsStdCekMtr: TcxSpinEdit;
+    cxLabel17: TcxLabel;
+    cxsJmlIsiPerSlop: TcxSpinEdit;
+    cxLabel18: TcxLabel;
+    cxsBrtStlPlong: TcxSpinEdit;
+    cxLabel19: TcxLabel;
+    cxsBrtPerSlop: TcxSpinEdit;
+    cxLabel20: TcxLabel;
+    cxsJmlSlopPerIkat: TcxSpinEdit;
+    cxLabel21: TcxLabel;
+    cxsJmlIkatPerKarung: TcxSpinEdit;
+    cxLabel22: TcxLabel;
+    cxsBrtPerKarung: TcxSpinEdit;
+    cxLabel23: TcxLabel;
+    cxsStdBrtKantong: TcxSpinEdit;
+    cxLabel24: TcxLabel;
+    cxsBrtPerKarungPlusKantong: TcxSpinEdit;
+    cxLabel25: TcxLabel;
+    cxsBrtTali: TcxSpinEdit;
+    cxLabel26: TcxLabel;
+    cxsBrtKarung: TcxSpinEdit;
+    cxLabel27: TcxLabel;
+    cxsBrtTotalPerKrg: TcxSpinEdit;
+    cxLabel28: TcxLabel;
+    cxtWarna: TcxTextEdit;
+    cxLabel29: TcxLabel;
+    cxsBrtPerIkat: TcxSpinEdit;
     procedure btnSimpanClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure cxtbSatuanDataControllerBeforePost(
       ADataController: TcxCustomDataController);
+    procedure cxsBrtPerIkatPropertiesChange(Sender: TObject);
+    procedure cxsJmlIkatPerKarungPropertiesChange(Sender: TObject);
+    procedure cxsStdBrtKantongPropertiesChange(Sender: TObject);
+    procedure cxsBrtTaliPropertiesChange(Sender: TObject);
   private
     { Private declarations }
   public
@@ -95,7 +129,7 @@ uses unTools, unDM;
 
 procedure TfrmInputBarangJasa.btnSimpanClick(Sender: TObject);
 var
-  q, qs: TZQuery;
+  q, qs, qd: TZQuery;
   i, ID: integer;
 begin
   inherited;
@@ -147,7 +181,34 @@ begin
     q.FieldByName('f_ppn').AsInteger := 1;
     q.Post;
 
-    if Self.Jenis = 'T' then ID := LastInsertID;
+    if Self.Jenis = 'T' then
+      ID := LastInsertID;
+
+    qd := OpenRS('SELECT * FROM tbl_barang_det_spek WHERE id_ref = %d',[ID]);
+    if qd.IsEmpty then
+      qd.Insert
+    else
+      qd.Edit;
+    with qd do begin
+      FieldByName('dimensi').AsString := cxtDimensi.Text;
+      FieldByName('warna').AsString := Trim(cxtWarna.Text);
+      FieldByName('brt_per_lbr').AsFloat := cxsBeratPerLbr.Value;
+      FieldByName('std_cek_mtr').AsFloat := cxsStdCekMtr.Value;
+      FieldByName('isi_per_slop').AsFloat := cxsJmlIsiPerSlop.Value;
+      FieldByName('brt_stl_plong').AsFloat := cxsBrtStlPlong.Value;
+      FieldByName('brt_per_slop').AsFloat := cxsBrtPerSlop.Value;
+      FieldByName('jml_slop_per_ikat').AsFloat := cxsJmlSlopPerIkat.Value;
+      FieldByName('brt_per_ikat').AsFloat := cxsBrtPerIkat.Value;
+      FieldByName('jml_ikat_per_karung').AsFloat := cxsJmlIkatPerKarung.Value;
+      FieldByName('brt_per_karung').AsFloat := cxsBrtPerKarung.Value;
+      FieldByName('std_brt_kantong').AsFloat := cxsStdBrtKantong.Value;
+      FieldByName('brt_per_karung_kantong').AsFloat := cxsBrtPerKarungPlusKantong.Value;
+      FieldByName('brt_tali').AsFloat := cxsBrtTali.Value;
+      FieldByName('brt_karung').AsFloat := cxsBrtKarung.Value;
+      FieldByName('std_brt_total').AsFloat := cxsBrtTotalPerKrg.Value;
+    end;
+    qd.Post;
+    qd.Close;
 
     if cxtbSatuan.DataController.RecordCount > 0 then begin
       q := OpenRS('SELECT * FROM tbl_konv_brg WHERE id_barang = %d', [ID]);
@@ -175,6 +236,55 @@ begin
 
   end;
 
+end;
+
+procedure TfrmInputBarangJasa.cxsBrtPerIkatPropertiesChange(Sender: TObject);
+begin
+  inherited;
+  try
+    cxsBrtPerKarung.Value :=
+      cxsBrtPerIkat.Value * cxsJmlIkatPerKarung.Value;
+  except
+
+  end;
+end;
+
+procedure TfrmInputBarangJasa.cxsBrtTaliPropertiesChange(Sender: TObject);
+begin
+  inherited;
+  try
+    cxsBrtTotalPerKrg.Value :=
+      cxsBrtPerKarungPlusKantong.Value +
+      cxsBrtTali.Value +
+      cxsBrtKarung.Value;
+  except
+
+  end;
+end;
+
+procedure TfrmInputBarangJasa.cxsJmlIkatPerKarungPropertiesChange(
+  Sender: TObject);
+begin
+  inherited;
+  try
+    cxsBrtPerKarung.Value :=
+      cxsBrtPerIkat.Value * cxsJmlIkatPerKarung.Value;
+  except
+
+  end;
+end;
+
+procedure TfrmInputBarangJasa.cxsStdBrtKantongPropertiesChange(Sender: TObject);
+begin
+  inherited;
+  try
+    cxsBrtPerKarungPlusKantong.Value :=
+      (cxsStdBrtKantong.Value *
+      cxsJmlSlopPerIkat.Value *
+      cxsJmlIkatPerKarung.Value) + cxsBrtPerKarung.Value;
+  except
+
+  end;
 end;
 
 procedure TfrmInputBarangJasa.cxtbSatuanDataControllerBeforePost(
@@ -211,7 +321,7 @@ end;
 
 procedure TfrmInputBarangJasa.FormShow(Sender: TObject);
 var
-  q: TZQuery;
+  q, qd: TZQuery;
   i, ID: integer;
 begin
   inherited;
@@ -225,8 +335,12 @@ begin
     cxlSubKategori.EditValue := q.FieldByName('id_subkategori').AsString;
     if not q.FieldByName('id_satuan').IsNull then
       cxlSatuan.EditValue := q.FieldByName('id_satuan').AsString;
-    cxChkPPN.Checked := q.FieldByName('f_ppn').AsBoolean;
-    q.Close; 
+    if q.FieldByName('f_ppn').AsInteger = 1 then
+      cxChkPPN.Checked := True
+    else
+      cxChkPPN.Checked := False;
+    cxlTipe.EditValue := q.FieldByName('id_tipe').AsInteger;
+    q.Close;
 
     q := OpenRS('SELECT * FROM tbl_konv_brg WHERE id_barang = %d',[ID]);
     while not q.Eof do begin
@@ -239,6 +353,28 @@ begin
       q.Next;
     end;
     q.Close;
+
+    qd := OpenRS('SELECT * FROM tbl_barang_det_spek WHERE id_ref = %d', [ID]);
+
+    with qd do begin
+      cxtDimensi.Text := FieldByName('dimensi').AsString;
+      cxtWarna.Text := FieldByName('warna').AsString;
+      cxsBeratPerLbr.Value := FieldByName('brt_per_lbr').AsFloat;
+      cxsStdCekMtr.Value := FieldByName('std_cek_mtr').AsFloat;
+      cxsJmlIsiPerSlop.Value := FieldByName('isi_per_slop').AsFloat;
+      cxsBrtStlPlong.Value := FieldByName('brt_stl_plong').AsFloat;
+      cxsBrtPerSlop.Value := FieldByName('brt_per_slop').AsFloat;
+      cxsJmlSlopPerIkat.Value := FieldByName('jml_slop_per_ikat').AsFloat;
+      cxsBrtPerIkat.Value := FieldByName('brt_per_ikat').AsFloat;
+      cxsJmlIkatPerKarung.Value := FieldByName('jml_ikat_per_karung').AsFloat;
+      cxsBrtPerKarung.Value := FieldByName('brt_per_karung').AsFloat;
+      cxsStdBrtKantong.Value := FieldByName('std_brt_kantong').AsFloat;
+      cxsBrtPerKarungPlusKantong.Value := FieldByName('brt_per_karung_kantong').AsFloat;
+      cxsBrtTali.Value := FieldByName('brt_tali').AsFloat;
+      cxsBrtKarung.Value := FieldByName('brt_karung').AsFloat;
+      cxsBrtTotalPerKrg.Value := FieldByName('std_brt_total').AsFloat;
+    end;
+    qd.Close;
                                                     
   end;
 end;

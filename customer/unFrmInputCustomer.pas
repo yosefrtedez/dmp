@@ -84,6 +84,7 @@ begin
         cxtKode.SelectAll ;
         cxtKode.SetFocus ;
         f:= False ;
+        Abort;
       end
       else begin
         q.Insert;
@@ -94,7 +95,8 @@ begin
         MsgBox('Kode customer belum ada.');
         cxtKode.SelectAll ;
         cxtKode.SetFocus ;
-        f:= False ;
+        f:= False;
+        Abort;
       end
       else begin
         q.Edit;
@@ -122,10 +124,10 @@ begin
       Post;
       Close;
     end;
+    MsgBox('Data customer sudah disimpan.');
   end;
-  MsgBox('Data customer sudah disimpan.');
+
   ClearAll;
-  frmLstCustomer.RefreshGrid;
   btnBatalClick(nil);
 end;
 

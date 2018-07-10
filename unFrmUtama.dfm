@@ -3,7 +3,7 @@ object frmUtama: TfrmUtama
   Top = 0
   Caption = 'frmUtama'
   ClientHeight = 523
-  ClientWidth = 744
+  ClientWidth = 1129
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -27,7 +27,7 @@ object frmUtama: TfrmUtama
   object stsBar: TdxStatusBar
     Left = 0
     Top = 499
-    Width = 744
+    Width = 1129
     Height = 24
     Panels = <
       item
@@ -54,8 +54,6 @@ object frmUtama: TfrmUtama
     Font.Height = -11
     Font.Name = 'Tahoma'
     Font.Style = []
-    ExplicitTop = 680
-    ExplicitWidth = 1162
   end
   object pgMain: TcxPageControl
     Left = 8

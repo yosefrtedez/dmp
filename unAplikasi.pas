@@ -101,6 +101,7 @@ type
     mPOTmp: String;
 
     mGdgPB: Integer;
+    mExeName: string;
 
     procedure SetNamaToko(value: string);
     function GetNamaToko: string;
@@ -300,6 +301,8 @@ type
     property POTmp: string read mPOTmp write mPOTmp;
 
     property GdgPB: Integer read mGdgPB write mGdgPB;
+
+    property ExeName: string read mExeName write mExeName;
   end;
 
 implementation

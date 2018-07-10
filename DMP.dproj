@@ -20,6 +20,7 @@
 			<Base>true</Base>
 		</PropertyGroup>
 		<PropertyGroup Condition="'$(Base)'!=''">
+			<DCC_UsePackage>vclx;vcl;dbrtl;Rave76VCL;bdertl;rtl;vclactnband;xmlrtl;vcldb;vcldbx;dsnap;dsnapcon;TeeUI;TeeDB;Tee;adortl;vclib;ibxpress;IndyCore;IndySystem;IndyProtocols;inet;intrawebdb_100_120;Intraweb_100_120;VclSmp;vclie;websnap;webdsnap;inetdbbde;inetdbxpress;soaprtl;vclribbon;dbexpress;DbxCommonDriver;DataSnapIndy10ServerTransport;DataSnapProviderClient;DataSnapServer;DbxClientDriver;DBXInterBaseDriver;DBXMySQLDriver;dbxcds;DBXSybaseASEDriver;DBXSybaseASADriver;DBXOracleDriver;DBXMSSQLDriver;DBXInformixDriver;DBXDb2Driver;ZComponent;ZDbc;ZPlain;ZCore;ZParseSql;uSynEdit_R2009;uniGUI12VCL;uniGUI12Chart;uniGUI12m;kbmMemRunD2009Std;dxCoreRS12;cxLibraryRS12;dxGDIPlusRS12;dxThemeRS12;cxEditorsRS12;cxDataRS12;cxExtEditorsRS12;dxBarRS12;dxComnRS12;dxBarDBNavRS12;dxBarExtDBItemsRS12;dxBarExtItemsRS12;dxRibbonRS12;cxBarEditItemRS12;dxdbtrRS12;dxtrmdRS12;dxmdsRS12;dxDockingRS12;dxFlowChartRS12;cxPageControlRS12;dxLayoutControlRS12;dxNavBarRS12;dxorgcRS12;dxdborRS12;cxGridRS12;cxExportRS12;cxPivotGridRS12;cxPivotGridChartRS12;cxTreeListRS12;cxTreeListdxBarPopupMenuRS12;cxSchedulerRS12;cxSchedulerGridRS12;dxsbRS12;dcldxSkinsCoreRS12;dxSkinsCoreRS12;dxSkinscxPCPainterRS12;dxSkinscxScheduler3PainterRS12;dxSkinsdxDLPainterRS12;dxSkinsdxBarPainterRS12;dxSkinsdxNavBar2PainterRS12;dxSpellCheckerRS12;cxSpreadSheetRS12;cxVerticalGridRS12;dxPSCoreRS12;dxPSLnksRS12;dxPScxCommonRS12;dxPScxExtCommonRS12;dxPScxGrid6LnkRS12;dxPScxPivotGrid2LnkRS12;dxPScxScheduler3LnkRS12;dxPScxSSLnkRS12;dxPScxTL5LnkRS12;dxPScxVGridLnkRS12;dxPSTeeChartRS12;dxPSDBTeeChartRS12;dxPSdxOCLnkRS12;dxPSdxDBOCLnkRS12;dxPSdxDBTVLnkRS12;dxPSdxFCLnkRS12;dxPSdxLC2LnkRS12;dxPScxPCProdRS12;dxPsPrVwAdvRS12;dxPSPrVwRibbonRS12;dxSkinsdxRibbonPainterRS12;dxSkinXmas2008BlueRS12;dxSkinBlackRS12;dxSkinBlueRS12;dxSkinCaramelRS12;dxSkinCoffeeRS12;dxSkinDarkRoomRS12;dxSkinDarkSideRS12;dxSkinFoggyRS12;dxSkinGlassOceansRS12;dxSkiniMaginaryRS12;dxSkinLilianRS12;dxSkinLiquidSkyRS12;dxSkinLondonLiquidSkyRS12;dxSkinMcSkinRS12;dxSkinMoneyTwinsRS12;dxSkinOffice2007BlackRS12;dxSkinOffice2007BlueRS12;dxSkinOffice2007GreenRS12;dxSkinOffice2007PinkRS12;dxSkinOffice2007SilverRS12;dxSkinOffice2010BlackRS12;dxSkinOffice2010BlueRS12;dxSkinOffice2010SilverRS12;dxSkinPumpkinRS12;dxSkinSevenRS12;dxSkinSharpRS12;dxSkinSilverRS12;dxSkinSpringTimeRS12;dxSkinStardustRS12;dxSkinSummer2008RS12;dxSkinValentineRS12;L208_r120;fs12;fsADO12;fsBDE12;fsDB12;fsIBX12;fsTee12</DCC_UsePackage>
 			<DCC_UnitAlias>WinTypes=Windows;WinProcs=Windows;DbiTypes=BDE;DbiProcs=BDE;DbiErrs=BDE;$(DCC_UnitAlias)</DCC_UnitAlias>
 			<DCC_DependencyCheckOutputName>DMP.exe</DCC_DependencyCheckOutputName>
 			<DCC_ImageBase>00400000</DCC_ImageBase>
@@ -212,6 +213,12 @@
 			<DCCReference Include="barangkeluar\unFrmLstBarangKeluar.pas">
 				<Form>frmLstBarangKeluar</Form>
 			</DCCReference>
+			<DCCReference Include="unFrmKetUpdate.pas">
+				<Form>frmKetUpdate</Form>
+			</DCCReference>
+			<DCCReference Include="laporan\unFrmTmpLap01.pas">
+				<Form>frmTmpLap01</Form>
+			</DCCReference>
 			<BuildConfiguration Include="Base">
 				<Key>Base</Key>
 			</BuildConfiguration>
@@ -237,7 +244,7 @@
 						<Parameters Name="UseLauncher">False</Parameters>
 						<Parameters Name="LoadAllSymbols">True</Parameters>
 						<Parameters Name="LoadUnspecifiedSymbols">False</Parameters>
-						<Parameters Name="RunParams">/debug</Parameters>
+						<Parameters Name="RunParams">/noupdate /debug</Parameters>
 					</Parameters>
 					<VersionInfo>
 						<VersionInfo Name="IncludeVerInfo">False</VersionInfo>
@@ -267,12 +274,14 @@
 						<VersionInfoKeys Name="Comments"/>
 					</VersionInfoKeys>
 					<Excluded_Packages>
+						<Excluded_Packages Name="C:\Users\Yosef\Documents\DevExpress VCL\Library\RS12\dclcxPivotGridOLAPRS12.bpl">ExpressPivotGrid 2 OLAP by Developer Express Inc.</Excluded_Packages>
 						<Excluded_Packages Name="$(BDS)\bin\bcboffice2k120.bpl">CodeGear C++Builder Office 2000 Servers Package</Excluded_Packages>
 						<Excluded_Packages Name="$(BDS)\bin\bcbofficexp120.bpl">CodeGear C++Builder Office XP Servers Package</Excluded_Packages>
 						<Excluded_Packages Name="$(BDS)\bin\dcloffice2k120.bpl">Microsoft Office 2000 Sample Automation Server Wrapper Components</Excluded_Packages>
 						<Excluded_Packages Name="$(BDS)\bin\dclofficexp120.bpl">Microsoft Office XP Sample Automation Server Wrapper Components</Excluded_Packages>
 					</Excluded_Packages>
 				</Delphi.Personality>
+				<ModelSupport>False</ModelSupport>
 			</BorlandProject>
 			<ProjectFileVersion>12</ProjectFileVersion>
 		</ProjectExtensions>
