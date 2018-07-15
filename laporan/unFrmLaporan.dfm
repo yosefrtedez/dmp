@@ -9,6 +9,7 @@ inherited frmLaporan: TfrmLaporan
   TextHeight = 13
   inherited Panel1: TPanel
     Width = 952
+    ExplicitWidth = 952
     object Label1: TLabel
       Left = 10
       Top = 16
@@ -27,7 +28,7 @@ inherited frmLaporan: TfrmLaporan
     Left = 752
     Top = 416
     Align = alNone
-    TabOrder = 3
+    TabOrder = 4
     Visible = False
     ExplicitLeft = 752
     ExplicitTop = 416
@@ -55,6 +56,7 @@ inherited frmLaporan: TfrmLaporan
       Height = 43
       Caption = 'Master Data'
       TabOrder = 0
+      OnClick = btnMasterDataClick
     end
     object btnTransaksi: TButton
       Left = 10
@@ -63,6 +65,7 @@ inherited frmLaporan: TfrmLaporan
       Height = 43
       Caption = 'Transaksi'
       TabOrder = 1
+      OnClick = btnTransaksiClick
     end
   end
   object Panel3: TPanel
@@ -71,8 +74,7 @@ inherited frmLaporan: TfrmLaporan
     Width = 952
     Height = 48
     Align = alBottom
-    TabOrder = 5
-    ExplicitWidth = 894
+    TabOrder = 6
     object btnKeluar: TButton
       Left = 10
       Top = 11
@@ -83,13 +85,15 @@ inherited frmLaporan: TfrmLaporan
       OnClick = btnKeluarClick
     end
   end
-  object Panel4: TPanel
-    Left = 222
+  object pnlLapMasterData: TPanel
+    Tag = 10
+    Left = 223
     Top = 60
     Width = 379
     Height = 365
-    Caption = 'Panel4'
+    Caption = 'pnlLapMasterData'
     TabOrder = 2
+    Visible = False
     object lstBox01: TListBox
       Left = 8
       Top = 8
@@ -100,12 +104,31 @@ inherited frmLaporan: TfrmLaporan
     end
   end
   object btnCetak: TButton
-    Left = 222
+    Left = 223
     Top = 431
     Width = 75
     Height = 25
     Caption = 'Cetak'
-    TabOrder = 4
+    TabOrder = 5
+    Visible = False
     OnClick = btnCetakClick
+  end
+  object pnlLapTransaksi: TPanel
+    Tag = 10
+    Left = 600
+    Top = 60
+    Width = 379
+    Height = 365
+    Caption = 'pnlLapMasterData'
+    TabOrder = 3
+    Visible = False
+    object ListBox1: TListBox
+      Left = 8
+      Top = 8
+      Width = 361
+      Height = 345
+      ItemHeight = 13
+      TabOrder = 0
+    end
   end
 end

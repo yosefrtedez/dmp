@@ -1,11 +1,15 @@
 inherited frmLaporan: TfrmLaporan
-  Caption = 'frmLaporan'
+  Caption = 'Laporan'
   ClientHeight = 552
-  ExplicitWidth = 894
+  ClientWidth = 952
+  OnCreate = FormCreate
+  ExplicitWidth = 952
   ExplicitHeight = 552
   PixelsPerInch = 96
   TextHeight = 13
   inherited Panel1: TPanel
+    Width = 952
+    ExplicitWidth = 952
     object Label1: TLabel
       Left = 10
       Top = 16
@@ -24,7 +28,7 @@ inherited frmLaporan: TfrmLaporan
     Left = 752
     Top = 416
     Align = alNone
-    TabOrder = 3
+    TabOrder = 4
     Visible = False
     ExplicitLeft = 752
     ExplicitTop = 416
@@ -45,22 +49,32 @@ inherited frmLaporan: TfrmLaporan
     BevelOuter = bvNone
     BorderStyle = bsNone
     TabOrder = 1
-    object Button1: TButton
+    object btnMasterData: TButton
       Left = 10
       Top = 6
       Width = 196
-      Height = 75
-      Caption = 'Button1'
+      Height = 43
+      Caption = 'Master Data'
       TabOrder = 0
+      OnClick = btnMasterDataClick
+    end
+    object btnTransaksi: TButton
+      Left = 10
+      Top = 55
+      Width = 196
+      Height = 43
+      Caption = 'Transaksi'
+      TabOrder = 1
+      OnClick = btnTransaksiClick
     end
   end
   object Panel3: TPanel
     Left = 0
     Top = 504
-    Width = 894
+    Width = 952
     Height = 48
     Align = alBottom
-    TabOrder = 4
+    TabOrder = 6
     object btnKeluar: TButton
       Left = 10
       Top = 11
@@ -71,54 +85,50 @@ inherited frmLaporan: TfrmLaporan
       OnClick = btnKeluarClick
     end
   end
-  object Panel4: TPanel
-    Left = 222
+  object pnlLapMasterData: TPanel
+    Tag = 10
+    Left = 215
     Top = 60
-    Width = 587
-    Height = 393
-    Caption = 'Panel4'
+    Width = 379
+    Height = 365
+    Caption = 'pnlLapMasterData'
     TabOrder = 2
-    object cxPageControl1: TcxPageControl
-      Left = 1
-      Top = 1
-      Width = 585
-      Height = 348
-      ActivePage = cxTabSheet2
-      Align = alTop
-      Style = 7
+    Visible = False
+    object lstBox01: TListBox
+      Left = 8
+      Top = 8
+      Width = 361
+      Height = 345
+      ItemHeight = 13
       TabOrder = 0
-      ClientRectBottom = 347
-      ClientRectLeft = 1
-      ClientRectRight = 584
-      ClientRectTop = 21
-      object cxTabSheet1: TcxTabSheet
-        Caption = 'Master Data '
-        ImageIndex = 0
-        ExplicitLeft = 94
-        ExplicitTop = 67
-        ExplicitWidth = 520
-        ExplicitHeight = 0
-        object lstBox01: TListBox
-          Left = 7
-          Top = 8
-          Width = 507
-          Height = 281
-          ItemHeight = 13
-          TabOrder = 0
-        end
-      end
-      object cxTabSheet2: TcxTabSheet
-        Caption = 'Transaksi '
-        ImageIndex = 1
-        object lstBox02: TListBox
-          Left = 7
-          Top = 8
-          Width = 507
-          Height = 281
-          ItemHeight = 13
-          TabOrder = 0
-        end
-      end
+    end
+  end
+  object btnCetak: TButton
+    Left = 222
+    Top = 431
+    Width = 75
+    Height = 25
+    Caption = 'Cetak'
+    TabOrder = 5
+    Visible = False
+    OnClick = btnCetakClick
+  end
+  object pnlLapTransaksi: TPanel
+    Tag = 10
+    Left = 600
+    Top = 60
+    Width = 379
+    Height = 365
+    Caption = 'pnlLapMasterData'
+    TabOrder = 3
+    Visible = False
+    object ListBox1: TListBox
+      Left = 8
+      Top = 8
+      Width = 361
+      Height = 345
+      ItemHeight = 13
+      TabOrder = 0
     end
   end
 end

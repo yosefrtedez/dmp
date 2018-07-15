@@ -73,7 +73,6 @@ begin
   inherited;
   HideAllPanel;
   pnlLapMasterData.Visible := True;
-  btnCetak.Visible := True;
 end;
 
 procedure TfrmLaporan.btnTransaksiClick(Sender: TObject);
@@ -81,7 +80,6 @@ begin
   inherited;
   HideAllPanel;
   pnlLapTransaksi.Visible := True;
-  btnCetak.Visible := True;
 end;
 
 procedure TfrmLaporan.CetakLapMasterBarang;
@@ -108,8 +106,10 @@ begin
       Continue
     else
       if Components[i].ClassName = 'TPanel' then
-        if Components[i].Tag = 10 then
+        if Components[i].Tag = 10 then begin
           (Components[i] as TPanel).Left := pnlLapMasterData.Left;
+
+
 
   lstBox01.Items.Add('Master Barang / Persediaan');
   lstBox01.Items.Add('Customer');

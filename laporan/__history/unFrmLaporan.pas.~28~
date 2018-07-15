@@ -31,7 +31,7 @@ type
     procedure FormCreate(Sender: TObject);
     procedure btnCetakClick(Sender: TObject);
   private
-    { Private declarations }
+    procedure CetakLapMasterBarang;
   public
     { Public declarations }
   end;
@@ -41,7 +41,7 @@ var
 
 implementation
 
-uses unDM;
+uses unDM, unFrmLogin, unFrmLapMasterData;
 
 {$R *.dfm}
 
@@ -49,14 +49,30 @@ procedure TfrmLaporan.btnCetakClick(Sender: TObject);
 begin
   inherited;
   if lstBox01.Visible then begin
-
+    if lstBox01.ItemIndex = 0 then begin
+      CetakLapMasterBarang;
+    end;
   end;
 end;
 
 procedure TfrmLaporan.btnKeluarClick(Sender: TObject);
+var
+  ts: TcxTabSheet;
 begin
-  inherited;
-  Close;
+  ts := (Self.parent as TcxTabSheet);
+  ts.Free;
+end;
+
+procedure TfrmLaporan.CetakLapMasterBarang;
+var
+  f: TfrmLapMasterData;
+begin
+  f := TfrmLapMasterData.Create(nil);
+  with f do begin
+    zqrMstBarang.Open;
+    rptMstBarang.ShowReport(True);
+  end;
+  f.Free;
 end;
 
 procedure TfrmLaporan.FormCreate(Sender: TObject);

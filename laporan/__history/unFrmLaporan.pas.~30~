@@ -21,17 +21,20 @@ type
     ScrollBox1: TScrollBox;
     Label1: TLabel;
     Panel3: TPanel;
-    Panel4: TPanel;
+    pnlLapMasterData: TPanel;
     btnKeluar: TButton;
     btnMasterData: TButton;
     btnTransaksi: TButton;
     lstBox01: TListBox;
     btnCetak: TButton;
+    pnlLapTransaksi: TPanel;
+    ListBox1: TListBox;
     procedure btnKeluarClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure btnCetakClick(Sender: TObject);
   private
-    { Private declarations }
+    procedure CetakLapMasterBarang;
+    procedure HideAllPanel;
   public
     { Public declarations }
   end;
@@ -41,7 +44,7 @@ var
 
 implementation
 
-uses unDM;
+uses unDM, unFrmLogin, unFrmLapMasterData;
 
 {$R *.dfm}
 
@@ -50,15 +53,29 @@ begin
   inherited;
   if lstBox01.Visible then begin
     if lstBox01.ItemIndex = 0 then begin
-
+      CetakLapMasterBarang;
     end;
   end;
 end;
 
 procedure TfrmLaporan.btnKeluarClick(Sender: TObject);
+var
+  ts: TcxTabSheet;
 begin
-  inherited;
-  Close;
+  ts := (Self.parent as TcxTabSheet);
+  ts.Free;
+end;
+
+procedure TfrmLaporan.CetakLapMasterBarang;
+var
+  f: TfrmLapMasterData;
+begin
+  f := TfrmLapMasterData.Create(nil);
+  with f do begin
+    zqrMstBarang.Open;
+    rptMstBarang.ShowReport(True);
+  end;
+  f.Free;
 end;
 
 procedure TfrmLaporan.FormCreate(Sender: TObject);

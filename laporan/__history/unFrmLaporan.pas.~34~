@@ -21,16 +21,22 @@ type
     ScrollBox1: TScrollBox;
     Label1: TLabel;
     Panel3: TPanel;
-    Panel4: TPanel;
+    pnlLapMasterData: TPanel;
     btnKeluar: TButton;
     btnMasterData: TButton;
     btnTransaksi: TButton;
     lstBox01: TListBox;
     btnCetak: TButton;
+    pnlLapTransaksi: TPanel;
+    ListBox1: TListBox;
     procedure btnKeluarClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
+    procedure btnCetakClick(Sender: TObject);
+    procedure btnMasterDataClick(Sender: TObject);
+    procedure btnTransaksiClick(Sender: TObject);
   private
-    { Private declarations }
+    procedure CetakLapMasterBarang;
+    procedure HideAllPanel;
   public
     { Public declarations }
   end;
@@ -40,22 +46,73 @@ var
 
 implementation
 
-uses unDM;
+uses unDM, unFrmLogin, unFrmLapMasterData;
 
 {$R *.dfm}
 
-procedure TfrmLaporan.btnKeluarClick(Sender: TObject);
+procedure TfrmLaporan.btnCetakClick(Sender: TObject);
 begin
   inherited;
-  Close;
+  if lstBox01.Visible then begin
+    if lstBox01.ItemIndex = 0 then begin
+      CetakLapMasterBarang;
+    end;
+  end;
+end;
+
+procedure TfrmLaporan.btnKeluarClick(Sender: TObject);
+var
+  ts: TcxTabSheet;
+begin
+  ts := (Self.parent as TcxTabSheet);
+  ts.Free;
+end;
+
+procedure TfrmLaporan.btnMasterDataClick(Sender: TObject);
+begin
+  inherited;
+  HideAllPanel;
+  pnlLapMasterData.Visible := True;
+end;
+
+procedure TfrmLaporan.btnTransaksiClick(Sender: TObject);
+begin
+  inherited;
+  HideAllPanel;
+  pnlLapTransaksi.Visible := True;
+end;
+
+procedure TfrmLaporan.CetakLapMasterBarang;
+var
+  f: TfrmLapMasterData;
+begin
+  f := TfrmLapMasterData.Create(nil);
+  with f do begin
+    zqrMstBarang.Open;
+    rptMstBarang.ShowReport(True);
+  end;
+  f.Free;
 end;
 
 procedure TfrmLaporan.FormCreate(Sender: TObject);
 begin
   inherited;
+  HideAllPanel;
+
+
   lstBox01.Items.Add('Master Barang / Persediaan');
   lstBox01.Items.Add('Customer');
   lstBox01.Items.Add('Supplier');
+end;
+
+procedure TfrmLaporan.HideAllPanel;
+var
+  i: integer;
+begin
+  for i := 0 to Self.ComponentCount - 1 do begin
+    if Components[i].Tag = 10 then
+      (Components[i] as TPanel).Visible := False;
+  end;
 end;
 
 end.

@@ -21,17 +21,22 @@ type
     ScrollBox1: TScrollBox;
     Label1: TLabel;
     Panel3: TPanel;
-    Panel4: TPanel;
+    pnlLapMasterData: TPanel;
     btnKeluar: TButton;
     btnMasterData: TButton;
     btnTransaksi: TButton;
     lstBox01: TListBox;
     btnCetak: TButton;
+    pnlLapTransaksi: TPanel;
+    ListBox1: TListBox;
     procedure btnKeluarClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure btnCetakClick(Sender: TObject);
+    procedure btnMasterDataClick(Sender: TObject);
+    procedure btnTransaksiClick(Sender: TObject);
   private
     procedure CetakLapMasterBarang;
+    procedure HideAllPanel;
   public
     { Public declarations }
   end;
@@ -56,9 +61,25 @@ begin
 end;
 
 procedure TfrmLaporan.btnKeluarClick(Sender: TObject);
+var
+  ts: TcxTabSheet;
+begin
+  ts := (Self.parent as TcxTabSheet);
+  ts.Free;
+end;
+
+procedure TfrmLaporan.btnMasterDataClick(Sender: TObject);
 begin
   inherited;
-  Close;
+  HideAllPanel;
+  pnlLapMasterData.Visible := True;
+end;
+
+procedure TfrmLaporan.btnTransaksiClick(Sender: TObject);
+begin
+  inherited;
+  HideAllPanel;
+  pnlLapTransaksi.Visible := True;
 end;
 
 procedure TfrmLaporan.CetakLapMasterBarang;
@@ -74,11 +95,35 @@ begin
 end;
 
 procedure TfrmLaporan.FormCreate(Sender: TObject);
+var
+  i: integer;
 begin
   inherited;
+  HideAllPanel;
+
+  for i := 0 to ComponentCount - 1 do
+    if Components[i].Name = 'pnlMasterData' then
+      Continue
+    else
+      if Components[i].ClassName = 'TPanel' then
+        if Components[i].Tag = 10 then
+          (Components[i] as TPanel).Left := pnlLapMasterData.Left;
+
+
+
   lstBox01.Items.Add('Master Barang / Persediaan');
   lstBox01.Items.Add('Customer');
   lstBox01.Items.Add('Supplier');
+end;
+
+procedure TfrmLaporan.HideAllPanel;
+var
+  i: integer;
+begin
+  for i := 0 to Self.ComponentCount - 1 do begin
+    if Components[i].Tag = 10 then
+      (Components[i] as TPanel).Visible := False;
+  end;
 end;
 
 end.

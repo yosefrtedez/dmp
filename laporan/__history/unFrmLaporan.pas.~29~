@@ -26,10 +26,13 @@ type
     btnMasterData: TButton;
     btnTransaksi: TButton;
     lstBox01: TListBox;
+    btnCetak: TButton;
     procedure btnKeluarClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
+    procedure btnCetakClick(Sender: TObject);
   private
-    { Private declarations }
+    procedure CetakLapMasterBarang;
+    procedure HideAllPanel;
   public
     { Public declarations }
   end;
@@ -39,20 +42,46 @@ var
 
 implementation
 
-uses unDM;
+uses unDM, unFrmLogin, unFrmLapMasterData;
 
 {$R *.dfm}
 
-procedure TfrmLaporan.btnKeluarClick(Sender: TObject);
+procedure TfrmLaporan.btnCetakClick(Sender: TObject);
 begin
   inherited;
-  Close;
+  if lstBox01.Visible then begin
+    if lstBox01.ItemIndex = 0 then begin
+      CetakLapMasterBarang;
+    end;
+  end;
+end;
+
+procedure TfrmLaporan.btnKeluarClick(Sender: TObject);
+var
+  ts: TcxTabSheet;
+begin
+  ts := (Self.parent as TcxTabSheet);
+  ts.Free;
+end;
+
+procedure TfrmLaporan.CetakLapMasterBarang;
+var
+  f: TfrmLapMasterData;
+begin
+  f := TfrmLapMasterData.Create(nil);
+  with f do begin
+    zqrMstBarang.Open;
+    rptMstBarang.ShowReport(True);
+  end;
+  f.Free;
 end;
 
 procedure TfrmLaporan.FormCreate(Sender: TObject);
 begin
   inherited;
   lstBox01.Items.Add('Master Barang / Persediaan');
+  lstBox01.Items.Add('Customer');
+  lstBox01.Items.Add('Supplier');
 end;
 
 end.
