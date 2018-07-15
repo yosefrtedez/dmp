@@ -84,6 +84,16 @@ inherited frmLstBarangKeluar: TfrmLstBarangKeluar
         Caption = 'User'
         DataBinding.FieldName = 'user'
       end
+      object cxtbBarangKeluarColumn1: TcxGridDBColumn
+        Caption = 'PPN'
+        DataBinding.FieldName = 'f_ppn'
+        PropertiesClassName = 'TcxCheckBoxProperties'
+        Properties.Alignment = taCenter
+        Properties.ValueChecked = 1
+        Properties.ValueUnchecked = 0
+        HeaderAlignmentHorz = taCenter
+        Width = 44
+      end
     end
     object cxTblDet: TcxGridDBTableView
       NavigatorButtons.ConfirmDelete = False
@@ -219,7 +229,7 @@ inherited frmLstBarangKeluar: TfrmLstBarangKeluar
     SQL.Strings = (
       
         'SELECT a.id, a.no_bukti,  a.tanggal, a.user, a.user_dept, a.kete' +
-        'rangan'
+        'rangan, a.f_ppn'
       'FROM tbl_trskeluar_head a')
     Params = <>
     Left = 647

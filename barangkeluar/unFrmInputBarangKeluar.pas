@@ -64,6 +64,9 @@ type
     cxsHargaTotal: TcxSpinEdit;
     cxLabel5: TcxLabel;
     cxdTglJthTempo: TcxDateEdit;
+    cxColJmlIkatPerBal: TcxGridColumn;
+    cxLabel6: TcxLabel;
+    cxCmbJenisTrs: TcxComboBox;
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure cxtbReturDataControllerRecordChanged(
@@ -146,6 +149,7 @@ begin
         qh.FieldByName('f_ppn').AsInteger := 1;
       if Trim(cxdTglJthTempo.Text) <> '' then
         qh.FieldByName('jatuh_tempo').AsDateTime := cxdTglJthTempo.Date;
+      qh.FieldByname('jenistrs').AsString := cxCmbJenisTrs.Text;
       qh.Post;
 
       if Self.Jenis = 'T' then  ID := LastInsertID;
@@ -316,6 +320,11 @@ begin
       ADataController.Values[ARecordIndex, cxColIdSatuan.Index] := q.FieldByName('id_satuan').AsInteger;
       ADataController.Values[ARecordIndex, cxColqty.Index] := '1';
       q.Close;
+
+      q := OpenRS('SELECT * FROM tbl_barang_det_spek WHERE id_ref = %s',
+        [ADataController.Values[ARecordIndex, cxColDeskripsi.Index]]);
+      ADataController.Values[ARecordIndex, cxColJmlIkatPerBal.Index] := q.FieldByName('jml_ikat_per_karung').AsFloat;
+      q.Close;
     finally
       cxtbBrgKeluar.EndUpdate
     end;
@@ -340,6 +349,10 @@ begin
   zqrSupplier.Open;
   zqrGudang.Open;
   zqrCust.Open;
+
+  cxCmbJenisTrs.Properties.Items.CommaText := 'PENJUALAN,MUTASI,LAIN-LAIN';
+  cxCmbJenisTrs.ItemIndex := 0;
+
 end;
 
 procedure TfrmInputBarangKeluar.FormShow(Sender: TObject);
@@ -364,8 +377,9 @@ begin
     if q.FieldByName('f_ppn').AsInteger = 1 then
       cxChkPPN.Checked := True;
     cxsDiskon.Value := q.FieldByname('diskon').AsFloat;
-
+    cxCmbJenisTrs.Text := q.FieldByName('jenistrs').AsString;
     q.Close;
+
     z := OpenRS('SELECT a.*, b.deskripsi, c.satuan satuan2 FROM tbl_trskeluar_det a ' +
       'left join tbl_barang b on a.id_brg = b.id ' +
       'LEFT JOIN tbl_satuan c on c.id = a.id_satuan ' +

@@ -1,16 +1,16 @@
 inherited frmInputBarangKeluar: TfrmInputBarangKeluar
-  Caption = 'Input Barang Keluar'
-  ClientHeight = 694
+  Caption = 'r'
+  ClientHeight = 733
   ClientWidth = 1165
   OnCreate = FormCreate
   OnShow = FormShow
   ExplicitWidth = 1165
-  ExplicitHeight = 694
+  ExplicitHeight = 733
   PixelsPerInch = 96
   TextHeight = 13
   inherited Panel1: TPanel
     Width = 1165
-    ExplicitWidth = 1142
+    ExplicitWidth = 1165
     object Label13: TLabel
       Left = 10
       Top = 13
@@ -26,11 +26,11 @@ inherited frmInputBarangKeluar: TfrmInputBarangKeluar
     end
   end
   inherited Panel2: TPanel
-    Top = 645
+    Top = 684
     Width = 1165
-    TabOrder = 22
-    ExplicitTop = 607
-    ExplicitWidth = 1142
+    TabOrder = 24
+    ExplicitTop = 645
+    ExplicitWidth = 1165
     inherited btnSimpan: TButton
       OnClick = btnSimpanClick
     end
@@ -71,11 +71,11 @@ inherited frmInputBarangKeluar: TfrmInputBarangKeluar
   end
   object cxgrdPP: TcxGrid
     Left = 10
-    Top = 200
+    Top = 231
     Width = 1147
     Height = 293
     Anchors = [akLeft, akTop, akRight]
-    TabOrder = 11
+    TabOrder = 13
     object cxtbBrgKeluar: TcxGridTableView
       NavigatorButtons.ConfirmDelete = False
       NavigatorButtons.Insert.Visible = False
@@ -127,6 +127,15 @@ inherited frmInputBarangKeluar: TfrmInputBarangKeluar
         Properties.ListSource = dsBarang
         Width = 237
       end
+      object cxColJmlIkatPerBal: TcxGridColumn
+        Caption = 'Jml. Ikat Per Bal'
+        PropertiesClassName = 'TcxSpinEditProperties'
+        Properties.Alignment.Horz = taRightJustify
+        Properties.DisplayFormat = '#,#0.00'
+        Properties.ReadOnly = True
+        HeaderAlignmentHorz = taRightJustify
+        Width = 89
+      end
       object cxColQty: TcxGridColumn
         Caption = 'Qty. Keluar'
         DataBinding.ValueType = 'Float'
@@ -135,7 +144,13 @@ inherited frmInputBarangKeluar: TfrmInputBarangKeluar
         Properties.DisplayFormat = '#,##.00'
         Properties.ReadOnly = False
         HeaderAlignmentHorz = taRightJustify
-        Width = 73
+        Width = 81
+      end
+      object cxColSatuan: TcxGridColumn
+        Caption = 'Satuan'
+        PropertiesClassName = 'TcxTextEditProperties'
+        Properties.ReadOnly = True
+        Width = 68
       end
       object cxColHarga: TcxGridColumn
         Caption = 'Harga Jual'
@@ -161,12 +176,6 @@ inherited frmInputBarangKeluar: TfrmInputBarangKeluar
           end>
         Properties.ListSource = dsGudang
         Width = 80
-      end
-      object cxColSatuan: TcxGridColumn
-        Caption = 'Satuan'
-        PropertiesClassName = 'TcxTextEditProperties'
-        Properties.ReadOnly = True
-        Width = 82
       end
       object cxColKeterangan: TcxGridColumn
         Caption = 'Keterangan'
@@ -212,61 +221,28 @@ inherited frmInputBarangKeluar: TfrmInputBarangKeluar
   end
   object cxLabel2: TcxLabel
     Left = 824
-    Top = 500
+    Top = 531
     Caption = 'Diskon (%)'
   end
   object cxsDiskon: TcxSpinEdit
     Left = 912
-    Top = 499
+    Top = 530
     Properties.Alignment.Horz = taRightJustify
     Properties.DisplayFormat = '#,#0.00'
     Properties.MaxValue = 100.000000000000000000
     Properties.ValueType = vtFloat
     Properties.OnChange = cxsDiskonPropertiesChange
-    TabOrder = 12
+    TabOrder = 14
     Width = 121
   end
   object DPP: TcxLabel
     Left = 824
-    Top = 527
+    Top = 558
     Caption = 'Setelah Diskon'
   end
   object cxsStlhDiskon: TcxSpinEdit
     Left = 912
-    Top = 526
-    Properties.Alignment.Horz = taRightJustify
-    Properties.DisplayFormat = '#,#0.00'
-    Properties.MaxValue = 100.000000000000000000
-    Properties.ValueType = vtFloat
-    TabOrder = 14
-    Width = 121
-  end
-  object cxsPPN: TcxSpinEdit
-    Left = 912
-    Top = 580
-    Properties.Alignment.Horz = taRightJustify
-    Properties.DisplayFormat = '#,#0.00'
-    Properties.MaxValue = 100.000000000000000000
-    Properties.ValueType = vtFloat
-    TabOrder = 19
-    Width = 121
-  end
-  object cxChkPPN: TcxCheckBox
-    Left = 824
-    Top = 580
-    Caption = 'PPN (10%)'
-    TabOrder = 18
-    OnClick = cxChkPPNClick
-    Width = 82
-  end
-  object cxLabel3: TcxLabel
-    Left = 824
-    Top = 554
-    Caption = 'DPP'
-  end
-  object cxsDPP: TcxSpinEdit
-    Left = 912
-    Top = 553
+    Top = 557
     Properties.Alignment.Horz = taRightJustify
     Properties.DisplayFormat = '#,#0.00'
     Properties.MaxValue = 100.000000000000000000
@@ -274,19 +250,52 @@ inherited frmInputBarangKeluar: TfrmInputBarangKeluar
     TabOrder = 16
     Width = 121
   end
-  object cxLabel4: TcxLabel
-    Left = 824
-    Top = 608
-    Caption = 'Harga Total'
-  end
-  object cxsHargaTotal: TcxSpinEdit
+  object cxsPPN: TcxSpinEdit
     Left = 912
-    Top = 607
+    Top = 611
     Properties.Alignment.Horz = taRightJustify
     Properties.DisplayFormat = '#,#0.00'
     Properties.MaxValue = 100.000000000000000000
     Properties.ValueType = vtFloat
+    TabOrder = 21
+    Width = 121
+  end
+  object cxChkPPN: TcxCheckBox
+    Left = 824
+    Top = 611
+    Caption = 'PPN (10%)'
     TabOrder = 20
+    OnClick = cxChkPPNClick
+    Width = 82
+  end
+  object cxLabel3: TcxLabel
+    Left = 824
+    Top = 585
+    Caption = 'DPP'
+  end
+  object cxsDPP: TcxSpinEdit
+    Left = 912
+    Top = 584
+    Properties.Alignment.Horz = taRightJustify
+    Properties.DisplayFormat = '#,#0.00'
+    Properties.MaxValue = 100.000000000000000000
+    Properties.ValueType = vtFloat
+    TabOrder = 18
+    Width = 121
+  end
+  object cxLabel4: TcxLabel
+    Left = 824
+    Top = 639
+    Caption = 'Harga Total'
+  end
+  object cxsHargaTotal: TcxSpinEdit
+    Left = 912
+    Top = 638
+    Properties.Alignment.Horz = taRightJustify
+    Properties.DisplayFormat = '#,#0.00'
+    Properties.MaxValue = 100.000000000000000000
+    Properties.ValueType = vtFloat
+    TabOrder = 22
     Width = 121
   end
   object cxLabel5: TcxLabel
@@ -298,6 +307,18 @@ inherited frmInputBarangKeluar: TfrmInputBarangKeluar
     Left = 112
     Top = 169
     TabOrder = 9
+    Width = 146
+  end
+  object cxLabel6: TcxLabel
+    Left = 11
+    Top = 197
+    Caption = 'Jenis Transaksi'
+  end
+  object cxCmbJenisTrs: TcxComboBox
+    Left = 112
+    Top = 196
+    Properties.DropDownListStyle = lsEditFixedList
+    TabOrder = 11
     Width = 146
   end
   object zqrSupplier: TZReadOnlyQuery
@@ -354,7 +375,6 @@ inherited frmInputBarangKeluar: TfrmInputBarangKeluar
   object zqrCust: TZReadOnlyQuery
     Connection = DM.zConn
     AutoCalcFields = False
-    Active = True
     SQL.Strings = (
       'select id, kode, nama '
       'from tbl_customer order by nama')

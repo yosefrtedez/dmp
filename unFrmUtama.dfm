@@ -266,6 +266,7 @@ object frmUtama: TfrmUtama
     end
     object mnLap: TMenuItem
       Caption = 'Laporan'
+      OnClick = mnLapClick
     end
   end
 end

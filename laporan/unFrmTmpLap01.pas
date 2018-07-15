@@ -13,6 +13,7 @@ type
     dsSJ01: TDataSource;
     fdbSJ01: TfrxDBDataset;
     rptFakturPenjualan: TfrxReport;
+    rptFakturPenjualanNonPPN: TfrxReport;
   private
     { Private declarations }
   public

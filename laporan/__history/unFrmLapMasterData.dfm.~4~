@@ -1,0 +1,199 @@
+object frmLapMasterData: TfrmLapMasterData
+  Left = 0
+  Top = 0
+  Caption = 'Laporan Master Data'
+  ClientHeight = 299
+  ClientWidth = 635
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  OldCreateOrder = False
+  PixelsPerInch = 96
+  TextHeight = 13
+  object rptMstBarang: TfrxReport
+    Version = '4.12.6'
+    DotMatrixReport = False
+    IniFile = '\Software\Fast Reports'
+    PreviewOptions.Buttons = [pbPrint, pbLoad, pbSave, pbExport, pbZoom, pbFind, pbOutline, pbPageSetup, pbTools, pbEdit, pbNavigator, pbExportQuick]
+    PreviewOptions.Zoom = 1.000000000000000000
+    PrintOptions.Printer = 'Default'
+    PrintOptions.PrintOnSheet = 0
+    ReportOptions.CreateDate = 43290.646343148200000000
+    ReportOptions.LastChange = 43290.646343148200000000
+    ScriptLanguage = 'PascalScript'
+    ScriptText.Strings = (
+      'begin'
+      ''
+      'end.')
+    Left = 24
+    Top = 16
+    Datasets = <
+      item
+        DataSet = fdbMstBarang
+        DataSetName = 'fdbMstBarang'
+      end>
+    Variables = <>
+    Style = <>
+    object Data: TfrxDataPage
+      Height = 1000.000000000000000000
+      Width = 1000.000000000000000000
+    end
+    object Page1: TfrxReportPage
+      PaperWidth = 210.000000000000000000
+      PaperHeight = 297.000000000000000000
+      PaperSize = 9
+      LeftMargin = 5.000000000000000000
+      RightMargin = 5.000000000000000000
+      TopMargin = 5.000000000000000000
+      BottomMargin = 5.000000000000000000
+      object ReportTitle1: TfrxReportTitle
+        Height = 37.795300000000000000
+        Top = 18.897650000000000000
+        Width = 755.906000000000000000
+        object Memo1: TfrxMemoView
+          Left = 11.338590000000000000
+          Top = 7.559060000000000000
+          Width = 298.582870000000000000
+          Height = 18.897650000000000000
+          ShowHint = False
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -16
+          Font.Name = 'Arial'
+          Font.Style = [fsBold]
+          Memo.UTF8W = (
+            'Master Barang / Persediaan')
+          ParentFont = False
+        end
+      end
+      object MasterData1: TfrxMasterData
+        Height = 22.677180000000000000
+        Top = 173.858380000000000000
+        Width = 755.906000000000000000
+        DataSet = fdbMstBarang
+        DataSetName = 'fdbMstBarang'
+        RowCount = 0
+        object Line: TfrxMemoView
+          Width = 30.236240000000000000
+          Height = 18.897650000000000000
+          ShowHint = False
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -11
+          Font.Name = 'Arial'
+          Font.Style = []
+          Memo.UTF8W = (
+            '[Line#]')
+          ParentFont = False
+        end
+        object fdbMstBarangdeskripsi: TfrxMemoView
+          Left = 128.504020000000000000
+          Width = 302.362400000000000000
+          Height = 18.897650000000000000
+          ShowHint = False
+          DataField = 'deskripsi'
+          DataSet = fdbMstBarang
+          DataSetName = 'fdbMstBarang'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -11
+          Font.Name = 'Arial'
+          Font.Style = []
+          Memo.UTF8W = (
+            '[fdbMstBarang."deskripsi"]')
+          ParentFont = False
+        end
+      end
+      object PageHeader1: TfrxPageHeader
+        Height = 34.015770000000000000
+        Top = 79.370130000000000000
+        Width = 755.906000000000000000
+        object Memo2: TfrxMemoView
+          Left = 34.015770000000000000
+          Top = 3.779530000000000000
+          Width = 94.488250000000000000
+          Height = 18.897650000000000000
+          ShowHint = False
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -11
+          Font.Name = 'Arial'
+          Font.Style = []
+          Memo.UTF8W = (
+            'Kode')
+          ParentFont = False
+        end
+        object Line1: TfrxLineView
+          Width = 752.126470000000000000
+          ShowHint = False
+          Diagonal = True
+        end
+        object Memo3: TfrxMemoView
+          Top = 3.779530000000000000
+          Width = 30.236240000000000000
+          Height = 18.897650000000000000
+          ShowHint = False
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -11
+          Font.Name = 'Arial'
+          Font.Style = []
+          Memo.UTF8W = (
+            'No.')
+          ParentFont = False
+        end
+        object Memo4: TfrxMemoView
+          Left = 132.283550000000000000
+          Top = 3.779530000000000000
+          Width = 298.582870000000000000
+          Height = 18.897650000000000000
+          ShowHint = False
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -11
+          Font.Name = 'Arial'
+          Font.Style = []
+          Memo.UTF8W = (
+            'Deskripsi')
+          ParentFont = False
+        end
+      end
+    end
+  end
+  object zqrMstBarang: TZReadOnlyQuery
+    Connection = DM.zConn
+    Active = True
+    SQL.Strings = (
+      'SELECT a.id, a.deskripsi, '
+      'b.satuan, '
+      'c.kategori'
+      ' FROM '
+      'tbl_barang a'
+      'LEFT JOIN tbl_satuan b ON a.id_satuan = b.id'
+      'LEFT JOIN tbl_kategori_brg c ON c.id = a.id_kategori')
+    Params = <>
+    Left = 104
+    Top = 16
+  end
+  object dsMstBarang: TDataSource
+    DataSet = zqrMstBarang
+    Left = 184
+    Top = 16
+  end
+  object fdbMstBarang: TfrxDBDataset
+    UserName = 'fdbMstBarang'
+    CloseDataSource = False
+    FieldAliases.Strings = (
+      'id=id'
+      'deskripsi=deskripsi'
+      'satuan=satuan'
+      'kategori=kategori')
+    DataSet = zqrMstBarang
+    BCDToCurrency = True
+    Left = 264
+    Top = 16
+  end
+end

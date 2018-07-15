@@ -110,6 +110,7 @@ type
     procedure mnPur_AppReturPembelianClick(Sender: TObject);
     procedure mnWhl_BarangMasukClick(Sender: TObject);
     procedure mnWhl_BarangKeluarClick(Sender: TObject);
+    procedure mnLapClick(Sender: TObject);
   private
     procedure PGChange(Sender: TObject);
   public
@@ -134,7 +135,8 @@ uses
   unFrmLstPenerimaanKas, unFrmAppPP, unFrmInputPO, unFrmLstPO, unFrmLstPB,
   unFrmLstPengeluaranKas, unFrmLstTransferBarang, unFrmLstSales,
   unFrmLstFormula, unFrmAppPO, unFrmLstReturPembelian, unFrmAppRetur,
-  unFrmInputBarangMasuk, unFrmLstBarangMasuk, unFrmLstBarangKeluar;
+  unFrmInputBarangMasuk, unFrmLstBarangMasuk, unFrmLstBarangKeluar,
+  unFrmLaporan;
 
 {$R *.dfm}
 
@@ -259,6 +261,25 @@ begin
     ts.PageControl := pgMain;
 
     f := TfrmDefaultAkun.Create(Self);
+    f.Parent := ts;
+    ts.Caption := f.Caption;
+    f.Show;
+
+    pgMain.ActivePage := ts;
+  end;
+end;
+
+procedure TfrmUtama.mnLapClick(Sender: TObject);
+var
+  f: TfrmLaporan;
+  ts: TcxTabSheet;
+begin
+  if not CekTabOpen('Laporan') then begin
+    ToggleMainPage;
+    ts := TcxTabSheet.Create(Self);
+    ts.PageControl := pgMain;
+
+    f := TfrmLaporan.Create(Self);
     f.Parent := ts;
     ts.Caption := f.Caption;
     f.Show;

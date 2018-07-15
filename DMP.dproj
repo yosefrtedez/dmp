@@ -219,6 +219,9 @@
 			<DCCReference Include="laporan\unFrmTmpLap01.pas">
 				<Form>frmTmpLap01</Form>
 			</DCCReference>
+			<DCCReference Include="laporan\unFrmLapMasterData.pas">
+				<Form>frmLapMasterData</Form>
+			</DCCReference>
 			<BuildConfiguration Include="Base">
 				<Key>Base</Key>
 			</BuildConfiguration>

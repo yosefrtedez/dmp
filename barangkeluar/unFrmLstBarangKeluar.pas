@@ -57,6 +57,7 @@ type
     cxColPODetsatuan: TcxGridDBColumn;
     cxtbBarangKeluarDetColumn1: TcxGridDBColumn;
     Button1: TButton;
+    cxtbBarangKeluarColumn1: TcxGridDBColumn;
     procedure btnTambahClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure btnRefreshClick(Sender: TObject);
@@ -140,7 +141,10 @@ begin
   with f do begin
     zqrSJ01.ParamByName('id').AsInteger := zqrBarangKeluar.FieldByName('id').AsInteger;
     rptSJ01.ShowReport(True);
-    rptFakturPenjualan.ShowReport(True);
+    if zqrBarangKeluar.FieldByName('f_ppn').AsInteger = 1 then
+      rptFakturPenjualan.ShowReport(True)
+    else
+      rptFakturPenjualanNonPPN.ShowReport(True);
   end;
 end;
 
