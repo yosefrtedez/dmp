@@ -48,6 +48,10 @@ type
     cxGrid1DBTableView1tanggal: TcxGridDBColumn;
     cxGrid1DBTableView1kode_customer: TcxGridDBColumn;
     cxGrid1DBTableView1nama_customer: TcxGridDBColumn;
+    Panel5: TPanel;
+    cxtbSPK: TcxGridDBTableView;
+    cxGrid2Level1: TcxGridLevel;
+    cxGrid2: TcxGrid;
     procedure btnProsesClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
   private

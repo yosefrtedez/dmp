@@ -94,5 +94,13 @@
     <Transaction>2018/07/09 14.15.07.722.dfm,D:\108 JSP\My Project\05. Felgito\02. Source Code\Unit1.dfm=D:\108 JSP\My Project\05. Felgito\02. Source Code\laporan\unFrmTmpLap01.dfm</Transaction>
     <Transaction>2018/07/15 16.59.34.670.pas,D:\108 JSP\My Project\05. Felgito\02. Source Code\Unit1.pas=D:\108 JSP\My Project\05. Felgito\02. Source Code\laporan\unFrmLapMasterData.pas</Transaction>
     <Transaction>2018/07/15 16.59.34.670.dfm,D:\108 JSP\My Project\05. Felgito\02. Source Code\Unit1.dfm=D:\108 JSP\My Project\05. Felgito\02. Source Code\laporan\unFrmLapMasterData.dfm</Transaction>
+    <Transaction>2018/07/16 14.33.01.705.pas,D:\108 JSP\My Project\05. Felgito\02. Source Code\Unit1.pas=D:\108 JSP\My Project\05. Felgito\02. Source Code\laporan\unFLapParam.pas</Transaction>
+    <Transaction>2018/07/16 14.33.01.705.dfm,D:\108 JSP\My Project\05. Felgito\02. Source Code\Unit1.dfm=D:\108 JSP\My Project\05. Felgito\02. Source Code\laporan\unFLapParam.dfm</Transaction>
+    <Transaction>2018/07/16 15.13.00.020.pas,D:\108 JSP\My Project\05. Felgito\02. Source Code\Unit1.pas=D:\108 JSP\My Project\05. Felgito\02. Source Code\laporan\unFrmLapTransaksi.pas</Transaction>
+    <Transaction>2018/07/16 15.13.00.020.dfm,D:\108 JSP\My Project\05. Felgito\02. Source Code\Unit1.dfm=D:\108 JSP\My Project\05. Felgito\02. Source Code\laporan\unFrmLapTransaksi.dfm</Transaction>
+    <Transaction>2018/07/17 15.15.05.032.pas,D:\108 JSP\My Project\05. Felgito\02. Source Code\Unit1.pas=D:\108 JSP\My Project\05. Felgito\02. Source Code\barangkeluar\unFrmPilihHarga.pas</Transaction>
+    <Transaction>2018/07/17 15.15.05.032.dfm,D:\108 JSP\My Project\05. Felgito\02. Source Code\Unit1.dfm=D:\108 JSP\My Project\05. Felgito\02. Source Code\barangkeluar\unFrmPilihHarga.dfm</Transaction>
+    <Transaction>2018/07/29 20.53.56.359.pas,D:\108 JSP\My Project\05. Felgito\02. Source Code\Unit1.pas=D:\108 JSP\My Project\05. Felgito\02. Source Code\spk\unFrmSPK.pas</Transaction>
+    <Transaction>2018/07/29 20.53.56.359.dfm,D:\108 JSP\My Project\05. Felgito\02. Source Code\Unit1.dfm=D:\108 JSP\My Project\05. Felgito\02. Source Code\spk\unFrmSPK.dfm</Transaction>
   </Transactions>
 </BorlandProject>

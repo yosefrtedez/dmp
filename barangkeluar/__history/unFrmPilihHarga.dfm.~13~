@@ -1,0 +1,65 @@
+object frmPilihHarga: TfrmPilihHarga
+  Left = 0
+  Top = 0
+  BorderIcons = [biSystemMenu]
+  BorderStyle = bsSingle
+  Caption = 'Pilih Harga'
+  ClientHeight = 217
+  ClientWidth = 300
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  OldCreateOrder = False
+  OnShow = FormShow
+  PixelsPerInch = 96
+  TextHeight = 13
+  object cxGrid1: TcxGrid
+    Left = 8
+    Top = 8
+    Width = 281
+    Height = 169
+    TabOrder = 0
+    object cxtbHarga: TcxGridDBTableView
+      NavigatorButtons.ConfirmDelete = False
+      DataController.Summary.DefaultGroupSummaryItems = <>
+      DataController.Summary.FooterSummaryItems = <>
+      DataController.Summary.SummaryGroups = <>
+      OptionsData.Appending = True
+      OptionsData.Editing = False
+      OptionsData.Inserting = False
+      OptionsView.GroupByBox = False
+      object cxColJenis: TcxGridDBColumn
+        Caption = 'Jenis Harga'
+        Width = 101
+      end
+      object cxColHarga: TcxGridDBColumn
+        Caption = 'Harga'
+        PropertiesClassName = 'TcxSpinEditProperties'
+        Properties.DisplayFormat = '#,#0.00'
+        Width = 136
+      end
+    end
+    object cxGrid1Level1: TcxGridLevel
+      GridView = cxtbHarga
+    end
+  end
+  object Button1: TButton
+    Left = 8
+    Top = 183
+    Width = 75
+    Height = 25
+    Caption = 'Pilih'
+    TabOrder = 1
+  end
+  object Button2: TButton
+    Left = 89
+    Top = 183
+    Width = 75
+    Height = 25
+    Caption = 'Batal'
+    TabOrder = 2
+  end
+end

@@ -114,6 +114,16 @@ type
     cxtbBarangDetkode: TcxGridDBColumn;
     cxtbBarangDetuser: TcxGridDBColumn;
     cxtbBarangDetuser_dept: TcxGridDBColumn;
+    Panel4: TPanel;
+    cxtbStokGudang: TcxGridDBTableView;
+    cxGrid2Level1: TcxGridLevel;
+    cxGrid2: TcxGrid;
+    cxLabel2: TcxLabel;
+    zqrDetGudang: TZReadOnlyQuery;
+    dsDetGudang: TDataSource;
+    cxtbStokGudangstok: TcxGridDBColumn;
+    cxtbStokGudangnama: TcxGridDBColumn;
+    cxtbStokGudangColumn1: TcxGridDBColumn;
     procedure Button1Click(Sender: TObject);
     procedure btnTambahClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -151,7 +161,7 @@ begin
     f := TfrmInputBarangJasa.Create(Self);
     f.Caption := 'Edit Barang Jasa';
     f.Jenis := 'E';
-    f.EditKey := zqrBarang.FieldByName('kode').AsString;
+    f.EditKey := zqrBarang.FieldByName('id').AsString;
     f.Parent := ts;
     ts.Caption := f.Caption;
     f.Show;
@@ -246,6 +256,11 @@ begin
   with zqrBarangDet do begin
     Close;
     ParamByName('id_brg').AsInteger := zqrBarang.FieldByName('id').AsInteger;
+  end;
+  with zqrDetGudang do begin
+    Close;
+    ParamByName('id_brg').AsInteger := zqrBarang.FieldByName('id').AsInteger;
+    Open;
   end;
 end;
 

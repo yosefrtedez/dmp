@@ -57,6 +57,7 @@ type
     cxColTblTrsMasukHeadtanggal: TcxGridDBColumn;
     cxColTblTrsMasukHeaduser: TcxGridDBColumn;
     cxColTblTrsMasukHeaduser_dept: TcxGridDBColumn;
+    cxTblTrsMasukHeadColumn1: TcxGridDBColumn;
     procedure btnTambahClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure btnRefreshClick(Sender: TObject);

@@ -1,0 +1,25 @@
+unit unFrmSPK;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, unFrmTplInput, StdCtrls, ExtCtrls;
+
+type
+  TfrmSPK = class(TfrmTplInput)
+    Label13: TLabel;
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmSPK: TfrmSPK;
+
+implementation
+
+{$R *.dfm}
+
+end.

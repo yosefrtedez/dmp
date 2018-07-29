@@ -80,6 +80,11 @@ inherited frmLstBarangMasuk: TfrmLstBarangMasuk
         DataBinding.FieldName = 'user_dept'
         Options.Editing = False
       end
+      object cxTblTrsMasukHeadColumn1: TcxGridDBColumn
+        Caption = 'Jenis Transaksi'
+        DataBinding.FieldName = 'jenistrs'
+        Width = 155
+      end
     end
     object cxTblDet: TcxGridDBTableView
       NavigatorButtons.ConfirmDelete = False

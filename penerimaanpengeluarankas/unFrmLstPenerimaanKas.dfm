@@ -20,7 +20,7 @@ inherited frmLstPenerimaanKas: TfrmLstPenerimaanKas
     end
   end
   inherited Panel2: TPanel
-    TabOrder = 2
+    TabOrder = 4
     inherited btnTambah: TButton
       OnClick = btnTambahClick
     end
@@ -39,9 +39,10 @@ inherited frmLstPenerimaanKas: TfrmLstPenerimaanKas
     Left = 0
     Top = 49
     Width = 1016
-    Height = 410
+    Height = 169
     Align = alClient
     TabOrder = 1
+    ExplicitHeight = 410
     object cxtbPK: TcxGridDBTableView
       NavigatorButtons.ConfirmDelete = False
       DataController.DataSource = dsPK
@@ -84,6 +85,37 @@ inherited frmLstPenerimaanKas: TfrmLstPenerimaanKas
     end
     object cxGrid1Level1: TcxGridLevel
       GridView = cxtbPK
+    end
+  end
+  object Panel3: TPanel
+    Left = 0
+    Top = 218
+    Width = 1016
+    Height = 41
+    Align = alBottom
+    TabOrder = 2
+    ExplicitLeft = 504
+    ExplicitTop = 368
+    ExplicitWidth = 185
+  end
+  object cxGrid2: TcxGrid
+    Left = 0
+    Top = 259
+    Width = 1016
+    Height = 200
+    Align = alBottom
+    TabOrder = 3
+    ExplicitLeft = 448
+    ExplicitTop = 304
+    ExplicitWidth = 250
+    object cxGrid2DBTableView1: TcxGridDBTableView
+      NavigatorButtons.ConfirmDelete = False
+      DataController.Summary.DefaultGroupSummaryItems = <>
+      DataController.Summary.FooterSummaryItems = <>
+      DataController.Summary.SummaryGroups = <>
+    end
+    object cxGrid2Level1: TcxGridLevel
+      GridView = cxGrid2DBTableView1
     end
   end
   object zqrPK: TZReadOnlyQuery

@@ -34,6 +34,10 @@ type
     cxtbPKmemo: TcxGridDBColumn;
     cxtbPKuser: TcxGridDBColumn;
     cxtbPKf_posting: TcxGridDBColumn;
+    Panel3: TPanel;
+    cxGrid2DBTableView1: TcxGridDBTableView;
+    cxGrid2Level1: TcxGridLevel;
+    cxGrid2: TcxGrid;
     procedure btnTambahClick(Sender: TObject);
     procedure btnRefreshClick(Sender: TObject);
     procedure btnEditClick(Sender: TObject);

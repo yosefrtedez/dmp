@@ -67,6 +67,12 @@ type
     cxColJmlIkatPerBal: TcxGridColumn;
     cxLabel6: TcxLabel;
     cxCmbJenisTrs: TcxComboBox;
+    cxLabel7: TcxLabel;
+    cxtNoSJ: TcxTextEdit;
+    btnPilihHarga: TButton;
+    cxLabel8: TcxLabel;
+    cxtNoFaktur: TcxTextEdit;
+    cxColQtyKG: TcxGridColumn;
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure cxtbReturDataControllerRecordChanged(
@@ -79,6 +85,8 @@ type
     procedure btnSimpanClick(Sender: TObject);
     procedure cxChkPPNClick(Sender: TObject);
     procedure cxsDiskonPropertiesChange(Sender: TObject);
+    procedure cxCmbJenisTrsPropertiesChange(Sender: TObject);
+    procedure btnPilihHargaClick(Sender: TObject);
   private
     procedure HitungTotal;
   public
@@ -90,9 +98,26 @@ var
 
 implementation
 
-uses unDM, unTools;
+uses unDM, unTools, unFrmPilihHarga;
 
 {$R *.dfm}
+
+procedure TfrmInputBarangKeluar.btnPilihHargaClick(Sender: TObject);
+var
+  f: TfrmPilihHarga;
+  i: integer;
+begin
+  inherited;
+  if cxtbBrgKeluar.DataController.RecordCount = 0 then Abort;
+
+  i := cxtbBrgKeluar.DataController.GetFocusedRecordIndex;
+  f := TfrmPilihHarga.Create(Self);
+  f.ID := cxtbBrgKeluar.DataController.Values[i, cxColDeskripsi.Index];
+  if f.ShowModal = mrOk then begin
+    cxtbBrgKeluar.DataController.Values[i, cxColHarga.Index] := f.Harga;
+  end;
+  f.Free;
+end;
 
 procedure TfrmInputBarangKeluar.btnSimpanClick(Sender: TObject);
 var
@@ -105,7 +130,8 @@ begin
   inherited;
 
   if (cxtbBrgKeluar.DataController.EditState = [dceInsert, dceModified]) or (cxtbBrgKeluar.DataController.EditState = [dceEdit, dceModified]) then begin
-    MsgBox('Mohon selesaikan pengeditan detail sebelum disimpan.');
+    MsgBox('Mohon selesaikan pengeditan detail sebelum disimpan. ' + Chr(10) + Chr(13) +
+      'Klik tombol centang hijau.');
     Abort;
   end;
 
@@ -150,6 +176,7 @@ begin
       if Trim(cxdTglJthTempo.Text) <> '' then
         qh.FieldByName('jatuh_tempo').AsDateTime := cxdTglJthTempo.Date;
       qh.FieldByname('jenistrs').AsString := cxCmbJenisTrs.Text;
+      qh.FieldByName('no_faktur').AsString := Trim(cxtNoFaktur.Text);
       qh.Post;
 
       if Self.Jenis = 'T' then  ID := LastInsertID;
@@ -178,6 +205,8 @@ begin
           end;
           if not VarIsNull(Values[i, cxColHarga.Index]) then
             qd.FieldByName('hrgjual').AsFloat := Values[i, cxColHarga.Index];
+          if not VarIsNull(Values[i, cxColQtyKG.Index]) then
+            qd.FieldByName('qty_kg').AsFloat := Values[i,cxColQtyKG.Index];
           qd.Post;
 
           with qhst do begin
@@ -190,7 +219,8 @@ begin
             FieldByName('tipe').AsString := 'o';
             FieldByName('id_satuan').AsInteger := Values[i, cxColIdSatuan.Index];
             FieldByname('id_gdg').AsInteger := Values[i, cxColGudang.Index];
-            FieldByName('keterangan').AsString := Values[i, cxColKeterangan.Index];
+            if not VarIsNull(Values[i, cxColKeterangan.Index]) then
+              FieldByName('keterangan').AsString := Values[i, cxColKeterangan.Index];
             FieldByName('tgl_input').AsDateTime := Aplikasi.NowServer;
             Post;
           end;
@@ -242,6 +272,16 @@ begin
     cxsPPN.Value := 0;
 
   HitungTotal;
+end;
+
+procedure TfrmInputBarangKeluar.cxCmbJenisTrsPropertiesChange(Sender: TObject);
+begin
+  inherited;
+  if cxCmbJenisTrs.Text = 'PENJUALAN' then begin
+    zqrBarang.Close;
+    zqrBarang.SQL.Strings[2] := 'WHERE f_dijual = 1';
+    zqrBarang.Open;
+  end;
 end;
 
 procedure TfrmInputBarangKeluar.cxColNoGetDisplayText(
@@ -350,7 +390,7 @@ begin
   zqrGudang.Open;
   zqrCust.Open;
 
-  cxCmbJenisTrs.Properties.Items.CommaText := 'PENJUALAN,MUTASI,LAIN-LAIN';
+  cxCmbJenisTrs.Properties.Items.CommaText := ',PENJUALAN,"RETUR PENJUALAN",MUTASI,LAIN-LAIN';
   cxCmbJenisTrs.ItemIndex := 0;
 
 end;
@@ -378,6 +418,8 @@ begin
       cxChkPPN.Checked := True;
     cxsDiskon.Value := q.FieldByname('diskon').AsFloat;
     cxCmbJenisTrs.Text := q.FieldByName('jenistrs').AsString;
+    cxtNoSJ.Text := q.FieldByName('no_sj').AsString;
+    cxtNoFaktur.Text := q.FieldByName('no_faktur').AsString;
     q.Close;
 
     z := OpenRS('SELECT a.*, b.deskripsi, c.satuan satuan2 FROM tbl_trskeluar_det a ' +
@@ -400,6 +442,7 @@ begin
         Values[i, cxColHarga.Index] := z.FieldByname('hrgjual').AsFloat;
         Values[i, cxColTotal.Index] := z.FieldByname('hrgjual').AsFloat * z.FieldByname('qty').AsFloat;
         Values[i, cxColGudang.Index] := z.FieldByName('id_gdg').AsInteger;
+        Values[i, cxColQtyKG.Index] := z.FieldByName('qty_kg').AsFloat;
         nomer := nomer +1;
       end;
       z.Next;

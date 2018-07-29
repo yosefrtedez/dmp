@@ -94,6 +94,21 @@ inherited frmLstBarangKeluar: TfrmLstBarangKeluar
         HeaderAlignmentHorz = taCenter
         Width = 44
       end
+      object cxtbBarangKeluarColumn4: TcxGridDBColumn
+        Caption = 'Jenis Transaksi'
+        DataBinding.FieldName = 'jenistrs'
+        Width = 210
+      end
+      object cxtbBarangKeluarColumn2: TcxGridDBColumn
+        Caption = 'No. Surat Jalan'
+        DataBinding.FieldName = 'no_sj'
+        Width = 131
+      end
+      object cxtbBarangKeluarColumn3: TcxGridDBColumn
+        Caption = 'No. Faktur'
+        DataBinding.FieldName = 'no_faktur'
+        Width = 183
+      end
     end
     object cxTblDet: TcxGridDBTableView
       NavigatorButtons.ConfirmDelete = False
@@ -229,7 +244,7 @@ inherited frmLstBarangKeluar: TfrmLstBarangKeluar
     SQL.Strings = (
       
         'SELECT a.id, a.no_bukti,  a.tanggal, a.user, a.user_dept, a.kete' +
-        'rangan, a.f_ppn'
+        'rangan, a.f_ppn, a.no_sj, a.no_faktur, a.jenistrs'
       'FROM tbl_trskeluar_head a')
     Params = <>
     Left = 647

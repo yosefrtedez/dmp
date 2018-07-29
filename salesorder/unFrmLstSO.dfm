@@ -75,6 +75,10 @@ inherited frmLstSO: TfrmLstSO
         DataBinding.FieldName = 'nama'
         Width = 486
       end
+      object cxtbSOColumn1: TcxGridDBColumn
+        Caption = 'Jenis SO '
+        DataBinding.FieldName = 'jenis_so'
+      end
     end
     object cxgCustomerLevel1: TcxGridLevel
       GridView = cxtbSO
@@ -170,7 +174,9 @@ inherited frmLstSO: TfrmLstSO
   object zqrSO: TZReadOnlyQuery
     Connection = DM.zConn
     SQL.Strings = (
-      'SELECT a.*,b.nama '
+      
+        'SELECT a.*,b.nama, IF(LEFT(no_bukti,3)='#39'MTS'#39','#39'MTS'#39','#39'SO CUSTOMER'#39 +
+        ') jenis_so '
       'FROM tbl_so_head a '
       'left join tbl_customer b on a.id_cust = b.id')
     Params = <>

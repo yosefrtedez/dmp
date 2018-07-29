@@ -46,6 +46,7 @@ type
     cxGrid1Level1: TcxGridLevel;
     dsSODet: TDataSource;
     zqrSODet: TZReadOnlyQuery;
+    cxtbSOColumn1: TcxGridDBColumn;
     procedure btnRefreshClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure btnTambahClick(Sender: TObject);

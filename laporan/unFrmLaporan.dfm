@@ -28,7 +28,7 @@ inherited frmLaporan: TfrmLaporan
     Left = 752
     Top = 416
     Align = alNone
-    TabOrder = 4
+    TabOrder = 5
     Visible = False
     ExplicitLeft = 752
     ExplicitTop = 416
@@ -74,7 +74,7 @@ inherited frmLaporan: TfrmLaporan
     Width = 952
     Height = 48
     Align = alBottom
-    TabOrder = 6
+    TabOrder = 7
     object btnKeluar: TButton
       Left = 10
       Top = 11
@@ -109,7 +109,7 @@ inherited frmLaporan: TfrmLaporan
     Width = 75
     Height = 25
     Caption = 'Cetak'
-    TabOrder = 5
+    TabOrder = 6
     Visible = False
     OnClick = btnCetakClick
   end
@@ -122,13 +122,31 @@ inherited frmLaporan: TfrmLaporan
     Caption = 'pnlLapMasterData'
     TabOrder = 3
     Visible = False
-    object ListBox1: TListBox
+    object lstBox02: TListBox
       Left = 8
       Top = 8
       Width = 361
       Height = 345
       ItemHeight = 13
       TabOrder = 0
+    end
+  end
+  inline FLapParam: TFrame1
+    Left = 598
+    Top = 60
+    Width = 425
+    Height = 362
+    TabOrder = 4
+    Visible = False
+    ExplicitLeft = 598
+    ExplicitTop = 60
+    ExplicitWidth = 425
+    ExplicitHeight = 362
+    inherited Panel1: TPanel
+      Left = 10
+      Height = 334
+      ExplicitLeft = 10
+      ExplicitHeight = 334
     end
   end
 end

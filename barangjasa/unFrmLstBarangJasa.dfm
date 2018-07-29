@@ -1,10 +1,11 @@
 inherited frmLstBarangJasa: TfrmLstBarangJasa
   BorderIcons = []
   Caption = 'Barang dan Jasa'
+  ClientHeight = 758
   ClientWidth = 1119
   OnCreate = FormCreate
   ExplicitWidth = 1119
-  ExplicitHeight = 508
+  ExplicitHeight = 758
   PixelsPerInch = 96
   TextHeight = 13
   inherited Panel1: TPanel
@@ -25,8 +26,9 @@ inherited frmLstBarangJasa: TfrmLstBarangJasa
     end
   end
   inherited Panel2: TPanel
+    Top = 709
     Width = 1119
-    TabOrder = 4
+    TabOrder = 6
     ExplicitWidth = 1119
     inherited btnTambah: TButton
       OnClick = btnTambahClick
@@ -51,9 +53,10 @@ inherited frmLstBarangJasa: TfrmLstBarangJasa
     Left = 0
     Top = 49
     Width = 1119
-    Height = 169
+    Height = 238
     Align = alClient
     TabOrder = 1
+    ExplicitHeight = 169
     object cxtbBarang: TcxGridDBTableView
       NavigatorButtons.ConfirmDelete = False
       OnFocusedRecordChanged = cxtbBarangFocusedRecordChanged
@@ -321,11 +324,12 @@ inherited frmLstBarangJasa: TfrmLstBarangJasa
   end
   object Panel3: TPanel
     Left = 0
-    Top = 218
+    Top = 468
     Width = 1119
     Height = 41
     Align = alBottom
-    TabOrder = 2
+    TabOrder = 4
+    ExplicitTop = 218
     object cxLabel1: TcxLabel
       Left = 10
       Top = 12
@@ -356,11 +360,12 @@ inherited frmLstBarangJasa: TfrmLstBarangJasa
   end
   object cxGrid1: TcxGrid
     Left = 0
-    Top = 259
+    Top = 509
     Width = 1119
     Height = 200
     Align = alBottom
-    TabOrder = 3
+    TabOrder = 5
+    ExplicitTop = 259
     object cxtbBarangDet: TcxGridDBTableView
       NavigatorButtons.ConfirmDelete = False
       DataController.DataSource = dsBarangDet
@@ -431,6 +436,52 @@ inherited frmLstBarangJasa: TfrmLstBarangJasa
       GridView = cxtbBarangDet
     end
   end
+  object Panel4: TPanel
+    Left = 0
+    Top = 287
+    Width = 1119
+    Height = 41
+    Align = alBottom
+    TabOrder = 2
+    ExplicitTop = 281
+    object cxLabel2: TcxLabel
+      Left = 10
+      Top = 12
+      Caption = 'Detail Stok Gudang'
+    end
+  end
+  object cxGrid2: TcxGrid
+    Left = 0
+    Top = 328
+    Width = 1119
+    Height = 140
+    Align = alBottom
+    TabOrder = 3
+    object cxtbStokGudang: TcxGridDBTableView
+      NavigatorButtons.ConfirmDelete = False
+      DataController.DataSource = dsDetGudang
+      DataController.Summary.DefaultGroupSummaryItems = <>
+      DataController.Summary.FooterSummaryItems = <>
+      DataController.Summary.SummaryGroups = <>
+      OptionsView.GroupByBox = False
+      object cxtbStokGudangColumn1: TcxGridDBColumn
+        Caption = 'Kode Gudang'
+        DataBinding.FieldName = 'kode_gudang'
+        Width = 76
+      end
+      object cxtbStokGudangnama: TcxGridDBColumn
+        Caption = 'Nama Gudang'
+        DataBinding.FieldName = 'nama'
+      end
+      object cxtbStokGudangstok: TcxGridDBColumn
+        Caption = 'Stok'
+        DataBinding.FieldName = 'stok'
+      end
+    end
+    object cxGrid2Level1: TcxGridLevel
+      GridView = cxtbStokGudang
+    end
+  end
   object zqrBarang: TZReadOnlyQuery
     Connection = DM.zConn
     SQL.Strings = (
@@ -453,7 +504,6 @@ inherited frmLstBarangJasa: TfrmLstBarangJasa
   end
   object zqrGudang: TZReadOnlyQuery
     Connection = DM.zConn
-    Active = True
     SQL.Strings = (
       'SELECT * FROM tbl_gudang')
     Params = <>
@@ -500,5 +550,31 @@ inherited frmLstBarangJasa: TfrmLstBarangJasa
     DataSet = zqrBarangDet
     Left = 824
     Top = 344
+  end
+  object zqrDetGudang: TZReadOnlyQuery
+    Connection = DM.zConn
+    SQL.Strings = (
+      'SELECT a.*, b.nama, b.kode kode_gudang FROM tbl_barang_det a'
+      'LEFT JOIN tbl_gudang b on a.id_gdg = b.id'
+      'WHERE id_brg = :id_brg')
+    Params = <
+      item
+        DataType = ftUnknown
+        Name = 'id_brg'
+        ParamType = ptUnknown
+      end>
+    Left = 608
+    Top = 208
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'id_brg'
+        ParamType = ptUnknown
+      end>
+  end
+  object dsDetGudang: TDataSource
+    DataSet = zqrDetGudang
+    Left = 683
+    Top = 208
   end
 end

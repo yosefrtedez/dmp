@@ -18,7 +18,7 @@ uses
   cxDBLookupComboBox, ZDataset, DB, ZAbstractRODataset, cxSpinEdit, cxStyles,
   dxSkinscxPCPainter, cxCustomData, cxFilter, cxData, cxDataStorage,
   cxGridCustomTableView, cxGridTableView, cxGridCustomView, cxClasses,
-  cxGridLevel, cxGrid, cxPC, cxCheckBox;
+  cxGridLevel, cxGrid, cxPC, cxCheckBox, cxPropertiesStore;
 
 type
   TfrmInputBarangJasa = class(TfrmTplInput)
@@ -51,13 +51,13 @@ type
     cxGrid1Level1: TcxGridLevel;
     cxTabSheet3: TcxTabSheet;
     cxLabel8: TcxLabel;
-    cxSpinEdit2: TcxSpinEdit;
-    cxSpinEdit3: TcxSpinEdit;
+    cxsStok: TcxSpinEdit;
+    cxsOutstandingPO: TcxSpinEdit;
     cxLabel9: TcxLabel;
     cxLabel10: TcxLabel;
-    cxSpinEdit4: TcxSpinEdit;
+    cxsOutstandingSO: TcxSpinEdit;
     cxLabel11: TcxLabel;
-    cxSpinEdit5: TcxSpinEdit;
+    cxsStokMin: TcxSpinEdit;
     cxLabel12: TcxLabel;
     cxSpinEdit6: TcxSpinEdit;
     cxLabel13: TcxLabel;
@@ -103,6 +103,17 @@ type
     cxtWarna: TcxTextEdit;
     cxLabel29: TcxLabel;
     cxsBrtPerIkat: TcxSpinEdit;
+    cxChkDijual: TcxCheckBox;
+    cxChkDibeli: TcxCheckBox;
+    cxTabSheet5: TcxTabSheet;
+    cxPropertiesStore1: TcxPropertiesStore;
+    cxGrid2: TcxGrid;
+    cxtbHarga: TcxGridTableView;
+    cxGridLevel1: TcxGridLevel;
+    cxColJenis: TcxGridColumn;
+    cxColHarga: TcxGridColumn;
+    zqrHrg: TZReadOnlyQuery;
+    dsHrg: TDataSource;
     procedure btnSimpanClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -162,8 +173,10 @@ begin
 
     q.FieldByName('kode').AsString := Trim(cxtKode.text);
     q.FieldByName('deskripsi').AsString := cxtDeskripsi.Text;
-    q.FieldByName('id_kategori').AsInteger := cxlKategori.EditValue;
-    q.FieldByName('id_subkategori').AsInteger := cxlSubKategori.EditValue;
+    if Trim(cxlKategori.Text) <> '' then
+      q.FieldByName('id_kategori').AsInteger := cxlKategori.EditValue;
+    if Trim(cxlSubKategori.Text) <> ''  then
+      q.FieldByName('id_subkategori').AsInteger := cxlSubKategori.EditValue;
     q.FieldByName('id_satuan').AsString := VarToStr(cxlSatuan.EditValue);
     q.FieldByName('id_tipe').AsInteger := cxlTipe.EditValue;
     if Self.Jenis = 'T' then begin
@@ -179,6 +192,11 @@ begin
     else
       q.FieldByName('f_aktif').AsInteger := 0;
     q.FieldByName('f_ppn').AsInteger := 1;
+    if cxChkDibeli.Checked then
+      q.FieldByName('f_dibeli').AsInteger := 1;
+    if cxChkDijual.Checked then
+      q.FieldByName('f_dijual').AsInteger := 1;
+
     q.Post;
 
     if Self.Jenis = 'T' then
@@ -226,6 +244,24 @@ begin
         end;
       end;
     end;
+
+    if cxtbHarga.DataController.RecordCount > 0 then begin
+      q := OpenRS('SELECT * FROM tbl_barang_det_harga WHERE id_brg = %d', [ID]);
+      with cxtbHarga.DataController do begin
+        for i := 0 to RecordCount - 1 do begin
+          if q.Locate('id_brg;id_jenis',VarArrayOf([ID, Values[i, cxColJenis.Index]]),[]) then begin
+            q.Edit;
+          end
+          else
+            q.Insert;
+          q.FieldByName('id_brg').AsInteger := ID;
+          q.FieldByName('id_jenis').AsInteger := Values[i, cxColSatuan.Index];
+          q.FieldByName('harga').AsFloat := Values[i, cxColQty.Index];
+          q.Post;
+        end;
+      end;
+    end;
+
 
     MsgBox('Data barang sudah disimpan.');
 
@@ -297,6 +333,18 @@ begin
   i := ADataController.GetEditingRecordIndex;
   v := ADataController.Values[i, cxColSatuan.Index];
 
+  if (VarIsNull(ADataController.Values[i, cxColSatuan.Index])) or
+      (Trim(ADataController.Values[i, cxColSatuan.Index]) = '')  then begin
+    MsgBox('Satuan harus di isi.');
+    Abort;
+  end;
+
+  if (VarIsNull(ADataController.Values[i, cxColQty.Index])) or
+      (Trim(ADataController.Values[i, cxColQty.Index]) = '')  then begin
+    MsgBox('Qty. konversi satuan harus di isi.');
+    Abort;
+  end;
+
   for j := 0 to ADataController.RecordCount - 1 do begin
     if j <> i then begin
       if v = ADataController.Values[j, cxColSatuan.Index] then begin
@@ -306,6 +354,7 @@ begin
       end;
     end;
   end;
+
 end;
 
 procedure TfrmInputBarangJasa.FormCreate(Sender: TObject);
@@ -315,6 +364,7 @@ begin
   zqrSubKategori.Open;
   zqrSatuan.Open;
   zqrTipe.Open;
+  zqrHrg.Open;
   cxBrgDet.ActivePageIndex := 0;
   cxChkAktif.Checked := True;
 end;
@@ -326,13 +376,15 @@ var
 begin
   inherited;
   if Self.Jenis = 'E' then begin
-    q := OpenRS('SELECT * FROM tbl_barang WHERE kode = ''%s''',[Self.EditKey]);
+    q := OpenRS('SELECT * FROM tbl_barang WHERE id = %s',[Self.EditKey]);
     ID := q.FieldByName('id').AsInteger;
-    cxtKode.Text := Self.EditKey;
+    cxtKode.Text := q.FieldByName('kode').AsString;
     cxtKode.Enabled := False;
     cxtDeskripsi.Text := q.FieldByName('deskripsi').AsString;
-    cxlKategori.EditValue := q.FieldByName('id_kategori').AsString;
-    cxlSubKategori.EditValue := q.FieldByName('id_subkategori').AsString;
+    if not q.FieldByName('id_kategori').IsNull then
+      cxlKategori.EditValue := q.FieldByName('id_kategori').AsString;
+    if not q.FieldByName('id_subkategori').isNull then
+      cxlSubKategori.EditValue := q.FieldByName('id_subkategori').AsString;
     if not q.FieldByName('id_satuan').IsNull then
       cxlSatuan.EditValue := q.FieldByName('id_satuan').AsString;
     if q.FieldByName('f_ppn').AsInteger = 1 then
@@ -340,6 +392,10 @@ begin
     else
       cxChkPPN.Checked := False;
     cxlTipe.EditValue := q.FieldByName('id_tipe').AsInteger;
+    if q.FieldByName('f_dijual').AsInteger = 1 then
+      cxChkDijual.Checked := True;
+    if q.FieldByName('f_dibeli').AsInteger = 1 then
+      cxChkDibeli.Checked := True;
     q.Close;
 
     q := OpenRS('SELECT * FROM tbl_konv_brg WHERE id_barang = %d',[ID]);
@@ -353,6 +409,16 @@ begin
       q.Next;
     end;
     q.Close;
+
+    q := OpenRS('SELECT * FROM tbl_barang_det_harga WHERE id_brg = %d',[ID]);
+    while not q.Eof do begin
+      with cxtbHarga.DataController do begin
+        i := AppendRecord;
+        Values[i, cxColJenis.Index] := q.FieldByName('id_jenis').AsInteger;
+        Values[i, cxColHarga.Index] := q.FieldbyName('harga').AsFloat;
+      end;
+      q.Next;
+    end;
 
     qd := OpenRS('SELECT * FROM tbl_barang_det_spek WHERE id_ref = %d', [ID]);
 

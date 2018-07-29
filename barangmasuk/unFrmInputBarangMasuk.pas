@@ -44,6 +44,8 @@ type
     cxColGudang: TcxGridColumn;
     zqrGudang: TZReadOnlyQuery;
     dsGudang: TDataSource;
+    cxLabel6: TcxLabel;
+    cxCmbJenisTrs: TcxComboBox;
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure cxColNoGetDisplayText(Sender: TcxCustomGridTableItem;
@@ -81,7 +83,8 @@ begin
 
   if (cxtbBarangMasuk.DataController.EditState = [dceInsert, dceModified]) or
     (cxtbBarangMasuk.DataController.EditState = [dceEdit, dceModified]) then begin
-    MsgBox('Mohon selesaikan pengeditan detail sebelum disimpan.');
+    MsgBox('Mohon selesaikan pengeditan detail sebelum disimpan.' + Chr(10) + Chr(13) +
+      'Klik Klik tombol centang hijau.');
     Abort;
   end;
 
@@ -118,6 +121,7 @@ begin
       qh.FieldByName('user').AsString := Aplikasi.NamaUser;
       qh.FieldByName('user_dept').AsString := Aplikasi.UserDept;
       qh.FieldByName('tgl_input').AsDateTime := Aplikasi.Tanggal;
+      qh.FieldByName('jenistrs').AsString := cxCmbJenisTrs.Text;
       qh.Post;
 
       if Self.Jenis = 'T' then  ID := LastInsertID;
@@ -156,7 +160,8 @@ begin
             FieldByName('tipe').AsString := 'i';
             FieldByName('id_satuan').AsInteger := Values[i, cxColIdSatuan.Index];
             FieldByname('id_gdg').AsInteger := Values[i, cxColGudang.Index];
-            FieldByName('keterangan').AsString := Values[i, cxColKeterangan.Index];
+            if not VarIsNull(Values[i, cxColKeterangan.Index]) then
+              FieldByName('keterangan').AsString := Values[i, cxColKeterangan.Index];
             FieldByName('tgl_input').AsDateTime := Aplikasi.NowServer;
             Post;
           end;
@@ -189,7 +194,7 @@ begin
       qh.Close;
       qd.Close;
       Self.Jenis := '';
-      MsgBox('Transaksi barang keluar sudah disimpan dengan No. Bukti : ' + sNoBukti);
+      MsgBox('Transaksi barang masuk sudah disimpan dengan No. Bukti : ' + sNoBukti);
       btnBatalClick(nil);
     except
       on E: Exception do begin
@@ -404,6 +409,9 @@ begin
   cxdTglDatang.Date := Aplikasi.Tanggal;
   zqrBarang.Open;
   zqrGudang.Open;
+
+  cxCmbJenisTrs.Properties.Items.CommaText := ',"HASIL PRODUKSI","PEMBELIAN",MUTASI,LAIN-LAIN';
+  cxCmbJenisTrs.ItemIndex := 0;
 end;
 
 procedure TfrmInputBarangMasuk.FormShow(Sender: TObject);

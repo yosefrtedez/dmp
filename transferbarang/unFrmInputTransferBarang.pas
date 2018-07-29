@@ -267,11 +267,12 @@ begin
     Abort;
   end;
 
-
+  {
   if (ADataController.Values[i, cxColStock.Index]< ADataController.Values[i, cxColQty.Index]) then begin
     MsgBox('Qty Transfer tidak mencukupi');
     Abort;
   end;
+  }
 end;
 
 procedure TfrmInputTransferBarang.cxTblTransBarangDataControllerRecordChanged(
@@ -289,7 +290,8 @@ begin
         //ADataController.Values[ARecordIndex, cxColDeskripsi.Index];
 
         //Menampilkan satuan dan kode barang
-        z := OpenRS('SELECT a.id_satuan,a.kode,b.satuan FROM tbl_barang a join tbl_satuan b on a.id_satuan=b.id where a.id =''%s''',[ADataController.Values[ARecordIndex, cxColDeskripsi.Index]]) ;
+        z := OpenRS('SELECT a.id_satuan,a.kode,b.satuan FROM tbl_barang a join tbl_satuan b on a.id_satuan=b.id where a.id =%s',
+          [ADataController.Values[ARecordIndex, cxColDeskripsi.Index]]) ;
         with cxTblTransBarang.DataController do begin
          Values[i, cxColSatuan.Index]           := z.FieldByName('satuan').AsString ;
          Values[i, cxColIdSatuan.Index]         := z.FieldByName('id_satuan').AsInteger ;
@@ -315,11 +317,13 @@ begin
       end;
 
       //Menampilkan Stock Gudang Asal
+      {
       z := OpenRS('SELECT sf_get_stokakhir(''%s'',''%s'') as stok',[ADataController.Values[ARecordIndex, cxColDeskripsi.Index],ADataController.Values[ARecordIndex, cxColGudangAsal.Index]]) ;
       with cxTblTransBarang.DataController do begin
         Values[i, cxColStock.Index]         := z.FieldByName('stok').AsFloat ;
       end;
       z.Close ;
+      }
 
    end
    else if AItemIndex = cxColGudangTujuan.Index then begin
@@ -339,7 +343,9 @@ begin
     sNoTrs            := GetLastFak('mutasi_antar_barang');
     cxtNoTrans.Text   := sNoTrs;
     cxdTglTrs.Date    := Aplikasi.Tanggal;
-  end
+  end;
+  zqrBarang.Open;
+  zqrGudang.Open;
 end;
 
 procedure TfrmInputTransferBarang.FormShow(Sender: TObject);
@@ -349,8 +355,7 @@ var
   sNoTrs : string;
 begin
   inherited;
-  zqrBarang.Open;
-  zqrGudang.Open;
+
   if Self.Jenis = 'T' then begin
     sNoTrs            := GetLastFak('mutasi_antar_barang');
     cxtNoTrans.Text   := sNoTrs;

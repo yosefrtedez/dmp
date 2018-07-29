@@ -141,9 +141,6 @@
 			<DCCReference Include="masterorder\unFrmMasterOrder.pas">
 				<Form>frmMasterOrder</Form>
 			</DCCReference>
-			<DCCReference Include="setting\unFrmSettingWewenang.pas">
-				<Form>frmSettingWewenang</Form>
-			</DCCReference>
 			<DCCReference Include="setting\unFrmSettingProgram.pas">
 				<Form>frmSettingProgram</Form>
 			</DCCReference>
@@ -221,6 +218,25 @@
 			</DCCReference>
 			<DCCReference Include="laporan\unFrmLapMasterData.pas">
 				<Form>frmLapMasterData</Form>
+			</DCCReference>
+			<DCCReference Include="laporan\unFLapParam.pas">
+				<Form>Frame1</Form>
+				<DesignClass>TFrame</DesignClass>
+			</DCCReference>
+			<DCCReference Include="laporan\unFrmLapTransaksi.pas">
+				<Form>frmLapTransaksi</Form>
+			</DCCReference>
+			<DCCReference Include="barangkeluar\unFrmPilihHarga.pas">
+				<Form>frmPilihHarga</Form>
+			</DCCReference>
+			<DCCReference Include="setting\unFrmSettingWewenang.pas">
+				<Form>frmSettingWewenang</Form>
+			</DCCReference>
+			<DCCReference Include="setting\unFrmKalkulasiStok.pas">
+				<Form>frmKalkulasiStok</Form>
+			</DCCReference>
+			<DCCReference Include="spk\unFrmSPK.pas">
+				<Form>frmSPK</Form>
 			</DCCReference>
 			<BuildConfiguration Include="Base">
 				<Key>Base</Key>

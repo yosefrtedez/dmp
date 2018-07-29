@@ -251,7 +251,6 @@ object frmLapMasterData: TfrmLapMasterData
   end
   object zqrMstBarang: TZReadOnlyQuery
     Connection = DM.zConn
-    Active = True
     SQL.Strings = (
       'SELECT a.id, a.kode,  a.deskripsi, a.stok,'
       'b.satuan, '
@@ -283,5 +282,41 @@ object frmLapMasterData: TfrmLapMasterData
     BCDToCurrency = True
     Left = 264
     Top = 16
+  end
+  object frxXLSExport1: TfrxXLSExport
+    UseFileCache = True
+    ShowProgress = True
+    OverwritePrompt = False
+    DataOnly = False
+    ExportEMF = True
+    AsText = False
+    Background = True
+    FastExport = True
+    PageBreaks = True
+    EmptyLines = True
+    SuppressPageHeadersFooters = False
+    Left = 352
+    Top = 24
+  end
+  object frxPDFExport1: TfrxPDFExport
+    UseFileCache = True
+    ShowProgress = True
+    OverwritePrompt = False
+    DataOnly = False
+    PrintOptimized = False
+    Outline = False
+    Background = False
+    HTMLTags = True
+    Author = 'FastReport'
+    Subject = 'FastReport PDF export'
+    ProtectionFlags = [ePrint, eModify, eCopy, eAnnot]
+    HideToolbar = False
+    HideMenubar = False
+    HideWindowUI = False
+    FitWindow = False
+    CenterWindow = False
+    PrintScaling = False
+    Left = 440
+    Top = 24
   end
 end

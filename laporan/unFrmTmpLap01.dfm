@@ -28,7 +28,7 @@ object frmTmpLap01: TfrmTmpLap01
       'begin'
       ''
       'end.')
-    Left = 8
+    Left = 16
     Top = 16
     Datasets = <
       item
@@ -117,20 +117,31 @@ object frmTmpLap01: TfrmTmpLap01
             '[fdbSJ01."jml_ikat_per_karung"]')
           ParentFont = False
         end
+        object fdbSJ01keterangan: TfrxMemoView
+          Left = 540.472790000000000000
+          Width = 321.260050000000000000
+          Height = 18.897650000000000000
+          ShowHint = False
+          DataField = 'keterangan'
+          DataSet = fdbSJ01
+          DataSetName = 'fdbSJ01'
+          Memo.UTF8W = (
+            '[fdbSJ01."keterangan"]')
+        end
       end
       object PageHeader1: TfrxPageHeader
         Height = 30.236240000000000000
         Top = 18.897650000000000000
         Width = 869.291900000000000000
         object Memo1: TfrxMemoView
-          Width = 755.906000000000000000
+          Width = 869.291900000000000000
           Height = 18.897650000000000000
           ShowHint = False
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clBlack
           Font.Height = -19
           Font.Name = 'Arial'
-          Font.Style = [fsBold]
+          Font.Style = []
           HAlign = haCenter
           Memo.UTF8W = (
             'Surat Jalan')
@@ -150,7 +161,7 @@ object frmTmpLap01: TfrmTmpLap01
           Font.Color = clBlack
           Font.Height = -13
           Font.Name = 'Arial'
-          Font.Style = [fsBold]
+          Font.Style = []
           Memo.UTF8W = (
             'PT. Damai Mulia Perkasa')
           ParentFont = False
@@ -164,7 +175,7 @@ object frmTmpLap01: TfrmTmpLap01
           Font.Color = clBlack
           Font.Height = -13
           Font.Name = 'Arial'
-          Font.Style = [fsBold]
+          Font.Style = []
           Frame.Width = 2.000000000000000000
           LineSpacing = 5.000000000000000000
           Memo.UTF8W = (
@@ -176,8 +187,8 @@ object frmTmpLap01: TfrmTmpLap01
           ParentFont = False
         end
         object fdbSJ01nama: TfrxMemoView
-          Left = 438.425480000000000000
-          Top = 18.897650000000000000
+          Left = 650.079160000000000000
+          Top = 22.677180000000000000
           Width = 219.212740000000000000
           Height = 18.897650000000000000
           ShowHint = False
@@ -188,13 +199,14 @@ object frmTmpLap01: TfrmTmpLap01
           Font.Color = clBlack
           Font.Height = -13
           Font.Name = 'Arial'
-          Font.Style = [fsBold]
+          Font.Style = []
           Memo.UTF8W = (
             '[fdbSJ01."nama"]')
           ParentFont = False
         end
         object Memo4: TfrxMemoView
-          Left = 343.937230000000000000
+          Left = 555.590910000000000000
+          Top = 3.779530000000000000
           Width = 94.488250000000000000
           Height = 18.897650000000000000
           ShowHint = False
@@ -202,14 +214,14 @@ object frmTmpLap01: TfrmTmpLap01
           Font.Color = clBlack
           Font.Height = -13
           Font.Name = 'Arial'
-          Font.Style = [fsBold]
+          Font.Style = []
           Memo.UTF8W = (
             'Tanggal')
           ParentFont = False
         end
         object Memo5: TfrxMemoView
-          Left = 343.937230000000000000
-          Top = 18.897650000000000000
+          Left = 555.590910000000000000
+          Top = 22.677180000000000000
           Width = 94.488250000000000000
           Height = 18.897650000000000000
           ShowHint = False
@@ -217,13 +229,14 @@ object frmTmpLap01: TfrmTmpLap01
           Font.Color = clBlack
           Font.Height = -13
           Font.Name = 'Arial'
-          Font.Style = [fsBold]
+          Font.Style = []
           Memo.UTF8W = (
             'Kepada Yth.')
           ParentFont = False
         end
         object fdbSJ01tanggal: TfrxMemoView
-          Left = 438.425480000000000000
+          Left = 650.079160000000000000
+          Top = 3.779530000000000000
           Width = 219.212740000000000000
           Height = 18.897650000000000000
           ShowHint = False
@@ -236,14 +249,14 @@ object frmTmpLap01: TfrmTmpLap01
           Font.Color = clBlack
           Font.Height = -13
           Font.Name = 'Arial'
-          Font.Style = [fsBold]
+          Font.Style = []
           Memo.UTF8W = (
             '[fdbSJ01."tanggal"]')
           ParentFont = False
         end
         object Line1: TfrxLineView
           Top = 154.960730000000000000
-          Width = 759.685530000000000000
+          Width = 865.512370000000000000
           ShowHint = False
           Frame.Typ = [ftTop]
         end
@@ -312,7 +325,7 @@ object frmTmpLap01: TfrmTmpLap01
         object Memo10: TfrxMemoView
           Left = 540.472790000000000000
           Top = 162.519790000000000000
-          Width = 211.653680000000000000
+          Width = 321.260050000000000000
           Height = 18.897650000000000000
           ShowHint = False
           Font.Charset = DEFAULT_CHARSET
@@ -327,9 +340,29 @@ object frmTmpLap01: TfrmTmpLap01
         end
         object Line2: TfrxLineView
           Top = 185.196970000000000000
-          Width = 759.685530000000000000
+          Width = 865.512370000000000000
           ShowHint = False
           Frame.Typ = [ftTop]
+        end
+        object Memo21: TfrxMemoView
+          Top = 132.283550000000000000
+          Width = 109.606370000000000000
+          Height = 18.897650000000000000
+          ShowHint = False
+          Memo.UTF8W = (
+            'No. Surat Jalan :')
+        end
+        object fdbSJ01no_sj: TfrxMemoView
+          Left = 109.606370000000000000
+          Top = 132.283550000000000000
+          Width = 400.630180000000000000
+          Height = 18.897650000000000000
+          ShowHint = False
+          DataField = 'no_sj'
+          DataSet = fdbSJ01
+          DataSetName = 'fdbSJ01'
+          Memo.UTF8W = (
+            '[fdbSJ01."no_sj"]')
         end
       end
       object GroupFooter1: TfrxGroupFooter
@@ -338,7 +371,7 @@ object frmTmpLap01: TfrmTmpLap01
         Width = 869.291900000000000000
         object Line3: TfrxLineView
           Top = 4.559060000000000000
-          Width = 759.685530000000000000
+          Width = 865.512370000000000000
           ShowHint = False
           Frame.Typ = [ftTop]
         end
@@ -351,7 +384,7 @@ object frmTmpLap01: TfrmTmpLap01
           Font.Color = clBlack
           Font.Height = -13
           Font.Name = 'Arial'
-          Font.Style = [fsBold]
+          Font.Style = []
           Memo.UTF8W = (
             'Barang yang diterima dalam '
             'keadaan Baik dan Benar')
@@ -367,7 +400,7 @@ object frmTmpLap01: TfrmTmpLap01
           Font.Color = clBlack
           Font.Height = -13
           Font.Name = 'Arial'
-          Font.Style = [fsBold]
+          Font.Style = []
           HAlign = haCenter
           Memo.UTF8W = (
             'Penerima')
@@ -399,7 +432,7 @@ object frmTmpLap01: TfrmTmpLap01
           Font.Color = clBlack
           Font.Height = -13
           Font.Name = 'Arial'
-          Font.Style = [fsBold]
+          Font.Style = []
           HAlign = haCenter
           Memo.UTF8W = (
             'Sopir')
@@ -431,7 +464,7 @@ object frmTmpLap01: TfrmTmpLap01
           Font.Color = clBlack
           Font.Height = -13
           Font.Name = 'Arial'
-          Font.Style = [fsBold]
+          Font.Style = []
           HAlign = haCenter
           Memo.UTF8W = (
             'Gudang')
@@ -463,7 +496,7 @@ object frmTmpLap01: TfrmTmpLap01
           Font.Color = clBlack
           Font.Height = -13
           Font.Name = 'Arial'
-          Font.Style = [fsBold]
+          Font.Style = []
           HAlign = haCenter
           Memo.UTF8W = (
             'Hormat Kami, ')
@@ -556,6 +589,9 @@ object frmTmpLap01: TfrmTmpLap01
       'diskon=diskon'
       'f_ppn=f_ppn'
       'jatuh_tempo=jatuh_tempo'
+      'jenistrs=jenistrs'
+      'no_sj=no_sj'
+      'no_faktur=no_faktur'
       'qty=qty'
       'hrgjual=hrgjual'
       'nama=nama'
@@ -614,8 +650,8 @@ object frmTmpLap01: TfrmTmpLap01
       TopMargin = 5.000000000000000000
       BottomMargin = 5.000000000000000000
       object MasterData1: TfrxMasterData
-        Height = 22.677180000000000000
-        Top = 321.260050000000000000
+        Height = 18.897650000000000000
+        Top = 309.921460000000000000
         Width = 869.291900000000000000
         DataSet = fdbSJ01
         DataSetName = 'fdbSJ01'
@@ -646,7 +682,7 @@ object frmTmpLap01: TfrmTmpLap01
           ParentFont = False
         end
         object fdbSJ01qty: TfrxMemoView
-          Left = 438.425480000000000000
+          Left = 551.811380000000000000
           Width = 98.267780000000000000
           Height = 18.897650000000000000
           ShowHint = False
@@ -664,7 +700,7 @@ object frmTmpLap01: TfrmTmpLap01
           ParentFont = False
         end
         object fdbSJ01jml_ikat_per_karung: TfrxMemoView
-          Left = 336.378170000000000000
+          Left = 449.764070000000000000
           Width = 98.267780000000000000
           Height = 18.897650000000000000
           ShowHint = False
@@ -682,7 +718,7 @@ object frmTmpLap01: TfrmTmpLap01
           ParentFont = False
         end
         object fdbSJ01hrgjual: TfrxMemoView
-          Left = 540.472790000000000000
+          Left = 653.858690000000000000
           Width = 86.929190000000000000
           Height = 18.897650000000000000
           ShowHint = False
@@ -702,7 +738,7 @@ object frmTmpLap01: TfrmTmpLap01
           ParentFont = False
         end
         object Memo22: TfrxMemoView
-          Left = 631.181510000000000000
+          Left = 744.567410000000000000
           Width = 120.944960000000000000
           Height = 18.897650000000000000
           ShowHint = False
@@ -733,7 +769,7 @@ object frmTmpLap01: TfrmTmpLap01
           Font.Color = clBlack
           Font.Height = -19
           Font.Name = 'Arial'
-          Font.Style = [fsBold]
+          Font.Style = []
           HAlign = haCenter
           Memo.UTF8W = (
             'Faktur Penjualan')
@@ -742,7 +778,7 @@ object frmTmpLap01: TfrmTmpLap01
         end
       end
       object GroupHeader1: TfrxGroupHeader
-        Height = 188.976500000000000000
+        Height = 177.637910000000000000
         Top = 109.606370000000000000
         Width = 869.291900000000000000
         Condition = 'fdbSJ01."id"'
@@ -754,7 +790,7 @@ object frmTmpLap01: TfrmTmpLap01
           Font.Color = clBlack
           Font.Height = -13
           Font.Name = 'Arial'
-          Font.Style = [fsBold]
+          Font.Style = []
           Memo.UTF8W = (
             'PT. Damai Mulia Perkasa')
           ParentFont = False
@@ -768,7 +804,7 @@ object frmTmpLap01: TfrmTmpLap01
           Font.Color = clBlack
           Font.Height = -13
           Font.Name = 'Arial'
-          Font.Style = [fsBold]
+          Font.Style = []
           Frame.Width = 2.000000000000000000
           LineSpacing = 5.000000000000000000
           Memo.UTF8W = (
@@ -780,7 +816,7 @@ object frmTmpLap01: TfrmTmpLap01
           ParentFont = False
         end
         object fdbSJ01nama: TfrxMemoView
-          Left = 438.425480000000000000
+          Left = 650.079160000000000000
           Top = 18.897650000000000000
           Width = 219.212740000000000000
           Height = 18.897650000000000000
@@ -792,13 +828,13 @@ object frmTmpLap01: TfrmTmpLap01
           Font.Color = clBlack
           Font.Height = -13
           Font.Name = 'Arial'
-          Font.Style = [fsBold]
+          Font.Style = []
           Memo.UTF8W = (
             '[fdbSJ01."nama"]')
           ParentFont = False
         end
         object Memo4: TfrxMemoView
-          Left = 343.937230000000000000
+          Left = 555.590910000000000000
           Width = 94.488250000000000000
           Height = 18.897650000000000000
           ShowHint = False
@@ -806,13 +842,13 @@ object frmTmpLap01: TfrmTmpLap01
           Font.Color = clBlack
           Font.Height = -13
           Font.Name = 'Arial'
-          Font.Style = [fsBold]
+          Font.Style = []
           Memo.UTF8W = (
             'Tanggal')
           ParentFont = False
         end
         object Memo5: TfrxMemoView
-          Left = 343.937230000000000000
+          Left = 555.590910000000000000
           Top = 18.897650000000000000
           Width = 94.488250000000000000
           Height = 18.897650000000000000
@@ -821,13 +857,13 @@ object frmTmpLap01: TfrmTmpLap01
           Font.Color = clBlack
           Font.Height = -13
           Font.Name = 'Arial'
-          Font.Style = [fsBold]
+          Font.Style = []
           Memo.UTF8W = (
             'Kepada Yth.')
           ParentFont = False
         end
         object fdbSJ01tanggal: TfrxMemoView
-          Left = 438.425480000000000000
+          Left = 650.079160000000000000
           Width = 219.212740000000000000
           Height = 18.897650000000000000
           ShowHint = False
@@ -840,19 +876,19 @@ object frmTmpLap01: TfrmTmpLap01
           Font.Color = clBlack
           Font.Height = -13
           Font.Name = 'Arial'
-          Font.Style = [fsBold]
+          Font.Style = []
           Memo.UTF8W = (
             '[fdbSJ01."tanggal"]')
           ParentFont = False
         end
         object Line1: TfrxLineView
-          Top = 154.960730000000000000
-          Width = 759.685530000000000000
+          Top = 144.960730000000000000
+          Width = 865.512370000000000000
           ShowHint = False
           Frame.Typ = [ftTop]
         end
         object Memo6: TfrxMemoView
-          Top = 162.519790000000000000
+          Top = 152.519790000000000000
           Width = 30.236240000000000000
           Height = 18.897650000000000000
           ShowHint = False
@@ -867,7 +903,7 @@ object frmTmpLap01: TfrmTmpLap01
         end
         object Memo7: TfrxMemoView
           Left = 34.015770000000000000
-          Top = 162.519790000000000000
+          Top = 152.519790000000000000
           Width = 298.582870000000000000
           Height = 18.897650000000000000
           ShowHint = False
@@ -882,8 +918,8 @@ object frmTmpLap01: TfrmTmpLap01
           ParentFont = False
         end
         object Memo8: TfrxMemoView
-          Left = 336.378170000000000000
-          Top = 162.519790000000000000
+          Left = 449.764070000000000000
+          Top = 152.519790000000000000
           Width = 98.267780000000000000
           Height = 18.897650000000000000
           ShowHint = False
@@ -898,8 +934,8 @@ object frmTmpLap01: TfrmTmpLap01
           ParentFont = False
         end
         object Memo9: TfrxMemoView
-          Left = 438.425480000000000000
-          Top = 162.519790000000000000
+          Left = 551.811380000000000000
+          Top = 152.519790000000000000
           Width = 98.267780000000000000
           Height = 18.897650000000000000
           ShowHint = False
@@ -914,8 +950,8 @@ object frmTmpLap01: TfrmTmpLap01
           ParentFont = False
         end
         object Memo10: TfrxMemoView
-          Left = 540.472790000000000000
-          Top = 162.519790000000000000
+          Left = 653.858690000000000000
+          Top = 152.519790000000000000
           Width = 86.929190000000000000
           Height = 18.897650000000000000
           ShowHint = False
@@ -930,14 +966,14 @@ object frmTmpLap01: TfrmTmpLap01
           ParentFont = False
         end
         object Line2: TfrxLineView
-          Top = 185.196970000000000000
-          Width = 759.685530000000000000
+          Top = 177.196970000000000000
+          Width = 865.512370000000000000
           ShowHint = False
           Frame.Typ = [ftTop]
         end
         object Memo21: TfrxMemoView
-          Left = 631.181510000000000000
-          Top = 162.519790000000000000
+          Left = 744.567410000000000000
+          Top = 152.519790000000000000
           Width = 120.944960000000000000
           Height = 18.897650000000000000
           ShowHint = False
@@ -952,7 +988,7 @@ object frmTmpLap01: TfrmTmpLap01
           ParentFont = False
         end
         object Memo17: TfrxMemoView
-          Top = 132.283550000000000000
+          Top = 122.283550000000000000
           Width = 86.929190000000000000
           Height = 18.897650000000000000
           ShowHint = False
@@ -960,42 +996,36 @@ object frmTmpLap01: TfrmTmpLap01
           Font.Color = clBlack
           Font.Height = -13
           Font.Name = 'Arial'
-          Font.Style = [fsBold]
+          Font.Style = []
           Memo.UTF8W = (
             'No. Faktur : ')
           ParentFont = False
         end
-        object fdbSJ01no_bukti: TfrxMemoView
-          Left = 90.708720000000000000
-          Top = 132.283550000000000000
-          Width = 158.740260000000000000
+        object fdbSJ01no_faktur: TfrxMemoView
+          Left = 86.929190000000000000
+          Top = 122.283550000000000000
+          Width = 400.630180000000000000
           Height = 18.897650000000000000
           ShowHint = False
-          DataField = 'no_bukti'
+          DataField = 'no_faktur'
           DataSet = fdbSJ01
           DataSetName = 'fdbSJ01'
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clBlack
-          Font.Height = -13
-          Font.Name = 'Arial'
-          Font.Style = []
           Memo.UTF8W = (
-            '[fdbSJ01."no_bukti"]')
-          ParentFont = False
+            '[fdbSJ01."no_faktur"]')
         end
       end
       object GroupFooter1: TfrxGroupFooter
-        Height = 162.519790000000000000
-        Top = 366.614410000000000000
+        Height = 143.622140000000000000
+        Top = 351.496290000000000000
         Width = 869.291900000000000000
         object Line3: TfrxLineView
-          Top = 4.559060000000000000
-          Width = 759.685530000000000000
+          Top = 1.559060000000000000
+          Width = 865.512370000000000000
           ShowHint = False
           Frame.Typ = [ftTop]
         end
         object Memo11: TfrxMemoView
-          Left = 532.913730000000000000
+          Left = 646.299630000000000000
           Top = 11.338590000000000000
           Width = 94.488250000000000000
           Height = 18.897650000000000000
@@ -1004,7 +1034,7 @@ object frmTmpLap01: TfrmTmpLap01
             'Sub Total')
         end
         object SysMemo1: TfrxSysMemoView
-          Left = 631.181510000000000000
+          Left = 744.567410000000000000
           Top = 11.338590000000000000
           Width = 120.944960000000000000
           Height = 18.897650000000000000
@@ -1022,7 +1052,7 @@ object frmTmpLap01: TfrmTmpLap01
           ParentFont = False
         end
         object Memo12: TfrxMemoView
-          Left = 532.913730000000000000
+          Left = 646.299630000000000000
           Top = 34.015770000000000000
           Width = 94.488250000000000000
           Height = 18.897650000000000000
@@ -1031,7 +1061,7 @@ object frmTmpLap01: TfrmTmpLap01
             'Diskon (%)')
         end
         object Memo13: TfrxMemoView
-          Left = 532.913730000000000000
+          Left = 646.299630000000000000
           Top = 56.692950000000000000
           Width = 94.488250000000000000
           Height = 18.897650000000000000
@@ -1040,7 +1070,7 @@ object frmTmpLap01: TfrmTmpLap01
             'Stlh. Diskon')
         end
         object Memo14: TfrxMemoView
-          Left = 532.913730000000000000
+          Left = 646.299630000000000000
           Top = 79.370130000000000000
           Width = 94.488250000000000000
           Height = 18.897650000000000000
@@ -1049,7 +1079,7 @@ object frmTmpLap01: TfrmTmpLap01
             'DPP')
         end
         object Memo15: TfrxMemoView
-          Left = 532.913730000000000000
+          Left = 646.299630000000000000
           Top = 102.047310000000000000
           Width = 94.488250000000000000
           Height = 18.897650000000000000
@@ -1058,7 +1088,7 @@ object frmTmpLap01: TfrmTmpLap01
             'PPN 10%')
         end
         object Memo16: TfrxMemoView
-          Left = 532.913730000000000000
+          Left = 646.299630000000000000
           Top = 124.724490000000000000
           Width = 94.488250000000000000
           Height = 18.897650000000000000
@@ -1067,7 +1097,7 @@ object frmTmpLap01: TfrmTmpLap01
             'Harga Total')
         end
         object fdbSJ01diskon: TfrxMemoView
-          Left = 631.181510000000000000
+          Left = 744.567410000000000000
           Top = 34.015770000000000000
           Width = 120.944960000000000000
           Height = 18.897650000000000000
@@ -1086,7 +1116,7 @@ object frmTmpLap01: TfrmTmpLap01
           ParentFont = False
         end
         object Memo18: TfrxMemoView
-          Left = 631.181510000000000000
+          Left = 744.567410000000000000
           Top = 56.692950000000000000
           Width = 120.944960000000000000
           Height = 18.897650000000000000
@@ -1106,7 +1136,7 @@ object frmTmpLap01: TfrmTmpLap01
           ParentFont = False
         end
         object Memo19: TfrxMemoView
-          Left = 631.181510000000000000
+          Left = 744.567410000000000000
           Top = 79.370130000000000000
           Width = 120.944960000000000000
           Height = 18.897650000000000000
@@ -1126,7 +1156,7 @@ object frmTmpLap01: TfrmTmpLap01
           ParentFont = False
         end
         object Memo20: TfrxMemoView
-          Left = 631.181510000000000000
+          Left = 744.567410000000000000
           Top = 102.047310000000000000
           Width = 120.944960000000000000
           Height = 18.897650000000000000
@@ -1146,7 +1176,7 @@ object frmTmpLap01: TfrmTmpLap01
           ParentFont = False
         end
         object Memo23: TfrxMemoView
-          Left = 631.181510000000000000
+          Left = 744.567410000000000000
           Top = 124.724490000000000000
           Width = 120.944960000000000000
           Height = 18.897650000000000000
@@ -1174,7 +1204,7 @@ object frmTmpLap01: TfrmTmpLap01
           Font.Color = clBlack
           Font.Height = -13
           Font.Name = 'Arial'
-          Font.Style = [fsBold]
+          Font.Style = []
           Memo.UTF8W = (
             'Jatuh Tempo : ')
           ParentFont = False
@@ -1188,7 +1218,7 @@ object frmTmpLap01: TfrmTmpLap01
           Font.Color = clBlack
           Font.Height = -13
           Font.Name = 'Arial'
-          Font.Style = [fsBold]
+          Font.Style = []
           HAlign = haCenter
           Memo.UTF8W = (
             'Hormat Kami, ')
@@ -1203,7 +1233,7 @@ object frmTmpLap01: TfrmTmpLap01
           Font.Color = clBlack
           Font.Height = -13
           Font.Name = 'Arial'
-          Font.Style = [fsBold]
+          Font.Style = []
           HAlign = haCenter
           Memo.UTF8W = (
             '( ...................... )')
@@ -1218,7 +1248,7 @@ object frmTmpLap01: TfrmTmpLap01
           Font.Color = clBlack
           Font.Height = -13
           Font.Name = 'Arial'
-          Font.Style = [fsBold]
+          Font.Style = []
           HAlign = haCenter
           Memo.UTF8W = (
             'Admin PT. DMP')
@@ -1289,7 +1319,7 @@ object frmTmpLap01: TfrmTmpLap01
       BottomMargin = 5.000000000000000000
       object MasterData1: TfrxMasterData
         Height = 22.677180000000000000
-        Top = 321.260050000000000000
+        Top = 264.567100000000000000
         Width = 869.291900000000000000
         DataSet = fdbSJ01
         DataSetName = 'fdbSJ01'
@@ -1407,7 +1437,7 @@ object frmTmpLap01: TfrmTmpLap01
           Font.Color = clBlack
           Font.Height = -19
           Font.Name = 'Arial'
-          Font.Style = [fsBold]
+          Font.Style = []
           HAlign = haCenter
           Memo.UTF8W = (
             'Faktur Penjualan')
@@ -1416,7 +1446,7 @@ object frmTmpLap01: TfrmTmpLap01
         end
       end
       object GroupHeader1: TfrxGroupHeader
-        Height = 188.976500000000000000
+        Height = 132.196970000000000000
         Top = 109.606370000000000000
         Width = 869.291900000000000000
         Condition = 'fdbSJ01."id"'
@@ -1433,7 +1463,7 @@ object frmTmpLap01: TfrmTmpLap01
           Font.Color = clBlack
           Font.Height = -13
           Font.Name = 'Arial'
-          Font.Style = [fsBold]
+          Font.Style = []
           Memo.UTF8W = (
             '[fdbSJ01."nama"]')
           ParentFont = False
@@ -1447,7 +1477,7 @@ object frmTmpLap01: TfrmTmpLap01
           Font.Color = clBlack
           Font.Height = -13
           Font.Name = 'Arial'
-          Font.Style = [fsBold]
+          Font.Style = []
           Memo.UTF8W = (
             'Tanggal')
           ParentFont = False
@@ -1462,7 +1492,7 @@ object frmTmpLap01: TfrmTmpLap01
           Font.Color = clBlack
           Font.Height = -13
           Font.Name = 'Arial'
-          Font.Style = [fsBold]
+          Font.Style = []
           Memo.UTF8W = (
             'Kepada Yth.')
           ParentFont = False
@@ -1481,19 +1511,19 @@ object frmTmpLap01: TfrmTmpLap01
           Font.Color = clBlack
           Font.Height = -13
           Font.Name = 'Arial'
-          Font.Style = [fsBold]
+          Font.Style = []
           Memo.UTF8W = (
             '[fdbSJ01."tanggal"]')
           ParentFont = False
         end
         object Line1: TfrxLineView
-          Top = 154.960730000000000000
+          Top = 101.960730000000000000
           Width = 865.512370000000000000
           ShowHint = False
           Frame.Typ = [ftTop]
         end
         object Memo6: TfrxMemoView
-          Top = 162.519790000000000000
+          Top = 109.519790000000000000
           Width = 30.236240000000000000
           Height = 18.897650000000000000
           ShowHint = False
@@ -1508,7 +1538,7 @@ object frmTmpLap01: TfrmTmpLap01
         end
         object Memo7: TfrxMemoView
           Left = 34.015770000000000000
-          Top = 162.519790000000000000
+          Top = 109.519790000000000000
           Width = 408.189240000000000000
           Height = 18.897650000000000000
           ShowHint = False
@@ -1524,7 +1554,7 @@ object frmTmpLap01: TfrmTmpLap01
         end
         object Memo8: TfrxMemoView
           Left = 445.984540000000000000
-          Top = 162.519790000000000000
+          Top = 109.519790000000000000
           Width = 98.267780000000000000
           Height = 18.897650000000000000
           ShowHint = False
@@ -1540,7 +1570,7 @@ object frmTmpLap01: TfrmTmpLap01
         end
         object Memo9: TfrxMemoView
           Left = 548.031850000000000000
-          Top = 162.519790000000000000
+          Top = 109.519790000000000000
           Width = 98.267780000000000000
           Height = 18.897650000000000000
           ShowHint = False
@@ -1556,7 +1586,7 @@ object frmTmpLap01: TfrmTmpLap01
         end
         object Memo10: TfrxMemoView
           Left = 650.079160000000000000
-          Top = 162.519790000000000000
+          Top = 109.519790000000000000
           Width = 86.929190000000000000
           Height = 18.897650000000000000
           ShowHint = False
@@ -1571,14 +1601,14 @@ object frmTmpLap01: TfrmTmpLap01
           ParentFont = False
         end
         object Line2: TfrxLineView
-          Top = 185.196970000000000000
+          Top = 132.196970000000000000
           Width = 865.512370000000000000
           ShowHint = False
           Frame.Typ = [ftTop]
         end
         object Memo21: TfrxMemoView
           Left = 740.787880000000000000
-          Top = 162.519790000000000000
+          Top = 109.519790000000000000
           Width = 120.944960000000000000
           Height = 18.897650000000000000
           ShowHint = False
@@ -1593,7 +1623,7 @@ object frmTmpLap01: TfrmTmpLap01
           ParentFont = False
         end
         object Memo17: TfrxMemoView
-          Top = 132.283550000000000000
+          Top = 79.283550000000000000
           Width = 86.929190000000000000
           Height = 18.897650000000000000
           ShowHint = False
@@ -1608,7 +1638,7 @@ object frmTmpLap01: TfrmTmpLap01
         end
         object fdbSJ01no_bukti: TfrxMemoView
           Left = 90.708720000000000000
-          Top = 132.283550000000000000
+          Top = 79.283550000000000000
           Width = 158.740260000000000000
           Height = 18.897650000000000000
           ShowHint = False
@@ -1627,10 +1657,10 @@ object frmTmpLap01: TfrmTmpLap01
       end
       object GroupFooter1: TfrxGroupFooter
         Height = 162.519790000000000000
-        Top = 366.614410000000000000
+        Top = 309.921460000000000000
         Width = 869.291900000000000000
         object Line3: TfrxLineView
-          Top = 4.559060000000000000
+          Top = 0.559060000000000000
           Width = 865.512370000000000000
           ShowHint = False
           Frame.Typ = [ftTop]
@@ -1699,7 +1729,7 @@ object frmTmpLap01: TfrmTmpLap01
             'PPN 10%')
         end
         object Memo16: TfrxMemoView
-          Left = 532.913730000000000000
+          Left = 646.299630000000000000
           Top = 124.724490000000000000
           Width = 94.488250000000000000
           Height = 18.897650000000000000
@@ -1787,7 +1817,7 @@ object frmTmpLap01: TfrmTmpLap01
           ParentFont = False
         end
         object Memo23: TfrxMemoView
-          Left = 631.181510000000000000
+          Left = 744.567410000000000000
           Top = 124.724490000000000000
           Width = 120.944960000000000000
           Height = 18.897650000000000000
@@ -1815,7 +1845,7 @@ object frmTmpLap01: TfrmTmpLap01
           Font.Color = clBlack
           Font.Height = -13
           Font.Name = 'Arial'
-          Font.Style = [fsBold]
+          Font.Style = []
           Memo.UTF8W = (
             'Jatuh Tempo : ')
           ParentFont = False
@@ -1829,7 +1859,7 @@ object frmTmpLap01: TfrmTmpLap01
           Font.Color = clBlack
           Font.Height = -13
           Font.Name = 'Arial'
-          Font.Style = [fsBold]
+          Font.Style = []
           HAlign = haCenter
           Memo.UTF8W = (
             'Hormat Kami, ')
@@ -1844,7 +1874,7 @@ object frmTmpLap01: TfrmTmpLap01
           Font.Color = clBlack
           Font.Height = -13
           Font.Name = 'Arial'
-          Font.Style = [fsBold]
+          Font.Style = []
           HAlign = haCenter
           Memo.UTF8W = (
             '( ...................... )')
@@ -1859,7 +1889,7 @@ object frmTmpLap01: TfrmTmpLap01
           Font.Color = clBlack
           Font.Height = -13
           Font.Name = 'Arial'
-          Font.Style = [fsBold]
+          Font.Style = []
           HAlign = haCenter
           Memo.UTF8W = (
             'Admin PT. DMP')
@@ -1881,5 +1911,532 @@ object frmTmpLap01: TfrmTmpLap01
         end
       end
     end
+  end
+  object rptSJ01NonPPN: TfrxReport
+    Version = '4.12.6'
+    DotMatrixReport = False
+    IniFile = '\Software\Fast Reports'
+    PreviewOptions.Buttons = [pbPrint, pbLoad, pbSave, pbExport, pbZoom, pbFind, pbOutline, pbPageSetup, pbTools, pbEdit, pbNavigator, pbExportQuick]
+    PreviewOptions.Zoom = 1.000000000000000000
+    PrintOptions.Printer = 'Default'
+    PrintOptions.PrintOnSheet = 0
+    ReportOptions.CreateDate = 43290.646343148200000000
+    ReportOptions.LastChange = 43290.646343148200000000
+    ScriptLanguage = 'PascalScript'
+    ScriptText.Strings = (
+      'begin'
+      ''
+      'end.')
+    Left = 344
+    Top = 56
+    Datasets = <
+      item
+        DataSet = fdbSJ01
+        DataSetName = 'fdbSJ01'
+      end>
+    Variables = <>
+    Style = <>
+    object Data: TfrxDataPage
+      Height = 1000.000000000000000000
+      Width = 1000.000000000000000000
+    end
+    object Page1: TfrxReportPage
+      PaperWidth = 240.000000000000000000
+      PaperHeight = 138.000000000000000000
+      PaperSize = 256
+      LeftMargin = 5.000000000000000000
+      RightMargin = 5.000000000000000000
+      TopMargin = 5.000000000000000000
+      BottomMargin = 5.000000000000000000
+      object MasterData1: TfrxMasterData
+        Height = 22.677180000000000000
+        Top = 238.110390000000000000
+        Width = 869.291900000000000000
+        DataSet = fdbSJ01
+        DataSetName = 'fdbSJ01'
+        RowCount = 0
+        object fdbSJ01deskripsi: TfrxMemoView
+          Left = 34.015770000000000000
+          Width = 298.582870000000000000
+          Height = 18.897650000000000000
+          ShowHint = False
+          DataField = 'deskripsi'
+          DataSet = fdbSJ01
+          DataSetName = 'fdbSJ01'
+          Memo.UTF8W = (
+            '[fdbSJ01."deskripsi"]')
+        end
+        object Line: TfrxMemoView
+          Width = 30.236240000000000000
+          Height = 18.897650000000000000
+          ShowHint = False
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = []
+          HAlign = haCenter
+          Memo.UTF8W = (
+            '[Line#]')
+          ParentFont = False
+        end
+        object fdbSJ01qty: TfrxMemoView
+          Left = 438.425480000000000000
+          Width = 98.267780000000000000
+          Height = 18.897650000000000000
+          ShowHint = False
+          DataField = 'qty'
+          DataSet = fdbSJ01
+          DataSetName = 'fdbSJ01'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = []
+          HAlign = haCenter
+          Memo.UTF8W = (
+            '[fdbSJ01."qty"]')
+          ParentFont = False
+        end
+        object fdbSJ01jml_ikat_per_karung: TfrxMemoView
+          Left = 336.378170000000000000
+          Width = 98.267780000000000000
+          Height = 18.897650000000000000
+          ShowHint = False
+          DataField = 'jml_ikat_per_karung'
+          DataSet = fdbSJ01
+          DataSetName = 'fdbSJ01'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = []
+          HAlign = haCenter
+          Memo.UTF8W = (
+            '[fdbSJ01."jml_ikat_per_karung"]')
+          ParentFont = False
+        end
+        object fdbSJ01keterangan: TfrxMemoView
+          Left = 540.472790000000000000
+          Width = 321.260050000000000000
+          Height = 18.897650000000000000
+          ShowHint = False
+          DataField = 'keterangan'
+          DataSet = fdbSJ01
+          DataSetName = 'fdbSJ01'
+          Memo.UTF8W = (
+            '[fdbSJ01."keterangan"]')
+        end
+      end
+      object PageHeader1: TfrxPageHeader
+        Height = 30.236240000000000000
+        Top = 18.897650000000000000
+        Width = 869.291900000000000000
+        object Memo1: TfrxMemoView
+          Width = 869.291900000000000000
+          Height = 18.897650000000000000
+          ShowHint = False
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -19
+          Font.Name = 'Arial'
+          Font.Style = []
+          HAlign = haCenter
+          Memo.UTF8W = (
+            'Surat Jalan')
+          ParentFont = False
+        end
+      end
+      object GroupHeader1: TfrxGroupHeader
+        Height = 104.196970000000000000
+        Top = 109.606370000000000000
+        Width = 869.291900000000000000
+        Condition = 'fdbSJ01."id"'
+        object fdbSJ01nama: TfrxMemoView
+          Left = 650.079160000000000000
+          Top = 22.677180000000000000
+          Width = 219.212740000000000000
+          Height = 18.897650000000000000
+          ShowHint = False
+          DataField = 'nama'
+          DataSet = fdbSJ01
+          DataSetName = 'fdbSJ01'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = [fsBold]
+          Memo.UTF8W = (
+            '[fdbSJ01."nama"]')
+          ParentFont = False
+        end
+        object Memo4: TfrxMemoView
+          Left = 555.590910000000000000
+          Top = 3.779530000000000000
+          Width = 94.488250000000000000
+          Height = 18.897650000000000000
+          ShowHint = False
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = [fsBold]
+          Memo.UTF8W = (
+            'Tanggal')
+          ParentFont = False
+        end
+        object Memo5: TfrxMemoView
+          Left = 555.590910000000000000
+          Top = 22.677180000000000000
+          Width = 94.488250000000000000
+          Height = 18.897650000000000000
+          ShowHint = False
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = [fsBold]
+          Memo.UTF8W = (
+            'Kepada Yth.')
+          ParentFont = False
+        end
+        object fdbSJ01tanggal: TfrxMemoView
+          Left = 650.079160000000000000
+          Top = 3.779530000000000000
+          Width = 219.212740000000000000
+          Height = 18.897650000000000000
+          ShowHint = False
+          DataField = 'tanggal'
+          DataSet = fdbSJ01
+          DataSetName = 'fdbSJ01'
+          DisplayFormat.FormatStr = 'dd-MM-yyyy'
+          DisplayFormat.Kind = fkDateTime
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = [fsBold]
+          Memo.UTF8W = (
+            '[fdbSJ01."tanggal"]')
+          ParentFont = False
+        end
+        object Line1: TfrxLineView
+          Top = 73.960730000000000000
+          Width = 865.512370000000000000
+          ShowHint = False
+          Frame.Typ = [ftTop]
+        end
+        object Memo6: TfrxMemoView
+          Top = 81.519790000000000000
+          Width = 30.236240000000000000
+          Height = 18.897650000000000000
+          ShowHint = False
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = []
+          Memo.UTF8W = (
+            'No.')
+          ParentFont = False
+        end
+        object Memo7: TfrxMemoView
+          Left = 34.015770000000000000
+          Top = 81.519790000000000000
+          Width = 298.582870000000000000
+          Height = 18.897650000000000000
+          ShowHint = False
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = []
+          HAlign = haCenter
+          Memo.UTF8W = (
+            'Nama Barang')
+          ParentFont = False
+        end
+        object Memo8: TfrxMemoView
+          Left = 336.378170000000000000
+          Top = 81.519790000000000000
+          Width = 98.267780000000000000
+          Height = 18.897650000000000000
+          ShowHint = False
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = []
+          HAlign = haCenter
+          Memo.UTF8W = (
+            'Jml. Ikat / Bal')
+          ParentFont = False
+        end
+        object Memo9: TfrxMemoView
+          Left = 438.425480000000000000
+          Top = 81.519790000000000000
+          Width = 98.267780000000000000
+          Height = 18.897650000000000000
+          ShowHint = False
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = []
+          HAlign = haCenter
+          Memo.UTF8W = (
+            'Jml. Bal')
+          ParentFont = False
+        end
+        object Memo10: TfrxMemoView
+          Left = 540.472790000000000000
+          Top = 81.519790000000000000
+          Width = 321.260050000000000000
+          Height = 18.897650000000000000
+          ShowHint = False
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = []
+          HAlign = haCenter
+          Memo.UTF8W = (
+            'Keterangan')
+          ParentFont = False
+        end
+        object Line2: TfrxLineView
+          Top = 104.196970000000000000
+          Width = 865.512370000000000000
+          ShowHint = False
+          Frame.Typ = [ftTop]
+        end
+        object Memo21: TfrxMemoView
+          Top = 51.283550000000000000
+          Width = 109.606370000000000000
+          Height = 18.897650000000000000
+          ShowHint = False
+          Memo.UTF8W = (
+            'No. Surat Jalan :')
+        end
+        object fdbSJ01no_sj: TfrxMemoView
+          Left = 109.606370000000000000
+          Top = 51.283550000000000000
+          Width = 400.630180000000000000
+          Height = 18.897650000000000000
+          ShowHint = False
+          DataField = 'no_sj'
+          DataSet = fdbSJ01
+          DataSetName = 'fdbSJ01'
+          Memo.UTF8W = (
+            '[fdbSJ01."no_sj"]')
+        end
+      end
+      object GroupFooter1: TfrxGroupFooter
+        Height = 207.874150000000000000
+        Top = 283.464750000000000000
+        Width = 869.291900000000000000
+        object Line3: TfrxLineView
+          Top = 4.559060000000000000
+          Width = 865.512370000000000000
+          ShowHint = False
+          Frame.Typ = [ftTop]
+        end
+        object Memo11: TfrxMemoView
+          Top = 3.779530000000000000
+          Width = 238.110390000000000000
+          Height = 41.574830000000000000
+          ShowHint = False
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = []
+          Memo.UTF8W = (
+            'Barang yang diterima dalam '
+            'keadaan Baik dan Benar')
+          ParentFont = False
+        end
+        object Memo12: TfrxMemoView
+          Left = 11.338590000000000000
+          Top = 71.811070000000000000
+          Width = 94.488250000000000000
+          Height = 18.897650000000000000
+          ShowHint = False
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = []
+          HAlign = haCenter
+          Memo.UTF8W = (
+            'Penerima')
+          ParentFont = False
+        end
+        object Memo13: TfrxMemoView
+          Left = 11.338590000000000000
+          Top = 124.724490000000000000
+          Width = 94.488250000000000000
+          Height = 18.897650000000000000
+          ShowHint = False
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = []
+          HAlign = haCenter
+          Memo.UTF8W = (
+            '( .................... )')
+          ParentFont = False
+        end
+        object Memo14: TfrxMemoView
+          Left = 374.173470000000000000
+          Top = 71.811070000000000000
+          Width = 94.488250000000000000
+          Height = 18.897650000000000000
+          ShowHint = False
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = []
+          HAlign = haCenter
+          Memo.UTF8W = (
+            'Sopir')
+          ParentFont = False
+        end
+        object Memo15: TfrxMemoView
+          Left = 374.173470000000000000
+          Top = 124.724490000000000000
+          Width = 94.488250000000000000
+          Height = 18.897650000000000000
+          ShowHint = False
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = []
+          HAlign = haCenter
+          Memo.UTF8W = (
+            '( .................... )')
+          ParentFont = False
+        end
+        object Memo16: TfrxMemoView
+          Left = 472.441250000000000000
+          Top = 71.811070000000000000
+          Width = 94.488250000000000000
+          Height = 18.897650000000000000
+          ShowHint = False
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = []
+          HAlign = haCenter
+          Memo.UTF8W = (
+            'Gudang')
+          ParentFont = False
+        end
+        object Memo17: TfrxMemoView
+          Left = 472.441250000000000000
+          Top = 124.724490000000000000
+          Width = 94.488250000000000000
+          Height = 18.897650000000000000
+          ShowHint = False
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = []
+          HAlign = haCenter
+          Memo.UTF8W = (
+            '( .................... )')
+          ParentFont = False
+        end
+        object Memo18: TfrxMemoView
+          Left = 574.488560000000000000
+          Top = 71.811070000000000000
+          Width = 170.078850000000000000
+          Height = 18.897650000000000000
+          ShowHint = False
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = []
+          HAlign = haCenter
+          Memo.UTF8W = (
+            'Hormat Kami, ')
+          ParentFont = False
+        end
+        object Memo19: TfrxMemoView
+          Left = 608.504330000000000000
+          Top = 124.724490000000000000
+          Width = 94.488250000000000000
+          Height = 18.897650000000000000
+          ShowHint = False
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = []
+          HAlign = haCenter
+          Memo.UTF8W = (
+            '( .................... )')
+          ParentFont = False
+        end
+        object Memo20: TfrxMemoView
+          Left = 574.488560000000000000
+          Top = 147.401670000000000000
+          Width = 170.078850000000000000
+          Height = 18.897650000000000000
+          ShowHint = False
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = []
+          HAlign = haCenter
+          Memo.UTF8W = (
+            'Admin PT. DMP')
+          ParentFont = False
+        end
+      end
+    end
+  end
+  object frxXLSExport1: TfrxXLSExport
+    UseFileCache = True
+    ShowProgress = True
+    OverwritePrompt = False
+    DataOnly = False
+    ExportEMF = True
+    AsText = False
+    Background = True
+    FastExport = True
+    PageBreaks = True
+    EmptyLines = True
+    SuppressPageHeadersFooters = False
+    Left = 336
+    Top = 192
+  end
+  object frxPDFExport1: TfrxPDFExport
+    UseFileCache = True
+    ShowProgress = True
+    OverwritePrompt = False
+    DataOnly = False
+    PrintOptimized = False
+    Outline = False
+    Background = False
+    HTMLTags = True
+    Author = 'FastReport'
+    Subject = 'FastReport PDF export'
+    ProtectionFlags = [ePrint, eModify, eCopy, eAnnot]
+    HideToolbar = False
+    HideMenubar = False
+    HideWindowUI = False
+    FitWindow = False
+    CenterWindow = False
+    PrintScaling = False
+    Left = 416
+    Top = 184
   end
 end

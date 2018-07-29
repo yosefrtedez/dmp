@@ -4,7 +4,8 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, frxClass, frxDBSet, DB, ZAbstractRODataset, ZDataset;
+  Dialogs, frxClass, frxDBSet, DB, ZAbstractRODataset, ZDataset, frxExportPDF,
+  frxExportXLS;
 
 type
   TfrmLapMasterData = class(TForm)
@@ -12,6 +13,8 @@ type
     zqrMstBarang: TZReadOnlyQuery;
     dsMstBarang: TDataSource;
     fdbMstBarang: TfrxDBDataset;
+    frxXLSExport1: TfrxXLSExport;
+    frxPDFExport1: TfrxPDFExport;
   private
     { Private declarations }
   public

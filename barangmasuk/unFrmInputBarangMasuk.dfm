@@ -1,11 +1,11 @@
 inherited frmInputBarangMasuk: TfrmInputBarangMasuk
   Caption = 'Input Barang Masuk'
-  ClientHeight = 533
+  ClientHeight = 619
   ClientWidth = 973
   OnCreate = FormCreate
   OnShow = FormShow
   ExplicitWidth = 973
-  ExplicitHeight = 533
+  ExplicitHeight = 619
   PixelsPerInch = 96
   TextHeight = 13
   inherited Panel1: TPanel
@@ -26,9 +26,9 @@ inherited frmInputBarangMasuk: TfrmInputBarangMasuk
     end
   end
   inherited Panel2: TPanel
-    Top = 484
+    Top = 570
     Width = 973
-    TabOrder = 8
+    TabOrder = 10
     ExplicitTop = 484
     ExplicitWidth = 973
     inherited btnSimpan: TButton
@@ -74,11 +74,11 @@ inherited frmInputBarangMasuk: TfrmInputBarangMasuk
   end
   object cxgrdPP: TcxGrid
     Left = 8
-    Top = 146
+    Top = 177
     Width = 957
-    Height = 313
+    Height = 211
     Anchors = [akLeft, akTop, akRight]
-    TabOrder = 7
+    TabOrder = 9
     object cxtbBarangMasuk: TcxGridTableView
       NavigatorButtons.ConfirmDelete = False
       NavigatorButtons.Insert.Visible = False
@@ -173,13 +173,24 @@ inherited frmInputBarangMasuk: TfrmInputBarangMasuk
       GridView = cxtbBarangMasuk
     end
   end
+  object cxLabel6: TcxLabel
+    Left = 11
+    Top = 144
+    Caption = 'Jenis Transaksi'
+  end
+  object cxCmbJenisTrs: TcxComboBox
+    Left = 112
+    Top = 143
+    Properties.DropDownListStyle = lsEditFixedList
+    TabOrder = 7
+    Width = 146
+  end
   object zqrBarang: TZReadOnlyQuery
     Connection = DM.zConn
     AutoCalcFields = False
     SQL.Strings = (
       'select id, kode, deskripsi '
-      'from tbl_barang'
-      'where f_aktif = 1')
+      'from tbl_barang')
     Params = <>
     Properties.Strings = (
       

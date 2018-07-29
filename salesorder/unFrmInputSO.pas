@@ -18,7 +18,8 @@ uses
   cxDataStorage, DB, cxDBData, cxGridLevel, cxClasses, cxGridCustomView,
   cxGridCustomTableView, cxGridTableView, cxGridDBTableView, cxGrid,
   ZAbstractRODataset, ZDataset, cxDropDownEdit, cxLookupEdit, cxDBLookupEdit,
-  cxDBLookupComboBox, cxMaskEdit, cxCalendar, cxSpinEdit, cxButtonEdit;
+  cxDBLookupComboBox, cxMaskEdit, cxCalendar, cxSpinEdit, cxButtonEdit,
+  cxCheckBox;
 
 type
   TfrmInputSO = class(TfrmTplInput)
@@ -30,7 +31,7 @@ type
     cxlbl2: TcxLabel;
     cxdTanggal: TcxDateEdit;
     cxLabel8: TcxLabel;
-    cxLUCust: TcxLookupComboBox;
+    cxlCust: TcxLookupComboBox;
     zqrCust: TZReadOnlyQuery;
     dsCust: TDataSource;
     cxLabel10: TcxLabel;
@@ -74,6 +75,17 @@ type
     cxColNetAmount: TcxGridColumn;
     cxColIdSatuan: TcxGridColumn;
     cxColKeterangan: TcxGridColumn;
+    cxChkMTS: TcxCheckBox;
+    cxGrid2: TcxGrid;
+    cxtbMTS: TcxGridTableView;
+    cxColNo2: TcxGridColumn;
+    cxColKode2: TcxGridColumn;
+    cxColDeskripsi2: TcxGridColumn;
+    cxColQty2: TcxGridColumn;
+    cxColSatuan2: TcxGridColumn;
+    cxColKeterangan2: TcxGridColumn;
+    cxColIdSatuan2: TcxGridColumn;
+    cxGridLevel1: TcxGridLevel;
     procedure FormShow(Sender: TObject);
     procedure cxCmbCurrPropertiesEditValueChanged(Sender: TObject);
     procedure cxColNoGetDisplayText(Sender: TcxCustomGridTableItem;
@@ -91,6 +103,10 @@ type
     procedure FormCreate(Sender: TObject);
     procedure cxColKodePropertiesButtonClick(Sender: TObject;
       AButtonIndex: Integer);
+    procedure cxChkMTSClick(Sender: TObject);
+    procedure cxtbMTSDataControllerRecordChanged(
+      ADataController: TcxCustomDataController; ARecordIndex,
+      AItemIndex: Integer);
   private
     { Private declarations }
   public
@@ -116,28 +132,49 @@ var
 begin
   inherited;
 
-  if (cxTblSO.DataController.EditState = [dceInsert, dceModified]) or
-    (cxTblSO.DataController.EditState = [dceEdit, dceModified]) then begin
-    MsgBox('Mohon selesaikan pengeditan detail sebelum disimpan.');
-    Abort;
-  end;
+  if cxChkMTS.Checked then
+    if (cxtbMTS.DataController.EditState = [dceInsert, dceModified]) or
+      (cxtbMTS.DataController.EditState = [dceEdit, dceModified]) then begin
+      MsgBox('Mohon selesaikan pengeditan detail sebelum disimpan.');
+      Abort;
+    end
+  else
+    if (cxTblSO.DataController.EditState = [dceInsert, dceModified]) or
+      (cxTblSO.DataController.EditState = [dceEdit, dceModified]) then begin
+      MsgBox('Mohon selesaikan pengeditan detail sebelum disimpan.');
+      Abort;
+    end;
 
-  if cxsNet.EditValue = 0 then begin
-    MsgBox('Detail Transaksi masih kosong.');
-  end
-  else if cxLUCust.Text = '' then begin
-    MsgBox('Mohon isi nama customer.');
-    cxLUCust.SetFocus;
-    Abort;
-  end
-  else if cxlsales.Text = '' then begin
-    MsgBox('Mohon isi nama sales.');
-    cxlSales.SetFocus;
-    Abort;
+  if cxChkMTS.Checked then begin
+
   end
   else begin
+    if cxsNet.EditValue = 0 then begin
+      MsgBox('Detail Transaksi masih kosong.');
+      Abort;
+    end
+    else if cxlCust.Text = '' then begin
+      MsgBox('Mohon isi nama customer.');
+      cxlCust.SetFocus;
+      Abort;
+    end
+    else if cxlsales.Text = '' then begin
+      MsgBox('Mohon isi nama sales.');
+      cxlSales.SetFocus;
+      Abort;
+    end
+  end;
 
-    //Cek Qty
+  //Cek Qty
+  if cxChkMTS.Checked then begin
+    for i := 0 to cxtbMTS.DataController.RecordCount - 1 do begin
+      if VarIsNull(cxtbMTS.DataController.Values[i, cxColQty2.Index]) then begin
+        MsgBox('Qty masih ada yang kosong.');
+        Abort;
+      end;
+    end;
+  end
+  else begin
     for i := 0 to cxTblSO.DataController.RecordCount - 1 do begin
       if VarIsNull(cxTblSO.DataController.Values[i, cxColQty.Index]) then begin
         MsgBox('Qty masih ada yang kosong.');
@@ -167,34 +204,73 @@ begin
         Abort;
       end;
     end;
-    q.Close;
-    try
-      dm.zConn.StartTransaction;
+  end;
 
-      if Self.Jenis = 'T' then begin
-        sNoTrs := GetLastFak('sales_order');
-        UpdateFaktur(Copy(sNoTrs,1,7));
+  //Cek Status SO
+  q := OpenRS('SELECT * FROM tbl_so_head WHERE no_bukti = ''%s''',[cxtNoSO.Text]);
+  if not q.IsEmpty then begin
+    if q.FieldByName('f_completed').AsInteger = 1 then begin
+      MsgBox('SO ini sudah komplit / selesai. Tidak bisa di edit.');
+      q.Close;
+      Abort;
+    end;
+  end;
+  q.Close;
+
+  try
+    dm.zConn.StartTransaction;
+
+    if Self.Jenis = 'T' then begin
+      if cxChkMTS.Checked then begin
+        sNoTrs := GetLastFak('mts');
+        UpdateFaktur(Copy(sNoTrs,1,8));
       end
       else begin
-        sNoTrs := cxtNoSO.Text;
+        sNoTrs := GetLastFak('sales_order');
+        UpdateFaktur(Copy(sNoTrs,1,7));
       end;
+    end
+    else begin
+      sNoTrs := cxtNoSO.Text;
+    end;
 
-      // header SO
-      q := OpenRS('SELECT * FROM tbl_so_head where no_bukti =''%s''',[sNoTrs]);
+    // header SO
+    q := OpenRS('SELECT * FROM tbl_so_head where no_bukti =''%s''',[sNoTrs]);
 
-      if Self.Jenis = 'T' then
-        q.Insert
-      else begin
-        q.Edit;
-        ID := q.FieldByName('id').AsInteger;
-      end;
+    if Self.Jenis = 'T' then
+      q.Insert
+    else begin
+      q.Edit;
+      ID := q.FieldByName('id').AsInteger;
+    end;
 
+    if cxChkMTS.Checked then begin
       with q do begin
         FieldByName('no_bukti').AsString          := cxtNoSO.Text;
         FieldByName('po#').AsString               := cxtPO.Text;
         FieldByName('tanggal').AsDateTime         := cxdTanggal.EditValue;
-        //FieldByName('kode_customer').AsString     := cxLUCust.EditValue;
-        FieldByName('id_cust').AsInteger := cxLUCust.EditValue;
+        FieldByName('currency').AsString          := cxCmbCurr.Text;
+        FieldByName('rate').AsFloat               := cxsKurs.EditValue;
+        FieldByName('tanggal').AsDateTime         := cxdTglRequaired.EditValue;
+        if self.Jenis = 'T' then begin
+          FieldByName('user').AsString          := aplikasi.NamaUser;
+          FieldByName('tgl_input').AsDateTime   := aplikasi.TanggalServer;
+          FieldByName('f_revisi').AsInteger     := 0;
+        end;
+        if Self.Jenis = 'E' then begin
+          FieldByName('user_edit').AsString     := aplikasi.NamaUser;
+          FieldByName('tgl_edit').AsDateTime    := aplikasi.TanggalServer;
+          FieldByName('f_revisi').AsInteger     := 1;
+        end;
+        Post ;
+      end;
+    end
+    else begin
+      with q do begin
+        FieldByName('no_bukti').AsString          := cxtNoSO.Text;
+        FieldByName('po#').AsString               := cxtPO.Text;
+        FieldByName('tanggal').AsDateTime         := cxdTanggal.EditValue;
+        FieldByName('id_cust').AsInteger := cxlCust.EditValue;
         FieldByName('id_sales').AsString          := cxlSales.EditValue;
         FieldByName('currency').AsString          := cxCmbCurr.Text;
         FieldByName('rate').AsFloat               := cxsKurs.EditValue;
@@ -218,14 +294,79 @@ begin
         end;
         Post ;
       end;
+    end;
 
-      // detail SO
-      if Self.Jenis = 'E' then
-        dm.zConn.ExecuteDirect(Format('DELETE FROM tbl_so_det WHERE no_bukti = ''%s''',[sNoTrs]));
+    // detail SO
+    if Self.Jenis = 'E' then
+      dm.zConn.ExecuteDirect(Format('DELETE FROM tbl_so_det WHERE no_bukti = ''%s''',[sNoTrs]));
 
-      if Self.Jenis = 'T' then
-        ID := LastInsertID;
+    if Self.Jenis = 'T' then
+      ID := LastInsertID;
 
+    if cxChkMTS.Checked then begin
+      with cxtbMTS.DataController  do begin
+        for i := 0 to RecordCount -1 do begin
+          z := OpenRS('SELECT * FROM tbl_so_det where no_bukti =''%s''',[sNoTrs]) ;
+          z.Insert;
+          z.FieldByName('no').AsInteger           := i+1;
+          z.FieldByName('no_bukti').AsString      := sNoTrs;
+          z.FieldByname('id_ref').AsInteger       := ID;
+          z.FieldByName('kode_brg').AsString      := Values[i, cxColKode2.index];
+          z.FieldByName('id_brg').AsInteger       := Values[i, cxColDeskripsi2.Index];
+          z.FieldByName('qty').AsFloat            := Values[i, cxColQty2.Index];
+          z.FieldByName('satuan').AsString        := Values[i, cxColSatuan2.Index];
+          z.FieldByName('id_satuan').AsInteger    := Values[i, cxColIdSatuan2.Index];
+          z.FieldByName('keterangan').AsString := VarToStr(Values[i, cxColKeterangan2.Index]);
+          z.Post;
+          z.Close;
+
+          //Simpan tbl_mo
+          if Self.Jenis = 'T' then begin
+
+            sNoMO := GetLastFak('master_order');
+            UpdateFaktur(Copy(sNoMO,1,7));
+
+            qmo := OpenRS('SELECT * FROM tbl_mo WHERE no_mo = ''%s''', [sNoMO]);
+            with qmo do begin
+              Insert;
+              FieldByName('no_mo').AsString     := sNoMO;
+              FieldByName('no_so').AsString     := sNoTrs;
+              FieldByName('id_so').AsInteger    := ID;
+              FieldByName('kode_brg').AsString  := Values[i, cxColKode2.index];
+              FieldByName('id_brg').AsInteger   := Values[i, cxColDeskripsi2.Index];
+              FieldByName('qty_mo').AsFloat     := Values[i, cxColQty2.Index];
+              FieldByName('qty_so').AsFloat     := Values[i, cxColQty2.Index];
+              FieldByName('jenis').AsString     := 'BJ';
+              FieldByName('app_cft').AsInteger  := 1;
+              FieldByName('keterangan').AsString := Values[i, cxColKeterangan2.Index];
+              Post;
+            end;
+          end
+          else begin
+            qCekMO := OpenRS('SELECT * FROM tbl_mo WHERE no_so = ''%s'' ' +
+              'AND kode_brg = ''%s''',[sNoTrs, Values[i, cxColKode.index]]);
+
+            if tbl_tmp.Locate('kode_brg',Values[i, cxColKode.index],[]) then begin
+
+              if tbl_tmp.FieldByName('qty').AsFloat <> Values[i, cxColQty.Index] then begin
+
+                // update qty lama tbl_mo
+                if tbl_tmp.Locate('kode_brg',Values[i, cxColKode.index],[]) then begin
+                  qCekMO.Edit;
+                  qCekMO.FieldByName('qty_mo').AsFloat := Values[i, cxColQty.Index];
+                  qCekMO.FieldByName('qty_so').AsFloat := Values[i, cxColQty.Index];
+                  qCekMO.FieldByName('qty_lama').AsFloat := tbl_tmp.FieldByName('qty').AsFloat;
+                  qCekMO.FieldByName('jml_revisi').AsInteger := qCekMO.FieldByName('jml_revisi').AsInteger + 1;
+                  qCekMO.Post;
+                end;
+              end;
+
+            end;
+          end;
+        end;
+      end;
+    end
+    else begin
       if (cxsNet.EditValue <> 0) then begin
         with cxTblSO.DataController  do begin
           for i := 0 to RecordCount -1 do begin
@@ -297,20 +438,21 @@ begin
           end;
         end;
       end;
+    end;
 
-      Close;
-      MsgBox('Sales Order sudah disimpan dengan nomor : ' + sNoTrs);
-      cxTblSO.DataController.RecordCount := 0;
-      btnBatalClick(nil);
-      dm.zConn.Commit;
+    Close;
+    MsgBox('Sales Order sudah disimpan dengan nomor : ' + sNoTrs);
+    cxTblSO.DataController.RecordCount := 0;
+    btnBatalClick(nil);
+    dm.zConn.Commit;
 
-    except
-      on E: Exception do begin
-        MsgBox('Error: ' + E.Message);
-        dm.zConn.Rollback;
-      end;
-     end;
-  end;
+  except
+    on E: Exception do begin
+      MsgBox('Error: ' + E.Message);
+      dm.zConn.Rollback;
+    end;
+   end;
+
 end;
 
 procedure TfrmInputSO.ClearAll;
@@ -325,6 +467,27 @@ begin
       (Components[i] as TcxSpinEdit).Value := 0;
     if Components[i] is TcxLookupComboBox then
       (Components[i] as TcxLookupComboBox).Text := ''
+  end;
+end;
+
+procedure TfrmInputSO.cxChkMTSClick(Sender: TObject);
+begin
+  inherited;
+  if cxChkMTS.Checked then begin
+    cxlCust.Enabled := False;
+    cxlSales.Enabled := False;
+    cxtPO.Enabled := False;
+    cxtNoSO.Text := GetLastFak('mts');
+    cxGrid1.Visible := False;
+    cxGrid2.Visible := True;
+  end
+  else begin
+    cxlCust.Enabled := True;
+    cxlSales.Enabled := True;
+    cxtPO.Enabled := True;
+    cxtNoSO.Text := GetLastFak('sales_order');
+    cxGrid2.Visible := False;
+    cxGrid1.Visible := True;
   end;
 end;
 
@@ -503,7 +666,30 @@ begin
 
 end;
 
-procedure TfrmInputSO.FormCreate(Sender: TObject);
+procedure TfrmInputSO.cxtbMTSDataControllerRecordChanged(
+  ADataController: TcxCustomDataController; ARecordIndex, AItemIndex: Integer);
+var
+  i : Integer;
+  z,q : TZQuery;
+begin
+  inherited;
+  if AItemIndex = cxColDeskripsi2.Index then begin
+    try
+      cxtbMTS.BeginUpdate;
+      q := OpenRS('SELECT a.kode, a.id_satuan, b.satuan FROM tbl_barang a ' +
+        'LEFT JOIN tbl_satuan b ON a.id_satuan = b.id ' +
+        'WHERE a.id = %s',[ADataController.Values[ARecordIndex, cxColDeskripsi2.Index]]);
+      ADataController.Values[ARecordIndex, cxColKode2.Index] := q.FieldByname('kode').AsString;
+      ADataController.Values[ARecordIndex, cxColSatuan2.Index] := q.FieldByName('satuan').AsString;
+      ADataController.Values[ARecordIndex, cxColIdSatuan2.Index] := q.FieldByName('id_satuan').AsInteger;
+      q.Close;
+    finally
+      cxtbMTS.EndUpdate;
+    end;
+  end;
+end;
+
+procedure TfrmInputSO.FormCreate(Sender: TObject);
 var
   sNoTrs : string;
 begin
@@ -513,7 +699,10 @@ begin
     cxtNoSo.Text := sNoTrs;
     cxdTanggal.Date := Aplikasi.Tanggal;
     cxdTglRequaired.Date := Aplikasi.Tanggal;
-  end
+  end;
+  cxGrid2.Top := cxGrid1.Top;
+  cxGrid2.Left := cxGrid1.Left;
+  cxGrid2.Visible := False;
 end;
 
 procedure TfrmInputSO.FormShow(Sender: TObject);
@@ -542,7 +731,7 @@ begin
       cxtNoSO.Text                  := FieldByName('no_bukti').AsString;
       cxtPO.Text                    := FieldByName('po#').AsString;
       cxdTanggal.EditValue          := FieldByName('tanggal').AsDateTime;
-      cxLUCust.EditValue            := FieldByName('id_cust').AsInteger;
+      cxlCust.EditValue            := FieldByName('id_cust').AsInteger;
       cxlSales.EditValue            := FieldByName('id_sales').AsInteger;
       cxCmbCurr.Text                := FieldByName('currency').AsString;
       cxsKurs.Text                  := FieldByName('rate').AsString;

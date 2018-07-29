@@ -28,7 +28,7 @@ inherited frmInputBarangJasa: TfrmInputBarangJasa
   inherited Panel2: TPanel
     Top = 614
     Width = 1058
-    TabOrder = 16
+    TabOrder = 18
     ExplicitTop = 614
     ExplicitWidth = 1058
     inherited btnSimpan: TButton
@@ -119,7 +119,7 @@ inherited frmInputBarangJasa: TfrmInputBarangJasa
     ActivePage = cxTabSheet3
     Anchors = [akLeft, akTop, akRight, akBottom]
     Style = 7
-    TabOrder = 15
+    TabOrder = 17
     ClientRectBottom = 343
     ClientRectLeft = 1
     ClientRectRight = 1041
@@ -132,7 +132,7 @@ inherited frmInputBarangJasa: TfrmInputBarangJasa
         Top = 16
         Caption = 'Stok'
       end
-      object cxSpinEdit2: TcxSpinEdit
+      object cxsStok: TcxSpinEdit
         Left = 131
         Top = 15
         Properties.Alignment.Horz = taRightJustify
@@ -142,7 +142,7 @@ inherited frmInputBarangJasa: TfrmInputBarangJasa
         TabOrder = 0
         Width = 121
       end
-      object cxSpinEdit3: TcxSpinEdit
+      object cxsOutstandingPO: TcxSpinEdit
         Left = 131
         Top = 42
         Properties.Alignment.Horz = taRightJustify
@@ -162,7 +162,7 @@ inherited frmInputBarangJasa: TfrmInputBarangJasa
         Top = 70
         Caption = 'Dipesan Customer'
       end
-      object cxSpinEdit4: TcxSpinEdit
+      object cxsOutstandingSO: TcxSpinEdit
         Left = 131
         Top = 69
         Properties.Alignment.Horz = taRightJustify
@@ -177,7 +177,7 @@ inherited frmInputBarangJasa: TfrmInputBarangJasa
         Top = 97
         Caption = 'Stok Minimal'
       end
-      object cxSpinEdit5: TcxSpinEdit
+      object cxsStokMin: TcxSpinEdit
         Left = 131
         Top = 96
         Properties.Alignment.Horz = taRightJustify
@@ -450,13 +450,52 @@ inherited frmInputBarangJasa: TfrmInputBarangJasa
         Width = 121
       end
     end
+    object cxTabSheet5: TcxTabSheet
+      Caption = 'Harga Jual'
+      ImageIndex = 4
+      object cxGrid2: TcxGrid
+        Left = 16
+        Top = 14
+        Width = 465
+        Height = 200
+        TabOrder = 0
+        object cxtbHarga: TcxGridTableView
+          NavigatorButtons.ConfirmDelete = False
+          NavigatorButtons.Insert.Visible = False
+          NavigatorButtons.Append.Visible = True
+          DataController.Summary.DefaultGroupSummaryItems = <>
+          DataController.Summary.FooterSummaryItems = <>
+          DataController.Summary.SummaryGroups = <>
+          DataController.OnBeforePost = cxtbSatuanDataControllerBeforePost
+          OptionsData.Appending = True
+          OptionsView.Navigator = True
+          OptionsView.GroupByBox = False
+          object cxColJenis: TcxGridColumn
+            Caption = 'Jenis Harga'
+            PropertiesClassName = 'TcxLookupComboBoxProperties'
+            Properties.KeyFieldNames = 'id'
+            Properties.ListColumns = <
+              item
+                Caption = 'Jenis'
+                FieldName = 'jenis'
+              end>
+            Properties.ListSource = dsHrg
+            Width = 155
+          end
+          object cxColHarga: TcxGridColumn
+            Caption = 'Harga'
+            PropertiesClassName = 'TcxSpinEditProperties'
+            Width = 174
+          end
+        end
+        object cxGridLevel1: TcxGridLevel
+          GridView = cxtbHarga
+        end
+      end
+    end
     object cxTabSheet1: TcxTabSheet
       Caption = 'Konversi Satuan'
       ImageIndex = 0
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
       object cxGrid1: TcxGrid
         Left = 16
         Top = 14
@@ -509,10 +548,6 @@ inherited frmInputBarangJasa: TfrmInputBarangJasa
     object cxTabSheet2: TcxTabSheet
       Caption = 'Kode Akun'
       ImageIndex = 1
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
     end
   end
   object cxLabel6: TcxLabel
@@ -546,6 +581,20 @@ inherited frmInputBarangJasa: TfrmInputBarangJasa
     Caption = 'PPN'
     TabOrder = 3
     Width = 49
+  end
+  object cxChkDijual: TcxCheckBox
+    Left = 104
+    Top = 225
+    Caption = 'Dijual'
+    TabOrder = 15
+    Width = 62
+  end
+  object cxChkDibeli: TcxCheckBox
+    Left = 152
+    Top = 225
+    Caption = 'Dibeli'
+    TabOrder = 16
+    Width = 62
   end
   object zqrKategori: TZReadOnlyQuery
     Connection = DM.zConn
@@ -600,5 +649,24 @@ inherited frmInputBarangJasa: TfrmInputBarangJasa
     DataSet = zqrTipe
     Left = 736
     Top = 184
+  end
+  object cxPropertiesStore1: TcxPropertiesStore
+    Components = <>
+    StorageName = 'cxPropertiesStore1'
+    Left = 192
+    Top = 8
+  end
+  object zqrHrg: TZReadOnlyQuery
+    Connection = DM.zConn
+    SQL.Strings = (
+      'SELECT * FROM tbl_jenis_harga')
+    Params = <>
+    Left = 504
+    Top = 144
+  end
+  object dsHrg: TDataSource
+    DataSet = zqrHrg
+    Left = 584
+    Top = 144
   end
 end

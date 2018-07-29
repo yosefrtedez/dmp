@@ -1,13 +1,15 @@
 inherited frmMasterOrder: TfrmMasterOrder
   Caption = 'Master Order'
+  ClientHeight = 667
   ClientWidth = 1076
   OnCreate = FormCreate
   ExplicitWidth = 1076
-  ExplicitHeight = 553
+  ExplicitHeight = 667
   PixelsPerInch = 96
   TextHeight = 13
   inherited Panel1: TPanel
     Width = 1076
+    ExplicitWidth = 1076
     object Label13: TLabel
       Left = 10
       Top = 16
@@ -24,7 +26,7 @@ inherited frmMasterOrder: TfrmMasterOrder
   end
   inherited Panel2: TPanel
     Align = alNone
-    TabOrder = 4
+    TabOrder = 6
     Visible = False
   end
   object Panel3: TPanel
@@ -34,7 +36,6 @@ inherited frmMasterOrder: TfrmMasterOrder
     Height = 41
     Align = alTop
     TabOrder = 1
-    ExplicitWidth = 894
     object cxdTgl1: TcxDateEdit
       Left = 62
       Top = 9
@@ -71,10 +72,10 @@ inherited frmMasterOrder: TfrmMasterOrder
     Left = 0
     Top = 90
     Width = 1076
-    Height = 295
+    Height = 226
     Align = alClient
     TabOrder = 2
-    ExplicitWidth = 894
+    ExplicitHeight = 295
     object cxGrid1DBTableView1: TcxGridDBTableView
       NavigatorButtons.ConfirmDelete = False
       DataController.DataSource = dsMO
@@ -136,12 +137,12 @@ inherited frmMasterOrder: TfrmMasterOrder
   end
   object Panel4: TPanel
     Left = 0
-    Top = 385
+    Top = 499
     Width = 1076
     Height = 168
     Align = alBottom
-    TabOrder = 3
-    ExplicitWidth = 894
+    TabOrder = 5
+    ExplicitTop = 385
     object Button1: TButton
       Left = 10
       Top = 6
@@ -165,6 +166,35 @@ inherited frmMasterOrder: TfrmMasterOrder
       Height = 25
       Caption = 'Keluar'
       TabOrder = 2
+    end
+  end
+  object Panel5: TPanel
+    Left = 0
+    Top = 316
+    Width = 1076
+    Height = 41
+    Align = alBottom
+    TabOrder = 3
+    ExplicitLeft = 1
+    ExplicitTop = 126
+    ExplicitWidth = 1074
+  end
+  object cxGrid2: TcxGrid
+    Left = 0
+    Top = 357
+    Width = 1076
+    Height = 142
+    Align = alBottom
+    TabOrder = 4
+    ExplicitTop = 299
+    object cxtbSPK: TcxGridDBTableView
+      NavigatorButtons.ConfirmDelete = False
+      DataController.Summary.DefaultGroupSummaryItems = <>
+      DataController.Summary.FooterSummaryItems = <>
+      DataController.Summary.SummaryGroups = <>
+    end
+    object cxGrid2Level1: TcxGridLevel
+      GridView = cxtbSPK
     end
   end
   object zqrMO: TZReadOnlyQuery

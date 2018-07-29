@@ -144,7 +144,6 @@ begin
       aplikasi.TglStkAwal := EncodeDate(1970,1,1);
     q.Close;
   end;
-
 end;
 
 procedure Tdm.CekUpdate;

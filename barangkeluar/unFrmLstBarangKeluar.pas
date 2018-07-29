@@ -58,6 +58,9 @@ type
     cxtbBarangKeluarDetColumn1: TcxGridDBColumn;
     Button1: TButton;
     cxtbBarangKeluarColumn1: TcxGridDBColumn;
+    cxtbBarangKeluarColumn2: TcxGridDBColumn;
+    cxtbBarangKeluarColumn3: TcxGridDBColumn;
+    cxtbBarangKeluarColumn4: TcxGridDBColumn;
     procedure btnTambahClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure btnRefreshClick(Sender: TObject);
@@ -139,8 +142,14 @@ begin
   inherited;
   f := TfrmTmpLap01.Create(Self);
   with f do begin
+    zqrSJ01.Close;
     zqrSJ01.ParamByName('id').AsInteger := zqrBarangKeluar.FieldByName('id').AsInteger;
-    rptSJ01.ShowReport(True);
+    zqrSJ01.Open;
+    if zqrBarangKeluar.FieldByName('f_ppn').AsInteger = 1 then
+      rptSJ01.ShowReport(True)
+    else
+      rptSJ01NonPPN.ShowReport(True);
+
     if zqrBarangKeluar.FieldByName('f_ppn').AsInteger = 1 then
       rptFakturPenjualan.ShowReport(True)
     else

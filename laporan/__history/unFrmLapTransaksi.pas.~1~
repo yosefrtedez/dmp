@@ -1,0 +1,28 @@
+unit unFrmLapTransaksi;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, frxClass, frxDBSet, DB, ZAbstractRODataset, ZDataset;
+
+type
+  TfrmLapTransaksi = class(TForm)
+    rptLapRekapTrsKeluar: TfrxReport;
+    zqrLapRekapTrsKeluar: TZReadOnlyQuery;
+    dsLapRekapTrsKeluar: TDataSource;
+    fdbLapRekapTrsKeluar: TfrxDBDataset;
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmLapTransaksi: TfrmLapTransaksi;
+
+implementation
+
+{$R *.dfm}
+
+end.
