@@ -16,7 +16,9 @@ uses
   dxSkinsDefaultPainters, dxSkinValentine, dxSkinXmas2008Blue, cxStyles,
   dxSkinscxPCPainter, cxCustomData, cxFilter, cxData, cxDataStorage, DB,
   cxDBData, cxGridLevel, cxClasses, cxGridCustomView, cxGridCustomTableView,
-  cxGridTableView, cxGridDBTableView, cxGrid, cxTextEdit, cxLabel;
+  cxGridTableView, cxGridDBTableView, cxGrid, cxTextEdit, cxLabel, cxSpinEdit,
+  cxDropDownEdit, cxLookupEdit, cxDBLookupEdit, cxDBLookupComboBox, cxMaskEdit,
+  cxCalendar, ZDataset, ZAbstractRODataset, ZAbstractDataset;
 
 type
   TfrmSPK = class(TfrmTplInput)
@@ -24,23 +26,39 @@ type
     cxLabel1: TcxLabel;
     cxtNoSO: TcxTextEdit;
     cxLabel2: TcxLabel;
-    cxTextEdit1: TcxTextEdit;
+    cxtNoSPK: TcxTextEdit;
     cxLabel3: TcxLabel;
-    cxTextEdit2: TcxTextEdit;
     cxLabel4: TcxLabel;
-    cxTextEdit3: TcxTextEdit;
     cxLabel5: TcxLabel;
     cxtbBOM: TcxGridDBTableView;
     cxGrid1Level1: TcxGridLevel;
     cxGrid1: TcxGrid;
     cxLabel6: TcxLabel;
-    cxTextEdit4: TcxTextEdit;
+    cxtKodeBrg: TcxTextEdit;
     cxLabel7: TcxLabel;
-    cxTextEdit5: TcxTextEdit;
+    cxtDeskripsi: TcxTextEdit;
+    cxLabel8: TcxLabel;
+    cxColKodeBrg: TcxGridDBColumn;
+    cxtbBOMColumn2: TcxGridDBColumn;
+    cxtbBOMColumn3: TcxGridDBColumn;
+    cxtbBOMColumn4: TcxGridDBColumn;
+    cxColIdSatuan: TcxGridDBColumn;
+    cxDateEdit1: TcxDateEdit;
+    cxlMesin: TcxLookupComboBox;
+    cxsQtySPK: TcxSpinEdit;
+    cxtSatuan: TcxTextEdit;
+    cxtNoMO: TcxTextEdit;
+    zqrMesin: TZReadOnlyQuery;
+    dsMesin: TDataSource;
+    dsBrg: TDataSource;
+    zqrBrg: TZReadOnlyQuery;
+    procedure FormShow(Sender: TObject);
   private
     mNoSO: string;
+    mNOMO: string;
   public
     property NoSO: string read mNoSO write mNoSO;
+    property NoMO: string read mNOMO write mNOMO;
   end;
 
 var
@@ -48,6 +66,26 @@ var
 
 implementation
 
+uses unTools, unDM;
+
 {$R *.dfm}
+
+procedure TfrmSPK.FormShow(Sender: TObject);
+var
+  q: TZQuery;
+begin
+  inherited;
+  q := OpenRS('SELECT a.* FROM v_mo a WHERE no_mo = ''%s''',[mNoMO]);
+
+  cxtNoMO.Text := mNOMO;
+  cxtNoSO.Text := q.FieldByName('no_so').AsString;
+  cxtKodeBrg.Text := q.FieldByName('kode_brg').AsString;
+  cxtDeskripsi.Text := q.FieldByName('deskripsi').AsString;
+  cxtSatuan.Text := q.FieldByName('satuan').AsString;
+
+  q.Close;
+
+  cxtNoSPK.Text := GetLastFak('spk');
+end;
 
 end.

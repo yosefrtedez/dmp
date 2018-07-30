@@ -84,8 +84,6 @@ inherited frmSPK: TfrmSPK
       OptionsView.Navigator = True
       object cxColKodeBrg: TcxGridColumn
         Caption = 'Kode Brg.'
-        PropertiesClassName = 'TcxTextEditProperties'
-        Properties.ReadOnly = True
         Width = 73
       end
       object cxColDeskripsi: TcxGridColumn
@@ -105,8 +103,6 @@ inherited frmSPK: TfrmSPK
       end
       object cxColSatuan: TcxGridColumn
         Caption = 'Satuan'
-        PropertiesClassName = 'TcxTextEditProperties'
-        Properties.ReadOnly = True
       end
       object cxColIdSatuan: TcxGridColumn
       end

@@ -91,19 +91,17 @@ var
   f: TFrmSPK;
   ts: TcxTabSheet;
 begin
-  if not frmUtama.CekTabOpen('Surat Perintah Kerja (SPK)') then begin
-    frmUtama.ToggleMainPage;
+  if not frmUtama.CekTabOpen('Surat Perintah Kerja') then begin
+    ToggleMainPage;
     ts := TcxTabSheet.Create(Self);
-    ts.PageControl := frmUtama.pgMain;
+    ts.PageControl := pgMain;
 
-    f := TfrmSPK.Create(nil);
-    f.NoSO := zqrMO.FieldByName('no_so').AsString;
-    f.NoMO := zqrMO.FieldByName('no_mo').AsString;
+    f := TfrmLstSO.Create(Self);
     f.Parent := ts;
     ts.Caption := f.Caption;
     f.Show;
 
-    frmUtama.pgMain.ActivePage := ts;
+    pgMain.ActivePage := ts;
   end;
 end;
 

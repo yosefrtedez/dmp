@@ -71,27 +71,17 @@ inherited frmSPK: TfrmSPK
     TabOrder = 18
     object cxtbBom: TcxGridTableView
       NavigatorButtons.ConfirmDelete = False
-      NavigatorButtons.Insert.Visible = False
-      NavigatorButtons.Append.Visible = True
-      NavigatorButtons.SaveBookmark.Visible = False
-      NavigatorButtons.GotoBookmark.Visible = False
-      NavigatorButtons.Filter.Visible = False
       DataController.Summary.DefaultGroupSummaryItems = <>
       DataController.Summary.FooterSummaryItems = <>
       DataController.Summary.SummaryGroups = <>
       DataController.OnRecordChanged = cxtbBomDataControllerRecordChanged
-      OptionsData.Appending = True
-      OptionsView.Navigator = True
       object cxColKodeBrg: TcxGridColumn
         Caption = 'Kode Brg.'
-        PropertiesClassName = 'TcxTextEditProperties'
-        Properties.ReadOnly = True
         Width = 73
       end
       object cxColDeskripsi: TcxGridColumn
         Caption = 'Deskripsi'
         PropertiesClassName = 'TcxLookupComboBoxProperties'
-        Properties.KeyFieldNames = 'id'
         Properties.ListColumns = <
           item
             Caption = 'Deskripsi'
@@ -105,10 +95,6 @@ inherited frmSPK: TfrmSPK
       end
       object cxColSatuan: TcxGridColumn
         Caption = 'Satuan'
-        PropertiesClassName = 'TcxTextEditProperties'
-        Properties.ReadOnly = True
-      end
-      object cxColIdSatuan: TcxGridColumn
       end
     end
     object cxGrid1Level1: TcxGridLevel
@@ -153,13 +139,7 @@ inherited frmSPK: TfrmSPK
   object cxlMesin: TcxLookupComboBox
     Left = 101
     Top = 225
-    Properties.KeyFieldNames = 'id'
-    Properties.ListColumns = <
-      item
-        Caption = 'Nama Mesin'
-        FieldName = 'nama'
-      end>
-    Properties.ListSource = dsMesin
+    Properties.ListColumns = <>
     TabOrder = 15
     Width = 177
   end
@@ -188,11 +168,6 @@ inherited frmSPK: TfrmSPK
     Width = 177
   end
   object zqrMesin: TZReadOnlyQuery
-    Connection = DM.zConn
-    Active = True
-    SQL.Strings = (
-      'SELECT id, kode, nama FROM tbl_mesin'
-      'ORDER BY nama')
     Params = <>
     Left = 576
     Top = 184

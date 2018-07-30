@@ -17,7 +17,7 @@ uses
   cxFilter, cxData, cxDataStorage, cxEdit, DB, cxDBData, cxContainer, cxLabel,
   cxTextEdit, cxMaskEdit, cxDropDownEdit, cxCalendar, cxGridLevel, cxClasses,
   cxGridCustomView, cxGridCustomTableView, cxGridTableView, cxGridDBTableView,
-  cxGrid, StdCtrls, ExtCtrls,ZDataset, ZAbstractRODataset;
+  cxGrid, StdCtrls, ExtCtrls,ZDataset, ZAbstractRODataset, cxPC;
 
 type
   TfrmMasterOrder = class(TfrmTplInput)
@@ -54,7 +54,7 @@ type
     cxGrid2: TcxGrid;
     procedure btnProsesClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
-    procedure Button2Click(Sender: TObject);
+    procedure Button1Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -67,7 +67,7 @@ var
 implementation
 
 uses
-  unDM, unTools;
+  unDM, unTools, unFrmSPK, unFrmUtama;
 
 {$R *.dfm}
 
@@ -86,13 +86,26 @@ begin
   end;
 end;
 
-pprocedure TfrmMasterOrder.Button2Click(Sender: TObject);
+procedure TfrmMasterOrder.Button1Click(Sender: TObject);
+var
+  f: TFrmSPK;
+  ts: TcxTabSheet;
 begin
-  inherited;
+  if not frmUtama.CekTabOpen('Surat Perintah Kerja (SPK)') then begin
+    frmUtama.ToggleMainPage;
+    ts := TcxTabSheet.Create(Self);
+    ts.PageControl := frmUtama.pgMain;
 
+    f := TfrmSPK.Create(nil);
+    f.Parent := ts;
+    ts.Caption := f.Caption;
+    f.Show;
+
+    frmUtama.pgMain.ActivePage := ts;
+  end;
 end;
 
-rocedure TfrmMasterOrder.FormCreate(Sender: TObject);
+procedure TfrmMasterOrder.FormCreate(Sender: TObject);
 begin
   inherited;
   cxdTgl1.Date := FDOM(Date);

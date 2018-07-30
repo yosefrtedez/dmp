@@ -71,8 +71,6 @@ inherited frmSPK: TfrmSPK
     TabOrder = 18
     object cxtbBom: TcxGridTableView
       NavigatorButtons.ConfirmDelete = False
-      NavigatorButtons.Insert.Visible = False
-      NavigatorButtons.Append.Visible = True
       NavigatorButtons.SaveBookmark.Visible = False
       NavigatorButtons.GotoBookmark.Visible = False
       NavigatorButtons.Filter.Visible = False
@@ -84,14 +82,11 @@ inherited frmSPK: TfrmSPK
       OptionsView.Navigator = True
       object cxColKodeBrg: TcxGridColumn
         Caption = 'Kode Brg.'
-        PropertiesClassName = 'TcxTextEditProperties'
-        Properties.ReadOnly = True
         Width = 73
       end
       object cxColDeskripsi: TcxGridColumn
         Caption = 'Deskripsi'
         PropertiesClassName = 'TcxLookupComboBoxProperties'
-        Properties.KeyFieldNames = 'id'
         Properties.ListColumns = <
           item
             Caption = 'Deskripsi'
@@ -105,8 +100,6 @@ inherited frmSPK: TfrmSPK
       end
       object cxColSatuan: TcxGridColumn
         Caption = 'Satuan'
-        PropertiesClassName = 'TcxTextEditProperties'
-        Properties.ReadOnly = True
       end
       object cxColIdSatuan: TcxGridColumn
       end

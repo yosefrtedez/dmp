@@ -97,8 +97,7 @@ begin
     ts.PageControl := frmUtama.pgMain;
 
     f := TfrmSPK.Create(nil);
-    f.NoSO := zqrMO.FieldByName('no_so').AsString;
-    f.NoMO := zqrMO.FieldByName('no_mo').AsString;
+    f.NoSO :=
     f.Parent := ts;
     ts.Caption := f.Caption;
     f.Show;

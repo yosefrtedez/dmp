@@ -75,6 +75,7 @@ inherited frmMasterOrder: TfrmMasterOrder
     Height = 226
     Align = alClient
     TabOrder = 2
+    ExplicitHeight = 295
     object cxGrid1DBTableView1: TcxGridDBTableView
       NavigatorButtons.ConfirmDelete = False
       DataController.DataSource = dsMO
@@ -141,6 +142,7 @@ inherited frmMasterOrder: TfrmMasterOrder
     Height = 168
     Align = alBottom
     TabOrder = 5
+    ExplicitTop = 385
     object Button1: TButton
       Left = 10
       Top = 6
@@ -148,7 +150,6 @@ inherited frmMasterOrder: TfrmMasterOrder
       Height = 25
       Caption = 'SPK'
       TabOrder = 0
-      OnClick = Button1Click
     end
     object Button2: TButton
       Left = 91
@@ -174,6 +175,9 @@ inherited frmMasterOrder: TfrmMasterOrder
     Height = 41
     Align = alBottom
     TabOrder = 3
+    ExplicitLeft = 1
+    ExplicitTop = 126
+    ExplicitWidth = 1074
   end
   object cxGrid2: TcxGrid
     Left = 0
@@ -182,6 +186,7 @@ inherited frmMasterOrder: TfrmMasterOrder
     Height = 142
     Align = alBottom
     TabOrder = 4
+    ExplicitTop = 299
     object cxtbSPK: TcxGridDBTableView
       NavigatorButtons.ConfirmDelete = False
       DataController.Summary.DefaultGroupSummaryItems = <>

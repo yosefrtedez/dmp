@@ -46,17 +46,13 @@ type
     dsMesin: TDataSource;
     dsBrg: TDataSource;
     zqrBrg: TZReadOnlyQuery;
-    cxtbBom: TcxGridTableView;
+    cxGrid1TableView1: TcxGridTableView;
     cxColKodeBrg: TcxGridColumn;
     cxColDeskripsi: TcxGridColumn;
     cxColQty: TcxGridColumn;
     cxColSatuan: TcxGridColumn;
-    cxColIdSatuan: TcxGridColumn;
     procedure FormShow(Sender: TObject);
     procedure FormCreate(Sender: TObject);
-    procedure cxtbBomDataControllerRecordChanged(
-      ADataController: TcxCustomDataController; ARecordIndex,
-      AItemIndex: Integer);
   private
     mNoSO: string;
     mNOMO: string;
@@ -73,22 +69,6 @@ implementation
 uses unTools, unDM;
 
 {$R *.dfm}
-
-procedure TfrmSPK.cxtbBomDataControllerRecordChanged(
-  ADataController: TcxCustomDataController; ARecordIndex, AItemIndex: Integer);
-var
-  q: TZQuery;
-begin
-  inherited;
-  if AItemIndex = cxColDeskripsi.Index then begin
-    q := OpenRS('SELECT a.kode, b.satuan, b.id id_satuan FROM tbl_barang a ' +
-      'tbl_satuan b ON a.id_satuan = b.id WHERE a.id = ''%s''',[ADataController.Values[ARecordIndex, cxColDeskripsi.Index]]);
-    ADataController.Values[ARecordIndex, cxColSatuan.Index] := q.FieldByName('satuan').AsString;
-    ADataController.Values[ARecordIndex, cxColIdSatuan.Index] := q.FieldByName('id_satuan').AsString;
-    ADataController.Values[ARecordIndex, cxColKodeBrg.Index] := q.FieldByName('satuan').AsString;
-    q.Close;
-  end;
-end;
 
 procedure TfrmSPK.FormCreate(Sender: TObject);
 begin
