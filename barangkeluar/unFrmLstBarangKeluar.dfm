@@ -61,6 +61,12 @@ inherited frmLstBarangKeluar: TfrmLstBarangKeluar
       FilterRow.Visible = True
       OptionsView.CellTextMaxLineCount = 10
       Preview.MaxLineCount = 10
+      object cxColPosting: TcxGridDBColumn
+        Caption = 'Posting'
+        PropertiesClassName = 'TcxCheckBoxProperties'
+        Properties.ValueChecked = 1
+        Properties.ValueUnchecked = 0
+      end
       object cxColPOHeadno_bukti: TcxGridDBColumn
         Caption = 'No. Bukti'
         DataBinding.FieldName = 'no_bukti'
@@ -170,6 +176,7 @@ inherited frmLstBarangKeluar: TfrmLstBarangKeluar
     Height = 41
     Align = alBottom
     TabOrder = 2
+    ExplicitTop = 212
     DesignSize = (
       1049
       41)
@@ -185,8 +192,16 @@ inherited frmLstBarangKeluar: TfrmLstBarangKeluar
       Height = 25
       Anchors = [akTop, akRight]
       Caption = 'Cetak Faktur Penjualan + Surat Jalan'
-      TabOrder = 0
+      TabOrder = 1
       OnClick = Button1Click
+    end
+    object btnPosting: TButton
+      Left = 711
+      Top = 8
+      Width = 75
+      Height = 25
+      Caption = 'Posting'
+      TabOrder = 0
     end
   end
   object cxGrid1: TcxGrid

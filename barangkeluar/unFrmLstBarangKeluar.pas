@@ -61,6 +61,8 @@ type
     cxtbBarangKeluarColumn2: TcxGridDBColumn;
     cxtbBarangKeluarColumn3: TcxGridDBColumn;
     cxtbBarangKeluarColumn4: TcxGridDBColumn;
+    btnPosting: TButton;
+    cxColPosting: TcxGridDBColumn;
     procedure btnTambahClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure btnRefreshClick(Sender: TObject);
