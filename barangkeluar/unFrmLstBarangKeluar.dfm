@@ -1,14 +1,14 @@
 inherited frmLstBarangKeluar: TfrmLstBarangKeluar
-  Caption = 'Barang Masuk'
-  ClientWidth = 1049
+  Caption = 'Barang Keluar'
+  ClientWidth = 1063
   OnCreate = FormCreate
-  ExplicitWidth = 1049
+  ExplicitWidth = 1063
   ExplicitHeight = 508
   PixelsPerInch = 96
   TextHeight = 13
   inherited Panel1: TPanel
-    Width = 1049
-    ExplicitWidth = 1049
+    Width = 1063
+    ExplicitWidth = 1063
     object Label13: TLabel
       Left = 10
       Top = 13
@@ -24,9 +24,9 @@ inherited frmLstBarangKeluar: TfrmLstBarangKeluar
     end
   end
   inherited Panel2: TPanel
-    Width = 1049
+    Width = 1063
     TabOrder = 4
-    ExplicitWidth = 1049
+    ExplicitWidth = 1063
     inherited btnTambah: TButton
       OnClick = btnTambahClick
     end
@@ -34,9 +34,9 @@ inherited frmLstBarangKeluar: TfrmLstBarangKeluar
       OnClick = btnEditClick
     end
     inherited btnKeluar: TButton
-      Left = 966
+      Left = 980
       TabOrder = 4
-      ExplicitLeft = 966
+      ExplicitLeft = 980
     end
     inherited btnRefresh: TButton
       TabOrder = 3
@@ -46,7 +46,7 @@ inherited frmLstBarangKeluar: TfrmLstBarangKeluar
   object cxgrd1: TcxGrid
     Left = 0
     Top = 49
-    Width = 1049
+    Width = 1063
     Height = 169
     Align = alClient
     TabOrder = 1
@@ -63,6 +63,7 @@ inherited frmLstBarangKeluar: TfrmLstBarangKeluar
       Preview.MaxLineCount = 10
       object cxColPosting: TcxGridDBColumn
         Caption = 'Posting'
+        DataBinding.FieldName = 'f_posting'
         PropertiesClassName = 'TcxCheckBoxProperties'
         Properties.ValueChecked = 1
         Properties.ValueUnchecked = 0
@@ -172,13 +173,12 @@ inherited frmLstBarangKeluar: TfrmLstBarangKeluar
   object Panel3: TPanel
     Left = 0
     Top = 218
-    Width = 1049
+    Width = 1063
     Height = 41
     Align = alBottom
     TabOrder = 2
-    ExplicitTop = 212
     DesignSize = (
-      1049
+      1063
       41)
     object cxLabel1: TcxLabel
       Left = 10
@@ -186,7 +186,7 @@ inherited frmLstBarangKeluar: TfrmLstBarangKeluar
       Caption = 'Detail Barang Masuk'
     end
     object Button1: TButton
-      Left = 792
+      Left = 806
       Top = 8
       Width = 249
       Height = 25
@@ -196,18 +196,20 @@ inherited frmLstBarangKeluar: TfrmLstBarangKeluar
       OnClick = Button1Click
     end
     object btnPosting: TButton
-      Left = 711
+      Left = 725
       Top = 8
       Width = 75
       Height = 25
+      Anchors = [akTop, akRight]
       Caption = 'Posting'
       TabOrder = 0
+      OnClick = btnPostingClick
     end
   end
   object cxGrid1: TcxGrid
     Left = 0
     Top = 259
-    Width = 1049
+    Width = 1063
     Height = 200
     Align = alBottom
     TabOrder = 3
@@ -259,7 +261,7 @@ inherited frmLstBarangKeluar: TfrmLstBarangKeluar
     SQL.Strings = (
       
         'SELECT a.id, a.no_bukti,  a.tanggal, a.user, a.user_dept, a.kete' +
-        'rangan, a.f_ppn, a.no_sj, a.no_faktur, a.jenistrs'
+        'rangan, a.f_ppn, a.no_sj, a.no_faktur, a.jenistrs, a.f_posting'
       'FROM tbl_trskeluar_head a')
     Params = <>
     Left = 647

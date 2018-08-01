@@ -150,6 +150,7 @@ begin
           end;
           qd.Post;
 
+          { 01/08
           with qhst do begin
             Insert;
             FieldByName('no_bukti').AsString := sNoBukti;
@@ -187,7 +188,7 @@ begin
           qbrg.FieldByName('stok').AsFloat := qbrg.FieldByName('stok').AsFloat + Values[i, cxColQty.Index];
           qbrg.Post;
           qbrg.Close;
-
+          }
         end;
       end;
       dm.zConn.Commit;
@@ -422,7 +423,7 @@ procedure TfrmInputBarangMasuk.FormShow(Sender: TObject);
 begin
   inherited;
   if Self.Jenis = 'T' then begin
-    sNoTrs := GetLastFak('brg_in');
+    sNoTrs := GetLastFak('brg-masuk');
     cxtNoBukti.Text := sNoTrs;
     cxdTglDatang.Date := Aplikasi.Tanggal;
 
@@ -432,13 +433,13 @@ begin
     cxtNoBukti.Text := q.FieldByName('no_bukti').AsString;
     cxdTglDatang.Date := q.FieldByName('tanggal').AsDateTime;
     cxtKeterangan.Text := q.FieldByName('keterangan').AsString;
+    cxCmbJenisTrs.Text := q.FieldByName('jenistrs').AsString;
     q.Close;
-    z := OpenRS('SELECT a.id, a.id_ref, a.no_bukti, a.kode_brg, a.kode_gdg, a.id_brg, a.id_satuan, a.keterangan, b.deskripsi, c.satuan, a.qty, a.qty_baik, a.qty_afkir, a.qty_retur, a.keterangan,' +
-          'a.no_so, a.no_spk, a.nO_spmb' +
-          'FROM tbl_trsmasuk_det a' +
-          'LEFT JOIN tbl_barang b ON a.kode_brg = b.kode' +
-          'LEFT JOIN tbl_satuan c ON a.id_brg = c.id' +
-          'LEFT JOIN tbl_gudang d ON d.id = a.kode_gdg' +
+    z := OpenRS('SELECT a.*, b.deskripsi, c.satuan satuan2 ' +
+          'FROM tbl_trsmasuk_det a ' +
+          'LEFT JOIN tbl_barang b ON a.kode_brg = b.kode ' +
+          'LEFT JOIN tbl_satuan c ON a.id_brg = c.id ' +
+          'LEFT JOIN tbl_gudang d ON d.id = a.kode_gdg ' +
           'WHERE id_ref = %s',[Self.EditKey]);
     nomer := 1;
 
@@ -450,10 +451,10 @@ begin
         Values[i, cxColKodeBrg.Index] := z.FieldByName('kode_brg').AsString;
         Values[i, cxColDeskripsi.Index] := z.FieldByName('id_brg').AsString;
         Values[i, cxColQty.Index] := z.FieldByName('qty').AsFloat;
-        Values[i, cxColSatuan.Index] := z.FieldByName('satuan').AsString;
-        Values[i, cxColGudang.Index] := z.FieldByName('kode_gdg').AsString;
+        Values[i, cxColSatuan.Index] := z.FieldByName('satuan2').AsString;
+        Values[i, cxColGudang.Index] := z.FieldByName('id_gdg').AsInteger;
         Values[i, cxColIdSatuan.Index] := z.FieldByname('id_satuan').AsInteger;
-        Values[i, cxColKeterangan.Index] := z.FieldByname('keterangan').AsInteger;
+        Values[i, cxColKeterangan.Index] := z.FieldByname('keterangan').AsString;
         nomer := nomer +1;
       end;
       z.Next;

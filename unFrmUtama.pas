@@ -77,6 +77,7 @@ type
     mnWhl_BarangMasuk: TMenuItem;
     mnWhl_BarangKeluar: TMenuItem;
     mnSet_KalkulasiUlangStok: TMenuItem;
+    mnWhl_Koreksi: TMenuItem;
     procedure FormShow(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure mnMst_BarangJasaClick(Sender: TObject);

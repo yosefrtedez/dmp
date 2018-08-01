@@ -73,6 +73,7 @@ type
     cxLabel8: TcxLabel;
     cxtNoFaktur: TcxTextEdit;
     cxColQtyKG: TcxGridColumn;
+    cxColHargaIkat: TcxGridColumn;
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure cxtbReturDataControllerRecordChanged(
@@ -177,6 +178,7 @@ begin
         qh.FieldByName('jatuh_tempo').AsDateTime := cxdTglJthTempo.Date;
       qh.FieldByname('jenistrs').AsString := cxCmbJenisTrs.Text;
       qh.FieldByName('no_faktur').AsString := Trim(cxtNoFaktur.Text);
+      qh.FieldByName('no_sj').AsString := cxtNoSJ.Text;
       qh.Post;
 
       if Self.Jenis = 'T' then  ID := LastInsertID;
@@ -207,8 +209,10 @@ begin
             qd.FieldByName('hrgjual').AsFloat := Values[i, cxColHarga.Index];
           if not VarIsNull(Values[i, cxColQtyKG.Index]) then
             qd.FieldByName('qty_kg').AsFloat := Values[i,cxColQtyKG.Index];
+          qd.FieldByName('hrgikat').AsFloat := Values[i, cxColHargaIkat.Index];
           qd.Post;
 
+          { 01/08/2018
           with qhst do begin
             Insert;
             FieldByName('no_bukti').AsString := sNoBukti;
@@ -244,6 +248,7 @@ begin
           qbrg.FieldByName('stok').AsFloat := qbrg.FieldByName('stok').AsFloat - Values[i, cxColQty.Index];
           qbrg.Post;
           qbrg.Close;
+          }
 
         end;
       end;
@@ -328,6 +333,12 @@ begin
       Abort;
   end;
 
+  if (VarIsNull(ADataController.Values[i, cxColHargaIkat.Index])) or
+      (Trim(ADataController.Values[i, cxColHargaIkat.Index]) = '')  then begin
+      MsgBox('Harga per ikat harus di isi.');
+      Abort;
+  end;
+
   if (VarIsNull(ADataController.Values[i, cxColGudang.Index])) or
       (Trim(ADataController.Values[i, cxColGudang.Index]) = '')  then begin
       MsgBox('Kode gudang harus diisi.');
@@ -370,6 +381,19 @@ begin
     end;
   end;
 
+  if (AItemIndex = cxColHargaIkat.Index) or (AItemIndex = cxColQty.Index) then begin
+    try
+      ADataController.Values[ARecordIndex, cxColHarga.Index] :=
+        ADataController.Values[ARecordIndex, cxColHargaIkat.Index] *
+        ADataController.Values[ARecordIndex, cxColJmlIkatPerBal.Index];
+      ADataController.Values[ARecordIndex, cxColTotal.Index] :=
+        ADataController.Values[ARecordIndex, cxColQty.Index] * ADataController.Values[ARecordIndex, cxColHarga.Index];
+    finally
+    end;
+    HitungTotal;
+  end;
+
+  {
   if (AItemIndex = cxColHarga.Index) or (AItemIndex = cxColQty.Index) then begin
     try
       ADataController.Values[ARecordIndex, cxColTotal.Index] :=
@@ -378,7 +402,7 @@ begin
     end;
     HitungTotal;
   end;
-
+  }
 end;
 
 procedure TfrmInputBarangKeluar.FormCreate(Sender: TObject);
@@ -422,10 +446,11 @@ begin
     cxtNoFaktur.Text := q.FieldByName('no_faktur').AsString;
     q.Close;
 
-    z := OpenRS('SELECT a.*, b.deskripsi, c.satuan satuan2 FROM tbl_trskeluar_det a ' +
+    z := OpenRS('SELECT a.*, b.deskripsi, c.satuan satuan2, d.jml_ikat_per_karung  FROM tbl_trskeluar_det a ' +
       'left join tbl_barang b on a.id_brg = b.id ' +
       'LEFT JOIN tbl_satuan c on c.id = a.id_satuan ' +
-      'WHERE id_ref = %s',[Self.EditKey]);
+      'LEFT JOIN tbl_barang_det_spek d on d.id_ref = a.id_brg ' +
+      'WHERE a.id_ref = %s',[Self.EditKey]);
     nomer := 1;
 
     cxtbBrgKeluar.DataController.OnRecordChanged := nil;
@@ -439,10 +464,12 @@ begin
         Values[i, cxColSatuan.Index] := z.FieldByName('satuan2').AsString;
         Values[i, cxColIdSatuan.Index] := z.FieldByname('id_satuan').AsInteger;
         Values[i, cxColKeterangan.Index] := z.FieldByName('keterangan').AsString;
+        Values[i, cxColHargaIkat.Index] := z.FieldByName('hrgikat').AsFloat;
         Values[i, cxColHarga.Index] := z.FieldByname('hrgjual').AsFloat;
         Values[i, cxColTotal.Index] := z.FieldByname('hrgjual').AsFloat * z.FieldByname('qty').AsFloat;
         Values[i, cxColGudang.Index] := z.FieldByName('id_gdg').AsInteger;
         Values[i, cxColQtyKG.Index] := z.FieldByName('qty_kg').AsFloat;
+        Values[i, cxColJmlIkatPerBal.Index] := z.FieldByName('jml_ikat_per_karung').AsFloat;
         nomer := nomer +1;
       end;
       z.Next;

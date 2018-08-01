@@ -1708,34 +1708,7 @@ object frmTmpLap01: TfrmTmpLap01
           Height = 18.897650000000000000
           ShowHint = False
           Memo.UTF8W = (
-            'Stlh. Diskon')
-        end
-        object Memo14: TfrxMemoView
-          Left = 646.299630000000000000
-          Top = 75.590600000000000000
-          Width = 94.488250000000000000
-          Height = 18.897650000000000000
-          ShowHint = False
-          Memo.UTF8W = (
-            'DPP')
-        end
-        object Memo15: TfrxMemoView
-          Left = 646.299630000000000000
-          Top = 98.267780000000000000
-          Width = 94.488250000000000000
-          Height = 18.897650000000000000
-          ShowHint = False
-          Memo.UTF8W = (
-            'PPN 10%')
-        end
-        object Memo16: TfrxMemoView
-          Left = 646.299630000000000000
-          Top = 124.724490000000000000
-          Width = 94.488250000000000000
-          Height = 18.897650000000000000
-          ShowHint = False
-          Memo.UTF8W = (
-            'Harga Total')
+            'Total')
         end
         object fdbSJ01diskon: TfrxMemoView
           Left = 744.567410000000000000
@@ -1774,66 +1747,6 @@ object frmTmpLap01: TfrmTmpLap01
             
               '[SUM(<fdbSJ01."qty">*<fdbSJ01."hrgjual">)-((<fdbSJ01."diskon">/1' +
               '00)*SUM(<fdbSJ01."qty">*<fdbSJ01."hrgjual">))]')
-          ParentFont = False
-        end
-        object Memo19: TfrxMemoView
-          Left = 744.567410000000000000
-          Top = 75.590600000000000000
-          Width = 120.944960000000000000
-          Height = 18.897650000000000000
-          ShowHint = False
-          DisplayFormat.FormatStr = '%2.2n'
-          DisplayFormat.Kind = fkNumeric
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clBlack
-          Font.Height = -13
-          Font.Name = 'Arial'
-          Font.Style = []
-          HAlign = haRight
-          Memo.UTF8W = (
-            
-              '[(SUM(<fdbSJ01."qty">*<fdbSJ01."hrgjual">)-((<fdbSJ01."diskon">/' +
-              '100)*SUM(<fdbSJ01."qty">*<fdbSJ01."hrgjual">)))/1.1]')
-          ParentFont = False
-        end
-        object Memo20: TfrxMemoView
-          Left = 744.567410000000000000
-          Top = 98.267780000000000000
-          Width = 120.944960000000000000
-          Height = 18.897650000000000000
-          ShowHint = False
-          DisplayFormat.FormatStr = '%2.2n'
-          DisplayFormat.Kind = fkNumeric
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clBlack
-          Font.Height = -13
-          Font.Name = 'Arial'
-          Font.Style = []
-          HAlign = haRight
-          Memo.UTF8W = (
-            
-              '[((SUM(<fdbSJ01."qty">*<fdbSJ01."hrgjual">)-((<fdbSJ01."diskon">' +
-              '/100)*SUM(<fdbSJ01."qty">*<fdbSJ01."hrgjual">)))/1.1)*(10/100)]')
-          ParentFont = False
-        end
-        object Memo23: TfrxMemoView
-          Left = 744.567410000000000000
-          Top = 124.724490000000000000
-          Width = 120.944960000000000000
-          Height = 18.897650000000000000
-          ShowHint = False
-          DisplayFormat.FormatStr = '%2.2n'
-          DisplayFormat.Kind = fkNumeric
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clBlack
-          Font.Height = -13
-          Font.Name = 'Arial'
-          Font.Style = []
-          HAlign = haRight
-          Memo.UTF8W = (
-            
-              '[((SUM(<fdbSJ01."qty">*<fdbSJ01."hrgjual">)-((<fdbSJ01."diskon">' +
-              '/100)*SUM(<fdbSJ01."qty">*<fdbSJ01."hrgjual">)))/1.1)+<PPN>]')
           ParentFont = False
         end
         object Memo24: TfrxMemoView

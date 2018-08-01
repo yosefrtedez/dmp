@@ -17,7 +17,7 @@ uses
   cxFilter, cxData, cxDataStorage, cxEdit, DB, cxDBData, cxGridLevel, cxClasses,
   cxGridCustomView, cxGridCustomTableView, cxGridTableView, cxGridDBTableView,
   cxGrid, ExtCtrls, StdCtrls, cxPC, ZAbstractRODataset, ZDataset, cxTextEdit,
-  cxSpinEdit, cxContainer, cxLabel;
+  cxSpinEdit, cxContainer, cxLabel, cxCheckBox;
 
 type
   TfrmLstPP = class(TfrmTplGrid)

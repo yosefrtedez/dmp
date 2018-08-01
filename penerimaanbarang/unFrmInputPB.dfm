@@ -4,6 +4,7 @@ inherited frmInputPB: TfrmInputPB
   ClientWidth = 1172
   OnCreate = FormCreate
   OnShow = FormShow
+  ExplicitTop = -58
   ExplicitWidth = 1172
   ExplicitHeight = 739
   PixelsPerInch = 96
@@ -376,7 +377,9 @@ inherited frmInputPB: TfrmInputPB
     Left = 264
     Top = 61
     Caption = 'Posting'
+    State = cbsChecked
     TabOrder = 3
+    Visible = False
     Width = 121
   end
   object zqrPO: TZReadOnlyQuery

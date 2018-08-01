@@ -402,7 +402,7 @@ inherited frmInputPO: TfrmInputPO
   end
   object dsBarang: TDataSource
     DataSet = zqrBarang
-    Left = 766
+    Left = 782
     Top = 245
   end
 end

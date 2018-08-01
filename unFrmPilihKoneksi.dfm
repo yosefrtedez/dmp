@@ -39,7 +39,7 @@ object frmPilihKoneksi: TfrmPilihKoneksi
     Width = 75
     Height = 25
     Caption = 'OK'
-    TabOrder = 1
+    TabOrder = 2
     OnClick = btnOKClick
   end
   object btnBatal: TButton
@@ -48,7 +48,7 @@ object frmPilihKoneksi: TfrmPilihKoneksi
     Width = 76
     Height = 25
     Caption = 'Batal'
-    TabOrder = 2
+    TabOrder = 3
     OnClick = btnBatalClick
   end
   object lstBoxSection: TListBox
@@ -57,7 +57,7 @@ object frmPilihKoneksi: TfrmPilihKoneksi
     Width = 201
     Height = 97
     ItemHeight = 13
-    TabOrder = 3
+    TabOrder = 1
     Visible = False
   end
 end

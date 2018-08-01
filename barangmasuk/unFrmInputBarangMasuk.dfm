@@ -29,7 +29,7 @@ inherited frmInputBarangMasuk: TfrmInputBarangMasuk
     Top = 570
     Width = 973
     TabOrder = 10
-    ExplicitTop = 484
+    ExplicitTop = 570
     ExplicitWidth = 973
     inherited btnSimpan: TButton
       Top = 11

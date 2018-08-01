@@ -48,38 +48,45 @@ inherited frmLstPengeluaranKas: TfrmLstPengeluaranKas
       DataController.Summary.DefaultGroupSummaryItems = <>
       DataController.Summary.FooterSummaryItems = <>
       DataController.Summary.SummaryGroups = <>
-      object cxtbPKno_bukti: TcxGridDBColumn
-        Caption = 'No. Bukti'
-        DataBinding.FieldName = 'no_bukti'
-        Width = 113
+      object cxColPKid: TcxGridDBColumn
+        Caption = 'ID'
+        DataBinding.FieldName = 'id'
       end
-      object cxtbPKtanggal: TcxGridDBColumn
+      object cxColPKno_bukti: TcxGridDBColumn
+        Caption = 'No Bukti'
+        DataBinding.FieldName = 'no_bukti'
+      end
+      object cxColPKtanggal: TcxGridDBColumn
         Caption = 'Tanggal'
         DataBinding.FieldName = 'tanggal'
       end
-      object cxtbPKdari: TcxGridDBColumn
-        Caption = 'Diberikan Kepada'
-        DataBinding.FieldName = 'penerima'
+      object cxColPKkepada: TcxGridDBColumn
+        Caption = 'Kepada'
+        DataBinding.FieldName = 'kepada'
+        Width = 168
       end
-      object cxtbPKsebesar: TcxGridDBColumn
+      object cxColPKketerangan: TcxGridDBColumn
+        Caption = 'Keterangan'
+        DataBinding.FieldName = 'keterangan'
+        Width = 200
+      end
+      object cxColPKjumlah: TcxGridDBColumn
         Caption = 'Jumlah'
-        DataBinding.FieldName = 'sebesar'
+        DataBinding.FieldName = 'jumlah'
       end
-      object cxtbPKmemo: TcxGridDBColumn
-        Caption = 'Memo'
-        DataBinding.FieldName = 'memo'
-        Width = 299
+      object cxColPKakun: TcxGridDBColumn
+        Caption = 'Akun'
+        DataBinding.FieldName = 'akun'
+        Width = 80
       end
-      object cxtbPKuser: TcxGridDBColumn
-        Caption = 'User Input'
+      object cxColPKuser: TcxGridDBColumn
+        Caption = 'User'
         DataBinding.FieldName = 'user'
+        Width = 100
       end
-      object cxtbPKf_posting: TcxGridDBColumn
-        Caption = 'Posting'
-        DataBinding.FieldName = 'f_posting'
-        PropertiesClassName = 'TcxCheckBoxProperties'
-        Properties.ValueChecked = 1
-        Properties.ValueUnchecked = 0
+      object cxColPKuser_dept: TcxGridDBColumn
+        Caption = 'Departemen'
+        DataBinding.FieldName = 'user_dept'
       end
     end
     object cxGrid1Level1: TcxGridLevel
@@ -91,9 +98,11 @@ inherited frmLstPengeluaranKas: TfrmLstPengeluaranKas
     Active = True
     SQL.Strings = (
       'SELECT *'
-      'FROM tbl_pengeluarankas_head'
+      'FROM tbl_trskk_head'
       'ORDER BY tanggal')
     Params = <>
+    Properties.Strings = (
+      'select * from tbl_trskk_head order by id;')
     Left = 696
     Top = 128
   end

@@ -60,6 +60,7 @@ end;
 
 procedure TfrmPilihKoneksi.btnOKClick(Sender: TObject);
 begin
+  if lstBoxKoneksi.ItemIndex = -1 then Abort;
   mSection := lstBoxSection.Items.Strings[lstBoxKoneksi.ItemIndex];
   ModalResult := mrOk;
 end;

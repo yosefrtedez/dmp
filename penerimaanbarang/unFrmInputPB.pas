@@ -104,7 +104,7 @@ uses unDM, unTools;
 procedure TfrmInputPB.btnSimpanClick(Sender: TObject);
 var
   sNoTrs: string;
-  qh,qd, hst: TZQuery;
+  qh,qd, hst, qbrg: TZQuery;
   i, ID: Integer;
   sAkhir, hppAkhir, hpp: real;
   f0: boolean;
@@ -232,6 +232,25 @@ begin
           hst.FieldByName('tgl_input').AsDateTime := Aplikasi.NowServer;
 
           hst.Post;
+
+          // update barang
+          qbrg := OpenRS('SELECT * FROM tbl_barang WHERE id = %s',[Values[i, cxColIdBrg.Index]]);
+          qbrg.Edit;
+          qbrg.FieldByName('stok').AsFloat := qbrg.FieldByName('stok').AsFloat + Values[i, cxColQtyTerima.Index];
+          qbrg.Post;
+          qbrg.Close;
+
+          // update detail barang
+          qbrg := OpenRS('SELECT * FROM tbl_barang_det WHERE id_brg = %s AND id_gdg = %s',
+            [Values[i, cxColIdBrg.Index], Values[i, cxColGdg.Index]]);
+          if qbrg.IsEmpty then
+            qbrg.Insert
+          else
+            qbrg.Edit;
+          qbrg.FieldByName('id_brg').AsInteger := Values[i, cxColIdBrg.Index];
+          qbrg.FieldByName('id_gdg').AsInteger := Values[i, cxColGdg.Index];
+          qbrg.FieldByName('stok').AsFloat := qbrg.FieldByName('stok').AsFloat + Values[i, cxColQtyTerima.Index];
+          qbrg.Close;
         end;
       end;
       dm.zConn.ExecuteDirect(Format('UPDATE tbl_pb_head SET f_posted = 1 WHERE id = %d',[ID]));
@@ -396,7 +415,8 @@ begin
     cxtAlamat.Text := q.FieldByName('alamat').AsString;
     q.Close;
 
-    q := OpenRS('SELECT a.*, b.deskripsi, c.satuan satuan2 FROM tbl_pb_det a ' +
+    q := OpenRS('SELECT a.*, b.deskripsi, c.satuan satuan2 ' +
+      'FROM tbl_pb_det a ' +
       'LEFT JOIN tbl_barang b ON b.id = a.id_brg ' +
       'LEFT JOIN tbl_satuan c ON c.id = a.id_satuan ' +
       'LEFT JOIN tbl_pb_head d ON d.id = a.id_ref ' +
@@ -406,17 +426,14 @@ begin
       with cxtbPB.DataController do begin
         i := AppendRecord;
         Values[i, cxColKodeBrg.Index] := q.FieldByName('kode_brg').AsString;
-        Values[i, cxColDeskripsi.Index] := q.FieldByName('deskripsi').AsString;
+        Values[i, cxColDeskripsi.Index] := q.FieldByName('id_brg').AsString;
         Values[i, cxColSatuan.Index] := q.FieldByName('satuan2').AsString;
         Values[i, cxColIdSatuan.Index] := q.FieldByName('id_satuan').AsInteger;
-        Values[i, cxColHarga.Index] := q.FieldByName('harga').AsFloat;
+        //Values[i, cxColHarga.Index] := q.FieldByName('harga').AsFloat;
         Values[i, cxColIdBrg.Index] := q.FieldByName('id_brg').AsInteger;
         Values[i, cxColQtyTerima.Index] := q.FieldByName('qty').AsFloat;
-        Values[i, cxColGdg.Index] := Aplikasi.GdgPB;
-
-        pod := OpenRS('SELECT qty FROM tbl_po_det WHERE id_ref = %d AND id_brg = %d',[id_po, q.FieldByName('id_brg').AsInteger]);
-        Values[i, cxColQtyPO.Index] := pod.FieldByName('qty').AsFloat;
-        pod.Close;
+        Values[i, cxColGdg.Index] := q.FieldByName('id_gdg').AsInteger;
+        //Values[i, cxColQtyPO.Index] := q.FieldByName('qty').AsFloat;
       end;
       q.Next;
     end;

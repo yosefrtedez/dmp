@@ -53,7 +53,6 @@ inherited frmLstPP: TfrmLstPP
     Height = 169
     Align = alClient
     TabOrder = 1
-    ExplicitTop = 43
     object cxtbPP: TcxGridDBTableView
       NavigatorButtons.ConfirmDelete = False
       OnFocusedRecordChanged = cxtbPPFocusedRecordChanged
@@ -100,6 +99,10 @@ inherited frmLstPP: TfrmLstPP
       object cxColPPLevel1_f_app: TcxGridDBColumn
         Caption = 'Approval'
         DataBinding.FieldName = 'f_app'
+        PropertiesClassName = 'TcxCheckBoxProperties'
+        Properties.Alignment = taCenter
+        Properties.ValueChecked = 1
+        Properties.ValueUnchecked = 0
         Options.Editing = False
       end
     end
@@ -165,9 +168,6 @@ inherited frmLstPP: TfrmLstPP
     Height = 41
     Align = alBottom
     TabOrder = 2
-    ExplicitLeft = 472
-    ExplicitTop = 418
-    ExplicitWidth = 185
     object cxLabel1: TcxLabel
       Left = 10
       Top = 11
@@ -181,7 +181,6 @@ inherited frmLstPP: TfrmLstPP
     Height = 200
     Align = alBottom
     TabOrder = 3
-    ExplicitTop = 253
     object cxtbPPDet: TcxGridDBTableView
       NavigatorButtons.ConfirmDelete = False
       DataController.DataSource = dsPPDet

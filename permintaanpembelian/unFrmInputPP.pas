@@ -263,8 +263,9 @@ begin
     try
       cxGrdTblPP.BeginUpdate;
       ADataController.Values[ARecordIndex, cxColKodeBrg.Index] :=  ADataController.Values[ARecordIndex, cxColDeskripsi.Index];
-      q := OpenRS('SELECT a.id_satuan, b.satuan FROM tbl_barang a ' +
-        'LEFT JOIN tbl_satuan b ON a.id_satuan = b.id WHERE kode = ''%s''',[cxColKodeBrg.EditValue]);
+      q := OpenRS('SELECT a.kode, a.id_satuan, b.satuan FROM tbl_barang a ' +
+        'LEFT JOIN tbl_satuan b ON a.id_satuan = b.id WHERE a.id = %s',[ADataController.Values[ARecordIndex, cxColDeskripsi.Index]]);
+      ADataController.Values[ARecordIndex, cxColKodeBrg.Index] := q.FieldByName('kode').AsString;
       ADataController.Values[ARecordIndex, cxColSatuan.Index] := q.FieldByName('satuan').AsString;
       ADataController.Values[ARecordIndex, cxColIdSatuan.Index] := q.FieldByName('id_satuan').AsInteger;
       q.Close;

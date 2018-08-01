@@ -48,6 +48,16 @@ inherited frmLstBarangMasuk: TfrmLstBarangMasuk
     TabOrder = 1
     object cxTblTrsMasukHead: TcxGridDBTableView
       NavigatorButtons.ConfirmDelete = False
+      NavigatorButtons.First.Visible = True
+      NavigatorButtons.Insert.Visible = False
+      NavigatorButtons.Delete.Visible = False
+      NavigatorButtons.Edit.Visible = False
+      NavigatorButtons.Post.Visible = False
+      NavigatorButtons.Cancel.Visible = False
+      NavigatorButtons.Refresh.Visible = True
+      NavigatorButtons.SaveBookmark.Visible = False
+      NavigatorButtons.GotoBookmark.Visible = False
+      NavigatorButtons.Filter.Visible = False
       OnFocusedRecordChanged = cxTblTrsMasukHeadFocusedRecordChanged
       DataController.DataSource = dsBarangMasuk
       DataController.KeyFieldNames = 'id'
@@ -55,8 +65,22 @@ inherited frmLstBarangMasuk: TfrmLstBarangMasuk
       DataController.Summary.FooterSummaryItems = <>
       DataController.Summary.SummaryGroups = <>
       FilterRow.Visible = True
+      OptionsData.CancelOnExit = False
+      OptionsData.Deleting = False
+      OptionsData.DeletingConfirmation = False
+      OptionsData.Editing = False
+      OptionsData.Inserting = False
+      OptionsView.Navigator = True
       OptionsView.CellTextMaxLineCount = 10
       Preview.MaxLineCount = 10
+      object cxTblTrsMasukHeadColumn2: TcxGridDBColumn
+        Caption = 'Posting'
+        DataBinding.FieldName = 'f_posting'
+        PropertiesClassName = 'TcxCheckBoxProperties'
+        Properties.Alignment = taCenter
+        Properties.ValueChecked = 1
+        Properties.ValueUnchecked = 0
+      end
       object cxColTblTrsMasukHeadno_bukti: TcxGridDBColumn
         Caption = 'No. Bukti'
         DataBinding.FieldName = 'no_bukti'
@@ -146,10 +170,23 @@ inherited frmLstBarangMasuk: TfrmLstBarangMasuk
     Height = 41
     Align = alBottom
     TabOrder = 2
+    DesignSize = (
+      1016
+      41)
     object cxLabel1: TcxLabel
       Left = 10
       Top = 12
       Caption = 'Detail Barang Masuk'
+    end
+    object btnPosting: TButton
+      Left = 933
+      Top = 10
+      Width = 75
+      Height = 25
+      Anchors = [akTop, akRight]
+      Caption = 'Posting'
+      TabOrder = 0
+      OnClick = btnPostingClick
     end
   end
   object cxGrid1: TcxGrid
@@ -226,12 +263,11 @@ inherited frmLstBarangMasuk: TfrmLstBarangMasuk
   end
   object zqrBarangMasuk: TZReadOnlyQuery
     Connection = DM.zConn
-    Active = True
     SQL.Strings = (
       'select * from  tbl_trsmasuk_head order by no_bukti')
     Params = <>
-    Left = 649
-    Top = 154
+    Left = 601
+    Top = 146
   end
   object dsBarangMasuk: TDataSource
     DataSet = zqrBarangMasuk

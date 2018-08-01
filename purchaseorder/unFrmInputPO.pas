@@ -231,7 +231,8 @@ begin
           end else begin
             qd.FieldByName('ppn').AsString := Values[i, cxColPPn.index];
           end;
-          qd.FieldByname('keterangan').AsString := Values[i, cxColKeterangan.Index];
+          if not VarIsNull(Values[i, cxColKeterangan.Index]) then
+            qd.FieldByname('keterangan').AsString := Values[i, cxColKeterangan.Index];
           qd.Post;
         end;
       end;

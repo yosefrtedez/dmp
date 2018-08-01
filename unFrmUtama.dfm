@@ -175,6 +175,9 @@ object frmUtama: TfrmUtama
         Caption = 'Barang Keluar'
         OnClick = mnWhl_BarangKeluarClick
       end
+      object mnWhl_Koreksi: TMenuItem
+        Caption = 'Koreksi Stok'
+      end
     end
     object mnPRD: TMenuItem
       Caption = 'PRD'

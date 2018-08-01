@@ -4,6 +4,7 @@ inherited frmInputBarangKeluar: TfrmInputBarangKeluar
   ClientWidth = 1165
   OnCreate = FormCreate
   OnShow = FormShow
+  ExplicitTop = -90
   ExplicitWidth = 1165
   ExplicitHeight = 771
   PixelsPerInch = 96
@@ -152,11 +153,17 @@ inherited frmInputBarangKeluar: TfrmInputBarangKeluar
         Properties.ReadOnly = True
         Width = 68
       end
+      object cxColHargaIkat: TcxGridColumn
+        Caption = 'Harga / Ikat'
+        DataBinding.ValueType = 'Float'
+        Width = 81
+      end
       object cxColHarga: TcxGridColumn
         Caption = 'Harga Jual'
         PropertiesClassName = 'TcxSpinEditProperties'
         Properties.Alignment.Horz = taRightJustify
         Properties.DisplayFormat = '#,#0.00'
+        Properties.ReadOnly = True
         Properties.ValueType = vtFloat
         HeaderAlignmentHorz = taRightJustify
         Width = 101

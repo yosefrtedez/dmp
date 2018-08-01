@@ -4,6 +4,7 @@ inherited frmLstBarangJasa: TfrmLstBarangJasa
   ClientHeight = 758
   ClientWidth = 1119
   OnCreate = FormCreate
+  ExplicitTop = -77
   ExplicitWidth = 1119
   ExplicitHeight = 758
   PixelsPerInch = 96
@@ -29,6 +30,7 @@ inherited frmLstBarangJasa: TfrmLstBarangJasa
     Top = 709
     Width = 1119
     TabOrder = 6
+    ExplicitTop = 709
     ExplicitWidth = 1119
     inherited btnTambah: TButton
       OnClick = btnTambahClick
@@ -53,10 +55,10 @@ inherited frmLstBarangJasa: TfrmLstBarangJasa
     Left = 0
     Top = 49
     Width = 1119
-    Height = 238
+    Height = 342
     Align = alClient
     TabOrder = 1
-    ExplicitHeight = 169
+    ExplicitHeight = 238
     object cxtbBarang: TcxGridDBTableView
       NavigatorButtons.ConfirmDelete = False
       OnFocusedRecordChanged = cxtbBarangFocusedRecordChanged
@@ -88,6 +90,7 @@ inherited frmLstBarangJasa: TfrmLstBarangJasa
       object cxtbBarangb_stok: TcxGridDBColumn
         Caption = 'Buffer Stok '
         DataBinding.FieldName = 'b_stok'
+        Visible = False
       end
       object cxtbBarangsatuan: TcxGridDBColumn
         Caption = 'Satuan'
@@ -97,7 +100,7 @@ inherited frmLstBarangJasa: TfrmLstBarangJasa
       object cxtbBarangkategori: TcxGridDBColumn
         Caption = 'Kategori'
         DataBinding.FieldName = 'kategori2'
-        Width = 103
+        Width = 173
       end
       object cxtbBarangsubkategori: TcxGridDBColumn
         Caption = 'Sub Kategori'
@@ -324,12 +327,12 @@ inherited frmLstBarangJasa: TfrmLstBarangJasa
   end
   object Panel3: TPanel
     Left = 0
-    Top = 468
+    Top = 527
     Width = 1119
     Height = 41
     Align = alBottom
     TabOrder = 4
-    ExplicitTop = 218
+    ExplicitTop = 468
     object cxLabel1: TcxLabel
       Left = 10
       Top = 12
@@ -360,12 +363,11 @@ inherited frmLstBarangJasa: TfrmLstBarangJasa
   end
   object cxGrid1: TcxGrid
     Left = 0
-    Top = 509
+    Top = 568
     Width = 1119
-    Height = 200
+    Height = 141
     Align = alBottom
     TabOrder = 5
-    ExplicitTop = 259
     object cxtbBarangDet: TcxGridDBTableView
       NavigatorButtons.ConfirmDelete = False
       DataController.DataSource = dsBarangDet
@@ -438,12 +440,12 @@ inherited frmLstBarangJasa: TfrmLstBarangJasa
   end
   object Panel4: TPanel
     Left = 0
-    Top = 287
+    Top = 391
     Width = 1119
     Height = 41
     Align = alBottom
     TabOrder = 2
-    ExplicitTop = 281
+    ExplicitTop = 287
     object cxLabel2: TcxLabel
       Left = 10
       Top = 12
@@ -452,9 +454,9 @@ inherited frmLstBarangJasa: TfrmLstBarangJasa
   end
   object cxGrid2: TcxGrid
     Left = 0
-    Top = 328
+    Top = 432
     Width = 1119
-    Height = 140
+    Height = 95
     Align = alBottom
     TabOrder = 3
     object cxtbStokGudang: TcxGridDBTableView
