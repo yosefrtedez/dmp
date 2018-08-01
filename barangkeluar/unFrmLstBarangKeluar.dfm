@@ -52,6 +52,14 @@ inherited frmLstBarangKeluar: TfrmLstBarangKeluar
     TabOrder = 1
     object cxtbBarangKeluar: TcxGridDBTableView
       NavigatorButtons.ConfirmDelete = False
+      NavigatorButtons.Insert.Visible = False
+      NavigatorButtons.Delete.Visible = False
+      NavigatorButtons.Edit.Visible = False
+      NavigatorButtons.Post.Visible = False
+      NavigatorButtons.Cancel.Visible = False
+      NavigatorButtons.SaveBookmark.Visible = False
+      NavigatorButtons.GotoBookmark.Visible = False
+      NavigatorButtons.Filter.Visible = False
       OnFocusedRecordChanged = cxtbBarangKeluarFocusedRecordChanged
       DataController.DataSource = dsBarangKeluar
       DataController.KeyFieldNames = 'id'
@@ -59,6 +67,7 @@ inherited frmLstBarangKeluar: TfrmLstBarangKeluar
       DataController.Summary.FooterSummaryItems = <>
       DataController.Summary.SummaryGroups = <>
       FilterRow.Visible = True
+      OptionsView.Navigator = True
       OptionsView.CellTextMaxLineCount = 10
       Preview.MaxLineCount = 10
       object cxColPosting: TcxGridDBColumn

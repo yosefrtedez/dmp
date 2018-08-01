@@ -38,7 +38,6 @@ uses
   unFrmAppPP in 'permintaanpembelian\unFrmAppPP.pas' {frmAppPP},
   unFrmDefaultAkun in 'coa\unFrmDefaultAkun.pas' {frmDefaultAkun},
   unFrmMasterOrder in 'masterorder\unFrmMasterOrder.pas' {frmMasterOrder},
-  unFrmSettingWewenang in 'setting\unFrmSettingWewenang.pas' {frmSettingWewenang},
   unFrmSettingProgram in 'setting\unFrmSettingProgram.pas' {frmSettingProgram},
   unFrmInputPenerimaanKas in 'penerimaanpengeluarankas\unFrmInputPenerimaanKas.pas' {frmInputPenerimaanKas},
   unFrmLaporan in 'laporan\unFrmLaporan.pas' {frmLaporan},
@@ -64,7 +63,13 @@ uses
   unFrmLstBarangKeluar in 'barangkeluar\unFrmLstBarangKeluar.pas' {frmLstBarangKeluar},
   unFrmKetUpdate in 'unFrmKetUpdate.pas' {frmKetUpdate},
   unFrmTmpLap01 in 'laporan\unFrmTmpLap01.pas' {frmTmpLap01},
-  unFrmLapMasterData in 'laporan\unFrmLapMasterData.pas' {frmLapMasterData};
+  unFrmLapMasterData in 'laporan\unFrmLapMasterData.pas' {frmLapMasterData},
+  unFLapParam in 'laporan\unFLapParam.pas' {Frame1: TFrame},
+  unFrmLapTransaksi in 'laporan\unFrmLapTransaksi.pas' {frmLapTransaksi},
+  unFrmPilihHarga in 'barangkeluar\unFrmPilihHarga.pas' {frmPilihHarga},
+  unFrmSettingWewenang in 'setting\unFrmSettingWewenang.pas' {frmSettingWewenang},
+  unFrmKalkulasiStok in 'setting\unFrmKalkulasiStok.pas' {frmKalkulasiStok},
+  unFrmSPK in 'spk\unFrmSPK.pas' {frmSPK};
 
 {$R *.res}
 
@@ -74,8 +79,6 @@ begin
   Application.CreateForm(TDM, DM);
   Application.CreateForm(TfrmUtama, frmUtama);
   Application.CreateForm(TfrmLogin, frmLogin);
-  Application.CreateForm(TfrmTmpLap01, frmTmpLap01);
-  Application.CreateForm(TfrmLapMasterData, frmLapMasterData);
   frmUtama.Show;
 
   frmLogin.ShowModal;

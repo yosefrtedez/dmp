@@ -23,6 +23,7 @@ object frmUtama: TfrmUtama
     Top = 8
     Width = 441
     Height = 225
+    Stretch = True
   end
   object stsBar: TdxStatusBar
     Left = 0
@@ -177,6 +178,7 @@ object frmUtama: TfrmUtama
       end
       object mnWhl_Koreksi: TMenuItem
         Caption = 'Koreksi Stok'
+        OnClick = mnWhl_KoreksiClick
       end
     end
     object mnPRD: TMenuItem

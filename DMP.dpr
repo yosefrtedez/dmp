@@ -69,7 +69,9 @@ uses
   unFrmPilihHarga in 'barangkeluar\unFrmPilihHarga.pas' {frmPilihHarga},
   unFrmSettingWewenang in 'setting\unFrmSettingWewenang.pas' {frmSettingWewenang},
   unFrmKalkulasiStok in 'setting\unFrmKalkulasiStok.pas' {frmKalkulasiStok},
-  unFrmSPK in 'spk\unFrmSPK.pas' {frmSPK};
+  unFrmSPK in 'spk\unFrmSPK.pas' {frmSPK},
+  unFrmInputKoreksi in 'koreksi\unFrmInputKoreksi.pas' {frmInputKoreksi},
+  unFrmLstKoreksi in 'koreksi\unFrmLstKoreksi.pas' {frmLstKoreksi};
 
 {$R *.res}
 
@@ -79,6 +81,8 @@ begin
   Application.CreateForm(TDM, DM);
   Application.CreateForm(TfrmUtama, frmUtama);
   Application.CreateForm(TfrmLogin, frmLogin);
+  Application.CreateForm(TfrmInputKoreksi, frmInputKoreksi);
+  Application.CreateForm(TfrmLstKoreksi, frmLstKoreksi);
   frmUtama.Show;
 
   frmLogin.ShowModal;

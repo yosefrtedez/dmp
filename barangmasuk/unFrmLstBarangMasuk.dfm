@@ -180,7 +180,7 @@ inherited frmLstBarangMasuk: TfrmLstBarangMasuk
     end
     object btnPosting: TButton
       Left = 933
-      Top = 10
+      Top = 9
       Width = 75
       Height = 25
       Anchors = [akTop, akRight]

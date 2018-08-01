@@ -3,7 +3,7 @@ object frmUtama: TfrmUtama
   Top = 0
   Caption = 'frmUtama'
   ClientHeight = 523
-  ClientWidth = 873
+  ClientWidth = 1129
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -27,7 +27,7 @@ object frmUtama: TfrmUtama
   object stsBar: TdxStatusBar
     Left = 0
     Top = 499
-    Width = 873
+    Width = 1129
     Height = 24
     Panels = <
       item
@@ -54,12 +54,10 @@ object frmUtama: TfrmUtama
     Font.Height = -11
     Font.Name = 'Tahoma'
     Font.Style = []
-    ExplicitTop = 680
-    ExplicitWidth = 1162
   end
   object pgMain: TcxPageControl
     Left = 8
-    Top = 248
+    Top = 239
     Width = 441
     Height = 193
     HotTrack = True
@@ -177,6 +175,9 @@ object frmUtama: TfrmUtama
         Caption = 'Barang Keluar'
         OnClick = mnWhl_BarangKeluarClick
       end
+      object mnWhl_Koreksi: TMenuItem
+        Caption = 'Koreksi Stok'
+      end
     end
     object mnPRD: TMenuItem
       Caption = 'PRD'
@@ -265,9 +266,14 @@ object frmUtama: TfrmUtama
         Caption = 'Wewenang User'
         OnClick = mnSet_WewenangUserClick
       end
+      object mnSet_KalkulasiUlangStok: TMenuItem
+        Caption = 'Kalkulasi Ulang Stok'
+        OnClick = mnSet_KalkulasiUlangStokClick
+      end
     end
     object mnLap: TMenuItem
       Caption = 'Laporan'
+      OnClick = mnLapClick
     end
   end
 end

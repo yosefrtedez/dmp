@@ -76,6 +76,8 @@ type
     mnPur_AppReturPembelian: TMenuItem;
     mnWhl_BarangMasuk: TMenuItem;
     mnWhl_BarangKeluar: TMenuItem;
+    mnSet_KalkulasiUlangStok: TMenuItem;
+    mnWhl_Koreksi: TMenuItem;
     procedure FormShow(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure mnMst_BarangJasaClick(Sender: TObject);
@@ -111,6 +113,8 @@ type
     procedure mnWhl_BarangMasukClick(Sender: TObject);
     procedure mnWhl_BarangKeluarClick(Sender: TObject);
     procedure mnLapClick(Sender: TObject);
+    procedure mnSet_KalkulasiUlangStokClick(Sender: TObject);
+    procedure mnWhl_KoreksiClick(Sender: TObject);
   private
     procedure PGChange(Sender: TObject);
   public
@@ -136,7 +140,7 @@ uses
   unFrmLstPengeluaranKas, unFrmLstTransferBarang, unFrmLstSales,
   unFrmLstFormula, unFrmAppPO, unFrmLstReturPembelian, unFrmAppRetur,
   unFrmInputBarangMasuk, unFrmLstBarangMasuk, unFrmLstBarangKeluar,
-  unFrmLaporan;
+  unFrmLaporan, unFrmKalkulasiStok, unFrmLstKoreksi;
 
 {$R *.dfm}
 
@@ -650,6 +654,14 @@ begin
   end;
 end;
 
+procedure TfrmUtama.mnSet_KalkulasiUlangStokClick(Sender: TObject);
+var
+  f: TfrmKalkulasiStok;
+begin
+  f := TfrmKalkulasiStok.Create(Self);
+  f.ShowModal;
+end;
+
 procedure TfrmUtama.mnSet_SettingProgramClick(Sender: TObject);
 var
   f: TfrmSettingProgram;
@@ -697,7 +709,6 @@ procedure TfrmUtama.mnSys_LogOffClick(Sender: TObject);
 var
   f: TFrmLogin;
 begin
-  Self.mnSys_TutupTabClick(nil);
 
   Aplikasi.NamaUser := '';
   Aplikasi.UserDept := '';
@@ -711,6 +722,7 @@ begin
 
   f := TfrmLogin.Create(Self);
   f.ShowModal;
+  Self.mnSys_TutupTabClick(nil);
 end;
 
 procedure TfrmUtama.mnSys_TutupTabClick(Sender: TObject);
@@ -801,6 +813,25 @@ begin
     ts.PageControl := pgMain;
 
     f := TfrmLstBarangMasuk.Create(Self);
+    f.Parent := ts;
+    ts.Caption := f.Caption;
+    f.Show;
+
+    pgMain.ActivePage := ts;
+  end;
+end;
+
+procedure TfrmUtama.mnWhl_KoreksiClick(Sender: TObject);
+var
+  f: TfrmLstKoreksi;
+  ts: TcxTabSheet;
+begin
+  if not CekTabOpen('Koreksi Barang') then begin
+    ToggleMainPage;
+    ts := TcxTabSheet.Create(Self);
+    ts.PageControl := pgMain;
+
+    f := TfrmLstKoreksi.Create(Self);
     f.Parent := ts;
     ts.Caption := f.Caption;
     f.Show;

@@ -1,10 +1,11 @@
 inherited frmLstBarangJasa: TfrmLstBarangJasa
   BorderIcons = []
   Caption = 'Barang dan Jasa'
+  ClientHeight = 758
   ClientWidth = 1119
   OnCreate = FormCreate
   ExplicitWidth = 1119
-  ExplicitHeight = 508
+  ExplicitHeight = 758
   PixelsPerInch = 96
   TextHeight = 13
   inherited Panel1: TPanel
@@ -25,8 +26,10 @@ inherited frmLstBarangJasa: TfrmLstBarangJasa
     end
   end
   inherited Panel2: TPanel
+    Top = 709
     Width = 1119
-    TabOrder = 4
+    TabOrder = 6
+    ExplicitTop = 709
     ExplicitWidth = 1119
     inherited btnTambah: TButton
       OnClick = btnTambahClick
@@ -51,7 +54,7 @@ inherited frmLstBarangJasa: TfrmLstBarangJasa
     Left = 0
     Top = 49
     Width = 1119
-    Height = 169
+    Height = 342
     Align = alClient
     TabOrder = 1
     object cxtbBarang: TcxGridDBTableView
@@ -85,6 +88,7 @@ inherited frmLstBarangJasa: TfrmLstBarangJasa
       object cxtbBarangb_stok: TcxGridDBColumn
         Caption = 'Buffer Stok '
         DataBinding.FieldName = 'b_stok'
+        Visible = False
       end
       object cxtbBarangsatuan: TcxGridDBColumn
         Caption = 'Satuan'
@@ -94,7 +98,7 @@ inherited frmLstBarangJasa: TfrmLstBarangJasa
       object cxtbBarangkategori: TcxGridDBColumn
         Caption = 'Kategori'
         DataBinding.FieldName = 'kategori2'
-        Width = 103
+        Width = 173
       end
       object cxtbBarangsubkategori: TcxGridDBColumn
         Caption = 'Sub Kategori'
@@ -321,11 +325,11 @@ inherited frmLstBarangJasa: TfrmLstBarangJasa
   end
   object Panel3: TPanel
     Left = 0
-    Top = 218
+    Top = 527
     Width = 1119
     Height = 41
     Align = alBottom
-    TabOrder = 2
+    TabOrder = 4
     object cxLabel1: TcxLabel
       Left = 10
       Top = 12
@@ -356,118 +360,125 @@ inherited frmLstBarangJasa: TfrmLstBarangJasa
   end
   object cxGrid1: TcxGrid
     Left = 0
-    Top = 259
+    Top = 568
     Width = 1119
-    Height = 200
+    Height = 141
     Align = alBottom
-    TabOrder = 3
-    ExplicitTop = 258
+    TabOrder = 5
     object cxtbBarangDet: TcxGridDBTableView
       NavigatorButtons.ConfirmDelete = False
       DataController.DataSource = dsBarangDet
       DataController.Summary.DefaultGroupSummaryItems = <>
       DataController.Summary.FooterSummaryItems = <>
       DataController.Summary.SummaryGroups = <>
-      object cxtbBarangDetid: TcxGridDBColumn
-        DataBinding.FieldName = 'id'
-        Visible = False
-      end
       object cxtbBarangDetno_bukti: TcxGridDBColumn
+        Caption = 'No. Bukti'
         DataBinding.FieldName = 'no_bukti'
+        Width = 100
       end
       object cxtbBarangDettanggal: TcxGridDBColumn
+        Caption = 'Tanggal'
         DataBinding.FieldName = 'tanggal'
       end
+      object cxtbBarangDettipe_text: TcxGridDBColumn
+        Caption = 'Jenis'
+        DataBinding.FieldName = 'tipe_text'
+        Width = 61
+      end
       object cxtbBarangDetkode_brg: TcxGridDBColumn
+        Caption = 'Kode Brg.'
         DataBinding.FieldName = 'kode_brg'
+      end
+      object cxtbBarangDetdeskripsi: TcxGridDBColumn
+        Caption = 'Deskripsi'
+        DataBinding.FieldName = 'deskripsi'
+        Width = 396
       end
       object cxtbBarangDetid_brg: TcxGridDBColumn
         DataBinding.FieldName = 'id_brg'
+        Visible = False
+      end
+      object cxtbBarangDetqty: TcxGridDBColumn
+        Caption = 'Qty.'
+        DataBinding.FieldName = 'qty'
       end
       object cxtbBarangDettipe: TcxGridDBColumn
         DataBinding.FieldName = 'tipe'
-      end
-      object cxtbBarangDetqty: TcxGridDBColumn
-        DataBinding.FieldName = 'qty'
-      end
-      object cxtbBarangDetqty_baik: TcxGridDBColumn
-        DataBinding.FieldName = 'qty_baik'
-      end
-      object cxtbBarangDetqty_afkir: TcxGridDBColumn
-        DataBinding.FieldName = 'qty_afkir'
-      end
-      object cxtbBarangDetqty_retur: TcxGridDBColumn
-        DataBinding.FieldName = 'qty_retur'
-      end
-      object cxtbBarangDetsatuan: TcxGridDBColumn
-        DataBinding.FieldName = 'satuan'
+        Visible = False
       end
       object cxtbBarangDetid_satuan: TcxGridDBColumn
         DataBinding.FieldName = 'id_satuan'
+        Visible = False
       end
-      object cxtbBarangDetgudang: TcxGridDBColumn
-        DataBinding.FieldName = 'gudang'
+      object cxtbBarangDetsatuan: TcxGridDBColumn
+        Caption = 'Satuan'
+        DataBinding.FieldName = 'satuan'
       end
       object cxtbBarangDetid_gdg: TcxGridDBColumn
         DataBinding.FieldName = 'id_gdg'
+        Visible = False
       end
-      object cxtbBarangDetreferensi: TcxGridDBColumn
-        DataBinding.FieldName = 'referensi'
-      end
-      object cxtbBarangDetketerangan: TcxGridDBColumn
-        DataBinding.FieldName = 'keterangan'
+      object cxtbBarangDetkode: TcxGridDBColumn
+        DataBinding.FieldName = 'kode'
+        Visible = False
       end
       object cxtbBarangDetuser: TcxGridDBColumn
+        Caption = 'User'
         DataBinding.FieldName = 'user'
       end
       object cxtbBarangDetuser_dept: TcxGridDBColumn
+        Caption = 'Dept'
         DataBinding.FieldName = 'user_dept'
-      end
-      object cxtbBarangDetno_so: TcxGridDBColumn
-        DataBinding.FieldName = 'no_so'
-      end
-      object cxtbBarangDetno_spk: TcxGridDBColumn
-        DataBinding.FieldName = 'no_spk'
-      end
-      object cxtbBarangDetno_spmb: TcxGridDBColumn
-        DataBinding.FieldName = 'no_spmb'
-      end
-      object cxtbBarangDetno_ccr: TcxGridDBColumn
-        DataBinding.FieldName = 'no_ccr'
-      end
-      object cxtbBarangDetno_lkm: TcxGridDBColumn
-        DataBinding.FieldName = 'no_lkm'
-      end
-      object cxtbBarangDetno_sj: TcxGridDBColumn
-        DataBinding.FieldName = 'no_sj'
-      end
-      object cxtbBarangDetno_po: TcxGridDBColumn
-        DataBinding.FieldName = 'no_po'
-      end
-      object cxtbBarangDetid_po: TcxGridDBColumn
-        DataBinding.FieldName = 'id_po'
-      end
-      object cxtbBarangDetid_pb: TcxGridDBColumn
-        DataBinding.FieldName = 'id_pb'
-      end
-      object cxtbBarangDettgl_input: TcxGridDBColumn
-        DataBinding.FieldName = 'tgl_input'
-      end
-      object cxtbBarangDetdept: TcxGridDBColumn
-        DataBinding.FieldName = 'dept'
-      end
-      object cxtbBarangDetdivisi: TcxGridDBColumn
-        DataBinding.FieldName = 'divisi'
-      end
-      object cxtbBarangDetno_trial: TcxGridDBColumn
-        DataBinding.FieldName = 'no_trial'
-      end
-      object cxtbBarangDetavgcost: TcxGridDBColumn
-        DataBinding.FieldName = 'avgcost'
       end
     end
     object cxGrid1Level1: TcxGridLevel
       GridView = cxtbBarangDet
+    end
+  end
+  object Panel4: TPanel
+    Left = 0
+    Top = 391
+    Width = 1119
+    Height = 41
+    Align = alBottom
+    TabOrder = 2
+    object cxLabel2: TcxLabel
+      Left = 10
+      Top = 12
+      Caption = 'Detail Stok Gudang'
+    end
+  end
+  object cxGrid2: TcxGrid
+    Left = 0
+    Top = 432
+    Width = 1119
+    Height = 95
+    Align = alBottom
+    TabOrder = 3
+    object cxtbStokGudang: TcxGridDBTableView
+      NavigatorButtons.ConfirmDelete = False
+      DataController.DataSource = dsDetGudang
+      DataController.Summary.DefaultGroupSummaryItems = <>
+      DataController.Summary.FooterSummaryItems = <>
+      DataController.Summary.SummaryGroups = <>
+      OptionsView.GroupByBox = False
+      object cxtbStokGudangColumn1: TcxGridDBColumn
+        Caption = 'Kode Gudang'
+        DataBinding.FieldName = 'kode_gudang'
+        Width = 76
+      end
+      object cxtbStokGudangnama: TcxGridDBColumn
+        Caption = 'Nama Gudang'
+        DataBinding.FieldName = 'nama'
+        Width = 109
+      end
+      object cxtbStokGudangstok: TcxGridDBColumn
+        Caption = 'Stok'
+        DataBinding.FieldName = 'stok'
+      end
+    end
+    object cxGrid2Level1: TcxGridLevel
+      GridView = cxtbStokGudang
     end
   end
   object zqrBarang: TZReadOnlyQuery
@@ -492,7 +503,6 @@ inherited frmLstBarangJasa: TfrmLstBarangJasa
   end
   object zqrGudang: TZReadOnlyQuery
     Connection = DM.zConn
-    Active = True
     SQL.Strings = (
       'SELECT * FROM tbl_gudang')
     Params = <>
@@ -521,8 +531,8 @@ inherited frmLstBarangJasa: TfrmLstBarangJasa
         Name = 'id_gdg'
         ParamType = ptUnknown
       end>
-    Left = 744
-    Top = 312
+    Left = 728
+    Top = 344
     ParamData = <
       item
         DataType = ftUnknown
@@ -538,6 +548,32 @@ inherited frmLstBarangJasa: TfrmLstBarangJasa
   object dsBarangDet: TDataSource
     DataSet = zqrBarangDet
     Left = 824
-    Top = 320
+    Top = 344
+  end
+  object zqrDetGudang: TZReadOnlyQuery
+    Connection = DM.zConn
+    SQL.Strings = (
+      'SELECT a.*, b.nama, b.kode kode_gudang FROM tbl_barang_det a'
+      'LEFT JOIN tbl_gudang b on a.id_gdg = b.id'
+      'WHERE id_brg = :id_brg')
+    Params = <
+      item
+        DataType = ftUnknown
+        Name = 'id_brg'
+        ParamType = ptUnknown
+      end>
+    Left = 608
+    Top = 208
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'id_brg'
+        ParamType = ptUnknown
+      end>
+  end
+  object dsDetGudang: TDataSource
+    DataSet = zqrDetGudang
+    Left = 683
+    Top = 208
   end
 end

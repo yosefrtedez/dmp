@@ -114,6 +114,7 @@ type
     procedure mnWhl_BarangKeluarClick(Sender: TObject);
     procedure mnLapClick(Sender: TObject);
     procedure mnSet_KalkulasiUlangStokClick(Sender: TObject);
+    procedure mnWhl_KoreksiClick(Sender: TObject);
   private
     procedure PGChange(Sender: TObject);
   public
@@ -139,7 +140,7 @@ uses
   unFrmLstPengeluaranKas, unFrmLstTransferBarang, unFrmLstSales,
   unFrmLstFormula, unFrmAppPO, unFrmLstReturPembelian, unFrmAppRetur,
   unFrmInputBarangMasuk, unFrmLstBarangMasuk, unFrmLstBarangKeluar,
-  unFrmLaporan, unFrmKalkulasiStok;
+  unFrmLaporan, unFrmKalkulasiStok, unFrmLstKoreksi;
 
 {$R *.dfm}
 
@@ -167,7 +168,7 @@ begin
   pgMain.OnChange := PGChange;
   pgMain.Align := alClient;
   imgBackground.Align := alClient;
-  imgBackground.Picture.LoadFromFile(Aplikasi.AppPath + '/images/back2.jpg');
+  imgBackground.Picture.LoadFromFile(Aplikasi.AppPath + '/images/bg.jpg');
   Caption := Aplikasi.JudulAplikasi;
 end;
 
@@ -812,6 +813,25 @@ begin
     ts.PageControl := pgMain;
 
     f := TfrmLstBarangMasuk.Create(Self);
+    f.Parent := ts;
+    ts.Caption := f.Caption;
+    f.Show;
+
+    pgMain.ActivePage := ts;
+  end;
+end;
+
+procedure TfrmUtama.mnWhl_KoreksiClick(Sender: TObject);
+var
+  f: TfrmLstKoreksi;
+  ts: TcxTabSheet;
+begin
+  if not CekTabOpen('Koreksi Barang') then begin
+    ToggleMainPage;
+    ts := TcxTabSheet.Create(Self);
+    ts.PageControl := pgMain;
+
+    f := TfrmLstKoreksi.Create(Self);
     f.Parent := ts;
     ts.Caption := f.Caption;
     f.Show;

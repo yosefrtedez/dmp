@@ -4,7 +4,6 @@ inherited frmLstBarangJasa: TfrmLstBarangJasa
   ClientHeight = 758
   ClientWidth = 1119
   OnCreate = FormCreate
-  ExplicitTop = -77
   ExplicitWidth = 1119
   ExplicitHeight = 758
   PixelsPerInch = 96
@@ -58,7 +57,6 @@ inherited frmLstBarangJasa: TfrmLstBarangJasa
     Height = 342
     Align = alClient
     TabOrder = 1
-    ExplicitHeight = 238
     object cxtbBarang: TcxGridDBTableView
       NavigatorButtons.ConfirmDelete = False
       OnFocusedRecordChanged = cxtbBarangFocusedRecordChanged
@@ -76,7 +74,7 @@ inherited frmLstBarangJasa: TfrmLstBarangJasa
       object cxtbBarangkode: TcxGridDBColumn
         Caption = 'Kode'
         DataBinding.FieldName = 'kode'
-        Width = 132
+        Width = 97
       end
       object cxtbBarangdeskripsi: TcxGridDBColumn
         Caption = 'Deskripsi'
@@ -332,7 +330,6 @@ inherited frmLstBarangJasa: TfrmLstBarangJasa
     Height = 41
     Align = alBottom
     TabOrder = 4
-    ExplicitTop = 468
     object cxLabel1: TcxLabel
       Left = 10
       Top = 12
@@ -445,7 +442,6 @@ inherited frmLstBarangJasa: TfrmLstBarangJasa
     Height = 41
     Align = alBottom
     TabOrder = 2
-    ExplicitTop = 287
     object cxLabel2: TcxLabel
       Left = 10
       Top = 12
@@ -474,6 +470,7 @@ inherited frmLstBarangJasa: TfrmLstBarangJasa
       object cxtbStokGudangnama: TcxGridDBColumn
         Caption = 'Nama Gudang'
         DataBinding.FieldName = 'nama'
+        Width = 109
       end
       object cxtbStokGudangstok: TcxGridDBColumn
         Caption = 'Stok'

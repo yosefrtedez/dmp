@@ -115,53 +115,65 @@ procedure TfrmLstBarangKeluar.btnPostingClick(Sender: TObject);
 var
   qd, q, qbrg: TZQuery;
 begin
+  inherited;
   try
     dm.zConn.StartTransaction;
-  finally
 
-  end;
-  inherited;
-  q := OpenRS('SELECT * FROM tbl_history WHERE no_bukti = ''%s''',[zqrBarangKeluar.FieldByName('no_bukti').AsString]);
-  qd := OpenRS('SELECT * FROM tbl_trskeluar_det WHERE id_ref = ''%s''',[zqrBarangKeluar.FieldByName('id').AsString]);
+    q := OpenRS('SELECT * FROM tbl_history WHERE no_bukti = ''%s''',[zqrBarangKeluar.FieldByName('no_bukti').AsString]);
+    qd := OpenRS('SELECT * FROM tbl_trskeluar_det WHERE id_ref = ''%s''',[zqrBarangKeluar.FieldByName('id').AsString]);
 
-  zqrBarangKeluarDet.First;
-  while not zqrBarangKeluarDet.Eof do begin
-    with q do begin
-      Insert;
-      FieldByName('no_bukti').AsString := zqrBarangKeluar.FieldByName('no_bukti').AsString;
-      FieldByName('tanggal').AsDateTime := Aplikasi.TanggalServer;
-      FieldByName('kode_brg').AsString := qd.FieldByName('kode_brg').AsString;
-      FieldByName('id_brg').AsInteger := qd.FieldByName('id_brg').AsInteger;
-      FieldByName('qty').AsFloat := qd.FieldByName('qty').AsFloat;
-      FieldByName('tipe').AsString := 'o';
-      FieldByName('id_satuan').AsInteger := qd.FieldByName('id_satuan').AsInteger;
-      FieldByname('id_gdg').AsInteger := qd.FieldByName('id_gdg').AsInteger;
-      FieldByName('keterangan').AsString := qd.FieldByName('keterangan').AsString;
-      FieldByName('tgl_input').AsDateTime := Aplikasi.NowServer;
-      Post;
+    zqrBarangKeluarDet.First;
+    while not zqrBarangKeluarDet.Eof do begin
+      with q do begin
+        Insert;
+        FieldByName('no_bukti').AsString := zqrBarangKeluar.FieldByName('no_bukti').AsString;
+        FieldByName('tanggal').AsDateTime := Aplikasi.TanggalServer;
+        FieldByName('kode_brg').AsString := qd.FieldByName('kode_brg').AsString;
+        FieldByName('id_brg').AsInteger := qd.FieldByName('id_brg').AsInteger;
+        FieldByName('qty').AsFloat := qd.FieldByName('qty').AsFloat;
+        FieldByName('tipe').AsString := 'o';
+        FieldByName('id_satuan').AsInteger := qd.FieldByName('id_satuan').AsInteger;
+        FieldByname('id_gdg').AsInteger := qd.FieldByName('id_gdg').AsInteger;
+        FieldByName('keterangan').AsString := qd.FieldByName('keterangan').AsString;
+        FieldByName('tgl_input').AsDateTime := Aplikasi.NowServer;
+        Post;
+      end;
+
+      qbrg := OpenRS('SELECT * FROM tbl_barang WHERE id = %s',[qd.FieldByName('id_brg').AsString]);
+      qbrg.Edit;
+      qbrg.FieldByName('stok').AsFloat := qbrg.FieldByName('stok').AsFloat - qd.FieldByName('qty').AsFloat;
+      qbrg.Post;
+      qbrg.Close;
+
+      qbrg := OpenRS('SELECT * FROM tbl_barang_det WHERE id_brg = %s AND id_gdg = %s',
+        [qd.FieldByName('id_brg').AsString, qd.FieldByName('id_gdg').AsString]);
+      if qbrg.IsEmpty then begin
+        qbrg.Insert;
+        qbrg.FieldByName('id_brg').AsInteger := qd.FieldByName('id_brg').AsInteger;
+        qbrg.FieldByName('kode_brg').AsString := qd.FieldByName('kode_brg').AsString;
+        qbrg.FieldByName('id_gdg').AsInteger := qd.FieldByName('id_gdg').AsInteger;
+      end
+      else
+        qbrg.Edit;
+      qbrg.FieldByName('stok').AsFloat := qbrg.FieldByName('stok').AsFloat - qd.FieldByName('qty').AsFloat;
+      qbrg.Post;
+      qbrg.Close;
+
+      dm.zConn.ExecuteDirect(Format('UPDATE tbl_trskeluar_head SET f_posting = 1 WHERE id = %s',
+        [zqrBarangKeluar.FieldByName('id').AsString]));
+
+      zqrBarangKeluarDet.Next;
     end;
 
-    qbrg := OpenRS('SELECT * FROM tbl_barang WHERE id = %s',[qd.FieldByName('id_brg').AsString]);
-    qbrg.Edit;
-    qbrg.FieldByName('stok').AsFloat := qbrg.FieldByName('stok').AsFloat - qd.FieldByName('qty').AsFloat;
-    qbrg.Post;
-    qbrg.Close;
+    dm.zConn.Commit;
 
-    qbrg := OpenRS('SELECT * FROM tbl_barang_det WHERE id_brg = %s AND id_gdg = %s',
-      [qd.FieldByName('id_brg').AsString, qd.FieldByName('id_gdg').AsString]);
-    if qbrg.IsEmpty then begin
-      qbrg.Insert;
-      qbrg.FieldByName('id_brg').AsInteger := qd.FieldByName('id_brg').AsInteger;
-      qbrg.FieldByName('kode_brg').AsString := qd.FieldByName('kode_brg').AsString;
-      qbrg.FieldByName('id_gdg').AsInteger := qd.FieldByName('id_gdg').AsInteger;
-    end
-    else
-      qbrg.Edit;
-    qbrg.FieldByName('stok').AsFloat := qbrg.FieldByName('stok').AsFloat - qd.FieldByName('qty').AsFloat;
-    qbrg.Post;
-    qbrg.Close;
+    MsgBox('Transaksi pengeluaran barang sudah di posting.');
 
-    zqrBarangKeluarDet.Next;
+  except
+    on E: Exception do begin
+      dm.zConn.Rollback;
+      MsgBox('Error: ' + E.Message);
+    end;
   end;
 end;
 
@@ -197,6 +209,12 @@ var
   f: TfrmTmpLap01;
 begin
   inherited;
+
+  if zqrBarangKeluar.FieldByName('f_posting').AsInteger = 0 then begin
+    MsgBox('Transaksi belum bisa di cetak karena belum di posting.');
+    Abort;
+  end;
+
   f := TfrmTmpLap01.Create(Self);
   with f do begin
     zqrSJ01.Close;

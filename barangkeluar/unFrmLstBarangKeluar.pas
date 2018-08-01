@@ -169,6 +169,8 @@ begin
 
     MsgBox('Transaksi pengeluaran barang sudah di posting.');
 
+    btnRefreshClick(nil);
+
   except
     on E: Exception do begin
       dm.zConn.Rollback;
