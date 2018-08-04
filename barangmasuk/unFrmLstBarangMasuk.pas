@@ -137,8 +137,6 @@ begin
        end;
     end;
   end;}
-
-
 end;
 
 
@@ -153,8 +151,7 @@ begin
     q := OpenRS('SELECT * FROM tbl_history WHERE no_bukti = ''%s''',[zqrBarangMasuk.FieldByName('no_bukti').AsString]);
     qd := OpenRS('SELECT * FROM tbl_trsmasuk_det WHERE id_ref = ''%s''',[zqrBarangMasuk.FieldByName('id').AsString]);
 
-    zqrBarangMasukDet.First;
-    while not zqrBarangMasukDet.Eof do begin
+    while not qd.Eof do begin
       with q do begin
         Insert;
         FieldByName('no_bukti').AsString := zqrBarangMasuk.FieldByName('no_bukti').AsString;
@@ -195,7 +192,7 @@ begin
       dm.zConn.ExecuteDirect(Format('UPDATE tbl_trsmasuk_head SET f_posting = 1 WHERE id = %s',
         [zqrBarangMasuk.FieldByName('id').AsString]));
 
-      zqrBarangMasukDet.Next;
+      qd.Next;
     end;
 
     dm.zConn.Commit;

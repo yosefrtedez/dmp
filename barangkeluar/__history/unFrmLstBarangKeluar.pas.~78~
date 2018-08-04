@@ -122,8 +122,7 @@ begin
     q := OpenRS('SELECT * FROM tbl_history WHERE no_bukti = ''%s''',[zqrBarangKeluar.FieldByName('no_bukti').AsString]);
     qd := OpenRS('SELECT * FROM tbl_trskeluar_det WHERE id_ref = ''%s''',[zqrBarangKeluar.FieldByName('id').AsString]);
 
-    zqrBarangKeluarDet.First;
-    while not zqrBarangKeluarDet.Eof do begin
+    while not qd.Eof do begin
       with q do begin
         Insert;
         FieldByName('no_bukti').AsString := zqrBarangKeluar.FieldByName('no_bukti').AsString;
@@ -159,16 +158,24 @@ begin
       qbrg.Post;
       qbrg.Close;
 
+      dm.zConn.ExecuteDirect(Format('UPDATE tbl_trskeluar_head SET f_posting = 1 WHERE id = %s',
+        [zqrBarangKeluar.FieldByName('id').AsString]));
+
       zqrBarangKeluarDet.Next;
     end;
+
+    dm.zConn.Commit;
+
+    MsgBox('Transaksi pengeluaran barang sudah di posting.');
+
+    btnRefreshClick(nil);
+
   except
     on E: Exception do begin
+      dm.zConn.Rollback;
       MsgBox('Error: ' + E.Message);
     end;
-
   end;
-
-
 end;
 
 procedure TfrmLstBarangKeluar.btnRefreshClick(Sender: TObject);
@@ -203,6 +210,12 @@ var
   f: TfrmTmpLap01;
 begin
   inherited;
+
+  if zqrBarangKeluar.FieldByName('f_posting').AsInteger = 0 then begin
+    MsgBox('Transaksi belum bisa di cetak karena belum di posting.');
+    Abort;
+  end;
+
   f := TfrmTmpLap01.Create(Self);
   with f do begin
     zqrSJ01.Close;

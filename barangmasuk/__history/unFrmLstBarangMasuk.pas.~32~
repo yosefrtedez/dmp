@@ -96,8 +96,8 @@ begin
   if not fu.CekTabOpen('Edit Barang Masuk') then begin
     ts := TcxTabSheet.Create(Self);
     ts.PageControl := frmUtama.pgMain;
-    if zqrBarangMasuk.FieldByName('f_app').AsString = '1' then begin
-      MsgBox('Maaf data barang masuk tidak bisa diedit, karena sudah di approve');
+    if zqrBarangMasuk.FieldByName('f_posting').AsString = '1' then begin
+      MsgBox('Maaf data barang masuk tidak bisa diedit, karena sudah di posting.');
       Abort;
     end;
     f := TfrmInputBarangMasuk.Create(Self);
@@ -153,8 +153,7 @@ begin
     q := OpenRS('SELECT * FROM tbl_history WHERE no_bukti = ''%s''',[zqrBarangMasuk.FieldByName('no_bukti').AsString]);
     qd := OpenRS('SELECT * FROM tbl_trsmasuk_det WHERE id_ref = ''%s''',[zqrBarangMasuk.FieldByName('id').AsString]);
 
-    zqrBarangMasukDet.First;
-    while not zqrBarangMasukDet.Eof do begin
+    while not qd.Eof do begin
       with q do begin
         Insert;
         FieldByName('no_bukti').AsString := zqrBarangMasuk.FieldByName('no_bukti').AsString;
@@ -167,12 +166,14 @@ begin
         FieldByname('id_gdg').AsInteger := qd.FieldByName('id_gdg').AsInteger;
         FieldByName('keterangan').AsString := qd.FieldByName('keterangan').AsString;
         FieldByName('tgl_input').AsDateTime := Aplikasi.NowServer;
+        FieldByName('user').AsString := Aplikasi.NamaUser;
+        FieldByName('user_dept').AsString := Aplikasi.UserDept;
         Post;
       end;
 
       qbrg := OpenRS('SELECT * FROM tbl_barang WHERE id = %s',[qd.FieldByName('id_brg').AsString]);
       qbrg.Edit;
-      qbrg.FieldByName('stok').AsFloat := qbrg.FieldByName('stok').AsFloat - qd.FieldByName('qty').AsFloat;
+      qbrg.FieldByName('stok').AsFloat := qbrg.FieldByName('stok').AsFloat + qd.FieldByName('qty').AsFloat;
       qbrg.Post;
       qbrg.Close;
 
@@ -186,20 +187,21 @@ begin
       end
       else
         qbrg.Edit;
-      qbrg.FieldByName('stok').AsFloat := qbrg.FieldByName('stok').AsFloat - qd.FieldByName('qty').AsFloat;
+      qbrg.FieldByName('stok').AsFloat := qbrg.FieldByName('stok').AsFloat + qd.FieldByName('qty').AsFloat;
       qbrg.Post;
       qbrg.Close;
 
-      dm.zConn.ExecuteDirect(Format('UPDATE tbl_trskeluar_head SET f_posting = 1 WHERE id = %s',
-        [zqrBarangKeluar.FieldByName('id').AsString]));
+      dm.zConn.ExecuteDirect(Format('UPDATE tbl_trsmasuk_head SET f_posting = 1 WHERE id = %s',
+        [zqrBarangMasuk.FieldByName('id').AsString]));
 
-      zqrBarangKeluarDet.Next;
+      qd.Next;
     end;
 
     dm.zConn.Commit;
 
-    MsgBox('Transaksi pengeluaran barang sudah di posting.');
+    MsgBox('Transaksi penerimaan barang sudah di posting.');
 
+    btnRefreshClick(nil);
   except
     on E: Exception do begin
       dm.zConn.Rollback;

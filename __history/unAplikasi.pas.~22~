@@ -100,6 +100,9 @@ type
     mTrial: Boolean;
     mPOTmp: String;
 
+    mGdgPB: Integer;
+    mExeName: string;
+
     procedure SetNamaToko(value: string);
     function GetNamaToko: string;
 
@@ -296,6 +299,10 @@ type
     property Trial: boolean read mTrial write mTrial;
 
     property POTmp: string read mPOTmp write mPOTmp;
+
+    property GdgPB: Integer read mGdgPB write mGdgPB;
+
+    property ExeName: string read mExeName write mExeName;
   end;
 
 implementation
@@ -310,7 +317,7 @@ begin
     self.demo := false;
     self.version := self.version + ' - ( DEMO VERSION )';
     {$ELSE}
-
+    mJudulAplikasi := 'PT. DMP - 03082018';
     Self.version := '';
     Self.Ver := '17112015_0902';
     self.demo := false;
