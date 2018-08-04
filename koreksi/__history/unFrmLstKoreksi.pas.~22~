@@ -1,4 +1,4 @@
-unit unFrmLstBarangKeluar;
+unit unFrmLstKoreksi;
 
 interface
 
@@ -20,10 +20,10 @@ uses
   cxGridCustomView, cxGrid, cxPC, ZAbstractRODataset, ZDataset;
 
 type
-  TfrmLstBarangKeluar = class(TfrmTplGrid)
+  TfrmLstKoreksi = class(TfrmTplGrid)
     Label13: TLabel;
     cxgrd1: TcxGrid;
-    cxtbBarangKeluar: TcxGridDBTableView;
+    cxtbKoreksiHead: TcxGridDBTableView;
     cxTblDet: TcxGridDBTableView;
     cxColTblDetid: TcxGridDBColumn;
     cxColTblDetid_ref: TcxGridDBColumn;
@@ -38,39 +38,34 @@ type
     Panel3: TPanel;
     cxLabel1: TcxLabel;
     cxGrid1: TcxGrid;
-    cxtbBarangKeluarDet: TcxGridDBTableView;
+    cxtbKoreksiDet: TcxGridDBTableView;
     cxGrid1Level1: TcxGridLevel;
-    zqrBarangKeluar: TZReadOnlyQuery;
-    dsBarangKeluar: TDataSource;
-    zqrBarangKeluarDet: TZReadOnlyQuery;
-    dsBarangKeluarkDet: TDataSource;
-    cxColPOHeadno_bukti: TcxGridDBColumn;
-    cxColPOHeadid_invoice: TcxGridDBColumn;
-    cxColPOHeadketerangan: TcxGridDBColumn;
-    cxColPOHeadtanggal: TcxGridDBColumn;
-    cxColPOHeaduser: TcxGridDBColumn;
-    cxColPODetno_bukti: TcxGridDBColumn;
-    cxColPODetkode_brg: TcxGridDBColumn;
-    cxColPODetdeskripsi: TcxGridDBColumn;
-    cxColPODetqty: TcxGridDBColumn;
-    cxColPODetid_gdg: TcxGridDBColumn;
-    cxColPODetsatuan: TcxGridDBColumn;
-    cxtbBarangKeluarDetColumn1: TcxGridDBColumn;
-    Button1: TButton;
-    cxtbBarangKeluarColumn1: TcxGridDBColumn;
-    cxtbBarangKeluarColumn2: TcxGridDBColumn;
-    cxtbBarangKeluarColumn3: TcxGridDBColumn;
-    cxtbBarangKeluarColumn4: TcxGridDBColumn;
+    zqrKoreksi: TZReadOnlyQuery;
+    dsKoreksi: TDataSource;
+    zqrKoreksiDet: TZReadOnlyQuery;
+    dsKoreksiDet: TDataSource;
+    cxColTblTrsMasukDetno_bukti: TcxGridDBColumn;
+    cxColTblTrsMasukDetkode_brg: TcxGridDBColumn;
+    cxColTblTrsMasukDetdeskripsi: TcxGridDBColumn;
+    cxColTblTrsMasukDetsatuan: TcxGridDBColumn;
+    cxColTblTrsMasukDetqty: TcxGridDBColumn;
+    cxColTblTrsMasukDetketerangan: TcxGridDBColumn;
+    cxColTblTrsMasukHeadno_bukti: TcxGridDBColumn;
+    cxColTblTrsMasukHeadtanggal: TcxGridDBColumn;
+    cxColTblTrsMasukHeaduser: TcxGridDBColumn;
+    cxColTblTrsMasukHeaduser_dept: TcxGridDBColumn;
     btnPosting: TButton;
-    cxColPosting: TcxGridDBColumn;
+    cxtbKoreksiHeadColumn2: TcxGridDBColumn;
+    cxtbKoreksiDetColumn1: TcxGridDBColumn;
+    cxtbKoreksiDetColumn2: TcxGridDBColumn;
     procedure btnTambahClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure btnRefreshClick(Sender: TObject);
-    procedure cxtbBarangKeluarFocusedRecordChanged(Sender: TcxCustomGridTableView;
+    procedure cxtbKoreksiHeadFocusedRecordChanged(Sender: TcxCustomGridTableView;
       APrevFocusedRecord, AFocusedRecord: TcxCustomGridRecord;
       ANewItemRecordFocusingChanged: Boolean);
     procedure btnEditClick(Sender: TObject);
-    procedure Button1Click(Sender: TObject);
+    procedure btnHapusClick(Sender: TObject);
     procedure btnPostingClick(Sender: TObject);
   private
     { Private declarations }
@@ -80,38 +75,73 @@ type
   end;
 
 var
-  frmLstBarangKeluar: TfrmLstBarangKeluar;
+  frmLstKoreksi: TfrmLstKoreksi;
 
 implementation
 
-uses unDM, unTools, unFrmInputReturPembelian, unFrmUtama, unFrmInputBarangJasa,
-  unFrmInputBarangMasuk, unFrmInputBarangKeluar, unFrmTmpLap01;
+uses unDM, unTools, unFrmUtama, unFrmInputKoreksi;
 
 {$R *.dfm}
 
-procedure TfrmLstBarangKeluar.btnEditClick(Sender: TObject);
+procedure TfrmLstKoreksi.btnEditClick(Sender: TObject);
 var
- f: TfrmInputBarangKeluar;
+ f: TfrmInputKoreksi;
  ts: TcxTabSheet;
  q: TZQuery;
 begin
   inherited;
-  if not fu.CekTabOpen('Edit Barang Keluar') then begin
+
+  if not fu.CekTabOpen('Edit Koreksi Barang') then begin
     ts := TcxTabSheet.Create(Self);
     ts.PageControl := frmUtama.pgMain;
-    f := TfrmInputBarangKeluar.Create(Self);
-    ts.Caption := 'Edit Barang Keluar';
+    if zqrKoreksi.FieldByName('f_posting').AsString = '1' then begin
+      MsgBox('Mohon Maaf, koreksi barang masuk tidak bisa diedit, karena sudah di posting.');
+      Abort;
+    end;
+    f := TfrmInputKoreksi.Create(Self);
+    ts.Caption := 'Edit Koreksi Barang';
     f.Jenis := 'E';
-    f.EditKey := zqrBarangKeluar.FieldByName('id').AsString;
+    f.EditKey := zqrKoreksi.FieldByName('id').AsString;
     f.Parent := ts;
     ts.Caption := f.Caption;
     f.Show;
     fu.pgMain.ActivePage := ts;
   end;
+
 end;
 
 
-procedure TfrmLstBarangKeluar.btnPostingClick(Sender: TObject);
+procedure TfrmLstKoreksi.btnHapusClick(Sender: TObject);
+var
+  q : TZQuery;
+begin
+  inherited;
+  {q := OpenRS('select * from tbl_trsreturpemb_head where f_app = ''1'' and no_bukti = ''%s''',[zqrReturPembHead.FieldByName('no_bukti').AsString]);
+  if not q.Eof then begin
+    MsgBox('Maaf data tidak bisa dihapus, karena sudah di approve atasan');
+    Abort;
+  end else begin
+    try
+      DM.zConn.StartTransaction;
+      DM.zConn.ExecuteDirect('delete  from tbl_trsreturpemb_head where no_bukti = ''' + zqrReturPembHead.FieldByName('no_bukti').AsString + '''');
+      DM.zConn.ExecuteDirect('delete  from tbl_trsreturpemb_det where no_bukti = ''' + zqrReturPembDet.FieldByName('no_bukti').AsString + '''');
+      DM.zConn.Commit;
+      MsgBox('Data berhasil dihapus');
+      btnRefreshClick(nil);
+    except
+       on e : Exception do begin
+         MsgBox('Error: ' + E.Message);
+         DM.zConn.Rollback;
+         mjenis := '';
+       end;
+    end;
+  end;}
+
+
+end;
+
+
+procedure TfrmLstKoreksi.btnPostingClick(Sender: TObject);
 var
   qd, q, qbrg: TZQuery;
 begin
@@ -119,29 +149,32 @@ begin
   try
     dm.zConn.StartTransaction;
 
-    q := OpenRS('SELECT * FROM tbl_history WHERE no_bukti = ''%s''',[zqrBarangKeluar.FieldByName('no_bukti').AsString]);
-    qd := OpenRS('SELECT * FROM tbl_trskeluar_det WHERE id_ref = ''%s''',[zqrBarangKeluar.FieldByName('id').AsString]);
+    Screen.Cursor := crSQLWait;
 
-    zqrBarangKeluarDet.First;
-    while not zqrBarangKeluarDet.Eof do begin
+    q := OpenRS('SELECT * FROM tbl_history WHERE no_bukti = ''%s''',[zqrKoreksi.FieldByName('no_bukti').AsString]);
+    qd := OpenRS('SELECT * FROM tbl_trskoreksi_det WHERE id_ref = ''%s''',[zqrKoreksi.FieldByName('id').AsString]);
+
+    while not qd.Eof do begin
       with q do begin
         Insert;
-        FieldByName('no_bukti').AsString := zqrBarangKeluar.FieldByName('no_bukti').AsString;
+        FieldByName('no_bukti').AsString := zqrKoreksi.FieldByName('no_bukti').AsString;
         FieldByName('tanggal').AsDateTime := Aplikasi.TanggalServer;
         FieldByName('kode_brg').AsString := qd.FieldByName('kode_brg').AsString;
         FieldByName('id_brg').AsInteger := qd.FieldByName('id_brg').AsInteger;
-        FieldByName('qty').AsFloat := qd.FieldByName('qty').AsFloat;
-        FieldByName('tipe').AsString := 'o';
+        FieldByName('qty').AsFloat := qd.FieldByName('qtykoreksi').AsFloat;
+        FieldByName('tipe').AsString := 'i';
         FieldByName('id_satuan').AsInteger := qd.FieldByName('id_satuan').AsInteger;
         FieldByname('id_gdg').AsInteger := qd.FieldByName('id_gdg').AsInteger;
         FieldByName('keterangan').AsString := qd.FieldByName('keterangan').AsString;
         FieldByName('tgl_input').AsDateTime := Aplikasi.NowServer;
+        FieldByName('user').AsString := Aplikasi.NamaUser;
+        FieldByName('user_dept').AsString := Aplikasi.UserDept;
         Post;
       end;
 
       qbrg := OpenRS('SELECT * FROM tbl_barang WHERE id = %s',[qd.FieldByName('id_brg').AsString]);
       qbrg.Edit;
-      qbrg.FieldByName('stok').AsFloat := qbrg.FieldByName('stok').AsFloat - qd.FieldByName('qty').AsFloat;
+      qbrg.FieldByName('stok').AsFloat := qbrg.FieldByName('stok').AsFloat + qd.FieldByName('qtykoreksi').AsFloat;
       qbrg.Post;
       qbrg.Close;
 
@@ -155,15 +188,22 @@ begin
       end
       else
         qbrg.Edit;
-      qbrg.FieldByName('stok').AsFloat := qbrg.FieldByName('stok').AsFloat - qd.FieldByName('qty').AsFloat;
+      qbrg.FieldByName('stok').AsFloat := qbrg.FieldByName('stok').AsFloat + qd.FieldByName('qtykoreksi').AsFloat;
       qbrg.Post;
       qbrg.Close;
 
-      zqrBarangKeluarDet.Next;
+      dm.zConn.ExecuteDirect(Format('UPDATE tbl_trskoreksi_head SET f_posting = 1 WHERE id = %s',
+        [zqrKoreksi.FieldByName('id').AsString]));
+
+      qd.Next;
     end;
 
     dm.zConn.Commit;
 
+    Screen.Cursor := crDefault;
+    MsgBox('Transaksi koreksi barang sudah di posting.');
+
+    btnRefreshClick(nil);
   except
     on E: Exception do begin
       dm.zConn.Rollback;
@@ -172,25 +212,25 @@ begin
   end;
 end;
 
-procedure TfrmLstBarangKeluar.btnRefreshClick(Sender: TObject);
+procedure TfrmLstKoreksi.btnRefreshClick(Sender: TObject);
 begin
   inherited;
-  zqrBarangKeluar.Close;
-  zqrBarangKeluar.Open;
-  zqrBarangKeluarDet.Close;
-  zqrBarangKeluarDet.Open;
+  zqrKoreksi.Close;
+  zqrKoreksi.Open;
+  zqrKoreksiDet.Close;
+  zqrKoreksiDet.Open;
 end;
 
-procedure TfrmLstBarangKeluar.btnTambahClick(Sender: TObject);
+procedure TfrmLstKoreksi.btnTambahClick(Sender: TObject);
 var
-  f: TfrmInputBarangKeluar;
+  f: TfrmInputKoreksi;
   ts: TcxTabSheet;
 begin
   inherited;
-   if not fu.CekTabOpen('Input Barang Keluar') then begin
+  if not fu.CekTabOpen('Input Koreksi Barang') then begin
     ts := TcxTabSheet.Create(Self);
     ts.PageControl := frmUtama.pgMain;
-    f := TfrmInputBarangKeluar.Create(Self);
+    f := TfrmInputKoreksi.Create(Self);
     f.Jenis := 'T';
     f.Parent := ts;
     ts.Caption := f.Caption;
@@ -199,45 +239,23 @@ begin
   end;
 end;
 
-procedure TfrmLstBarangKeluar.Button1Click(Sender: TObject);
-var
-  f: TfrmTmpLap01;
-begin
-  inherited;
-  f := TfrmTmpLap01.Create(Self);
-  with f do begin
-    zqrSJ01.Close;
-    zqrSJ01.ParamByName('id').AsInteger := zqrBarangKeluar.FieldByName('id').AsInteger;
-    zqrSJ01.Open;
-    if zqrBarangKeluar.FieldByName('f_ppn').AsInteger = 1 then
-      rptSJ01.ShowReport(True)
-    else
-      rptSJ01NonPPN.ShowReport(True);
-
-    if zqrBarangKeluar.FieldByName('f_ppn').AsInteger = 1 then
-      rptFakturPenjualan.ShowReport(True)
-    else
-      rptFakturPenjualanNonPPN.ShowReport(True);
-  end;
-end;
-
-procedure TfrmLstBarangKeluar.cxtbBarangKeluarFocusedRecordChanged(
+procedure TfrmLstKoreksi.cxtbKoreksiHeadFocusedRecordChanged(
   Sender: TcxCustomGridTableView; APrevFocusedRecord,
   AFocusedRecord: TcxCustomGridRecord; ANewItemRecordFocusingChanged: Boolean);
 begin
   inherited;
   try
-    zqrBarangkeluarDet.Close;
-    zqrBarangKeluarDet.ParamByName('id_ref').AsInteger := zqrBarangKeluar.FieldByName('id').AsInteger;
-    zqrBarangKeluarDet.Open;
+    zqrKoreksiDet.Close;
+    zqrKoreksiDet.ParamByName('id_ref').AsInteger := zqrKoreksi.FieldByName('id').AsInteger;
+    zqrKoreksiDet.Open;
   except
   end;
 end;
 
-procedure TfrmLstBarangKeluar.FormCreate(Sender: TObject);
+procedure TfrmLstKoreksi.FormCreate(Sender: TObject);
 begin
   inherited;
-  zqrBarangKeluar.Open;
+  zqrKoreksi.Open;
 end;
 
 end.

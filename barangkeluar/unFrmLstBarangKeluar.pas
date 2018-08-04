@@ -119,6 +119,7 @@ begin
   try
     dm.zConn.StartTransaction;
 
+    Screen.Cursor := crSQLWait;
     q := OpenRS('SELECT * FROM tbl_history WHERE no_bukti = ''%s''',[zqrBarangKeluar.FieldByName('no_bukti').AsString]);
     qd := OpenRS('SELECT * FROM tbl_trskeluar_det WHERE id_ref = ''%s''',[zqrBarangKeluar.FieldByName('id').AsString]);
 
@@ -166,6 +167,7 @@ begin
 
     dm.zConn.Commit;
 
+    Screen.Cursor := crDefault;
     MsgBox('Transaksi pengeluaran barang sudah di posting.');
 
     btnRefreshClick(nil);
@@ -173,6 +175,7 @@ begin
   except
     on E: Exception do begin
       dm.zConn.Rollback;
+      Screen.Cursor := crDefault;
       MsgBox('Error: ' + E.Message);
     end;
   end;
