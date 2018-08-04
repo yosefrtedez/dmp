@@ -78,7 +78,8 @@ uses
   unFrmeLapMaster in 'laporan\unFrmeLapMaster.pas' {frmeLapMaster: TFrame},
   unFrmLapMaster in 'laporan\unFrmLapMaster.pas' {frmLapMaster},
   unFrmInputSuratJalan in 'suratjalan\unFrmInputSuratJalan.pas' {frmInputSuratJalan},
-  unFrmLstSuratJalan in 'suratjalan\unFrmLstSuratJalan.pas' {frmLstSuratJalan};
+  unFrmLstSuratJalan in 'suratjalan\unFrmLstSuratJalan.pas' {frmLstSuratJalan},
+  unFrmPengambilanBahanBaku in 'pengambilanbahanbaku\unFrmPengambilanBahanBaku.pas' {frmPengambilanBahanBaku};
 
 {$R *.res}
 
@@ -91,6 +92,7 @@ begin
   Application.CreateForm(TfrmLapMaster, frmLapMaster);
   Application.CreateForm(TfrmInputSuratJalan, frmInputSuratJalan);
   Application.CreateForm(TfrmLstSuratJalan, frmLstSuratJalan);
+  Application.CreateForm(TfrmPengambilanBahanBaku, frmPengambilanBahanBaku);
   frmUtama.Show;
 
   frmLogin.ShowModal;

@@ -97,8 +97,13 @@ begin
     ts.PageControl := frmUtama.pgMain;
 
     f := TfrmSPK.Create(nil);
-    f.NoSO := zqrMO.FieldByName('no_so').AsString;
-    f.NoMO := zqrMO.FieldByName('no_mo').AsString;
+    f.Jenis := 'T';
+    if not zqrMO.FieldByName('id_spk').IsNull then begin
+      f.IDSPK := zqrMO.FieldByName('id_spk').AsInteger;
+      f.Jenis := 'E';
+    end;
+    f.IDSO := zqrMO.FieldByName('id_so').AsInteger;
+    f.IDMO := zqrMO.FieldByName('id').AsInteger;
     f.Parent := ts;
     ts.Caption := f.Caption;
     f.Show;

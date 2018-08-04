@@ -266,8 +266,8 @@ begin
     depan := 'KS/'
   else if sTipe = 'consumable' then
     depan := 'BC/'
-  else if sTipe = 'ambilbahan' then
-    depan := 'ABB/'
+  else if sTipe = 'pengambilan-bb' then
+    depan := 'PBB/'
   else if sTipe = 'sales_order' then
     depan := 'SO/'
   else if sTipe = 'sales_order_plt' then

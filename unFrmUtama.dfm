@@ -185,6 +185,7 @@ object frmUtama: TfrmUtama
       Caption = 'PRD'
       object mnPrd_PengambilanBB: TMenuItem
         Caption = 'Pengambilan Bahan Baku '
+        OnClick = mnPrd_PengambilanBBClick
       end
       object mnPrd_InputHslProd: TMenuItem
         Caption = 'Input Hasil Produksi '

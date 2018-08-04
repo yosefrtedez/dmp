@@ -115,6 +115,7 @@ type
     procedure mnLapClick(Sender: TObject);
     procedure mnSet_KalkulasiUlangStokClick(Sender: TObject);
     procedure mnWhl_KoreksiClick(Sender: TObject);
+    procedure mnPrd_PengambilanBBClick(Sender: TObject);
   private
     procedure PGChange(Sender: TObject);
   public
@@ -140,7 +141,8 @@ uses
   unFrmLstPengeluaranKas, unFrmLstTransferBarang, unFrmLstSales,
   unFrmLstFormula, unFrmAppPO, unFrmLstReturPembelian, unFrmAppRetur,
   unFrmInputBarangMasuk, unFrmLstBarangMasuk, unFrmLstBarangKeluar,
-  unFrmLaporan, unFrmKalkulasiStok, unFrmLstKoreksi, unFrmMenuLaporan;
+  unFrmLaporan, unFrmKalkulasiStok, unFrmLstKoreksi, unFrmMenuLaporan,
+  unFrmPengambilanBahanBaku;
 
 {$R *.dfm}
 
@@ -533,6 +535,25 @@ begin
     ts.PageControl := pgMain;
 
     f := TfrmMasterOrder.Create(Self);
+    f.Parent := ts;
+    ts.Caption := f.Caption;
+    f.Show;
+
+    pgMain.ActivePage := ts;
+  end;
+end;
+
+procedure TfrmUtama.mnPrd_PengambilanBBClick(Sender: TObject);
+var
+  f: TfrmPengambilanBahanBaku;
+  ts: TcxTabSheet;
+begin
+  if not CekTabOpen('Pengambilan Bahan Baku') then begin
+    ToggleMainPage;
+    ts := TcxTabSheet.Create(Self);
+    ts.PageControl := pgMain;
+
+    f := TfrmPengambilanBahanBaku.Create(Self);
     f.Parent := ts;
     ts.Caption := f.Caption;
     f.Show;

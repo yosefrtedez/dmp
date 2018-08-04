@@ -37,7 +37,7 @@ type
     cxLabel7: TcxLabel;
     cxtDeskripsi: TcxTextEdit;
     cxLabel8: TcxLabel;
-    cxDateEdit1: TcxDateEdit;
+    cxdTglPrd: TcxDateEdit;
     cxlMesin: TcxLookupComboBox;
     cxsQtySPK: TcxSpinEdit;
     cxtSatuan: TcxTextEdit;
@@ -52,17 +52,26 @@ type
     cxColQty: TcxGridColumn;
     cxColSatuan: TcxGridColumn;
     cxColIdSatuan: TcxGridColumn;
+    cxColId: TcxGridColumn;
+    cxLabel9: TcxLabel;
+    cxsQtySO: TcxSpinEdit;
+    cxLabel10: TcxLabel;
+    cxsToleransi: TcxSpinEdit;
+    cxLabel11: TcxLabel;
     procedure FormShow(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure cxtbBomDataControllerRecordChanged(
       ADataController: TcxCustomDataController; ARecordIndex,
       AItemIndex: Integer);
+    procedure btnSimpanClick(Sender: TObject);
   private
-    mNoSO: string;
-    mNOMO: string;
+    mIDSO: integer;
+    mIDMO: integer;
+    mIDSPK: Integer;
   public
-    property NoSO: string read mNoSO write mNoSO;
-    property NoMO: string read mNOMO write mNOMO;
+    property IDSO: integer read mIDSO write mIDSO;
+    property IDMO: Integer read mIDMO write mIDMO;
+    property IDSPK: Integer read mIDSPK write mIDSPK;
   end;
 
 var
@@ -74,6 +83,107 @@ uses unTools, unDM;
 
 {$R *.dfm}
 
+procedure TfrmSPK.btnSimpanClick(Sender: TObject);
+var
+  sNoSPK: string;
+  qh, qd: TZQuery;
+  ID, i: integer;
+begin
+  inherited;
+
+  if (cxtbBom.DataController.EditState = [dceInsert, dceModified]) or (cxtbBom.DataController.EditState = [dceEdit, dceModified]) then begin
+    MsgBox('Mohon selesaikan pengeditan detail sebelum disimpan. #10#13' +
+      'Klik tombol centang hijau.');
+    Abort;
+  end;
+
+  if cxsQtySPK.Value = 0 then begin
+    MsgBox('Mohon isi Qty. SPK.');
+    cxsQtySPK.SetFocus;
+  end
+  else if VarIsNull(cxdTglPrd.EditValue) then begin
+    MsgBox('Mohon isi tanggal produksi.');
+    cxdTglPrd.SetFocus;
+  end
+  else if cxlMesin.Text = '' then begin
+    MsgBox('Mohon pilih mesin.');
+    cxlMesin.SetFocus;
+  end
+  else begin
+
+    if cxtbBom.DataController.RecordCount = 0 then begin
+      MsgBox('Detail Bill Of Material harus di isi.');
+      Abort;
+    end;
+
+    try
+      dm.zConn.StartTransaction;
+
+      if Self.Jenis = 'T' then begin
+        sNoSPK := GetLastFak('spk');
+        UpdateFaktur(Copy(sNoSPK,1,8));
+      end
+      else begin
+        sNoSPK := cxtNoSPK.Text;
+      end;
+
+      qh := OpenRS('SELECT * FROM tbl_spk WHERE no_spk = ''%s''',[sNoSPK]);
+
+      if Self.Jenis = 'E' then ID := qh.FieldByName('id').AsInteger;
+
+      with qh do begin
+        if Self.Jenis = 'T' then
+          Insert
+        else
+          Edit;
+        FieldByName('no_spk').AsString := sNoSPK;
+        FieldByName('id_mo').AsInteger := mIDMO;
+        FieldByName('id_so').AsInteger := mIDSO;
+        FieldByName('tanggal').AsDateTime := cxdTglPrd.Date;
+        FieldbyName('id_mesin').AsInteger := cxlMesin.EditValue;
+        FieldByName('qty').AsFloat := cxsQtySPK.EditValue;
+        FieldByName('user').AsString := Aplikasi.NamaUser;
+        FieldByName('user_dept').AsString := Aplikasi.UserDept;
+        FieldByName('toleransi').AsFloat := cxsToleransi.EditValue;
+        Post;
+      end;
+
+      if Self.Jenis = 'T' then  ID := LastInsertID;
+
+      qd := OpenRS('SELECT * FROM tbl_bom WHERE id_spk = %d',[ID]);
+      with cxtbBom.DataController do begin
+        for i := 0 to RecordCount - 1 do begin
+          if Self.Jenis = 'T' then
+            qd.Insert
+          else begin
+            qd.Locate('id_spk,id_brg',VarArrayOf([ID, Values[i, cxColDeskripsi.Index]]),[]);
+            qd.Edit;
+          end;
+          qd.FieldByName('id_spk').AsInteger := ID;
+          qd.FieldByName('kode_brg').AsString := Values[i, cxColKodeBrg.Index];
+          qd.FieldByName('id_brg').AsInteger := Values[i, cxColDeskripsi.Index];
+          qd.FieldByName('qty').AsFloat := Values[i, cxColQty.Index];
+          qd.FieldByName('id_satuan').AsInteger := Values[i, cxColIdSatuan.Index];
+          qd.Post;
+        end;
+      end;
+      qd.Close;
+
+      dm.zConn.Commit;
+
+      MsgBox('SPK sudah disimpan dengan nomor: ' + sNoSPK);
+
+      btnBatalClick(nil);
+    except
+      on E: Exception do begin
+        dm.zConn.Rollback;
+        MsgBox('Error: ' + E.Message);
+      end;
+    end;
+  end;
+
+end;
+
 procedure TfrmSPK.cxtbBomDataControllerRecordChanged(
   ADataController: TcxCustomDataController; ARecordIndex, AItemIndex: Integer);
 var
@@ -82,10 +192,10 @@ begin
   inherited;
   if AItemIndex = cxColDeskripsi.Index then begin
     q := OpenRS('SELECT a.kode, b.satuan, b.id id_satuan FROM tbl_barang a ' +
-      'tbl_satuan b ON a.id_satuan = b.id WHERE a.id = ''%s''',[ADataController.Values[ARecordIndex, cxColDeskripsi.Index]]);
+      'LEFT JOIN tbl_satuan b ON a.id_satuan = b.id WHERE a.id = ''%s''',[ADataController.Values[ARecordIndex, cxColDeskripsi.Index]]);
     ADataController.Values[ARecordIndex, cxColSatuan.Index] := q.FieldByName('satuan').AsString;
     ADataController.Values[ARecordIndex, cxColIdSatuan.Index] := q.FieldByName('id_satuan').AsString;
-    ADataController.Values[ARecordIndex, cxColKodeBrg.Index] := q.FieldByName('satuan').AsString;
+    ADataController.Values[ARecordIndex, cxColKodeBrg.Index] := q.FieldByName('kode').AsString;
     q.Close;
   end;
 end;
@@ -100,19 +210,46 @@ end;
 procedure TfrmSPK.FormShow(Sender: TObject);
 var
   q: TZQuery;
+  i: integer;
 begin
   inherited;
-  q := OpenRS('SELECT a.* FROM v_mo a WHERE no_mo = ''%s''',[mNoMO]);
 
-  cxtNoMO.Text := mNOMO;
+  q := OpenRS('SELECT a.* FROM v_mo a WHERE id = %d',[mIDMO]);
+
+  cxtNoMO.Text := q.FieldByName('no_mo').AsString;
   cxtNoSO.Text := q.FieldByName('no_so').AsString;
   cxtKodeBrg.Text := q.FieldByName('kode_brg').AsString;
   cxtDeskripsi.Text := q.FieldByName('deskripsi').AsString;
   cxtSatuan.Text := q.FieldByName('satuan').AsString;
-
+  cxsQtySPK.Value := q.FieldByName('qty_spk').AsFloat;
+  cxsQtySO.Value := q.FieldbyName('qty_so').AsFloat;
   q.Close;
 
-  cxtNoSPK.Text := GetLastFak('spk');
+  if Self.Jenis = 'T' then
+    cxtNoSPK.Text := GetLastFak('spk');
+
+  if Self.Jenis = 'E' then begin
+    q := OpenRS('SELECT * FROM tbl_spk WHERE id = %d',[mIDSPK]);
+    cxtNoSPK.Text := q.FieldByName('no_spk').AsString;
+    cxdTglPrd.Date := q.FieldByName('tanggal').AsDateTime;
+    cxlMesin.EditValue := q.FieldByName('id_mesin').AsInteger;
+    q.Close;
+
+    q := OpenRS('SELECT a.*, b.satuan satuan2 FROM tbl_bom a LEFT JOIN tbl_satuan b on a.id_satuan = b.id WHERE a.id_spk = %d',[mIDSPK]);
+    while not q.Eof do begin
+      with cxtbBom.DataController do begin
+        i := AppendRecord;
+        Values[i, cxColKodeBrg.Index] := q.FieldByName('kode_brg').AsString;
+        Values[i, cxColDeskripsi.Index] := q.FieldByName('id_brg').AsInteger;
+        Values[i, cxColQty.Index] := q.FieldByName('qty').AsFloat;
+        Values[i, cxColSatuan.Index] := q.FieldByName('satuan2').AsString;
+        Values[i, cxColIdSatuan.Index] := q.FieldByName('id_satuan').AsInteger;
+        Values[i, cxColId.Index] := q.FieldByName('id').AsInteger;
+      end;
+      q.Next;
+    end;
+  end;
+
 end;
 
 end.

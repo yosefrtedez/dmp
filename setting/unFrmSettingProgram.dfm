@@ -1,8 +1,6 @@
 inherited frmSettingProgram: TfrmSettingProgram
   Caption = 'Setting Program'
   OnShow = FormShow
-  ExplicitWidth = 894
-  ExplicitHeight = 553
   PixelsPerInch = 96
   TextHeight = 13
   inherited Panel1: TPanel
@@ -129,7 +127,7 @@ inherited frmSettingProgram: TfrmSettingProgram
     object cxTabSheet1: TcxTabSheet
       Caption = 'Default Gudang'
       ImageIndex = 0
-      ExplicitLeft = 2
+      ExplicitLeft = 0
       object cxLabel9: TcxLabel
         Left = 13
         Top = 16
@@ -148,14 +146,28 @@ inherited frmSettingProgram: TfrmSettingProgram
         TabOrder = 0
         Width = 145
       end
+      object cxLabel10: TcxLabel
+        Left = 13
+        Top = 43
+        Caption = 'Pengambilan Bahan '
+      end
+      object cxlGdgBB: TcxLookupComboBox
+        Left = 123
+        Top = 42
+        Properties.KeyFieldNames = 'id'
+        Properties.ListColumns = <
+          item
+            Caption = 'Kode Gudang'
+            FieldName = 'kode'
+          end>
+        Properties.ListSource = dsGdg
+        TabOrder = 2
+        Width = 145
+      end
     end
     object cxTabSheet2: TcxTabSheet
       Caption = 'cxTabSheet2'
       ImageIndex = 1
-      ExplicitLeft = 4
-      ExplicitTop = 24
-      ExplicitWidth = 281
-      ExplicitHeight = 165
     end
   end
   object zqrGdg: TZReadOnlyQuery

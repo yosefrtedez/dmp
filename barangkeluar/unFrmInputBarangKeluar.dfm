@@ -4,6 +4,7 @@ inherited frmInputBarangKeluar: TfrmInputBarangKeluar
   ClientWidth = 1165
   OnCreate = FormCreate
   OnShow = FormShow
+  ExplicitTop = -90
   ExplicitWidth = 1165
   ExplicitHeight = 771
   PixelsPerInch = 96
