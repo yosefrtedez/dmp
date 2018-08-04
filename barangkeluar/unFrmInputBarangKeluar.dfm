@@ -4,7 +4,6 @@ inherited frmInputBarangKeluar: TfrmInputBarangKeluar
   ClientWidth = 1165
   OnCreate = FormCreate
   OnShow = FormShow
-  ExplicitTop = -90
   ExplicitWidth = 1165
   ExplicitHeight = 771
   PixelsPerInch = 96
@@ -144,6 +143,7 @@ inherited frmInputBarangKeluar: TfrmInputBarangKeluar
         Properties.Alignment.Horz = taRightJustify
         Properties.DisplayFormat = '#,##.00'
         Properties.ReadOnly = False
+        Properties.ValueType = vtFloat
         HeaderAlignmentHorz = taRightJustify
         Width = 81
       end

@@ -140,7 +140,7 @@ uses
   unFrmLstPengeluaranKas, unFrmLstTransferBarang, unFrmLstSales,
   unFrmLstFormula, unFrmAppPO, unFrmLstReturPembelian, unFrmAppRetur,
   unFrmInputBarangMasuk, unFrmLstBarangMasuk, unFrmLstBarangKeluar,
-  unFrmLaporan, unFrmKalkulasiStok, unFrmLstKoreksi;
+  unFrmLaporan, unFrmKalkulasiStok, unFrmLstKoreksi, unFrmMenuLaporan;
 
 {$R *.dfm}
 
@@ -291,6 +291,26 @@ begin
     pgMain.ActivePage := ts;
   end;
 end;
+
+{
+var
+  f: TfrmMenuLaporan;
+  ts: TcxTabSheet;
+begin
+  if not CekTabOpen('Laporan') then begin
+    ToggleMainPage;
+    ts := TcxTabSheet.Create(Self);
+    ts.PageControl := pgMain;
+
+    f := TfrmMenuLaporan.Create(Self);
+    f.Parent := ts;
+    ts.Caption := f.Caption;
+    f.Show;
+
+    pgMain.ActivePage := ts;
+  end;
+end;
+}
 
 procedure TfrmUtama.mnMkt_SalesOrderClick(Sender: TObject);
 var

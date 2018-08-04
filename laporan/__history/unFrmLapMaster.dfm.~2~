@@ -1,0 +1,23 @@
+inherited frmLapMaster: TfrmLapMaster
+  Caption = 'frmLapMaster'
+  ExplicitWidth = 894
+  ExplicitHeight = 553
+  PixelsPerInch = 96
+  TextHeight = 13
+  inherited Panel1: TPanel
+    Left = 440
+    Top = 184
+    Align = alNone
+    Visible = False
+    ExplicitLeft = 440
+    ExplicitTop = 184
+  end
+  inherited Panel2: TPanel
+    Left = 440
+    Top = 256
+    Align = alNone
+    Visible = False
+    ExplicitLeft = 440
+    ExplicitTop = 256
+  end
+end

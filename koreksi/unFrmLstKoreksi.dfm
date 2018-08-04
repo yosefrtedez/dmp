@@ -218,16 +218,25 @@ inherited frmLstKoreksi: TfrmLstKoreksi
       object cxColTblTrsMasukDetqty: TcxGridDBColumn
         Caption = 'Stok Lama'
         DataBinding.FieldName = 'stoklama'
+        PropertiesClassName = 'TcxSpinEditProperties'
+        Properties.DisplayFormat = '#,#0.00'
+        Properties.ValueType = vtFloat
         Options.Editing = False
         Width = 80
       end
       object cxtbKoreksiDetColumn1: TcxGridDBColumn
         Caption = 'Stok Baru'
         DataBinding.FieldName = 'stokbaru'
+        PropertiesClassName = 'TcxSpinEditProperties'
+        Properties.DisplayFormat = '#,#0.00'
+        Properties.ValueType = vtFloat
       end
       object cxtbKoreksiDetColumn2: TcxGridDBColumn
         Caption = 'Qty. Koreksi'
         DataBinding.FieldName = 'qtykoreksi'
+        PropertiesClassName = 'TcxSpinEditProperties'
+        Properties.DisplayFormat = '#,#0.00'
+        Properties.ValueType = vtFloat
         Width = 71
       end
       object cxColTblTrsMasukDetsatuan: TcxGridDBColumn

@@ -102,5 +102,17 @@
     <Transaction>2018/07/17 15.15.05.032.dfm,D:\108 JSP\My Project\05. Felgito\02. Source Code\Unit1.dfm=D:\108 JSP\My Project\05. Felgito\02. Source Code\barangkeluar\unFrmPilihHarga.dfm</Transaction>
     <Transaction>2018/07/29 20.53.56.359.pas,D:\108 JSP\My Project\05. Felgito\02. Source Code\Unit1.pas=D:\108 JSP\My Project\05. Felgito\02. Source Code\spk\unFrmSPK.pas</Transaction>
     <Transaction>2018/07/29 20.53.56.359.dfm,D:\108 JSP\My Project\05. Felgito\02. Source Code\Unit1.dfm=D:\108 JSP\My Project\05. Felgito\02. Source Code\spk\unFrmSPK.dfm</Transaction>
+    <Transaction>2018/08/02 08.35.44.682.pas,D:\108 JSP\My Project\05. Felgito\02. Source Code\Unit1.pas=D:\108 JSP\My Project\05. Felgito\02. Source Code\laporan\unFrmLapPO.pas</Transaction>
+    <Transaction>2018/08/02 08.35.44.682.dfm,D:\108 JSP\My Project\05. Felgito\02. Source Code\Unit1.dfm=D:\108 JSP\My Project\05. Felgito\02. Source Code\laporan\unFrmLapPO.dfm</Transaction>
+    <Transaction>2018/08/02 15.30.35.399.pas,D:\108 JSP\My Project\05. Felgito\02. Source Code\Unit1.pas=D:\108 JSP\My Project\05. Felgito\02. Source Code\laporan\unFrmMenuLaporan.pas</Transaction>
+    <Transaction>2018/08/02 15.30.35.399.dfm,D:\108 JSP\My Project\05. Felgito\02. Source Code\Unit1.dfm=D:\108 JSP\My Project\05. Felgito\02. Source Code\laporan\unFrmMenuLaporan.dfm</Transaction>
+    <Transaction>2018/08/02 16.04.58.228.pas,D:\108 JSP\My Project\05. Felgito\02. Source Code\Unit2.pas=D:\108 JSP\My Project\05. Felgito\02. Source Code\laporan\unFrmeLapMaster.pas</Transaction>
+    <Transaction>2018/08/02 16.04.58.228.dfm,D:\108 JSP\My Project\05. Felgito\02. Source Code\Unit2.dfm=D:\108 JSP\My Project\05. Felgito\02. Source Code\laporan\unFrmeLapMaster.dfm</Transaction>
+    <Transaction>2018/08/02 16.17.11.067.pas,D:\108 JSP\My Project\05. Felgito\02. Source Code\laporan\unFrmeLapMaster.pas=D:\108 JSP\My Project\05. Felgito\02. Source Code\laporan\unFrmeTplLap.pas</Transaction>
+    <Transaction>2018/08/02 16.17.11.067.dfm,D:\108 JSP\My Project\05. Felgito\02. Source Code\laporan\unFrmeLapMaster.dfm=D:\108 JSP\My Project\05. Felgito\02. Source Code\laporan\unFrmeTplLap.dfm</Transaction>
+    <Transaction>2018/08/02 16.20.01.562.pas,D:\108 JSP\My Project\05. Felgito\02. Source Code\Unit1.pas=D:\108 JSP\My Project\05. Felgito\02. Source Code\laporan\unFrmeLapMaster.pas</Transaction>
+    <Transaction>2018/08/02 16.20.01.562.dfm,D:\108 JSP\My Project\05. Felgito\02. Source Code\Unit1.dfm=D:\108 JSP\My Project\05. Felgito\02. Source Code\laporan\unFrmeLapMaster.dfm</Transaction>
+    <Transaction>2018/08/02 17.04.32.852.pas,D:\108 JSP\My Project\05. Felgito\02. Source Code\Unit1.pas=D:\108 JSP\My Project\05. Felgito\02. Source Code\laporan\unFrmLapMaster.pas</Transaction>
+    <Transaction>2018/08/02 17.04.32.852.dfm,D:\108 JSP\My Project\05. Felgito\02. Source Code\Unit1.dfm=D:\108 JSP\My Project\05. Felgito\02. Source Code\laporan\unFrmLapMaster.dfm</Transaction>
   </Transactions>
 </BorlandProject>

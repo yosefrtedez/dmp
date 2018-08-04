@@ -3,6 +3,7 @@ inherited frmLstPO: TfrmLstPO
   ClientHeight = 507
   ClientWidth = 1169
   OnCreate = FormCreate
+  ExplicitLeft = -24
   ExplicitWidth = 1169
   ExplicitHeight = 507
   PixelsPerInch = 96
@@ -267,10 +268,22 @@ inherited frmLstPO: TfrmLstPO
     Height = 41
     Align = alBottom
     TabOrder = 2
+    DesignSize = (
+      1169
+      41)
     object cxLabel1: TcxLabel
       Left = 10
       Top = 11
       Caption = 'Detail Purchase Order'
+    end
+    object btnCetakPO: TButton
+      Left = 1086
+      Top = 9
+      Width = 75
+      Height = 25
+      Anchors = [akTop, akRight]
+      Caption = 'Cetak PO'
+      TabOrder = 0
     end
   end
   object zqrPO: TZReadOnlyQuery

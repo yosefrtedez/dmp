@@ -62,6 +62,7 @@ type
     cxtbPODetmata_uang: TcxGridDBColumn;
     cxtbPODetColumn1: TcxGridDBColumn;
     cxtbPODetColumn2: TcxGridDBColumn;
+    btnCetakPO: TButton;
     procedure FormCreate(Sender: TObject);
     procedure btnRefreshClick(Sender: TObject);
     procedure btnTambahClick(Sender: TObject);

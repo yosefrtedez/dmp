@@ -1,0 +1,24 @@
+unit unFrmLapMaster;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, unFrmTplInput, StdCtrls, ExtCtrls;
+
+type
+  TfrmLapMaster = class(TfrmTplInput)
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmLapMaster: TfrmLapMaster;
+
+implementation
+
+{$R *.dfm}
+
+end.

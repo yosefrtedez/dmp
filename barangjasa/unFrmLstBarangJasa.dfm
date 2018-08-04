@@ -491,7 +491,8 @@ inherited frmLstBarangJasa: TfrmLstBarangJasa
       'LEFT JOIN tbl_satuan b ON a.id_satuan = b.id'
       'LEFT JOIN tbl_kategori_brg c ON a.id_kategori = c.id'
       'LEFT JOIN tbl_subkategori_brg d ON a.id_subkategori = d.id'
-      'LEFT JOIN tbl_tipe_brg e ON a.id_tipe = e.id')
+      'LEFT JOIN tbl_tipe_brg e ON a.id_tipe = e.id'
+      'ORDER BY a.deskripsi')
     Params = <>
     Left = 784
     Top = 152

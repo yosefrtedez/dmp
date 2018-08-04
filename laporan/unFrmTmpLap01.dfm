@@ -55,6 +55,8 @@ object frmTmpLap01: TfrmTmpLap01
         Width = 869.291900000000000000
         DataSet = fdbSJ01
         DataSetName = 'fdbSJ01'
+        KeepFooter = True
+        KeepTogether = True
         RowCount = 0
         object fdbSJ01deskripsi: TfrxMemoView
           Left = 34.015770000000000000
@@ -119,7 +121,7 @@ object frmTmpLap01: TfrmTmpLap01
         end
         object fdbSJ01keterangan: TfrxMemoView
           Left = 540.472790000000000000
-          Width = 321.260050000000000000
+          Width = 275.905690000000000000
           Height = 18.897650000000000000
           ShowHint = False
           DataField = 'keterangan'
@@ -134,6 +136,7 @@ object frmTmpLap01: TfrmTmpLap01
         Top = 18.897650000000000000
         Width = 869.291900000000000000
         object Memo1: TfrxMemoView
+          Top = 6.000000000000000000
           Width = 869.291900000000000000
           Height = 18.897650000000000000
           ShowHint = False
@@ -187,7 +190,7 @@ object frmTmpLap01: TfrmTmpLap01
           ParentFont = False
         end
         object fdbSJ01nama: TfrxMemoView
-          Left = 650.079160000000000000
+          Left = 600.079160000000000000
           Top = 22.677180000000000000
           Width = 219.212740000000000000
           Height = 18.897650000000000000
@@ -205,7 +208,7 @@ object frmTmpLap01: TfrmTmpLap01
           ParentFont = False
         end
         object Memo4: TfrxMemoView
-          Left = 555.590910000000000000
+          Left = 505.590910000000000000
           Top = 3.779530000000000000
           Width = 94.488250000000000000
           Height = 18.897650000000000000
@@ -220,7 +223,7 @@ object frmTmpLap01: TfrmTmpLap01
           ParentFont = False
         end
         object Memo5: TfrxMemoView
-          Left = 555.590910000000000000
+          Left = 505.590910000000000000
           Top = 22.677180000000000000
           Width = 94.488250000000000000
           Height = 18.897650000000000000
@@ -235,7 +238,7 @@ object frmTmpLap01: TfrmTmpLap01
           ParentFont = False
         end
         object fdbSJ01tanggal: TfrxMemoView
-          Left = 650.079160000000000000
+          Left = 600.079160000000000000
           Top = 3.779530000000000000
           Width = 219.212740000000000000
           Height = 18.897650000000000000
@@ -325,7 +328,7 @@ object frmTmpLap01: TfrmTmpLap01
         object Memo10: TfrxMemoView
           Left = 540.472790000000000000
           Top = 162.519790000000000000
-          Width = 321.260050000000000000
+          Width = 275.905690000000000000
           Height = 18.897650000000000000
           ShowHint = False
           Font.Charset = DEFAULT_CHARSET
@@ -366,7 +369,7 @@ object frmTmpLap01: TfrmTmpLap01
         end
       end
       object GroupFooter1: TfrxGroupFooter
-        Height = 207.874150000000000000
+        Height = 158.740260000000000000
         Top = 366.614410000000000000
         Width = 869.291900000000000000
         object Line3: TfrxLineView
@@ -392,7 +395,7 @@ object frmTmpLap01: TfrmTmpLap01
         end
         object Memo12: TfrxMemoView
           Left = 11.338590000000000000
-          Top = 71.811070000000000000
+          Top = 53.811070000000000000
           Width = 94.488250000000000000
           Height = 18.897650000000000000
           ShowHint = False
@@ -408,7 +411,7 @@ object frmTmpLap01: TfrmTmpLap01
         end
         object Memo13: TfrxMemoView
           Left = 11.338590000000000000
-          Top = 124.724490000000000000
+          Top = 106.724490000000000000
           Width = 94.488250000000000000
           Height = 18.897650000000000000
           ShowHint = False
@@ -424,7 +427,7 @@ object frmTmpLap01: TfrmTmpLap01
         end
         object Memo14: TfrxMemoView
           Left = 374.173470000000000000
-          Top = 71.811070000000000000
+          Top = 53.811070000000000000
           Width = 94.488250000000000000
           Height = 18.897650000000000000
           ShowHint = False
@@ -440,7 +443,7 @@ object frmTmpLap01: TfrmTmpLap01
         end
         object Memo15: TfrxMemoView
           Left = 374.173470000000000000
-          Top = 124.724490000000000000
+          Top = 106.724490000000000000
           Width = 94.488250000000000000
           Height = 18.897650000000000000
           ShowHint = False
@@ -456,7 +459,7 @@ object frmTmpLap01: TfrmTmpLap01
         end
         object Memo16: TfrxMemoView
           Left = 472.441250000000000000
-          Top = 71.811070000000000000
+          Top = 53.811070000000000000
           Width = 94.488250000000000000
           Height = 18.897650000000000000
           ShowHint = False
@@ -472,7 +475,7 @@ object frmTmpLap01: TfrmTmpLap01
         end
         object Memo17: TfrxMemoView
           Left = 472.441250000000000000
-          Top = 124.724490000000000000
+          Top = 106.724490000000000000
           Width = 94.488250000000000000
           Height = 18.897650000000000000
           ShowHint = False
@@ -488,7 +491,7 @@ object frmTmpLap01: TfrmTmpLap01
         end
         object Memo18: TfrxMemoView
           Left = 574.488560000000000000
-          Top = 71.811070000000000000
+          Top = 53.811070000000000000
           Width = 170.078850000000000000
           Height = 18.897650000000000000
           ShowHint = False
@@ -504,7 +507,7 @@ object frmTmpLap01: TfrmTmpLap01
         end
         object Memo19: TfrxMemoView
           Left = 608.504330000000000000
-          Top = 124.724490000000000000
+          Top = 106.724490000000000000
           Width = 94.488250000000000000
           Height = 18.897650000000000000
           ShowHint = False
@@ -520,7 +523,7 @@ object frmTmpLap01: TfrmTmpLap01
         end
         object Memo20: TfrxMemoView
           Left = 574.488560000000000000
-          Top = 147.401670000000000000
+          Top = 129.401670000000000000
           Width = 170.078850000000000000
           Height = 18.897650000000000000
           ShowHint = False

@@ -242,8 +242,9 @@ inherited frmInputPO: TfrmInputPO
     Width = 351
   end
   object cxtNoBukti: TcxTextEdit
-    Left = 112
+    Left = 114
     Top = 61
+    Properties.ReadOnly = True
     TabOrder = 1
     Width = 146
   end
@@ -251,6 +252,7 @@ inherited frmInputPO: TfrmInputPO
     Left = 266
     Top = 61
     Caption = 'Komplit / Selesai'
+    Properties.ReadOnly = True
     TabOrder = 2
     Width = 104
   end
@@ -374,7 +376,6 @@ inherited frmInputPO: TfrmInputPO
   object zqrSupplier: TZReadOnlyQuery
     Connection = DM.zConn
     AutoCalcFields = False
-    Active = True
     SQL.Strings = (
       'select id, kode, nama '
       'from tbl_supplier order by nama')

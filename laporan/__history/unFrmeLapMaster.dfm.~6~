@@ -1,0 +1,17 @@
+inherited frmeLapMaster: TfrmeLapMaster
+  OnClick = FrameClick
+  inherited pgParam: TcxPageControl
+    inherited cxTabSheet1: TcxTabSheet
+      ExplicitLeft = 1
+      ExplicitTop = 21
+      ExplicitWidth = 349
+      ExplicitHeight = 323
+    end
+    inherited cxTabSheet2: TcxTabSheet
+      ExplicitLeft = 1
+      ExplicitTop = 21
+      ExplicitWidth = 349
+      ExplicitHeight = 323
+    end
+  end
+end

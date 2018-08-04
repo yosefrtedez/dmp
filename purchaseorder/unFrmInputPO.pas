@@ -182,7 +182,7 @@ begin
       qh.FieldByName('user_dept').AsString := Aplikasi.UserDept;
       qh.FieldByName('tgl_input').AsDateTime := Aplikasi.Tanggal;
       qh.FieldByName('jenis_po').AsString := 'st';
-      qh.FieldByName('keterangan').AsString := cxtKeterangan.Text;
+      qh.FieldByName('keterangan').AsString := Trim(cxtKeterangan.Text);
       qh.FieldByName('pembayaran').AsString := cxCboPembayaran.Text;
       qh.FieldByName('jam').AsDateTime := Aplikasi.ServerTime;
       if cxCboRate.Text = 'IDR' then begin

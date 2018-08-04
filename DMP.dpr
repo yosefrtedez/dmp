@@ -71,7 +71,14 @@ uses
   unFrmKalkulasiStok in 'setting\unFrmKalkulasiStok.pas' {frmKalkulasiStok},
   unFrmSPK in 'spk\unFrmSPK.pas' {frmSPK},
   unFrmInputKoreksi in 'koreksi\unFrmInputKoreksi.pas' {frmInputKoreksi},
-  unFrmLstKoreksi in 'koreksi\unFrmLstKoreksi.pas' {frmLstKoreksi};
+  unFrmLstKoreksi in 'koreksi\unFrmLstKoreksi.pas' {frmLstKoreksi},
+  unFrmLapPO in 'laporan\unFrmLapPO.pas' {frmLapPO},
+  unFrmMenuLaporan in 'laporan\unFrmMenuLaporan.pas' {frmMenuLaporan},
+  unFrmeTplLap in 'laporan\unFrmeTplLap.pas' {frmeTplLap: TFrame},
+  unFrmeLapMaster in 'laporan\unFrmeLapMaster.pas' {frmeLapMaster: TFrame},
+  unFrmLapMaster in 'laporan\unFrmLapMaster.pas' {frmLapMaster},
+  unFrmInputSuratJalan in 'suratjalan\unFrmInputSuratJalan.pas' {frmInputSuratJalan},
+  unFrmLstSuratJalan in 'suratjalan\unFrmLstSuratJalan.pas' {frmLstSuratJalan};
 
 {$R *.res}
 
@@ -81,8 +88,9 @@ begin
   Application.CreateForm(TDM, DM);
   Application.CreateForm(TfrmUtama, frmUtama);
   Application.CreateForm(TfrmLogin, frmLogin);
-  Application.CreateForm(TfrmInputKoreksi, frmInputKoreksi);
-  Application.CreateForm(TfrmLstKoreksi, frmLstKoreksi);
+  Application.CreateForm(TfrmLapMaster, frmLapMaster);
+  Application.CreateForm(TfrmInputSuratJalan, frmInputSuratJalan);
+  Application.CreateForm(TfrmLstSuratJalan, frmLstSuratJalan);
   frmUtama.Show;
 
   frmLogin.ShowModal;

@@ -1,0 +1,63 @@
+inherited frmMenuLaporan: TfrmMenuLaporan
+  Caption = 'frmMenuLaporan'
+  ClientHeight = 698
+  ClientWidth = 1085
+  OnCreate = FormCreate
+  ExplicitWidth = 1085
+  ExplicitHeight = 698
+  PixelsPerInch = 96
+  TextHeight = 13
+  inherited Panel1: TPanel
+    Width = 1085
+  end
+  inherited Panel2: TPanel
+    Top = 649
+    Width = 1085
+    TabOrder = 3
+  end
+  object ScrollBox1: TScrollBox
+    Left = 0
+    Top = 49
+    Width = 211
+    Height = 600
+    Align = alLeft
+    BevelInner = bvNone
+    BevelOuter = bvNone
+    BorderStyle = bsNone
+    TabOrder = 1
+    ExplicitHeight = 455
+    object btnMasterData: TButton
+      Left = 10
+      Top = 6
+      Width = 196
+      Height = 43
+      Caption = 'Master Data'
+      TabOrder = 0
+      OnClick = btnMasterDataClick
+    end
+    object btnTransaksi: TButton
+      Left = 10
+      Top = 55
+      Width = 196
+      Height = 43
+      Caption = 'Transaksi'
+      TabOrder = 1
+    end
+  end
+  object cxPageControl1: TcxPageControl
+    Left = 211
+    Top = 49
+    Width = 874
+    Height = 600
+    Align = alClient
+    TabOrder = 2
+    ExplicitLeft = 217
+    ExplicitTop = 55
+    ExplicitWidth = 289
+    ExplicitHeight = 193
+    ClientRectBottom = 596
+    ClientRectLeft = 4
+    ClientRectRight = 870
+    ClientRectTop = 4
+  end
+end

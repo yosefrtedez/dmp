@@ -246,6 +246,8 @@ inherited frmLstBarangKeluar: TfrmLstBarangKeluar
       object cxColPODetqty: TcxGridDBColumn
         Caption = 'Qty'
         DataBinding.FieldName = 'qty'
+        PropertiesClassName = 'TcxSpinEditProperties'
+        Properties.DisplayFormat = '#,#0.00'
       end
       object cxColPODetsatuan: TcxGridDBColumn
         Caption = 'Satuan'

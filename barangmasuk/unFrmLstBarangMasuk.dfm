@@ -229,6 +229,8 @@ inherited frmLstBarangMasuk: TfrmLstBarangMasuk
       object cxColTblTrsMasukDetqty: TcxGridDBColumn
         Caption = 'Qty'
         DataBinding.FieldName = 'qty'
+        PropertiesClassName = 'TcxSpinEditProperties'
+        Properties.DisplayFormat = '#,#0.00'
         Options.Editing = False
         Width = 80
       end

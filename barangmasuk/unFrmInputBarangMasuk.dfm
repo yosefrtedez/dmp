@@ -135,6 +135,7 @@ inherited frmInputBarangMasuk: TfrmInputBarangMasuk
         PropertiesClassName = 'TcxSpinEditProperties'
         Properties.DisplayFormat = '#,##.00'
         Properties.ReadOnly = False
+        Properties.ValueType = vtFloat
         Width = 73
       end
       object cxColGudang: TcxGridColumn

@@ -1,15 +1,15 @@
 inherited frmLaporan: TfrmLaporan
   Caption = 'Laporan'
   ClientHeight = 552
-  ClientWidth = 952
+  ClientWidth = 1070
   OnCreate = FormCreate
-  ExplicitWidth = 952
+  ExplicitWidth = 1070
   ExplicitHeight = 552
   PixelsPerInch = 96
   TextHeight = 13
   inherited Panel1: TPanel
-    Width = 952
-    ExplicitWidth = 952
+    Width = 1070
+    ExplicitWidth = 1070
     object Label1: TLabel
       Left = 10
       Top = 16
@@ -71,7 +71,7 @@ inherited frmLaporan: TfrmLaporan
   object Panel3: TPanel
     Left = 0
     Top = 504
-    Width = 952
+    Width = 1070
     Height = 48
     Align = alBottom
     TabOrder = 7
@@ -120,7 +120,7 @@ inherited frmLaporan: TfrmLaporan
     Width = 379
     Height = 365
     Caption = 'pnlLapMasterData'
-    TabOrder = 3
+    TabOrder = 4
     Visible = False
     object lstBox02: TListBox
       Left = 8
@@ -136,7 +136,7 @@ inherited frmLaporan: TfrmLaporan
     Top = 60
     Width = 425
     Height = 362
-    TabOrder = 4
+    TabOrder = 3
     Visible = False
     ExplicitLeft = 598
     ExplicitTop = 60

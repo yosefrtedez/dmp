@@ -157,6 +157,7 @@ inherited frmInputKoreksi: TfrmInputKoreksi
         Properties.Alignment.Horz = taRightJustify
         Properties.DisplayFormat = '#,##.00'
         Properties.ReadOnly = True
+        Properties.ValueType = vtFloat
         Width = 73
       end
       object cxColStokBaru: TcxGridColumn
@@ -165,6 +166,7 @@ inherited frmInputKoreksi: TfrmInputKoreksi
         PropertiesClassName = 'TcxSpinEditProperties'
         Properties.Alignment.Horz = taRightJustify
         Properties.DisplayFormat = '#,#0.00'
+        Properties.ValueType = vtFloat
         Width = 76
       end
       object cxColSatuan: TcxGridColumn
