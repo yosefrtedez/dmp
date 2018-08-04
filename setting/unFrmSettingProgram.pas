@@ -45,6 +45,8 @@ type
     dsGdg: TDataSource;
     cxLabel10: TcxLabel;
     cxlGdgBB: TcxLookupComboBox;
+    cxLabel11: TcxLabel;
+    cxlGdgBJ: TcxLookupComboBox;
     procedure btnSimpanClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
   private
@@ -82,6 +84,7 @@ begin
   q.FieldByName('npwp').AsString := Trim(cxtNPWP.Text);
   q.FieldByName('gdg_pb').AsInteger := cxlGdgPB.EditValue;
   q.FieldByName('gdg_bb').AsInteger := cxlGdgBB.EditValue;
+  q.FieldByName('gdg_bj').AsInteger := cxlGdgBJ.EditValue;
   q.Post;
 
   MsgBox('Setting Program sudah disimpan.');
@@ -103,6 +106,8 @@ begin
   cxtEmail.Text := q.FieldByName('email').AsString;
   cxtNPWP.Text := q.FieldByName('npwp').AsString;
   cxlGdgPB.EditValue := q.FieldByName('gdg_pb').AsInteger;
+  cxlGdgBB.EditValue := q.FieldByName('gdg_bb').AsInteger;
+  cxlGdgBJ.EditValue := q.FieldByName('gdg_bj').AsInteger;
   q.Close;
 end;
 

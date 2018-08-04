@@ -18,7 +18,7 @@ uses
   cxGridCustomView, cxGridCustomTableView, cxGridTableView, cxGridDBTableView,
   cxGrid, StdCtrls, ExtCtrls, cxContainer, cxTextEdit, cxMaskEdit,
   cxDropDownEdit, cxCalendar, cxLabel, ZAbstractRODataset, ZDataset, cxSpinEdit,
-  cxTimeEdit, cxCheckBox;
+  cxTimeEdit, cxCheckBox, cxDBLookupComboBox;
 
 type
   TfrmPengambilanBahanBaku = class(TfrmTplInput)
@@ -61,6 +61,9 @@ type
     cxColStatus: TcxGridColumn;
     cxColIdBrg: TcxGridDBColumn;
     cxColIdSatuan: TcxGridDBColumn;
+    cxColGdg: TcxGridColumn;
+    zqrGdg: TZReadOnlyQuery;
+    dsGdg: TDataSource;
     procedure btnProsesClick(Sender: TObject);
     procedure cxtbSPKFocusedRecordChanged(Sender: TcxCustomGridTableView;
       APrevFocusedRecord, AFocusedRecord: TcxCustomGridRecord;
@@ -136,17 +139,20 @@ begin
   q.FieldByName('qty').AsFloat := ADataController.Values[i, cxColQtyInput.Index];
   q.FieldByName('operator').AsString := ADataController.Values[i, cxColOperator.INdex];
   q.FieldByName('id_gdg').AsInteger := Aplikasi.GdgBB;
+  q.FieldByName('id_satuan').AsInteger := cxtbBOM.DataController.Values[j, cxColIdSatuan.Index];
   ADataController.Values[i, cxColStatus.Index] := 1;
   q.Post;
   q.Close;
 
   qh := OpenRS('SELECT * FROM tbl_history WHERE no_bukti = ''%s''',[sNoBukti]);
+  qh.Insert;
   qh.FieldByName('no_bukti').AsString := sNobukti;
   qh.FieldByName('tanggal').AsString :=  ADataController.Values[i, cxColTanggal.Index];
   qh.FieldByName('kode_brg').AsString := cxtbBOM.DataController.Values[j, cxColKodeBrg.Index];
   qh.FieldByName('id_brg').AsInteger := cxtbBOM.DataController.Values[j, cxColIdBrg.Index];
   qh.FieldByName('qty').AsFloat := ADataController.Values[i, cxColQtyInput.Index];
-  qh.FieldByName('id_satuan').AsInteger :=
+  qh.FieldByName('id_satuan').AsInteger := cxtbBOM.DataController.Values[j, cxColIdSatuan.Index];
+  qh.FieldByName('id_gdg').AsInteger := Aplikasi.GdgBB;
   qh.Post;
   qh.Close;
 

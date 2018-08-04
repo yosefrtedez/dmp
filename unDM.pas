@@ -121,6 +121,8 @@ begin
     Aplikasi.DBHost := zConn.HostName;
     Aplikasi.DBName := zConn.Database;
     Aplikasi.GdgPB := q.FieldByName('gdg_pb').AsInteger;
+    Aplikasi.GdgBB := q.FieldByName('gdg_bb').AsInteger;
+    Aplikasi.GdgBJ := q.FieldByname('gdg_bj').AsInteger;
 
     {
     if aplikasi.debug then

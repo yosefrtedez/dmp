@@ -270,6 +270,9 @@
 			<DCCReference Include="pengambilanbahanbaku\unFrmPengambilanBahanBaku.pas">
 				<Form>frmPengambilanBahanBaku</Form>
 			</DCCReference>
+			<DCCReference Include="hasilproduksi\unFrmInputHasilProduksi.pas">
+				<Form>frmInputHasilProduksi</Form>
+			</DCCReference>
 			<BuildConfiguration Include="Base">
 				<Key>Base</Key>
 			</BuildConfiguration>

@@ -78,6 +78,8 @@ type
     mnWhl_BarangKeluar: TMenuItem;
     mnSet_KalkulasiUlangStok: TMenuItem;
     mnWhl_Koreksi: TMenuItem;
+    mnPrd_LapPengambilanBB: TMenuItem;
+    mnPrd_LapInputHP: TMenuItem;
     procedure FormShow(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure mnMst_BarangJasaClick(Sender: TObject);
@@ -116,6 +118,7 @@ type
     procedure mnSet_KalkulasiUlangStokClick(Sender: TObject);
     procedure mnWhl_KoreksiClick(Sender: TObject);
     procedure mnPrd_PengambilanBBClick(Sender: TObject);
+    procedure mnPrd_InputHslProdClick(Sender: TObject);
   private
     procedure PGChange(Sender: TObject);
   public
@@ -142,7 +145,7 @@ uses
   unFrmLstFormula, unFrmAppPO, unFrmLstReturPembelian, unFrmAppRetur,
   unFrmInputBarangMasuk, unFrmLstBarangMasuk, unFrmLstBarangKeluar,
   unFrmLaporan, unFrmKalkulasiStok, unFrmLstKoreksi, unFrmMenuLaporan,
-  unFrmPengambilanBahanBaku;
+  unFrmPengambilanBahanBaku, unFrmInputHasilProduksi;
 
 {$R *.dfm}
 
@@ -535,6 +538,25 @@ begin
     ts.PageControl := pgMain;
 
     f := TfrmMasterOrder.Create(Self);
+    f.Parent := ts;
+    ts.Caption := f.Caption;
+    f.Show;
+
+    pgMain.ActivePage := ts;
+  end;
+end;
+
+procedure TfrmUtama.mnPrd_InputHslProdClick(Sender: TObject);
+var
+  f: TfrmInputHasilProduksi;
+  ts: TcxTabSheet;
+begin
+  if not CekTabOpen('Input Hasil Produksi') then begin
+    ToggleMainPage;
+    ts := TcxTabSheet.Create(Self);
+    ts.PageControl := pgMain;
+
+    f := TfrmInputHasilProduksi.Create(Self);
     f.Parent := ts;
     ts.Caption := f.Caption;
     f.Show;

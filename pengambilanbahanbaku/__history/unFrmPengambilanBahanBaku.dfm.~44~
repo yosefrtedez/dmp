@@ -56,7 +56,7 @@ inherited frmPengambilanBahanBaku: TfrmPengambilanBahanBaku
     end
     object btnProses: TButton
       Left = 341
-      Top = 13
+      Top = 12
       Width = 75
       Height = 25
       Caption = 'Proses'
@@ -126,6 +126,7 @@ inherited frmPengambilanBahanBaku: TfrmPengambilanBahanBaku
     TabOrder = 4
     object cxtbBOM: TcxGridDBTableView
       NavigatorButtons.ConfirmDelete = False
+      OnFocusedRecordChanged = cxtbBOMFocusedRecordChanged
       DataController.Summary.DefaultGroupSummaryItems = <>
       DataController.Summary.FooterSummaryItems = <>
       DataController.Summary.SummaryGroups = <>
@@ -166,7 +167,11 @@ inherited frmPengambilanBahanBaku: TfrmPengambilanBahanBaku
         Properties.DisplayFormat = '#,#0.00'
         Width = 106
       end
-      object cxColIDBom: TcxGridDBColumn
+      object cxColIdBrg: TcxGridDBColumn
+        DataBinding.ValueType = 'Integer'
+        PropertiesClassName = 'TcxSpinEditProperties'
+      end
+      object cxColIdSatuan: TcxGridDBColumn
         DataBinding.ValueType = 'Integer'
       end
     end
@@ -204,6 +209,8 @@ inherited frmPengambilanBahanBaku: TfrmPengambilanBahanBaku
       DataController.Summary.FooterSummaryItems = <>
       DataController.Summary.SummaryGroups = <>
       DataController.OnAfterPost = cxtbBomDetDataControllerAfterPost
+      DataController.OnBeforePost = cxtbBomDetDataControllerBeforePost
+      DataController.OnRecordChanged = cxtbBomDetDataControllerRecordChanged
       OptionsData.Appending = True
       OptionsData.Inserting = False
       OptionsView.Navigator = True
@@ -228,12 +235,24 @@ inherited frmPengambilanBahanBaku: TfrmPengambilanBahanBaku
         Properties.ValueType = vtFloat
         Width = 84
       end
-      object cxtbBomDetColumn4: TcxGridColumn
+      object cxColOperator: TcxGridColumn
         Caption = 'Operator'
         PropertiesClassName = 'TcxTextEditProperties'
         Width = 107
       end
-      object cxtbBomDetColumn5: TcxGridColumn
+      object cxColGdg: TcxGridColumn
+        Caption = 'Gudang'
+        DataBinding.ValueType = 'Integer'
+        PropertiesClassName = 'TcxLookupComboBoxProperties'
+        Properties.KeyFieldNames = 'id'
+        Properties.ListColumns = <
+          item
+            Caption = 'Gudang'
+            FieldName = 'kode'
+          end>
+        Properties.ListSource = dsGdg
+      end
+      object cxColStatus: TcxGridColumn
         Caption = 'Status'
         DataBinding.ValueType = 'Integer'
         PropertiesClassName = 'TcxCheckBoxProperties'
@@ -267,8 +286,8 @@ inherited frmPengambilanBahanBaku: TfrmPengambilanBahanBaku
         Name = 'tgl2'
         ParamType = ptUnknown
       end>
-    Left = 704
-    Top = 24
+    Left = 664
+    Top = 8
     ParamData = <
       item
         DataType = ftUnknown
@@ -283,7 +302,21 @@ inherited frmPengambilanBahanBaku: TfrmPengambilanBahanBaku
   end
   object dsSPK: TDataSource
     DataSet = zqrSPK
-    Left = 640
-    Top = 24
+    Left = 616
+    Top = 8
+  end
+  object zqrGdg: TZReadOnlyQuery
+    Connection = DM.zConn
+    Active = True
+    SQL.Strings = (
+      'SELECT id, kode FROM tbl_gudang')
+    Params = <>
+    Left = 800
+    Top = 8
+  end
+  object dsGdg: TDataSource
+    DataSet = zqrGdg
+    Left = 752
+    Top = 8
   end
 end

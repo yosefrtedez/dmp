@@ -142,12 +142,14 @@ begin
   q.Close;
 
   qh := OpenRS('SELECT * FROM tbl_history WHERE no_bukti = ''%s''',[sNoBukti]);
+  qh.Insert;
   qh.FieldByName('no_bukti').AsString := sNobukti;
   qh.FieldByName('tanggal').AsString :=  ADataController.Values[i, cxColTanggal.Index];
   qh.FieldByName('kode_brg').AsString := cxtbBOM.DataController.Values[j, cxColKodeBrg.Index];
   qh.FieldByName('id_brg').AsInteger := cxtbBOM.DataController.Values[j, cxColIdBrg.Index];
   qh.FieldByName('qty').AsFloat := ADataController.Values[i, cxColQtyInput.Index];
-  qh.FieldByName('id_satuan').AsInteger :=
+  qh.FieldByName('id_satuan').AsInteger := cxtbBOM.DataController.Values[j, cxColIdSatuan.Index];
+  qh.FieldByName('id_gdg').AsInteger := Aplikasi.GdgBB;
   qh.Post;
   qh.Close;
 

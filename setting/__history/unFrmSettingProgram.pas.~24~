@@ -14,7 +14,8 @@ uses
   dxSkinOffice2010Blue, dxSkinOffice2010Silver, dxSkinPumpkin, dxSkinSeven,
   dxSkinSharp, dxSkinSilver, dxSkinSpringTime, dxSkinStardust, dxSkinSummer2008,
   dxSkinsDefaultPainters, dxSkinValentine, dxSkinXmas2008Blue, cxTextEdit,
-  cxLabel, ZDataset;
+  cxLabel, ZDataset, dxSkinscxPCPainter, cxMaskEdit, cxDropDownEdit,
+  cxLookupEdit, cxDBLookupEdit, cxDBLookupComboBox, cxPC, DB, ZAbstractRODataset;
 
 type
   TfrmSettingProgram = class(TfrmTplInput)
@@ -35,6 +36,15 @@ type
     cxtEmail: TcxTextEdit;
     cxLabel8: TcxLabel;
     cxtFax: TcxTextEdit;
+    cxPageControl1: TcxPageControl;
+    cxTabSheet1: TcxTabSheet;
+    cxTabSheet2: TcxTabSheet;
+    cxLabel9: TcxLabel;
+    cxlGdgPB: TcxLookupComboBox;
+    zqrGdg: TZReadOnlyQuery;
+    dsGdg: TDataSource;
+    cxLabel10: TcxLabel;
+    cxlGdgBB: TcxLookupComboBox;
     procedure btnSimpanClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
   private
@@ -48,7 +58,7 @@ var
 
 implementation
 
-uses unTools;
+uses unTools, unDM;
 
 {$R *.dfm}
 
@@ -70,6 +80,8 @@ begin
   q.FieldByName('fax').AsString := Trim(cxtFax.Text);
   q.FieldByName('email').AsString := Trim(cxtEmail.Text);
   q.FieldByName('npwp').AsString := Trim(cxtNPWP.Text);
+  q.FieldByName('gdg_pb').AsInteger := cxlGdgPB.EditValue;
+  q.FieldByName('gdg_bb').AsInteger := cxlGdgBB.EditValue;
   q.Post;
 
   MsgBox('Setting Program sudah disimpan.');
@@ -90,7 +102,8 @@ begin
   cxtFax.Text := q.FieldByName('fax').AsString;
   cxtEmail.Text := q.FieldByName('email').AsString;
   cxtNPWP.Text := q.FieldByName('npwp').AsString;
-  q.Post;
+  cxlGdgPB.EditValue := q.FieldByName('gdg_pb').AsInteger;
+  q.Close;
 end;
 
 end.

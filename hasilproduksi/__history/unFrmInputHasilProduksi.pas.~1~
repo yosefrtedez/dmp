@@ -1,0 +1,24 @@
+unit unFrmInputHasilProduksi;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, unFrmTplInput, StdCtrls, ExtCtrls;
+
+type
+  TfrmInputHasilProduksi = class(TfrmTplInput)
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmInputHasilProduksi: TfrmInputHasilProduksi;
+
+implementation
+
+{$R *.dfm}
+
+end.

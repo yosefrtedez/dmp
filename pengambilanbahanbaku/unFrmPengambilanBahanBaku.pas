@@ -18,7 +18,7 @@ uses
   cxGridCustomView, cxGridCustomTableView, cxGridTableView, cxGridDBTableView,
   cxGrid, StdCtrls, ExtCtrls, cxContainer, cxTextEdit, cxMaskEdit,
   cxDropDownEdit, cxCalendar, cxLabel, ZAbstractRODataset, ZDataset, cxSpinEdit,
-  cxTimeEdit, cxCheckBox;
+  cxTimeEdit, cxCheckBox, cxDBLookupComboBox;
 
 type
   TfrmPengambilanBahanBaku = class(TfrmTplInput)
@@ -61,6 +61,9 @@ type
     cxColStatus: TcxGridColumn;
     cxColIdBrg: TcxGridDBColumn;
     cxColIdSatuan: TcxGridDBColumn;
+    cxColGdg: TcxGridColumn;
+    zqrGdg: TZReadOnlyQuery;
+    dsGdg: TDataSource;
     procedure btnProsesClick(Sender: TObject);
     procedure cxtbSPKFocusedRecordChanged(Sender: TcxCustomGridTableView;
       APrevFocusedRecord, AFocusedRecord: TcxCustomGridRecord;
@@ -76,6 +79,8 @@ type
     procedure cxtbBOMFocusedRecordChanged(Sender: TcxCustomGridTableView;
       APrevFocusedRecord, AFocusedRecord: TcxCustomGridRecord;
       ANewItemRecordFocusingChanged: Boolean);
+    procedure cxtbBomDetDataControllerNewRecord(
+      ADataController: TcxCustomDataController; ARecordIndex: Integer);
   private
     { Private declarations }
   public
@@ -135,7 +140,7 @@ begin
   q.FieldByName('id_brg').AsInteger := cxtbBOM.DataController.Values[j, cxColIdBrg.Index];
   q.FieldByName('qty').AsFloat := ADataController.Values[i, cxColQtyInput.Index];
   q.FieldByName('operator').AsString := ADataController.Values[i, cxColOperator.INdex];
-  q.FieldByName('id_gdg').AsInteger := Aplikasi.GdgBB;
+  q.FieldByName('id_gdg').AsInteger := ADataController.Values[i, cxColGdg.Index];
   q.FieldByName('id_satuan').AsInteger := cxtbBOM.DataController.Values[j, cxColIdSatuan.Index];
   ADataController.Values[i, cxColStatus.Index] := 1;
   q.Post;
@@ -149,7 +154,7 @@ begin
   qh.FieldByName('id_brg').AsInteger := cxtbBOM.DataController.Values[j, cxColIdBrg.Index];
   qh.FieldByName('qty').AsFloat := ADataController.Values[i, cxColQtyInput.Index];
   qh.FieldByName('id_satuan').AsInteger := cxtbBOM.DataController.Values[j, cxColIdSatuan.Index];
-  qh.FieldByName('id_gdg').AsInteger := Aplikasi.GdgBB;
+  qh.FieldByName('id_gdg').AsInteger := ADataController.Values[i, cxColGdg.Index];
   qh.Post;
   qh.Close;
 
@@ -167,6 +172,13 @@ begin
   i := ADataController.GetFocusedRecordIndex;
   if ADataController.Values[i, cxColStatus.Index] = 1 then Abort;
 
+end;
+
+procedure TfrmPengambilanBahanBaku.cxtbBomDetDataControllerNewRecord(
+  ADataController: TcxCustomDataController; ARecordIndex: Integer);
+begin
+  inherited;
+  ADataController.Values[ARecordIndex, cxColGdg.Index] := Aplikasi.GdgBB;
 end;
 
 procedure TfrmPengambilanBahanBaku.cxtbBomDetDataControllerRecordChanged(
@@ -199,6 +211,7 @@ begin
       Values[i, cxColJam.Index] := q.FieldByName('jam').AsDateTime;
       Values[i, cxColQtyInput.Index] := q.FieldByname('qty').AsFloat;
       Values[i, cxColOperator.Index] := q.FieldByName('operator').AsString;
+      Values[i, cxColGdg.Index] := q.FieldByName('id_gdg').AsInteger;
       Values[i, cxColStatus.Index] := 1;
     end;
     q.Next;

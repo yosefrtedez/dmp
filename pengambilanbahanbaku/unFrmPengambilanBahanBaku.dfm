@@ -210,6 +210,7 @@ inherited frmPengambilanBahanBaku: TfrmPengambilanBahanBaku
       DataController.Summary.SummaryGroups = <>
       DataController.OnAfterPost = cxtbBomDetDataControllerAfterPost
       DataController.OnBeforePost = cxtbBomDetDataControllerBeforePost
+      DataController.OnNewRecord = cxtbBomDetDataControllerNewRecord
       DataController.OnRecordChanged = cxtbBomDetDataControllerRecordChanged
       OptionsData.Appending = True
       OptionsData.Inserting = False
@@ -239,6 +240,18 @@ inherited frmPengambilanBahanBaku: TfrmPengambilanBahanBaku
         Caption = 'Operator'
         PropertiesClassName = 'TcxTextEditProperties'
         Width = 107
+      end
+      object cxColGdg: TcxGridColumn
+        Caption = 'Gudang'
+        DataBinding.ValueType = 'Integer'
+        PropertiesClassName = 'TcxLookupComboBoxProperties'
+        Properties.KeyFieldNames = 'id'
+        Properties.ListColumns = <
+          item
+            Caption = 'Gudang'
+            FieldName = 'kode'
+          end>
+        Properties.ListSource = dsGdg
       end
       object cxColStatus: TcxGridColumn
         Caption = 'Status'
@@ -274,8 +287,8 @@ inherited frmPengambilanBahanBaku: TfrmPengambilanBahanBaku
         Name = 'tgl2'
         ParamType = ptUnknown
       end>
-    Left = 704
-    Top = 24
+    Left = 664
+    Top = 8
     ParamData = <
       item
         DataType = ftUnknown
@@ -290,7 +303,21 @@ inherited frmPengambilanBahanBaku: TfrmPengambilanBahanBaku
   end
   object dsSPK: TDataSource
     DataSet = zqrSPK
-    Left = 640
-    Top = 24
+    Left = 616
+    Top = 8
+  end
+  object zqrGdg: TZReadOnlyQuery
+    Connection = DM.zConn
+    Active = True
+    SQL.Strings = (
+      'SELECT id, kode FROM tbl_gudang')
+    Params = <>
+    Left = 800
+    Top = 8
+  end
+  object dsGdg: TDataSource
+    DataSet = zqrGdg
+    Left = 752
+    Top = 8
   end
 end

@@ -4,7 +4,7 @@ interface
 
 uses
   SysUtils, Classes, ZAbstractConnection, ZConnection, unAplikasi, ZDataset, IniFiles, Forms, Controls,
-  ImgList;
+  ImgList, Windows;
 
 type
   TDM = class(TDataModule)
@@ -47,10 +47,10 @@ var
   lstSec: TStringList;
 begin
   Aplikasi := TAplikasi.Create;
-  if ParamStr(1) = '/debug' then Aplikasi.debug := true;
+  if ParamStr(2) = '/debug' then Aplikasi.debug := true;
 
   Aplikasi.AppPath := ExtractFilePath(Application.ExeName);
-  Aplikasi.ExeName := 'dmp.exe';
+  Aplikasi.ExeName := 'dmp';
 
   if not FileExists(Aplikasi.AppPath + 'setting.ini') then begin
     MsgBox('Error, file setting.ini tidak ditemukan.');
@@ -77,6 +77,10 @@ begin
   else
     section := 'database';
 
+  // get update_path
+  Ini2 := TIniFile.Create(FileIni);
+  UpdatePath := Ini2.ReadString(section,'update_path','');
+
   if ParamCount > 0 then begin
     if ParamStr(1) <> '/noupdate' then begin
       CekUpdate;
@@ -86,8 +90,6 @@ begin
     end;
   end
   else begin
-    Ini2 := TIniFile.Create(FileIni);
-    UpdatePath := Ini2.ReadString(section,'update_path','');
     CekUpdate;
   end;
 
@@ -142,12 +144,11 @@ begin
       aplikasi.TglStkAwal := EncodeDate(1970,1,1);
     q.Close;
   end;
-
 end;
 
 procedure Tdm.CekUpdate;
 var
-  mSourcePath, mTargetPath, BackName: string;
+  mSourcePath, mTargetPath, BackName, ExeName: string;
   f: TfrmKetUpdate;
   lstIP: TStringList;
 begin
@@ -157,12 +158,13 @@ begin
   else
     mSourcePath := '\\192.168.0.241\PUBLIC\SOFTWARE UPDATER\MutasiStok\';
 
-  BackName := ExtractFilePath(Application.ExeName) + Aplikasi.ExeName + '.old';
-  mTargetPath := ExtractFilePath(Application.ExeName) + Aplikasi.ExeName + '.exe';
+  ExeName := Aplikasi.ExeName;
+  BackName := ExtractFilePath(Application.ExeName) + ExeName + '.old';
+  mTargetPath := ExtractFilePath(Application.ExeName) + ExeName + '.exe';
 
   if DirectoryExists(mSourcePath) then begin
 
-    if FileExists(mSourcePath+'\KTG.exe') then begin
+    if FileExists(mSourcePath+ '\' + ExeName + '.exe') then begin
       f := TfrmKetUpdate.Create(Self);
 
       if FileExists(BackName) then begin
@@ -170,14 +172,14 @@ begin
       end;
 
       zConn.Disconnect;
-      if FileAge(mSourcePath + '\KTG.exe') <> FileAge(mTargetPath) then begin
+      if FileAge(mSourcePath + '\' + ExeName + '.exe') <> FileAge(mTargetPath) then begin
 
         f.Show;
         f.Refresh;
 
         RenameFile(Application.ExeName, BackName);
         try
-          CopyFile(PChar(mSourcePath + '\KTG.exe'),PChar(mTargetPath), False);
+          CopyFile(PChar(mSourcePath + '\' + ExeName + '.exe'),PChar(mTargetPath), False);
           f.Close;
           MsgBox('Update berhasil, silahkan jalankan program kembali.');
           Application.Terminate;

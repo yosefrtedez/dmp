@@ -23,6 +23,7 @@ object frmUtama: TfrmUtama
     Top = 8
     Width = 441
     Height = 225
+    Stretch = True
   end
   object stsBar: TdxStatusBar
     Left = 0
@@ -57,7 +58,7 @@ object frmUtama: TfrmUtama
   end
   object pgMain: TcxPageControl
     Left = 8
-    Top = 248
+    Top = 239
     Width = 441
     Height = 193
     HotTrack = True
@@ -175,14 +176,26 @@ object frmUtama: TfrmUtama
         Caption = 'Barang Keluar'
         OnClick = mnWhl_BarangKeluarClick
       end
+      object mnWhl_Koreksi: TMenuItem
+        Caption = 'Koreksi Stok'
+        OnClick = mnWhl_KoreksiClick
+      end
     end
     object mnPRD: TMenuItem
       Caption = 'PRD'
       object mnPrd_PengambilanBB: TMenuItem
         Caption = 'Pengambilan Bahan Baku '
+        OnClick = mnPrd_PengambilanBBClick
+      end
+      object LaporanPengambilanBahanBaku1: TMenuItem
+        Caption = 'Laporan Pengambilan Bahan Baku '
       end
       object mnPrd_InputHslProd: TMenuItem
         Caption = 'Input Hasil Produksi '
+        OnClick = mnPrd_InputHslProdClick
+      end
+      object LaporanInputHasilProduksi1: TMenuItem
+        Caption = 'Laporan Input Hasil Produksi'
       end
     end
     object PUR1: TMenuItem
@@ -265,6 +278,7 @@ object frmUtama: TfrmUtama
       end
       object mnSet_KalkulasiUlangStok: TMenuItem
         Caption = 'Kalkulasi Ulang Stok'
+        OnClick = mnSet_KalkulasiUlangStokClick
       end
     end
     object mnLap: TMenuItem
