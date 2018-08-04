@@ -248,22 +248,18 @@ procedure TfrmLstSuratJalan.cxtbKoreksiHeadFocusedRecordChanged(
   AFocusedRecord: TcxCustomGridRecord; ANewItemRecordFocusingChanged: Boolean);
 begin
   inherited;
-  {
   try
     zqrKoreksiDet.Close;
     zqrKoreksiDet.ParamByName('id_ref').AsInteger := zqrKoreksi.FieldByName('id').AsInteger;
     zqrKoreksiDet.Open;
   except
   end;
-  }
 end;
 
 procedure TfrmLstSuratJalan.FormCreate(Sender: TObject);
 begin
-{
   inherited;
   zqrKoreksi.Open;
-  }
 end;
 
 end.

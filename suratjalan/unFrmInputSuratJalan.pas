@@ -254,7 +254,7 @@ var
   i: Integer ;
 begin
   inherited;
-
+  {
   if AItemIndex = cxColDeskripsi.Index then begin
     try
       cxtbKoreksi.BeginUpdate;
@@ -279,7 +279,7 @@ begin
 
     end;
   end;
-
+  }
 end;
 
 procedure TfrmInputSuratJalan.cxtbKoreksiDataControllerBeforePost(
@@ -335,6 +335,7 @@ var
   t, t1, t2, t3 : Real;
   i: Integer ;
 begin
+  {
   inherited;
 
   if AItemIndex = cxColDeskripsi.Index then begin
@@ -365,7 +366,7 @@ begin
 
     end;
   end;
-
+  }
 end;
 
 procedure TfrmInputSuratJalan.FormCreate(Sender: TObject);
