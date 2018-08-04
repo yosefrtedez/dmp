@@ -34,7 +34,7 @@ type
     cxColNo: TcxGridColumn;
     cxColKodeBrg: TcxGridColumn;
     cxColDeskripsi: TcxGridColumn;
-    cxColQty: TcxGridColumn;
+    cxColStokLama: TcxGridColumn;
     cxColSatuan: TcxGridColumn;
     cxColKeterangan: TcxGridColumn;
     cxColIdSatuan: TcxGridColumn;
@@ -44,28 +44,16 @@ type
     cxColGudang: TcxGridColumn;
     zqrGudang: TZReadOnlyQuery;
     dsGudang: TDataSource;
+    cxColStokBaru: TcxGridColumn;
     cxLabel1: TcxLabel;
     cxlCustomer: TcxLookupComboBox;
     zqrCust: TZReadOnlyQuery;
     dsCust: TDataSource;
-    cxColNoSO: TcxGridColumn;
+    cxtbKoreksiColumn1: TcxGridColumn;
     cxLabel2: TcxLabel;
     cxtNopol: TcxTextEdit;
-    cxtSopir: TcxTextEdit;
+    cxTextEdit2: TcxTextEdit;
     cxLabel3: TcxLabel;
-    cxColQtySO: TcxGridColumn;
-    cxLabel4: TcxLabel;
-    cxsDiskon: TcxSpinEdit;
-    DPP: TcxLabel;
-    cxsStlhDiskon: TcxSpinEdit;
-    cxsPPN: TcxSpinEdit;
-    cxCheckBox1: TcxCheckBox;
-    cxLabel5: TcxLabel;
-    cxsDPP: TcxSpinEdit;
-    cxLabel6: TcxLabel;
-    cxsHargaTotal: TcxSpinEdit;
-    cxColHarga: TcxGridColumn;
-    cxtbKoreksiColumn1: TcxGridColumn;
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure cxColNoGetDisplayText(Sender: TcxCustomGridTableItem;
@@ -105,7 +93,7 @@ var
 
 begin
   inherited;
-  {
+
   if (cxtbKoreksi.DataController.EditState = [dceInsert, dceModified]) or
     (cxtbKoreksi.DataController.EditState = [dceEdit, dceModified]) then begin
     MsgBox('Mohon selesaikan pengeditan detail sebelum disimpan.' + Chr(10) + Chr(13) +
@@ -188,7 +176,7 @@ begin
       end;
     end;
   end;
-  }
+
 end;
 
 procedure TfrmInputSuratJalan.cxColNoGetDisplayText(
@@ -314,7 +302,7 @@ begin
     MsgBox('Kode gudang harus diisi.');
     Abort;
   end;
-  {
+
   if (VarIsNull(ADataController.Values[i, cxColStokBaru.Index])) or
       (Trim(ADataController.Values[i, cxColStokBaru.Index]) = '')  then begin
     MsgBox('Stok baru harus diisi.');
@@ -325,7 +313,7 @@ begin
     MsgBox('Stok baru harus diisi.');
     Abort;
   end;
-  }
+
 end;
 
 procedure TfrmInputSuratJalan.cxtbKoreksiDataControllerRecordChanged(
@@ -383,7 +371,7 @@ procedure TfrmInputSuratJalan.FormShow(Sender: TObject);
    sNoTrs : string;
 begin
   inherited;
-  {
+
   if Self.Jenis = 'T' then begin
     sNoTrs := GetLastFak('koreksi');
     cxtNoBukti.Text := sNoTrs;
@@ -424,7 +412,6 @@ begin
     cxtbKoreksi.DataController.OnRecordChanged := Self.cxtbBarangMasukDataControllerRecordChanged;
 
   end;
-  }
 end;
 
 end.

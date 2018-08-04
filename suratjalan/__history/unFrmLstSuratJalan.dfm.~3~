@@ -171,7 +171,7 @@ inherited frmLstSuratJalan: TfrmLstSuratJalan
     object cxLabel1: TcxLabel
       Left = 10
       Top = 12
-      Caption = 'Detail Surat Jalan'
+      Caption = 'Detail Koreksi Barang'
     end
     object btnPosting: TButton
       Left = 933

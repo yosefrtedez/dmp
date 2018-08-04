@@ -54,6 +54,7 @@ type
     cxtSopir: TcxTextEdit;
     cxLabel3: TcxLabel;
     cxColQtySO: TcxGridColumn;
+    cxChkPPN: TcxCheckBox;
     cxLabel4: TcxLabel;
     cxsDiskon: TcxSpinEdit;
     DPP: TcxLabel;
@@ -65,7 +66,6 @@ type
     cxLabel6: TcxLabel;
     cxsHargaTotal: TcxSpinEdit;
     cxColHarga: TcxGridColumn;
-    cxtbKoreksiColumn1: TcxGridColumn;
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure cxColNoGetDisplayText(Sender: TcxCustomGridTableItem;

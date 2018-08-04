@@ -59,7 +59,7 @@ inherited frmLstSuratJalan: TfrmLstSuratJalan
       NavigatorButtons.GotoBookmark.Visible = False
       NavigatorButtons.Filter.Visible = False
       OnFocusedRecordChanged = cxtbKoreksiHeadFocusedRecordChanged
-      DataController.DataSource = dsSJ
+      DataController.DataSource = dsKoreksi
       DataController.KeyFieldNames = 'id'
       DataController.Summary.DefaultGroupSummaryItems = <>
       DataController.Summary.FooterSummaryItems = <>
@@ -171,7 +171,7 @@ inherited frmLstSuratJalan: TfrmLstSuratJalan
     object cxLabel1: TcxLabel
       Left = 10
       Top = 12
-      Caption = 'Detail Surat Jalan'
+      Caption = 'Detail Koreksi Barang'
     end
     object btnPosting: TButton
       Left = 933
@@ -193,7 +193,7 @@ inherited frmLstSuratJalan: TfrmLstSuratJalan
     TabOrder = 3
     object cxtbKoreksiDet: TcxGridDBTableView
       NavigatorButtons.ConfirmDelete = False
-      DataController.DataSource = dsSJDet
+      DataController.DataSource = dsKoreksiDet
       DataController.Summary.DefaultGroupSummaryItems = <>
       DataController.Summary.FooterSummaryItems = <>
       DataController.Summary.SummaryGroups = <>
@@ -256,7 +256,7 @@ inherited frmLstSuratJalan: TfrmLstSuratJalan
       GridView = cxtbKoreksiDet
     end
   end
-  object zqrSJ: TZReadOnlyQuery
+  object zqrKoreksi: TZReadOnlyQuery
     Connection = DM.zConn
     SQL.Strings = (
       'select * from  tbl_trskoreksi_head order by no_bukti')
@@ -264,12 +264,12 @@ inherited frmLstSuratJalan: TfrmLstSuratJalan
     Left = 601
     Top = 146
   end
-  object dsSJ: TDataSource
-    DataSet = zqrSJ
+  object dsKoreksi: TDataSource
+    DataSet = zqrKoreksi
     Left = 693
     Top = 154
   end
-  object zqrSJDet: TZReadOnlyQuery
+  object zqrKoreksiDet: TZReadOnlyQuery
     Connection = DM.zConn
     AutoCalcFields = False
     SQL.Strings = (
@@ -296,8 +296,8 @@ inherited frmLstSuratJalan: TfrmLstSuratJalan
         ParamType = ptUnknown
       end>
   end
-  object dsSJDet: TDataSource
-    DataSet = zqrSJDet
+  object dsKoreksiDet: TDataSource
+    DataSet = zqrKoreksiDet
     Left = 690
     Top = 368
   end

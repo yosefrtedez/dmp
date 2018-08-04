@@ -40,10 +40,10 @@ type
     cxGrid1: TcxGrid;
     cxtbKoreksiDet: TcxGridDBTableView;
     cxGrid1Level1: TcxGridLevel;
-    zqrSJ: TZReadOnlyQuery;
-    dsSJ: TDataSource;
-    zqrSJDet: TZReadOnlyQuery;
-    dsSJDet: TDataSource;
+    zqrKoreksi: TZReadOnlyQuery;
+    dsKoreksi: TDataSource;
+    zqrKoreksiDet: TZReadOnlyQuery;
+    dsKoreksiDet: TDataSource;
     cxColTblTrsMasukDetno_bukti: TcxGridDBColumn;
     cxColTblTrsMasukDetkode_brg: TcxGridDBColumn;
     cxColTblTrsMasukDetdeskripsi: TcxGridDBColumn;

@@ -28,7 +28,7 @@ inherited frmInputSuratJalan: TfrmInputSuratJalan
   inherited Panel2: TPanel
     Top = 638
     Width = 1119
-    TabOrder = 24
+    TabOrder = 25
     ExplicitTop = 570
     ExplicitWidth = 973
     inherited btnSimpan: TButton
@@ -50,7 +50,7 @@ inherited frmInputSuratJalan: TfrmInputSuratJalan
   object cxdTglDatang: TcxDateEdit
     Left = 112
     Top = 88
-    TabOrder = 3
+    TabOrder = 4
     Width = 146
   end
   object cxtNoBukti: TcxTextEdit
@@ -69,7 +69,7 @@ inherited frmInputSuratJalan: TfrmInputSuratJalan
     Left = 112
     Top = 197
     Properties.CharCase = ecUpperCase
-    TabOrder = 11
+    TabOrder = 12
     Width = 416
   end
   object cxgrdPP: TcxGrid
@@ -78,7 +78,7 @@ inherited frmInputSuratJalan: TfrmInputSuratJalan
     Width = 1103
     Height = 211
     Anchors = [akLeft, akTop, akRight]
-    TabOrder = 13
+    TabOrder = 14
     ExplicitWidth = 957
     object cxtbKoreksi: TcxGridTableView
       NavigatorButtons.ConfirmDelete = False
@@ -224,7 +224,7 @@ inherited frmInputSuratJalan: TfrmInputSuratJalan
         FieldName = 'nama'
       end>
     Properties.ListSource = dsCust
-    TabOrder = 5
+    TabOrder = 6
     Width = 416
   end
   object cxLabel2: TcxLabel
@@ -236,20 +236,27 @@ inherited frmInputSuratJalan: TfrmInputSuratJalan
     Left = 112
     Top = 142
     Properties.ReadOnly = True
-    TabOrder = 7
+    TabOrder = 8
     Width = 146
   end
   object cxtSopir: TcxTextEdit
     Left = 112
     Top = 169
     Properties.ReadOnly = True
-    TabOrder = 9
+    TabOrder = 10
     Width = 146
   end
   object cxLabel3: TcxLabel
     Left = 11
     Top = 170
     Caption = 'Sopir'
+  end
+  object cxChkPPN: TcxCheckBox
+    Left = 264
+    Top = 62
+    Caption = 'PPN'
+    TabOrder = 3
+    Width = 121
   end
   object cxLabel4: TcxLabel
     Left = 888
@@ -263,7 +270,7 @@ inherited frmInputSuratJalan: TfrmInputSuratJalan
     Properties.DisplayFormat = '#,#0.00'
     Properties.MaxValue = 100.000000000000000000
     Properties.ValueType = vtFloat
-    TabOrder = 14
+    TabOrder = 15
     Width = 121
   end
   object DPP: TcxLabel
@@ -278,7 +285,7 @@ inherited frmInputSuratJalan: TfrmInputSuratJalan
     Properties.DisplayFormat = '#,#0.00'
     Properties.MaxValue = 100.000000000000000000
     Properties.ValueType = vtFloat
-    TabOrder = 16
+    TabOrder = 17
     Width = 121
   end
   object cxsPPN: TcxSpinEdit
@@ -288,14 +295,14 @@ inherited frmInputSuratJalan: TfrmInputSuratJalan
     Properties.DisplayFormat = '#,#0.00'
     Properties.MaxValue = 100.000000000000000000
     Properties.ValueType = vtFloat
-    TabOrder = 21
+    TabOrder = 22
     Width = 121
   end
   object cxCheckBox1: TcxCheckBox
     Left = 888
     Top = 528
     Caption = 'PPN (10%)'
-    TabOrder = 20
+    TabOrder = 21
     Width = 82
   end
   object cxLabel5: TcxLabel
@@ -310,7 +317,7 @@ inherited frmInputSuratJalan: TfrmInputSuratJalan
     Properties.DisplayFormat = '#,#0.00'
     Properties.MaxValue = 100.000000000000000000
     Properties.ValueType = vtFloat
-    TabOrder = 18
+    TabOrder = 19
     Width = 121
   end
   object cxLabel6: TcxLabel
@@ -325,7 +332,7 @@ inherited frmInputSuratJalan: TfrmInputSuratJalan
     Properties.DisplayFormat = '#,#0.00'
     Properties.MaxValue = 100.000000000000000000
     Properties.ValueType = vtFloat
-    TabOrder = 22
+    TabOrder = 23
     Width = 121
   end
   object zqrBarang: TZReadOnlyQuery
