@@ -3,6 +3,7 @@ inherited frmMenuLaporan: TfrmMenuLaporan
   ClientHeight = 698
   ClientWidth = 1085
   OnCreate = FormCreate
+  ExplicitTop = -67
   ExplicitWidth = 1085
   ExplicitHeight = 698
   PixelsPerInch = 96
@@ -30,6 +31,15 @@ inherited frmMenuLaporan: TfrmMenuLaporan
     TabOrder = 3
     ExplicitTop = 649
     ExplicitWidth = 1085
+    inherited btnSimpan: TButton
+      TabOrder = 1
+    end
+    inherited btnBatal: TButton
+      Left = 10
+      Caption = 'Keluar'
+      TabOrder = 0
+      ExplicitLeft = 10
+    end
   end
   object ScrollBox1: TScrollBox
     Left = 0

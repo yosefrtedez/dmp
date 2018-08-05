@@ -314,6 +314,7 @@ begin
     ts.PageControl := pgMain;
 
     f := TfrmMenuLaporan.Create(Self);
+    f.Caption := 'Laporan';
     f.Parent := ts;
     ts.Caption := f.Caption;
     f.Show;
