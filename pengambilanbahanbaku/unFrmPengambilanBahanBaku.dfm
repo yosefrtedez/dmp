@@ -23,6 +23,17 @@ inherited frmPengambilanBahanBaku: TfrmPengambilanBahanBaku
   inherited Panel2: TPanel
     Top = 571
     TabOrder = 7
+    ExplicitTop = 571
+    inherited btnSimpan: TButton
+      Visible = False
+    end
+    inherited btnBatal: TButton
+      Left = 10
+      Top = 13
+      Caption = 'Keluar'
+      ExplicitLeft = 10
+      ExplicitTop = 13
+    end
   end
   object Panel3: TPanel
     Left = 0
@@ -31,7 +42,6 @@ inherited frmPengambilanBahanBaku: TfrmPengambilanBahanBaku
     Height = 49
     Align = alTop
     TabOrder = 1
-    ExplicitTop = 43
     object cxLabel1: TcxLabel
       Left = 10
       Top = 15
@@ -186,7 +196,6 @@ inherited frmPengambilanBahanBaku: TfrmPengambilanBahanBaku
     Height = 23
     Align = alTop
     TabOrder = 5
-    ExplicitLeft = 8
   end
   object cxGrid3: TcxGrid
     Left = 0
@@ -211,7 +220,6 @@ inherited frmPengambilanBahanBaku: TfrmPengambilanBahanBaku
       DataController.OnAfterPost = cxtbBomDetDataControllerAfterPost
       DataController.OnBeforePost = cxtbBomDetDataControllerBeforePost
       DataController.OnNewRecord = cxtbBomDetDataControllerNewRecord
-      DataController.OnRecordChanged = cxtbBomDetDataControllerRecordChanged
       OptionsData.Appending = True
       OptionsData.Inserting = False
       OptionsView.Navigator = True
@@ -239,6 +247,7 @@ inherited frmPengambilanBahanBaku: TfrmPengambilanBahanBaku
       object cxColOperator: TcxGridColumn
         Caption = 'Operator'
         PropertiesClassName = 'TcxTextEditProperties'
+        Visible = False
         Width = 107
       end
       object cxColGdg: TcxGridColumn

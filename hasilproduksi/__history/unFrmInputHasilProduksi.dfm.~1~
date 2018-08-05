@@ -1,5 +1,0 @@
-inherited frmInputHasilProduksi: TfrmInputHasilProduksi
-  Caption = 'frmInputHasilProduksi'
-  PixelsPerInch = 96
-  TextHeight = 13
-end

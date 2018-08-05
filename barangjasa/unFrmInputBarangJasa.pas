@@ -124,9 +124,9 @@ type
     procedure cxsStdBrtKantongPropertiesChange(Sender: TObject);
     procedure cxsBrtTaliPropertiesChange(Sender: TObject);
   private
-    { Private declarations }
+    //
   public
-    { Public declarations }
+    //
   end;
 
 var
@@ -134,7 +134,7 @@ var
 
 implementation
 
-uses unTools, unDM;
+uses unTools, unDM, unFrmLstBarangJasa;
 
 {$R *.dfm}
 

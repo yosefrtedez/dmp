@@ -8,6 +8,7 @@ inherited frmInputHasilProduksi: TfrmInputHasilProduksi
   TextHeight = 13
   inherited Panel1: TPanel
     Width = 1011
+    ExplicitWidth = 1011
     object Label13: TLabel
       Left = 10
       Top = 13
@@ -26,6 +27,8 @@ inherited frmInputHasilProduksi: TfrmInputHasilProduksi
     Top = 604
     Width = 1011
     TabOrder = 5
+    ExplicitTop = 604
+    ExplicitWidth = 1011
   end
   object Panel3: TPanel
     Left = 0
@@ -34,8 +37,6 @@ inherited frmInputHasilProduksi: TfrmInputHasilProduksi
     Height = 49
     Align = alTop
     TabOrder = 1
-    ExplicitTop = 43
-    ExplicitWidth = 894
     object cxLabel1: TcxLabel
       Left = 10
       Top = 15
@@ -75,7 +76,6 @@ inherited frmInputHasilProduksi: TfrmInputHasilProduksi
     Height = 159
     Align = alTop
     TabOrder = 2
-    ExplicitWidth = 894
     object cxtbSPK: TcxGridDBTableView
       NavigatorButtons.ConfirmDelete = False
       DataController.DataSource = dsSPK
@@ -106,7 +106,14 @@ inherited frmInputHasilProduksi: TfrmInputHasilProduksi
       object cxtbSPKdeskripsi: TcxGridDBColumn
         Caption = 'Deskripsi'
         DataBinding.FieldName = 'deskripsi'
-        Width = 379
+        Width = 197
+      end
+      object cxtbSPKColumn1: TcxGridDBColumn
+        Caption = 'Qty. SPK'
+      end
+      object cxtbSPKColumn2: TcxGridDBColumn
+        Caption = 'Total Hasil Prod.'
+        Width = 94
       end
     end
     object cxGrid1Level1: TcxGridLevel
@@ -120,57 +127,97 @@ inherited frmInputHasilProduksi: TfrmInputHasilProduksi
     Height = 23
     Align = alTop
     TabOrder = 3
-    ExplicitWidth = 894
   end
   object cxGrid2: TcxGrid
     Left = 0
     Top = 280
     Width = 1011
-    Height = 110
+    Height = 129
     Align = alTop
     TabOrder = 4
-    ExplicitWidth = 894
     object cxtbBOM: TcxGridDBTableView
       NavigatorButtons.ConfirmDelete = False
+      NavigatorButtons.PriorPage.Visible = False
+      NavigatorButtons.NextPage.Visible = False
+      NavigatorButtons.Insert.Visible = False
+      NavigatorButtons.Append.Visible = True
+      NavigatorButtons.Refresh.Visible = False
+      NavigatorButtons.SaveBookmark.Visible = False
+      NavigatorButtons.GotoBookmark.Visible = False
+      NavigatorButtons.Filter.Visible = False
       DataController.Summary.DefaultGroupSummaryItems = <>
       DataController.Summary.FooterSummaryItems = <>
       DataController.Summary.SummaryGroups = <>
+      OptionsData.Appending = True
+      OptionsData.Inserting = False
+      OptionsView.Navigator = True
       OptionsView.GroupByBox = False
-      object cxColKodeBrg: TcxGridDBColumn
-        Caption = 'Kode Brg.'
-        DataBinding.ValueType = 'String'
-        PropertiesClassName = 'TcxTextEditProperties'
+      object cxColTanggal: TcxGridDBColumn
+        Caption = 'Tanggal'
+        DataBinding.ValueType = 'DateTime'
+        PropertiesClassName = 'TcxDateEditProperties'
+        Width = 72
       end
-      object cxColDeskripsi: TcxGridDBColumn
-        Caption = 'Deskripsi'
-        DataBinding.ValueType = 'String'
-        PropertiesClassName = 'TcxTextEditProperties'
-        Width = 286
+      object cxColJam: TcxGridDBColumn
+        Caption = 'Jam Awal'
+        DataBinding.ValueType = 'DateTime'
+        PropertiesClassName = 'TcxDateEditProperties'
+        Width = 70
+      end
+      object cxtbBOMColumn2: TcxGridDBColumn
+        Caption = 'Jam Akhir'
+        DataBinding.ValueType = 'DateTime'
+        PropertiesClassName = 'TcxDateEditProperties'
+        Width = 68
+      end
+      object cxtbBOMColumn1: TcxGridDBColumn
+        Caption = 'Shift'
+        DataBinding.ValueType = 'Integer'
+        PropertiesClassName = 'TcxComboBoxProperties'
+        Properties.Items.Strings = (
+          '1'
+          '2'
+          '3')
+        Width = 86
+      end
+      object cxtbBOMColumn3: TcxGridDBColumn
+        Caption = 'Mesin'
+        Width = 78
       end
       object cxColQtySPK: TcxGridDBColumn
-        Caption = 'Qty. SPK'
+        Caption = 'Qty. Hasil Prod.'
         DataBinding.ValueType = 'Float'
         PropertiesClassName = 'TcxSpinEditProperties'
         Properties.DisplayFormat = '#,#0.00'
-        Width = 70
+        Properties.ValueType = vtFloat
+        Width = 97
+      end
+      object cxtbBOMColumn5: TcxGridDBColumn
+        Caption = 'Satuan'
+      end
+      object cxtbBOMColumn7: TcxGridDBColumn
+        Caption = 'Gudang BJ'
+      end
+      object cxtbBOMColumn6: TcxGridDBColumn
+        Caption = 'Qty. Afal'
+        DataBinding.ValueType = 'Float'
+        PropertiesClassName = 'TcxSpinEditProperties'
+        Width = 69
       end
       object cxColSatuan: TcxGridDBColumn
         Caption = 'Satuan'
         DataBinding.ValueType = 'String'
       end
-      object cxColDiambil: TcxGridDBColumn
-        Caption = 'Sudah Diambil'
-        DataBinding.ValueType = 'Float'
-        PropertiesClassName = 'TcxSpinEditProperties'
-        Properties.DisplayFormat = '#,#0.00'
-        Width = 97
+      object cxtbBOMColumn8: TcxGridDBColumn
+        Caption = 'Gudang Afal'
+        Width = 70
       end
       object cxtbBOMColumn4: TcxGridDBColumn
-        Caption = 'Sisa'
-        DataBinding.ValueType = 'Float'
-        PropertiesClassName = 'TcxSpinEditProperties'
-        Properties.DisplayFormat = '#,#0.00'
-        Width = 106
+        Caption = 'Status'
+        DataBinding.ValueType = 'Integer'
+        PropertiesClassName = 'TcxCheckBoxProperties'
+        Properties.ValueChecked = 1
+        Properties.ValueUnchecked = 0
       end
       object cxColIdBrg: TcxGridDBColumn
         DataBinding.ValueType = 'Integer'

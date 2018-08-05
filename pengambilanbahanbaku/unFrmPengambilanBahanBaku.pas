@@ -71,9 +71,6 @@ type
     procedure FormCreate(Sender: TObject);
     procedure cxtbBomDetDataControllerAfterPost(
       ADataController: TcxCustomDataController);
-    procedure cxtbBomDetDataControllerRecordChanged(
-      ADataController: TcxCustomDataController; ARecordIndex,
-      AItemIndex: Integer);
     procedure cxtbBomDetDataControllerBeforePost(
       ADataController: TcxCustomDataController);
     procedure cxtbBOMFocusedRecordChanged(Sender: TcxCustomGridTableView;
@@ -125,40 +122,58 @@ var
 begin
   inherited;
   try
-  i := ADataController.GetFocusedRecordIndex;
-  j := cxtbBOM.DataController.GetFocusedRecordIndex;
+    Screen.Cursor := crSQLWait;
 
-  sNoBukti := GetLastFak('pengambilan-bb');
-  UpdateFaktur(Copy(sNoBukti,1,8));
-  q := OpenRS('SELECT * FROM tbl_trspengambilanbb WHERE id_spk = %s AND id_brg = %s',
-    [zqrSPK.FieldByName('id').AsString, cxtbBOM.DataController.Values[j, cxColIdBrg.Index]]);
-  q.Insert;
-  q.FieldByName('no_bukti').AsString := sNoBukti;
-  q.FieldByName('tanggal').AsDateTime := ADataController.Values[i, cxColTanggal.Index];
-  q.FieldByName('jam').AsDateTime := ADataController.Values[i, cxColJam.Index];
-  q.FieldByName('id_spk').AsInteger := zqrSPK.FieldByName('id').AsInteger;
-  q.FieldByName('id_brg').AsInteger := cxtbBOM.DataController.Values[j, cxColIdBrg.Index];
-  q.FieldByName('qty').AsFloat := ADataController.Values[i, cxColQtyInput.Index];
-  q.FieldByName('operator').AsString := ADataController.Values[i, cxColOperator.INdex];
-  q.FieldByName('id_gdg').AsInteger := ADataController.Values[i, cxColGdg.Index];
-  q.FieldByName('id_satuan').AsInteger := cxtbBOM.DataController.Values[j, cxColIdSatuan.Index];
-  ADataController.Values[i, cxColStatus.Index] := 1;
-  q.Post;
-  q.Close;
+    dm.zConn.StartTransaction;
 
-  qh := OpenRS('SELECT * FROM tbl_history WHERE no_bukti = ''%s''',[sNoBukti]);
-  qh.Insert;
-  qh.FieldByName('no_bukti').AsString := sNobukti;
-  qh.FieldByName('tanggal').AsString :=  ADataController.Values[i, cxColTanggal.Index];
-  qh.FieldByName('kode_brg').AsString := cxtbBOM.DataController.Values[j, cxColKodeBrg.Index];
-  qh.FieldByName('id_brg').AsInteger := cxtbBOM.DataController.Values[j, cxColIdBrg.Index];
-  qh.FieldByName('qty').AsFloat := ADataController.Values[i, cxColQtyInput.Index];
-  qh.FieldByName('id_satuan').AsInteger := cxtbBOM.DataController.Values[j, cxColIdSatuan.Index];
-  qh.FieldByName('id_gdg').AsInteger := ADataController.Values[i, cxColGdg.Index];
-  qh.Post;
-  qh.Close;
+    i := ADataController.GetFocusedRecordIndex;
+    j := cxtbBOM.DataController.GetFocusedRecordIndex;
 
+    sNoBukti := GetLastFak('pengambilan-bb');
+    UpdateFaktur(Copy(sNoBukti,1,8));
+    q := OpenRS('SELECT * FROM tbl_trspengambilanbb WHERE id_spk = %s AND id_brg = %s',
+      [zqrSPK.FieldByName('id').AsString, cxtbBOM.DataController.Values[j, cxColIdBrg.Index]]);
+    q.Insert;
+    q.FieldByName('no_bukti').AsString := sNoBukti;
+    q.FieldByName('tanggal').AsDateTime := ADataController.Values[i, cxColTanggal.Index];
+    q.FieldByName('jam').AsDateTime := ADataController.Values[i, cxColJam.Index];
+    q.FieldByName('id_spk').AsInteger := zqrSPK.FieldByName('id').AsInteger;
+    q.FieldByName('id_brg').AsInteger := cxtbBOM.DataController.Values[j, cxColIdBrg.Index];
+    q.FieldByName('qty').AsFloat := ADataController.Values[i, cxColQtyInput.Index];
+    //q.FieldByName('operator').AsString := ADataController.Values[i, cxColOperator.INdex];
+    q.FieldByName('id_gdg').AsInteger := ADataController.Values[i, cxColGdg.Index];
+    q.FieldByName('id_satuan').AsInteger := cxtbBOM.DataController.Values[j, cxColIdSatuan.Index];
+    ADataController.Values[i, cxColStatus.Index] := 1;
+    q.Post;
+    q.Close;
+
+    qh := OpenRS('SELECT * FROM tbl_history WHERE no_bukti = ''%s''',[sNoBukti]);
+    qh.Insert;
+    qh.FieldByName('no_bukti').AsString := sNobukti;
+    qh.FieldByName('tanggal').AsString :=  ADataController.Values[i, cxColTanggal.Index];
+    qh.FieldByName('kode_brg').AsString := cxtbBOM.DataController.Values[j, cxColKodeBrg.Index];
+    qh.FieldByName('id_brg').AsInteger := cxtbBOM.DataController.Values[j, cxColIdBrg.Index];
+    qh.FieldByName('qty').AsFloat := ADataController.Values[i, cxColQtyInput.Index];
+    qh.FieldByName('id_satuan').AsInteger := cxtbBOM.DataController.Values[j, cxColIdSatuan.Index];
+    qh.FieldByName('id_gdg').AsInteger := ADataController.Values[i, cxColGdg.Index];
+    qh.Post;
+    qh.Close;
+
+    dm.zConn.Commit;
+
+    // update qty pengambilan
+    q := OpenRS('SELECT SUM(qty) qty FROM tbl_trspengambilanbb WHERE id_spk = %s AND id_brg = %s',
+      [zqrSPK.FieldByName('id').AsString, cxtbBOM.DataController.Values[j, cxColIdBrg.Index]]);
+    cxtbBOM.DataController.Values[j, cxColDiambil.Index] := q.FieldByname('qty').AsFloat;
+    q.Close;
+
+    Screen.Cursor := crDefault;
   except
+    on E: Exception do begin
+      dm.zConn.Rollback;
+      Screen.Cursor := crDefault;
+      MsgBox('Error: ' + E.Message);
+    end;
   end;
 
 end;
@@ -167,10 +182,23 @@ procedure TfrmPengambilanBahanBaku.cxtbBomDetDataControllerBeforePost(
   ADataController: TcxCustomDataController);
 var
   i: integer;
+  berr: boolean;
 begin
   inherited;
   i := ADataController.GetFocusedRecordIndex;
-  if ADataController.Values[i, cxColStatus.Index] = 1 then Abort;
+
+  berr := true;
+  with ADataController do begin
+    if Values[i, cxColStatus.Index] = 1 then berr := false;
+    if VarIsNull(Values[i, cxColTanggal.Index]) then berr := false;
+    if VarIsNull(Values[i, cxColJam.Index]) then berr := false;
+    if VarIsNull(Values[i, cxColQtyInput.Index]) then berr := false;
+
+  end;
+  if not berr then begin
+    MsgBox('Mohon lengkapi inputan yang masih kosong.');
+    Abort;
+  end;
 
 end;
 
@@ -179,14 +207,6 @@ procedure TfrmPengambilanBahanBaku.cxtbBomDetDataControllerNewRecord(
 begin
   inherited;
   ADataController.Values[ARecordIndex, cxColGdg.Index] := Aplikasi.GdgBB;
-end;
-
-procedure TfrmPengambilanBahanBaku.cxtbBomDetDataControllerRecordChanged(
-  ADataController: TcxCustomDataController; ARecordIndex, AItemIndex: Integer);
-begin
-  inherited;
-  //if ADataController.Values[ARecordIndex, cxColStatus.Index] = 1 then Abort;
-  
 end;
 
 procedure TfrmPengambilanBahanBaku.cxtbBOMFocusedRecordChanged(

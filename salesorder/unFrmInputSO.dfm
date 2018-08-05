@@ -447,6 +447,7 @@ inherited frmInputSO: TfrmInputSO
         Width = 281
       end
       object cxColIdSatuan: TcxGridColumn
+        Visible = False
       end
     end
     object cxGrid1Level1: TcxGridLevel

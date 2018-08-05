@@ -17,7 +17,8 @@ uses
   dxSkinscxPCPainter, cxCustomData, cxFilter, cxData, cxDataStorage, DB,
   cxDBData, cxTextEdit, cxSpinEdit, cxGridLevel, cxGridCustomTableView,
   cxGridTableView, cxGridDBTableView, cxClasses, cxGridCustomView, cxGrid,
-  cxMaskEdit, cxDropDownEdit, cxCalendar, cxLabel, ZAbstractRODataset, ZDataset;
+  cxMaskEdit, cxDropDownEdit, cxCalendar, cxLabel, ZAbstractRODataset, ZDataset,
+  cxCheckBox;
 
 type
   TfrmInputHasilProduksi = class(TfrmTplInput)
@@ -39,18 +40,26 @@ type
     Panel4: TPanel;
     cxGrid2: TcxGrid;
     cxtbBOM: TcxGridDBTableView;
-    cxColKodeBrg: TcxGridDBColumn;
-    cxColDeskripsi: TcxGridDBColumn;
+    cxColTanggal: TcxGridDBColumn;
+    cxColJam: TcxGridDBColumn;
     cxColQtySPK: TcxGridDBColumn;
     cxColSatuan: TcxGridDBColumn;
-    cxColDiambil: TcxGridDBColumn;
-    cxtbBOMColumn4: TcxGridDBColumn;
     cxColIdBrg: TcxGridDBColumn;
     cxColIdSatuan: TcxGridDBColumn;
     cxGridLevel1: TcxGridLevel;
     Label13: TLabel;
     dsSPK: TDataSource;
     zqrSPK: TZReadOnlyQuery;
+    cxtbBOMColumn1: TcxGridDBColumn;
+    cxtbBOMColumn2: TcxGridDBColumn;
+    cxtbBOMColumn3: TcxGridDBColumn;
+    cxtbBOMColumn5: TcxGridDBColumn;
+    cxtbBOMColumn6: TcxGridDBColumn;
+    cxtbBOMColumn4: TcxGridDBColumn;
+    cxtbSPKColumn1: TcxGridDBColumn;
+    cxtbSPKColumn2: TcxGridDBColumn;
+    cxtbBOMColumn7: TcxGridDBColumn;
+    cxtbBOMColumn8: TcxGridDBColumn;
     procedure btnProsesClick(Sender: TObject);
   private
     { Private declarations }

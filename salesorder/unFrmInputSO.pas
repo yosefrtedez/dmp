@@ -338,7 +338,7 @@ begin
               FieldByName('qty_so').AsFloat     := Values[i, cxColQty2.Index];
               FieldByName('jenis').AsString     := 'BJ';
               FieldByName('app_cft').AsInteger  := 1;
-              FieldByName('keterangan').AsString := Values[i, cxColKeterangan2.Index];
+              FieldByName('keterangan').AsString := VarToStr(Values[i, cxColKeterangan2.Index]);
               Post;
             end;
           end
@@ -410,7 +410,7 @@ begin
                 FieldByName('qty_so').AsFloat     := Values[i, cxColQty.Index];
                 FieldByName('jenis').AsString     := 'BJ';
                 FieldByName('app_cft').AsInteger  := 1;
-                FieldByName('keterangan').AsString := Values[i, cxColKeterangan.Index];
+                FieldByName('keterangan').AsString := VarToStr(Values[i, cxColKeterangan.Index]);
                 Post;
               end;
             end
@@ -440,11 +440,11 @@ begin
       end;
     end;
 
-    Close;
+    dm.zConn.Commit;
+
     MsgBox('Sales Order sudah disimpan dengan nomor : ' + sNoTrs);
     cxTblSO.DataController.RecordCount := 0;
     btnBatalClick(nil);
-    dm.zConn.Commit;
 
   except
     on E: Exception do begin

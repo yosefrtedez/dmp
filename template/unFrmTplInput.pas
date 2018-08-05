@@ -26,9 +26,11 @@ type
   private
     mJenis: string;
     mEditKey: string;
+    mFormInduk: TForm;
   public
     property Jenis: string read mJenis write mJenis;
     property EditKey: string read mEditKey write mEditKey;
+    property FormInduk: TForm read mFormInduk write mFormInduk;
   end;
 
 var

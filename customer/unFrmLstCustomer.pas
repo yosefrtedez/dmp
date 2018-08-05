@@ -122,6 +122,7 @@ begin
     ts.PageControl := frmUtama.pgMain;
 
     f := TfrmInputCustomer.Create(Self);
+    f.FormInduk := Self;
     f.Jenis := 'T';
     f.cxChkAktif.Checked := True ;
     f.Parent := ts;
