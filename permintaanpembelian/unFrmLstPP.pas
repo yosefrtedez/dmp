@@ -94,6 +94,7 @@ begin
       Abort;
     end;
     f := TfrmInputPP.Create(Self);
+    f.FormInduk := Self;
     ts.Caption := 'Edit PP';
     f.Jenis := 'E';
     f.EditKey := zqrPPHead.FieldByName('id').AsString;
@@ -110,7 +111,7 @@ var
 begin
   inherited;
 
-  q := OpenRS('SELECT * FROM tbl_po_head where no_fobj = ''%s''',[zqrPPhead.FieldByName('no_bukti').AsString]);
+  q := OpenRS('SELECT * FROM tbl_pp_head where f_app = 1 and no_bukti  = ''%s''',[zqrPPhead.FieldByName('no_bukti').AsString]);
   if not q.Eof then begin
     MsgBox('Data tidak bisa dihapus karena memiliki transaksi.');
     Abort;
@@ -150,6 +151,7 @@ begin
     ts := TcxTabSheet.Create(Self);
     ts.PageControl := frmUtama.pgMain;
     f := TfrmInputPP.Create(Self);
+    f.FormInduk := Self;
     f.Jenis := 'T';
     f.Parent := ts;
     ts.Caption := 'Input Permintaan Pembelian';

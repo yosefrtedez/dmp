@@ -31,18 +31,20 @@ inherited frmLstPP: TfrmLstPP
       OnClick = btnTambahClick
     end
     inherited btnEdit: TButton
+      Left = 92
       OnClick = btnEditClick
+      ExplicitLeft = 92
     end
     inherited btnHapus: TButton
+      Top = 11
       OnClick = btnHapusClick
+      ExplicitTop = 11
     end
     inherited btnKeluar: TButton
       Left = 1027
-      TabOrder = 4
       ExplicitLeft = 1027
     end
     inherited btnRefresh: TButton
-      TabOrder = 3
       OnClick = btnRefreshClick
     end
   end

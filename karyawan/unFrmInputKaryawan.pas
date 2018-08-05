@@ -58,7 +58,7 @@ var
 
 implementation
 
-uses unTools;
+uses unTools, unFrmLstKaryawan;
 
 {$R *.dfm}
 
@@ -108,6 +108,8 @@ begin
     end;
     MsgBox('Data karyawan sudah berhasil disimpan.');
     ClearAll;
+    if Assigned(Self.FormInduk) then
+      (Self.FormInduk as TfrmLstKaryawan).btnRefreshClick(nil);
     btnBatalClick(nil);
     end;
 end;

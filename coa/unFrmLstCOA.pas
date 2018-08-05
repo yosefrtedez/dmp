@@ -70,6 +70,7 @@ begin
     ts.PageControl := frmUtama.pgMain;
     f := TfrmInputCOA.Create(Self);
     f.Caption := 'Edit COA';
+    f.FormInduk := Self;
     f.Jenis := 'E';
     f.EditKey := zqrCOA.FieldByName('noakun').AsString;
     f.Parent := ts;
@@ -97,6 +98,7 @@ begin
     ts.PageControl := frmUtama.pgMain;
 
     f := TfrmInputCOA.Create(Self);
+    f.FormInduk := Self;
     f.Jenis := 'T';
     f.cxChkAktif.Checked := True ;
     f.Parent := ts;

@@ -56,7 +56,7 @@ var
 
 implementation
 
-uses unDM, unTools;
+uses unDM, unTools, unFrmLstUser;
 
 {$R *.dfm}
 
@@ -124,6 +124,9 @@ begin
 
     MsgBox('Data user sudah berhasil disimpan.');
 
+    if Assigned(Self.FormInduk) then
+      (Self.FormInduk as TfrmLstUser).btnRefreshClick(nil);
+    btnBatalClick(nil);
   end;
 end;
 

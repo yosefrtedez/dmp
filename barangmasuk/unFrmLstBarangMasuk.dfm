@@ -31,11 +31,7 @@ inherited frmLstBarangMasuk: TfrmLstBarangMasuk
     inherited btnHapus: TButton
       OnClick = btnHapusClick
     end
-    inherited btnKeluar: TButton
-      TabOrder = 4
-    end
     inherited btnRefresh: TButton
-      TabOrder = 3
       OnClick = btnRefreshClick
     end
   end

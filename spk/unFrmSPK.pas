@@ -68,10 +68,12 @@ type
     mIDSO: integer;
     mIDMO: integer;
     mIDSPK: Integer;
+    mEditable: boolean;
   public
     property IDSO: integer read mIDSO write mIDSO;
     property IDMO: Integer read mIDMO write mIDMO;
     property IDSPK: Integer read mIDSPK write mIDSPK;
+    property Editable: Boolean write mEditable;
   end;
 
 var
@@ -94,6 +96,11 @@ begin
   if (cxtbBom.DataController.EditState = [dceInsert, dceModified]) or (cxtbBom.DataController.EditState = [dceEdit, dceModified]) then begin
     MsgBox('Mohon selesaikan pengeditan detail sebelum disimpan. #10#13' +
       'Klik tombol centang hijau.');
+    Abort;
+  end;
+
+  if not mEditable then begin
+    MsgBox('SPK ini tidak bisa di edit karena sudah ada transaksi (pengambilan bahan baku / hasil produksi).');
     Abort;
   end;
 

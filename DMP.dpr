@@ -40,7 +40,6 @@ uses
   unFrmMasterOrder in 'masterorder\unFrmMasterOrder.pas' {frmMasterOrder},
   unFrmSettingProgram in 'setting\unFrmSettingProgram.pas' {frmSettingProgram},
   unFrmInputPenerimaanKas in 'penerimaanpengeluarankas\unFrmInputPenerimaanKas.pas' {frmInputPenerimaanKas},
-  unFrmLaporan in 'laporan\unFrmLaporan.pas' {frmLaporan},
   unFrmLstPenerimaanKas in 'penerimaanpengeluarankas\unFrmLstPenerimaanKas.pas' {frmLstPenerimaanKas},
   unFrmLstFormula in 'formula\unFrmLstFormula.pas' {frmLstFormula},
   unFrmInputFormula in 'formula\unFrmInputFormula.pas' {frmInputFormula},
@@ -64,8 +63,7 @@ uses
   unFrmKetUpdate in 'unFrmKetUpdate.pas' {frmKetUpdate},
   unFrmTmpLap01 in 'laporan\unFrmTmpLap01.pas' {frmTmpLap01},
   unFrmLapMasterData in 'laporan\unFrmLapMasterData.pas' {frmLapMasterData},
-  unFLapParam in 'laporan\unFLapParam.pas' {Frame1: TFrame},
-  unFrmLapTransaksi in 'laporan\unFrmLapTransaksi.pas' {frmLapTransaksi},
+  unFrmRptTransaksi in 'laporan\unFrmRptTransaksi.pas' {frmRptTransaksi},
   unFrmPilihHarga in 'barangkeluar\unFrmPilihHarga.pas' {frmPilihHarga},
   unFrmSettingWewenang in 'setting\unFrmSettingWewenang.pas' {frmSettingWewenang},
   unFrmKalkulasiStok in 'setting\unFrmKalkulasiStok.pas' {frmKalkulasiStok},
@@ -75,12 +73,12 @@ uses
   unFrmLapPO in 'laporan\unFrmLapPO.pas' {frmLapPO},
   unFrmMenuLaporan in 'laporan\unFrmMenuLaporan.pas' {frmMenuLaporan},
   unFrmeTplLap in 'laporan\unFrmeTplLap.pas' {frmeTplLap: TFrame},
-  unFrmeLapMaster in 'laporan\unFrmeLapMaster.pas' {frmeLapMaster: TFrame},
   unFrmLapMaster in 'laporan\unFrmLapMaster.pas' {frmLapMaster},
   unFrmInputSuratJalan in 'suratjalan\unFrmInputSuratJalan.pas' {frmInputSuratJalan},
   unFrmLstSuratJalan in 'suratjalan\unFrmLstSuratJalan.pas' {frmLstSuratJalan},
   unFrmPengambilanBahanBaku in 'pengambilanbahanbaku\unFrmPengambilanBahanBaku.pas' {frmPengambilanBahanBaku},
-  unFrmInputHasilProduksi in 'hasilproduksi\unFrmInputHasilProduksi.pas' {frmInputHasilProduksi};
+  unFrmInputHasilProduksi in 'hasilproduksi\unFrmInputHasilProduksi.pas' {frmInputHasilProduksi},
+  unFrmLapTransaksi in 'laporan\unFrmLapTransaksi.pas' {frmLapTransaksi};
 
 {$R *.res}
 
@@ -90,6 +88,7 @@ begin
   Application.CreateForm(TDM, DM);
   Application.CreateForm(TfrmUtama, frmUtama);
   Application.CreateForm(TfrmLogin, frmLogin);
+  Application.CreateForm(TfrmLapTransaksi, frmLapTransaksi);
   frmUtama.Show;
 
   frmLogin.ShowModal;

@@ -40,7 +40,7 @@ inherited frmLstTransferBarang: TfrmLstTransferBarang
     object cxdTgl2: TcxDateEdit
       Left = 211
       Top = 46
-      TabOrder = 3
+      TabOrder = 2
       Width = 121
     end
     object btnProses: TButton
@@ -49,12 +49,12 @@ inherited frmLstTransferBarang: TfrmLstTransferBarang
       Width = 75
       Height = 25
       Caption = 'Proses'
-      TabOrder = 4
+      TabOrder = 0
       OnClick = btnProsesClick
     end
   end
   inherited Panel2: TPanel
-    TabOrder = 2
+    TabOrder = 4
     inherited btnTambah: TButton
       Top = 14
       OnClick = btnTambahClick
@@ -66,13 +66,11 @@ inherited frmLstTransferBarang: TfrmLstTransferBarang
       ExplicitTop = 14
     end
     inherited btnHapus: TButton
+      TabOrder = 3
       OnClick = btnHapusClick
     end
-    inherited btnKeluar: TButton
-      TabOrder = 4
-    end
     inherited btnRefresh: TButton
-      TabOrder = 3
+      TabOrder = 2
       OnClick = btnRefreshClick
     end
   end
@@ -119,7 +117,7 @@ inherited frmLstTransferBarang: TfrmLstTransferBarang
     Width = 1016
     Height = 41
     Align = alBottom
-    TabOrder = 3
+    TabOrder = 2
     object cxLabel3: TcxLabel
       Left = 10
       Top = 11
@@ -132,7 +130,7 @@ inherited frmLstTransferBarang: TfrmLstTransferBarang
     Width = 1016
     Height = 171
     Align = alBottom
-    TabOrder = 4
+    TabOrder = 3
     object cxTblTransBarangDet: TcxGridDBTableView
       NavigatorButtons.ConfirmDelete = False
       DataController.DataSource = dsTransBarangDet

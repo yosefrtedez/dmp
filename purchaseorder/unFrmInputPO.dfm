@@ -4,6 +4,7 @@ inherited frmInputPO: TfrmInputPO
   ClientWidth = 1063
   OnCreate = FormCreate
   OnShow = FormShow
+  ExplicitTop = -9
   ExplicitWidth = 1063
   ExplicitHeight = 690
   PixelsPerInch = 96
@@ -242,7 +243,7 @@ inherited frmInputPO: TfrmInputPO
     Width = 351
   end
   object cxtNoBukti: TcxTextEdit
-    Left = 114
+    Left = 112
     Top = 61
     Properties.ReadOnly = True
     TabOrder = 1

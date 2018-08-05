@@ -48,8 +48,6 @@ type
     dsSales: TDataSource;
     zqrBarang: TZReadOnlyQuery;
     dsBarang: TDataSource;
-    cxLabel4: TcxLabel;
-    cxdTglRequaired: TcxDateEdit;
     cxLabel11: TcxLabel;
     cxsGross: TcxSpinEdit;
     cxLabel12: TcxLabel;
@@ -86,6 +84,8 @@ type
     cxColKeterangan2: TcxGridColumn;
     cxColIdSatuan2: TcxGridColumn;
     cxGridLevel1: TcxGridLevel;
+    cxLabel4: TcxLabel;
+    cxdTglRequaired: TcxDateEdit;
     procedure FormShow(Sender: TObject);
     procedure cxCmbCurrPropertiesEditValueChanged(Sender: TObject);
     procedure cxColNoGetDisplayText(Sender: TcxCustomGridTableItem;
@@ -480,6 +480,7 @@ begin
     cxtNoSO.Text := GetLastFak('mts');
     cxGrid1.Visible := False;
     cxGrid2.Visible := True;
+    GroupBox1.Visible := False;
   end
   else begin
     cxlCust.Enabled := True;
@@ -488,6 +489,7 @@ begin
     cxtNoSO.Text := GetLastFak('sales_order');
     cxGrid2.Visible := False;
     cxGrid1.Visible := True;
+    GroupBox1.Visible := True;
   end;
 end;
 

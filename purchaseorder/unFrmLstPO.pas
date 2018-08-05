@@ -17,7 +17,8 @@ uses
   dxSkinscxPCPainter, cxCustomData, cxFilter, cxData, cxDataStorage, cxEdit, DB,
   cxDBData, cxGridCustomTableView, cxGridTableView, cxGridDBTableView,
   ZAbstractRODataset, ZDataset, cxGridLevel, cxClasses, cxGridCustomView, cxPC, cxGrid,
-  cxSpinEdit, cxContainer, cxLabel, cxCheckBox;
+  cxSpinEdit, cxContainer, cxLabel, cxCheckBox, Menus, frxClass, frxDBSet,
+  cxButtons;
 
 type
   TfrmLstPO = class(TfrmTplGrid)
@@ -63,6 +64,10 @@ type
     cxtbPODetColumn1: TcxGridDBColumn;
     cxtbPODetColumn2: TcxGridDBColumn;
     btnCetakPO: TButton;
+    zqrRptPO: TZReadOnlyQuery;
+    dsRptPO: TDataSource;
+    fdbPO: TfrxDBDataset;
+    rptPO: TfrxReport;
     procedure FormCreate(Sender: TObject);
     procedure btnRefreshClick(Sender: TObject);
     procedure btnTambahClick(Sender: TObject);
@@ -71,6 +76,8 @@ type
     procedure cxtbPOHeadFocusedRecordChanged(Sender: TcxCustomGridTableView;
       APrevFocusedRecord, AFocusedRecord: TcxCustomGridRecord;
       ANewItemRecordFocusingChanged: Boolean);
+    procedure btnCtkPOClick(Sender: TObject);
+    procedure btnCetakPOClick(Sender: TObject);
   private
     { Private declarations }
     mjenis : string;
@@ -88,6 +95,24 @@ uses
 
 {$R *.dfm}
 
+procedure TfrmLstPO.btnCetakPOClick(Sender: TObject);
+begin
+  inherited;
+  zqrRptPO.Close;
+  zqrRptPO.ParamByName('no_bukti').AsString := zqrPO.FieldByName('no_bukti').AsString;
+  zqrRptPO.Open;
+  rptPO.ShowReport(True);
+end;
+
+procedure TfrmLstPO.btnCtkPOClick(Sender: TObject);
+begin
+  inherited;
+  zqrRptPO.Close;
+  zqrRptPO.ParamByName('no_bukti').AsString := zqrPO.FieldByName('no_bukti').AsString;
+  zqrRptPO.Open;
+  rptPO.ShowReport(True);
+end;
+
 procedure TfrmLstPO.btnEditClick(Sender: TObject);
 var
  f: TfrmInputPO;
@@ -98,6 +123,10 @@ begin
   if not fu.CekTabOpen('Edit Purchase Order') then begin
     ts := TcxTabSheet.Create(Self);
     ts.PageControl := frmUtama.pgMain;
+    if zqrPO.FieldByName('f_app').AsString = '1' then begin
+      MsgBox('Maaf data tidak bisa diedit, karena sudah di approve');
+      Abort;
+    end;
     f := TfrmInputPO.Create(Self);
     ts.Caption := 'Edit Purchase Order';
     f.Jenis := 'E';
@@ -114,7 +143,7 @@ var
   q : TZQuery;
 begin
   inherited;
-  q := OpenRS('select * from tbl_spbb_head where no_po = ''%s''',[zqrPO.FieldByName('no_bukti').AsString]);
+  q := OpenRS('select * from tbl_po_head where f_app = 1 and no_bukti = ''%s''',[zqrPO.FieldByName('no_bukti').AsString]);
   if not q.Eof then begin
     MsgBox('Maaf data tidak bisa dihapus, karena sudah ada penerimaan barang');
     Abort;

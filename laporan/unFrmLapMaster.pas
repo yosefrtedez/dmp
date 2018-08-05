@@ -21,8 +21,10 @@ type
     pgParam: TcxPageControl;
     cxTabSheet1: TcxTabSheet;
     btnCetak: TButton;
+    procedure FormCreate(Sender: TObject);
+    procedure btnCetakClick(Sender: TObject);
   private
-    { Private declarations }
+    procedure CetakLapMasterBarang;
   public
     { Public declarations }
   end;
@@ -32,6 +34,38 @@ var
 
 implementation
 
+uses unFrmLapMasterData;
+
 {$R *.dfm}
+
+procedure TfrmLapMaster.FormCreate(Sender: TObject);
+begin
+  inherited;
+  lstBox.Items.Add('Master Barang / Persediaan');
+  lstBox.Items.Add('Customer');
+  lstBox.Items.Add('Supplier');
+end;
+
+procedure TfrmLapMaster.btnCetakClick(Sender: TObject);
+begin
+  inherited;
+
+  if lstBox.ItemIndex = 0 then begin
+    CetakLapMasterBarang;
+  end;
+
+end;
+
+procedure TfrmLapMaster.CetakLapMasterBarang;
+var
+  f: TfrmLapMasterData;
+begin
+  f := TfrmLapMasterData.Create(nil);
+  with f do begin
+    zqrMstBarang.Open;
+    rptMstBarang.ShowReport(True);
+  end;
+  f.Free;
+end;
 
 end.

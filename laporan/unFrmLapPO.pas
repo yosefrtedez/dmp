@@ -8,10 +8,6 @@ uses
 
 type
   TfrmLapPO = class(TForm)
-    zqrPO: TZReadOnlyQuery;
-    dsPO: TDataSource;
-    fdbPO: TfrxDBDataset;
-    rptPO: TfrxReport;
   private
     { Private declarations }
   public

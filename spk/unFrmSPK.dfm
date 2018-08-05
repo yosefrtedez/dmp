@@ -24,6 +24,7 @@ inherited frmSPK: TfrmSPK
   inherited Panel2: TPanel
     Top = 571
     TabOrder = 24
+    ExplicitTop = 571
     inherited btnSimpan: TButton
       OnClick = btnSimpanClick
     end

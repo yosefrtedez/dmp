@@ -62,6 +62,7 @@ begin
     ts.PageControl := frmUtama.pgMain;
     f := TfrmInputKaryawan.Create(Self);
     f.Caption := 'Edit Karyawan';
+    f.FormInduk := Self;
     f.Jenis := 'E';
     f.EditKey := zqrKaryawan.FieldByName('nik').AsString;
     f.Parent := ts;
@@ -115,6 +116,7 @@ begin
     ts := TcxTabSheet.Create(Self);
     ts.PageControl := frmUtama.pgMain;
     f := TfrmInputKaryawan.Create(Self);
+    f.FormInduk := Self;
     f.Jenis := 'T';
     f.Parent := ts;
     ts.Caption := f.Caption;

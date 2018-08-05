@@ -44,7 +44,7 @@ inherited frmInputCOA: TfrmInputCOA
     Left = 91
     Top = 198
     Properties.DropDownListStyle = lsEditFixedList
-    TabOrder = 3
+    TabOrder = 14
     Visible = False
     Width = 121
   end
@@ -61,7 +61,7 @@ inherited frmInputCOA: TfrmInputCOA
     Properties.DisplayFormat = '#,#0.00'
     Properties.EditFormat = '#,#0.00'
     Properties.ValueType = vtFloat
-    TabOrder = 5
+    TabOrder = 12
     Visible = False
     Width = 121
   end
@@ -77,7 +77,7 @@ inherited frmInputCOA: TfrmInputCOA
     Left = 91
     Top = 144
     Properties.CharCase = ecUpperCase
-    TabOrder = 7
+    TabOrder = 10
     Width = 379
   end
   object cxLabel2: TcxLabel
@@ -91,7 +91,7 @@ inherited frmInputCOA: TfrmInputCOA
     Left = 91
     Top = 117
     Properties.CharCase = ecUpperCase
-    TabOrder = 9
+    TabOrder = 8
     Width = 114
   end
   object cxLabel1: TcxLabel
@@ -104,7 +104,7 @@ inherited frmInputCOA: TfrmInputCOA
     Left = 303
     Top = 89
     Properties.ReadOnly = True
-    TabOrder = 11
+    TabOrder = 5
     Width = 82
   end
   object cxlIndukAkun: TcxLookupComboBox
@@ -126,7 +126,7 @@ inherited frmInputCOA: TfrmInputCOA
     Properties.ListOptions.SyncMode = True
     Properties.ListSource = dsInduk
     Properties.OnChange = cxlIndukAkunPropertiesChange
-    TabOrder = 12
+    TabOrder = 6
     Width = 209
   end
   object cxLabel3: TcxLabel
@@ -139,7 +139,7 @@ inherited frmInputCOA: TfrmInputCOA
     Left = 350
     Top = 63
     Caption = ' Aktif'
-    TabOrder = 14
+    TabOrder = 3
     Width = 121
   end
   object cxLabel4: TcxLabel

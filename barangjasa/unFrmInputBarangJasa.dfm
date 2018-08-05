@@ -453,6 +453,10 @@ inherited frmInputBarangJasa: TfrmInputBarangJasa
     object cxTabSheet5: TcxTabSheet
       Caption = 'Harga Jual'
       ImageIndex = 4
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       object cxGrid2: TcxGrid
         Left = 16
         Top = 14
@@ -496,6 +500,10 @@ inherited frmInputBarangJasa: TfrmInputBarangJasa
     object cxTabSheet1: TcxTabSheet
       Caption = 'Konversi Satuan'
       ImageIndex = 0
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       object cxGrid1: TcxGrid
         Left = 16
         Top = 14
@@ -548,6 +556,10 @@ inherited frmInputBarangJasa: TfrmInputBarangJasa
     object cxTabSheet2: TcxTabSheet
       Caption = 'Kode Akun'
       ImageIndex = 1
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
     end
   end
   object cxLabel6: TcxLabel

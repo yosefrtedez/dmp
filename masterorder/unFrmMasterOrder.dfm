@@ -72,66 +72,67 @@ inherited frmMasterOrder: TfrmMasterOrder
     Left = 0
     Top = 90
     Width = 1076
-    Height = 226
+    Height = 409
     Align = alClient
     TabOrder = 2
-    object cxGrid1DBTableView1: TcxGridDBTableView
+    ExplicitHeight = 226
+    object cxtbMO: TcxGridDBTableView
       NavigatorButtons.ConfirmDelete = False
       DataController.DataSource = dsMO
       DataController.Summary.DefaultGroupSummaryItems = <>
       DataController.Summary.FooterSummaryItems = <>
       DataController.Summary.SummaryGroups = <>
-      object cxGrid1DBTableView1no_mo: TcxGridDBColumn
+      object cxtbMOno_mo: TcxGridDBColumn
         Caption = 'No.MO'
         DataBinding.FieldName = 'no_mo'
       end
-      object cxGrid1DBTableView1no_so: TcxGridDBColumn
+      object cxtbMOno_so: TcxGridDBColumn
         Caption = 'No.SO'
         DataBinding.FieldName = 'no_so'
       end
-      object cxGrid1DBTableView1no_spk: TcxGridDBColumn
+      object cxtbMOno_spk: TcxGridDBColumn
         Caption = 'No.SPK'
         DataBinding.FieldName = 'no_spk'
       end
-      object cxGrid1DBTableView1tgl_spk: TcxGridDBColumn
+      object cxtbMOtgl_spk: TcxGridDBColumn
         Caption = 'Tgl.SPK'
         DataBinding.FieldName = 'tgl_spk'
       end
-      object cxGrid1DBTableView1kode_brg: TcxGridDBColumn
+      object cxtbMOkode_brg: TcxGridDBColumn
         Caption = 'Kode Barang'
         DataBinding.FieldName = 'kode_brg'
         Width = 89
       end
-      object cxGrid1DBTableView1deskripsi: TcxGridDBColumn
+      object cxtbMOdeskripsi: TcxGridDBColumn
         Caption = 'Nama Barang'
         DataBinding.FieldName = 'deskripsi'
         Width = 314
       end
-      object cxGrid1DBTableView1qty_mo: TcxGridDBColumn
+      object cxtbMOqty_mo: TcxGridDBColumn
         Caption = 'Qty.MO'
         DataBinding.FieldName = 'qty_mo'
       end
-      object cxGrid1DBTableView1qty_so: TcxGridDBColumn
+      object cxtbMOqty_so: TcxGridDBColumn
         Caption = 'Qty.SO'
         DataBinding.FieldName = 'qty_so'
       end
-      object cxGrid1DBTableView1tanggal: TcxGridDBColumn
+      object cxtbMOtanggal: TcxGridDBColumn
         Caption = 'Tgl.SO'
         DataBinding.FieldName = 'tanggal'
       end
-      object cxGrid1DBTableView1kode_customer: TcxGridDBColumn
+      object cxtbMOkode_customer: TcxGridDBColumn
         Caption = 'Kode Customer'
         DataBinding.FieldName = 'kode_customer'
         Width = 100
       end
-      object cxGrid1DBTableView1nama_customer: TcxGridDBColumn
+      object cxtbMOnama_customer: TcxGridDBColumn
         Caption = 'Nama Customer'
         DataBinding.FieldName = 'nama_customer'
         Width = 175
       end
     end
     object cxGrid1Level1: TcxGridLevel
-      GridView = cxGrid1DBTableView1
+      GridView = cxtbMO
     end
   end
   object Panel4: TPanel
@@ -157,6 +158,7 @@ inherited frmMasterOrder: TfrmMasterOrder
       Height = 25
       Caption = 'Mutasi Gudang'
       TabOrder = 1
+      Visible = False
     end
     object Button3: TButton
       Left = 10
@@ -168,20 +170,20 @@ inherited frmMasterOrder: TfrmMasterOrder
     end
   end
   object Panel5: TPanel
-    Left = 0
-    Top = 316
+    Left = 984
+    Top = 236
     Width = 1076
     Height = 41
-    Align = alBottom
     TabOrder = 3
+    Visible = False
   end
   object cxGrid2: TcxGrid
-    Left = 0
-    Top = 357
+    Left = 984
+    Top = 283
     Width = 1076
     Height = 142
-    Align = alBottom
     TabOrder = 4
+    Visible = False
     object cxtbSPK: TcxGridDBTableView
       NavigatorButtons.ConfirmDelete = False
       DataController.Summary.DefaultGroupSummaryItems = <>

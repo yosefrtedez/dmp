@@ -71,7 +71,7 @@ var
 
 implementation
 
-uses unDM, unTools;
+uses unDM, unTools, unFrmLstKoreksi;
 
 {$R *.dfm}
 
@@ -159,6 +159,8 @@ begin
       qd.Close;
       Self.Jenis := '';
       MsgBox('Transaksi koreksi barang sudah disimpan dengan No. Bukti : ' + sNoBukti);
+      if Assigned(Self.FormInduk) then
+        (Self.FormInduk as TFrmLstKoreksi).btnRefreshClick(nil);
       btnBatalClick(nil);
     except
       on E: Exception do begin

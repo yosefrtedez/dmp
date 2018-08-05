@@ -101,6 +101,7 @@ begin
     ts.PageControl := frmUtama.pgMain;
     f := TfrmInputBarangKeluar.Create(Self);
     ts.Caption := 'Edit Barang Keluar';
+    f.FormInduk := Self;
     f.Jenis := 'E';
     f.EditKey := zqrBarangKeluar.FieldByName('id').AsString;
     f.Parent := ts;
@@ -200,6 +201,7 @@ begin
     ts := TcxTabSheet.Create(Self);
     ts.PageControl := frmUtama.pgMain;
     f := TfrmInputBarangKeluar.Create(Self);
+    f.FormInduk := Self;
     f.Jenis := 'T';
     f.Parent := ts;
     ts.Caption := f.Caption;

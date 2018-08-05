@@ -1,0 +1,65 @@
+inherited frmLapTransaksi: TfrmLapTransaksi
+  Caption = 'frmLapMaster'
+  OnCreate = FormCreate
+  ExplicitWidth = 894
+  ExplicitHeight = 553
+  PixelsPerInch = 96
+  TextHeight = 13
+  inherited Panel1: TPanel
+    Left = 440
+    Top = 184
+    Align = alNone
+    TabOrder = 2
+    Visible = False
+    ExplicitLeft = 440
+    ExplicitTop = 184
+  end
+  inherited Panel2: TPanel
+    Left = 440
+    Top = 256
+    Align = alNone
+    TabOrder = 3
+    Visible = False
+    ExplicitLeft = 440
+    ExplicitTop = 256
+  end
+  object lstBox: TListBox
+    Left = 11
+    Top = 11
+    Width = 361
+    Height = 345
+    ItemHeight = 13
+    TabOrder = 0
+  end
+  object pgParam: TcxPageControl
+    Left = 378
+    Top = 11
+    Width = 351
+    Height = 345
+    ActivePage = cxTabSheet1
+    LookAndFeel.NativeStyle = True
+    Style = 7
+    TabOrder = 1
+    ClientRectBottom = 344
+    ClientRectLeft = 1
+    ClientRectRight = 350
+    ClientRectTop = 21
+    object cxTabSheet1: TcxTabSheet
+      Caption = '01'
+      ImageIndex = 0
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
+    end
+  end
+  object btnCetak: TButton
+    Left = 11
+    Top = 362
+    Width = 75
+    Height = 25
+    Caption = 'Cetak'
+    TabOrder = 4
+    OnClick = btnCetakClick
+  end
+end

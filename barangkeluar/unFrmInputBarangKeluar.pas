@@ -99,7 +99,7 @@ var
 
 implementation
 
-uses unDM, unTools, unFrmPilihHarga;
+uses unDM, unTools, unFrmPilihHarga, unFrmLstBarangKeluar;
 
 {$R *.dfm}
 
@@ -257,6 +257,8 @@ begin
       qd.Close;
       Self.Jenis := '';
       MsgBox('Transaksi barang keluar sudah disimpan dengan No. Bukti : ' + sNoBukti);
+      if Assigned(Self.FormInduk) then
+        (Self.FormInduk as TFrmLstBarangKeluar).btnRefreshClick(nil);
       btnBatalClick(nil);
     except
       on E: Exception do begin
@@ -311,6 +313,7 @@ procedure TfrmInputBarangKeluar.cxtbReturDataControllerBeforePost(
 var
   i,j,k: integer;
   v: variant;
+  sa: real;
 begin
   inherited;
   i := ADataController.FocusedRowIndex;
@@ -347,6 +350,12 @@ begin
 
   if ADataController.Values[i, cxColQty.Index] <= 0 then begin
     MsgBox('Qty tidak boleh minus');
+    Abort;
+  end;
+
+  sa := GetStokAkhir(ADataController.Values[i, cxColDeskripsi.Index], ADataController.Values[i, cxColGudang.Index]);
+  if sa < ADataController.Values[i, cxColQty.Index] then begin
+    MsgBox('Stok barang tidak mencukupi. Stok : ' + FormatFloat('#,#0.00', sa));
     Abort;
   end;
 

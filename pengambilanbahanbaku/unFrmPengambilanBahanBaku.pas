@@ -78,6 +78,8 @@ type
       ANewItemRecordFocusingChanged: Boolean);
     procedure cxtbBomDetDataControllerNewRecord(
       ADataController: TcxCustomDataController; ARecordIndex: Integer);
+    procedure cxtbBomDetDataControllerBeforeDelete(
+      ADataController: TcxCustomDataController; ARecordIndex: Integer);
   private
     { Private declarations }
   public
@@ -156,6 +158,11 @@ begin
     qh.FieldByName('qty').AsFloat := ADataController.Values[i, cxColQtyInput.Index];
     qh.FieldByName('id_satuan').AsInteger := cxtbBOM.DataController.Values[j, cxColIdSatuan.Index];
     qh.FieldByName('id_gdg').AsInteger := ADataController.Values[i, cxColGdg.Index];
+    qh.FieldByName('id_spk').AsInteger := zqrSPK.FieldByName('id').AsInteger;
+    qh.FieldByName('id_so').AsInteger := zqrSPK.FieldByName('id_so').AsInteger;
+    qh.FieldByName('tipe').AsString := 'o';
+    qh.FieldbyName('user').AsString := Aplikasi.NamaUser;
+    qh.FieldByName('user_dept').AsString := Aplikasi.UserDept;
     qh.Post;
     qh.Close;
 
@@ -178,18 +185,26 @@ begin
 
 end;
 
+procedure TfrmPengambilanBahanBaku.cxtbBomDetDataControllerBeforeDelete(
+  ADataController: TcxCustomDataController; ARecordIndex: Integer);
+begin
+  inherited;
+  if ADataController.Values[ARecordIndex, cxColSatuan.Index] = 1 then Abort;
+end;
+
 procedure TfrmPengambilanBahanBaku.cxtbBomDetDataControllerBeforePost(
   ADataController: TcxCustomDataController);
 var
-  i: integer;
+  i, j: integer;
   berr: boolean;
+  sa: real;
 begin
   inherited;
   i := ADataController.GetFocusedRecordIndex;
+  j := cxtbBOM.DataController.GetFocusedRecordIndex;
 
   berr := true;
   with ADataController do begin
-    if Values[i, cxColStatus.Index] = 1 then berr := false;
     if VarIsNull(Values[i, cxColTanggal.Index]) then berr := false;
     if VarIsNull(Values[i, cxColJam.Index]) then berr := false;
     if VarIsNull(Values[i, cxColQtyInput.Index]) then berr := false;
@@ -199,6 +214,14 @@ begin
     MsgBox('Mohon lengkapi inputan yang masih kosong.');
     Abort;
   end;
+
+  sa := GetStokAkhir(cxtbBOM.DataController.Values[j, cxColIdBrg.Index], ADataController.Values[i, cxColGdg.Index]);
+  if sa < ADataController.Values[i, cxColQtyInput.Index] then begin
+    MsgBox('Stok barang tidak mencukupi. Stok : ' + FormatFloat('#,#0.00', sa));
+    Abort;
+  end;
+
+  if ADataController.Values[i, cxColStatus.Index] = 1 then Abort;
 
 end;
 

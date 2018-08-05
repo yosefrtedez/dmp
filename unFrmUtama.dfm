@@ -265,6 +265,24 @@ object frmUtama: TfrmUtama
         Caption = 'Setting Default Akun'
         OnClick = mnAkt_SetDefaultAkunClick
       end
+      object Pembelian1: TMenuItem
+        Caption = 'Pembelian'
+        object InvoicePembelian1: TMenuItem
+          Caption = 'Invoice Pembelian'
+        end
+        object PembayaranPembelian1: TMenuItem
+          Caption = 'Pembayaran Pembelian'
+        end
+      end
+      object Penjualan1: TMenuItem
+        Caption = 'Penjualan'
+        object InvoicePenjualan1: TMenuItem
+          Caption = 'Invoice Penjualan'
+        end
+        object PembayaranPenjualan1: TMenuItem
+          Caption = 'Pembayaran Penjualan'
+        end
+      end
     end
     object mnSet: TMenuItem
       Caption = 'Setting'

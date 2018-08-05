@@ -118,5 +118,13 @@
     <Transaction>2018/08/04 18.48.21.919.dfm,D:\108 JSP\My Project\05. Felgito\02. Source Code\Unit1.dfm=D:\108 JSP\My Project\05. Felgito\02. Source Code\pengambilanbahanbaku\unFrmPengambilanBahanBaku.dfm</Transaction>
     <Transaction>2018/08/04 21.22.56.297.pas,D:\108 JSP\My Project\05. Felgito\02. Source Code\Unit1.pas=D:\108 JSP\My Project\05. Felgito\02. Source Code\hasilproduksi\unFrmInputHasilProduksi.pas</Transaction>
     <Transaction>2018/08/04 21.22.56.297.dfm,D:\108 JSP\My Project\05. Felgito\02. Source Code\Unit1.dfm=D:\108 JSP\My Project\05. Felgito\02. Source Code\hasilproduksi\unFrmInputHasilProduksi.dfm</Transaction>
+    <Transaction>2018/08/05 22.26.46.983.pas,D:\108 JSP\My Project\05. Felgito\02. Source Code\laporan\unFrmLapTransaksi.pas=D:\108 JSP\My Project\05. Felgito\02. Source Code\laporan\unFrmRptTransaksi.pas</Transaction>
+    <Transaction>2018/08/05 22.26.46.983.dfm,D:\108 JSP\My Project\05. Felgito\02. Source Code\laporan\unFrmLapTransaksi.dfm=D:\108 JSP\My Project\05. Felgito\02. Source Code\laporan\unFrmRptTransaksi.dfm</Transaction>
+    <Transaction>2018/08/05 22.48.44.033.pas,D:\108 JSP\My Project\05. Felgito\02. Source Code\laporan\unFLapParam.pas=</Transaction>
+    <Transaction>2018/08/05 22.48.44.033.dfm,D:\108 JSP\My Project\05. Felgito\02. Source Code\laporan\unFLapParam.dfm=</Transaction>
+    <Transaction>2018/08/05 22.49.36.659.pas,D:\108 JSP\My Project\05. Felgito\02. Source Code\laporan\unFrmLaporan.pas=</Transaction>
+    <Transaction>2018/08/05 22.49.36.659.dfm,D:\108 JSP\My Project\05. Felgito\02. Source Code\laporan\unFrmLaporan.dfm=</Transaction>
+    <Transaction>2018/08/05 22.51.36.458.pas,D:\108 JSP\My Project\05. Felgito\02. Source Code\laporan\unFrmeLapMaster.pas=</Transaction>
+    <Transaction>2018/08/05 22.51.36.458.dfm,D:\108 JSP\My Project\05. Felgito\02. Source Code\laporan\unFrmeLapMaster.dfm=</Transaction>
   </Transactions>
 </BorlandProject>

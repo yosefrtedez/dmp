@@ -60,6 +60,7 @@ begin
     ts := TcxTabSheet.Create(Self);
     ts.PageControl := frmUtama.pgMain;
     f := TfrmInputJurnalUmum.Create(Self);
+    f.FormInduk := Self;
     f.Jenis := 'E';
     f.Caption := 'Edit Jurnal Umum';
     f.EditKey := zqrJurnalUmum.FieldByName('no_jurnal').AsString;
@@ -88,6 +89,7 @@ begin
     ts.PageControl := frmUtama.pgMain;
 
     f := TfrmInputJurnalUmum.Create(Self);
+    f.FormInduk := Self;
     f.Jenis := 'T';
     f.Parent := ts;
     ts.Caption := f.Caption;

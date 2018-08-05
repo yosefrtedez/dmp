@@ -61,6 +61,7 @@ begin
     ts.PageControl := frmUtama.pgMain;
 
     f := TfrmInputUser.Create(Self);
+    f.FormInduk := Self;
     f.Caption := 'Edit User';
     f.Jenis := 'E';
     f.EditKey := zqrUser.FieldByName('nama').AsString;
@@ -89,6 +90,7 @@ begin
     ts.PageControl := frmUtama.pgMain;
 
     f := TfrmInputUser.Create(Self);
+    f.FormInduk := Self;
     f.Jenis := 'T';
     f.Parent := ts;
     ts.Caption := f.Caption;

@@ -160,6 +160,7 @@ begin
 
     f := TfrmInputBarangJasa.Create(Self);
     f.Caption := 'Edit Barang Jasa';
+    f.FormInduk := Self;
     f.Jenis := 'E';
     f.EditKey := zqrBarang.FieldByName('id').AsString;
     f.Parent := ts;
@@ -220,6 +221,7 @@ begin
     ts.PageControl := frmUtama.pgMain;
 
     f := TfrmInputBarangJasa.Create(Self);
+    f.FormInduk := Self;
     f.Jenis := 'T';
     f.Parent := ts;
     ts.Caption := f.Caption;

@@ -67,7 +67,7 @@ var
 
 implementation
 
-uses unDM, unTools;
+uses unDM, unTools, unFrmLstBarangMasuk;
 
 {$R *.dfm}
 
@@ -196,6 +196,8 @@ begin
       qd.Close;
       Self.Jenis := '';
       MsgBox('Transaksi barang masuk sudah disimpan dengan No. Bukti : ' + sNoBukti);
+      if Assigned(Self.FormInduk) then
+        (Self.FormInduk as TfrmLstBarangMasuk).btnRefreshClick(nil);
       btnBatalClick(nil);
     except
       on E: Exception do begin

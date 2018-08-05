@@ -6,6 +6,7 @@ inherited frmLstJurnalUmum: TfrmLstJurnalUmum
   PixelsPerInch = 96
   TextHeight = 13
   inherited Panel2: TPanel
+    TabOrder = 2
     inherited btnTambah: TButton
       OnClick = btnTambahClick
     end
@@ -22,7 +23,8 @@ inherited frmLstJurnalUmum: TfrmLstJurnalUmum
     Width = 1016
     Height = 410
     Align = alClient
-    TabOrder = 2
+    TabOrder = 1
+    ExplicitTop = 43
     object cxtbJurnalUmum: TcxGridDBTableView
       NavigatorButtons.ConfirmDelete = False
       DataController.DataSource = dsJurnalUmum

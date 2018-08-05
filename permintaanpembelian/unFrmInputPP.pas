@@ -81,7 +81,7 @@ var
 implementation
 
 uses
-  unDM, unFrmUtama, unTools, unAplikasi, unFrmCari;
+  unDM, unFrmUtama, unTools, unAplikasi, unFrmCari, unFrmLstPP;
 
 {$R *.dfm}
 
@@ -185,8 +185,12 @@ begin
       qh.Close;
       qd.Close;
       dm.zConn.Commit;
-      MsgBox('Transaksi permintaan pembelian sudah disimpan dengan No. Bukti : ' + sNoBukti);
 
+      if Assigned(Self.FormInduk) then
+        (Self.FormInduk as TFrmLstPP).btnRefreshClick(nil);
+
+      MsgBox('Transaksi permintaan pembelian sudah disimpan dengan No. Bukti : ' + sNoBukti);
+      btnBatalClick(nil);
     except
       on E: Exception do begin
         dm.zConn.Rollback;

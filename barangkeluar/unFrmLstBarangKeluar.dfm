@@ -35,11 +35,9 @@ inherited frmLstBarangKeluar: TfrmLstBarangKeluar
     end
     inherited btnKeluar: TButton
       Left = 980
-      TabOrder = 4
       ExplicitLeft = 980
     end
     inherited btnRefresh: TButton
-      TabOrder = 3
       OnClick = btnRefreshClick
     end
   end

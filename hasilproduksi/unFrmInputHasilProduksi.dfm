@@ -2,6 +2,7 @@ inherited frmInputHasilProduksi: TfrmInputHasilProduksi
   Caption = 'Input Hasil Produksi'
   ClientHeight = 653
   ClientWidth = 1011
+  OnCreate = FormCreate
   ExplicitWidth = 1011
   ExplicitHeight = 653
   PixelsPerInch = 96
@@ -78,6 +79,7 @@ inherited frmInputHasilProduksi: TfrmInputHasilProduksi
     TabOrder = 2
     object cxtbSPK: TcxGridDBTableView
       NavigatorButtons.ConfirmDelete = False
+      OnFocusedRecordChanged = cxtbSPKFocusedRecordChanged
       DataController.DataSource = dsSPK
       DataController.Summary.DefaultGroupSummaryItems = <>
       DataController.Summary.FooterSummaryItems = <>
@@ -103,6 +105,11 @@ inherited frmInputHasilProduksi: TfrmInputHasilProduksi
         Caption = 'No. SO'
         DataBinding.FieldName = 'no_so'
       end
+      object cxtbSPKColumn4: TcxGridDBColumn
+        Caption = 'Kode Brg.'
+        DataBinding.FieldName = 'kode_brg'
+        Width = 85
+      end
       object cxtbSPKdeskripsi: TcxGridDBColumn
         Caption = 'Deskripsi'
         DataBinding.FieldName = 'deskripsi'
@@ -110,10 +117,20 @@ inherited frmInputHasilProduksi: TfrmInputHasilProduksi
       end
       object cxtbSPKColumn1: TcxGridDBColumn
         Caption = 'Qty. SPK'
+        DataBinding.FieldName = 'qty_spk'
+        PropertiesClassName = 'TcxSpinEditProperties'
+        Properties.DisplayFormat = '#,#0.00'
       end
       object cxtbSPKColumn2: TcxGridDBColumn
         Caption = 'Total Hasil Prod.'
+        DataBinding.FieldName = 'qty_prod'
+        PropertiesClassName = 'TcxSpinEditProperties'
+        Properties.DisplayFormat = '#,#0.00'
         Width = 94
+      end
+      object cxtbSPKColumn3: TcxGridDBColumn
+        Caption = 'Satuan'
+        DataBinding.FieldName = 'satuan'
       end
     end
     object cxGrid1Level1: TcxGridLevel
@@ -128,14 +145,15 @@ inherited frmInputHasilProduksi: TfrmInputHasilProduksi
     Align = alTop
     TabOrder = 3
   end
-  object cxGrid2: TcxGrid
+  object cxGrid3: TcxGrid
     Left = 0
     Top = 280
     Width = 1011
     Height = 129
     Align = alTop
     TabOrder = 4
-    object cxtbBOM: TcxGridDBTableView
+    ExplicitTop = 288
+    object cxtbHslProd: TcxGridTableView
       NavigatorButtons.ConfirmDelete = False
       NavigatorButtons.PriorPage.Visible = False
       NavigatorButtons.NextPage.Visible = False
@@ -148,87 +166,142 @@ inherited frmInputHasilProduksi: TfrmInputHasilProduksi
       DataController.Summary.DefaultGroupSummaryItems = <>
       DataController.Summary.FooterSummaryItems = <>
       DataController.Summary.SummaryGroups = <>
+      DataController.OnAfterPost = cxtbHslProdDataControllerAfterPost
+      DataController.OnBeforeDelete = cxtbHslProdDataControllerBeforeDelete
+      DataController.OnBeforePost = cxtbHslProdDataControllerBeforePost
+      DataController.OnNewRecord = cxtbHslProdDataControllerNewRecord
       OptionsData.Appending = True
-      OptionsData.Inserting = False
       OptionsView.Navigator = True
       OptionsView.GroupByBox = False
-      object cxColTanggal: TcxGridDBColumn
+      object cxtbHslProdColumn1: TcxGridColumn
         Caption = 'Tanggal'
-        DataBinding.ValueType = 'DateTime'
-        PropertiesClassName = 'TcxDateEditProperties'
-        Width = 72
+        Visible = False
       end
-      object cxColJam: TcxGridDBColumn
+      object cxColJam1: TcxGridColumn
         Caption = 'Jam Awal'
         DataBinding.ValueType = 'DateTime'
         PropertiesClassName = 'TcxDateEditProperties'
-        Width = 70
+        Properties.Kind = ckDateTime
+        Width = 118
       end
-      object cxtbBOMColumn2: TcxGridDBColumn
+      object cxColJam2: TcxGridColumn
         Caption = 'Jam Akhir'
         DataBinding.ValueType = 'DateTime'
         PropertiesClassName = 'TcxDateEditProperties'
-        Width = 68
+        Properties.Kind = ckDateTime
+        Width = 126
       end
-      object cxtbBOMColumn1: TcxGridDBColumn
+      object cxColShift: TcxGridColumn
         Caption = 'Shift'
-        DataBinding.ValueType = 'Integer'
         PropertiesClassName = 'TcxComboBoxProperties'
+        Properties.DropDownListStyle = lsEditFixedList
         Properties.Items.Strings = (
           '1'
           '2'
           '3')
-        Width = 86
       end
-      object cxtbBOMColumn3: TcxGridDBColumn
+      object cxColMesin: TcxGridColumn
         Caption = 'Mesin'
-        Width = 78
+        PropertiesClassName = 'TcxLookupComboBoxProperties'
+        Properties.DropDownAutoSize = True
+        Properties.KeyFieldNames = 'id'
+        Properties.ListColumns = <
+          item
+            Caption = 'Mesin'
+            FieldName = 'kode'
+          end>
+        Properties.ListSource = dsMesin
+        Width = 80
       end
-      object cxColQtySPK: TcxGridDBColumn
-        Caption = 'Qty. Hasil Prod.'
+      object cxColOperator: TcxGridColumn
+        Caption = 'Operator'
+        PropertiesClassName = 'TcxMemoProperties'
+        Width = 121
+      end
+      object cxColQtyProd: TcxGridColumn
+        Caption = 'Qty. Hasil Prod'
         DataBinding.ValueType = 'Float'
         PropertiesClassName = 'TcxSpinEditProperties'
         Properties.DisplayFormat = '#,#0.00'
         Properties.ValueType = vtFloat
-        Width = 97
+        Width = 94
       end
-      object cxtbBOMColumn5: TcxGridDBColumn
+      object cxColSatBJ: TcxGridColumn
         Caption = 'Satuan'
+        PropertiesClassName = 'TcxLookupComboBoxProperties'
+        Properties.KeyFieldNames = 'id'
+        Properties.ListColumns = <
+          item
+            Caption = 'Satuan'
+            FieldName = 'satuan'
+          end>
+        Properties.ListSource = dsSatuan
+        Properties.ReadOnly = True
+        Width = 73
       end
-      object cxtbBOMColumn7: TcxGridDBColumn
+      object cxColGdgBJ: TcxGridColumn
         Caption = 'Gudang BJ'
+        DataBinding.ValueType = 'Integer'
+        PropertiesClassName = 'TcxLookupComboBoxProperties'
+        Properties.KeyFieldNames = 'id'
+        Properties.ListColumns = <
+          item
+            Caption = 'Gudang'
+            FieldName = 'kode'
+          end>
+        Properties.ListSource = dsGdg
+        Width = 73
       end
-      object cxtbBOMColumn6: TcxGridDBColumn
+      object cxColQtyAfal: TcxGridColumn
         Caption = 'Qty. Afal'
         DataBinding.ValueType = 'Float'
         PropertiesClassName = 'TcxSpinEditProperties'
+        Properties.DisplayFormat = '#,#0.00'
+        Visible = False
         Width = 69
       end
-      object cxColSatuan: TcxGridDBColumn
+      object cxColSatAfal: TcxGridColumn
         Caption = 'Satuan'
-        DataBinding.ValueType = 'String'
+        DataBinding.ValueType = 'Integer'
+        PropertiesClassName = 'TcxLookupComboBoxProperties'
+        Properties.KeyFieldNames = 'id'
+        Properties.ListColumns = <
+          item
+            Caption = 'Satuan'
+            FieldName = 'satuan'
+          end>
+        Properties.ListSource = dsSatuan
+        Visible = False
       end
-      object cxtbBOMColumn8: TcxGridDBColumn
+      object cxColGdgAfal: TcxGridColumn
         Caption = 'Gudang Afal'
-        Width = 70
+        PropertiesClassName = 'TcxLookupComboBoxProperties'
+        Properties.KeyFieldNames = 'id'
+        Properties.ListColumns = <
+          item
+            Caption = 'Kode'
+            FieldName = 'kode'
+          end>
+        Properties.ListSource = dsGdg
+        Visible = False
+        Width = 79
       end
-      object cxtbBOMColumn4: TcxGridDBColumn
+      object cxColStatus: TcxGridColumn
         Caption = 'Status'
         DataBinding.ValueType = 'Integer'
         PropertiesClassName = 'TcxCheckBoxProperties'
         Properties.ValueChecked = 1
         Properties.ValueUnchecked = 0
       end
-      object cxColIdBrg: TcxGridDBColumn
-        DataBinding.ValueType = 'Integer'
-        PropertiesClassName = 'TcxSpinEditProperties'
+      object cxColIdSat: TcxGridColumn
+        Visible = False
       end
-      object cxColIdSatuan: TcxGridDBColumn
-        DataBinding.ValueType = 'Integer'
+      object cxColIdGdg: TcxGridColumn
+        Visible = False
       end
     end
-    object cxGridLevel1: TcxGridLevel
-      GridView = cxtbBOM
+    object cxGridLevel2: TcxGridLevel
+      GridView = cxtbHslProd
     end
   end
   object dsSPK: TDataSource
@@ -238,12 +311,18 @@ inherited frmInputHasilProduksi: TfrmInputHasilProduksi
   end
   object zqrSPK: TZReadOnlyQuery
     Connection = DM.zConn
-    Active = True
     SQL.Strings = (
-      'SELECT a.id, a.no_spk, a.tanggal, b.no_mo, b.no_so, c.deskripsi'
+      
+        'SELECT a.id, a.no_spk, a.tanggal, b.no_mo, b.no_so, c.deskripsi,' +
+        ' c.id_satuan, a.qty qty_spk, d.satuan,c.kode kode_brg,c.id id_br' +
+        'g, b.id_so,'
+      
+        'IFNULL((SELECT SUM(qty_prod) FROM tbl_hsl_prd WHERE id_spk = a.i' +
+        'd),0) qty_prod '
       'FROM tbl_spk a '
       'LEFT JOIN tbl_mo b on a.id_mo = b.id'
       'LEFT JOIN tbl_barang c on b.id_brg = c.id'
+      'LEFT JOIN tbl_satuan d on d.id = c.id_satuan'
       'WHERE a.tanggal BETWEEN :tgl1 AND :tgl2')
     Params = <
       item
@@ -269,5 +348,49 @@ inherited frmInputHasilProduksi: TfrmInputHasilProduksi
         Name = 'tgl2'
         ParamType = ptUnknown
       end>
+  end
+  object dsMesin: TDataSource
+    DataSet = zqrMesin
+    Left = 816
+    Top = 24
+  end
+  object zqrMesin: TZReadOnlyQuery
+    Connection = DM.zConn
+    Active = True
+    SQL.Strings = (
+      'SELECT id, kode, nama '
+      'FROM tbl_mesin'
+      'ORDER BY nama')
+    Params = <>
+    Left = 896
+    Top = 24
+  end
+  object dsSatuan: TDataSource
+    DataSet = zqrSatuan
+    Left = 480
+    Top = 24
+  end
+  object zqrSatuan: TZReadOnlyQuery
+    Connection = DM.zConn
+    SQL.Strings = (
+      'SELECT id, satuan '
+      'FROM tbl_satuan')
+    Params = <>
+    Left = 560
+    Top = 24
+  end
+  object dsGdg: TDataSource
+    DataSet = zqrGdg
+    Left = 336
+    Top = 8
+  end
+  object zqrGdg: TZReadOnlyQuery
+    Connection = DM.zConn
+    SQL.Strings = (
+      'select id, kode, nama '
+      'FROM tbl_gudang')
+    Params = <>
+    Left = 416
+    Top = 8
   end
 end

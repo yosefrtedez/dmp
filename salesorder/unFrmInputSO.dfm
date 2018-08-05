@@ -28,7 +28,7 @@ inherited frmInputSO: TfrmInputSO
   inherited Panel2: TPanel
     Top = 677
     Width = 1048
-    TabOrder = 25
+    TabOrder = 23
     ExplicitTop = 677
     ExplicitWidth = 1048
     inherited btnSimpan: TButton
@@ -122,14 +122,14 @@ inherited frmInputSO: TfrmInputSO
       end>
     Properties.ListOptions.SyncMode = True
     Properties.ListSource = dsSales
-    TabOrder = 13
+    TabOrder = 11
     Width = 299
   end
   object GroupBox1: TGroupBox
     Left = 690
-    Top = 52
-    Width = 270
-    Height = 93
+    Top = 55
+    Width = 279
+    Height = 126
     Color = clBtnFace
     ParentBackground = False
     ParentColor = False
@@ -159,8 +159,8 @@ inherited frmInputSO: TfrmInputSO
       Width = 121
     end
     object cxLabel9: TcxLabel
-      Left = 19
-      Top = 43
+      Left = 17
+      Top = 39
       Caption = 'Tax'
     end
     object cxCmbTax: TcxComboBox
@@ -192,18 +192,18 @@ inherited frmInputSO: TfrmInputSO
       Text = '0D'
       Width = 89
     end
-  end
-  object cxLabel4: TcxLabel
-    Left = 687
-    Top = 151
-    Caption = 'Tgl. Permintaan Kirim'
-  end
-  object cxdTglRequaired: TcxDateEdit
-    Left = 797
-    Top = 151
-    Properties.ReadOnly = False
-    TabOrder = 12
-    Width = 160
+    object cxLabel4: TcxLabel
+      Left = 15
+      Top = 94
+      Caption = 'Tgl. Permintaan Kirim'
+    end
+    object cxdTglRequaired: TcxDateEdit
+      Left = 128
+      Top = 92
+      Properties.ReadOnly = False
+      TabOrder = 7
+      Width = 121
+    end
   end
   object cxLabel11: TcxLabel
     Left = 710
@@ -218,7 +218,7 @@ inherited frmInputSO: TfrmInputSO
     Properties.ReadOnly = True
     Properties.ValueType = vtFloat
     Style.HotTrack = True
-    TabOrder = 17
+    TabOrder = 15
     Width = 161
   end
   object cxLabel12: TcxLabel
@@ -234,7 +234,7 @@ inherited frmInputSO: TfrmInputSO
     Properties.ReadOnly = True
     Properties.ValueType = vtFloat
     Style.HotTrack = True
-    TabOrder = 19
+    TabOrder = 17
     Width = 161
   end
   object cxLabel5: TcxLabel
@@ -250,7 +250,7 @@ inherited frmInputSO: TfrmInputSO
     Properties.ReadOnly = True
     Properties.ValueType = vtFloat
     Style.HotTrack = True
-    TabOrder = 21
+    TabOrder = 19
     Width = 161
   end
   object cxLabel6: TcxLabel
@@ -266,7 +266,7 @@ inherited frmInputSO: TfrmInputSO
     Properties.ReadOnly = True
     Properties.ValueType = vtFloat
     Style.HotTrack = True
-    TabOrder = 23
+    TabOrder = 21
     Width = 161
   end
   object cxGrid1: TcxGrid
@@ -275,7 +275,7 @@ inherited frmInputSO: TfrmInputSO
     Width = 1032
     Height = 200
     Anchors = [akLeft, akTop, akRight]
-    TabOrder = 15
+    TabOrder = 13
     object cxTblSO: TcxGridTableView
       NavigatorButtons.ConfirmDelete = False
       NavigatorButtons.Insert.Visible = False
@@ -468,7 +468,7 @@ inherited frmInputSO: TfrmInputSO
     Width = 1032
     Height = 200
     Anchors = [akLeft, akTop, akRight]
-    TabOrder = 18
+    TabOrder = 16
     object cxtbMTS: TcxGridTableView
       NavigatorButtons.ConfirmDelete = False
       NavigatorButtons.Insert.Visible = False

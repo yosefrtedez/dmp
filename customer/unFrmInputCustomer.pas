@@ -128,7 +128,8 @@ begin
   end;
 
   ClearAll;
-  (Self.FormInduk as TfrmLstCustomer).btnRefreshClick(nil);
+  if Assigned(Self.FormInduk) then
+    (Self.FormInduk as TfrmLstCustomer).btnRefreshClick(nil);
   btnBatalClick(nil);
 end;
 

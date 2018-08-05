@@ -85,6 +85,7 @@ begin
     ts := TcxTabSheet.Create(Self);
     ts.PageControl := frmUtama.pgMain;
     f := TfrmInputTransferBarang.Create(Self);
+    f.FormInduk := Self;
     f.Jenis := 'E';
     f.EditKey := zqrTransBarang.FieldByName('no_bukti').AsString;
     f.Parent := ts;
@@ -146,6 +147,7 @@ begin
     ts.PageControl := frmUtama.pgMain;
 
     f := TfrmInputTransferBarang.Create(Self);
+    f.FormInduk := Self;
     f.Jenis := 'T';
     f.Parent := ts;
     ts.Caption := f.Caption;

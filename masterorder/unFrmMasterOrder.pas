@@ -23,7 +23,7 @@ type
   TfrmMasterOrder = class(TfrmTplInput)
     Label13: TLabel;
     Panel3: TPanel;
-    cxGrid1DBTableView1: TcxGridDBTableView;
+    cxtbMO: TcxGridDBTableView;
     cxGrid1Level1: TcxGridLevel;
     cxGrid1: TcxGrid;
     Panel4: TPanel;
@@ -37,17 +37,17 @@ type
     btnProses: TButton;
     zqrMO: TZReadOnlyQuery;
     dsMO: TDataSource;
-    cxGrid1DBTableView1no_mo: TcxGridDBColumn;
-    cxGrid1DBTableView1no_so: TcxGridDBColumn;
-    cxGrid1DBTableView1no_spk: TcxGridDBColumn;
-    cxGrid1DBTableView1tgl_spk: TcxGridDBColumn;
-    cxGrid1DBTableView1kode_brg: TcxGridDBColumn;
-    cxGrid1DBTableView1qty_mo: TcxGridDBColumn;
-    cxGrid1DBTableView1qty_so: TcxGridDBColumn;
-    cxGrid1DBTableView1deskripsi: TcxGridDBColumn;
-    cxGrid1DBTableView1tanggal: TcxGridDBColumn;
-    cxGrid1DBTableView1kode_customer: TcxGridDBColumn;
-    cxGrid1DBTableView1nama_customer: TcxGridDBColumn;
+    cxtbMOno_mo: TcxGridDBColumn;
+    cxtbMOno_so: TcxGridDBColumn;
+    cxtbMOno_spk: TcxGridDBColumn;
+    cxtbMOtgl_spk: TcxGridDBColumn;
+    cxtbMOkode_brg: TcxGridDBColumn;
+    cxtbMOqty_mo: TcxGridDBColumn;
+    cxtbMOqty_so: TcxGridDBColumn;
+    cxtbMOdeskripsi: TcxGridDBColumn;
+    cxtbMOtanggal: TcxGridDBColumn;
+    cxtbMOkode_customer: TcxGridDBColumn;
+    cxtbMOnama_customer: TcxGridDBColumn;
     Panel5: TPanel;
     cxtbSPK: TcxGridDBTableView;
     cxGrid2Level1: TcxGridLevel;
@@ -90,6 +90,7 @@ procedure TfrmMasterOrder.Button1Click(Sender: TObject);
 var
   f: TFrmSPK;
   ts: TcxTabSheet;
+  q: TZQuery;
 begin
   if not frmUtama.CekTabOpen('Surat Perintah Kerja (SPK)') then begin
     frmUtama.ToggleMainPage;
@@ -101,6 +102,14 @@ begin
     if not zqrMO.FieldByName('id_spk').IsNull then begin
       f.IDSPK := zqrMO.FieldByName('id_spk').AsInteger;
       f.Jenis := 'E';
+
+      q := OpenRS('SELECT id_spk FROM tbl_history WHERE id_spk = %d', [zqrMO.FieldByName('id_spk').AsInteger]);
+      if not q.IsEmpty then begin
+        MsgBox('SPK ini tidak bisa di edit karena sudah ada transaksi (pengambilan bahan baku / hasil produksi).');
+        f.Editable := False;
+      end;
+      q.Close;
+
     end;
     f.IDSO := zqrMO.FieldByName('id_so').AsInteger;
     f.IDMO := zqrMO.FieldByName('id').AsInteger;

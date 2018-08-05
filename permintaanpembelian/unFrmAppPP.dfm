@@ -85,6 +85,8 @@ inherited frmAppPP: TfrmAppPP
       object cxColPPLevel1_f_app: TcxGridDBColumn
         Caption = 'Approval'
         DataBinding.FieldName = 'f_app'
+        PropertiesClassName = 'TcxCheckBoxProperties'
+        Visible = False
         Options.Editing = False
       end
     end

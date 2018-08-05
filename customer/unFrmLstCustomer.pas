@@ -68,7 +68,9 @@ begin
     ts := TcxTabSheet.Create(Self);
     ts.PageControl := frmUtama.pgMain;
     f := TfrmInputCustomer.Create(Self);
+    f.FormInduk := Self;
     f.Jenis := 'E';
+    f.FormInduk := Self;
     f.Caption := 'Edit Customer';
     f.EditKey := zqrCustomer.FieldByName('kode').AsString;
     f.Parent := ts;

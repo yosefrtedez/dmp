@@ -9,11 +9,27 @@ inherited frmMenuLaporan: TfrmMenuLaporan
   TextHeight = 13
   inherited Panel1: TPanel
     Width = 1085
+    ExplicitWidth = 1085
+    object Label1: TLabel
+      Left = 10
+      Top = 16
+      Width = 66
+      Height = 19
+      Caption = 'Laporan'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -16
+      Font.Name = 'Tahoma'
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
   end
   inherited Panel2: TPanel
     Top = 649
     Width = 1085
     TabOrder = 3
+    ExplicitTop = 649
+    ExplicitWidth = 1085
   end
   object ScrollBox1: TScrollBox
     Left = 0
@@ -41,6 +57,7 @@ inherited frmMenuLaporan: TfrmMenuLaporan
       Height = 43
       Caption = 'Transaksi'
       TabOrder = 1
+      OnClick = btnTransaksiClick
     end
   end
   object pg: TcxPageControl
@@ -51,8 +68,6 @@ inherited frmMenuLaporan: TfrmMenuLaporan
     Align = alClient
     Style = 6
     TabOrder = 2
-    ExplicitLeft = 212
-    ExplicitTop = 43
     ClientRectBottom = 600
     ClientRectRight = 870
     ClientRectTop = 0

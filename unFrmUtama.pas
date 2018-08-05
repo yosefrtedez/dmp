@@ -80,6 +80,12 @@ type
     mnWhl_Koreksi: TMenuItem;
     mnPrd_LapPengambilanBB: TMenuItem;
     mnPrd_LapInputHP: TMenuItem;
+    Pembelian1: TMenuItem;
+    Penjualan1: TMenuItem;
+    InvoicePembelian1: TMenuItem;
+    PembayaranPembelian1: TMenuItem;
+    InvoicePenjualan1: TMenuItem;
+    PembayaranPenjualan1: TMenuItem;
     procedure FormShow(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure mnMst_BarangJasaClick(Sender: TObject);
@@ -144,7 +150,7 @@ uses
   unFrmLstPengeluaranKas, unFrmLstTransferBarang, unFrmLstSales,
   unFrmLstFormula, unFrmAppPO, unFrmLstReturPembelian, unFrmAppRetur,
   unFrmInputBarangMasuk, unFrmLstBarangMasuk, unFrmLstBarangKeluar,
-  unFrmLaporan, unFrmKalkulasiStok, unFrmLstKoreksi, unFrmMenuLaporan,
+  unFrmKalkulasiStok, unFrmLstKoreksi, unFrmMenuLaporan,
   unFrmPengambilanBahanBaku, unFrmInputHasilProduksi;
 
 {$R *.dfm}
@@ -279,6 +285,7 @@ begin
 end;
 
 procedure TfrmUtama.mnLapClick(Sender: TObject);
+{
 var
   f: TfrmLaporan;
   ts: TcxTabSheet;
@@ -296,8 +303,7 @@ begin
     pgMain.ActivePage := ts;
   end;
 end;
-
-{
+}
 var
   f: TfrmMenuLaporan;
   ts: TcxTabSheet;
@@ -315,7 +321,6 @@ begin
     pgMain.ActivePage := ts;
   end;
 end;
-}
 
 procedure TfrmUtama.mnMkt_SalesOrderClick(Sender: TObject);
 var

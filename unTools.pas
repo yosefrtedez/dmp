@@ -316,7 +316,7 @@ begin
     depan := 'SJU/'
   else if sTipe = 'po_peletan' then
     depan := 'POP/'
-  else if sTipe = 'hasil_produksi' then
+  else if sTipe = 'hasil-produksi' then
     depan := 'HPR/'
   else if sTipe = 'retur-pemb' then
     depan := 'RB/'

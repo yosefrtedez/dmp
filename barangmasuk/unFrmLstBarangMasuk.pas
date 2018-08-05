@@ -102,6 +102,7 @@ begin
     end;
     f := TfrmInputBarangMasuk.Create(Self);
     ts.Caption := 'Edit Barang Masuk';
+    f.FormInduk := Self;
     f.Jenis := 'E';
     f.EditKey := zqrBarangMasuk.FieldByName('id').AsString;
     f.Parent := ts;
@@ -230,6 +231,7 @@ begin
     ts := TcxTabSheet.Create(Self);
     ts.PageControl := frmUtama.pgMain;
     f := TfrmInputBarangMasuk.Create(Self);
+    f.FormInduk := Self;
     f.Jenis := 'T';
     f.Parent := ts;
     ts.Caption := f.Caption;

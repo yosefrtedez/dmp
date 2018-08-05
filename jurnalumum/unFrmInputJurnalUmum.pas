@@ -65,7 +65,7 @@ var
 
 implementation
 
-uses unTools, unDM;
+uses unTools, unDM, unFrmLstJurnalUmum;
 
 {$R *.dfm}
 
@@ -183,6 +183,9 @@ begin
         dm.zConn.Commit;
 
         MsgBox('Transaksi jurnal umum sudah disimpan dengan No. Bukti : ' + sNoBukti);
+
+        if Assigned(Self.FormInduk) then
+          (Self.FormInduk as TfrmLstJurnalUmum).btnRefreshClick(nil);
 
       except
         on E: Exception do begin

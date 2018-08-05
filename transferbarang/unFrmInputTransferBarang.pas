@@ -212,6 +212,8 @@ begin
       Close;
       MsgBox('Mutasi Barang sudah disimpan dengan nomor : ' + sNoTrs);
       cxTblTransBarang.DataController.RecordCount := 0;
+      if Assigned(Self.FormInduk) then
+        (Self.FormInduk as TfrmLstTransferBarang).btnRefreshClick(nil);
       btnBatalClick(nil);
       dm.zConn.Commit;
 

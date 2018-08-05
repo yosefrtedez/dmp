@@ -96,7 +96,7 @@ var
 implementation
 
 uses
-  unFrmUtama, unDM, unAplikasi, unTools;
+  unFrmUtama, unDM, unAplikasi, unTools, unFrmLstPO;
 
 {$R *.dfm}
 
@@ -241,6 +241,10 @@ begin
       qd.Close;
       Self.Jenis := '';
       MsgBox('Transaksi Purchase Order sudah disimpan dengan No. Bukti : ' + sNoBukti);
+
+      if Assigned(Self.FormInduk) then
+        (Self.FormInduk as TfrmLstPO).btnRefreshClick(nil);
+
       btnBatalClick(nil);
     except
       on E: Exception do begin

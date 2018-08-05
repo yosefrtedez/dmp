@@ -26,13 +26,11 @@ inherited frmLstUser: TfrmLstUser
       OnClick = btnTambahClick
     end
     inherited btnEdit: TButton
+      Top = 6
       OnClick = btnEditClick
-    end
-    inherited btnKeluar: TButton
-      TabOrder = 4
+      ExplicitTop = 6
     end
     inherited btnRefresh: TButton
-      TabOrder = 3
       OnClick = btnRefreshClick
     end
   end
@@ -43,7 +41,6 @@ inherited frmLstUser: TfrmLstUser
     Height = 361
     Align = alClient
     TabOrder = 1
-    ExplicitTop = 43
     object cxtbUser: TcxGridDBTableView
       NavigatorButtons.ConfirmDelete = False
       DataController.DataSource = dsUser
@@ -80,7 +77,6 @@ inherited frmLstUser: TfrmLstUser
     Height = 49
     Align = alBottom
     TabOrder = 2
-    ExplicitTop = 418
     object Button1: TButton
       Left = 10
       Top = 12

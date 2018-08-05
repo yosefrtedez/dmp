@@ -50,20 +50,20 @@ inherited frmInputKaryawan: TfrmInputKaryawan
     Left = 83
     Top = 63
     Properties.CharCase = ecUpperCase
-    TabOrder = 3
+    TabOrder = 2
     Width = 99
   end
   object cxtNama: TcxTextEdit
     Left = 83
     Top = 90
     Properties.CharCase = ecUpperCase
-    TabOrder = 4
+    TabOrder = 5
     Width = 238
   end
   object cxtFoto: TcxTextEdit
     Left = 445
     Top = 259
-    TabOrder = 5
+    TabOrder = 14
     Visible = False
     Width = 248
   end
@@ -83,7 +83,7 @@ inherited frmInputKaryawan: TfrmInputKaryawan
     Width = 59
     Height = 26
     Caption = 'Cari Foto'
-    TabOrder = 8
+    TabOrder = 13
     Visible = False
     OnClick = btn1Click
   end
@@ -101,7 +101,7 @@ inherited frmInputKaryawan: TfrmInputKaryawan
     Left = 192
     Top = 63
     Caption = 'Aktif'
-    TabOrder = 11
+    TabOrder = 3
     Width = 82
   end
   object cxcboJabatan: TcxLookupComboBox
@@ -114,7 +114,7 @@ inherited frmInputKaryawan: TfrmInputKaryawan
         FieldName = 'jabatan'
       end>
     Properties.ListSource = dsJabatan
-    TabOrder = 12
+    TabOrder = 7
     Width = 183
   end
   object cxcboDepartemen: TcxLookupComboBox
@@ -128,14 +128,14 @@ inherited frmInputKaryawan: TfrmInputKaryawan
       end>
     Properties.ListSource = dsDepartemen
     Properties.OnChange = cxcboDepartemenPropertiesChange
-    TabOrder = 13
+    TabOrder = 9
     OnClick = cxcboDepartemenClick
     Width = 183
   end
   object cxCboDivisi: TcxComboBox
     Left = 83
     Top = 171
-    TabOrder = 14
+    TabOrder = 11
     Width = 200
   end
   object dlgOpen1: TOpenDialog

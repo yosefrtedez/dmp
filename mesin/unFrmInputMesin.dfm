@@ -44,7 +44,7 @@ inherited frmInputMesin: TfrmInputMesin
     Left = 146
     Top = 64
     Properties.CharCase = ecUpperCase
-    TabOrder = 3
+    TabOrder = 2
     Width = 216
   end
   object cxChkAktif: TcxCheckBox
@@ -66,7 +66,7 @@ inherited frmInputMesin: TfrmInputMesin
     Left = 146
     Top = 89
     Properties.CharCase = ecUpperCase
-    TabOrder = 6
+    TabOrder = 5
     Width = 336
   end
   object cxLabel4: TcxLabel
@@ -86,7 +86,7 @@ inherited frmInputMesin: TfrmInputMesin
         FieldName = 'lokasi'
       end>
     Properties.ListSource = dsLokasi
-    TabOrder = 8
+    TabOrder = 7
     Width = 236
   end
   object cxLabel2: TcxLabel
@@ -100,7 +100,7 @@ inherited frmInputMesin: TfrmInputMesin
     Left = 146
     Top = 139
     Properties.DropDownListStyle = lsEditFixedList
-    TabOrder = 10
+    TabOrder = 9
     Width = 236
   end
   object cxLabel7: TcxLabel
@@ -116,7 +116,7 @@ inherited frmInputMesin: TfrmInputMesin
     Properties.DisplayFormat = '#,##0.00'
     Properties.EditFormat = '#,##0.00'
     Properties.ValueType = vtFloat
-    TabOrder = 12
+    TabOrder = 11
     Width = 76
   end
   object cxLabel8: TcxLabel
@@ -132,7 +132,7 @@ inherited frmInputMesin: TfrmInputMesin
     Properties.DisplayFormat = '#,##0.00'
     Properties.EditFormat = '#,##0.00'
     Properties.ValueType = vtFloat
-    TabOrder = 14
+    TabOrder = 12
     Width = 76
   end
   object cxsHeater: TcxSpinEdit
@@ -141,7 +141,7 @@ inherited frmInputMesin: TfrmInputMesin
     Properties.DisplayFormat = '#,##0.00'
     Properties.EditFormat = '#,##0.00'
     Properties.ValueType = vtFloat
-    TabOrder = 15
+    TabOrder = 16
     Width = 76
   end
   object cxLabel13: TcxLabel
@@ -157,7 +157,7 @@ inherited frmInputMesin: TfrmInputMesin
     Properties.DisplayFormat = '#,##0.00'
     Properties.EditFormat = '#,##0.00'
     Properties.ValueType = vtFloat
-    TabOrder = 17
+    TabOrder = 15
     Width = 76
   end
   object cxLabel9: TcxLabel
@@ -180,7 +180,7 @@ inherited frmInputMesin: TfrmInputMesin
     Properties.DisplayFormat = '#,##0.00'
     Properties.EditFormat = '#,##0.00'
     Properties.ValueType = vtFloat
-    TabOrder = 20
+    TabOrder = 19
     Width = 76
   end
   object cxLabel14: TcxLabel
@@ -196,7 +196,7 @@ inherited frmInputMesin: TfrmInputMesin
     Properties.DisplayFormat = '#,##0.00'
     Properties.EditFormat = '#,##0.00'
     Properties.ValueType = vtFloat
-    TabOrder = 22
+    TabOrder = 20
     Width = 76
   end
   object cxlSatuan: TcxComboBox
@@ -224,7 +224,7 @@ inherited frmInputMesin: TfrmInputMesin
     Properties.DisplayFormat = '#,##0.00'
     Properties.EditFormat = '#,##0.00'
     Properties.ValueType = vtFloat
-    TabOrder = 25
+    TabOrder = 24
     Width = 76
   end
   object cxLabel11: TcxLabel
@@ -247,7 +247,7 @@ inherited frmInputMesin: TfrmInputMesin
     Properties.DisplayFormat = '#,##0.00'
     Properties.EditFormat = '#,##0.00'
     Properties.ValueType = vtFloat
-    TabOrder = 28
+    TabOrder = 27
     Width = 76
   end
   object cxLabel16: TcxLabel
@@ -263,7 +263,7 @@ inherited frmInputMesin: TfrmInputMesin
     Properties.DisplayFormat = '#,##0.00'
     Properties.EditFormat = '#,##0.00'
     Properties.ValueType = vtFloat
-    TabOrder = 30
+    TabOrder = 28
     Width = 76
   end
   object cxsDie: TcxSpinEdit

@@ -147,9 +147,6 @@
 			<DCCReference Include="penerimaanpengeluarankas\unFrmInputPenerimaanKas.pas">
 				<Form>frmInputPenerimaanKas</Form>
 			</DCCReference>
-			<DCCReference Include="laporan\unFrmLaporan.pas">
-				<Form>frmLaporan</Form>
-			</DCCReference>
 			<DCCReference Include="penerimaanpengeluarankas\unFrmLstPenerimaanKas.pas">
 				<Form>frmLstPenerimaanKas</Form>
 			</DCCReference>
@@ -219,12 +216,8 @@
 			<DCCReference Include="laporan\unFrmLapMasterData.pas">
 				<Form>frmLapMasterData</Form>
 			</DCCReference>
-			<DCCReference Include="laporan\unFLapParam.pas">
-				<Form>Frame1</Form>
-				<DesignClass>TFrame</DesignClass>
-			</DCCReference>
-			<DCCReference Include="laporan\unFrmLapTransaksi.pas">
-				<Form>frmLapTransaksi</Form>
+			<DCCReference Include="laporan\unFrmRptTransaksi.pas">
+				<Form>frmRptTransaksi</Form>
 			</DCCReference>
 			<DCCReference Include="barangkeluar\unFrmPilihHarga.pas">
 				<Form>frmPilihHarga</Form>
@@ -254,10 +247,6 @@
 				<Form>frmeTplLap</Form>
 				<DesignClass>TFrame</DesignClass>
 			</DCCReference>
-			<DCCReference Include="laporan\unFrmeLapMaster.pas">
-				<Form>frmeLapMaster</Form>
-				<DesignClass>TFrame</DesignClass>
-			</DCCReference>
 			<DCCReference Include="laporan\unFrmLapMaster.pas">
 				<Form>frmLapMaster</Form>
 			</DCCReference>
@@ -272,6 +261,9 @@
 			</DCCReference>
 			<DCCReference Include="hasilproduksi\unFrmInputHasilProduksi.pas">
 				<Form>frmInputHasilProduksi</Form>
+			</DCCReference>
+			<DCCReference Include="laporan\unFrmLapTransaksi.pas">
+				<Form>frmLapTransaksi</Form>
 			</DCCReference>
 			<BuildConfiguration Include="Base">
 				<Key>Base</Key>

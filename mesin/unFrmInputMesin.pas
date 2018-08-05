@@ -145,7 +145,10 @@ begin
       MsgBox('Data Mesin sudah disimpan.');
 
       ClearAll;
-      //btnBatalClick(nil);
+
+      if Assigned(Self.FormInduk) then
+        (Self.FormInduk as TfrmLstmesin).btnRefreshClick(nil);
+      btnBatalClick(nil);
     end;
 
   end;

@@ -180,9 +180,11 @@ inherited frmPengambilanBahanBaku: TfrmPengambilanBahanBaku
       object cxColIdBrg: TcxGridDBColumn
         DataBinding.ValueType = 'Integer'
         PropertiesClassName = 'TcxSpinEditProperties'
+        Visible = False
       end
       object cxColIdSatuan: TcxGridDBColumn
         DataBinding.ValueType = 'Integer'
+        Visible = False
       end
     end
     object cxGridLevel1: TcxGridLevel
@@ -218,6 +220,7 @@ inherited frmPengambilanBahanBaku: TfrmPengambilanBahanBaku
       DataController.Summary.FooterSummaryItems = <>
       DataController.Summary.SummaryGroups = <>
       DataController.OnAfterPost = cxtbBomDetDataControllerAfterPost
+      DataController.OnBeforeDelete = cxtbBomDetDataControllerBeforeDelete
       DataController.OnBeforePost = cxtbBomDetDataControllerBeforePost
       DataController.OnNewRecord = cxtbBomDetDataControllerNewRecord
       OptionsData.Appending = True
@@ -278,9 +281,10 @@ inherited frmPengambilanBahanBaku: TfrmPengambilanBahanBaku
   end
   object zqrSPK: TZReadOnlyQuery
     Connection = DM.zConn
-    Active = True
     SQL.Strings = (
-      'SELECT a.id, a.no_spk, a.tanggal, b.no_mo, b.no_so, c.deskripsi'
+      
+        'SELECT a.id, a.no_spk, a.tanggal, b.no_mo, b.no_so, c.deskripsi,' +
+        ' a.id_so'
       'FROM tbl_spk a '
       'LEFT JOIN tbl_mo b on a.id_mo = b.id'
       'LEFT JOIN tbl_barang c on b.id_brg = c.id'

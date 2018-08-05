@@ -61,6 +61,7 @@ begin
     ts := TcxTabSheet.Create(Self);
     ts.PageControl := frmUtama.pgMain;
     f := TfrmInputMesin.Create(Self);
+    f.FormInduk := Self;
     f.Jenis := 'E';
     f.Caption := 'Edit Mesin';
     f.EditKey := zqrMesin.FieldByName('kode').AsString;
@@ -106,6 +107,7 @@ begin
     ts.PageControl := frmUtama.pgMain;
 
     f := TfrmInputMesin.Create(Self);
+    f.FormInduk := Self;
     f.Jenis := 'T';
     f.cxChkAktif.Checked := True ;
     f.Parent := ts;

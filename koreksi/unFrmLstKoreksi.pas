@@ -99,6 +99,7 @@ begin
       Abort;
     end;
     f := TfrmInputKoreksi.Create(Self);
+    f.FormInduk := Self;
     ts.Caption := 'Edit Koreksi Barang';
     f.Jenis := 'E';
     f.EditKey := zqrKoreksi.FieldByName('id').AsString;
@@ -232,6 +233,7 @@ begin
     ts := TcxTabSheet.Create(Self);
     ts.PageControl := frmUtama.pgMain;
     f := TfrmInputKoreksi.Create(Self);
+    f.FormInduk := Self;
     f.Jenis := 'T';
     f.Parent := ts;
     ts.Caption := f.Caption;

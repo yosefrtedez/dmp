@@ -270,6 +270,10 @@ begin
       cxtKode.Enabled := False;
     end;
 
+    if Assigned(Self.FormInduk) then
+      (Self.FormInduk as TfrmLstBarangJasa).btnRefreshClick(nil);
+
+    btnBatalClick(nil);
   end;
 
 end;

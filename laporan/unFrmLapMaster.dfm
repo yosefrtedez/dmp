@@ -1,5 +1,6 @@
 inherited frmLapMaster: TfrmLapMaster
   Caption = 'frmLapMaster'
+  OnCreate = FormCreate
   ExplicitWidth = 894
   ExplicitHeight = 553
   PixelsPerInch = 96
@@ -8,6 +9,7 @@ inherited frmLapMaster: TfrmLapMaster
     Left = 440
     Top = 184
     Align = alNone
+    TabOrder = 2
     Visible = False
     ExplicitLeft = 440
     ExplicitTop = 184
@@ -16,7 +18,7 @@ inherited frmLapMaster: TfrmLapMaster
     Left = 440
     Top = 256
     Align = alNone
-    TabOrder = 2
+    TabOrder = 3
     Visible = False
     ExplicitLeft = 440
     ExplicitTop = 256
@@ -31,13 +33,14 @@ inherited frmLapMaster: TfrmLapMaster
   end
   object pgParam: TcxPageControl
     Left = 378
-    Top = 11
+    Top = 8
     Width = 351
     Height = 345
     ActivePage = cxTabSheet1
     LookAndFeel.NativeStyle = True
     Style = 7
-    TabOrder = 3
+    TabOrder = 0
+    Visible = False
     ClientRectBottom = 344
     ClientRectLeft = 1
     ClientRectRight = 350
@@ -54,5 +57,6 @@ inherited frmLapMaster: TfrmLapMaster
     Height = 25
     Caption = 'Cetak'
     TabOrder = 4
+    OnClick = btnCetakClick
   end
 end

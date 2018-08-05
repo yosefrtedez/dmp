@@ -102,10 +102,11 @@ begin
     q.Post;
 
     MsgBox('Data COA sudah berhasil disimpan.');
-    //flCOA.RefreshGrid;
-    if Assigned(frmLstCOA) then
-      frmLstCOA.RefreshGrid;
 
+    if Assigned(Self.FormInduk) then
+      (Self.FormInduk as TFrmLstCOA).btnRefreshClick(nil);
+
+    btnBatalClick(nil);
   end;
 end;
 

@@ -65,7 +65,7 @@ object frmTplGrid: TfrmTplGrid
       Height = 25
       Anchors = [akTop, akRight]
       Caption = 'Keluar'
-      TabOrder = 3
+      TabOrder = 4
       OnClick = btnKeluarClick
     end
     object btnRefresh: TButton
@@ -74,7 +74,7 @@ object frmTplGrid: TfrmTplGrid
       Width = 75
       Height = 25
       Caption = 'Refresh'
-      TabOrder = 4
+      TabOrder = 3
     end
   end
 end
