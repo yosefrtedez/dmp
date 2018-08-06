@@ -152,7 +152,6 @@ inherited frmInputHasilProduksi: TfrmInputHasilProduksi
     Height = 129
     Align = alTop
     TabOrder = 4
-    ExplicitTop = 288
     object cxtbHslProd: TcxGridTableView
       NavigatorButtons.ConfirmDelete = False
       NavigatorButtons.PriorPage.Visible = False

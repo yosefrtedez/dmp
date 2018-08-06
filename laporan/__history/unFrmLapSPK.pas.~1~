@@ -1,0 +1,24 @@
+unit unFrmLapSPK;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs;
+
+type
+  TfrmLapSPK = class(TForm)
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmLapSPK: TfrmLapSPK;
+
+implementation
+
+{$R *.dfm}
+
+end.

@@ -6,8 +6,6 @@ inherited frmLstTransferBarang: TfrmLstTransferBarang
   PixelsPerInch = 96
   TextHeight = 13
   inherited Panel1: TPanel
-    Height = 75
-    ExplicitHeight = 75
     object Label1: TLabel
       Left = 10
       Top = 13
@@ -21,66 +19,46 @@ inherited frmLstTransferBarang: TfrmLstTransferBarang
       Font.Style = [fsBold]
       ParentFont = False
     end
-    object cxLabel1: TcxLabel
-      Left = 10
-      Top = 47
-      Caption = 'Tanggal'
-    end
-    object cxdTgl1: TcxDateEdit
-      Left = 62
-      Top = 46
-      TabOrder = 1
-      Width = 121
-    end
-    object cxLabel2: TcxLabel
-      Left = 186
-      Top = 47
-      Caption = 'S/D'
-    end
-    object cxdTgl2: TcxDateEdit
-      Left = 211
-      Top = 46
-      TabOrder = 2
-      Width = 121
-    end
-    object btnProses: TButton
-      Left = 338
-      Top = 44
-      Width = 75
-      Height = 25
-      Caption = 'Proses'
-      TabOrder = 0
-      OnClick = btnProsesClick
-    end
   end
   inherited Panel2: TPanel
     TabOrder = 4
     inherited btnTambah: TButton
       Top = 14
+      TabOrder = 1
       OnClick = btnTambahClick
       ExplicitTop = 14
     end
     inherited btnEdit: TButton
       Top = 14
+      TabOrder = 2
       OnClick = btnEditClick
       ExplicitTop = 14
     end
     inherited btnHapus: TButton
+      Top = 14
       TabOrder = 3
       OnClick = btnHapusClick
+      ExplicitTop = 14
+    end
+    inherited btnKeluar: TButton
+      TabOrder = 0
     end
     inherited btnRefresh: TButton
-      TabOrder = 2
+      Top = 14
+      TabOrder = 4
       OnClick = btnRefreshClick
+      ExplicitTop = 14
     end
   end
   object cxGrid1: TcxGrid
     Left = 0
-    Top = 75
+    Top = 49
     Width = 1016
-    Height = 172
+    Height = 198
     Align = alClient
     TabOrder = 1
+    ExplicitTop = 75
+    ExplicitHeight = 172
     object cxTblTransBarang: TcxGridDBTableView
       NavigatorButtons.ConfirmDelete = False
       OnFocusedRecordChanged = cxTblTransBarangFocusedRecordChanged
@@ -91,6 +69,14 @@ inherited frmLstTransferBarang: TfrmLstTransferBarang
       FilterRow.Visible = True
       OptionsData.Editing = False
       OptionsData.Inserting = False
+      object cxTblTransBarangColumn1: TcxGridDBColumn
+        Caption = 'Posting'
+        DataBinding.FieldName = 'f_posting'
+        PropertiesClassName = 'TcxCheckBoxProperties'
+        Properties.Alignment = taCenter
+        Properties.ValueChecked = 1
+        Properties.ValueUnchecked = 0
+      end
       object cxTblTransBarangno_bukti: TcxGridDBColumn
         Caption = 'No.Bukti'
         DataBinding.FieldName = 'no_bukti'
@@ -118,10 +104,23 @@ inherited frmLstTransferBarang: TfrmLstTransferBarang
     Height = 41
     Align = alBottom
     TabOrder = 2
+    DesignSize = (
+      1016
+      41)
     object cxLabel3: TcxLabel
       Left = 10
       Top = 11
       Caption = 'Detail Transfer Barang'
+    end
+    object btnPosting: TButton
+      Left = 933
+      Top = 9
+      Width = 75
+      Height = 25
+      Anchors = [akTop, akRight]
+      Caption = 'Posting'
+      TabOrder = 0
+      OnClick = btnPostingClick
     end
   end
   object cxGrid2: TcxGrid
@@ -137,36 +136,37 @@ inherited frmLstTransferBarang: TfrmLstTransferBarang
       DataController.Summary.DefaultGroupSummaryItems = <>
       DataController.Summary.FooterSummaryItems = <>
       DataController.Summary.SummaryGroups = <>
-      object cxTblTransBarangDetno: TcxGridDBColumn
-        DataBinding.FieldName = 'no'
-        Width = 27
-      end
       object cxTblTransBarangDetkode: TcxGridDBColumn
         Caption = 'Kode Brg'
         DataBinding.FieldName = 'kode'
-        Width = 168
+        Width = 79
       end
       object cxTblTransBarangDetdeskripsi: TcxGridDBColumn
-        Caption = 'Nama Brg'
+        Caption = 'Deskripsi'
         DataBinding.FieldName = 'deskripsi'
         Width = 397
       end
       object cxTblTransBarangDetasal: TcxGridDBColumn
         Caption = 'Gudang Asal'
         DataBinding.FieldName = 'asal'
+        Width = 82
       end
       object cxTblTransBarangDettujuan: TcxGridDBColumn
         Caption = 'Gudang Tujuan'
         DataBinding.FieldName = 'tujuan'
+        Width = 80
       end
       object cxTblTransBarangDetsatuan: TcxGridDBColumn
         Caption = 'Satuan'
         DataBinding.FieldName = 'satuan'
-        Width = 92
+        Width = 52
       end
       object cxTblTransBarangDetqty: TcxGridDBColumn
         Caption = 'Qty.Transfer'
         DataBinding.FieldName = 'qty'
+        PropertiesClassName = 'TcxSpinEditProperties'
+        Properties.DisplayFormat = '#,#0.00'
+        Properties.ValueType = vtFloat
         Width = 81
       end
     end
@@ -177,32 +177,10 @@ inherited frmLstTransferBarang: TfrmLstTransferBarang
   object zqrTransBarang: TZReadOnlyQuery
     Connection = DM.zConn
     SQL.Strings = (
-      'SELECT * FROM tbl_trsmutasi_head'
-      'WHERE (tanggal BETWEEN :tgl1 AND :tgl2) ')
-    Params = <
-      item
-        DataType = ftUnknown
-        Name = 'tgl1'
-        ParamType = ptUnknown
-      end
-      item
-        DataType = ftUnknown
-        Name = 'tgl2'
-        ParamType = ptUnknown
-      end>
+      'SELECT * FROM tbl_trsmutasi_head')
+    Params = <>
     Left = 496
     Top = 14
-    ParamData = <
-      item
-        DataType = ftUnknown
-        Name = 'tgl1'
-        ParamType = ptUnknown
-      end
-      item
-        DataType = ftUnknown
-        Name = 'tgl2'
-        ParamType = ptUnknown
-      end>
   end
   object dsTransBarang: TDataSource
     DataSet = zqrTransBarang
@@ -214,7 +192,7 @@ inherited frmLstTransferBarang: TfrmLstTransferBarang
     AutoCalcFields = False
     SQL.Strings = (
       
-        'SELECT a.no,b.kode,b.deskripsi,d.nama as asal,e.nama as tujuan,c' +
+        'SELECT a.id,b.kode,b.deskripsi,d.nama as asal,e.nama as tujuan,c' +
         '.satuan,a.qty'
       'FROM tbl_trsmutasi_det a'
       'LEFT JOIN tbl_barang b ON a.id_brg = b.id'

@@ -141,6 +141,18 @@ inherited frmInputTransferBarang: TfrmInputTransferBarang
         Properties.ListSource = dsGudang
         Width = 123
       end
+      object cxColStock: TcxGridColumn
+        Caption = 'Stock'
+        DataBinding.ValueType = 'Float'
+        PropertiesClassName = 'TcxSpinEditProperties'
+        Properties.Alignment.Horz = taRightJustify
+        Properties.DisplayFormat = '#,##0'
+        Properties.EditFormat = '#,##0'
+        Properties.ReadOnly = True
+        Properties.ValueType = vtFloat
+        HeaderAlignmentHorz = taCenter
+        Width = 94
+      end
       object cxColGudangTujuan: TcxGridColumn
         Caption = 'Gudang Tujuan'
         PropertiesClassName = 'TcxLookupComboBoxProperties'
@@ -162,18 +174,6 @@ inherited frmInputTransferBarang: TfrmInputTransferBarang
       object cxColSatuan: TcxGridColumn
         Caption = 'Satuan'
         Width = 72
-      end
-      object cxColStock: TcxGridColumn
-        Caption = 'Stock'
-        DataBinding.ValueType = 'Float'
-        PropertiesClassName = 'TcxSpinEditProperties'
-        Properties.Alignment.Horz = taRightJustify
-        Properties.DisplayFormat = '#,##0'
-        Properties.EditFormat = '#,##0'
-        Properties.ReadOnly = True
-        Properties.ValueType = vtFloat
-        HeaderAlignmentHorz = taCenter
-        Width = 94
       end
       object cxColQty: TcxGridColumn
         Caption = 'Qty.Transfer'

@@ -17,7 +17,7 @@ uses
   cxFilter, cxData, cxDataStorage, cxEdit, DB, cxDBData, cxContainer, cxLabel,
   cxTextEdit, cxMaskEdit, cxDropDownEdit, cxCalendar, cxGridLevel, cxClasses,
   cxGridCustomView, cxGridCustomTableView, cxGridTableView, cxGridDBTableView,
-  cxGrid, StdCtrls, ExtCtrls,ZDataset, ZAbstractRODataset, cxPC;
+  cxGrid, StdCtrls, ExtCtrls,ZDataset, ZAbstractRODataset, cxPC, cxSpinEdit;
 
 type
   TfrmMasterOrder = class(TfrmTplInput)
@@ -49,12 +49,26 @@ type
     cxtbMOkode_customer: TcxGridDBColumn;
     cxtbMOnama_customer: TcxGridDBColumn;
     Panel5: TPanel;
-    cxtbSPK: TcxGridDBTableView;
+    cxtbBOM: TcxGridDBTableView;
     cxGrid2Level1: TcxGridLevel;
     cxGrid2: TcxGrid;
+    cxLabel3: TcxLabel;
+    dsBOM: TDataSource;
+    zqrBOM: TZReadOnlyQuery;
+    cxtbBOMkode_brg: TcxGridDBColumn;
+    cxtbBOMsatuan: TcxGridDBColumn;
+    cxtbBOMqty: TcxGridDBColumn;
+    cxtbBOMdeskripsi: TcxGridDBColumn;
+    btnCetakSPK: TButton;
+    cxtbMOColumn1: TcxGridDBColumn;
     procedure btnProsesClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure Button1Click(Sender: TObject);
+    procedure btnCetakSPKClick(Sender: TObject);
+    procedure Button3Click(Sender: TObject);
+    procedure cxtbMOFocusedRecordChanged(Sender: TcxCustomGridTableView;
+      APrevFocusedRecord, AFocusedRecord: TcxCustomGridRecord;
+      ANewItemRecordFocusingChanged: Boolean);
   private
     { Private declarations }
   public
@@ -67,9 +81,25 @@ var
 implementation
 
 uses
-  unDM, unTools, unFrmSPK, unFrmUtama;
+  unDM, unTools, unFrmSPK, unFrmUtama, unFrmLapSPK;
 
 {$R *.dfm}
+
+procedure TfrmMasterOrder.btnCetakSPKClick(Sender: TObject);
+var
+  f: TFrmLapSPK;
+begin
+  inherited;
+  if zqrMO.FieldByName('id_spk').IsNull then Abort;
+  
+  f := TfrmLapSPK.Create(Self);
+  with f do begin
+    zqrSPK.ParamByName('id_spk').AsInteger := zqrMO.FieldByName('id_spk').AsInteger;
+    zqrSPK.Open;
+    rptSPK.ShowReport(true);
+  end;
+  f.Release;
+end;
 
 procedure TfrmMasterOrder.btnProsesClick(Sender: TObject);
 begin
@@ -118,6 +148,28 @@ begin
     f.Show;
 
     frmUtama.pgMain.ActivePage := ts;
+  end;
+end;
+
+procedure TfrmMasterOrder.Button3Click(Sender: TObject);
+begin
+  inherited;
+  Self.btnBatalClick(nil);
+end;
+
+procedure TfrmMasterOrder.cxtbMOFocusedRecordChanged(
+  Sender: TcxCustomGridTableView; APrevFocusedRecord,
+  AFocusedRecord: TcxCustomGridRecord; ANewItemRecordFocusingChanged: Boolean);
+begin
+  inherited;
+  try
+  with zqrBOM do begin
+    Close;
+    ParamByName('id_spk').AsInteger := zqrMO.FieldByName('id_spk').AsInteger;
+    Open;
+  end;
+  finally
+
   end;
 end;
 

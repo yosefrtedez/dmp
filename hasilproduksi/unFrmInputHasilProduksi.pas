@@ -164,16 +164,24 @@ begin
     qh.FieldByName('user_dept').AsString := Aplikasi.UserDept;
     qh.Post;
     qh.Close;
+
+    q := OpenRS('SELECT id, stok FROM tbl_barang WHERE id = %d',[zqrSPK.FieldByName('id_brg').AsInteger]);
+    q.Edit;
+    q.FieldByName('stok').AsFloat := q.FieldByName('stok').AsFloat + ADataController.Values[i, cxColQtyProd.Index];
+    q.Post;
+
+    q := OpenRS('SELECT id_brg, id_gdg, stok FROM tbl_barang_det WHERE id_brg = %s AND id_gdg = %s',
+      [zqrSPK.FieldByName('id_brg').AsString, ADataController.Values[i, cxColGdgBJ.Index]]);
+    if not q.IsEmpty then
+      q.Edit
+    else
+      q.Insert;
+    q.FieldByName('id_brg').AsInteger := zqrSPK.FieldByName('id_brg').AsInteger;
+    q.FieldByName('id_gdg').AsInteger := ADataController.Values[i, cxColGdgBJ.Index];
+    q.FieldByName('stok').AsFloat := q.FieldByName('stok').AsFloat + ADataController.Values[i, cxColQtyProd.Index];
+    q.Post;
     
     dm.zConn.Commit;
-
-    {
-    // update qty pengambilan
-    q := OpenRS('SELECT SUM(qty) qty FROM tbl_trspengambilanbb WHERE id_spk = %s AND id_brg = %s',
-      [zqrSPK.FieldByName('id').AsString, cxtbBOM.DataController.Values[j, cxColIdBrg.Index]]);
-    cxtbBOM.DataController.Values[j, cxColDiambil.Index] := q.FieldByname('qty').AsFloat;
-    q.Close;
-    }
 
     Screen.Cursor := crDefault;
   except

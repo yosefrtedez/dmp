@@ -78,7 +78,8 @@ uses
   unFrmLstSuratJalan in 'suratjalan\unFrmLstSuratJalan.pas' {frmLstSuratJalan},
   unFrmPengambilanBahanBaku in 'pengambilanbahanbaku\unFrmPengambilanBahanBaku.pas' {frmPengambilanBahanBaku},
   unFrmInputHasilProduksi in 'hasilproduksi\unFrmInputHasilProduksi.pas' {frmInputHasilProduksi},
-  unFrmLapTransaksi in 'laporan\unFrmLapTransaksi.pas' {frmLapTransaksi};
+  unFrmLapTransaksi in 'laporan\unFrmLapTransaksi.pas' {frmLapTransaksi},
+  unFrmLapSPK in 'laporan\unFrmLapSPK.pas' {frmLapSPK};
 
 {$R *.res}
 
@@ -88,7 +89,6 @@ begin
   Application.CreateForm(TDM, DM);
   Application.CreateForm(TfrmUtama, frmUtama);
   Application.CreateForm(TfrmLogin, frmLogin);
-  Application.CreateForm(TfrmLapTransaksi, frmLapTransaksi);
   frmUtama.Show;
 
   frmLogin.ShowModal;

@@ -126,5 +126,7 @@
     <Transaction>2018/08/05 22.49.36.659.dfm,D:\108 JSP\My Project\05. Felgito\02. Source Code\laporan\unFrmLaporan.dfm=</Transaction>
     <Transaction>2018/08/05 22.51.36.458.pas,D:\108 JSP\My Project\05. Felgito\02. Source Code\laporan\unFrmeLapMaster.pas=</Transaction>
     <Transaction>2018/08/05 22.51.36.458.dfm,D:\108 JSP\My Project\05. Felgito\02. Source Code\laporan\unFrmeLapMaster.dfm=</Transaction>
+    <Transaction>2018/08/06 13.28.07.839.pas,D:\108 JSP\My Project\05. Felgito\02. Source Code\Unit1.pas=D:\108 JSP\My Project\05. Felgito\02. Source Code\laporan\unFrmLapSPK.pas</Transaction>
+    <Transaction>2018/08/06 13.28.07.839.dfm,D:\108 JSP\My Project\05. Felgito\02. Source Code\Unit1.dfm=D:\108 JSP\My Project\05. Felgito\02. Source Code\laporan\unFrmLapSPK.dfm</Transaction>
   </Transactions>
 </BorlandProject>

@@ -3,6 +3,7 @@ inherited frmSPK: TfrmSPK
   ClientHeight = 620
   OnCreate = FormCreate
   OnShow = FormShow
+  ExplicitWidth = 894
   ExplicitHeight = 620
   PixelsPerInch = 96
   TextHeight = 13
@@ -84,6 +85,7 @@ inherited frmSPK: TfrmSPK
       DataController.Summary.DefaultGroupSummaryItems = <>
       DataController.Summary.FooterSummaryItems = <>
       DataController.Summary.SummaryGroups = <>
+      DataController.OnBeforePost = cxtbBomDataControllerBeforePost
       DataController.OnRecordChanged = cxtbBomDataControllerRecordChanged
       OptionsData.Appending = True
       OptionsView.Navigator = True

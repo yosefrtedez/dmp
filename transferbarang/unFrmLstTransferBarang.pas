@@ -17,7 +17,8 @@ uses
   dxSkinscxPCPainter, cxCustomData, cxFilter, cxData, cxDataStorage, cxEdit, DB,
   cxDBData, cxGridLevel, cxClasses, cxGridCustomView, cxGridCustomTableView,
   cxGridTableView, cxGridDBTableView, cxGrid, ZAbstractRODataset, ZDataset,cxPC,
-  cxContainer, cxTextEdit, cxMaskEdit, cxDropDownEdit, cxCalendar, cxLabel;
+  cxContainer, cxTextEdit, cxMaskEdit, cxDropDownEdit, cxCalendar, cxLabel,
+  cxCheckBox, cxSpinEdit;
 
 type
   TfrmLstTransferBarang = class(TfrmTplGrid)
@@ -30,11 +31,6 @@ type
     cxTblTransBarangno_bukti: TcxGridDBColumn;
     cxTblTransBarangtanggal: TcxGridDBColumn;
     cxTblTransBarangketerangan: TcxGridDBColumn;
-    cxLabel1: TcxLabel;
-    cxdTgl1: TcxDateEdit;
-    cxLabel2: TcxLabel;
-    cxdTgl2: TcxDateEdit;
-    btnProses: TButton;
     Panel3: TPanel;
     cxLabel3: TcxLabel;
     cxGrid2: TcxGrid;
@@ -42,23 +38,24 @@ type
     zqrTransBarangDet: TZReadOnlyQuery;
     dsTransBarangDet: TDataSource;
     cxTblTransBarangDet: TcxGridDBTableView;
-    cxTblTransBarangDetno: TcxGridDBColumn;
     cxTblTransBarangDetkode: TcxGridDBColumn;
     cxTblTransBarangDetdeskripsi: TcxGridDBColumn;
     cxTblTransBarangDetasal: TcxGridDBColumn;
     cxTblTransBarangDettujuan: TcxGridDBColumn;
     cxTblTransBarangDetsatuan: TcxGridDBColumn;
     cxTblTransBarangDetqty: TcxGridDBColumn;
+    btnPosting: TButton;
+    cxTblTransBarangColumn1: TcxGridDBColumn;
     procedure FormCreate(Sender: TObject);
     procedure btnRefreshClick(Sender: TObject);
     procedure btnTambahClick(Sender: TObject);
-    procedure btnProsesClick(Sender: TObject);
     procedure cxTblTransBarangFocusedRecordChanged(
       Sender: TcxCustomGridTableView; APrevFocusedRecord,
       AFocusedRecord: TcxCustomGridRecord;
       ANewItemRecordFocusingChanged: Boolean);
     procedure btnEditClick(Sender: TObject);
     procedure btnHapusClick(Sender: TObject);
+    procedure btnPostingClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -116,16 +113,94 @@ begin
   end;
 end;
 
-procedure TfrmLstTransferBarang.btnProsesClick(Sender: TObject);
+procedure TfrmLstTransferBarang.btnPostingClick(Sender: TObject);
+var
+  qd, q, qbrg: TZQuery;
 begin
   inherited;
-   with zqrTransBarang do begin
-    if Active then Close;
+  try
+    dm.zConn.StartTransaction;
+
     Screen.Cursor := crSQLWait;
-    ParamByName('tgl1').AsDateTime := cxdTgl1.Date;
-    ParamByName('tgl2').AsDateTime := cxdTgl2.Date;
-    Open;
+    q := OpenRS('SELECT * FROM tbl_history WHERE no_bukti = ''%s''',[zqrTransBarang.FieldByName('no_bukti').AsString]);
+    qd := OpenRS('SELECT * FROM tbl_trsmutasi_det WHERE id_ref = ''%s''',[zqrTransBarang.FieldByName('id').AsString]);
+
+    while not qd.Eof do begin
+      with q do begin
+        Insert;
+        FieldByName('no_bukti').AsString      := zqrTransBarang.FieldByName('no_bukti').AsString;
+        FieldByName('tanggal').AsDateTime     := zqrTransBarang.FieldByName('tanggal').AsDateTime;
+        FieldByName('kode_brg').AsString      := qd.FieldByName('kode_brg').AsString;
+        FieldByName('id_brg').AsInteger       := qd.FieldByName('id_brg').AsInteger;
+        FieldByName('tipe').AsString          := 'o';
+        FieldByName('qty').AsFloat            := qd.FieldByName('qty').AsInteger;
+        FieldByName('id_gdg').AsInteger       := qd.FieldByName('id_gdg_asal').AsInteger;
+        FieldByName('id_satuan').AsInteger    := qd.FieldByName('id_satuan').AsInteger;
+        FieldByName('user').AsString          := aplikasi.NamaUser;
+        FieldByName('tgl_input').AsDateTime   := aplikasi.NowServer;
+        Post;
+
+        Insert;
+        FieldByName('no_bukti').AsString      := zqrTransBarang.FieldByName('no_bukti').AsString;
+        FieldByName('tanggal').AsDateTime    := zqrTransBarang.FieldByName('tanggal').AsDateTime;
+        FieldByName('kode_brg').AsString      := qd.FieldByName('kode_brg').AsString;
+        FieldByName('id_brg').AsInteger       := qd.FieldByName('id_brg').AsInteger;
+        FieldByName('tipe').AsString          := 'i';
+        FieldByName('qty').AsFloat            := qd.FieldByName('qty').AsInteger;
+        FieldByName('id_gdg').AsInteger       := qd.FieldByName('id_gdg_tujuan').AsInteger;
+        FieldByName('id_satuan').AsInteger    := qd.FieldByName('id_satuan').AsInteger;
+        FieldByName('user').AsString          := aplikasi.NamaUser;
+        FieldByName('tgl_input').AsDateTime   := aplikasi.NowServer;
+        Post;
+      end;
+
+      qbrg := OpenRS('SELECT * FROM tbl_barang_det WHERE id_brg = %s AND id_gdg = %s',
+        [qd.FieldByName('id_brg').AsString, qd.FieldByName('id_gdg_asal').AsString]);
+      if qbrg.IsEmpty then begin
+        qbrg.Insert;
+        qbrg.FieldByName('id_brg').AsInteger := qd.FieldByName('id_brg').AsInteger;
+        qbrg.FieldByName('kode_brg').AsString := qd.FieldByName('kode_brg').AsString;
+        qbrg.FieldByName('id_gdg').AsInteger := qd.FieldByName('id_gdg').AsInteger;
+      end
+      else
+        qbrg.Edit;
+      qbrg.FieldByName('stok').AsFloat := qbrg.FieldByName('stok').AsFloat - qd.FieldByName('qty').AsFloat;
+      qbrg.Post;
+      qbrg.Close;
+
+      qbrg := OpenRS('SELECT * FROM tbl_barang_det WHERE id_brg = %s AND id_gdg = %s',
+        [qd.FieldByName('id_brg').AsString, qd.FieldByName('id_gdg_tujuan').AsString]);
+      if qbrg.IsEmpty then begin
+        qbrg.Insert;
+        qbrg.FieldByName('id_brg').AsInteger := qd.FieldByName('id_brg').AsInteger;
+        qbrg.FieldByName('kode_brg').AsString := qd.FieldByName('kode_brg').AsString;
+        qbrg.FieldByName('id_gdg').AsInteger := qd.FieldByName('id_gdg').AsInteger;
+      end
+      else
+        qbrg.Edit;
+      qbrg.FieldByName('stok').AsFloat := qbrg.FieldByName('stok').AsFloat + qd.FieldByName('qty').AsFloat;
+      qbrg.Post;
+      qbrg.Close;
+
+      dm.zConn.ExecuteDirect(Format('UPDATE tbl_trsmutasi_head SET f_posting = 1 WHERE id = %s',
+        [zqrTransBarang.FieldByName('id').AsString]));
+
+      qd.Next;
+    end;
+
+    dm.zConn.Commit;
+
     Screen.Cursor := crDefault;
+    MsgBox('Transaksi pengeluaran barang sudah di posting.');
+
+    btnRefreshClick(nil);
+
+  except
+    on E: Exception do begin
+      dm.zConn.Rollback;
+      Screen.Cursor := crDefault;
+      MsgBox('Error: ' + E.Message);
+    end;
   end;
 end;
 
@@ -174,8 +249,6 @@ procedure TfrmLstTransferBarang.FormCreate(Sender: TObject);
 begin
   inherited;
   zqrTransBarang.Open;
-  cxdTgl1.Date := FDOM(Date);
-  cxdTgl2.Date := LDOM(Date);
 end;
 
 

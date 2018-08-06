@@ -64,6 +64,8 @@ type
       ADataController: TcxCustomDataController; ARecordIndex,
       AItemIndex: Integer);
     procedure btnSimpanClick(Sender: TObject);
+    procedure cxtbBomDataControllerBeforePost(
+      ADataController: TcxCustomDataController);
   private
     mIDSO: integer;
     mIDMO: integer;
@@ -185,6 +187,30 @@ begin
       on E: Exception do begin
         dm.zConn.Rollback;
         MsgBox('Error: ' + E.Message);
+      end;
+    end;
+  end;
+
+end;
+
+procedure TfrmSPK.cxtbBomDataControllerBeforePost(
+  ADataController: TcxCustomDataController);
+var
+  i,j,k: integer;
+  v: variant;
+begin
+  inherited;
+
+  i := ADataController.FocusedRowIndex;
+  k := ADataController.GetEditingRecordIndex;
+  v := ADataController.Values[i, cxColKodeBrg.Index];
+
+  for j := 0 to ADataController.RecordCount - 1 do begin
+    if j <> k then begin
+      if v = ADataController.Values[j, cxColKodeBrg.Index] then begin
+        MsgBox('Item tersebut sudah ada.');
+        ADataController.DeleteRecord(i);
+        Abort
       end;
     end;
   end;

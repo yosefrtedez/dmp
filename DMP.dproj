@@ -265,6 +265,9 @@
 			<DCCReference Include="laporan\unFrmLapTransaksi.pas">
 				<Form>frmLapTransaksi</Form>
 			</DCCReference>
+			<DCCReference Include="laporan\unFrmLapSPK.pas">
+				<Form>frmLapSPK</Form>
+			</DCCReference>
 			<BuildConfiguration Include="Base">
 				<Key>Base</Key>
 			</BuildConfiguration>

@@ -72,16 +72,17 @@ inherited frmMasterOrder: TfrmMasterOrder
     Left = 0
     Top = 90
     Width = 1076
-    Height = 409
+    Height = 226
     Align = alClient
     TabOrder = 2
-    ExplicitHeight = 226
     object cxtbMO: TcxGridDBTableView
       NavigatorButtons.ConfirmDelete = False
+      OnFocusedRecordChanged = cxtbMOFocusedRecordChanged
       DataController.DataSource = dsMO
       DataController.Summary.DefaultGroupSummaryItems = <>
       DataController.Summary.FooterSummaryItems = <>
       DataController.Summary.SummaryGroups = <>
+      FilterRow.Visible = True
       object cxtbMOno_mo: TcxGridDBColumn
         Caption = 'No.MO'
         DataBinding.FieldName = 'no_mo'
@@ -99,9 +100,9 @@ inherited frmMasterOrder: TfrmMasterOrder
         DataBinding.FieldName = 'tgl_spk'
       end
       object cxtbMOkode_brg: TcxGridDBColumn
-        Caption = 'Kode Barang'
+        Caption = 'Kode Brg.'
         DataBinding.FieldName = 'kode_brg'
-        Width = 89
+        Width = 68
       end
       object cxtbMOdeskripsi: TcxGridDBColumn
         Caption = 'Nama Barang'
@@ -116,6 +117,12 @@ inherited frmMasterOrder: TfrmMasterOrder
         Caption = 'Qty.SO'
         DataBinding.FieldName = 'qty_so'
       end
+      object cxtbMOColumn1: TcxGridDBColumn
+        Caption = 'Qty. Prod'
+        DataBinding.FieldName = 'qty_prod'
+        PropertiesClassName = 'TcxSpinEditProperties'
+        Properties.DisplayFormat = '#,#0.00'
+      end
       object cxtbMOtanggal: TcxGridDBColumn
         Caption = 'Tgl.SO'
         DataBinding.FieldName = 'tanggal'
@@ -123,6 +130,7 @@ inherited frmMasterOrder: TfrmMasterOrder
       object cxtbMOkode_customer: TcxGridDBColumn
         Caption = 'Kode Customer'
         DataBinding.FieldName = 'kode_customer'
+        Visible = False
         Width = 100
       end
       object cxtbMOnama_customer: TcxGridDBColumn
@@ -152,12 +160,12 @@ inherited frmMasterOrder: TfrmMasterOrder
       OnClick = Button1Click
     end
     object Button2: TButton
-      Left = 91
+      Left = 547
       Top = 6
       Width = 92
       Height = 25
       Caption = 'Mutasi Gudang'
-      TabOrder = 1
+      TabOrder = 2
       Visible = False
     end
     object Button3: TButton
@@ -166,36 +174,75 @@ inherited frmMasterOrder: TfrmMasterOrder
       Width = 75
       Height = 25
       Caption = 'Keluar'
-      TabOrder = 2
+      TabOrder = 3
+      OnClick = Button3Click
+    end
+    object btnCetakSPK: TButton
+      Left = 91
+      Top = 6
+      Width = 75
+      Height = 25
+      Caption = 'Cetak SPK'
+      TabOrder = 1
+      OnClick = btnCetakSPKClick
     end
   end
   object Panel5: TPanel
-    Left = 984
-    Top = 236
+    Left = 0
+    Top = 316
     Width = 1076
     Height = 41
+    Align = alBottom
     TabOrder = 3
-    Visible = False
+    object cxLabel3: TcxLabel
+      Left = 10
+      Top = 12
+      Caption = 'Bill Of Material :'
+    end
   end
   object cxGrid2: TcxGrid
-    Left = 984
-    Top = 283
+    Left = 0
+    Top = 357
     Width = 1076
     Height = 142
+    Align = alBottom
     TabOrder = 4
-    Visible = False
-    object cxtbSPK: TcxGridDBTableView
+    object cxtbBOM: TcxGridDBTableView
       NavigatorButtons.ConfirmDelete = False
+      DataController.DataSource = dsBOM
       DataController.Summary.DefaultGroupSummaryItems = <>
       DataController.Summary.FooterSummaryItems = <>
       DataController.Summary.SummaryGroups = <>
+      object cxtbBOMkode_brg: TcxGridDBColumn
+        Caption = 'Kode Brg.'
+        DataBinding.FieldName = 'kode_brg'
+        Width = 74
+      end
+      object cxtbBOMdeskripsi: TcxGridDBColumn
+        Caption = 'Deskripsi'
+        DataBinding.FieldName = 'deskripsi'
+        Width = 270
+      end
+      object cxtbBOMqty: TcxGridDBColumn
+        Caption = 'Qty.'
+        DataBinding.FieldName = 'qty'
+        PropertiesClassName = 'TcxSpinEditProperties'
+        Properties.Alignment.Horz = taRightJustify
+        Properties.DisplayFormat = '#,#0.00'
+        HeaderAlignmentHorz = taRightJustify
+      end
+      object cxtbBOMsatuan: TcxGridDBColumn
+        Caption = 'Satuan'
+        DataBinding.FieldName = 'satuan'
+      end
     end
     object cxGrid2Level1: TcxGridLevel
-      GridView = cxtbSPK
+      GridView = cxtbBOM
     end
   end
   object zqrMO: TZReadOnlyQuery
     Connection = DM.zConn
+    Active = True
     SQL.Strings = (
       'SELECT * FROM v_mo'
       'WHERE (tanggal BETWEEN :tgl1 AND :tgl2) AND (no_mo IS NOT NULL)'
@@ -227,7 +274,36 @@ inherited frmMasterOrder: TfrmMasterOrder
   end
   object dsMO: TDataSource
     DataSet = zqrMO
-    Left = 224
+    Left = 232
     Top = 12
+  end
+  object dsBOM: TDataSource
+    DataSet = zqrBOM
+    Left = 648
+    Top = 20
+  end
+  object zqrBOM: TZReadOnlyQuery
+    Connection = DM.zConn
+    Active = True
+    SQL.Strings = (
+      'SELECT a.*, b.deskripsi, c.satuan'
+      'FROM tbl_bom a '
+      'LEFT JOIN tbl_barang b ON b.id = a.id_brg'
+      'LEFT JOIN tbl_satuan c ON c.id = a.id_satuan'
+      'WHERE a.id_spk = :id_spk')
+    Params = <
+      item
+        DataType = ftUnknown
+        Name = 'id_spk'
+        ParamType = ptUnknown
+      end>
+    Left = 586
+    Top = 9
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'id_spk'
+        ParamType = ptUnknown
+      end>
   end
 end
