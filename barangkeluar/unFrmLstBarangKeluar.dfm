@@ -184,6 +184,7 @@ inherited frmLstBarangKeluar: TfrmLstBarangKeluar
     Height = 41
     Align = alBottom
     TabOrder = 2
+    ExplicitTop = 224
     DesignSize = (
       1063
       41)
@@ -194,22 +195,22 @@ inherited frmLstBarangKeluar: TfrmLstBarangKeluar
     end
     object Button1: TButton
       Left = 806
-      Top = 6
+      Top = 9
       Width = 249
       Height = 25
       Anchors = [akTop, akRight]
       Caption = 'Cetak Faktur Penjualan + Surat Jalan'
-      TabOrder = 0
+      TabOrder = 1
       OnClick = Button1Click
     end
     object btnPosting: TButton
       Left = 725
-      Top = 8
+      Top = 9
       Width = 75
       Height = 25
       Anchors = [akTop, akRight]
       Caption = 'Posting'
-      TabOrder = 1
+      TabOrder = 0
       OnClick = btnPostingClick
     end
   end

@@ -79,7 +79,7 @@ inherited frmInputSuratJalan: TfrmInputSuratJalan
     Height = 211
     Anchors = [akLeft, akTop, akRight]
     TabOrder = 15
-    object cxtbKoreksi: TcxGridTableView
+    object cxtbSJ: TcxGridTableView
       NavigatorButtons.ConfirmDelete = False
       NavigatorButtons.Insert.Visible = False
       NavigatorButtons.Append.Visible = True
@@ -95,8 +95,8 @@ inherited frmInputSuratJalan: TfrmInputSuratJalan
           Kind = skSum
         end>
       DataController.Summary.SummaryGroups = <>
-      DataController.OnBeforePost = cxtbKoreksiDataControllerBeforePost
-      DataController.OnRecordChanged = cxtbKoreksiDataControllerRecordChanged
+      DataController.OnBeforePost = cxtbSJDataControllerBeforePost
+      DataController.OnRecordChanged = cxtbSJDataControllerRecordChanged
       OptionsData.Appending = True
       OptionsView.Navigator = True
       OptionsView.Footer = True
@@ -110,13 +110,7 @@ inherited frmInputSuratJalan: TfrmInputSuratJalan
       end
       object cxColKodeBrg: TcxGridColumn
         Caption = 'Kode Brg'
-        PropertiesClassName = 'TcxButtonEditProperties'
-        Properties.Buttons = <
-          item
-            Default = True
-            Kind = bkEllipsis
-          end>
-        Properties.ReadOnly = True
+        PropertiesClassName = 'TcxTextEditProperties'
         Width = 95
       end
       object cxColDeskripsi: TcxGridColumn
@@ -134,6 +128,19 @@ inherited frmInputSuratJalan: TfrmInputSuratJalan
         Properties.ListSource = dsBarang
         Width = 237
       end
+      object cxColJmlIkatPerBal: TcxGridColumn
+        Caption = 'Jml. Ikat / Bal'
+        DataBinding.ValueType = 'Integer'
+        PropertiesClassName = 'TcxSpinEditProperties'
+        Properties.ReadOnly = True
+        Width = 85
+      end
+      object cxColHrgPerIkat: TcxGridColumn
+        Caption = 'Harga / Ikat'
+        DataBinding.ValueType = 'Float'
+        PropertiesClassName = 'TcxSpinEditProperties'
+        Width = 67
+      end
       object cxColNoSO: TcxGridColumn
         Caption = 'No. SO'
         PropertiesClassName = 'TcxButtonEditProperties'
@@ -142,6 +149,8 @@ inherited frmInputSuratJalan: TfrmInputSuratJalan
             Default = True
             Kind = bkEllipsis
           end>
+        Properties.ReadOnly = True
+        Properties.OnButtonClick = cxColNoSOPropertiesButtonClick
         Width = 92
       end
       object cxColQtySO: TcxGridColumn
@@ -152,6 +161,13 @@ inherited frmInputSuratJalan: TfrmInputSuratJalan
         Properties.ReadOnly = True
         Properties.ValueType = vtFloat
         Width = 68
+      end
+      object cxColQtyTerkirim: TcxGridColumn
+        Caption = 'Qty. Terkirim'
+        PropertiesClassName = 'TcxSpinEditProperties'
+        Properties.DisplayFormat = '#,#0.00'
+        Properties.ReadOnly = True
+        Width = 73
       end
       object cxColQty: TcxGridColumn
         Caption = 'Qty.'
@@ -201,20 +217,23 @@ inherited frmInputSuratJalan: TfrmInputSuratJalan
         PropertiesClassName = 'TcxTextEditProperties'
         Width = 109
       end
-      object cxtbKoreksiColumn1: TcxGridColumn
+      object cxtbSJColumn1: TcxGridColumn
         Caption = 'Subtotal'
         DataBinding.ValueType = 'Float'
         PropertiesClassName = 'TcxSpinEditProperties'
         Properties.ReadOnly = True
         Properties.ValueType = vtFloat
+        Width = 87
       end
       object cxColIdSatuan: TcxGridColumn
         DataBinding.ValueType = 'Integer'
         Visible = False
       end
+      object cxColIdSO: TcxGridColumn
+      end
     end
     object cxgrdlvl1Grid1Level1: TcxGridLevel
-      GridView = cxtbKoreksi
+      GridView = cxtbSJ
     end
   end
   object cxLabel1: TcxLabel

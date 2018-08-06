@@ -59,19 +59,23 @@ type
     DPP: TcxLabel;
     cxsStlhDiskon: TcxSpinEdit;
     cxsPPN: TcxSpinEdit;
-    cxCheckBox1: TcxCheckBox;
+    cxChkPPN: TcxCheckBox;
     cxLabel5: TcxLabel;
     cxsDPP: TcxSpinEdit;
     cxLabel6: TcxLabel;
     cxsHargaTotal: TcxSpinEdit;
     cxColHarga: TcxGridColumn;
-    cxtbSJColumn1: TcxGridColumn;
+    cxColTotal: TcxGridColumn;
     cxLabel7: TcxLabel;
     cxtNoFaktur: TcxTextEdit;
     zqrSO: TZReadOnlyQuery;
     dsSO: TDataSource;
     cxColIdSO: TcxGridColumn;
     cxColQtyTerkirim: TcxGridColumn;
+    cxColJmlIkatPerBal: TcxGridColumn;
+    cxColHargaIkat: TcxGridColumn;
+    cxLabel8: TcxLabel;
+    cxdTglJthTempo: TcxDateEdit;
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure cxColNoGetDisplayText(Sender: TcxCustomGridTableItem;
@@ -89,8 +93,9 @@ type
       AItemIndex: Integer);
     procedure cxColNoSOPropertiesButtonClick(Sender: TObject;
       AButtonIndex: Integer);
+    procedure cxsDiskonPropertiesChange(Sender: TObject);
   private
-    { Private declarations }
+    procedure HitungTotal;
   public
     { Public declarations }
   end;
@@ -153,6 +158,14 @@ begin
       qh.FieldByName('user').AsString := Aplikasi.NamaUser;
       qh.FieldByName('user_dept').AsString := Aplikasi.UserDept;
       qh.FieldByName('tgl_input').AsDateTime := Aplikasi.Tanggal;
+      qh.FIeldBYName('diskon').AsFloat := cxsDiskon.Value;
+      if cxChkPPN.Checked then
+        qh.FieldByName('f_ppn').AsInteger := 1;
+      if Trim(cxdTglJthTempo.Text) <> '' then
+        qh.FieldByName('jatuh_tempo').AsDateTime := cxdTglJthTempo.Date;
+      if cxtNoFaktur.Text <> '' then
+       qh.FieldByName('no_faktur').AsString := Trim(cxtNoFaktur.Text);
+
       qh.Post;
 
       if Self.Jenis = 'T' then  ID := LastInsertID;
@@ -173,6 +186,8 @@ begin
           qd.FieldByName('qty').AsFloat := Values[i, cxColQty.Index];
           qd.FieldByName('id_satuan').AsString := Values[i, cxColIdSatuan.Index];
           qd.FieldByName('id_gdg').AsString := Values[i, cxColGudang.Index];
+          qd.FieldbyName('harga').AsFloat := Values[i, cxColHarga.Index];
+          qd.FieldByName('hrgikat').AsFloat := Values[i, cxColHargaIkat.Index];
           if VarIsNull(Values[i, cxColKeterangan.index]) = True then begin
             qd.FieldByName('keterangan').AsString := '';
           end else begin
@@ -225,10 +240,11 @@ begin
   f.IdBrg := cxtbSJ.DataController.Values[i, cxColDeskripsi.Index];
   f.IdCust := cxlCustomer.EditValue;
   if f.ShowModal = mrOk then begin
-    q := OpenRS('SELECT a.no_bukti, b.qty FROM tbl_so_head a INNER JOIN tbl_so_det b ON a.id = b.id_ref WHERE a.id = %d', [f.IdSO]);
+    q := OpenRS('SELECT a.no_bukti, b.qty, b.harga FROM tbl_so_head a INNER JOIN tbl_so_det b ON a.id = b.id_ref WHERE a.id = %d', [f.IdSO]);
     cxtbSJ.DataController.Values[i, cxColNoSO.Index] := q.FieldByName('no_bukti').AsString;
     cxtbSJ.DataController.Values[i, cxColIdSO.Index] := f.idSO;
     cxtbSJ.DataController.Values[i, cxColQtySO.Index] := q.FieldByName('qty').AsFloat;
+    cxtbSJ.DataController.Values[i, cxColHarga.Index] := q.FieldByName('harga').AsFloat;
     q.Close;
     q := OpenRS('SELECT SUM(qty) qty_kirim FROM tbl_sj_det WHERE id_so = %d AND id_brg = %s',
       [f.IdSO, cxtbSJ.DataController.Values[i, cxColDeskripsi.Index]]);
@@ -238,6 +254,12 @@ begin
   f.Free;
   finally
   end;
+end;
+
+procedure TfrmInputSuratJalan.cxsDiskonPropertiesChange(Sender: TObject);
+begin
+  inherited;
+  HitungTotal;
 end;
 
 procedure TfrmInputSuratJalan.cxtbBarangMasukDataControllerBeforePost(
@@ -324,6 +346,7 @@ procedure TfrmInputSuratJalan.cxtbSJDataControllerBeforePost(
 var
   i,j,k: integer;
   v: variant;
+  sa: real;
 begin
   inherited;
   i := ADataController.FocusedRowIndex;
@@ -351,6 +374,12 @@ begin
     MsgBox('Kode gudang harus diisi.');
     Abort;
   end;
+
+  sa := GetStokAkhir(ADataController.Values[i, cxColDeskripsi.Index], ADataController.Values[i, cxColGudang.Index]);
+  if sa < ADataController.Values[i, cxColQty.Index] then begin
+    MsgBox('Stok barang tidak mencukupi. Stok : ' + FormatFloat('#,#0.00', sa));
+    Abort;
+  end;
   
 end;
 
@@ -373,15 +402,26 @@ begin
       ADataController.Values[ARecordIndex, cxColIdSatuan.Index] := q.FieldByName('id_satuan').AsInteger;
       q.Close;
 
-      {
-      zqrSO.Close;
-      zqrSO.ParamByName('id_cust').AsInteger := cxlCustomer.EditValue;
-      zqrSO.ParamByName('id_brg').AsInteger := ADataController.Values[ARecordIndex, cxColDeskripsi.Index];
-      zqrSO.Open;
-      }
+      q := OpenRS('SELECT * FROM tbl_barang_det_spek WHERE id_ref = %s',
+        [ADataController.Values[ARecordIndex, cxColDeskripsi.Index]]);
+      ADataController.Values[ARecordIndex, cxColJmlIkatPerBal.Index] := q.FieldByName('jml_ikat_per_karung').AsFloat;
+      q.Close;
+
     finally
       cxtbSJ.EndUpdate
     end;
+  end;
+
+  if (AItemIndex = cxColHargaIkat.Index) or (AItemIndex = cxColQty.Index) then begin
+    try
+      ADataController.Values[ARecordIndex, cxColHarga.Index] :=
+        ADataController.Values[ARecordIndex, cxColHargaIkat.Index] *
+        ADataController.Values[ARecordIndex, cxColJmlIkatPerBal.Index];
+      ADataController.Values[ARecordIndex, cxColTotal.Index] :=
+        ADataController.Values[ARecordIndex, cxColQty.Index] * ADataController.Values[ARecordIndex, cxColHarga.Index];
+    finally
+    end;
+    HitungTotal;
   end;
 
   {
@@ -461,6 +501,35 @@ begin
     }
   end;
 
+end;
+
+procedure TfrmInputSuratJalan.HitungTotal;
+var
+  i: integer;
+  tot, diskon, ppn: real;
+begin
+  try
+
+    tot := 0;
+    for i := 0 to cxtbSJ.DataController.RecordCount - 1 do begin
+      tot := tot + cxtbSJ.DataController.Values[i, cxColTotal.Index];
+    end;
+
+    diskon := 0;
+    if cxsDiskon.Value > 0 then
+      diskon := (cxsDiskon.Value /100) * tot;
+
+    cxsStlhDiskon.Value := tot - diskon;
+
+    cxsDPP.Value := cxsStlhDiskon.Value / 1.1;
+
+    ppn := 0;
+    if cxChkPPN.Checked then
+      ppn := (10 / 100) * cxsDPP.Value;
+
+    cxsHargaTotal.Value := cxsDPP.Value + ppn;
+  except
+  end;
 end;
 
 end.

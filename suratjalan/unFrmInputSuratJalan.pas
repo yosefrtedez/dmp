@@ -59,19 +59,23 @@ type
     DPP: TcxLabel;
     cxsStlhDiskon: TcxSpinEdit;
     cxsPPN: TcxSpinEdit;
-    cxCheckBox1: TcxCheckBox;
+    cxChkPPN: TcxCheckBox;
     cxLabel5: TcxLabel;
     cxsDPP: TcxSpinEdit;
     cxLabel6: TcxLabel;
     cxsHargaTotal: TcxSpinEdit;
     cxColHarga: TcxGridColumn;
-    cxtbSJColumn1: TcxGridColumn;
+    cxColTotal: TcxGridColumn;
     cxLabel7: TcxLabel;
     cxtNoFaktur: TcxTextEdit;
     zqrSO: TZReadOnlyQuery;
     dsSO: TDataSource;
     cxColIdSO: TcxGridColumn;
     cxColQtyTerkirim: TcxGridColumn;
+    cxColJmlIkatPerBal: TcxGridColumn;
+    cxColHargaIkat: TcxGridColumn;
+    cxLabel8: TcxLabel;
+    cxdTglJthTempo: TcxDateEdit;
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure cxColNoGetDisplayText(Sender: TcxCustomGridTableItem;
@@ -89,8 +93,9 @@ type
       AItemIndex: Integer);
     procedure cxColNoSOPropertiesButtonClick(Sender: TObject;
       AButtonIndex: Integer);
+    procedure cxsDiskonPropertiesChange(Sender: TObject);
   private
-    { Private declarations }
+    procedure HitungTotal;
   public
     { Public declarations }
   end;
@@ -153,6 +158,13 @@ begin
       qh.FieldByName('user').AsString := Aplikasi.NamaUser;
       qh.FieldByName('user_dept').AsString := Aplikasi.UserDept;
       qh.FieldByName('tgl_input').AsDateTime := Aplikasi.Tanggal;
+      qh.FIeldBYName('diskon').AsFloat := cxsDiskon.Value;
+      if cxChkPPN.Checked then
+        qh.FieldByName('f_ppn').AsInteger := 1;
+      if Trim(cxdTglJthTempo.Text) <> '' then
+        qh.FieldByName('jatuh_tempo').AsDateTime := cxdTglJthTempo.Date;
+      if cxtNoFaktur.Text <> '' then
+       qh.FieldByName('no_faktur').AsString := Trim(cxtNoFaktur.Text);
       qh.Post;
 
       if Self.Jenis = 'T' then  ID := LastInsertID;
@@ -173,6 +185,8 @@ begin
           qd.FieldByName('qty').AsFloat := Values[i, cxColQty.Index];
           qd.FieldByName('id_satuan').AsString := Values[i, cxColIdSatuan.Index];
           qd.FieldByName('id_gdg').AsString := Values[i, cxColGudang.Index];
+          qd.FieldbyName('harga').AsFloat := Values[i, cxColHarga.Index];
+          qd.FieldByName('hrgikat').AsFloat := Values[i, cxColHargaIkat.Index];
           if VarIsNull(Values[i, cxColKeterangan.index]) = True then begin
             qd.FieldByName('keterangan').AsString := '';
           end else begin
@@ -241,6 +255,12 @@ begin
   end;
 end;
 
+procedure TfrmInputSuratJalan.cxsDiskonPropertiesChange(Sender: TObject);
+begin
+  inherited;
+  HitungTotal;
+end;
+
 procedure TfrmInputSuratJalan.cxtbBarangMasukDataControllerBeforePost(
   ADataController: TcxCustomDataController);
 var
@@ -281,8 +301,6 @@ begin
   end;
   }
 end;
-
-
 
 procedure TfrmInputSuratJalan.cxtbBarangMasukDataControllerRecordChanged(
   ADataController: TcxCustomDataController; ARecordIndex, AItemIndex: Integer);
@@ -325,6 +343,7 @@ procedure TfrmInputSuratJalan.cxtbSJDataControllerBeforePost(
 var
   i,j,k: integer;
   v: variant;
+  sa: real;
 begin
   inherited;
   i := ADataController.FocusedRowIndex;
@@ -352,6 +371,12 @@ begin
     MsgBox('Kode gudang harus diisi.');
     Abort;
   end;
+
+  sa := GetStokAkhir(ADataController.Values[i, cxColDeskripsi.Index], ADataController.Values[i, cxColGudang.Index]);
+  if sa < ADataController.Values[i, cxColQty.Index] then begin
+    MsgBox('Stok barang tidak mencukupi. Stok : ' + FormatFloat('#,#0.00', sa));
+    Abort;
+  end;
   
 end;
 
@@ -374,15 +399,26 @@ begin
       ADataController.Values[ARecordIndex, cxColIdSatuan.Index] := q.FieldByName('id_satuan').AsInteger;
       q.Close;
 
-      {
-      zqrSO.Close;
-      zqrSO.ParamByName('id_cust').AsInteger := cxlCustomer.EditValue;
-      zqrSO.ParamByName('id_brg').AsInteger := ADataController.Values[ARecordIndex, cxColDeskripsi.Index];
-      zqrSO.Open;
-      }
+      q := OpenRS('SELECT * FROM tbl_barang_det_spek WHERE id_ref = %s',
+        [ADataController.Values[ARecordIndex, cxColDeskripsi.Index]]);
+      ADataController.Values[ARecordIndex, cxColJmlIkatPerBal.Index] := q.FieldByName('jml_ikat_per_karung').AsFloat;
+      q.Close;
+
     finally
       cxtbSJ.EndUpdate
     end;
+  end;
+
+  if (AItemIndex = cxColHargaIkat.Index) or (AItemIndex = cxColQty.Index) then begin
+    try
+      ADataController.Values[ARecordIndex, cxColHarga.Index] :=
+        ADataController.Values[ARecordIndex, cxColHargaIkat.Index] *
+        ADataController.Values[ARecordIndex, cxColJmlIkatPerBal.Index];
+      ADataController.Values[ARecordIndex, cxColTotal.Index] :=
+        ADataController.Values[ARecordIndex, cxColQty.Index] * ADataController.Values[ARecordIndex, cxColHarga.Index];
+    finally
+    end;
+    HitungTotal;
   end;
 
   {
@@ -426,18 +462,22 @@ begin
     cxtNoBukti.Text := sNoTrs;
   end
   else if Self.Jenis = 'E' then begin
-    {
     q := OpenRS('SELECT * FROM tbl_sj_head WHERE id = %s',[Self.EditKey]);
     cxtNoBukti.Text := q.FieldByName('no_bukti').AsString;
-    cxdTglDatang.Date := q.FieldByName('tanggal').AsDateTime;
     cxtKeterangan.Text := q.FieldByName('keterangan').AsString;
+    cxlCustomer.EditValue := q.FieldByName('id_customer').AsInteger;
+    cxdTglJthTempo.Date := q.FieldByname('jatuh_tempo').AsDateTime;
+    if q.FieldByName('f_ppn').AsInteger = 1 then
+      cxChkPPN.Checked := True;
+    cxsDiskon.Value := q.FieldByname('diskon').AsFloat;
+    cxtNoFaktur.Text := q.FieldByName('no_faktur').AsString;
     q.Close;
-    z := OpenRS('SELECT a.*, b.deskripsi, c.satuan satuan2 ' +
-          'FROM tbl_trskoreksi_det a ' +
-          'LEFT JOIN tbl_barang b ON a.kode_brg = b.kode ' +
-          'LEFT JOIN tbl_satuan c ON a.id_brg = c.id ' +
-          'LEFT JOIN tbl_gudang d ON d.id = a.kode_gdg ' +
-          'WHERE id_ref = %s',[Self.EditKey]);
+
+    z := OpenRS('SELECT a.*, b.deskripsi, c.satuan satuan2, d.jml_ikat_per_karung  FROM tbl_sj_det a ' +
+      'left join tbl_barang b on a.id_brg = b.id ' +
+      'LEFT JOIN tbl_satuan c on c.id = a.id_satuan ' +
+      'LEFT JOIN tbl_barang_det_spek d on d.id_ref = a.id_brg ' +
+      'WHERE a.id_ref = %s',[Self.EditKey]);
     nomer := 1;
 
     cxtbSJ.DataController.OnRecordChanged := nil;
@@ -447,21 +487,54 @@ begin
         Values[i, cxColNo.Index] := nomer;
         Values[i, cxColKodeBrg.Index] := z.FieldByName('kode_brg').AsString;
         Values[i, cxColDeskripsi.Index] := z.FieldByName('id_brg').AsString;
-        Values[i, cxColStokLama.Index] := z.FieldByName('stoklama').AsFloat;
-        Values[i, cxColStokBaru.Index] := z.FieldByName('stokbaru').AsFloat;
+        Values[i, cxColQty.Index] := z.FieldByName('qty').AsFloat;
         Values[i, cxColSatuan.Index] := z.FieldByName('satuan2').AsString;
-        Values[i, cxColGudang.Index] := z.FieldByName('id_gdg').AsInteger;
         Values[i, cxColIdSatuan.Index] := z.FieldByname('id_satuan').AsInteger;
-        Values[i, cxColKeterangan.Index] := z.FieldByname('keterangan').AsString;
+        Values[i, cxColKeterangan.Index] := z.FieldByName('keterangan').AsString;
+        Values[i, cxColHargaIkat.Index] := z.FieldByName('hrgikat').AsFloat;
+        Values[i, cxColHarga.Index] := z.FieldByname('hrgjual').AsFloat;
+        Values[i, cxColTotal.Index] := z.FieldByname('hrgjual').AsFloat * z.FieldByname('qty').AsFloat;
+        Values[i, cxColGudang.Index] := z.FieldByName('id_gdg').AsInteger;
+        Values[i, cxColJmlIkatPerBal.Index] := z.FieldByName('jml_ikat_per_karung').AsFloat;
         nomer := nomer +1;
       end;
       z.Next;
     end;
     z.Close;
-    cxtbSJ.DataController.OnRecordChanged := Self.cxtbBarangMasukDataControllerRecordChanged;
-    }
+    cxtbSJ.DataController.OnRecordChanged := Self.cxtbSJDataControllerRecordChanged;
+
+    HitungTotal;
   end;
 
+end;
+
+procedure TfrmInputSuratJalan.HitungTotal;
+var
+  i: integer;
+  tot, diskon, ppn: real;
+begin
+  try
+
+    tot := 0;
+    for i := 0 to cxtbSJ.DataController.RecordCount - 1 do begin
+      tot := tot + cxtbSJ.DataController.Values[i, cxColTotal.Index];
+    end;
+
+    diskon := 0;
+    if cxsDiskon.Value > 0 then
+      diskon := (cxsDiskon.Value /100) * tot;
+
+    cxsStlhDiskon.Value := tot - diskon;
+
+    cxsDPP.Value := cxsStlhDiskon.Value / 1.1;
+
+    ppn := 0;
+    if cxChkPPN.Checked then
+      ppn := (10 / 100) * cxsDPP.Value;
+
+    cxsHargaTotal.Value := cxsDPP.Value + ppn;
+  except
+  end;
 end;
 
 end.

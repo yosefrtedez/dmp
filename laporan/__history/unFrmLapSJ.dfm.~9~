@@ -720,6 +720,7 @@ object frmLapSJ: TfrmLapSJ
           Width = 86.929190000000000000
           Height = 18.897650000000000000
           ShowHint = False
+          DataField = 'hrgjual'
           DataSet = fdbSJ01
           DataSetName = 'fdbSJ01'
           DisplayFormat.FormatStr = '%2.2n'
@@ -731,7 +732,7 @@ object frmLapSJ: TfrmLapSJ
           Font.Style = []
           HAlign = haCenter
           Memo.UTF8W = (
-            '[fdbSJ01."harga"]')
+            '[fdbSJ01."hrgjual"]')
           ParentFont = False
         end
         object Memo22: TfrxMemoView
@@ -750,7 +751,7 @@ object frmLapSJ: TfrmLapSJ
           Font.Style = []
           HAlign = haRight
           Memo.UTF8W = (
-            '[<fdbSJ01."harga">*<fdbSJ01."qty">]')
+            '[<fdbSJ01."hrgjual">*<fdbSJ01."qty">]')
           ParentFont = False
         end
       end
@@ -818,6 +819,7 @@ object frmLapSJ: TfrmLapSJ
           Width = 219.212740000000000000
           Height = 18.897650000000000000
           ShowHint = False
+          DataField = 'nama'
           DataSet = fdbSJ01
           DataSetName = 'fdbSJ01'
           Font.Charset = DEFAULT_CHARSET
@@ -826,7 +828,7 @@ object frmLapSJ: TfrmLapSJ
           Font.Name = 'Arial'
           Font.Style = []
           Memo.UTF8W = (
-            '[fdbSJ01."nama_cust"]')
+            '[fdbSJ01."nama"]')
           ParentFont = False
         end
         object Memo4: TfrxMemoView
@@ -1044,7 +1046,7 @@ object frmLapSJ: TfrmLapSJ
           Font.Style = []
           HAlign = haRight
           Memo.UTF8W = (
-            '[SUM(<fdbSJ01."qty">*<fdbSJ01."harga">)]')
+            '[SUM(<fdbSJ01."qty">*<fdbSJ01."hrgjual">)]')
           ParentFont = False
         end
         object Memo12: TfrxMemoView
@@ -1098,6 +1100,7 @@ object frmLapSJ: TfrmLapSJ
           Width = 120.944960000000000000
           Height = 18.897650000000000000
           ShowHint = False
+          DataField = 'diskon'
           DataSet = fdbSJ01
           DataSetName = 'fdbSJ01'
           Font.Charset = DEFAULT_CHARSET
@@ -1126,8 +1129,8 @@ object frmLapSJ: TfrmLapSJ
           HAlign = haRight
           Memo.UTF8W = (
             
-              '[SUM(<fdbSJ01."qty">*<fdbSJ01."harga">)-((<fdbSJ01."diskon">/100' +
-              ')*SUM(<fdbSJ01."qty">*<fdbSJ01."harga">))]')
+              '[SUM(<fdbSJ01."qty">*<fdbSJ01."hrgjual">)-((<fdbSJ01."diskon">/1' +
+              '00)*SUM(<fdbSJ01."qty">*<fdbSJ01."hrgjual">))]')
           ParentFont = False
         end
         object Memo19: TfrxMemoView
@@ -1146,8 +1149,8 @@ object frmLapSJ: TfrmLapSJ
           HAlign = haRight
           Memo.UTF8W = (
             
-              '[(SUM(<fdbSJ01."qty">*<fdbSJ01."harga">)-((<fdbSJ01."diskon">/10' +
-              '0)*SUM(<fdbSJ01."qty">*<fdbSJ01."harga">)))/1.1]')
+              '[(SUM(<fdbSJ01."qty">*<fdbSJ01."hrgjual">)-((<fdbSJ01."diskon">/' +
+              '100)*SUM(<fdbSJ01."qty">*<fdbSJ01."hrgjual">)))/1.1]')
           ParentFont = False
         end
         object Memo20: TfrxMemoView
@@ -1166,8 +1169,8 @@ object frmLapSJ: TfrmLapSJ
           HAlign = haRight
           Memo.UTF8W = (
             
-              '[((SUM(<fdbSJ01."qty">*<fdbSJ01."harga">)-((<fdbSJ01."diskon">/1' +
-              '00)*SUM(<fdbSJ01."qty">*<fdbSJ01."harga">)))/1.1)*(10/100)]')
+              '[((SUM(<fdbSJ01."qty">*<fdbSJ01."hrgjual">)-((<fdbSJ01."diskon">' +
+              '/100)*SUM(<fdbSJ01."qty">*<fdbSJ01."hrgjual">)))/1.1)*(10/100)]')
           ParentFont = False
         end
         object Memo23: TfrxMemoView
@@ -1186,8 +1189,8 @@ object frmLapSJ: TfrmLapSJ
           HAlign = haRight
           Memo.UTF8W = (
             
-              '[((SUM(<fdbSJ01."qty">*<fdbSJ01."harga">)-((<fdbSJ01."diskon">/1' +
-              '00)*SUM(<fdbSJ01."qty">*<fdbSJ01."harga">)))/1.1)+<PPN>]')
+              '[((SUM(<fdbSJ01."qty">*<fdbSJ01."hrgjual">)-((<fdbSJ01."diskon">' +
+              '/100)*SUM(<fdbSJ01."qty">*<fdbSJ01."hrgjual">)))/1.1)+<PPN>]')
           ParentFont = False
         end
         object Memo24: TfrxMemoView

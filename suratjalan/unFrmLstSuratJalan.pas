@@ -67,6 +67,7 @@ type
     procedure btnEditClick(Sender: TObject);
     procedure btnHapusClick(Sender: TObject);
     procedure btnPostingClick(Sender: TObject);
+    procedure Button1Click(Sender: TObject);
   private
     { Private declarations }
     mjenis : string;
@@ -79,7 +80,8 @@ var
 
 implementation
 
-uses unDM, unTools, unFrmUtama, unFrmInputKoreksi, unFrmInputSuratJalan;
+uses unDM, unTools, unFrmUtama, unFrmInputKoreksi, unFrmInputSuratJalan,
+  unFrmLapSJ;
 
 {$R *.dfm}
 
@@ -234,6 +236,34 @@ begin
     ts.Caption := f.Caption;
     f.Show;
     fu.pgMain.ActivePage := ts;
+  end;
+end;
+
+procedure TfrmLstSuratJalan.Button1Click(Sender: TObject);
+var
+  f: TFrmLapSJ;
+begin
+  inherited;
+
+  if zqrSJ.FieldByName('f_posting').AsInteger = 0 then begin
+    MsgBox('Surat Jalan belum bisa di cetak karena belum di posting.');
+    Abort;
+  end;
+
+  f := TfrmLapSJ.Create(Self);
+  with f do begin
+    zqrSJ01.Close;
+    zqrSJ01.ParamByName('id').AsInteger := zqrSJ.FieldByName('id').AsInteger;
+    zqrSJ01.Open;
+    if zqrSJ.FieldByName('f_ppn').AsInteger = 1 then
+      rptSJ01.ShowReport(True)
+    else
+      rptSJ01NonPPN.ShowReport(True);
+
+    if zqrSJ.FieldByName('f_ppn').AsInteger = 1 then
+      rptFakturPenjualan.ShowReport(True)
+    else
+      rptFakturPenjualanNonPPN.ShowReport(True);
   end;
 end;
 

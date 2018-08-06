@@ -88,6 +88,7 @@ object frmLapSJ: TfrmLapSJ
           Width = 98.267780000000000000
           Height = 18.897650000000000000
           ShowHint = False
+          DataField = 'qty'
           DataSet = fdbSJ01
           DataSetName = 'fdbSJ01'
           Font.Charset = DEFAULT_CHARSET
@@ -118,16 +119,16 @@ object frmLapSJ: TfrmLapSJ
             '[fdbSJ01."jml_ikat_per_karung"]')
           ParentFont = False
         end
-        object fdbSJ01ket_detail: TfrxMemoView
+        object fdbSJ01keterangan: TfrxMemoView
           Left = 540.472790000000000000
           Width = 275.905690000000000000
           Height = 18.897650000000000000
           ShowHint = False
-          DataField = 'ket_detail'
+          DataField = 'keterangan'
           DataSet = fdbSJ01
           DataSetName = 'fdbSJ01'
           Memo.UTF8W = (
-            '[fdbSJ01."ket_detail"]')
+            '[fdbSJ01."keterangan"]')
         end
       end
       object PageHeader1: TfrxPageHeader
@@ -361,11 +362,11 @@ object frmLapSJ: TfrmLapSJ
           Width = 400.630180000000000000
           Height = 18.897650000000000000
           ShowHint = False
-          DataField = 'no_bukti'
+          DataField = 'no_sj'
           DataSet = fdbSJ01
           DataSetName = 'fdbSJ01'
           Memo.UTF8W = (
-            '[fdbSJ01."no_bukti"]')
+            '[fdbSJ01."no_sj"]')
         end
       end
       object GroupFooter1: TfrxGroupFooter
@@ -542,21 +543,31 @@ object frmLapSJ: TfrmLapSJ
   end
   object zqrSJ01: TZReadOnlyQuery
     Connection = DM.zConn
-    Active = True
     SQL.Strings = (
       'SELECT a.*, b.qty, b.harga, '
       'c.nama, c.alamat, '
-      'd.deskripsi, b.keterangan ket_detail,'
+      'd.deskripsi, '
       'e.jml_ikat_per_karung'
       'FROM tbl_sj_head a'
       'INNER JOIN tbl_sj_det b ON a.id = b.id_ref'
-      'LEFT JOIN tbl_customer c ON c.id = a.id_cust'
+      'LEFT JOIN tbl_customer c ON c.id = a.id_customer'
       'LEFT JOIN tbl_barang d ON d.id = b.id_brg'
       'LEFT JOIN tbl_barang_det_spek e ON e.id_ref = d.id'
-      '-- WHERE a.id = :id')
-    Params = <>
+      'WHERE a.id = :id')
+    Params = <
+      item
+        DataType = ftUnknown
+        Name = 'id'
+        ParamType = ptUnknown
+      end>
     Left = 88
     Top = 16
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'id'
+        ParamType = ptUnknown
+      end>
   end
   object dsSJ01: TDataSource
     DataSet = zqrSJ01
@@ -571,30 +582,25 @@ object frmLapSJ: TfrmLapSJ
       'no_bukti=no_bukti'
       'tanggal=tanggal'
       'jam=jam'
-      'kode_supplier=kode_supplier'
-      'kode_customer=kode_customer'
-      'id_cust=id_cust'
-      'no_spmb=no_spmb'
-      'no_so=no_so'
       'user=user'
       'user_dept=user_dept'
       'tgl_input=tgl_input'
-      'f_cetak=f_cetak'
-      'jml_cetak=jml_cetak'
-      'f_batal=f_batal'
-      'ongkos_kirim=ongkos_kirim'
-      'ppn=ppn'
-      'nama_cust=nama_cust'
-      'alamat_cust=alamat_cust'
-      'kota=kota'
-      'f_posting=f_posting'
+      'f_approval=f_approval'
+      'user_approval=user_approval'
+      'sopir=sopir'
+      'keterangan=keterangan'
+      'id_customer=id_customer'
+      'diskon=diskon'
       'f_ppn=f_ppn'
+      'jatuh_tempo=jatuh_tempo'
+      'jenistrs=jenistrs'
+      'no_sj=no_sj'
+      'no_faktur=no_faktur'
       'qty=qty'
-      'harga=harga'
+      'hrgjual=hrgjual'
       'nama=nama'
       'alamat=alamat'
       'deskripsi=deskripsi'
-      'ket_detail=ket_detail'
       'jml_ikat_per_karung=jml_ikat_per_karung')
     DataSet = zqrSJ01
     BCDToCurrency = True
@@ -720,6 +726,7 @@ object frmLapSJ: TfrmLapSJ
           Width = 86.929190000000000000
           Height = 18.897650000000000000
           ShowHint = False
+          DataField = 'hrgjual'
           DataSet = fdbSJ01
           DataSetName = 'fdbSJ01'
           DisplayFormat.FormatStr = '%2.2n'
@@ -731,7 +738,7 @@ object frmLapSJ: TfrmLapSJ
           Font.Style = []
           HAlign = haCenter
           Memo.UTF8W = (
-            '[fdbSJ01."harga"]')
+            '[fdbSJ01."hrgjual"]')
           ParentFont = False
         end
         object Memo22: TfrxMemoView
@@ -750,7 +757,7 @@ object frmLapSJ: TfrmLapSJ
           Font.Style = []
           HAlign = haRight
           Memo.UTF8W = (
-            '[<fdbSJ01."harga">*<fdbSJ01."qty">]')
+            '[<fdbSJ01."hrgjual">*<fdbSJ01."qty">]')
           ParentFont = False
         end
       end
@@ -818,6 +825,7 @@ object frmLapSJ: TfrmLapSJ
           Width = 219.212740000000000000
           Height = 18.897650000000000000
           ShowHint = False
+          DataField = 'nama'
           DataSet = fdbSJ01
           DataSetName = 'fdbSJ01'
           Font.Charset = DEFAULT_CHARSET
@@ -826,7 +834,7 @@ object frmLapSJ: TfrmLapSJ
           Font.Name = 'Arial'
           Font.Style = []
           Memo.UTF8W = (
-            '[fdbSJ01."nama_cust"]')
+            '[fdbSJ01."nama"]')
           ParentFont = False
         end
         object Memo4: TfrxMemoView
@@ -1044,7 +1052,7 @@ object frmLapSJ: TfrmLapSJ
           Font.Style = []
           HAlign = haRight
           Memo.UTF8W = (
-            '[SUM(<fdbSJ01."qty">*<fdbSJ01."harga">)]')
+            '[SUM(<fdbSJ01."qty">*<fdbSJ01."hrgjual">)]')
           ParentFont = False
         end
         object Memo12: TfrxMemoView
@@ -1098,6 +1106,7 @@ object frmLapSJ: TfrmLapSJ
           Width = 120.944960000000000000
           Height = 18.897650000000000000
           ShowHint = False
+          DataField = 'diskon'
           DataSet = fdbSJ01
           DataSetName = 'fdbSJ01'
           Font.Charset = DEFAULT_CHARSET
@@ -1126,8 +1135,8 @@ object frmLapSJ: TfrmLapSJ
           HAlign = haRight
           Memo.UTF8W = (
             
-              '[SUM(<fdbSJ01."qty">*<fdbSJ01."harga">)-((<fdbSJ01."diskon">/100' +
-              ')*SUM(<fdbSJ01."qty">*<fdbSJ01."harga">))]')
+              '[SUM(<fdbSJ01."qty">*<fdbSJ01."hrgjual">)-((<fdbSJ01."diskon">/1' +
+              '00)*SUM(<fdbSJ01."qty">*<fdbSJ01."hrgjual">))]')
           ParentFont = False
         end
         object Memo19: TfrxMemoView
@@ -1146,8 +1155,8 @@ object frmLapSJ: TfrmLapSJ
           HAlign = haRight
           Memo.UTF8W = (
             
-              '[(SUM(<fdbSJ01."qty">*<fdbSJ01."harga">)-((<fdbSJ01."diskon">/10' +
-              '0)*SUM(<fdbSJ01."qty">*<fdbSJ01."harga">)))/1.1]')
+              '[(SUM(<fdbSJ01."qty">*<fdbSJ01."hrgjual">)-((<fdbSJ01."diskon">/' +
+              '100)*SUM(<fdbSJ01."qty">*<fdbSJ01."hrgjual">)))/1.1]')
           ParentFont = False
         end
         object Memo20: TfrxMemoView
@@ -1166,8 +1175,8 @@ object frmLapSJ: TfrmLapSJ
           HAlign = haRight
           Memo.UTF8W = (
             
-              '[((SUM(<fdbSJ01."qty">*<fdbSJ01."harga">)-((<fdbSJ01."diskon">/1' +
-              '00)*SUM(<fdbSJ01."qty">*<fdbSJ01."harga">)))/1.1)*(10/100)]')
+              '[((SUM(<fdbSJ01."qty">*<fdbSJ01."hrgjual">)-((<fdbSJ01."diskon">' +
+              '/100)*SUM(<fdbSJ01."qty">*<fdbSJ01."hrgjual">)))/1.1)*(10/100)]')
           ParentFont = False
         end
         object Memo23: TfrxMemoView
@@ -1186,8 +1195,8 @@ object frmLapSJ: TfrmLapSJ
           HAlign = haRight
           Memo.UTF8W = (
             
-              '[((SUM(<fdbSJ01."qty">*<fdbSJ01."harga">)-((<fdbSJ01."diskon">/1' +
-              '00)*SUM(<fdbSJ01."qty">*<fdbSJ01."harga">)))/1.1)+<PPN>]')
+              '[((SUM(<fdbSJ01."qty">*<fdbSJ01."hrgjual">)-((<fdbSJ01."diskon">' +
+              '/100)*SUM(<fdbSJ01."qty">*<fdbSJ01."hrgjual">)))/1.1)+<PPN>]')
           ParentFont = False
         end
         object Memo24: TfrxMemoView
