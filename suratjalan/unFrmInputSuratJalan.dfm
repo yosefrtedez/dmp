@@ -133,6 +133,7 @@ inherited frmInputSuratJalan: TfrmInputSuratJalan
         Caption = 'Jml. Ikat / Bal'
         DataBinding.ValueType = 'Integer'
         PropertiesClassName = 'TcxSpinEditProperties'
+        Properties.Alignment.Horz = taRightJustify
         Properties.ReadOnly = True
         Width = 85
       end
@@ -140,6 +141,7 @@ inherited frmInputSuratJalan: TfrmInputSuratJalan
         Caption = 'Harga / Ikat'
         DataBinding.ValueType = 'Float'
         PropertiesClassName = 'TcxSpinEditProperties'
+        Properties.Alignment.Horz = taRightJustify
         Properties.DisplayFormat = '#,#0.00'
         Properties.ValueType = vtFloat
         Width = 67
@@ -160,6 +162,7 @@ inherited frmInputSuratJalan: TfrmInputSuratJalan
         Caption = 'Qty. SO'
         DataBinding.ValueType = 'Float'
         PropertiesClassName = 'TcxSpinEditProperties'
+        Properties.Alignment.Horz = taRightJustify
         Properties.DisplayFormat = '#,#0.00'
         Properties.ReadOnly = True
         Properties.ValueType = vtFloat
@@ -168,6 +171,7 @@ inherited frmInputSuratJalan: TfrmInputSuratJalan
       object cxColQtyTerkirim: TcxGridColumn
         Caption = 'Qty. Terkirim'
         PropertiesClassName = 'TcxSpinEditProperties'
+        Properties.Alignment.Horz = taRightJustify
         Properties.DisplayFormat = '#,#0.00'
         Properties.ReadOnly = True
         Width = 73
@@ -180,6 +184,7 @@ inherited frmInputSuratJalan: TfrmInputSuratJalan
         Properties.DisplayFormat = '#,##.00'
         Properties.ReadOnly = False
         Properties.ValueType = vtFloat
+        HeaderAlignmentHorz = taRightJustify
         Width = 73
       end
       object cxColHarga: TcxGridColumn
@@ -187,6 +192,7 @@ inherited frmInputSuratJalan: TfrmInputSuratJalan
         DataBinding.ValueType = 'Float'
         PropertiesClassName = 'TcxSpinEditProperties'
         Properties.Alignment.Horz = taRightJustify
+        Properties.DisplayFormat = '#,#0.00'
         Properties.ReadOnly = True
         Width = 74
       end

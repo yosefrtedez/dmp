@@ -89,6 +89,11 @@ inherited frmLstSuratJalan: TfrmLstSuratJalan
         Options.Editing = False
         Width = 100
       end
+      object cxtbSJColumn1: TcxGridDBColumn
+        Caption = 'Customer'
+        DataBinding.FieldName = 'nama_cust'
+        Width = 307
+      end
       object cxColTblTrsMasukHeaduser: TcxGridDBColumn
         Caption = 'User'
         DataBinding.FieldName = 'user'
@@ -99,11 +104,7 @@ inherited frmLstSuratJalan: TfrmLstSuratJalan
         Caption = 'Departemen'
         DataBinding.FieldName = 'user_dept'
         Options.Editing = False
-      end
-      object cxtbSJColumn1: TcxGridDBColumn
-        Caption = 'Customer'
-        DataBinding.FieldName = 'nama_cust'
-        Width = 307
+        Width = 72
       end
     end
     object cxTblDet: TcxGridDBTableView

@@ -145,6 +145,8 @@ begin
     //q.FieldByName('operator').AsString := ADataController.Values[i, cxColOperator.INdex];
     q.FieldByName('id_gdg').AsInteger := ADataController.Values[i, cxColGdg.Index];
     q.FieldByName('id_satuan').AsInteger := cxtbBOM.DataController.Values[j, cxColIdSatuan.Index];
+    q.FieldByName('user').AsString := Aplikasi.NamaUser;
+    q.FieldByName('user_dept').AsString := Aplikasi.UserDept;
     ADataController.Values[i, cxColStatus.Index] := 1;
     q.Post;
     q.Close;

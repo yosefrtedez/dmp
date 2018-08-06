@@ -166,6 +166,22 @@ begin
     qh.Post;
     qh.Close;
 
+    q := OpenRS('SELECT id, stok FROM tbl_barang WHERE id = %s',[cxtbBOM.DataController.Values[j, cxColIdBrg.Index]]);
+    q.Edit;
+    q.FieldByName('stok').AsFloat := q.FieldByName('stok').AsFloat - ADataController.Values[i, cxColQtyInput.Index];
+    q.Post;
+
+    q := OpenRS('SELECT id_brg, id_gdg, stok FROM tbl_barang_det WHERE id_brg = %s AND id_gdg = %s',
+      [cxtbBOM.DataController.Values[j, cxColIdBrg.Index], ADataController.Values[i, cxColGdg.Index]]);
+    if not q.IsEmpty then
+      q.Edit
+    else
+      q.Insert;
+    q.FieldByName('id_brg').AsInteger := cxtbBOM.DataController.Values[j, cxColIdBrg.Index];
+    q.FieldByName('id_gdg').AsInteger := ADataController.Values[i, cxColGdg.Index];
+    q.FieldByName('stok').AsFloat := q.FieldByName('stok').AsFloat - ADataController.Values[i, cxColQtyInput.Index];
+    q.Post;
+
     dm.zConn.Commit;
 
     // update qty pengambilan
@@ -215,7 +231,7 @@ begin
     Abort;
   end;
 
-  sa := GetStokAkhir(ADataController.Values[i, cxColDeskripsi.Index], ADataController.Values[i, cxColGudang.Index]);
+  sa := GetStokAkhir(cxtbBOM.DataController.Values[j, cxColIdBrg.Index], ADataController.Values[i, cxColGdg.Index]);
   if sa < ADataController.Values[i, cxColQtyInput.Index] then begin
     MsgBox('Stok barang tidak mencukupi. Stok : ' + FormatFloat('#,#0.00', sa));
     Abort;

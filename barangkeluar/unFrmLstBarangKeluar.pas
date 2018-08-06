@@ -137,6 +137,8 @@ begin
         FieldByname('id_gdg').AsInteger := qd.FieldByName('id_gdg').AsInteger;
         FieldByName('keterangan').AsString := qd.FieldByName('keterangan').AsString;
         FieldByName('tgl_input').AsDateTime := Aplikasi.NowServer;
+        FieldByName('user').AsString := Aplikasi.NamaUser;
+        FieldByName('user_dept').AsString := Aplikasi.UserDept;
         Post;
       end;
 

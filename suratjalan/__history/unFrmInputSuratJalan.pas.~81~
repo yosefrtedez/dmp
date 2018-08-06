@@ -74,6 +74,8 @@ type
     cxColQtyTerkirim: TcxGridColumn;
     cxColJmlIkatPerBal: TcxGridColumn;
     cxColHargaIkat: TcxGridColumn;
+    cxLabel8: TcxLabel;
+    cxdTglJthTempo: TcxDateEdit;
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure cxColNoGetDisplayText(Sender: TcxCustomGridTableItem;
@@ -157,6 +159,14 @@ begin
       qh.FieldByName('user_dept').AsString := Aplikasi.UserDept;
       qh.FieldByName('tgl_input').AsDateTime := Aplikasi.Tanggal;
       qh.FIeldBYName('diskon').AsFloat := cxsDiskon.Value;
+      if cxChkPPN.Checked then
+        qh.FieldByName('f_ppn').AsInteger := 1;
+      if Trim(cxdTglJthTempo.Text) <> '' then
+        qh.FieldByName('jatuh_tempo').AsDateTime := cxdTglJthTempo.Date;
+      if cxtNoFaktur.Text <> '' then
+       qh.FieldByName('no_faktur').AsString := Trim(cxtNoFaktur.Text);
+      qh.FieldByName('nopol').AsString := Trim(cxtNopol.Text);
+      qh.FieldByName('sopir').AsString := Trim(cxtSopir.Text);
       qh.Post;
 
       if Self.Jenis = 'T' then  ID := LastInsertID;
@@ -293,8 +303,6 @@ begin
   end;
   }
 end;
-
-
 
 procedure TfrmInputSuratJalan.cxtbBarangMasukDataControllerRecordChanged(
   ADataController: TcxCustomDataController; ARecordIndex, AItemIndex: Integer);
@@ -456,18 +464,24 @@ begin
     cxtNoBukti.Text := sNoTrs;
   end
   else if Self.Jenis = 'E' then begin
-    {
     q := OpenRS('SELECT * FROM tbl_sj_head WHERE id = %s',[Self.EditKey]);
     cxtNoBukti.Text := q.FieldByName('no_bukti').AsString;
-    cxdTglDatang.Date := q.FieldByName('tanggal').AsDateTime;
     cxtKeterangan.Text := q.FieldByName('keterangan').AsString;
+    cxlCustomer.EditValue := q.FieldByName('id_cust').AsInteger;
+    cxdTglJthTempo.Date := q.FieldByname('jatuh_tempo').AsDateTime;
+    if q.FieldByName('f_ppn').AsInteger = 1 then
+      cxChkPPN.Checked := True;
+    cxsDiskon.Value := q.FieldByname('diskon').AsFloat;
+    cxtNoFaktur.Text := q.FieldByName('no_faktur').AsString;
+    cxtSopir.Text := q.FieldByName('sopir').AsString;
+    cxtNopol.Text := q.FieldByName('nopol').AsString;
     q.Close;
-    z := OpenRS('SELECT a.*, b.deskripsi, c.satuan satuan2 ' +
-          'FROM tbl_trskoreksi_det a ' +
-          'LEFT JOIN tbl_barang b ON a.kode_brg = b.kode ' +
-          'LEFT JOIN tbl_satuan c ON a.id_brg = c.id ' +
-          'LEFT JOIN tbl_gudang d ON d.id = a.kode_gdg ' +
-          'WHERE id_ref = %s',[Self.EditKey]);
+
+    z := OpenRS('SELECT a.*, b.deskripsi, c.satuan satuan2, d.jml_ikat_per_karung  FROM tbl_sj_det a ' +
+      'left join tbl_barang b on a.id_brg = b.id ' +
+      'LEFT JOIN tbl_satuan c on c.id = a.id_satuan ' +
+      'LEFT JOIN tbl_barang_det_spek d on d.id_ref = a.id_brg ' +
+      'WHERE a.id_ref = %s',[Self.EditKey]);
     nomer := 1;
 
     cxtbSJ.DataController.OnRecordChanged := nil;
@@ -477,19 +491,23 @@ begin
         Values[i, cxColNo.Index] := nomer;
         Values[i, cxColKodeBrg.Index] := z.FieldByName('kode_brg').AsString;
         Values[i, cxColDeskripsi.Index] := z.FieldByName('id_brg').AsString;
-        Values[i, cxColStokLama.Index] := z.FieldByName('stoklama').AsFloat;
-        Values[i, cxColStokBaru.Index] := z.FieldByName('stokbaru').AsFloat;
+        Values[i, cxColQty.Index] := z.FieldByName('qty').AsFloat;
         Values[i, cxColSatuan.Index] := z.FieldByName('satuan2').AsString;
-        Values[i, cxColGudang.Index] := z.FieldByName('id_gdg').AsInteger;
         Values[i, cxColIdSatuan.Index] := z.FieldByname('id_satuan').AsInteger;
-        Values[i, cxColKeterangan.Index] := z.FieldByname('keterangan').AsString;
+        Values[i, cxColKeterangan.Index] := z.FieldByName('keterangan').AsString;
+        Values[i, cxColHargaIkat.Index] := z.FieldByName('hrgikat').AsFloat;
+        Values[i, cxColHarga.Index] := z.FieldByname('harga').AsFloat;
+        Values[i, cxColTotal.Index] := z.FieldByname('harga').AsFloat * z.FieldByname('qty').AsFloat;
+        Values[i, cxColGudang.Index] := z.FieldByName('id_gdg').AsInteger;
+        Values[i, cxColJmlIkatPerBal.Index] := z.FieldByName('jml_ikat_per_karung').AsFloat;
         nomer := nomer +1;
       end;
       z.Next;
     end;
     z.Close;
-    cxtbSJ.DataController.OnRecordChanged := Self.cxtbBarangMasukDataControllerRecordChanged;
-    }
+    cxtbSJ.DataController.OnRecordChanged := Self.cxtbSJDataControllerRecordChanged;
+
+    HitungTotal;
   end;
 
 end;

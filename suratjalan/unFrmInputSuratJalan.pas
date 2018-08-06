@@ -165,6 +165,8 @@ begin
         qh.FieldByName('jatuh_tempo').AsDateTime := cxdTglJthTempo.Date;
       if cxtNoFaktur.Text <> '' then
        qh.FieldByName('no_faktur').AsString := Trim(cxtNoFaktur.Text);
+      qh.FieldByName('nopol').AsString := Trim(cxtNopol.Text);
+      qh.FieldByName('sopir').AsString := Trim(cxtSopir.Text);
       qh.Post;
 
       if Self.Jenis = 'T' then  ID := LastInsertID;
@@ -465,11 +467,14 @@ begin
     q := OpenRS('SELECT * FROM tbl_sj_head WHERE id = %s',[Self.EditKey]);
     cxtNoBukti.Text := q.FieldByName('no_bukti').AsString;
     cxtKeterangan.Text := q.FieldByName('keterangan').AsString;
-    cxlCustomer.EditValue := q.FieldByName('id_customer').AsInteger;
+    cxlCustomer.EditValue := q.FieldByName('id_cust').AsInteger;
     cxdTglJthTempo.Date := q.FieldByname('jatuh_tempo').AsDateTime;
     if q.FieldByName('f_ppn').AsInteger = 1 then
       cxChkPPN.Checked := True;
     cxsDiskon.Value := q.FieldByname('diskon').AsFloat;
+    cxtNoFaktur.Text := q.FieldByName('no_faktur').AsString;
+    cxtSopir.Text := q.FieldByName('sopir').AsString;
+    cxtNopol.Text := q.FieldByName('nopol').AsString;
     cxtNoFaktur.Text := q.FieldByName('no_faktur').AsString;
     q.Close;
 
@@ -492,8 +497,8 @@ begin
         Values[i, cxColIdSatuan.Index] := z.FieldByname('id_satuan').AsInteger;
         Values[i, cxColKeterangan.Index] := z.FieldByName('keterangan').AsString;
         Values[i, cxColHargaIkat.Index] := z.FieldByName('hrgikat').AsFloat;
-        Values[i, cxColHarga.Index] := z.FieldByname('hrgjual').AsFloat;
-        Values[i, cxColTotal.Index] := z.FieldByname('hrgjual').AsFloat * z.FieldByname('qty').AsFloat;
+        Values[i, cxColHarga.Index] := z.FieldByname('harga').AsFloat;
+        Values[i, cxColTotal.Index] := z.FieldByname('harga').AsFloat * z.FieldByname('qty').AsFloat;
         Values[i, cxColGudang.Index] := z.FieldByName('id_gdg').AsInteger;
         Values[i, cxColJmlIkatPerBal.Index] := z.FieldByName('jml_ikat_per_karung').AsFloat;
         nomer := nomer +1;

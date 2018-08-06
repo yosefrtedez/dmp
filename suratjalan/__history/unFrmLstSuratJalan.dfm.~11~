@@ -1,20 +1,17 @@
-inherited frmLstBarangKeluar: TfrmLstBarangKeluar
-  Caption = 'Barang Keluar'
-  ClientWidth = 1063
+inherited frmLstSuratJalan: TfrmLstSuratJalan
+  Caption = 'Koreksi Barang'
   OnCreate = FormCreate
-  ExplicitWidth = 1063
+  ExplicitWidth = 1016
   ExplicitHeight = 508
   PixelsPerInch = 96
   TextHeight = 13
   inherited Panel1: TPanel
-    Width = 1063
-    ExplicitWidth = 1063
     object Label13: TLabel
       Left = 10
       Top = 13
-      Width = 116
+      Width = 92
       Height = 19
-      Caption = 'Barang Keluar'
+      Caption = 'Surat Jalan'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -16
@@ -24,18 +21,15 @@ inherited frmLstBarangKeluar: TfrmLstBarangKeluar
     end
   end
   inherited Panel2: TPanel
-    Width = 1063
     TabOrder = 4
-    ExplicitWidth = 1063
     inherited btnTambah: TButton
       OnClick = btnTambahClick
     end
     inherited btnEdit: TButton
       OnClick = btnEditClick
     end
-    inherited btnKeluar: TButton
-      Left = 980
-      ExplicitLeft = 980
+    inherited btnHapus: TButton
+      OnClick = btnHapusClick
     end
     inherited btnRefresh: TButton
       OnClick = btnRefreshClick
@@ -44,84 +38,72 @@ inherited frmLstBarangKeluar: TfrmLstBarangKeluar
   object cxgrd1: TcxGrid
     Left = 0
     Top = 49
-    Width = 1063
+    Width = 1016
     Height = 169
     Align = alClient
     TabOrder = 1
-    object cxtbBarangKeluar: TcxGridDBTableView
+    object cxtbSJ: TcxGridDBTableView
       NavigatorButtons.ConfirmDelete = False
+      NavigatorButtons.First.Visible = True
       NavigatorButtons.Insert.Visible = False
       NavigatorButtons.Delete.Visible = False
       NavigatorButtons.Edit.Visible = False
       NavigatorButtons.Post.Visible = False
       NavigatorButtons.Cancel.Visible = False
+      NavigatorButtons.Refresh.Visible = True
       NavigatorButtons.SaveBookmark.Visible = False
       NavigatorButtons.GotoBookmark.Visible = False
       NavigatorButtons.Filter.Visible = False
-      OnFocusedRecordChanged = cxtbBarangKeluarFocusedRecordChanged
-      DataController.DataSource = dsBarangKeluar
+      OnFocusedRecordChanged = cxtbSJFocusedRecordChanged
+      DataController.DataSource = dsSJ
       DataController.KeyFieldNames = 'id'
       DataController.Summary.DefaultGroupSummaryItems = <>
       DataController.Summary.FooterSummaryItems = <>
       DataController.Summary.SummaryGroups = <>
       FilterRow.Visible = True
+      OptionsData.CancelOnExit = False
+      OptionsData.Deleting = False
+      OptionsData.DeletingConfirmation = False
+      OptionsData.Editing = False
+      OptionsData.Inserting = False
       OptionsView.Navigator = True
       OptionsView.CellTextMaxLineCount = 10
       Preview.MaxLineCount = 10
-      object cxColPosting: TcxGridDBColumn
+      object cxtbSJColumn2: TcxGridDBColumn
         Caption = 'Posting'
         DataBinding.FieldName = 'f_posting'
-        PropertiesClassName = 'TcxCheckBoxProperties'
-        Properties.ValueChecked = 1
-        Properties.ValueUnchecked = 0
-      end
-      object cxColPOHeadno_bukti: TcxGridDBColumn
-        Caption = 'No. Bukti'
-        DataBinding.FieldName = 'no_bukti'
-        Width = 80
-      end
-      object cxColPOHeadid_invoice: TcxGridDBColumn
-        DataBinding.FieldName = 'id_invoice'
-        Visible = False
-        Width = 90
-      end
-      object cxColPOHeadketerangan: TcxGridDBColumn
-        Caption = 'Keterangan'
-        DataBinding.FieldName = 'keterangan'
-        Width = 200
-      end
-      object cxColPOHeadtanggal: TcxGridDBColumn
-        Caption = 'Tanggal'
-        DataBinding.FieldName = 'tanggal'
-      end
-      object cxColPOHeaduser: TcxGridDBColumn
-        Caption = 'User'
-        DataBinding.FieldName = 'user'
-      end
-      object cxtbBarangKeluarColumn1: TcxGridDBColumn
-        Caption = 'PPN'
-        DataBinding.FieldName = 'f_ppn'
         PropertiesClassName = 'TcxCheckBoxProperties'
         Properties.Alignment = taCenter
         Properties.ValueChecked = 1
         Properties.ValueUnchecked = 0
-        HeaderAlignmentHorz = taCenter
-        Width = 44
       end
-      object cxtbBarangKeluarColumn4: TcxGridDBColumn
-        Caption = 'Jenis Transaksi'
-        DataBinding.FieldName = 'jenistrs'
-        Width = 210
+      object cxColTblTrsMasukHeadno_bukti: TcxGridDBColumn
+        Caption = 'No. Bukti'
+        DataBinding.FieldName = 'no_bukti'
+        Options.Editing = False
+        Width = 100
       end
-      object cxtbBarangKeluarColumn2: TcxGridDBColumn
-        Caption = 'No. Surat Jalan'
-        DataBinding.FieldName = 'no_sj'
-        Width = 131
+      object cxColTblTrsMasukHeadtanggal: TcxGridDBColumn
+        Caption = 'Tanggal'
+        DataBinding.FieldName = 'tanggal'
+        Options.Editing = False
+        Width = 100
       end
-      object cxtbBarangKeluarColumn3: TcxGridDBColumn
-        Caption = 'No. Faktur'
-        DataBinding.FieldName = 'no_faktur'
-        Width = 183
+      object cxColTblTrsMasukHeaduser: TcxGridDBColumn
+        Caption = 'User'
+        DataBinding.FieldName = 'user'
+        Options.Editing = False
+        Width = 120
+      end
+      object cxColTblTrsMasukHeaduser_dept: TcxGridDBColumn
+        Caption = 'Departemen'
+        DataBinding.FieldName = 'user_dept'
+        Options.Editing = False
+      end
+      object cxtbSJColumn1: TcxGridDBColumn
+        Caption = 'Customer'
+        DataBinding.FieldName = 'nama_cust'
+        Width = 307
       end
     end
     object cxTblDet: TcxGridDBTableView
@@ -174,36 +156,26 @@ inherited frmLstBarangKeluar: TfrmLstBarangKeluar
       end
     end
     object cxgrdlvl1Grid1Level1: TcxGridLevel
-      GridView = cxtbBarangKeluar
+      GridView = cxtbSJ
     end
   end
   object Panel3: TPanel
     Left = 0
     Top = 218
-    Width = 1063
+    Width = 1016
     Height = 41
     Align = alBottom
     TabOrder = 2
     DesignSize = (
-      1063
+      1016
       41)
     object cxLabel1: TcxLabel
       Left = 10
       Top = 12
-      Caption = 'Detail Barang Masuk'
-    end
-    object Button1: TButton
-      Left = 806
-      Top = 9
-      Width = 249
-      Height = 25
-      Anchors = [akTop, akRight]
-      Caption = 'Cetak Faktur Penjualan + Surat Jalan'
-      TabOrder = 1
-      OnClick = Button1Click
+      Caption = 'Detail Surat Jalan'
     end
     object btnPosting: TButton
-      Left = 725
+      Left = 679
       Top = 9
       Width = 75
       Height = 25
@@ -212,86 +184,101 @@ inherited frmLstBarangKeluar: TfrmLstBarangKeluar
       TabOrder = 0
       OnClick = btnPostingClick
     end
+    object Button1: TButton
+      Left = 759
+      Top = 9
+      Width = 249
+      Height = 25
+      Anchors = [akTop, akRight]
+      Caption = 'Cetak Faktur Penjualan + Surat Jalan'
+      TabOrder = 1
+      OnClick = Button1Click
+    end
   end
   object cxGrid1: TcxGrid
     Left = 0
     Top = 259
-    Width = 1063
+    Width = 1016
     Height = 200
     Align = alBottom
     TabOrder = 3
-    object cxtbBarangKeluarDet: TcxGridDBTableView
+    object cxtbSJDet: TcxGridDBTableView
       NavigatorButtons.ConfirmDelete = False
-      DataController.DataSource = dsBarangKeluarkDet
+      DataController.DataSource = dsSJDet
       DataController.Summary.DefaultGroupSummaryItems = <>
       DataController.Summary.FooterSummaryItems = <>
       DataController.Summary.SummaryGroups = <>
-      object cxColPODetno_bukti: TcxGridDBColumn
+      object cxColTblTrsMasukDetno_bukti: TcxGridDBColumn
         Caption = 'No. Bukti'
         DataBinding.FieldName = 'no_bukti'
-        Width = 80
+        Options.Editing = False
+        Width = 100
       end
-      object cxColPODetkode_brg: TcxGridDBColumn
+      object cxColTblTrsMasukDetkode_brg: TcxGridDBColumn
         Caption = 'Kode Brg'
         DataBinding.FieldName = 'kode_brg'
-        Width = 90
+        Options.Editing = False
+        Width = 100
       end
-      object cxColPODetdeskripsi: TcxGridDBColumn
+      object cxColTblTrsMasukDetdeskripsi: TcxGridDBColumn
         Caption = 'Deskripsi'
         DataBinding.FieldName = 'deskripsi'
+        Options.Editing = False
         Width = 200
       end
-      object cxColPODetqty: TcxGridDBColumn
-        Caption = 'Qty'
+      object cxColTblTrsMasukDetqty: TcxGridDBColumn
+        Caption = 'Qty.'
         DataBinding.FieldName = 'qty'
         PropertiesClassName = 'TcxSpinEditProperties'
         Properties.DisplayFormat = '#,#0.00'
+        Properties.ValueType = vtFloat
+        Options.Editing = False
+        Width = 80
       end
-      object cxColPODetsatuan: TcxGridDBColumn
+      object cxColTblTrsMasukDetsatuan: TcxGridDBColumn
         Caption = 'Satuan'
         DataBinding.FieldName = 'satuan'
-        Width = 60
+        Options.Editing = False
+        Width = 80
       end
-      object cxColPODetid_gdg: TcxGridDBColumn
-        Caption = 'Gudang'
-        DataBinding.FieldName = 'kode'
-      end
-      object cxtbBarangKeluarDetColumn1: TcxGridDBColumn
+      object cxColTblTrsMasukDetketerangan: TcxGridDBColumn
         Caption = 'Keterangan'
         DataBinding.FieldName = 'keterangan'
+        Options.Editing = False
+        Width = 200
       end
     end
     object cxGrid1Level1: TcxGridLevel
-      GridView = cxtbBarangKeluarDet
+      GridView = cxtbSJDet
     end
   end
-  object zqrBarangKeluar: TZReadOnlyQuery
+  object zqrSJ: TZReadOnlyQuery
     Connection = DM.zConn
     SQL.Strings = (
-      
-        'SELECT a.id, a.no_bukti,  a.tanggal, a.user, a.user_dept, a.kete' +
-        'rangan, a.f_ppn, a.no_sj, a.no_faktur, a.jenistrs, a.f_posting'
-      'FROM tbl_trskeluar_head a')
+      'select a.*, b.nama nama_customer '
+      'from  tbl_sj_head a '
+      'left join tbl_customer b on a.id_cust = b.id'
+      'order by no_bukti')
     Params = <>
-    Left = 647
-    Top = 350
+    Left = 601
+    Top = 146
   end
-  object dsBarangKeluar: TDataSource
-    DataSet = zqrBarangKeluar
-    Left = 747
-    Top = 319
+  object dsSJ: TDataSource
+    DataSet = zqrSJ
+    Left = 693
+    Top = 154
   end
-  object zqrBarangKeluarDet: TZReadOnlyQuery
+  object zqrSJDet: TZReadOnlyQuery
     Connection = DM.zConn
     AutoCalcFields = False
     SQL.Strings = (
       
-        'SELECT a.id_ref, a.no_bukti, a.kode_brg, b.deskripsi, a.qty, d.k' +
-        'ode, c.`satuan`, a.keterangan'
-      'FROM tbl_trskeluar_det a'
-      'LEFT JOIN tbl_barang b ON a.`id_brg` = b.`id`'
-      'LEFT JOIN tbl_satuan c ON a.`id_satuan` = c.`id`'
-      'left join tbl_gudang d on a.id_gdg = d.id'
+        'SELECT a.id, a.id_ref, a.no_bukti, a.kode_brg, b.deskripsi, c.sa' +
+        'tuan, a.qty, a.keterangan'
+      'FROM tbl_sj_det a'
+      'LEFT JOIN tbl_barang b ON a.id_brg = b.id'
+      'LEFT JOIN tbl_satuan c ON a.id_satuan = c.id'
+      'LEFT JOIN tbl_gudang d ON d.id = a.id_gdg'
       'where a.id_ref = :id_ref')
     Params = <
       item
@@ -299,8 +286,8 @@ inherited frmLstBarangKeluar: TfrmLstBarangKeluar
         Name = 'id_ref'
         ParamType = ptUnknown
       end>
-    Left = 428
-    Top = 150
+    Left = 621
+    Top = 384
     ParamData = <
       item
         DataType = ftUnknown
@@ -308,9 +295,9 @@ inherited frmLstBarangKeluar: TfrmLstBarangKeluar
         ParamType = ptUnknown
       end>
   end
-  object dsBarangKeluarkDet: TDataSource
-    DataSet = zqrBarangKeluarDet
-    Left = 553
-    Top = 157
+  object dsSJDet: TDataSource
+    DataSet = zqrSJDet
+    Left = 690
+    Top = 368
   end
 end
