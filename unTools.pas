@@ -275,7 +275,7 @@ begin
   else if sTipe = 'mts' then
     depan := 'MTS/'
   else if sTipe = 'spmb' then
-    depan := 'SPMB/'  //SPMB-A14-0001
+    depan := 'SPMB/'
   else if sTipe = 'sj' then
     depan := 'SJ/'
   else if sTipe = 'spk_potong' then

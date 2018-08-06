@@ -125,6 +125,7 @@ type
     procedure mnWhl_KoreksiClick(Sender: TObject);
     procedure mnPrd_PengambilanBBClick(Sender: TObject);
     procedure mnPrd_InputHslProdClick(Sender: TObject);
+    procedure mnMkt_SuratJalanClick(Sender: TObject);
   private
     procedure PGChange(Sender: TObject);
   public
@@ -151,7 +152,7 @@ uses
   unFrmLstFormula, unFrmAppPO, unFrmLstReturPembelian, unFrmAppRetur,
   unFrmInputBarangMasuk, unFrmLstBarangMasuk, unFrmLstBarangKeluar,
   unFrmKalkulasiStok, unFrmLstKoreksi, unFrmMenuLaporan,
-  unFrmPengambilanBahanBaku, unFrmInputHasilProduksi;
+  unFrmPengambilanBahanBaku, unFrmInputHasilProduksi, unFrmLstSuratJalan;
 
 {$R *.dfm}
 
@@ -334,6 +335,25 @@ begin
     ts.PageControl := pgMain;
 
     f := TfrmLstSO.Create(Self);
+    f.Parent := ts;
+    ts.Caption := f.Caption;
+    f.Show;
+
+    pgMain.ActivePage := ts;
+  end;
+end;
+
+procedure TfrmUtama.mnMkt_SuratJalanClick(Sender: TObject);
+var
+  f: TfrmLstSuratJalan;
+  ts: TcxTabSheet;
+begin
+  if not CekTabOpen('Surat Jalan') then begin
+    ToggleMainPage;
+    ts := TcxTabSheet.Create(Self);
+    ts.PageControl := pgMain;
+
+    f := TfrmLstSuratJalan.Create(Self);
     f.Parent := ts;
     ts.Caption := f.Caption;
     f.Show;

@@ -144,6 +144,7 @@ object frmUtama: TfrmUtama
       end
       object mnMkt_SuratJalan: TMenuItem
         Caption = 'Surat Jalan '
+        OnClick = mnMkt_SuratJalanClick
       end
       object mnMkt_ReturPenjualan: TMenuItem
         Caption = 'Retur Penjualan'

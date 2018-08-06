@@ -42,11 +42,9 @@ inherited frmLstBarangJasa: TfrmLstBarangJasa
     end
     inherited btnKeluar: TButton
       Left = 1036
-      TabOrder = 4
       ExplicitLeft = 1036
     end
     inherited btnRefresh: TButton
-      TabOrder = 3
       OnClick = btnRefreshClick
     end
   end

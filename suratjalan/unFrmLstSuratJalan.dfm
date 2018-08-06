@@ -31,11 +31,7 @@ inherited frmLstSuratJalan: TfrmLstSuratJalan
     inherited btnHapus: TButton
       OnClick = btnHapusClick
     end
-    inherited btnKeluar: TButton
-      TabOrder = 4
-    end
     inherited btnRefresh: TButton
-      TabOrder = 3
       OnClick = btnRefreshClick
     end
   end
@@ -46,7 +42,7 @@ inherited frmLstSuratJalan: TfrmLstSuratJalan
     Height = 169
     Align = alClient
     TabOrder = 1
-    object cxtbKoreksiHead: TcxGridDBTableView
+    object cxtbSJ: TcxGridDBTableView
       NavigatorButtons.ConfirmDelete = False
       NavigatorButtons.First.Visible = True
       NavigatorButtons.Insert.Visible = False
@@ -58,7 +54,7 @@ inherited frmLstSuratJalan: TfrmLstSuratJalan
       NavigatorButtons.SaveBookmark.Visible = False
       NavigatorButtons.GotoBookmark.Visible = False
       NavigatorButtons.Filter.Visible = False
-      OnFocusedRecordChanged = cxtbKoreksiHeadFocusedRecordChanged
+      OnFocusedRecordChanged = cxtbSJFocusedRecordChanged
       DataController.DataSource = dsSJ
       DataController.KeyFieldNames = 'id'
       DataController.Summary.DefaultGroupSummaryItems = <>
@@ -73,7 +69,7 @@ inherited frmLstSuratJalan: TfrmLstSuratJalan
       OptionsView.Navigator = True
       OptionsView.CellTextMaxLineCount = 10
       Preview.MaxLineCount = 10
-      object cxtbKoreksiHeadColumn2: TcxGridDBColumn
+      object cxtbSJColumn2: TcxGridDBColumn
         Caption = 'Posting'
         DataBinding.FieldName = 'f_posting'
         PropertiesClassName = 'TcxCheckBoxProperties'
@@ -103,6 +99,11 @@ inherited frmLstSuratJalan: TfrmLstSuratJalan
         Caption = 'Departemen'
         DataBinding.FieldName = 'user_dept'
         Options.Editing = False
+      end
+      object cxtbSJColumn1: TcxGridDBColumn
+        Caption = 'Customer'
+        DataBinding.FieldName = 'nama_cust'
+        Width = 307
       end
     end
     object cxTblDet: TcxGridDBTableView
@@ -155,7 +156,7 @@ inherited frmLstSuratJalan: TfrmLstSuratJalan
       end
     end
     object cxgrdlvl1Grid1Level1: TcxGridLevel
-      GridView = cxtbKoreksiHead
+      GridView = cxtbSJ
     end
   end
   object Panel3: TPanel
@@ -174,7 +175,7 @@ inherited frmLstSuratJalan: TfrmLstSuratJalan
       Caption = 'Detail Surat Jalan'
     end
     object btnPosting: TButton
-      Left = 933
+      Left = 679
       Top = 9
       Width = 75
       Height = 25
@@ -182,6 +183,15 @@ inherited frmLstSuratJalan: TfrmLstSuratJalan
       Caption = 'Posting'
       TabOrder = 0
       OnClick = btnPostingClick
+    end
+    object Button1: TButton
+      Left = 759
+      Top = 9
+      Width = 249
+      Height = 25
+      Anchors = [akTop, akRight]
+      Caption = 'Cetak Faktur Penjualan + Surat Jalan'
+      TabOrder = 1
     end
   end
   object cxGrid1: TcxGrid
@@ -191,7 +201,7 @@ inherited frmLstSuratJalan: TfrmLstSuratJalan
     Height = 200
     Align = alBottom
     TabOrder = 3
-    object cxtbKoreksiDet: TcxGridDBTableView
+    object cxtbSJDet: TcxGridDBTableView
       NavigatorButtons.ConfirmDelete = False
       DataController.DataSource = dsSJDet
       DataController.Summary.DefaultGroupSummaryItems = <>
@@ -216,28 +226,13 @@ inherited frmLstSuratJalan: TfrmLstSuratJalan
         Width = 200
       end
       object cxColTblTrsMasukDetqty: TcxGridDBColumn
-        Caption = 'Stok Lama'
-        DataBinding.FieldName = 'stoklama'
+        Caption = 'Qty.'
+        DataBinding.FieldName = 'qty'
         PropertiesClassName = 'TcxSpinEditProperties'
         Properties.DisplayFormat = '#,#0.00'
         Properties.ValueType = vtFloat
         Options.Editing = False
         Width = 80
-      end
-      object cxtbKoreksiDetColumn1: TcxGridDBColumn
-        Caption = 'Stok Baru'
-        DataBinding.FieldName = 'stokbaru'
-        PropertiesClassName = 'TcxSpinEditProperties'
-        Properties.DisplayFormat = '#,#0.00'
-        Properties.ValueType = vtFloat
-      end
-      object cxtbKoreksiDetColumn2: TcxGridDBColumn
-        Caption = 'Qty. Koreksi'
-        DataBinding.FieldName = 'qtykoreksi'
-        PropertiesClassName = 'TcxSpinEditProperties'
-        Properties.DisplayFormat = '#,#0.00'
-        Properties.ValueType = vtFloat
-        Width = 71
       end
       object cxColTblTrsMasukDetsatuan: TcxGridDBColumn
         Caption = 'Satuan'
@@ -253,13 +248,16 @@ inherited frmLstSuratJalan: TfrmLstSuratJalan
       end
     end
     object cxGrid1Level1: TcxGridLevel
-      GridView = cxtbKoreksiDet
+      GridView = cxtbSJDet
     end
   end
   object zqrSJ: TZReadOnlyQuery
     Connection = DM.zConn
     SQL.Strings = (
-      'select * from  tbl_trskoreksi_head order by no_bukti')
+      'select a.*, b.nama nama_customer '
+      'from  tbl_sj_head a '
+      'left join tbl_customer b on a.id_cust = b.id'
+      'order by no_bukti')
     Params = <>
     Left = 601
     Top = 146
@@ -275,8 +273,8 @@ inherited frmLstSuratJalan: TfrmLstSuratJalan
     SQL.Strings = (
       
         'SELECT a.id, a.id_ref, a.no_bukti, a.kode_brg, b.deskripsi, c.sa' +
-        'tuan, a.stoklama, a.stokbaru, a.qtykoreksi, a.keterangan'
-      'FROM tbl_trskoreksi_det a'
+        'tuan, a.qty, a.keterangan'
+      'FROM tbl_sj_det a'
       'LEFT JOIN tbl_barang b ON a.id_brg = b.id'
       'LEFT JOIN tbl_satuan c ON a.id_satuan = c.id'
       'LEFT JOIN tbl_gudang d ON d.id = a.id_gdg'

@@ -1,0 +1,24 @@
+unit unFrmLapSJ;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs;
+
+type
+  TfrmLapSJ = class(TForm)
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmLapSJ: TfrmLapSJ;
+
+implementation
+
+{$R *.dfm}
+
+end.

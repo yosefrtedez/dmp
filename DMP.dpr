@@ -79,7 +79,9 @@ uses
   unFrmPengambilanBahanBaku in 'pengambilanbahanbaku\unFrmPengambilanBahanBaku.pas' {frmPengambilanBahanBaku},
   unFrmInputHasilProduksi in 'hasilproduksi\unFrmInputHasilProduksi.pas' {frmInputHasilProduksi},
   unFrmLapTransaksi in 'laporan\unFrmLapTransaksi.pas' {frmLapTransaksi},
-  unFrmLapSPK in 'laporan\unFrmLapSPK.pas' {frmLapSPK};
+  unFrmLapSPK in 'laporan\unFrmLapSPK.pas' {frmLapSPK},
+  unFrmPilihSO in 'salesorder\unFrmPilihSO.pas' {frmPilihSO},
+  unFrmLapSJ in 'laporan\unFrmLapSJ.pas' {frmLapSJ};
 
 {$R *.res}
 

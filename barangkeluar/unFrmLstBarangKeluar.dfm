@@ -194,12 +194,12 @@ inherited frmLstBarangKeluar: TfrmLstBarangKeluar
     end
     object Button1: TButton
       Left = 806
-      Top = 8
+      Top = 6
       Width = 249
       Height = 25
       Anchors = [akTop, akRight]
       Caption = 'Cetak Faktur Penjualan + Surat Jalan'
-      TabOrder = 1
+      TabOrder = 0
       OnClick = Button1Click
     end
     object btnPosting: TButton
@@ -209,7 +209,7 @@ inherited frmLstBarangKeluar: TfrmLstBarangKeluar
       Height = 25
       Anchors = [akTop, akRight]
       Caption = 'Posting'
-      TabOrder = 0
+      TabOrder = 1
       OnClick = btnPostingClick
     end
   end

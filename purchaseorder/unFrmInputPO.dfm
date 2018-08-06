@@ -4,7 +4,6 @@ inherited frmInputPO: TfrmInputPO
   ClientWidth = 1063
   OnCreate = FormCreate
   OnShow = FormShow
-  ExplicitTop = -9
   ExplicitWidth = 1063
   ExplicitHeight = 690
   PixelsPerInch = 96

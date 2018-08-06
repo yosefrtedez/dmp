@@ -18,7 +18,7 @@ uses
   cxCalendar, cxMaskEdit, cxLookupEdit, cxDBLookupEdit, cxDBLookupComboBox,
   cxLabel, cxStyles, dxSkinscxPCPainter, cxCustomData, cxFilter, cxData,
   cxDataStorage, cxSpinEdit, cxGridLevel, cxGridCustomTableView,
-  cxGridTableView, cxClasses, cxGridCustomView, cxGrid, Spin;
+  cxGridTableView, cxClasses, cxGridCustomView, cxGrid, Spin, cxButtonEdit;
 
 type
   TfrmInputSuratJalan = class(TfrmTplInput)
@@ -30,7 +30,7 @@ type
     cxlbl14: TcxLabel;
     cxtKeterangan: TcxTextEdit;
     cxgrdPP: TcxGrid;
-    cxtbKoreksi: TcxGridTableView;
+    cxtbSJ: TcxGridTableView;
     cxColNo: TcxGridColumn;
     cxColKodeBrg: TcxGridColumn;
     cxColDeskripsi: TcxGridColumn;
@@ -65,7 +65,13 @@ type
     cxLabel6: TcxLabel;
     cxsHargaTotal: TcxSpinEdit;
     cxColHarga: TcxGridColumn;
-    cxtbKoreksiColumn1: TcxGridColumn;
+    cxtbSJColumn1: TcxGridColumn;
+    cxLabel7: TcxLabel;
+    cxtNoFaktur: TcxTextEdit;
+    zqrSO: TZReadOnlyQuery;
+    dsSO: TDataSource;
+    cxColIdSO: TcxGridColumn;
+    cxColQtyTerkirim: TcxGridColumn;
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure cxColNoGetDisplayText(Sender: TcxCustomGridTableItem;
@@ -76,11 +82,13 @@ type
     procedure cxtbBarangMasukDataControllerRecordChanged(
       ADataController: TcxCustomDataController; ARecordIndex,
       AItemIndex: Integer);
-    procedure cxtbKoreksiDataControllerBeforePost(
+    procedure cxtbSJDataControllerBeforePost(
       ADataController: TcxCustomDataController);
-    procedure cxtbKoreksiDataControllerRecordChanged(
+    procedure cxtbSJDataControllerRecordChanged(
       ADataController: TcxCustomDataController; ARecordIndex,
       AItemIndex: Integer);
+    procedure cxColNoSOPropertiesButtonClick(Sender: TObject;
+      AButtonIndex: Integer);
   private
     { Private declarations }
   public
@@ -92,7 +100,7 @@ var
 
 implementation
 
-uses unDM, unTools;
+uses unDM, unTools, unFrmPilihSO, unFrmLstSuratJalan;
 
 {$R *.dfm}
 
@@ -105,22 +113,22 @@ var
 
 begin
   inherited;
-  {
-  if (cxtbKoreksi.DataController.EditState = [dceInsert, dceModified]) or
-    (cxtbKoreksi.DataController.EditState = [dceEdit, dceModified]) then begin
+
+  if (cxtbSJ.DataController.EditState = [dceInsert, dceModified]) or
+    (cxtbSJ.DataController.EditState = [dceEdit, dceModified]) then begin
     MsgBox('Mohon selesaikan pengeditan detail sebelum disimpan.' + Chr(10) + Chr(13) +
       'Klik Klik tombol centang hijau.');
     Abort;
   end;
 
-  with cxtbKoreksi.DataController do begin
+  with cxtbSJ.DataController do begin
     if RecordCount = 0 then begin
       MsgBox('Detail transaksi masih kosong.');
       Abort;
     end;
 
     if Self.Jenis = 'T' then begin
-      sNoBukti := GetLastFak('koreksi');
+      sNoBukti := GetLastFak('sj');
       UpdateFaktur(Copy(sNoBukti,1,7));
     end
     else begin
@@ -130,14 +138,14 @@ begin
     try
       dm.zConn.StartTransaction;
 
-      qh := OpenRS('SELECT * FROM tbl_trskoreksi_head WHERE no_bukti = ''%s''',[sNoBukti]);
+      qh := OpenRS('SELECT * FROM tbl_sj_head WHERE no_bukti = ''%s''',[sNoBukti]);
       if Self.Jenis = 'T' then begin
         qh.Insert;
       end
       else begin
         qh.Edit;
         ID := qh.FieldByName('id').AsInteger;
-        dm.zConn.ExecuteDirect(Format('DELETE FROM tbl_trskoreksi_det WHERE id_ref = %s',[Self.EditKey]));
+        dm.zConn.ExecuteDirect(Format('DELETE FROM tbl_sj_det WHERE id_ref = %s',[Self.EditKey]));
       end;
 
       qh.FieldByName('no_bukti').AsString := sNoBukti;
@@ -149,9 +157,9 @@ begin
 
       if Self.Jenis = 'T' then  ID := LastInsertID;
 
-      qd := OpenRS('SELECT * FROM tbl_trskoreksi_det WHERE no_bukti = ''%s''',[sNoBukti]);
+      qd := OpenRS('SELECT * FROM tbl_sj_det WHERE no_bukti = ''%s''',[sNoBukti]);
 
-      with cxtbKoreksi.DataController do begin
+      with cxtbSJ.DataController do begin
         for i := 0 to RecordCount - 1 do begin
           qd.Insert;
           if Self.Jenis = 'T' then begin
@@ -162,9 +170,7 @@ begin
           qd.FieldByName('no_bukti').AsString := sNoBukti;
           qd.FieldByName('kode_brg').AsString := Values[i, cxColKodeBrg.Index];
           qd.FieldByName('id_brg').AsInteger := Values[i, cxColDeskripsi.Index];
-          qd.FieldByName('stoklama').AsFloat := Values[i, cxColStokLama.Index];
-          qd.FieldByName('stokbaru').AsFloat := Values[i, cxColStokBaru.Index];
-          qd.FieldByName('qtykoreksi').AsFloat := Values[i, cxColStokBaru.Index] - Values[i, cxColStokLama.Index];
+          qd.FieldByName('qty').AsFloat := Values[i, cxColQty.Index];
           qd.FieldByName('id_satuan').AsString := Values[i, cxColIdSatuan.Index];
           qd.FieldByName('id_gdg').AsString := Values[i, cxColGudang.Index];
           if VarIsNull(Values[i, cxColKeterangan.index]) = True then begin
@@ -179,7 +185,9 @@ begin
       qh.Close;
       qd.Close;
       Self.Jenis := '';
-      MsgBox('Transaksi koreksi barang sudah disimpan dengan No. Bukti : ' + sNoBukti);
+      MsgBox('Transaksi Surat Jalan barang sudah disimpan dengan No. Bukti : ' + sNoBukti);
+      if Assigned(Self.FormInduk) then
+        (Self.FormInduk as TfrmLstSuratJalan).btnRefreshClick(nil);
       btnBatalClick(nil);
     except
       on E: Exception do begin
@@ -188,7 +196,7 @@ begin
       end;
     end;
   end;
-  }
+
 end;
 
 procedure TfrmInputSuratJalan.cxColNoGetDisplayText(
@@ -202,6 +210,36 @@ begin
   AText := IntToStr(Row+1);
 end;
 
+
+procedure TfrmInputSuratJalan.cxColNoSOPropertiesButtonClick(Sender: TObject;
+  AButtonIndex: Integer);
+var
+  f: TfrmPilihSO;
+  i: integer;
+  q: TZQuery;
+begin
+  inherited;
+  try
+  i := cxtbSJ.DataController.GetFocusedRecordIndex;
+  f := TfrmPilihSO.Create(Self);
+  f.IdBrg := cxtbSJ.DataController.Values[i, cxColDeskripsi.Index];
+  f.IdCust := cxlCustomer.EditValue;
+  if f.ShowModal = mrOk then begin
+    q := OpenRS('SELECT a.no_bukti, b.qty, b.harga FROM tbl_so_head a INNER JOIN tbl_so_det b ON a.id = b.id_ref WHERE a.id = %d', [f.IdSO]);
+    cxtbSJ.DataController.Values[i, cxColNoSO.Index] := q.FieldByName('no_bukti').AsString;
+    cxtbSJ.DataController.Values[i, cxColIdSO.Index] := f.idSO;
+    cxtbSJ.DataController.Values[i, cxColQtySO.Index] := q.FieldByName('qty').AsFloat;
+    cxtbSJ.DataController.Values[i, cxColHarga.Index] := q.FieldByName('harga').AsFloat;
+    q.Close;
+    q := OpenRS('SELECT SUM(qty) qty_kirim FROM tbl_sj_det WHERE id_so = %d AND id_brg = %s',
+      [f.IdSO, cxtbSJ.DataController.Values[i, cxColDeskripsi.Index]]);
+    cxtbSJ.DataController.Values[i, cxColQtyTerkirim.Index] := q.FieldByName('qty_kirim').AsFloat;
+    q.Close;
+  end;
+  f.Free;
+  finally
+  end;
+end;
 
 procedure TfrmInputSuratJalan.cxtbBarangMasukDataControllerBeforePost(
   ADataController: TcxCustomDataController);
@@ -257,7 +295,7 @@ begin
   {
   if AItemIndex = cxColDeskripsi.Index then begin
     try
-      cxtbKoreksi.BeginUpdate;
+      cxtbSJ.BeginUpdate;
       q := OpenRS('SELECT a.*, b.satuan satuan2 FROM tbl_barang a LEFT JOIN tbl_satuan b ON a.id_satuan = b.id WHERE a.id = %s',
       [ADataController.Values[ARecordIndex, cxColDeskripsi.Index]]);
       ADataController.Values[ARecordIndex, cxColKodeBrg.Index] :=  q.FieldByName('kode').AsString;
@@ -265,7 +303,7 @@ begin
       ADataController.Values[ARecordIndex, cxColIdSatuan.Index] := q.FieldByName('id_satuan').AsInteger;
       q.Close;
     finally
-      cxtbKoreksi.EndUpdate
+      cxtbSJ.EndUpdate
     end;
   end;
 
@@ -282,7 +320,7 @@ begin
   }
 end;
 
-procedure TfrmInputSuratJalan.cxtbKoreksiDataControllerBeforePost(
+procedure TfrmInputSuratJalan.cxtbSJDataControllerBeforePost(
   ADataController: TcxCustomDataController);
 var
   i,j,k: integer;
@@ -314,44 +352,40 @@ begin
     MsgBox('Kode gudang harus diisi.');
     Abort;
   end;
-  {
-  if (VarIsNull(ADataController.Values[i, cxColStokBaru.Index])) or
-      (Trim(ADataController.Values[i, cxColStokBaru.Index]) = '')  then begin
-    MsgBox('Stok baru harus diisi.');
-    Abort;
-  end;
-
-  if ADataController.Values[i, cxColStokBaru.Index] < 1 then begin
-    MsgBox('Stok baru harus diisi.');
-    Abort;
-  end;
-  }
+  
 end;
 
-procedure TfrmInputSuratJalan.cxtbKoreksiDataControllerRecordChanged(
+procedure TfrmInputSuratJalan.cxtbSJDataControllerRecordChanged(
   ADataController: TcxCustomDataController; ARecordIndex, AItemIndex: Integer);
 var
   q: TZQuery;
   t, t1, t2, t3 : Real;
   i: Integer ;
 begin
-  {
   inherited;
 
   if AItemIndex = cxColDeskripsi.Index then begin
     try
-      cxtbKoreksi.BeginUpdate;
+      cxtbSJ.BeginUpdate;
       q := OpenRS('SELECT a.*, b.satuan satuan2 FROM tbl_barang a LEFT JOIN tbl_satuan b ON a.id_satuan = b.id WHERE a.id = %s',
       [ADataController.Values[ARecordIndex, cxColDeskripsi.Index]]);
       ADataController.Values[ARecordIndex, cxColKodeBrg.Index] :=  q.FieldByName('kode').AsString;
       ADataController.Values[ARecordIndex, cxColSatuan.Index] := q.FieldByName('satuan2').AsString;
       ADataController.Values[ARecordIndex, cxColIdSatuan.Index] := q.FieldByName('id_satuan').AsInteger;
       q.Close;
+
+      {
+      zqrSO.Close;
+      zqrSO.ParamByName('id_cust').AsInteger := cxlCustomer.EditValue;
+      zqrSO.ParamByName('id_brg').AsInteger := ADataController.Values[ARecordIndex, cxColDeskripsi.Index];
+      zqrSO.Open;
+      }
     finally
-      cxtbKoreksi.EndUpdate
+      cxtbSJ.EndUpdate
     end;
   end;
 
+  {
   if AItemIndex = cxColGudang.Index then begin
     if VarIsNull(ADataController.Values[ARecordIndex, cxColDeskripsi.Index]) then begin
       ADataController.Values[ARecordIndex, cxColGudang.Index] := '';
@@ -367,6 +401,7 @@ begin
     end;
   end;
   }
+
 end;
 
 procedure TfrmInputSuratJalan.FormCreate(Sender: TObject);
@@ -375,6 +410,7 @@ begin
   cxdTglDatang.Date := Aplikasi.Tanggal;
   zqrBarang.Open;
   zqrGudang.Open;
+  zqrCust.Open;
 end;
 
 procedure TfrmInputSuratJalan.FormShow(Sender: TObject);
@@ -384,14 +420,14 @@ procedure TfrmInputSuratJalan.FormShow(Sender: TObject);
    sNoTrs : string;
 begin
   inherited;
-  {
+
   if Self.Jenis = 'T' then begin
-    sNoTrs := GetLastFak('koreksi');
+    sNoTrs := GetLastFak('sj');
     cxtNoBukti.Text := sNoTrs;
-    cxdTglDatang.Date := Aplikasi.Tanggal;
   end
   else if Self.Jenis = 'E' then begin
-    q := OpenRS('SELECT * FROM tbl_trskoreksi_head WHERE id = %s',[Self.EditKey]);
+    {
+    q := OpenRS('SELECT * FROM tbl_sj_head WHERE id = %s',[Self.EditKey]);
     cxtNoBukti.Text := q.FieldByName('no_bukti').AsString;
     cxdTglDatang.Date := q.FieldByName('tanggal').AsDateTime;
     cxtKeterangan.Text := q.FieldByName('keterangan').AsString;
@@ -404,9 +440,9 @@ begin
           'WHERE id_ref = %s',[Self.EditKey]);
     nomer := 1;
 
-    cxtbKoreksi.DataController.OnRecordChanged := nil;
+    cxtbSJ.DataController.OnRecordChanged := nil;
     while not z.Eof do begin
-      with cxtbKoreksi.DataController do begin
+      with cxtbSJ.DataController do begin
         i := AppendRecord;
         Values[i, cxColNo.Index] := nomer;
         Values[i, cxColKodeBrg.Index] := z.FieldByName('kode_brg').AsString;
@@ -422,10 +458,10 @@ begin
       z.Next;
     end;
     z.Close;
-    cxtbKoreksi.DataController.OnRecordChanged := Self.cxtbBarangMasukDataControllerRecordChanged;
-
+    cxtbSJ.DataController.OnRecordChanged := Self.cxtbBarangMasukDataControllerRecordChanged;
+    }
   end;
-  }
+
 end;
 
 end.

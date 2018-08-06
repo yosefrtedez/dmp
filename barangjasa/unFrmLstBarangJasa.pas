@@ -196,6 +196,8 @@ end;
 procedure TfrmLstBarangJasa.btnProsesClick(Sender: TObject);
 begin
   inherited;
+  if cxlGudang.Text = '' then Abort;
+
   with zqrBarangDet do begin
     Close;
     ParamByname('id_brg').AsInteger := zqrBarang.FieldByName('id').AsInteger;

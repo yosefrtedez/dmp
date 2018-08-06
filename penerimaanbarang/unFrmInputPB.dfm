@@ -4,7 +4,6 @@ inherited frmInputPB: TfrmInputPB
   ClientWidth = 1172
   OnCreate = FormCreate
   OnShow = FormShow
-  ExplicitTop = -58
   ExplicitWidth = 1172
   ExplicitHeight = 739
   PixelsPerInch = 96
@@ -33,7 +32,9 @@ inherited frmInputPB: TfrmInputPB
     ExplicitTop = 690
     ExplicitWidth = 1172
     inherited btnSimpan: TButton
+      Left = 11
       OnClick = btnSimpanClick
+      ExplicitLeft = 11
     end
   end
   object cxlbl1: TcxLabel
@@ -235,7 +236,7 @@ inherited frmInputPB: TfrmInputPB
   end
   object cxgrdPP: TcxGrid
     Left = 10
-    Top = 308
+    Top = 307
     Width = 1150
     Height = 293
     Anchors = [akLeft, akTop, akRight]
@@ -244,6 +245,7 @@ inherited frmInputPB: TfrmInputPB
       NavigatorButtons.ConfirmDelete = False
       NavigatorButtons.Insert.Visible = False
       NavigatorButtons.Append.Visible = False
+      NavigatorButtons.Delete.Visible = False
       NavigatorButtons.Refresh.Visible = False
       NavigatorButtons.SaveBookmark.Visible = False
       NavigatorButtons.GotoBookmark.Visible = False
@@ -293,11 +295,21 @@ inherited frmInputPB: TfrmInputPB
         Properties.ReadOnly = True
       end
       object cxColQtyTerima: TcxGridColumn
-        Caption = 'Qty. Terima'
+        Caption = 'Qty. Datang'
         DataBinding.ValueType = 'Float'
         PropertiesClassName = 'TcxSpinEditProperties'
         Properties.DisplayFormat = '#,#0.00'
-        Width = 66
+        Properties.ReadOnly = False
+        Width = 71
+      end
+      object cxColQtyDatang: TcxGridColumn
+        Caption = 'Qty Terima'
+        DataBinding.ValueType = 'Float'
+        PropertiesClassName = 'TcxSpinEditProperties'
+        Properties.DisplayFormat = '#,#0.00'
+        Properties.ValueType = vtFloat
+        Options.Editing = False
+        Width = 73
       end
       object cxColSatuan: TcxGridColumn
         Caption = 'Satuan'
@@ -352,6 +364,7 @@ inherited frmInputPB: TfrmInputPB
         PropertiesClassName = 'TcxSpinEditProperties'
         Properties.DisplayFormat = '#,##.00'
         Properties.ReadOnly = False
+        Options.Editing = False
         Width = 112
       end
       object cxColIdSatuan: TcxGridColumn

@@ -128,6 +128,7 @@ begin
       Abort;
     end;
     f := TfrmInputPO.Create(Self);
+    f.FormInduk := Self;
     ts.Caption := 'Edit Purchase Order';
     f.Jenis := 'E';
     f.EditKey := zqrPO.FieldByName('id').AsString;
@@ -186,6 +187,7 @@ begin
     ts := TcxTabSheet.Create(Self);
     ts.PageControl := frmUtama.pgMain;
     f := TfrmInputPO.Create(Self);
+    f.FormInduk := Self;
     f.Jenis := 'T';
     f.Parent := ts;
     ts.Caption := f.Caption;
