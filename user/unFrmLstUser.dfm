@@ -1,11 +1,13 @@
 inherited frmLstUser: TfrmLstUser
   Caption = 'User'
+  ClientWidth = 1043
   OnCreate = FormCreate
-  ExplicitWidth = 1016
+  ExplicitWidth = 1043
   ExplicitHeight = 508
   PixelsPerInch = 96
   TextHeight = 13
   inherited Panel1: TPanel
+    Width = 1043
     object Label13: TLabel
       Left = 10
       Top = 16
@@ -21,14 +23,16 @@ inherited frmLstUser: TfrmLstUser
     end
   end
   inherited Panel2: TPanel
+    Width = 1043
     TabOrder = 3
     inherited btnTambah: TButton
       OnClick = btnTambahClick
     end
     inherited btnEdit: TButton
-      Top = 6
       OnClick = btnEditClick
-      ExplicitTop = 6
+    end
+    inherited btnKeluar: TButton
+      Left = 960
     end
     inherited btnRefresh: TButton
       OnClick = btnRefreshClick
@@ -37,10 +41,11 @@ inherited frmLstUser: TfrmLstUser
   object cxGrid1: TcxGrid
     Left = 0
     Top = 49
-    Width = 1016
+    Width = 1043
     Height = 361
     Align = alClient
     TabOrder = 1
+    ExplicitWidth = 1016
     object cxtbUser: TcxGridDBTableView
       NavigatorButtons.ConfirmDelete = False
       DataController.DataSource = dsUser
@@ -73,10 +78,11 @@ inherited frmLstUser: TfrmLstUser
   object Panel3: TPanel
     Left = 0
     Top = 410
-    Width = 1016
+    Width = 1043
     Height = 49
     Align = alBottom
     TabOrder = 2
+    ExplicitWidth = 1016
     object Button1: TButton
       Left = 10
       Top = 12

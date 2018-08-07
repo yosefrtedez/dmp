@@ -1395,6 +1395,7 @@ object frmLapSJ: TfrmLapSJ
           Width = 86.929190000000000000
           Height = 18.897650000000000000
           ShowHint = False
+          DataField = 'hrgjual'
           DataSet = fdbSJ01
           DataSetName = 'fdbSJ01'
           DisplayFormat.FormatStr = '%2.2n'
@@ -1406,7 +1407,7 @@ object frmLapSJ: TfrmLapSJ
           Font.Style = []
           HAlign = haCenter
           Memo.UTF8W = (
-            '[fdbSJ01."harga"]')
+            '[fdbSJ01."hrgjual"]')
           ParentFont = False
         end
         object Memo22: TfrxMemoView
@@ -1425,7 +1426,7 @@ object frmLapSJ: TfrmLapSJ
           Font.Style = []
           HAlign = haRight
           Memo.UTF8W = (
-            '[<fdbSJ01."harga">*<fdbSJ01."qty">]')
+            '[<fdbSJ01."hrgjual">*<fdbSJ01."qty">]')
           ParentFont = False
         end
       end
@@ -1434,7 +1435,7 @@ object frmLapSJ: TfrmLapSJ
         Top = 18.897650000000000000
         Width = 869.291900000000000000
         object Memo1: TfrxMemoView
-          Width = 752.125984251969000000
+          Width = 752.125984251968500000
           Height = 30.236240000000000000
           ShowHint = False
           Font.Charset = DEFAULT_CHARSET
@@ -1460,6 +1461,7 @@ object frmLapSJ: TfrmLapSJ
           Width = 219.212740000000000000
           Height = 18.897650000000000000
           ShowHint = False
+          DataField = 'nama'
           DataSet = fdbSJ01
           DataSetName = 'fdbSJ01'
           Font.Charset = DEFAULT_CHARSET
@@ -1468,7 +1470,7 @@ object frmLapSJ: TfrmLapSJ
           Font.Name = 'Arial'
           Font.Style = []
           Memo.UTF8W = (
-            '[fdbSJ01."nama_cust"]')
+            '[fdbSJ01."nama"]')
           ParentFont = False
         end
         object Memo4: TfrxMemoView
@@ -1692,7 +1694,7 @@ object frmLapSJ: TfrmLapSJ
           Font.Style = []
           HAlign = haRight
           Memo.UTF8W = (
-            '[SUM(<fdbSJ01."qty">*<fdbSJ01."harga">)]')
+            '[SUM(<fdbSJ01."qty">*<fdbSJ01."hrgjual">)]')
           ParentFont = False
         end
         object Memo12: TfrxMemoView
@@ -1719,6 +1721,7 @@ object frmLapSJ: TfrmLapSJ
           Width = 120.944960000000000000
           Height = 18.897650000000000000
           ShowHint = False
+          DataField = 'diskon'
           DataSet = fdbSJ01
           DataSetName = 'fdbSJ01'
           Font.Charset = DEFAULT_CHARSET
@@ -1747,8 +1750,8 @@ object frmLapSJ: TfrmLapSJ
           HAlign = haRight
           Memo.UTF8W = (
             
-              '[SUM(<fdbSJ01."qty">*<fdbSJ01."harga">)-((<fdbSJ01."diskon">/100' +
-              ')*SUM(<fdbSJ01."qty">*<fdbSJ01."harga">))]')
+              '[SUM(<fdbSJ01."qty">*<fdbSJ01."hrgjual">)-((<fdbSJ01."diskon">/1' +
+              '00)*SUM(<fdbSJ01."qty">*<fdbSJ01."hrgjual">))]')
           ParentFont = False
         end
         object Memo24: TfrxMemoView
@@ -1865,7 +1868,7 @@ object frmLapSJ: TfrmLapSJ
       BottomMargin = 5.000000000000000000
       object MasterData1: TfrxMasterData
         Height = 22.677180000000000000
-        Top = 241.889920000000000000
+        Top = 238.110390000000000000
         Width = 869.291900000000000000
         DataSet = fdbSJ01
         DataSetName = 'fdbSJ01'
@@ -1951,7 +1954,7 @@ object frmLapSJ: TfrmLapSJ
         Width = 869.291900000000000000
         object Memo1: TfrxMemoView
           Top = 3.779530000000000000
-          Width = 752.125984251969000000
+          Width = 752.125984251968500000
           Height = 18.897650000000000000
           ShowHint = False
           Font.Charset = DEFAULT_CHARSET
@@ -1966,7 +1969,7 @@ object frmLapSJ: TfrmLapSJ
         end
       end
       object GroupHeader1: TfrxGroupHeader
-        Height = 107.976500000000000000
+        Height = 104.196970000000000000
         Top = 109.606370000000000000
         Width = 869.291900000000000000
         Condition = 'fdbSJ01."id"'
@@ -2149,7 +2152,7 @@ object frmLapSJ: TfrmLapSJ
       end
       object GroupFooter1: TfrxGroupFooter
         Height = 207.874150000000000000
-        Top = 287.244280000000000000
+        Top = 283.464750000000000000
         Width = 869.291900000000000000
         object Line3: TfrxLineView
           Top = 4.559060000000000000
@@ -2352,7 +2355,7 @@ object frmLapSJ: TfrmLapSJ
     FitWindow = False
     CenterWindow = False
     PrintScaling = False
-    Left = 432
-    Top = 192
+    Left = 416
+    Top = 184
   end
 end

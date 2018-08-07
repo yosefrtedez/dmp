@@ -278,6 +278,12 @@ begin
     depan := 'SPMB/'
   else if sTipe = 'sj' then
     depan := 'SJ/'
+  else if sTipe = 'sj-pajak' then
+    depan := 'SJ/DMP/'
+  else if sTipe = 'faktur' then
+    depan := 'FT/'
+  else if sTipe = 'faktur-pajak' then
+    depan := 'FT/DMP/'
   else if sTipe = 'spk_potong' then
     depan := 'SP/'
   else if sTipe = 'stok_awal' then

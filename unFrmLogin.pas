@@ -129,8 +129,8 @@ begin
       frmUtama.stsBar.Panels[2].Text := Aplikasi.UserDept;
       frmUtama.stsBar.Panels[3].Text := Aplikasi.DBHost;
       frmUtama.stsBar.Panels[4].Text := Aplikasi.DBName;
-      //frmUtama.HideAllMenu(False);
-      //frmUtama.SettingWewenang;
+      frmUtama.HideAllMenu(True);
+      frmUtama.SettingWewenang;
 
       {
       if Aplikasi.NamaUser = 'ADMIN' then

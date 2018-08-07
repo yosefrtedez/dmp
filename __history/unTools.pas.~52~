@@ -76,6 +76,7 @@ function LastInsertID: Integer;
 function Terbilang(sValue: string): string;
 
 function GetStokAkhir(id_brg: integer; id_gdg: Integer): real;
+function GetHpp(id_brg: integer; id_gdg: Integer): real;
 
 implementation
 
@@ -249,9 +250,9 @@ var
   depan, head: string;
   counter: integer;
 begin
-  if sTipe = 'brg_in' then
+  if sTipe = 'brg-masuk' then
     depan := 'IN/'
-  else if sTipe = 'brg_out' then
+  else if sTipe = 'brg-keluar' then
     depan := 'OT/'
   else if sTipe = 'brg_in_cst' then
     depan := 'INCST/'
@@ -265,8 +266,8 @@ begin
     depan := 'KS/'
   else if sTipe = 'consumable' then
     depan := 'BC/'
-  else if sTipe = 'ambilbahan' then
-    depan := 'ABB/'
+  else if sTipe = 'pengambilan-bb' then
+    depan := 'PBB/'
   else if sTipe = 'sales_order' then
     depan := 'SO/'
   else if sTipe = 'sales_order_plt' then
@@ -274,7 +275,7 @@ begin
   else if sTipe = 'mts' then
     depan := 'MTS/'
   else if sTipe = 'spmb' then
-    depan := 'SPMB/'  //SPMB-A14-0001
+    depan := 'SPMB/'
   else if sTipe = 'sj' then
     depan := 'SJ/'
   else if sTipe = 'spk_potong' then
@@ -315,7 +316,7 @@ begin
     depan := 'SJU/'
   else if sTipe = 'po_peletan' then
     depan := 'POP/'
-  else if sTipe = 'hasil_produksi' then
+  else if sTipe = 'hasil-produksi' then
     depan := 'HPR/'
   else if sTipe = 'retur-pemb' then
     depan := 'RB/'
@@ -1275,6 +1276,24 @@ begin
   end;
   if length(Rupiah) > 1 then Rupiah := Rupiah + ' ' +curr;
   Result := Rupiah;
+end;
+
+function GetStokAkhir(id_brg: integer; id_gdg: Integer): real;
+var
+  q: TZQuery;
+begin
+  q := OpenRS('SELECT sf_get_stokakhir(%d,%d) stokakhir',[id_brg, id_gdg]);
+  Result := q.FieldByName('stokakhir').AsFloat;
+  q.Close;
+end;
+
+function GetHpp(id_brg: integer; id_gdg: Integer): real;
+var
+  q: TZQuery;
+begin
+  q := OpenRS('SELECT sf_get_hpp(%d,%d) hpp',[id_brg, id_gdg]);
+  Result := q.FieldByName('hpp').AsFloat;
+  q.Close;
 end;
 
 end.

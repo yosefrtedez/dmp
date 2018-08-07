@@ -788,7 +788,6 @@ inherited frmLstPO: TfrmLstPO
           Top = 53.811070000000000000
           Width = 94.488250000000000000
           Height = 18.897650000000000000
-          Visible = False
           ShowHint = False
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clBlack
@@ -805,7 +804,6 @@ inherited frmLstPO: TfrmLstPO
           Top = 106.724490000000000000
           Width = 94.488250000000000000
           Height = 18.897650000000000000
-          Visible = False
           ShowHint = False
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clBlack

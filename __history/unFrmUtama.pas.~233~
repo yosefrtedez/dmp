@@ -78,6 +78,14 @@ type
     mnWhl_BarangKeluar: TMenuItem;
     mnSet_KalkulasiUlangStok: TMenuItem;
     mnWhl_Koreksi: TMenuItem;
+    mnPrd_LapPengambilanBB: TMenuItem;
+    mnPrd_LapInputHP: TMenuItem;
+    Pembelian1: TMenuItem;
+    Penjualan1: TMenuItem;
+    InvoicePembelian1: TMenuItem;
+    PembayaranPembelian1: TMenuItem;
+    InvoicePenjualan1: TMenuItem;
+    PembayaranPenjualan1: TMenuItem;
     procedure FormShow(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure mnMst_BarangJasaClick(Sender: TObject);
@@ -116,6 +124,8 @@ type
     procedure mnSet_KalkulasiUlangStokClick(Sender: TObject);
     procedure mnWhl_KoreksiClick(Sender: TObject);
     procedure mnPrd_PengambilanBBClick(Sender: TObject);
+    procedure mnPrd_InputHslProdClick(Sender: TObject);
+    procedure mnMkt_SuratJalanClick(Sender: TObject);
   private
     procedure PGChange(Sender: TObject);
   public
@@ -123,6 +133,8 @@ type
     function CekTabOpen(sCaption: string): Boolean;
     procedure CloseTab(Frm: TForm; Sender: TObject);
     procedure ToggleMainPage;
+    procedure HideAllMenu(flag: Boolean);
+    procedure SettingWewenang;
   end;
 
 var
@@ -141,8 +153,8 @@ uses
   unFrmLstPengeluaranKas, unFrmLstTransferBarang, unFrmLstSales,
   unFrmLstFormula, unFrmAppPO, unFrmLstReturPembelian, unFrmAppRetur,
   unFrmInputBarangMasuk, unFrmLstBarangMasuk, unFrmLstBarangKeluar,
-  unFrmLaporan, unFrmKalkulasiStok, unFrmLstKoreksi, unFrmMenuLaporan,
-  unFrmPengambilanBahanBaku;
+  unFrmKalkulasiStok, unFrmLstKoreksi, unFrmMenuLaporan,
+  unFrmPengambilanBahanBaku, unFrmInputHasilProduksi, unFrmLstSuratJalan;
 
 {$R *.dfm}
 
@@ -197,6 +209,23 @@ procedure TfrmUtama.FormShow(Sender: TObject);
 begin
   Self.WindowState := wsMaximized;
   Self.BuildMenu;
+end;
+
+procedure TfrmUtama.HideAllMenu(flag: boolean);
+var
+  i: integer;
+begin
+  for i := 0 to frmUtama.ComponentCount - 1 do begin
+    if Components[i].ClassName = 'TMenuItem' then
+      (Components[i] as TMenuItem).Visible := Not Flag;
+    {
+    if Components[i].ClassName = 'TToolButton' then
+      if Components[i].Name = 'tbtnBrowseMst' then
+        (Components[i] as TToolButton).Visible := False
+      else
+        (Components[i] as TToolButton).Visible := Not Flag;
+    }
+  end;
 end;
 
 procedure TfrmUtama.mnAkt_JurnalUmumClick(Sender: TObject);
@@ -276,6 +305,7 @@ begin
 end;
 
 procedure TfrmUtama.mnLapClick(Sender: TObject);
+{
 var
   f: TfrmLaporan;
   ts: TcxTabSheet;
@@ -293,8 +323,7 @@ begin
     pgMain.ActivePage := ts;
   end;
 end;
-
-{
+}
 var
   f: TfrmMenuLaporan;
   ts: TcxTabSheet;
@@ -305,6 +334,7 @@ begin
     ts.PageControl := pgMain;
 
     f := TfrmMenuLaporan.Create(Self);
+    f.Caption := 'Laporan';
     f.Parent := ts;
     ts.Caption := f.Caption;
     f.Show;
@@ -312,7 +342,6 @@ begin
     pgMain.ActivePage := ts;
   end;
 end;
-}
 
 procedure TfrmUtama.mnMkt_SalesOrderClick(Sender: TObject);
 var
@@ -325,6 +354,25 @@ begin
     ts.PageControl := pgMain;
 
     f := TfrmLstSO.Create(Self);
+    f.Parent := ts;
+    ts.Caption := f.Caption;
+    f.Show;
+
+    pgMain.ActivePage := ts;
+  end;
+end;
+
+procedure TfrmUtama.mnMkt_SuratJalanClick(Sender: TObject);
+var
+  f: TfrmLstSuratJalan;
+  ts: TcxTabSheet;
+begin
+  if not CekTabOpen('Surat Jalan') then begin
+    ToggleMainPage;
+    ts := TcxTabSheet.Create(Self);
+    ts.PageControl := pgMain;
+
+    f := TfrmLstSuratJalan.Create(Self);
     f.Parent := ts;
     ts.Caption := f.Caption;
     f.Show;
@@ -543,17 +591,36 @@ begin
   end;
 end;
 
+procedure TfrmUtama.mnPrd_InputHslProdClick(Sender: TObject);
+var
+  f: TfrmInputHasilProduksi;
+  ts: TcxTabSheet;
+begin
+  if not CekTabOpen('Input Hasil Produksi') then begin
+    ToggleMainPage;
+    ts := TcxTabSheet.Create(Self);
+    ts.PageControl := pgMain;
+
+    f := TfrmInputHasilProduksi.Create(Self);
+    f.Parent := ts;
+    ts.Caption := f.Caption;
+    f.Show;
+
+    pgMain.ActivePage := ts;
+  end;
+end;
+
 procedure TfrmUtama.mnPrd_PengambilanBBClick(Sender: TObject);
 var
   f: TfrmPengambilanBahanBaku;
   ts: TcxTabSheet;
 begin
-  if not CekTabOpen('Approval Purchase Order') then begin
+  if not CekTabOpen('Pengambilan Bahan Baku') then begin
     ToggleMainPage;
     ts := TcxTabSheet.Create(Self);
     ts.PageControl := pgMain;
 
-    f := TfrmAppPO.Create(Self);
+    f := TfrmPengambilanBahanBaku.Create(Self);
     f.Parent := ts;
     ts.Caption := f.Caption;
     f.Show;
@@ -913,6 +980,72 @@ begin
   if pgMain.TabCount = 0 then pgMain.Visible := False;
 end;
 
+procedure TfrmUtama.SettingWewenang;
+var
+  q: TZQuery;
+  i: integer;
+  namaKomponen: string;
+  f: Boolean;
+begin
+
+  q := OpenRS('SELECT * FROM tbl_wewenang WHERE nama = ''%s''', [Aplikasi.NamaUser]);
+
+  if Aplikasi.NamaUser = 'ADMIN' then begin
+    HideAllMenu(False);
+
+  end
+  else begin
+
+    for i := 0 to frmUtama.ComponentCount - 1 do begin
+
+      namaKomponen := Trim(frmUtama.Components[i].Name);
+
+      if q.Locate('nm_comp', namaKomponen,[]) then begin
+        f := false;
+        if q.FieldByName('b').AsInteger = 1 then
+          f := true;
+        (frmUtama.Components[i] as TMenuItem).Visible := f;
+        q.First;
+      end
+      else begin
+        if (namaKomponen = 'mnLogOff') or (namaKomponen = 'mnKeluar')
+          then continue;
+
+        if aplikasi.NamaUser = 'ADMIN' then begin
+          if (namaKomponen = 'mnCFT_SO') then continue;
+          if (namaKomponen = 'mnWHL_SPMB') then Continue;
+          if (namaKomponen = 'mnCFT_SJ') then Continue;
+          if (namaKomponen = 'mnCFT_SOT') then Continue;
+          if (namaKomponen = 'mnPPICTrsSpkPotong') then Continue;
+          if (namaKomponen = 'mnCFT_cetakSJ') then Continue;
+          if (namaKomponen = 'mnPPIC_AppSpkPot') then Continue;
+          if (namaKomponen = 'mnCFT_spmb') then Continue;
+          if (namaKomponen = 'mnPembatalan') then Continue;
+          if (namaKomponen = 'mnPembIN') then Continue;
+          if (namaKomponen = 'mnPembOUT') then Continue;
+          if (namaKomponen = 'mnPembKS') then Continue;
+        end;
+
+        if frmUtama.Components[i].ClassType = TMenuItem then
+          (frmUtama.Components[i] as TMenuItem).Visible := False;
+      end;
+
+    end;
+    q.Close; q := nil;
+
+    q := OpenRS('SELECT * FROM tbl_oto_mutasi WHERE user = ''%s'' ' +
+      'AND tanggal = ''%s'' AND f_selesai = 0',
+      [Aplikasi.NamaUser,
+       Aplikasi.TanggalString
+      ]
+    );
+
+
+
+    mnSystem.Visible := True;
+  end;
+  Self.Menu := mainMenu;
+end;
 procedure TfrmUtama.ToggleMainPage;
 begin
   if not pgMain.Visible then pgMain.Visible := True;

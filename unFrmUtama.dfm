@@ -159,9 +159,6 @@ object frmUtama: TfrmUtama
       object mnPpic_MasterSchedule: TMenuItem
         Caption = 'Master Schedule'
       end
-      object mnPpic_SOMadeToStok: TMenuItem
-        Caption = 'SO - Made To Stok'
-      end
     end
     object mnWHL: TMenuItem
       Caption = 'WHL'

@@ -23,6 +23,7 @@ object frmUtama: TfrmUtama
     Top = 8
     Width = 441
     Height = 225
+    Stretch = True
   end
   object stsBar: TdxStatusBar
     Left = 0
@@ -143,6 +144,7 @@ object frmUtama: TfrmUtama
       end
       object mnMkt_SuratJalan: TMenuItem
         Caption = 'Surat Jalan '
+        OnClick = mnMkt_SuratJalanClick
       end
       object mnMkt_ReturPenjualan: TMenuItem
         Caption = 'Retur Penjualan'
@@ -177,15 +179,24 @@ object frmUtama: TfrmUtama
       end
       object mnWhl_Koreksi: TMenuItem
         Caption = 'Koreksi Stok'
+        OnClick = mnWhl_KoreksiClick
       end
     end
     object mnPRD: TMenuItem
       Caption = 'PRD'
       object mnPrd_PengambilanBB: TMenuItem
         Caption = 'Pengambilan Bahan Baku '
+        OnClick = mnPrd_PengambilanBBClick
+      end
+      object mnPrd_LapPengambilanBB: TMenuItem
+        Caption = 'Laporan Pengambilan Bahan Baku '
       end
       object mnPrd_InputHslProd: TMenuItem
         Caption = 'Input Hasil Produksi '
+        OnClick = mnPrd_InputHslProdClick
+      end
+      object mnPrd_LapInputHP: TMenuItem
+        Caption = 'Laporan Input Hasil Produksi'
       end
     end
     object PUR1: TMenuItem
@@ -254,6 +265,24 @@ object frmUtama: TfrmUtama
       object mnAkt_SetDefaultAkun: TMenuItem
         Caption = 'Setting Default Akun'
         OnClick = mnAkt_SetDefaultAkunClick
+      end
+      object Pembelian1: TMenuItem
+        Caption = 'Pembelian'
+        object InvoicePembelian1: TMenuItem
+          Caption = 'Invoice Pembelian'
+        end
+        object PembayaranPembelian1: TMenuItem
+          Caption = 'Pembayaran Pembelian'
+        end
+      end
+      object Penjualan1: TMenuItem
+        Caption = 'Penjualan'
+        object InvoicePenjualan1: TMenuItem
+          Caption = 'Invoice Penjualan'
+        end
+        object PembayaranPenjualan1: TMenuItem
+          Caption = 'Pembayaran Penjualan'
+        end
       end
     end
     object mnSet: TMenuItem
