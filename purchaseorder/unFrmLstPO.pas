@@ -68,6 +68,7 @@ type
     dsRptPO: TDataSource;
     fdbPO: TfrxDBDataset;
     rptPO: TfrxReport;
+    cxtbPODetColumn3: TcxGridDBColumn;
     procedure FormCreate(Sender: TObject);
     procedure btnRefreshClick(Sender: TObject);
     procedure btnTambahClick(Sender: TObject);
@@ -96,8 +97,15 @@ uses
 {$R *.dfm}
 
 procedure TfrmLstPO.btnCetakPOClick(Sender: TObject);
+var
+  q :TZQuery;
 begin
   inherited;
+  q := OpenRS('select * from tbl_po_head where f_app = 1 and no_bukti = ''%s''',[zqrpo.FieldByName('no_bukti').AsString]);
+  if q.Eof  then begin
+     MsgBox('PO ini tidak bisa dicetak karena belum di approve');
+     Abort;
+  end;
   zqrRptPO.Close;
   zqrRptPO.ParamByName('no_bukti').AsString := zqrPO.FieldByName('no_bukti').AsString;
   zqrRptPO.Open;

@@ -36,8 +36,8 @@ inherited frmInputPO: TfrmInputPO
     end
   end
   object cxgrdPP: TcxGrid
-    Left = 10
-    Top = 281
+    Left = 11
+    Top = 290
     Width = 1045
     Height = 293
     Anchors = [akLeft, akTop, akRight]
@@ -46,6 +46,10 @@ inherited frmInputPO: TfrmInputPO
       NavigatorButtons.ConfirmDelete = False
       NavigatorButtons.Insert.Visible = False
       NavigatorButtons.Append.Visible = True
+      NavigatorButtons.Refresh.Visible = False
+      NavigatorButtons.SaveBookmark.Visible = False
+      NavigatorButtons.GotoBookmark.Visible = False
+      NavigatorButtons.Filter.Visible = False
       DataController.Summary.DefaultGroupSummaryItems = <>
       DataController.Summary.FooterSummaryItems = <
         item
@@ -69,6 +73,7 @@ inherited frmInputPO: TfrmInputPO
         Caption = 'No'
         PropertiesClassName = 'TcxTextEditProperties'
         Properties.ReadOnly = False
+        Visible = False
         OnGetDisplayText = cxColNoGetDisplayText
         Width = 32
       end
@@ -167,7 +172,7 @@ inherited frmInputPO: TfrmInputPO
   object cxlbl4: TcxLabel
     Left = 10
     Top = 143
-    Caption = 'Tgl. Kedatangan'
+    Caption = 'Tgl. Perkiraan Datang'
   end
   object cxlbl5: TcxLabel
     Left = 10
@@ -180,7 +185,7 @@ inherited frmInputPO: TfrmInputPO
     Caption = 'Alamat'
   end
   object cxlNoPP: TcxLookupComboBox
-    Left = 112
+    Left = 122
     Top = 88
     Properties.CharCase = ecUpperCase
     Properties.DropDownAutoSize = True
@@ -205,19 +210,20 @@ inherited frmInputPO: TfrmInputPO
     Width = 146
   end
   object cxdTgl: TcxDateEdit
-    Left = 112
+    Left = 122
     Top = 115
+    Properties.ReadOnly = False
     TabOrder = 8
     Width = 146
   end
   object cxdTglDatang: TcxDateEdit
-    Left = 112
+    Left = 122
     Top = 142
     TabOrder = 10
     Width = 146
   end
   object cxlSupplier: TcxLookupComboBox
-    Left = 112
+    Left = 122
     Top = 169
     Properties.DropDownAutoSize = True
     Properties.KeyFieldNames = 'id'
@@ -236,20 +242,21 @@ inherited frmInputPO: TfrmInputPO
     Width = 351
   end
   object cxtAlamat: TcxTextEdit
-    Left = 112
+    Left = 122
     Top = 196
+    Properties.ReadOnly = True
     TabOrder = 14
     Width = 351
   end
   object cxtNoBukti: TcxTextEdit
-    Left = 112
+    Left = 122
     Top = 61
     Properties.ReadOnly = True
     TabOrder = 1
     Width = 146
   end
   object cxchk1: TcxCheckBox
-    Left = 266
+    Left = 274
     Top = 61
     Caption = 'Komplit / Selesai'
     Properties.ReadOnly = True
@@ -277,6 +284,7 @@ inherited frmInputPO: TfrmInputPO
       Tag = 1
       Left = 72
       Top = 19
+      TabStop = False
       Properties.CharCase = ecUpperCase
       Properties.ReadOnly = True
       TabOrder = 0
@@ -286,6 +294,7 @@ inherited frmInputPO: TfrmInputPO
       Tag = 1
       Left = 73
       Top = 46
+      TabStop = False
       Properties.CharCase = ecUpperCase
       Properties.ReadOnly = True
       TabOrder = 2
@@ -294,12 +303,12 @@ inherited frmInputPO: TfrmInputPO
   end
   object cxlbl11: TcxLabel
     Left = 10
-    Top = 224
+    Top = 227
     Caption = 'Pembayaran'
   end
   object cxCboPembayaran: TcxComboBox
-    Left = 112
-    Top = 223
+    Left = 122
+    Top = 226
     Properties.DropDownListStyle = lsEditFixedList
     Properties.Items.Strings = (
       'Cash On Delivery (COD)'
@@ -312,13 +321,13 @@ inherited frmInputPO: TfrmInputPO
     Width = 198
   end
   object cxlbl12: TcxLabel
-    Left = 318
-    Top = 224
+    Left = 329
+    Top = 227
     Caption = 'Valuta'
   end
   object cxCboRate: TcxComboBox
-    Left = 358
-    Top = 223
+    Left = 369
+    Top = 226
     Properties.DropDownListStyle = lsEditFixedList
     Properties.Items.Strings = (
       'IDR'
@@ -328,30 +337,30 @@ inherited frmInputPO: TfrmInputPO
     Width = 63
   end
   object cxlbl13: TcxLabel
-    Left = 427
-    Top = 224
+    Left = 438
+    Top = 227
     Caption = 'Rate'
   end
   object cxlbl14: TcxLabel
     Left = 10
-    Top = 251
+    Top = 254
     Caption = 'Keterangan'
   end
   object cxtKeterangan: TcxTextEdit
-    Left = 112
-    Top = 250
+    Left = 122
+    Top = 253
     Properties.CharCase = ecUpperCase
     TabOrder = 22
     Width = 416
   end
   object cxtRate: TcxTextEdit
-    Left = 460
-    Top = 223
+    Left = 471
+    Top = 226
     TabOrder = 18
     Width = 113
   end
   object cxChkApproval: TcxCheckBox
-    Left = 266
+    Left = 274
     Top = 81
     Caption = 'Approval'
     Properties.ReadOnly = True

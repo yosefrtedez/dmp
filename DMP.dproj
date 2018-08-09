@@ -274,6 +274,12 @@
 			<DCCReference Include="laporan\unFrmLapSJ.pas">
 				<Form>frmLapSJ</Form>
 			</DCCReference>
+			<DCCReference Include="laporan\unFrmLapHasilProduksi.pas">
+				<Form>frmLapHasilProduksi</Form>
+			</DCCReference>
+			<DCCReference Include="barangjasa\unFrmKartuStok.pas">
+				<Form>frmKartuStok</Form>
+			</DCCReference>
 			<BuildConfiguration Include="Base">
 				<Key>Base</Key>
 			</BuildConfiguration>

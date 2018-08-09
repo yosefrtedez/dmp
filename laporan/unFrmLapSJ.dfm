@@ -542,6 +542,7 @@ object frmLapSJ: TfrmLapSJ
   end
   object zqrSJ01: TZReadOnlyQuery
     Connection = DM.zConn
+    Active = True
     SQL.Strings = (
       'SELECT a.*, b.qty, b.harga, '
       'c.nama, c.alamat, '
@@ -552,21 +553,10 @@ object frmLapSJ: TfrmLapSJ
       'LEFT JOIN tbl_customer c ON c.id = a.id_cust'
       'LEFT JOIN tbl_barang d ON d.id = b.id_brg'
       'LEFT JOIN tbl_barang_det_spek e ON e.id_ref = d.id'
-      'WHERE a.id = :id')
-    Params = <
-      item
-        DataType = ftUnknown
-        Name = 'id'
-        ParamType = ptUnknown
-      end>
+      '-- WHERE a.id = :id')
+    Params = <>
     Left = 88
     Top = 16
-    ParamData = <
-      item
-        DataType = ftUnknown
-        Name = 'id'
-        ParamType = ptUnknown
-      end>
   end
   object dsSJ01: TDataSource
     DataSet = zqrSJ01
@@ -599,6 +589,12 @@ object frmLapSJ: TfrmLapSJ
       'kota=kota'
       'f_posting=f_posting'
       'f_ppn=f_ppn'
+      'jatuh_tempo=jatuh_tempo'
+      'diskon=diskon'
+      'keterangan=keterangan'
+      'no_faktur=no_faktur'
+      'sopir=sopir'
+      'nopol=nopol'
       'qty=qty'
       'harga=harga'
       'nama=nama'
@@ -641,8 +637,8 @@ object frmLapSJ: TfrmLapSJ
       item
         Name = 'PPN'
         Value = 
-          '((SUM(<fdbSJ01."qty">*<fdbSJ01."hrgjual">)-((<fdbSJ01."diskon">/' +
-          '100)*SUM(<fdbSJ01."qty">*<fdbSJ01."hrgjual">)))/1.1)*(10/100)'
+          '((SUM(<fdbSJ01."qty">*<fdbSJ01."harga">)-((<fdbSJ01."diskon">/10' +
+          '0)*SUM(<fdbSJ01."qty">*<fdbSJ01."harga">)))/1.1)*(10/100)'
       end>
     Style = <>
     object Data: TfrxDataPage
@@ -820,23 +816,6 @@ object frmLapSJ: TfrmLapSJ
             'Tel. +62-31-99894381'
             'Tel. +62-31-99894472'
             'Fax. +62-31-99890860')
-          ParentFont = False
-        end
-        object fdbSJ01nama: TfrxMemoView
-          Left = 532.913730000000000000
-          Top = 18.897650000000000000
-          Width = 219.212740000000000000
-          Height = 18.897650000000000000
-          ShowHint = False
-          DataSet = fdbSJ01
-          DataSetName = 'fdbSJ01'
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clBlack
-          Font.Height = -13
-          Font.Name = 'Arial'
-          Font.Style = []
-          Memo.UTF8W = (
-            '[fdbSJ01."nama_cust"]')
           ParentFont = False
         end
         object Memo4: TfrxMemoView
@@ -1018,6 +997,18 @@ object frmLapSJ: TfrmLapSJ
           DataSetName = 'fdbSJ01'
           Memo.UTF8W = (
             '[fdbSJ01."no_faktur"]')
+        end
+        object fdbSJ01nama_cust: TfrxMemoView
+          Left = 532.913730000000000000
+          Top = 18.897650000000000000
+          Width = 219.212740000000000000
+          Height = 18.897650000000000000
+          ShowHint = False
+          DataField = 'nama_cust'
+          DataSet = fdbSJ01
+          DataSetName = 'fdbSJ01'
+          Memo.UTF8W = (
+            '[fdbSJ01."nama_cust"]')
         end
       end
       object GroupFooter1: TfrxGroupFooter

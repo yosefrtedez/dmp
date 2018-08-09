@@ -338,6 +338,7 @@ inherited frmInputSuratJalan: TfrmInputSuratJalan
     Top = 551
     Caption = 'PPN (10%)'
     TabOrder = 24
+    OnClick = cxChkPPNClick
     Width = 82
   end
   object cxLabel5: TcxLabel

@@ -24,7 +24,7 @@ inherited frmSPK: TfrmSPK
   end
   inherited Panel2: TPanel
     Top = 571
-    TabOrder = 24
+    TabOrder = 27
     ExplicitTop = 571
     inherited btnSimpan: TButton
       OnClick = btnSimpanClick
@@ -56,25 +56,25 @@ inherited frmSPK: TfrmSPK
   end
   object cxLabel3: TcxLabel
     Left = 8
-    Top = 227
+    Top = 254
     Caption = 'Tgl. Produksi'
   end
   object cxLabel4: TcxLabel
     Left = 8
-    Top = 254
+    Top = 281
     Caption = 'Mesin'
   end
   object cxLabel5: TcxLabel
     Left = 8
-    Top = 284
+    Top = 316
     Caption = 'Bill Of Material'
   end
   object cxGrid1: TcxGrid
     Left = 8
-    Top = 307
+    Top = 339
     Width = 875
     Height = 198
-    TabOrder = 23
+    TabOrder = 26
     object cxtbBom: TcxGridTableView
       NavigatorButtons.ConfirmDelete = False
       NavigatorButtons.Insert.Visible = False
@@ -157,13 +157,13 @@ inherited frmSPK: TfrmSPK
   end
   object cxdTglPrd: TcxDateEdit
     Left = 101
-    Top = 226
-    TabOrder = 18
+    Top = 253
+    TabOrder = 21
     Width = 121
   end
   object cxlMesin: TcxLookupComboBox
     Left = 101
-    Top = 253
+    Top = 280
     Properties.KeyFieldNames = 'id'
     Properties.ListColumns = <
       item
@@ -171,7 +171,7 @@ inherited frmSPK: TfrmSPK
         FieldName = 'nama'
       end>
     Properties.ListSource = dsMesin
-    TabOrder = 20
+    TabOrder = 23
     Width = 177
   end
   object cxsQtySPK: TcxSpinEdit
@@ -181,15 +181,8 @@ inherited frmSPK: TfrmSPK
     Properties.AssignedValues.EditFormat = True
     Properties.DisplayFormat = '#,#0.00'
     Properties.ValueType = vtFloat
-    TabOrder = 17
+    TabOrder = 18
     Width = 92
-  end
-  object cxtSatuan: TcxTextEdit
-    Left = 199
-    Top = 198
-    Properties.ReadOnly = True
-    TabOrder = 12
-    Width = 66
   end
   object cxtNoMO: TcxTextEdit
     Left = 284
@@ -211,29 +204,57 @@ inherited frmSPK: TfrmSPK
     Properties.DisplayFormat = '#,#0.00'
     Properties.ReadOnly = True
     Properties.ValueType = vtFloat
-    TabOrder = 11
+    TabOrder = 13
     Width = 92
   end
   object cxLabel10: TcxLabel
-    Left = 275
+    Left = 199
     Top = 198
     Caption = 'Toleransi'
   end
   object cxsToleransi: TcxSpinEdit
-    Left = 331
+    Left = 279
     Top = 198
     Properties.Alignment.Horz = taRightJustify
     Properties.AssignedValues.EditFormat = True
     Properties.DisplayFormat = '#,#0.00'
     Properties.MaxValue = 90.000000000000000000
     Properties.ValueType = vtFloat
-    TabOrder = 14
+    TabOrder = 15
     Width = 92
   end
   object cxLabel11: TcxLabel
-    Left = 429
+    Left = 374
     Top = 198
     Caption = '%'
+  end
+  object cxLabel12: TcxLabel
+    Left = 199
+    Top = 171
+    Caption = 'Qty. SPK Total'
+  end
+  object cxsTotalSPK: TcxSpinEdit
+    Left = 279
+    Top = 171
+    Properties.Alignment.Horz = taRightJustify
+    Properties.AssignedValues.EditFormat = True
+    Properties.DisplayFormat = '#,#0.00'
+    Properties.ReadOnly = True
+    Properties.ValueType = vtFloat
+    TabOrder = 11
+    Width = 92
+  end
+  object cxLabel13: TcxLabel
+    Left = 8
+    Top = 227
+    Caption = 'Satuan'
+  end
+  object cxtSatuan: TcxTextEdit
+    Left = 101
+    Top = 226
+    Properties.ReadOnly = True
+    TabOrder = 19
+    Width = 92
   end
   object zqrMesin: TZReadOnlyQuery
     Connection = DM.zConn

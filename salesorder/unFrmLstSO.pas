@@ -55,10 +55,11 @@ type
     procedure cxtbSOFocusedRecordChanged(Sender: TcxCustomGridTableView;
       APrevFocusedRecord, AFocusedRecord: TcxCustomGridRecord;
       ANewItemRecordFocusingChanged: Boolean);
+    procedure FormShow(Sender: TObject);
   private
-    { Private declarations }
+    mJenisSO: string;
   public
-    { Public declarations }
+    property JenisSO: string read mJenisSO write mJenisSO;
   end;
 
 var
@@ -130,6 +131,13 @@ begin
     ts.PageControl := frmUtama.pgMain;
 
     f := TfrmInputSO.Create(Self);
+
+    if mJenisSO = 'MTS' then begin
+      f.JenisSO := mJenisSO;
+      f.Caption := 'Input Sales Order - MTS';
+      f.Label1.Caption := 'Input Sales Order - MTS';
+    end;
+
     f.Jenis := 'T';
     f.Parent := ts;
     ts.Caption := f.Caption;
@@ -155,6 +163,17 @@ begin
   Self.NamaMenu := 'mnMkt_SalesOrder';
   TerapkanWewenang(Self.NamaMenu);
   zqrSO.Open;
+end;
+
+procedure TfrmLstSO.FormShow(Sender: TObject);
+begin
+  inherited;
+  if mJenisSO = 'MTS' then begin
+    zqrSO.Close;
+    zqrSO.SQL.Strings[3] := 'WHERE LEFT(no_bukti,3) = ''MTS''';
+    zqrSO.Open;
+  end;
+
 end;
 
 end.

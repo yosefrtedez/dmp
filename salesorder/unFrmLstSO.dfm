@@ -1,6 +1,7 @@
 inherited frmLstSO: TfrmLstSO
   Caption = 'Sales Order'
   OnCreate = FormCreate
+  OnShow = FormShow
   ExplicitWidth = 1016
   ExplicitHeight = 508
   PixelsPerInch = 96
@@ -31,11 +32,7 @@ inherited frmLstSO: TfrmLstSO
     inherited btnHapus: TButton
       OnClick = btnHapusClick
     end
-    inherited btnKeluar: TButton
-      TabOrder = 4
-    end
     inherited btnRefresh: TButton
-      TabOrder = 3
       OnClick = btnRefreshClick
     end
   end
@@ -178,7 +175,8 @@ inherited frmLstSO: TfrmLstSO
         'SELECT a.*,b.nama, IF(LEFT(no_bukti,3)='#39'MTS'#39','#39'MTS'#39','#39'SO CUSTOMER'#39 +
         ') jenis_so '
       'FROM tbl_so_head a '
-      'left join tbl_customer b on a.id_cust = b.id')
+      'left join tbl_customer b on a.id_cust = b.id'
+      '-- ')
     Params = <>
     Left = 720
     Top = 118

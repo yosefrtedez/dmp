@@ -18,7 +18,7 @@ uses
   cxGridCustomView, cxGridCustomTableView, cxGridTableView, cxGridDBTableView,
   cxGrid, ExtCtrls, StdCtrls, cxPC, ZAbstractRODataset, ZDataset, cxContainer,
   cxLabel, cxTextEdit, cxMaskEdit, cxDropDownEdit, cxLookupEdit, cxDBLookupEdit,
-  cxDBLookupComboBox;
+  cxDBLookupComboBox, cxCheckBox;
 
 type
   TfrmLstBarangJasa = class(TfrmTplGrid)
@@ -124,7 +124,8 @@ type
     cxtbStokGudangstok: TcxGridDBColumn;
     cxtbStokGudangnama: TcxGridDBColumn;
     cxtbStokGudangColumn1: TcxGridDBColumn;
-    procedure Button1Click(Sender: TObject);
+    btnKartuStok: TButton;
+    procedure btnKartuStokClick(Sender: TObject);
     procedure btnTambahClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure btnRefreshClick(Sender: TObject);
@@ -145,7 +146,7 @@ var
 
 implementation
 
-uses unFrmUtama, unFrmInputBarangJasa, unDM, unTools;
+uses unFrmUtama, unFrmInputBarangJasa, unDM, unTools, unFrmKartuStok;
 
 {$R *.dfm}
 
@@ -233,23 +234,14 @@ begin
   end;
 end;
 
-procedure TfrmLstBarangJasa.Button1Click(Sender: TObject);
+procedure TfrmLstBarangJasa.btnKartuStokClick(Sender: TObject);
 var
-  f: TfrmInputBarangJasa;
-  ts: TcxTabSheet;
+  f: TfrmKartuStok;
 begin
+  f := TfrmKartuStok.Create(Self);
+  f.IdBrg := zqrBarang.FieldByName('id').AsInteger;
+  f.ShowModal;
 
-  if not frmUtama.CekTabOpen('Input Barang dan Jasa') then begin
-    ts := TcxTabSheet.Create(Self);
-    ts.PageControl := frmUtama.pgMain;
-
-    f := TfrmInputBarangJasa.Create(Self);
-    f.Parent := ts;
-    ts.Caption := f.Caption;
-    f.Show;
-
-    frmUtama.pgMain.ActivePage := ts;
-  end;
 end;
 
 procedure TfrmLstBarangJasa.cxtbBarangFocusedRecordChanged(

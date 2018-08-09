@@ -81,7 +81,9 @@ uses
   unFrmLapTransaksi in 'laporan\unFrmLapTransaksi.pas' {frmLapTransaksi},
   unFrmLapSPK in 'laporan\unFrmLapSPK.pas' {frmLapSPK},
   unFrmPilihSO in 'salesorder\unFrmPilihSO.pas' {frmPilihSO},
-  unFrmLapSJ in 'laporan\unFrmLapSJ.pas' {frmLapSJ};
+  unFrmLapSJ in 'laporan\unFrmLapSJ.pas' {frmLapSJ},
+  unFrmLapHasilProduksi in 'laporan\unFrmLapHasilProduksi.pas' {frmLapHasilProduksi},
+  unFrmKartuStok in 'barangjasa\unFrmKartuStok.pas' {frmKartuStok};
 
 {$R *.res}
 

@@ -221,6 +221,14 @@ inherited frmLstPO: TfrmLstPO
         Properties.DisplayFormat = '#,#0.00'
         HeaderAlignmentHorz = taRightJustify
       end
+      object cxtbPODetColumn3: TcxGridDBColumn
+        Caption = 'Qty. Terima'
+        DataBinding.FieldName = 'qty_terima'
+        PropertiesClassName = 'TcxSpinEditProperties'
+        Properties.DisplayFormat = '#,#0.00'
+        HeaderAlignmentHorz = taRightJustify
+        Width = 71
+      end
       object cxtbPODetsatuan: TcxGridDBColumn
         Caption = 'Satuan'
         DataBinding.FieldName = 'satuan'
@@ -310,7 +318,10 @@ inherited frmLstPO: TfrmLstPO
     SQL.Strings = (
       
         'SELECT a.*, b.deskripsi, a.qty, c.satuan, a.harga, a.mata_uang, ' +
-        'a.qty * a.harga subtotal'
+        'a.qty * a.harga subtotal,'
+      
+        '(SELECT SUM(qty) FROM tbl_pb_det WHERE id_brg = a.id_brg AND id_' +
+        'po = a.id_ref) qty_terima'
       'FROM tbl_po_det a'
       'LEFT JOIN tbl_barang b ON a.kode_brg = b.kode '
       'LEFT JOIN tbl_satuan c ON c.id = a.id_satuan'

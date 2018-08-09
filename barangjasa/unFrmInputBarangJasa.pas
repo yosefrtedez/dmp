@@ -123,6 +123,8 @@ type
     procedure cxsJmlIkatPerKarungPropertiesChange(Sender: TObject);
     procedure cxsStdBrtKantongPropertiesChange(Sender: TObject);
     procedure cxsBrtTaliPropertiesChange(Sender: TObject);
+    procedure cxtbSatuanDataControllerBeforeDelete(
+      ADataController: TcxCustomDataController; ARecordIndex: Integer);
   private
     //
   public
@@ -327,6 +329,18 @@ begin
   end;
 end;
 
+procedure TfrmInputBarangJasa.cxtbSatuanDataControllerBeforeDelete(
+  ADataController: TcxCustomDataController; ARecordIndex: Integer);
+begin
+  inherited;
+  try
+    dm.zConn.ExecuteDirect(Format('DELETE FROM tbl_konv_brg WHERE id = %s',
+      [ADataController.Values[ARecordIndex, cxColID.Index]]));
+  finally
+
+  end;
+end;
+
 procedure TfrmInputBarangJasa.cxtbSatuanDataControllerBeforePost(
   ADataController: TcxCustomDataController);
 var
@@ -409,6 +423,7 @@ begin
         Values[i, cxColSatuan.Index] := q.FieldByName('id_satuan').AsInteger;
         Values[i, cxColQty.Index] := q.FieldByName('qty').AsFloat;
         Values[i, cxColKeterangan.Index] := q.FieldByName('keterangan').AsString;
+        Values[i, cxColID.Index] := q.FieldByName('id').AsInteger;
       end;
       q.Next;
     end;

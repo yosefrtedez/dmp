@@ -61,6 +61,7 @@ type
     cxtbBOMdeskripsi: TcxGridDBColumn;
     btnCetakSPK: TButton;
     cxtbMOColumn1: TcxGridDBColumn;
+    cxColPengambilan: TcxGridDBColumn;
     procedure btnProsesClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure Button1Click(Sender: TObject);

@@ -97,9 +97,16 @@ begin
        'WHERE id_gdg = ''' + sGdg + ''' ' +
        'group by id_brg');
     dm.zConn.ExecuteDirect('ALTER TABLE _tmp_hist0 add index idxkodebrg (id_brg)');
+
+    {
     sql := 'SELECT b.id AS id, IFNULL(IN_,0) IN_, IFNULL(OUT_,0) OUT_ ' +
       'from _tmp_hist0 a ' +
       'RIGHT JOIN tbl_barang b ON a.id_brg = b.id WHERE b.f_aktif = 1';
+    }
+
+    sql := 'SELECT b.id AS id, IFNULL(IN_,0) IN_, IFNULL(OUT_,0) OUT_ ' +
+      'from _tmp_hist0 a ' +
+      'RIGHT JOIN tbl_barang b ON a.id_brg = b.id';
 
     q := OpenRS(sql);
 

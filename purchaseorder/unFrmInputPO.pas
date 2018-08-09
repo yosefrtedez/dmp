@@ -360,12 +360,17 @@ end;
 
 procedure TfrmInputPO.cxLuSupplierPropertiesChange(Sender: TObject);
 var
-  q : TZQuery;
+  q: TZQuery;
 begin
   inherited;
-  q := OpenRS('select alamat from tbl_supplier where kode = ''%s''',[cxlSupplier.EditValue]);
-  cxtAlamat.Text := q.FieldByName('alamat').AsString;
+  try
+  q := OpenRS('SELECT alamat, alamat2, kota, provinsi, negara FROM tbl_supplier WHERE id = %s',[cxlSupplier.EditValue]);
+  cxtAlamat.Text := q.FieldByName('alamat').AsString + ', ' + q.FieldByName('alamat2').AsString +
+    ', ' + q.FieldByname('kota').AsString + ', ' + q.FieldByName('provinsi').AsString;
   q.Close;
+  finally
+
+  end;
 end;
 
 procedure TfrmInputPO.cxtbTblPODataControllerBeforePost(

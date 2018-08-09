@@ -57,6 +57,7 @@ type
     cxtbPBDetsatuan2: TcxGridDBColumn;
     cxtbPBHeadnama_supplier: TcxGridDBColumn;
     cxtbPBHeadColumn1: TcxGridDBColumn;
+    cxtbPBDetColumn1: TcxGridDBColumn;
     procedure btnTambahClick(Sender: TObject);
     procedure cxtbPBHeadFocusedRecordChanged(Sender: TcxCustomGridTableView;
       APrevFocusedRecord, AFocusedRecord: TcxCustomGridRecord;
@@ -89,6 +90,7 @@ begin
     ts := TcxTabSheet.Create(Self);
     ts.PageControl := frmUtama.pgMain;
     f := TfrmInputPB.Create(Self);
+    f.FormInduk := Self;
     f.Jenis := 'E';
     f.EditKey := zqrPBHead.FieldByName('id').AsString;
     f.Parent := ts;
@@ -116,6 +118,7 @@ begin
     ts := TcxTabSheet.Create(Self);
     ts.PageControl := frmUtama.pgMain;
     f := TfrmInputPB.Create(Self);
+    f.FormInduk := Self;
     f.Jenis := 'T';
     f.Parent := ts;
     ts.Caption := f.Caption;

@@ -289,6 +289,7 @@ inherited frmInputHasilProduksi: TfrmInputHasilProduksi
         Caption = 'Status'
         DataBinding.ValueType = 'Integer'
         PropertiesClassName = 'TcxCheckBoxProperties'
+        Properties.ReadOnly = True
         Properties.ValueChecked = 1
         Properties.ValueUnchecked = 0
       end
@@ -355,7 +356,6 @@ inherited frmInputHasilProduksi: TfrmInputHasilProduksi
   end
   object zqrMesin: TZReadOnlyQuery
     Connection = DM.zConn
-    Active = True
     SQL.Strings = (
       'SELECT id, kode, nama '
       'FROM tbl_mesin'

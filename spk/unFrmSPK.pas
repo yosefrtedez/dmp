@@ -40,7 +40,6 @@ type
     cxdTglPrd: TcxDateEdit;
     cxlMesin: TcxLookupComboBox;
     cxsQtySPK: TcxSpinEdit;
-    cxtSatuan: TcxTextEdit;
     cxtNoMO: TcxTextEdit;
     zqrMesin: TZReadOnlyQuery;
     dsMesin: TDataSource;
@@ -58,6 +57,10 @@ type
     cxLabel10: TcxLabel;
     cxsToleransi: TcxSpinEdit;
     cxLabel11: TcxLabel;
+    cxLabel12: TcxLabel;
+    cxsTotalSPK: TcxSpinEdit;
+    cxLabel13: TcxLabel;
+    cxtSatuan: TcxTextEdit;
     procedure FormShow(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure cxtbBomDataControllerRecordChanged(
@@ -90,7 +93,7 @@ uses unTools, unDM;
 procedure TfrmSPK.btnSimpanClick(Sender: TObject);
 var
   sNoSPK: string;
-  qh, qd: TZQuery;
+  q, qh, qd: TZQuery;
   ID, i: integer;
 begin
   inherited;
@@ -120,6 +123,14 @@ begin
   end
   else begin
 
+    q := OpenRS('SELECT SUM(qty) spk_total  FROM tbl_spk WHERE id_so = %d',[mIDSO]);
+    if (cxsQtySPK.Value + q.FieldByName('spk_total').AsFloat) > cxsQtySO.Value then begin
+      MsgBox('Qty. SPK sudah melebihi Qty. SO.');
+      q.Close;
+      Abort;
+    end;
+    q.Close;
+
     if cxtbBom.DataController.RecordCount = 0 then begin
       MsgBox('Detail Bill Of Material harus di isi.');
       Abort;
@@ -143,8 +154,9 @@ begin
       with qh do begin
         if Self.Jenis = 'T' then
           Insert
-        else
+        else begin
           Edit;
+        end;
         FieldByName('no_spk').AsString := sNoSPK;
         FieldByName('id_mo').AsInteger := mIDMO;
         FieldByName('id_so').AsInteger := mIDSO;
@@ -165,7 +177,7 @@ begin
           if Self.Jenis = 'T' then
             qd.Insert
           else begin
-            qd.Locate('id_spk,id_brg',VarArrayOf([ID, Values[i, cxColDeskripsi.Index]]),[]);
+            qd.Locate('id',VarArrayOf([Values[i, cxColId.Index]]),[]);
             qd.Edit;
           end;
           qd.FieldByName('id_spk').AsInteger := ID;
@@ -174,6 +186,7 @@ begin
           qd.FieldByName('qty').AsFloat := Values[i, cxColQty.Index];
           qd.FieldByName('id_satuan').AsInteger := Values[i, cxColIdSatuan.Index];
           qd.Post;
+          qd.First;
         end;
       end;
       qd.Close;
@@ -238,11 +251,12 @@ begin
   inherited;
   zqrBrg.Open;
   zqrMesin.Open;
+  mEditable := True;
 end;
 
 procedure TfrmSPK.FormShow(Sender: TObject);
 var
-  q: TZQuery;
+  q, qspk: TZQuery;
   i: integer;
 begin
   inherited;
@@ -256,7 +270,12 @@ begin
   cxtSatuan.Text := q.FieldByName('satuan').AsString;
   cxsQtySPK.Value := q.FieldByName('qty_spk').AsFloat;
   cxsQtySO.Value := q.FieldbyName('qty_so').AsFloat;
+  cxtSatuan.Text := q.FieldByName('satuan').AsString;
   q.Close;
+
+  qspk := OpenRS('SELECT IFNULL(SUM(qty),0) spk_total FROM tbl_spk WHERE id_so = %d',[mIDSO]);
+  cxsTotalSPK.Value := qspk.FieldByName('spk_total').AsFloat;
+  qspk.Close;
 
   if Self.Jenis = 'T' then
     cxtNoSPK.Text := GetLastFak('spk');

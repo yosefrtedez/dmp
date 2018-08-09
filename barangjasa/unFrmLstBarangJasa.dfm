@@ -42,10 +42,20 @@ inherited frmLstBarangJasa: TfrmLstBarangJasa
     end
     inherited btnKeluar: TButton
       Left = 1036
+      TabOrder = 5
       ExplicitLeft = 1036
     end
     inherited btnRefresh: TButton
       OnClick = btnRefreshClick
+    end
+    object btnKartuStok: TButton
+      Left = 334
+      Top = 12
+      Width = 75
+      Height = 25
+      Caption = 'Kartu Stok'
+      TabOrder = 4
+      OnClick = btnKartuStokClick
     end
   end
   object cxgBarang: TcxGrid
@@ -117,8 +127,14 @@ inherited frmLstBarangJasa: TfrmLstBarangJasa
         Visible = False
       end
       object cxtbBarangf_aktif: TcxGridDBColumn
+        Caption = 'Aktif'
         DataBinding.FieldName = 'f_aktif'
-        Visible = False
+        PropertiesClassName = 'TcxCheckBoxProperties'
+        Properties.ReadOnly = True
+        Properties.ValueChecked = 1
+        Properties.ValueUnchecked = 0
+        HeaderAlignmentHorz = taCenter
+        Width = 51
       end
       object cxtbBaranguser_input: TcxGridDBColumn
         DataBinding.FieldName = 'user_input'
@@ -518,7 +534,8 @@ inherited frmLstBarangJasa: TfrmLstBarangJasa
     SQL.Strings = (
       'SELECT * '
       'FROM v_hist_brg_det'
-      'WHERE id_brg = :id_brg AND id_gdg = :id_gdg')
+      'WHERE id_brg = :id_brg AND id_gdg = :id_gdg'
+      'ORDER BY id DESC')
     Params = <
       item
         DataType = ftUnknown

@@ -1,0 +1,80 @@
+inherited frmLapHasilProduksi: TfrmLapHasilProduksi
+  Caption = 'frmLapHasilProduksi'
+  ClientHeight = 610
+  ClientWidth = 1125
+  ExplicitWidth = 1125
+  ExplicitHeight = 610
+  PixelsPerInch = 96
+  TextHeight = 13
+  inherited Panel1: TPanel
+    Width = 1125
+  end
+  inherited Panel2: TPanel
+    Top = 561
+    Width = 1125
+    TabOrder = 3
+    inherited btnKeluar: TButton
+      Left = 1042
+    end
+  end
+  object cxGrid1: TcxGrid
+    Left = 0
+    Top = 97
+    Width = 1125
+    Height = 464
+    Align = alClient
+    TabOrder = 2
+    ExplicitLeft = 192
+    ExplicitTop = 176
+    ExplicitWidth = 250
+    ExplicitHeight = 200
+    object cxGrid1DBTableView1: TcxGridDBTableView
+      NavigatorButtons.ConfirmDelete = False
+      DataController.Summary.DefaultGroupSummaryItems = <>
+      DataController.Summary.FooterSummaryItems = <>
+      DataController.Summary.SummaryGroups = <>
+    end
+    object cxGrid1Level1: TcxGridLevel
+      GridView = cxGrid1DBTableView1
+    end
+  end
+  object Panel3: TPanel
+    Left = 0
+    Top = 49
+    Width = 1125
+    Height = 48
+    Align = alTop
+    TabOrder = 1
+    ExplicitTop = 43
+    object cxLabel1: TcxLabel
+      Left = 15
+      Top = 14
+      Caption = 'Tanggal'
+    end
+    object cxDateEdit1: TcxDateEdit
+      Left = 68
+      Top = 13
+      TabOrder = 1
+      Width = 121
+    end
+    object cxDateEdit2: TcxDateEdit
+      Left = 225
+      Top = 14
+      TabOrder = 3
+      Width = 121
+    end
+    object cxLabel2: TcxLabel
+      Left = 197
+      Top = 15
+      Caption = 'S/D'
+    end
+    object btnProses: TButton
+      Left = 353
+      Top = 12
+      Width = 75
+      Height = 25
+      Caption = 'Proses'
+      TabOrder = 0
+    end
+  end
+end

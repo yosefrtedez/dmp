@@ -89,6 +89,13 @@ inherited frmLstSuratJalan: TfrmLstSuratJalan
         Options.Editing = False
         Width = 100
       end
+      object cxtbSJColumn3: TcxGridDBColumn
+        Caption = 'PPN'
+        DataBinding.FieldName = 'f_ppn'
+        PropertiesClassName = 'TcxCheckBoxProperties'
+        Properties.ValueChecked = 1
+        Properties.ValueUnchecked = 0
+      end
       object cxtbSJColumn1: TcxGridDBColumn
         Caption = 'Customer'
         DataBinding.FieldName = 'nama_cust'

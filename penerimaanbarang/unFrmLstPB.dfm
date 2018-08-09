@@ -31,11 +31,7 @@ inherited frmLstPB: TfrmLstPB
     inherited btnEdit: TButton
       OnClick = btnEditClick
     end
-    inherited btnKeluar: TButton
-      TabOrder = 4
-    end
     inherited btnRefresh: TButton
-      TabOrder = 3
       OnClick = btnRefreshClick
     end
   end
@@ -182,10 +178,18 @@ inherited frmLstPB: TfrmLstPB
         DataBinding.FieldName = 'deskripsi'
         Width = 359
       end
+      object cxtbPBDetColumn1: TcxGridDBColumn
+        Caption = 'Qty. PO'
+        DataBinding.FieldName = 'qty_po'
+        PropertiesClassName = 'TcxSpinEditProperties'
+        Properties.DisplayFormat = '#,#0.00'
+        HeaderAlignmentHorz = taRightJustify
+      end
       object cxtbPBDetqty: TcxGridDBColumn
         Caption = 'Qty.'
         DataBinding.FieldName = 'qty'
         PropertiesClassName = 'TcxSpinEditProperties'
+        Properties.DisplayFormat = '#,#0.00'
         HeaderAlignmentHorz = taRightJustify
       end
       object cxtbPBDetsatuan2: TcxGridDBColumn
@@ -198,6 +202,7 @@ inherited frmLstPB: TfrmLstPB
         DataBinding.FieldName = 'harga'
         PropertiesClassName = 'TcxSpinEditProperties'
         Properties.DisplayFormat = '#,#0.00'
+        Visible = False
         HeaderAlignmentHorz = taRightJustify
       end
       object cxtbPBDetketerangan: TcxGridDBColumn
@@ -231,8 +236,12 @@ inherited frmLstPB: TfrmLstPB
     Connection = DM.zConn
     Active = True
     SQL.Strings = (
-      'SELECT a.*, b.deskripsi, c.satuan satuan2'
+      'SELECT a.*, b.deskripsi, c.satuan satuan2,'
+      
+        '(SELECT x.qty FROM tbl_po_det x WHERE x.id_ref = aa.id_po AND x.' +
+        'id_brg = a.id_brg) qty_po '
       'FROM tbl_pb_det a'
+      'INNER JOIN tbl_pb_head aa ON aa.id = a.id_ref'
       'LEFT JOIN tbl_barang b ON a.id_brg = b.id'
       'LEFT JOIN tbl_satuan c ON a.id_satuan = c.id'
       'WHERE a.id_ref = :id_ref')

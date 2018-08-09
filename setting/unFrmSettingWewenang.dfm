@@ -42,7 +42,7 @@ inherited frmSettingWewenang: TfrmSettingWewenang
         FieldName = 'nama'
       end>
     Properties.ListSource = dsUser
-    TabOrder = 1
+    TabOrder = 2
     Width = 521
   end
   object cxGrid1: TcxGrid
@@ -51,7 +51,7 @@ inherited frmSettingWewenang: TfrmSettingWewenang
     Width = 876
     Height = 401
     Anchors = [akLeft, akTop, akRight, akBottom]
-    TabOrder = 4
+    TabOrder = 5
     Visible = False
     object cxtbWewenang: TcxGridTableView
       NavigatorButtons.ConfirmDelete = False
@@ -137,7 +137,7 @@ inherited frmSettingWewenang: TfrmSettingWewenang
     Width = 75
     Height = 25
     Caption = 'Proses'
-    TabOrder = 2
+    TabOrder = 1
     OnClick = Button1Click
   end
   object cxTreeWewenang: TcxTreeList
@@ -149,7 +149,7 @@ inherited frmSettingWewenang: TfrmSettingWewenang
     Bands = <
       item
       end>
-    TabOrder = 3
+    TabOrder = 4
     OnEditing = cxTreeWewenangEditing
     object cxtrNama: TcxTreeListColumn
       Caption.Text = 'Nama Menu'

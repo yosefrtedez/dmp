@@ -58,6 +58,7 @@ type
     cxtbSJColumn2: TcxGridDBColumn;
     cxtbSJColumn1: TcxGridDBColumn;
     Button1: TButton;
+    cxtbSJColumn3: TcxGridDBColumn;
     procedure btnTambahClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure btnRefreshClick(Sender: TObject);

@@ -18,7 +18,7 @@ uses
   cxDBLookupComboBox, cxSpinEdit, cxDropDownEdit, cxGridLevel,
   cxGridCustomTableView, cxGridTableView, cxClasses, cxGridCustomView, cxGrid,
   cxGroupBox, cxCalendar, cxMaskEdit, cxLookupEdit, cxDBLookupEdit, cxLabel, ZDataset,
-  DB, ZAbstractRODataset, cxCheckBox;
+  DB, ZAbstractRODataset, cxCheckBox, Math;
 
 type
   TfrmInputPB = class(TfrmTplInput)
@@ -70,13 +70,16 @@ type
     dsPO: TDataSource;
     zqrBarang: TZReadOnlyQuery;
     dsBarang: TDataSource;
-    cxtNamaSupp: TcxTextEdit;
     cxColIdBrg: TcxGridColumn;
     cxColGdg: TcxGridColumn;
     zqrGdg: TZReadOnlyQuery;
     dsGdg: TDataSource;
     cxChkPosting: TcxCheckBox;
     cxColQtyDatang: TcxGridColumn;
+    cxlSupp: TcxLookupComboBox;
+    zqrSupp: TZReadOnlyQuery;
+    dsSupp: TDataSource;
+    cxChkSelesai: TcxCheckBox;
     procedure FormCreate(Sender: TObject);
     procedure cxlNoPPPropertiesChange(Sender: TObject);
     procedure cxtbPBDataControllerBeforePost(
@@ -86,9 +89,11 @@ type
       ADataController: TcxCustomDataController; ARecordIndex,
       AItemIndex: Integer);
     procedure FormShow(Sender: TObject);
+    procedure cxlSuppPropertiesChange(Sender: TObject);
   private
     id_supplier: integer;
     f_posted: Boolean;
+    function CheckPOComplete: boolean;
   public
     { Public declarations }
   end;
@@ -98,7 +103,7 @@ var
 
 implementation
 
-uses unDM, unTools;
+uses unDM, unTools, unFrmLstPB;
 
 {$R *.dfm}
 
@@ -202,6 +207,8 @@ begin
         qd.FieldByname('qty').AsFloat := Values[i, cxColQtyTerima.Index];
         qd.FieldByName('id_satuan').AsInteger := Values[i, cxColIdSatuan.Index];
         qd.FieldByName('harga').AsFloat := Values[i, cxColHarga.Index];
+        qd.FieldByName('id_po').AsInteger := cxlNoPO.EditValue;
+        qd.FieldbyName('id_gdg').AsInteger := Values[i, cxColGdg.Index];
         qd.Post;
       end;
     end;
@@ -261,6 +268,13 @@ begin
 
     MsgBox('Penerimaan barang sudah disimpan dengan nomor: ' + sNoTrs);
 
+    if CheckPOComplete then begin
+      MsgBox('PO ini sudah komplit / selesai.');
+    end;
+
+    if Assigned(Self.FormInduk) then
+        (Self.FormInduk as TFrmLstPB).btnRefreshClick(nil);
+
     btnBatalClick(nil);
   except
     on E: Exception do begin
@@ -269,6 +283,29 @@ begin
     end;
   end;
 
+end;
+
+function TfrmInputPB.CheckPOComplete: boolean;
+var
+  q: TZQuery;
+  f: Boolean;
+  a,b: Extended;
+begin
+  q := OpenRS('SELECT a.id_brg, a.qty, (SELECT SUM(qty) FROM tbl_pb_det WHERE id_po = a.id_ref AND id_brg = a.id_brg) qty_terima ' +
+    'FROM tbl_po_det a WHERE a.id_ref = %s',[cxlNoPO.EditValue]);
+  f := False;
+  while not q.Eof do begin
+    a := q.FieldByName('qty').AsFloat;
+    b := q.FIeldByName('qty_terima').AsFloat;
+    if CompareValue(a, b) = 0 then
+      f := true
+    else
+      f := false;
+    q.Next;
+  end;
+  if f then
+    dm.zConn.ExecuteDirect(Format('UPDATE tbl_po_head SET f_completed = 1 WHERE id = %s',[cxlNoPO.EditValue]));
+  Result := f;
 end;
 
 procedure TfrmInputPB.cxlNoPPPropertiesChange(Sender: TObject);
@@ -284,7 +321,7 @@ begin
               'LEFT JOIN tbl_supplier b ON b.id = a.id_supplier ' +
               'WHERE a.id = %s',[cxlNoPO.EditValue]);
   cxdTglPO.Date := q.FieldByName('tanggal').AsDateTime;
-  cxtNamaSupp.Text := q.FieldByName('nama_supplier').AsString;
+  //cxtNamaSupp.Text := q.FieldByName('nama_supplier').AsString;
   cxtAlamat.Text := q.FieldByName('alamat').AsString;
   id_ref := q.FieldByName('id').AsInteger;
   id_supplier := q.FieldByName('id_supplier').AsInteger;
@@ -338,6 +375,26 @@ begin
 
 end;
 
+procedure TfrmInputPB.cxlSuppPropertiesChange(Sender: TObject);
+var
+  q: TZQuery;
+begin
+  inherited;
+  try
+  zqrPO.Close;
+  zqrPO.ParamByName('id_supplier').AsInteger := cxlSupp.EditValue;
+  zqrPO.Open;
+  cxtbPB.DataController.RecordCount := 0;
+  cxdTglPO.Text := '';
+  q := OpenRS('SELECT alamat, alamat2, kota, provinsi, negara FROM tbl_supplier WHERE id = %s',[cxlSupp.EditValue]);
+  cxtAlamat.Text := q.FieldByName('alamat').AsString + ', ' + q.FieldByName('alamat2').AsString +
+    ', ' + q.FieldByname('kota').AsString + ', ' + q.FieldByName('provinsi').AsString;
+  q.Close;
+  finally
+
+  end;
+end;
+
 procedure TfrmInputPB.cxtbPBDataControllerBeforePost(
   ADataController: TcxCustomDataController);
 var
@@ -348,11 +405,11 @@ begin
   i := cxtbPB.DataController.GetFocusedRecordIndex;
 
   if ADataController.Values[i, cxColQtyTerima.Index] <= 0 then begin
-    MsgBox('Qty Terima tidak boleh minus');
+    MsgBox('Qty Terima tidak boleh minus.');
     Abort;
   end;
   if ADataController.Values[i, cxColQtyTerima.Index] > ADataController.Values[i, cxColQtyPO.Index]-ADataController.Values[i, cxColQtyDatang.Index]  then begin
-      MsgBox('Qty tidak boleh melebihi QTY PO');
+      MsgBox('Qty. Terima tidak boleh melebihi QTY PO.');
       Abort;
   end;
   if (VarIsNull(ADataController.Values[i, cxColHarga.Index]))  then begin
@@ -402,7 +459,7 @@ procedure TfrmInputPB.FormCreate(Sender: TObject);
 begin
   inherited;
   cxtNoBukti.Text := GetLastFak('penerimaan');
-  zqrPO.Open;
+  zqrSupp.Open;
   zqrBarang.Open;
   zqrGdg.Open;
 end;
@@ -452,7 +509,7 @@ begin
       'LEFT JOIN tbl_supplier b ON b.id = a.id_supplier ' +
       'WHERE a.id = %d',[id_po]);
       id_supplier := q.FieldByname('id_supplier').AsInteger;
-      cxtNamaSupp.Text := q.FieldByname('nama_supplier').AsString;
+      //cxtNamaSupp.Text := q.FieldByname('nama_supplier').AsString;
       cxtAlamat.Text := q.FieldByName('alamat').AsString;
       q.Close;
    //cxgrdPP.DataController.OnRecordChanged := nil;

@@ -58,7 +58,7 @@ type
     procedure btnSimpanClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
   private
-    { Private declarations }
+    procedure KosongiTree;
   public
     { Public declarations }
   end;
@@ -79,6 +79,7 @@ var
   q: TZQuery;
 begin
   inherited;
+  Screen.Cursor := crSQLWait;
   dm.zConn.ExecuteDirect(Format('DELETE FROM tbl_wewenang WHERE nama = ''%s''',[cxlUser.Text]));
   q := OpenRS('SELECT * FROM tbl_wewenang WHERE nama = ''%s''',[cxlUser.Text]);
   for i := 0 to cxTreeWewenang.Count - 1 do begin
@@ -105,6 +106,9 @@ begin
       end;
     end;
   end;
+  Screen.Cursor := crDefault;
+
+  MsgBox('Setting wewenang user sudah disimpan.');
 end;
 
 procedure TfrmSettingWewenang.Button1Click(Sender: TObject);
@@ -113,6 +117,8 @@ var
   a: TcxTreeListNode;
 begin
   if cxlUser.Text = '' then Abort;
+  Screen.Cursor := crSQLWait;
+  Self.KosongiTree;
   q := OpenRS('SELECT * FROM tbl_wewenang WHERE nama = ''%s''',[cxlUser.Text]);
   while not q.Eof do begin
     a := cxTreeWewenang.FindNodeByText(q.FieldByName('nm_comp').AsString, cxtColNamaMenu);
@@ -123,6 +129,8 @@ begin
     q.Next;
   end;
   q.Close;
+  Screen.Cursor := crDefault;
+  cxTreeWewenang.Root.Expand(true);
 end;
 
 procedure TfrmSettingWewenang.cxTreeWewenangEditing(Sender: TcxCustomTreeList;
@@ -231,6 +239,67 @@ begin
   end;
   q.Close;
 
+end;
+
+procedure TfrmSettingWewenang.KosongiTree;
+var
+  q, q2, q3: TZQuery;
+  i,j: Integer;
+  ADetDataController: TcxCustomDataController;
+  an, ab, ac: TcxTreeListNode;
+begin
+  cxTreeWewenang.Clear;
+  q := OpenRS('SELECT * FROM tbl_tpl_wewenang WHERE parent = ''0'' ORDER BY urutan');
+  while not q.Eof  do begin
+    an := cxTreeWewenang.Add;
+    an.Texts[0] := q.FieldByName('keterangan').AsString;
+    an.Texts[5] := q.FieldByName('b').AsString +
+      q.FieldByName('i').AsString +
+      q.FieldByName('e').AsString +
+      q.FieldByName('h').AsString;
+    an.Values[1] := 0;
+    an.Values[2] := 0;
+    an.Values[3] := 0;
+    an.Values[4] := 0;
+    an.Values[6] := q.FieldByName('nm_comp').AsString;
+
+    q2 := OpenRS('SELECT * FROM tbl_tpl_wewenang WHERE parent = ''%s''',[q.FieldByName('kode').AsString]);
+    if not q2.IsEmpty then begin
+      while not q2.Eof do begin
+        ab := an.AddChild;
+        ab.Texts[0] := q2.FieldByName('keterangan').AsString;
+        ab.Values[1] := 0;
+        ab.Values[2] := 0;
+        ab.Values[3] := 0;
+        ab.Values[4] := 0;
+        ab.Texts[5] := q2.FieldByName('b').AsString +
+          q2.FieldByName('i').AsString +
+          q2.FieldByName('e').AsString +
+          q2.FieldByName('h').AsString;
+        ab.Values[6] := q2.FieldByName('nm_comp').AsString;
+        q3 := OpenRS('SELECT * FROM tbl_tpl_wewenang WHERE parent = ''%s''',[q2.FieldByName('kode').AsString]);
+        if not q3.IsEmpty then begin
+          while not q3.Eof do begin
+            ac := ab.AddChild;
+            ac.Texts[0] := q3.FieldByName('keterangan').AsString;
+            ac.Values[1] := 0;
+            ac.Values[2] := 0;
+            ac.Values[3] := 0;
+            ac.Values[4] := 0;
+            ac.Texts[5] := q3.FieldByName('b').AsString +
+              q3.FieldByName('i').AsString +
+              q3.FieldByName('e').AsString +
+              q3.FieldByName('h').AsString;
+            ac.Values[6] := q3.FieldByName('nm_comp').AsString;
+            q3.Next;
+          end;
+        end;
+        q2.Next;
+      end;
+    end;
+    q.Next;
+  end;
+  q.Close;
 end;
 
 end.

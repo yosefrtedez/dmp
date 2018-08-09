@@ -23,7 +23,7 @@ inherited frmPengambilanBahanBaku: TfrmPengambilanBahanBaku
   inherited Panel2: TPanel
     Top = 571
     TabOrder = 7
-    ExplicitTop = 571
+    ExplicitTop = 577
     inherited btnSimpan: TButton
       Visible = False
     end
@@ -123,17 +123,23 @@ inherited frmPengambilanBahanBaku: TfrmPengambilanBahanBaku
     Left = 0
     Top = 257
     Width = 894
-    Height = 23
+    Height = 32
     Align = alTop
     TabOrder = 3
+    object cxLabel3: TcxLabel
+      Left = 10
+      Top = 8
+      Caption = 'Bill Of Material / Bahan Baku :'
+    end
   end
   object cxGrid2: TcxGrid
     Left = 0
-    Top = 280
+    Top = 289
     Width = 894
     Height = 110
     Align = alTop
     TabOrder = 4
+    ExplicitTop = 280
     object cxtbBOM: TcxGridDBTableView
       NavigatorButtons.ConfirmDelete = False
       OnFocusedRecordChanged = cxtbBOMFocusedRecordChanged
@@ -193,19 +199,25 @@ inherited frmPengambilanBahanBaku: TfrmPengambilanBahanBaku
   end
   object Panel5: TPanel
     Left = 0
-    Top = 390
+    Top = 399
     Width = 894
-    Height = 23
+    Height = 32
     Align = alTop
     TabOrder = 5
+    object cxLabel4: TcxLabel
+      Left = 10
+      Top = 8
+      Caption = 'Input Pengambilan Bahan Baku :'
+    end
   end
   object cxGrid3: TcxGrid
     Left = 0
-    Top = 413
+    Top = 431
     Width = 894
     Height = 140
     Align = alTop
     TabOrder = 6
+    ExplicitTop = 413
     object cxtbBomDet: TcxGridTableView
       NavigatorButtons.ConfirmDelete = False
       NavigatorButtons.PriorPage.Visible = False

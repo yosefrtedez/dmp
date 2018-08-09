@@ -94,6 +94,7 @@ type
     procedure cxColNoSOPropertiesButtonClick(Sender: TObject;
       AButtonIndex: Integer);
     procedure cxsDiskonPropertiesChange(Sender: TObject);
+    procedure cxChkPPNClick(Sender: TObject);
   private
     procedure HitungTotal;
   public
@@ -112,7 +113,7 @@ uses unDM, unTools, unFrmPilihSO, unFrmLstSuratJalan;
 procedure TfrmInputSuratJalan.btnSimpanClick(Sender: TObject);
 var
   q, qh, qd, qSatuan, qGdg : TZQuery;
-  sNoBukti : string;
+  sNoBukti, sNoFaktur : string;
   i, id : integer;
   f0: Boolean;
 
@@ -133,8 +134,16 @@ begin
     end;
 
     if Self.Jenis = 'T' then begin
-      sNoBukti := GetLastFak('sj');
-      UpdateFaktur(Copy(sNoBukti,1,7));
+      if cxChkPPN.Checked  then begin
+        sNoBukti := GetLastFak('sj-pajak');
+        UpdateFaktur(Copy(sNoBukti,1,11));
+        sNoFaktur := GetLastFak('faktur-pajak');
+        UpdateFaktur(Copy(sNoFaktur,1,11));
+      end
+      else begin
+        sNoBukti := GetLastFak('sj');
+        UpdateFaktur(Copy(sNoBukti,1,7));
+      end;
     end
     else begin
       sNoBukti := cxtNoBukti.text;
@@ -155,6 +164,7 @@ begin
 
       qh.FieldByName('no_bukti').AsString := sNoBukti;
       qh.FieldByName('tanggal').AsDateTime := Aplikasi.Tanggal;
+      qh.FieldByName('id_cust').AsInteger := cxlCustomer.EditValue;
       qh.FieldByName('user').AsString := Aplikasi.NamaUser;
       qh.FieldByName('user_dept').AsString := Aplikasi.UserDept;
       qh.FieldByName('tgl_input').AsDateTime := Aplikasi.Tanggal;
@@ -213,6 +223,27 @@ begin
     end;
   end;
 
+end;
+
+procedure TfrmInputSuratJalan.cxChkPPNClick(Sender: TObject);
+var
+  sNoSJ, sNoFaktur: string;
+begin
+  inherited;
+  if cxChkPPN.Checked then begin
+    sNoSJ := GetLastFak('sj-pajak');
+    sNoFaktur := GetLastFak('faktur-pajak');
+    cxsPPN.Value := 10;
+  end
+  else begin
+    cxsPPN.Value := 0;
+    sNoSJ := GetLastFak('sj');
+    sNoFaktur := '';
+  end;
+  cxtNoBukti.Text := sNoSJ;
+  cxtNoFaktur.Text := sNoFaktur;
+
+  HitungTotal;
 end;
 
 procedure TfrmInputSuratJalan.cxColNoGetDisplayText(

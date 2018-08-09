@@ -64,6 +64,8 @@ type
     cxColGdg: TcxGridColumn;
     zqrGdg: TZReadOnlyQuery;
     dsGdg: TDataSource;
+    cxLabel3: TcxLabel;
+    cxLabel4: TcxLabel;
     procedure btnProsesClick(Sender: TObject);
     procedure cxtbSPKFocusedRecordChanged(Sender: TcxCustomGridTableView;
       APrevFocusedRecord, AFocusedRecord: TcxCustomGridRecord;
@@ -293,6 +295,7 @@ begin
   inherited;
   try
   with cxtbBOM.DataController do begin
+    cxtbBomDet.DataController.RecordCount := 0;
     RecordCount := 0;
     q := OpenRS('SELECT a.*, b.kode, b.deskripsi, c.satuan satuan2, ' +
       '(SELECT SUM(qty) FROM tbl_trspengambilanbb WHERE id_spk = a.id_spk AND id_brg = a.id_brg) qty_ambil ' +

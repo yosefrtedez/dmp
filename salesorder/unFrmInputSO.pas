@@ -48,14 +48,6 @@ type
     dsSales: TDataSource;
     zqrBarang: TZReadOnlyQuery;
     dsBarang: TDataSource;
-    cxLabel11: TcxLabel;
-    cxsGross: TcxSpinEdit;
-    cxLabel12: TcxLabel;
-    cxsDisc: TcxSpinEdit;
-    cxLabel5: TcxLabel;
-    cxsTax: TcxSpinEdit;
-    cxLabel6: TcxLabel;
-    cxsNet: TcxSpinEdit;
     cxGrid1Level1: TcxGridLevel;
     cxGrid1: TcxGrid;
     cxTblSO: TcxGridTableView;
@@ -86,6 +78,15 @@ type
     cxGridLevel1: TcxGridLevel;
     cxLabel4: TcxLabel;
     cxdTglRequaired: TcxDateEdit;
+    Panel3: TPanel;
+    cxLabel11: TcxLabel;
+    cxsGross: TcxSpinEdit;
+    cxLabel12: TcxLabel;
+    cxsDisc: TcxSpinEdit;
+    cxLabel5: TcxLabel;
+    cxsTax: TcxSpinEdit;
+    cxLabel6: TcxLabel;
+    cxsNet: TcxSpinEdit;
     procedure FormShow(Sender: TObject);
     procedure cxCmbCurrPropertiesEditValueChanged(Sender: TObject);
     procedure cxColNoGetDisplayText(Sender: TcxCustomGridTableItem;
@@ -108,9 +109,9 @@ type
       ADataController: TcxCustomDataController; ARecordIndex,
       AItemIndex: Integer);
   private
-    { Private declarations }
+    mJenisSO: string;
   public
-    { Public declarations }
+    property JenisSO: string read mJenisSO write mJenisSO;
   end;
 
 var
@@ -251,7 +252,7 @@ begin
         FieldByName('tanggal').AsDateTime         := cxdTanggal.EditValue;
         FieldByName('currency').AsString          := cxCmbCurr.Text;
         FieldByName('rate').AsFloat               := cxsKurs.EditValue;
-        FieldByName('tanggal').AsDateTime         := cxdTglRequaired.EditValue;
+        FieldByName('tanggal').AsDateTime         := cxdTanggal.Date;
         if self.Jenis = 'T' then begin
           FieldByName('user').AsString          := aplikasi.NamaUser;
           FieldByName('tgl_input').AsDateTime   := aplikasi.TanggalServer;
@@ -473,6 +474,7 @@ end;
 procedure TfrmInputSO.cxChkMTSClick(Sender: TObject);
 begin
   inherited;
+  {
   if cxChkMTS.Checked then begin
     cxlCust.Enabled := False;
     cxlSales.Enabled := False;
@@ -491,6 +493,7 @@ begin
     cxGrid1.Visible := True;
     GroupBox1.Visible := True;
   end;
+  }
 end;
 
 procedure TfrmInputSO.cxCmbCurrPropertiesEditValueChanged(Sender: TObject);
@@ -696,15 +699,18 @@ var
   sNoTrs : string;
 begin
   inherited;
+  {
   if Self.Jenis = 'T' then begin
     sNoTrs := GetLastFak('sales_order');
     cxtNoSo.Text := sNoTrs;
     cxdTanggal.Date := Aplikasi.Tanggal;
     cxdTglRequaired.Date := Aplikasi.Tanggal;
   end;
+  }
   cxGrid2.Top := cxGrid1.Top;
   cxGrid2.Left := cxGrid1.Left;
-  cxGrid2.Visible := False;
+  //cxGrid2.Visible := False;
+  cxChkMTS.Properties.ReadOnly := True;
 end;
 
 procedure TfrmInputSO.FormShow(Sender: TObject);
@@ -717,6 +723,33 @@ begin
   zqrCust.Open;
   zqrSales.Open;
   zqrBarang.Open;
+
+  if Self.Jenis = 'T' then begin
+    if mJenisSO = 'MTS' then begin
+      cxChkMTS.Checked := True;
+      cxlCust.Enabled := False;
+      cxlSales.Enabled := False;
+      cxtPO.Enabled := False;
+      cxtNoSO.Text := GetLastFak('mts');
+      cxGrid1.Visible := False;
+      cxGrid2.Visible := True;
+      GroupBox1.Visible := False;
+      Panel3.Visible := False;
+    end
+    else begin
+      cxChkMTS.Checked := False;
+      cxlCust.Enabled := True;
+      cxlSales.Enabled := True;
+      cxtPO.Enabled := True;
+      cxtNoSO.Text := GetLastFak('sales_order');
+      cxGrid2.Visible := False;
+      cxGrid1.Visible := True;
+      GroupBox1.Visible := True;
+      Panel3.Visible := True;
+    end;
+  end;
+
+  {
   if Self.Jenis = 'T' then begin
     sNoTrs := GetLastFak('sales_order');
     cxtNoSo.Text := sNoTrs;
@@ -779,6 +812,7 @@ begin
 
   end;
   if cxCmbCurr.Text<>'IDR' then cxsKurs.Enabled := True else cxsKurs.Enabled := False ;
+  }
 
 end;
 

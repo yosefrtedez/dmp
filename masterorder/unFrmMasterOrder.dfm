@@ -109,13 +109,13 @@ inherited frmMasterOrder: TfrmMasterOrder
         DataBinding.FieldName = 'deskripsi'
         Width = 314
       end
-      object cxtbMOqty_mo: TcxGridDBColumn
-        Caption = 'Qty.MO'
-        DataBinding.FieldName = 'qty_mo'
-      end
       object cxtbMOqty_so: TcxGridDBColumn
-        Caption = 'Qty.SO'
+        Caption = 'Qty. SO'
         DataBinding.FieldName = 'qty_so'
+      end
+      object cxtbMOqty_mo: TcxGridDBColumn
+        Caption = 'Qty. SPK'
+        DataBinding.FieldName = 'qty_spk'
       end
       object cxtbMOColumn1: TcxGridDBColumn
         Caption = 'Qty. Prod'
@@ -231,9 +231,19 @@ inherited frmMasterOrder: TfrmMasterOrder
         Properties.DisplayFormat = '#,#0.00'
         HeaderAlignmentHorz = taRightJustify
       end
+      object cxColPengambilan: TcxGridDBColumn
+        Caption = 'Qty. Pengambilan'
+        DataBinding.FieldName = 'qty_ambil'
+        PropertiesClassName = 'TcxSpinEditProperties'
+        Properties.Alignment.Horz = taRightJustify
+        Properties.DisplayFormat = '#,#0.00'
+        Properties.ReadOnly = True
+        Width = 104
+      end
       object cxtbBOMsatuan: TcxGridDBColumn
         Caption = 'Satuan'
-        DataBinding.FieldName = 'satuan'
+        DataBinding.FieldName = 'satuan_1'
+        Width = 93
       end
     end
     object cxGrid2Level1: TcxGridLevel
@@ -284,9 +294,11 @@ inherited frmMasterOrder: TfrmMasterOrder
   end
   object zqrBOM: TZReadOnlyQuery
     Connection = DM.zConn
-    Active = True
     SQL.Strings = (
-      'SELECT a.*, b.deskripsi, c.satuan'
+      'SELECT a.*, b.deskripsi, c.satuan,'
+      
+        'IFNULL((SELECT SUM(qty) FROM tbl_trspengambilanbb WHERE id_spk =' +
+        ' a.id_spk AND id_brg = a.id_brg),0) qty_ambil'
       'FROM tbl_bom a '
       'LEFT JOIN tbl_barang b ON b.id = a.id_brg'
       'LEFT JOIN tbl_satuan c ON c.id = a.id_satuan'

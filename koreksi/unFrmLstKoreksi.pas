@@ -147,6 +147,7 @@ var
   qd, q, qbrg: TZQuery;
 begin
   inherited;
+  if zqrKoreksi.FieldByName('f_posting').AsInteger = 1 then Abort;
   try
     dm.zConn.StartTransaction;
 
