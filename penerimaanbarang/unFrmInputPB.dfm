@@ -301,6 +301,7 @@ inherited frmInputPB: TfrmInputPB
         Caption = 'Qty. PO'
         DataBinding.ValueType = 'Float'
         PropertiesClassName = 'TcxSpinEditProperties'
+        Properties.Alignment.Horz = taRightJustify
         Properties.DisplayFormat = '#,##.00'
         Properties.ReadOnly = True
       end
@@ -308,6 +309,7 @@ inherited frmInputPB: TfrmInputPB
         Caption = 'Qty. Datang'
         DataBinding.ValueType = 'Float'
         PropertiesClassName = 'TcxSpinEditProperties'
+        Properties.Alignment.Horz = taRightJustify
         Properties.DisplayFormat = '#,#0.00'
         Properties.ReadOnly = False
         Width = 71
@@ -316,6 +318,7 @@ inherited frmInputPB: TfrmInputPB
         Caption = 'Qty Terima'
         DataBinding.ValueType = 'Float'
         PropertiesClassName = 'TcxSpinEditProperties'
+        Properties.Alignment.Horz = taRightJustify
         Properties.DisplayFormat = '#,#0.00'
         Properties.ValueType = vtFloat
         Options.Editing = False

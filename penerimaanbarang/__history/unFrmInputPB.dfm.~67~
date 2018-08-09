@@ -111,7 +111,7 @@ inherited frmInputPB: TfrmInputPB
   object cxdTglDatang: TcxDateEdit
     Left = 112
     Top = 196
-    TabOrder = 14
+    TabOrder = 20
     Width = 146
   end
   object cxtAlamat: TcxTextEdit
@@ -132,14 +132,14 @@ inherited frmInputPB: TfrmInputPB
     Left = 112
     Top = 223
     Properties.CharCase = ecUpperCase
-    TabOrder = 16
+    TabOrder = 22
     Width = 113
   end
   object cxtSopir: TcxTextEdit
     Left = 268
     Top = 223
     Properties.CharCase = ecUpperCase
-    TabOrder = 17
+    TabOrder = 23
     Width = 198
   end
   object cxgrpbx1: TcxGroupBox
@@ -182,13 +182,14 @@ inherited frmInputPB: TfrmInputPB
     end
   end
   object cxlbl11: TcxLabel
-    Left = 10
-    Top = 251
+    Left = 378
+    Top = 170
     Caption = 'Pembayaran'
+    Visible = False
   end
   object cxCboPembayaran: TcxComboBox
-    Left = 112
-    Top = 250
+    Left = 480
+    Top = 169
     Properties.DropDownListStyle = lsEditFixedList
     Properties.Items.Strings = (
       'Cash On Delivery (COD)'
@@ -197,50 +198,55 @@ inherited frmInputPB: TfrmInputPB
       '14 Hari'
       '30 Hari'
       '45 Hari')
-    TabOrder = 20
+    TabOrder = 13
+    Visible = False
     Width = 198
   end
   object cxlbl12: TcxLabel
-    Left = 317
-    Top = 251
+    Left = 685
+    Top = 170
     Caption = 'Valuta'
+    Visible = False
   end
   object cxCboRate: TcxComboBox
-    Left = 361
-    Top = 250
+    Left = 729
+    Top = 169
     Properties.DropDownListStyle = lsEditFixedList
     Properties.Items.Strings = (
       'IDR'
       'USD')
-    TabOrder = 21
+    TabOrder = 14
+    Visible = False
     Width = 63
   end
   object cxlbl13: TcxLabel
-    Left = 430
-    Top = 251
+    Left = 798
+    Top = 170
     Caption = 'Rate'
+    Visible = False
   end
   object cxlbl14: TcxLabel
     Left = 10
-    Top = 278
+    Top = 252
     Caption = 'Keterangan'
   end
   object cxtKeterangan: TcxTextEdit
     Left = 112
-    Top = 277
+    Top = 251
     Properties.CharCase = ecUpperCase
     TabOrder = 26
     Width = 464
   end
   object cxtRate: TcxTextEdit
-    Left = 463
-    Top = 250
-    TabOrder = 22
+    Left = 831
+    Top = 169
+    TabOrder = 15
+    Visible = False
     Width = 113
   end
   object cxgrdPP: TcxGrid
     Left = 10
-    Top = 307
+    Top = 281
     Width = 1150
     Height = 293
     Anchors = [akLeft, akTop, akRight]
@@ -271,12 +277,12 @@ inherited frmInputPB: TfrmInputPB
       DataController.OnRecordChanged = cxtbPBDataControllerRecordChanged
       OptionsData.Inserting = False
       OptionsView.Navigator = True
-      OptionsView.Footer = True
       OptionsView.GroupByBox = False
       object cxColNo: TcxGridColumn
         Caption = 'No'
         PropertiesClassName = 'TcxTextEditProperties'
         Properties.ReadOnly = False
+        Visible = False
         Width = 32
       end
       object cxColKodeBrg: TcxGridColumn
@@ -327,6 +333,7 @@ inherited frmInputPB: TfrmInputPB
         PropertiesClassName = 'TcxSpinEditProperties'
         Properties.DisplayFormat = '#,##.00'
         Properties.ReadOnly = True
+        Visible = False
         Width = 88
       end
       object cxColGdg: TcxGridColumn
@@ -348,6 +355,7 @@ inherited frmInputPB: TfrmInputPB
           'NON PPN'
           'PPN')
         Properties.ReadOnly = True
+        Visible = False
       end
       object cxColValuta: TcxGridColumn
         Caption = 'Valuta'
@@ -355,6 +363,7 @@ inherited frmInputPB: TfrmInputPB
         Properties.Items.Strings = (
           'IDR'
           'USD')
+        Visible = False
         Width = 61
       end
       object cxColKeterangan: TcxGridColumn
@@ -368,6 +377,7 @@ inherited frmInputPB: TfrmInputPB
         PropertiesClassName = 'TcxSpinEditProperties'
         Properties.DisplayFormat = '#,##.00'
         Properties.ReadOnly = False
+        Visible = False
         Options.Editing = False
         Width = 112
       end
@@ -411,6 +421,7 @@ inherited frmInputPB: TfrmInputPB
     Top = 61
     Caption = 'Selesai'
     TabOrder = 3
+    Visible = False
     Width = 121
   end
   object zqrPO: TZReadOnlyQuery
@@ -419,7 +430,9 @@ inherited frmInputPB: TfrmInputPB
       'SELECT a.id, a.no_bukti, a.tanggal, b.nama nama_supplier'
       'FROM tbl_po_head a'
       'LEFT JOIN tbl_supplier b ON b.id = a.id_supplier'
-      'WHERE f_completed = 0 AND id_supplier = :id_supplier'
+      
+        'WHERE f_completed = 0 AND id_supplier = :id_supplier AND a.f_com' +
+        'pleted = 0'
       'ORDER BY tanggal')
     Params = <
       item

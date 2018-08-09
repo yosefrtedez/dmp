@@ -13,7 +13,7 @@ inherited frmInputSO: TfrmInputSO
     ExplicitWidth = 1048
     object Label1: TLabel
       Left = 10
-      Top = 16
+      Top = 13
       Width = 143
       Height = 19
       Caption = 'Input Sales Order'
@@ -28,19 +28,11 @@ inherited frmInputSO: TfrmInputSO
   inherited Panel2: TPanel
     Top = 677
     Width = 1048
-    TabOrder = 25
+    TabOrder = 16
     ExplicitTop = 677
     ExplicitWidth = 1048
     inherited btnSimpan: TButton
       OnClick = btnSimpanClick
-    end
-    object btnSimpan2: TButton
-      Left = 172
-      Top = 12
-      Width = 75
-      Height = 25
-      Caption = 'Simpan'
-      TabOrder = 2
     end
   end
   object cxtNoSO: TcxTextEdit
@@ -58,7 +50,7 @@ inherited frmInputSO: TfrmInputSO
   object cxtPO: TcxTextEdit
     Left = 101
     Top = 91
-    TabOrder = 5
+    TabOrder = 6
     Width = 177
   end
   object cxLabel2: TcxLabel
@@ -74,7 +66,7 @@ inherited frmInputSO: TfrmInputSO
   object cxdTanggal: TcxDateEdit
     Left = 101
     Top = 118
-    TabOrder = 7
+    TabOrder = 8
     Width = 147
   end
   object cxLabel8: TcxLabel
@@ -105,7 +97,7 @@ inherited frmInputSO: TfrmInputSO
       end>
     Properties.ListOptions.SyncMode = True
     Properties.ListSource = dsCust
-    TabOrder = 9
+    TabOrder = 10
     Width = 472
   end
   object cxLabel10: TcxLabel
@@ -130,14 +122,14 @@ inherited frmInputSO: TfrmInputSO
       end>
     Properties.ListOptions.SyncMode = True
     Properties.ListSource = dsSales
-    TabOrder = 13
+    TabOrder = 12
     Width = 299
   end
   object GroupBox1: TGroupBox
     Left = 690
-    Top = 52
-    Width = 270
-    Height = 93
+    Top = 55
+    Width = 279
+    Height = 126
     Color = clBtnFace
     ParentBackground = False
     ParentColor = False
@@ -167,8 +159,8 @@ inherited frmInputSO: TfrmInputSO
       Width = 121
     end
     object cxLabel9: TcxLabel
-      Left = 19
-      Top = 43
+      Left = 17
+      Top = 39
       Caption = 'Tax'
     end
     object cxCmbTax: TcxComboBox
@@ -200,82 +192,18 @@ inherited frmInputSO: TfrmInputSO
       Text = '0D'
       Width = 89
     end
-  end
-  object cxLabel4: TcxLabel
-    Left = 687
-    Top = 151
-    Caption = 'Tgl. Permintaan Kirim'
-  end
-  object cxdTglRequaired: TcxDateEdit
-    Left = 797
-    Top = 151
-    Properties.ReadOnly = False
-    TabOrder = 12
-    Width = 160
-  end
-  object cxLabel11: TcxLabel
-    Left = 710
-    Top = 414
-    Caption = 'Harga Gross'
-  end
-  object cxsGross: TcxSpinEdit
-    Left = 799
-    Top = 414
-    Properties.Alignment.Horz = taRightJustify
-    Properties.DisplayFormat = '#,#0.00'
-    Properties.ReadOnly = True
-    Properties.ValueType = vtFloat
-    Style.HotTrack = True
-    TabOrder = 17
-    Width = 161
-  end
-  object cxLabel12: TcxLabel
-    Left = 710
-    Top = 443
-    Caption = 'Disc Amount'
-  end
-  object cxsDisc: TcxSpinEdit
-    Left = 799
-    Top = 441
-    Properties.Alignment.Horz = taRightJustify
-    Properties.DisplayFormat = '#,#0.00'
-    Properties.ReadOnly = True
-    Properties.ValueType = vtFloat
-    Style.HotTrack = True
-    TabOrder = 19
-    Width = 161
-  end
-  object cxLabel5: TcxLabel
-    Left = 709
-    Top = 471
-    Caption = 'Tax Amount'
-  end
-  object cxsTax: TcxSpinEdit
-    Left = 799
-    Top = 468
-    Properties.Alignment.Horz = taRightJustify
-    Properties.DisplayFormat = '#,#0.00'
-    Properties.ReadOnly = True
-    Properties.ValueType = vtFloat
-    Style.HotTrack = True
-    TabOrder = 21
-    Width = 161
-  end
-  object cxLabel6: TcxLabel
-    Left = 710
-    Top = 496
-    Caption = 'Net Amount'
-  end
-  object cxsNet: TcxSpinEdit
-    Left = 799
-    Top = 495
-    Properties.Alignment.Horz = taRightJustify
-    Properties.DisplayFormat = '#,#0.00'
-    Properties.ReadOnly = True
-    Properties.ValueType = vtFloat
-    Style.HotTrack = True
-    TabOrder = 23
-    Width = 161
+    object cxLabel4: TcxLabel
+      Left = 15
+      Top = 94
+      Caption = 'Tgl. Permintaan Kirim'
+    end
+    object cxdTglRequaired: TcxDateEdit
+      Left = 128
+      Top = 92
+      Properties.ReadOnly = False
+      TabOrder = 7
+      Width = 121
+    end
   end
   object cxGrid1: TcxGrid
     Left = 8
@@ -283,7 +211,7 @@ inherited frmInputSO: TfrmInputSO
     Width = 1032
     Height = 200
     Anchors = [akLeft, akTop, akRight]
-    TabOrder = 15
+    TabOrder = 14
     object cxTblSO: TcxGridTableView
       NavigatorButtons.ConfirmDelete = False
       NavigatorButtons.Insert.Visible = False
@@ -335,14 +263,7 @@ inherited frmInputSO: TfrmInputSO
       end
       object cxColKode: TcxGridColumn
         Caption = 'Kode Brg'
-        PropertiesClassName = 'TcxButtonEditProperties'
-        Properties.Buttons = <
-          item
-            Default = True
-            Kind = bkEllipsis
-          end>
-        Properties.ReadOnly = True
-        Properties.OnButtonClick = cxColKodePropertiesButtonClick
+        PropertiesClassName = 'TcxTextEditProperties'
         Options.ShowEditButtons = isebAlways
         Width = 108
       end
@@ -455,6 +376,7 @@ inherited frmInputSO: TfrmInputSO
         Width = 281
       end
       object cxColIdSatuan: TcxGridColumn
+        Visible = False
       end
     end
     object cxGrid1Level1: TcxGridLevel
@@ -470,12 +392,12 @@ inherited frmInputSO: TfrmInputSO
     Width = 121
   end
   object cxGrid2: TcxGrid
-    Left = 8
-    Top = 441
+    Left = 453
+    Top = 90
     Width = 1032
     Height = 200
     Anchors = [akLeft, akTop, akRight]
-    TabOrder = 18
+    TabOrder = 5
     object cxtbMTS: TcxGridTableView
       NavigatorButtons.ConfirmDelete = False
       NavigatorButtons.Insert.Visible = False
@@ -506,8 +428,6 @@ inherited frmInputSO: TfrmInputSO
           Kind = skSum
         end>
       DataController.Summary.SummaryGroups = <>
-      DataController.OnAfterDelete = cxTblSODataControllerAfterDelete
-      DataController.OnBeforePost = cxTblSODataControllerBeforePost
       DataController.OnRecordChanged = cxtbMTSDataControllerRecordChanged
       OptionsData.Appending = True
       OptionsView.Navigator = True
@@ -522,14 +442,7 @@ inherited frmInputSO: TfrmInputSO
       end
       object cxColKode2: TcxGridColumn
         Caption = 'Kode Brg'
-        PropertiesClassName = 'TcxButtonEditProperties'
-        Properties.Buttons = <
-          item
-            Default = True
-            Kind = bkEllipsis
-          end>
-        Properties.ReadOnly = True
-        Properties.OnButtonClick = cxColKodePropertiesButtonClick
+        PropertiesClassName = 'TcxTextEditProperties'
         Options.ShowEditButtons = isebAlways
         Width = 108
       end
@@ -574,6 +487,78 @@ inherited frmInputSO: TfrmInputSO
     end
     object cxGridLevel1: TcxGridLevel
       GridView = cxtbMTS
+    end
+  end
+  object Panel3: TPanel
+    Left = 624
+    Top = 414
+    Width = 393
+    Height = 209
+    BevelOuter = bvNone
+    TabOrder = 15
+    object cxLabel11: TcxLabel
+      Left = 20
+      Top = 18
+      Caption = 'Harga Gross'
+    end
+    object cxsGross: TcxSpinEdit
+      Left = 128
+      Top = 71
+      Properties.Alignment.Horz = taRightJustify
+      Properties.DisplayFormat = '#,#0.00'
+      Properties.ReadOnly = True
+      Properties.ValueType = vtFloat
+      Style.HotTrack = True
+      TabOrder = 4
+      Width = 161
+    end
+    object cxLabel12: TcxLabel
+      Left = 20
+      Top = 45
+      Caption = 'Disc Amount'
+    end
+    object cxsDisc: TcxSpinEdit
+      Left = 128
+      Top = 44
+      Properties.Alignment.Horz = taRightJustify
+      Properties.DisplayFormat = '#,#0.00'
+      Properties.ReadOnly = True
+      Properties.ValueType = vtFloat
+      Style.HotTrack = True
+      TabOrder = 2
+      Width = 161
+    end
+    object cxLabel5: TcxLabel
+      Left = 21
+      Top = 72
+      Caption = 'Tax Amount'
+    end
+    object cxsTax: TcxSpinEdit
+      Left = 128
+      Top = 17
+      Properties.Alignment.Horz = taRightJustify
+      Properties.DisplayFormat = '#,#0.00'
+      Properties.ReadOnly = True
+      Properties.ValueType = vtFloat
+      Style.HotTrack = True
+      TabOrder = 0
+      Width = 161
+    end
+    object cxLabel6: TcxLabel
+      Left = 22
+      Top = 99
+      Caption = 'Net Amount'
+    end
+    object cxsNet: TcxSpinEdit
+      Left = 128
+      Top = 98
+      Properties.Alignment.Horz = taRightJustify
+      Properties.DisplayFormat = '#,#0.00'
+      Properties.ReadOnly = True
+      Properties.ValueType = vtFloat
+      Style.HotTrack = True
+      TabOrder = 6
+      Width = 161
     end
   end
   object zqrCust: TZReadOnlyQuery
