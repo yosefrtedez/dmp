@@ -3,6 +3,7 @@ inherited frmInputSOMTS: TfrmInputSOMTS
   ClientHeight = 726
   ClientWidth = 1048
   OnShow = FormShow
+  ExplicitTop = -28
   ExplicitWidth = 1048
   ExplicitHeight = 726
   PixelsPerInch = 96
@@ -39,7 +40,7 @@ inherited frmInputSOMTS: TfrmInputSOMTS
     Top = 64
     Properties.ReadOnly = True
     TabOrder = 2
-    Width = 177
+    Width = 147
   end
   object cxLabel1: TcxLabel
     Left = 10
@@ -277,7 +278,9 @@ inherited frmInputSOMTS: TfrmInputSOMTS
           Kind = skSum
         end>
       DataController.Summary.SummaryGroups = <>
+      DataController.OnBeforePost = cxtbMTSDataControllerBeforePost
       DataController.OnRecordChanged = cxtbMTSDataControllerRecordChanged
+      OptionsBehavior.FocusCellOnTab = True
       OptionsData.Appending = True
       OptionsView.Navigator = True
       OptionsView.GroupByBox = False
@@ -285,13 +288,26 @@ inherited frmInputSOMTS: TfrmInputSOMTS
         Caption = 'No'
         PropertiesClassName = 'TcxSpinEditProperties'
         Properties.ReadOnly = True
+        Visible = False
         OnGetDisplayText = cxColNoGetDisplayText
         HeaderAlignmentHorz = taCenter
         Width = 42
       end
       object cxColKode2: TcxGridColumn
         Caption = 'Kode Brg'
-        PropertiesClassName = 'TcxTextEditProperties'
+        PropertiesClassName = 'TcxLookupComboBoxProperties'
+        Properties.DropDownAutoSize = True
+        Properties.KeyFieldNames = 'id'
+        Properties.ListColumns = <
+          item
+            Caption = 'Kode'
+            FieldName = 'kode'
+          end
+          item
+            Caption = 'Deskripsi'
+            FieldName = 'deskripsi'
+          end>
+        Properties.ListSource = dsBarang
         Options.ShowEditButtons = isebAlways
         Width = 108
       end
@@ -308,16 +324,18 @@ inherited frmInputSOMTS: TfrmInputSOMTS
             FieldName = 'kode'
           end>
         Properties.ListSource = dsBarang
-        Width = 193
+        Width = 300
       end
       object cxColQty2: TcxGridColumn
         Caption = 'Qty'
+        DataBinding.ValueType = 'Float'
         PropertiesClassName = 'TcxSpinEditProperties'
         Properties.Alignment.Horz = taRightJustify
-        Properties.DisplayFormat = '#,###'
-        Properties.EditFormat = '#,###'
+        Properties.AssignedValues.EditFormat = True
+        Properties.DisplayFormat = '#,#0.00'
         Properties.ValueType = vtFloat
         HeaderAlignmentHorz = taRightJustify
+        Width = 92
       end
       object cxColSatuan2: TcxGridColumn
         Caption = 'Satuan'
@@ -332,27 +350,15 @@ inherited frmInputSOMTS: TfrmInputSOMTS
         Width = 281
       end
       object cxColIdSatuan2: TcxGridColumn
+        Visible = False
+      end
+      object cxColKodeBrg2: TcxGridColumn
+        Visible = False
       end
     end
     object cxGridLevel1: TcxGridLevel
       GridView = cxtbMTS
     end
-  end
-  object zqrCust: TZReadOnlyQuery
-    Tag = 12
-    Connection = DM.zConn
-    SQL.Strings = (
-      'SELECT id, kode, nama FROM tbl_customer'
-      'WHERE f_aktif = 1'
-      'ORDER BY nama')
-    Params = <>
-    Left = 280
-    Top = 13
-  end
-  object dsCust: TDataSource
-    DataSet = zqrCust
-    Left = 310
-    Top = 13
   end
   object zqrSales: TZReadOnlyQuery
     Tag = 12
@@ -367,8 +373,8 @@ inherited frmInputSOMTS: TfrmInputSOMTS
   end
   object dsSales: TDataSource
     DataSet = zqrSales
-    Left = 382
-    Top = 13
+    Left = 406
+    Top = 21
   end
   object zqrBarang: TZReadOnlyQuery
     Connection = DM.zConn
@@ -378,12 +384,12 @@ inherited frmInputSOMTS: TfrmInputSOMTS
       'left join tbl_satuan b on a.id_satuan = b.id'
       'order by kode;')
     Params = <>
-    Left = 430
-    Top = 14
+    Left = 478
+    Top = 22
   end
   object dsBarang: TDataSource
     DataSet = zqrBarang
-    Left = 463
-    Top = 15
+    Left = 543
+    Top = 23
   end
 end

@@ -124,7 +124,11 @@ begin
     q.Post;
 
     MsgBox('Data supplier sudah berhasil disimpan.');
-    //ClearAll;
+
+    if Assigned(Self.FormInduk) then
+      (Self.FormInduk as TfrmLstSupplier).btnRefreshClick(nil);
+
+    btnBatalClick(nil);
 
   end;
 end;

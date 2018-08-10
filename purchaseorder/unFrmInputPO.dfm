@@ -114,6 +114,7 @@ inherited frmInputPO: TfrmInputPO
         PropertiesClassName = 'TcxSpinEditProperties'
         Properties.DisplayFormat = '#,##.00'
         Properties.ReadOnly = False
+        Properties.ValueType = vtFloat
       end
       object cxColSatuan: TcxGridColumn
         Caption = 'Satuan'

@@ -28,8 +28,6 @@ type
     cxLabel1: TcxLabel;
     cxlbl2: TcxLabel;
     cxdTanggal: TcxDateEdit;
-    zqrCust: TZReadOnlyQuery;
-    dsCust: TDataSource;
     zqrSales: TZReadOnlyQuery;
     dsSales: TDataSource;
     zqrBarang: TZReadOnlyQuery;
@@ -61,6 +59,7 @@ type
     cxColKeterangan2: TcxGridColumn;
     cxColIdSatuan2: TcxGridColumn;
     cxGridLevel1: TcxGridLevel;
+    cxColKodeBrg2: TcxGridColumn;
     procedure FormShow(Sender: TObject);
     procedure cxColNoGetDisplayText(Sender: TcxCustomGridTableItem;
       ARecord: TcxCustomGridRecord; var AText: string);
@@ -77,6 +76,8 @@ type
     procedure cxtbMTSDataControllerRecordChanged(
       ADataController: TcxCustomDataController; ARecordIndex,
       AItemIndex: Integer);
+    procedure cxtbMTSDataControllerBeforePost(
+      ADataController: TcxCustomDataController);
   private
     mJenisSO: string;
   public
@@ -170,75 +171,47 @@ begin
       dm.zConn.ExecuteDirect(Format('DELETE FROM tbl_mo WHERE id_so = %d',[ID]));
     end;
 
-    if Self.Jenis = 'T' then
-      ID := LastInsertID;
-
+    if Self.Jenis = 'T' then ID := LastInsertID;
 
     with cxtbMTS.DataController  do begin
       for i := 0 to RecordCount -1 do begin
         z := OpenRS('SELECT * FROM tbl_so_det where no_bukti =''%s''',[sNoTrs]) ;
         z.Insert;
-        z.FieldByName('no').AsInteger           := i+1;
         z.FieldByName('no_bukti').AsString      := sNoTrs;
         z.FieldByname('id_ref').AsInteger       := ID;
-        z.FieldByName('kode_brg').AsString      := Values[i, cxColKode2.index];
+        z.FieldByName('kode_brg').AsString      := Values[i, cxColKodeBrg2.index];
         z.FieldByName('id_brg').AsInteger       := Values[i, cxColDeskripsi2.Index];
         z.FieldByName('qty').AsFloat            := Values[i, cxColQty2.Index];
         z.FieldByName('satuan').AsString        := Values[i, cxColSatuan2.Index];
         z.FieldByName('id_satuan').AsInteger    := Values[i, cxColIdSatuan2.Index];
-        z.FieldByName('keterangan').AsString := VarToStr(Values[i, cxColKeterangan2.Index]);
+        z.FieldByName('keterangan').AsString    := VarToStr(Values[i, cxColKeterangan2.Index]);
         z.Post;
         z.Close;
 
-        //Simpan tbl_mo
-        if Self.Jenis = 'T' then begin
+        sNoMO := GetLastFak('master_order');
+        UpdateFaktur(Copy(sNoMO,1,7));
 
-          sNoMO := GetLastFak('master_order');
-          UpdateFaktur(Copy(sNoMO,1,7));
-
-          qmo := OpenRS('SELECT * FROM tbl_mo WHERE no_mo = ''%s''', [sNoMO]);
-          with qmo do begin
-            Insert;
-            FieldByName('no_mo').AsString     := sNoMO;
-            FieldByName('no_so').AsString     := sNoTrs;
-            FieldByName('id_so').AsInteger    := ID;
-            FieldByName('kode_brg').AsString  := Values[i, cxColKode2.index];
-            FieldByName('id_brg').AsInteger   := Values[i, cxColDeskripsi2.Index];
-            FieldByName('qty_mo').AsFloat     := Values[i, cxColQty2.Index];
-            FieldByName('qty_so').AsFloat     := Values[i, cxColQty2.Index];
-            FieldByName('jenis').AsString     := 'BJ';
-            FieldByName('app_cft').AsInteger  := 1;
-            FieldByName('keterangan').AsString := VarToStr(Values[i, cxColKeterangan2.Index]);
-            Post;
-          end;
-        end
-        else begin
-          qCekMO := OpenRS('SELECT * FROM tbl_mo WHERE no_so = ''%s'' ' +
-            'AND kode_brg = ''%s''',[sNoTrs, Values[i, cxColKode.index]]);
-
-          if tbl_tmp.Locate('kode_brg',Values[i, cxColKode.index],[]) then begin
-
-            if tbl_tmp.FieldByName('qty').AsFloat <> Values[i, cxColQty.Index] then begin
-
-              // update qty lama tbl_mo
-              if tbl_tmp.Locate('kode_brg',Values[i, cxColKode.index],[]) then begin
-                qCekMO.Edit;
-                qCekMO.FieldByName('qty_mo').AsFloat := Values[i, cxColQty.Index];
-                qCekMO.FieldByName('qty_so').AsFloat := Values[i, cxColQty.Index];
-                qCekMO.FieldByName('qty_lama').AsFloat := tbl_tmp.FieldByName('qty').AsFloat;
-                qCekMO.FieldByName('jml_revisi').AsInteger := qCekMO.FieldByName('jml_revisi').AsInteger + 1;
-                qCekMO.Post;
-              end;
-            end;
-
-          end;
+        qmo := OpenRS('SELECT * FROM tbl_mo WHERE id_so = %d', [ID]);
+        with qmo do begin
+          Insert;
+          FieldByName('no_mo').AsString     := sNoMO;
+          FieldByName('no_so').AsString     := sNoTrs;
+          FieldByName('id_so').AsInteger    := ID;
+          FieldByName('kode_brg').AsString  := Values[i, cxColKodeBrg2.index];
+          FieldByName('id_brg').AsInteger   := Values[i, cxColDeskripsi.Index];
+          FieldByName('qty_mo').AsFloat     := Values[i, cxColQty.Index];
+          FieldByName('qty_so').AsFloat     := Values[i, cxColQty.Index];
+          FieldByName('jenis').AsString     := 'BJ';
+          FieldByName('keterangan').AsString := VarToStr(Values[i, cxColKeterangan2.Index]);
+          Post;
         end;
+
       end;
     end;
 
     dm.zConn.Commit;
 
-    MsgBox('Sales Order sudah disimpan dengan nomor : ' + sNoTrs);
+    MsgBox('Sales Order MTS sudah disimpan dengan nomor : ' + sNoTrs);
     cxTblSO.DataController.RecordCount := 0;
 
     if Assigned(Self.FormInduk) then
@@ -392,6 +365,30 @@ begin
    end;
 end;
 
+procedure TfrmInputSOMTS.cxtbMTSDataControllerBeforePost(
+  ADataController: TcxCustomDataController);
+var
+  i,j,k: integer;
+  v: variant;
+  sa: real;
+begin
+  inherited;
+  i := ADataController.FocusedRowIndex;
+  k := ADataController.GetEditingRecordIndex;
+  v := ADataController.Values[i, cxColKode2.Index];
+
+  for j := 0 to ADataController.RecordCount - 1 do begin
+    if j <> k then begin
+      if v = ADataController.Values[j, cxColKode2.Index] then begin
+        MsgBox('Item tersebut sudah ada.');
+        ADataController.DeleteRecord(i);
+        Abort
+      end;
+    end;
+  end;
+
+end;
+
 procedure TfrmInputSOMTS.cxtbMTSDataControllerRecordChanged(
   ADataController: TcxCustomDataController; ARecordIndex, AItemIndex: Integer);
 var
@@ -399,12 +396,29 @@ var
   z,q : TZQuery;
 begin
   inherited;
+  if AItemIndex = cxColKode2.Index then begin
+    try
+      cxtbMTS.BeginUpdate;
+      q := OpenRS('SELECT a.kode, a.id_satuan, b.satuan FROM tbl_barang a ' +
+        'LEFT JOIN tbl_satuan b ON a.id_satuan = b.id ' +
+        'WHERE a.id = %s',[ADataController.Values[ARecordIndex, AItemIndex]]);
+      ADataController.Values[ARecordIndex, cxColKodeBrg2.Index] := q.FieldbyName('kode').AsString;
+      ADataController.Values[ARecordIndex, cxColDeskripsi2.Index] := ADataController.Values[ARecordIndex, cxColKode2.Index];
+      ADataController.Values[ARecordIndex, cxColSatuan2.Index] := q.FieldByName('satuan').AsString;
+      ADataController.Values[ARecordIndex, cxColIdSatuan2.Index] := q.FieldByName('id_satuan').AsInteger;
+      q.Close;
+    finally
+      cxtbMTS.EndUpdate;
+    end;
+  end;
+
   if AItemIndex = cxColDeskripsi2.Index then begin
     try
       cxtbMTS.BeginUpdate;
       q := OpenRS('SELECT a.kode, a.id_satuan, b.satuan FROM tbl_barang a ' +
         'LEFT JOIN tbl_satuan b ON a.id_satuan = b.id ' +
         'WHERE a.id = %s',[ADataController.Values[ARecordIndex, cxColDeskripsi2.Index]]);
+      ADataController.Values[ARecordIndex, cxColKodeBrg2.Index] := q.FieldByName('kode').AsString;
       ADataController.Values[ARecordIndex, cxColKode2.Index] := q.FieldByname('kode').AsString;
       ADataController.Values[ARecordIndex, cxColSatuan2.Index] := q.FieldByName('satuan').AsString;
       ADataController.Values[ARecordIndex, cxColIdSatuan2.Index] := q.FieldByName('id_satuan').AsInteger;
@@ -423,16 +437,13 @@ var
   sNoTrs : string;
 begin
   inherited;
-  zqrCust.Open;
   zqrSales.Open;
   zqrBarang.Open;
 
-  cxGrid1.Visible := False;
   cxGrid2.Visible := True;
 
-
   if Self.Jenis = 'T' then begin
-    sNoTrs := GetLastFak('sales_order');
+    sNoTrs := GetLastFak('mts');
     cxtNoSo.Text := sNoTrs;
     cxdTanggal.Date := Aplikasi.Tanggal;
   end
@@ -440,7 +451,7 @@ begin
 
     Label1.Caption := 'Edit Sales Order';
     q := OpenRS('SELECT * FROM tbl_so_head WHERE id =%s', [Self.EditKey] );
-    cxTblSO.DataController.OnRecordChanged := nil;
+    cxTbMTS.DataController.OnRecordChanged := nil;
 
     with q do begin
       cxtNoSO.Text                  := FieldByName('no_bukti').AsString;
@@ -451,30 +462,23 @@ begin
         'LEFT JOIN tbl_barang c ON c.id = a.id_brg ' +
         'where id_ref = %s order by no asc',[Self.EditKey]) ;
       while not z.Eof do begin
-        cxGrid1.BeginUpdate;
-        with cxTblSO.DataController do begin
+        cxGrid2.BeginUpdate;
+        with cxtbMTS.DataController do begin
           i := AppendRecord ;
-          Values[i, cxColNo.Index]          := z.FieldByName('no').AsInteger ;
-          Values[i, cxColkode.index]        := z.FieldByName('kode_brg2').AsString;
-          Values[i, cxColDeskripsi.Index]   := z.FieldByName('id_brg').AsInteger;
-          Values[i, cxColQty.Index]         := z.FieldByName('qty').AsFloat ;
-          Values[i, cxColSatuan.Index]      := z.FieldByName('satuan2').AsString ;
-          Values[i, cxColIdSatuan.Index] := z.FieldByName('id_satuan').AsString;
-          Values[i, cxColHarga.Index]       := z.FieldByName('harga').AsFloat;
-          Values[i, cxColGross.Index]       := z.FieldByName('harga_gross').asstring;
-          Values[i, cxColDisc.Index]        := z.FieldByName('disc').AsFloat ;
-          Values[i, cxColDiscAmount.Index]  := z.FieldByName('invoice_disc').AsFloat ;
-          Values[i, cxColTaxable.Index]     := z.FieldByName('taxable').AsFloat ;
-          Values[i, cxColTaxAmount.Index]   := z.FieldByName('taxamount').AsFloat ;
-          Values[i, cxColNetAmount.Index]   := z.FieldByName('net_amount').AsFloat ;
-          Values[i, cxColKeterangan.Index] := z.FieldByname('keterangan').AsString;
+          Values[i, cxColKode2.index]        := z.FieldByName('id_brg').AsString;
+          Values[i, cxColKodeBrg2.Index] := z.FieldByname('kode_brg2').AsString;
+          Values[i, cxColDeskripsi2.Index]   := z.FieldByName('id_brg').AsInteger;
+          Values[i, cxColQty2.Index]         := z.FieldByName('qty').AsFloat ;
+          Values[i, cxColSatuan2.Index]      := z.FieldByName('satuan2').AsString ;
+          Values[i, cxColKeterangan2.Index] := z.FieldByName('keterangan').AsString;
+          Values[i, cxColIdSatuan2.Index]    := z.FieldByName('id_satuan').AsString;
         end;
-        cxGrid1.EndUpdate;
+        cxGrid2.EndUpdate;
         z.Next;
       end;
       z.Close;
     end;
-    cxTblSO.DataController.OnRecordChanged := Self.cxTblSODataControllerRecordChanged;
+    cxtbMTS.DataController.OnRecordChanged := Self.cxTblSODataControllerRecordChanged;
   end;
 
 end;

@@ -81,6 +81,7 @@ type
     dsSupp: TDataSource;
     cxChkSelesai: TcxCheckBox;
     cxColIdGdg: TcxGridColumn;
+    Button1: TButton;
     procedure FormCreate(Sender: TObject);
     procedure cxlNoPPPropertiesChange(Sender: TObject);
     procedure cxtbPBDataControllerBeforePost(

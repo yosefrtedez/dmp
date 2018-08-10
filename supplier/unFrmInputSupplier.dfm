@@ -28,6 +28,7 @@ inherited frmInputSupplier: TfrmInputSupplier
   inherited Panel2: TPanel
     Top = 614
     Width = 1058
+    TabOrder = 34
     ExplicitTop = 614
     ExplicitWidth = 1058
     inherited btnSimpan: TButton
@@ -38,7 +39,7 @@ inherited frmInputSupplier: TfrmInputSupplier
     Left = 94
     Top = 71
     Properties.CharCase = ecUpperCase
-    TabOrder = 2
+    TabOrder = 1
     Width = 113
   end
   object cxlbl1: TcxLabel
@@ -57,77 +58,77 @@ inherited frmInputSupplier: TfrmInputSupplier
     Left = 94
     Top = 125
     Properties.CharCase = ecUpperCase
-    TabOrder = 5
+    TabOrder = 6
     Width = 225
   end
   object cxtTitle: TcxTextEdit
     Left = 94
     Top = 152
     Properties.CharCase = ecUpperCase
-    TabOrder = 6
+    TabOrder = 8
     Width = 209
   end
   object cxtAlamat: TcxTextEdit
     Left = 94
     Top = 179
     Properties.CharCase = ecUpperCase
-    TabOrder = 7
+    TabOrder = 10
     Width = 265
   end
   object cxtAlamat2: TcxTextEdit
     Left = 94
     Top = 206
     Properties.CharCase = ecUpperCase
-    TabOrder = 8
+    TabOrder = 12
     Width = 265
   end
   object cxtKota: TcxTextEdit
     Left = 94
     Top = 233
     Properties.CharCase = ecUpperCase
-    TabOrder = 9
+    TabOrder = 15
     Width = 185
   end
   object cxtProvinsi: TcxTextEdit
     Left = 94
     Top = 287
     Properties.CharCase = ecUpperCase
-    TabOrder = 10
+    TabOrder = 18
     Width = 185
   end
   object cxtNegara: TcxTextEdit
     Left = 94
     Top = 314
     Properties.CharCase = ecUpperCase
-    TabOrder = 11
+    TabOrder = 20
     Width = 185
   end
   object cxtTelp: TcxTextEdit
     Left = 94
     Top = 341
     Properties.CharCase = ecUpperCase
-    TabOrder = 12
+    TabOrder = 22
     Width = 185
   end
   object cxtFax: TcxTextEdit
     Left = 94
     Top = 368
     Properties.CharCase = ecUpperCase
-    TabOrder = 13
+    TabOrder = 25
     Width = 185
   end
   object cxtHp: TcxTextEdit
     Left = 94
     Top = 395
     Properties.CharCase = ecUpperCase
-    TabOrder = 14
+    TabOrder = 26
     Width = 185
   end
   object cxtDirect: TcxTextEdit
     Left = 94
     Top = 421
     Properties.CharCase = ecUpperCase
-    TabOrder = 15
+    TabOrder = 28
     Width = 185
   end
   object cxCboPembayaran: TcxComboBox
@@ -135,21 +136,21 @@ inherited frmInputSupplier: TfrmInputSupplier
     Top = 448
     Properties.DropDownListStyle = lsEditFixedList
     Properties.ReadOnly = False
-    TabOrder = 16
+    TabOrder = 30
     Width = 185
   end
   object cxtEmail: TcxTextEdit
     Left = 94
     Top = 475
     Properties.CharCase = ecUpperCase
-    TabOrder = 17
+    TabOrder = 32
     Width = 345
   end
   object cxchkAktif: TcxCheckBox
     Left = 219
     Top = 71
     Caption = 'Aktif'
-    TabOrder = 18
+    TabOrder = 2
     Width = 113
   end
   object cxlbl2: TcxLabel
@@ -228,10 +229,10 @@ inherited frmInputSupplier: TfrmInputSupplier
     Caption = 'Email'
   end
   object cxtKodePos: TcxTextEdit
-    Left = 93
+    Left = 94
     Top = 259
     Properties.CharCase = ecUpperCase
-    TabOrder = 34
+    TabOrder = 16
     Width = 185
   end
   object zqrSupplier: TZReadOnlyQuery

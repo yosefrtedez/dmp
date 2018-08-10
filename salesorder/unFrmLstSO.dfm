@@ -63,11 +63,11 @@ inherited frmLstSO: TfrmLstSO
         DataBinding.FieldName = 'tanggal'
         Width = 130
       end
-      object cxtbSOpo: TcxGridDBColumn
+      object cxColNoPO: TcxGridDBColumn
         Caption = 'No.PO'
         DataBinding.FieldName = 'po#'
       end
-      object cxtbSOnama: TcxGridDBColumn
+      object cxColNamaCust: TcxGridDBColumn
         Caption = 'Nama Customer'
         DataBinding.FieldName = 'nama'
         Width = 486
@@ -75,6 +75,16 @@ inherited frmLstSO: TfrmLstSO
       object cxtbSOColumn1: TcxGridDBColumn
         Caption = 'Jenis SO '
         DataBinding.FieldName = 'jenis_so'
+      end
+      object cxtbSOColumn2: TcxGridDBColumn
+        Caption = 'User'
+        DataBinding.FieldName = 'user'
+        Width = 91
+      end
+      object cxtbSOColumn3: TcxGridDBColumn
+        Caption = 'Dept.'
+        DataBinding.FieldName = 'user_dept'
+        Width = 109
       end
     end
     object cxgCustomerLevel1: TcxGridLevel

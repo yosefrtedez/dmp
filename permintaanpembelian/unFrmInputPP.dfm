@@ -192,6 +192,9 @@ inherited frmInputPP: TfrmInputPP
         Caption = 'Qty'
         DataBinding.ValueType = 'Float'
         PropertiesClassName = 'TcxSpinEditProperties'
+        Properties.DisplayFormat = '#,#0.00'
+        Properties.ValueType = vtFloat
+        Width = 71
       end
       object cxColSatuan: TcxGridColumn
         Caption = 'Satuan'

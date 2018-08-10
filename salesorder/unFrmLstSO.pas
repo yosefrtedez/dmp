@@ -29,8 +29,8 @@ type
     dsSO: TDataSource;
     cxtbSOno_bukti: TcxGridDBColumn;
     cxtbSOtanggal: TcxGridDBColumn;
-    cxtbSOpo: TcxGridDBColumn;
-    cxtbSOnama: TcxGridDBColumn;
+    cxColNoPO: TcxGridDBColumn;
+    cxColNamaCust: TcxGridDBColumn;
     Panel3: TPanel;
     cxLabel1: TcxLabel;
     cxGrid1: TcxGrid;
@@ -47,6 +47,8 @@ type
     dsSODet: TDataSource;
     zqrSODet: TZReadOnlyQuery;
     cxtbSOColumn1: TcxGridDBColumn;
+    cxtbSOColumn2: TcxGridDBColumn;
+    cxtbSOColumn3: TcxGridDBColumn;
     procedure btnRefreshClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure btnTambahClick(Sender: TObject);
@@ -75,6 +77,7 @@ uses
 procedure TfrmLstSO.btnEditClick(Sender: TObject);
 var
  f: TfrmInputSO;
+ f2: TfrmInputSOMTS;
  ts: TcxTabSheet;
  q: TZQuery;
 begin
@@ -99,15 +102,27 @@ begin
   if not fu.CekTabOpen('Edit Sales Order') then begin
     ts := TcxTabSheet.Create(Self);
     ts.PageControl := frmUtama.pgMain;
-    f := TfrmInputSO.Create(Self);
-    f.Jenis := 'E';
-    f.JenisSO := '';
-    f.FormInduk := Self;
-    f.Caption := 'Edit Sales Order';
-    f.EditKey := zqrSO.FieldByName('id').AsString;
-    f.Parent := ts;
-    ts.Caption := f.Caption;
-    f.Show;
+    if mJenisSO = 'MTS' then begin
+      f2 := TfrmInputSOMTS.Create(Self);
+      f2.Jenis := 'E';
+      f2.FormInduk := Self;
+      f2.Caption := 'Edit Sales Order - MTS';
+      f2.EditKey := zqrSO.FieldByName('id').AsString;
+      f2.Parent := ts;
+      ts.Caption := f2.Caption;
+      f2.Show;
+    end
+    else begin
+      f := TfrmInputSO.Create(Self);
+      f.Jenis := 'E';
+      f.JenisSO := '';
+      f.FormInduk := Self;
+      f.Caption := 'Edit Sales Order';
+      f.EditKey := zqrSO.FieldByName('id').AsString;
+      f.Parent := ts;
+      ts.Caption := f.Caption;
+      f.Show;
+    end;
 
 	  fu.pgMain.ActivePage := ts;
   end;
@@ -155,7 +170,7 @@ begin
       f2.FormInduk := Self;
       f2.Jenis := 'T';
       f2.Parent := ts;
-      ts.Caption := f.Caption;
+      ts.Caption := f2.Caption;
       f2.Show;
     end
     else begin
@@ -205,6 +220,8 @@ begin
     zqrSO.Close;
     zqrSO.SQL.Strings[3] := 'WHERE LEFT(no_bukti,3) = ''MTS''';
     zqrSO.Open;
+    cxColNoPO.Visible := False;
+    cxColNamaCust.Visible := False;
   end;
 
 end;

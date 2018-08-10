@@ -4,6 +4,7 @@ inherited frmInputPB: TfrmInputPB
   ClientWidth = 1172
   OnCreate = FormCreate
   OnShow = FormShow
+  ExplicitTop = -41
   ExplicitWidth = 1172
   ExplicitHeight = 739
   PixelsPerInch = 96
@@ -28,7 +29,7 @@ inherited frmInputPB: TfrmInputPB
   inherited Panel2: TPanel
     Top = 690
     Width = 1172
-    TabOrder = 29
+    TabOrder = 30
     ExplicitTop = 690
     ExplicitWidth = 1172
     inherited btnSimpan: TButton
@@ -105,13 +106,13 @@ inherited frmInputPB: TfrmInputPB
   object cxdTglPO: TcxDateEdit
     Left = 112
     Top = 169
-    TabOrder = 12
+    TabOrder = 13
     Width = 146
   end
   object cxdTglDatang: TcxDateEdit
     Left = 112
     Top = 196
-    TabOrder = 20
+    TabOrder = 21
     Width = 146
   end
   object cxtAlamat: TcxTextEdit
@@ -132,14 +133,14 @@ inherited frmInputPB: TfrmInputPB
     Left = 112
     Top = 223
     Properties.CharCase = ecUpperCase
-    TabOrder = 22
+    TabOrder = 23
     Width = 113
   end
   object cxtSopir: TcxTextEdit
     Left = 268
     Top = 223
     Properties.CharCase = ecUpperCase
-    TabOrder = 23
+    TabOrder = 24
     Width = 198
   end
   object cxgrpbx1: TcxGroupBox
@@ -198,7 +199,7 @@ inherited frmInputPB: TfrmInputPB
       '14 Hari'
       '30 Hari'
       '45 Hari')
-    TabOrder = 13
+    TabOrder = 14
     Visible = False
     Width = 198
   end
@@ -215,7 +216,7 @@ inherited frmInputPB: TfrmInputPB
     Properties.Items.Strings = (
       'IDR'
       'USD')
-    TabOrder = 14
+    TabOrder = 15
     Visible = False
     Width = 63
   end
@@ -234,13 +235,13 @@ inherited frmInputPB: TfrmInputPB
     Left = 112
     Top = 251
     Properties.CharCase = ecUpperCase
-    TabOrder = 26
+    TabOrder = 27
     Width = 464
   end
   object cxtRate: TcxTextEdit
     Left = 831
     Top = 169
-    TabOrder = 15
+    TabOrder = 16
     Visible = False
     Width = 113
   end
@@ -250,7 +251,7 @@ inherited frmInputPB: TfrmInputPB
     Width = 1150
     Height = 293
     Anchors = [akLeft, akTop, akRight]
-    TabOrder = 28
+    TabOrder = 29
     object cxtbPB: TcxGridTableView
       NavigatorButtons.ConfirmDelete = False
       NavigatorButtons.Insert.Visible = False
@@ -312,6 +313,7 @@ inherited frmInputPB: TfrmInputPB
         Properties.Alignment.Horz = taRightJustify
         Properties.DisplayFormat = '#,#0.00'
         Properties.ReadOnly = False
+        Properties.ValueType = vtFloat
         Width = 71
       end
       object cxColQtyDatang: TcxGridColumn
@@ -431,6 +433,15 @@ inherited frmInputPB: TfrmInputPB
     TabOrder = 3
     Visible = False
     Width = 121
+  end
+  object Button1: TButton
+    Left = 262
+    Top = 142
+    Width = 29
+    Height = 21
+    Caption = '...'
+    TabOrder = 11
+    Visible = False
   end
   object zqrPO: TZReadOnlyQuery
     Connection = DM.zConn
