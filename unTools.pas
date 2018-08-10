@@ -3,7 +3,7 @@ unit unTools;
 interface
 
 uses SysUtils, ZDataset, unDM, Dialogs, Windows, Forms, Controls, DB, Winsock,
-  Classes, DateUtils, Printers, WinSpool, ZConnection;
+  Classes, DateUtils, Printers, WinSpool, ZConnection, StdCtrls;
 
 const
 c1 = 52845;
@@ -223,8 +223,23 @@ begin
 end;
 
 procedure MsgBox(sCaption:string);
+var
+  Form: TForm;
+  lbl: TLabel;
+  ExtraWidth: integer;
 begin
-  MessageDlg(sCaption,mtWarning,[mbOk],0);
+  //MessageDlg(sCaption,mtWarning,[mbOk],0);
+  Form := CreateMessageDialog(sCaption, mtWarning, [mbOK]);
+  ExtraWidth := 10;
+  try
+    lbl := Form.FindComponent('Message') as TLabel;
+    lbl.Width := lbl.Width + ExtraWidth;
+    Form.ClientWidth := Form.ClientWidth + ExtraWidth;
+    Form.Position := poScreenCenter;
+    Form.ShowModal;
+  finally
+    Form.Free;
+  end;
 end;
 
 function StrIsInt(str: string): Boolean;

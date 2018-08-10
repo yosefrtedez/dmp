@@ -70,6 +70,7 @@ type
     cxtRate: TcxTextEdit;
     cxColIdSatuan: TcxGridColumn;
     cxChkApproval: TcxCheckBox;
+    cxColKodeBrg2: TcxGridColumn;
     procedure cxLuNoPPPropertiesChange(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure cxLuSupplierPropertiesChange(Sender: TObject);
@@ -213,7 +214,7 @@ begin
             qd.FieldByName('id_ref').AsString := qh.FieldByName('id').AsString;
           end;
           qd.FieldByName('no_bukti').AsString := sNoBukti;
-          qd.FieldByName('kode_brg').AsString := Values[i, cxColKodeBrg.Index];
+          qd.FieldByName('kode_brg').AsString := Values[i, cxColKodeBrg2.Index];
           qd.FieldByName('id_brg').AsInteger := Values[i, cxColDeskripsi.Index];
           qd.FieldByName('qty').AsFloat := Values[i, cxColQty.Index];
           qd.FieldByName('id_satuan').AsString := Values[i, cxColIdSatuan.Index];
@@ -427,17 +428,37 @@ var
 begin
   inherited;
 
-  if AItemIndex = cxColDeskripsi.Index then begin
+  if AItemIndex = cxColKodeBrg.Index then begin
     try
       cxtbTblPO.BeginUpdate;
+      ADataController.Values[ARecordIndex, cxColDeskripsi.Index] := ADataController.Values[ARecordIndex, AItemIndex];
       q := OpenRS('SELECT a.*, b.satuan satuan2 FROM tbl_barang a LEFT JOIN tbl_satuan b ON a.id_satuan = b.id WHERE a.id = %s',
-        [ADataController.Values[ARecordIndex, cxColDeskripsi.Index]]);
-      ADataController.Values[ARecordIndex, cxColKodeBrg.Index] :=  q.FieldByName('kode').AsString;
+        [ADataController.Values[ARecordIndex, AItemIndex]]);
+      ADataController.Values[ARecordIndex, cxColKodeBrg.Index] :=  ADataController.Values[ARecordIndex, AItemIndex];
       ADataController.Values[ARecordIndex, cxColSatuan.Index] := q.FieldByName('satuan2').AsString;
       ADataController.Values[ARecordIndex, cxColIdSatuan.Index] := q.FieldByName('id_satuan').AsInteger;
       ADataController.Values[ARecordIndex, cxColqty.Index] := '1';
       ADataController.Values[ARecordIndex, cxColPPn.Index] := 'NON PPN';
       ADataController.Values[ARecordIndex, cxColValuta.Index] := 'IDR';
+      ADataController.Values[ARecordIndex, cxColKodeBrg2.Index] := q.FieldByName('kode').AsString;
+      q.Close;
+    finally
+      cxtbTblPO.EndUpdate;
+    end;
+  end;
+
+  if AItemIndex = cxColDeskripsi.Index then begin
+    try
+      cxtbTblPO.BeginUpdate;
+      q := OpenRS('SELECT a.*, b.satuan satuan2 FROM tbl_barang a LEFT JOIN tbl_satuan b ON a.id_satuan = b.id WHERE a.id = %s',
+        [ADataController.Values[ARecordIndex, cxColDeskripsi.Index]]);
+      ADataController.Values[ARecordIndex, cxColKodeBrg.Index] :=  ADataController.Values[ARecordIndex, AItemIndex];
+      ADataController.Values[ARecordIndex, cxColSatuan.Index] := q.FieldByName('satuan2').AsString;
+      ADataController.Values[ARecordIndex, cxColIdSatuan.Index] := q.FieldByName('id_satuan').AsInteger;
+      ADataController.Values[ARecordIndex, cxColqty.Index] := '1';
+      ADataController.Values[ARecordIndex, cxColPPn.Index] := 'NON PPN';
+      ADataController.Values[ARecordIndex, cxColValuta.Index] := 'IDR';
+      ADataController.Values[ARecordIndex, cxColKodeBrg2.Index] := q.FieldByName('kode').AsString;
       q.Close;
     finally
       cxtbTblPO.EndUpdate
@@ -519,7 +540,7 @@ begin
     cxlNoPP.Properties.ReadOnly := True;
 
     q.Close;
-    z := OpenRS('SELECT a.*, b.deskripsi, c.satuan satuan2 FROM tbl_po_det a ' +
+    z := OpenRS('SELECT a.*, b.kode, b.deskripsi, c.satuan satuan2 FROM tbl_po_det a ' +
       'left join tbl_barang b on a.id_brg = b.id ' +
       'LEFT JOIN tbl_satuan c on c.id = a.id_satuan ' +
       'WHERE id_ref = %s',[Self.EditKey]);
@@ -530,7 +551,7 @@ begin
       with cxtbTblPO.DataController do begin
         i := AppendRecord;
         Values[i, cxColNo.Index] := nomer;
-        Values[i, cxColKodeBrg.Index] := z.FieldByName('kode_brg').AsString;
+        Values[i, cxColKodeBrg.Index] := z.FieldByName('id_brg').AsString;
         Values[i, cxColDeskripsi.Index] := z.FieldByName('id_brg').AsString;
         Values[i, cxColQty.Index] := z.FieldByName('qty').AsFloat;
         Values[i, cxColSatuan.Index] := z.FieldByName('satuan2').AsString;
@@ -545,6 +566,7 @@ begin
         end;
         Values[i, cxColKeterangan.Index] := z.FieldByName('keterangan').AsString;
         nomer := nomer +1;
+        Values[i, cxColKodeBrg2.Index] := z.FieldByName('kode').AsString;
       end;
       z.Next;
     end;

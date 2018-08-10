@@ -50,7 +50,7 @@ inherited frmInputSO: TfrmInputSO
   object cxtPO: TcxTextEdit
     Left = 101
     Top = 91
-    TabOrder = 6
+    TabOrder = 5
     Width = 177
   end
   object cxLabel2: TcxLabel
@@ -66,7 +66,7 @@ inherited frmInputSO: TfrmInputSO
   object cxdTanggal: TcxDateEdit
     Left = 101
     Top = 118
-    TabOrder = 8
+    TabOrder = 7
     Width = 147
   end
   object cxLabel8: TcxLabel
@@ -97,7 +97,7 @@ inherited frmInputSO: TfrmInputSO
       end>
     Properties.ListOptions.SyncMode = True
     Properties.ListSource = dsCust
-    TabOrder = 10
+    TabOrder = 9
     Width = 472
   end
   object cxLabel10: TcxLabel
@@ -122,7 +122,7 @@ inherited frmInputSO: TfrmInputSO
       end>
     Properties.ListOptions.SyncMode = True
     Properties.ListSource = dsSales
-    TabOrder = 12
+    TabOrder = 11
     Width = 299
   end
   object GroupBox1: TGroupBox
@@ -197,7 +197,7 @@ inherited frmInputSO: TfrmInputSO
       Top = 94
       Caption = 'Tgl. Permintaan Kirim'
     end
-    object cxdTglRequaired: TcxDateEdit
+    object cxdTglRequired: TcxDateEdit
       Left = 128
       Top = 92
       Properties.ReadOnly = False
@@ -211,11 +211,15 @@ inherited frmInputSO: TfrmInputSO
     Width = 1032
     Height = 200
     Anchors = [akLeft, akTop, akRight]
-    TabOrder = 14
+    TabOrder = 13
     object cxTblSO: TcxGridTableView
       NavigatorButtons.ConfirmDelete = False
       NavigatorButtons.Insert.Visible = False
       NavigatorButtons.Append.Visible = True
+      NavigatorButtons.Refresh.Visible = False
+      NavigatorButtons.SaveBookmark.Visible = False
+      NavigatorButtons.GotoBookmark.Visible = False
+      NavigatorButtons.Filter.Visible = False
       DataController.Summary.DefaultGroupSummaryItems = <
         item
           Kind = skSum
@@ -257,6 +261,7 @@ inherited frmInputSO: TfrmInputSO
         Caption = 'No'
         PropertiesClassName = 'TcxSpinEditProperties'
         Properties.ReadOnly = True
+        Visible = False
         OnGetDisplayText = cxColNoGetDisplayText
         HeaderAlignmentHorz = taCenter
         Width = 42
@@ -286,8 +291,8 @@ inherited frmInputSO: TfrmInputSO
         Caption = 'Qty'
         PropertiesClassName = 'TcxSpinEditProperties'
         Properties.Alignment.Horz = taRightJustify
-        Properties.DisplayFormat = '#,###'
-        Properties.EditFormat = '#,###'
+        Properties.DisplayFormat = '#,#0.00'
+        Properties.EditFormat = '#,#0.00'
         Properties.ValueType = vtFloat
         HeaderAlignmentHorz = taRightJustify
       end
@@ -392,12 +397,12 @@ inherited frmInputSO: TfrmInputSO
     Width = 121
   end
   object cxGrid2: TcxGrid
-    Left = 453
-    Top = 90
+    Left = 429
+    Top = 485
     Width = 1032
     Height = 200
     Anchors = [akLeft, akTop, akRight]
-    TabOrder = 5
+    TabOrder = 15
     object cxtbMTS: TcxGridTableView
       NavigatorButtons.ConfirmDelete = False
       NavigatorButtons.Insert.Visible = False
@@ -495,7 +500,7 @@ inherited frmInputSO: TfrmInputSO
     Width = 393
     Height = 209
     BevelOuter = bvNone
-    TabOrder = 15
+    TabOrder = 14
     object cxLabel11: TcxLabel
       Left = 20
       Top = 18

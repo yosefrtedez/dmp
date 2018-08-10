@@ -80,6 +80,7 @@ type
     zqrSupp: TZReadOnlyQuery;
     dsSupp: TDataSource;
     cxChkSelesai: TcxCheckBox;
+    cxColIdGdg: TcxGridColumn;
     procedure FormCreate(Sender: TObject);
     procedure cxlNoPPPropertiesChange(Sender: TObject);
     procedure cxtbPBDataControllerBeforePost(
@@ -110,7 +111,7 @@ uses unDM, unTools, unFrmLstPB;
 procedure TfrmInputPB.btnSimpanClick(Sender: TObject);
 var
   sNoTrs: string;
-  qh,qd, hst, qbrg: TZQuery;
+  q, qh,qd, hst, qbrg: TZQuery;
   i, ID: Integer;
   sAkhir, hppAkhir, hpp: real;
   f0: boolean;
@@ -161,6 +162,12 @@ begin
   end;
 
   try
+
+    if Self.Jenis = 'E' then begin
+      MsgBox('Transaksi tidak bisa di simpan karena sudah di posting.');
+      Abort;
+    end;
+
     dm.zConn.StartTransaction;
 
     if Self.Jenis = 'T' then begin
@@ -187,6 +194,7 @@ begin
     qh.FieldByName('id_supplier').AsInteger := id_supplier;
     qh.FieldByName('nopol').AsString := cxtNopol.text;
     qh.FieldByName('sopir').AsString := cxtSopir.text;
+    qh.FieldByName('keterangan').AsString := cxtKeterangan.Text;
     qh.Post;
 
     if Self.Jenis = 'E' then begin
@@ -258,6 +266,7 @@ begin
           qbrg.FieldByName('id_brg').AsInteger := Values[i, cxColIdBrg.Index];
           qbrg.FieldByName('id_gdg').AsInteger := Values[i, cxColGdg.Index];
           qbrg.FieldByName('stok').AsFloat := qbrg.FieldByName('stok').AsFloat + Values[i, cxColQtyTerima.Index];
+          qbrg.Post;
           qbrg.Close;
         end;
       end;
@@ -321,7 +330,6 @@ begin
               'LEFT JOIN tbl_supplier b ON b.id = a.id_supplier ' +
               'WHERE a.id = %s',[cxlNoPO.EditValue]);
   cxdTglPO.Date := q.FieldByName('tanggal').AsDateTime;
-  //cxtNamaSupp.Text := q.FieldByName('nama_supplier').AsString;
   cxtAlamat.Text := q.FieldByName('alamat').AsString;
   id_ref := q.FieldByName('id').AsInteger;
   id_supplier := q.FieldByName('id_supplier').AsInteger;
@@ -364,7 +372,6 @@ begin
       Values[i, cxColHarga.Index] := q.FieldByName('harga').AsFloat;
       Values[i, cxColIdBrg.Index] := q.FieldByName('id_brg').AsInteger;
       Values[i, cxColGdg.Index] := Aplikasi.GdgPB;
-      //Values[i, cxColPPn.Index] := q.FieldByName('ppn').AsString;
       Values[i, cxColKeterangan.Index] := q.FieldByName('keterangan').AsString;
     end;
     q.Next;
@@ -477,13 +484,25 @@ begin
     q := OpenRS('SELECT a.*, b.tanggal as tglpo, b.`pembayaran`, b.`currency`  FROM tbl_pb_head a ' +
       'LEFT JOIN tbl_po_head b ON a.id_po = b.id ' +
       'WHERE a.id = %s',[Self.EditKey]);
-      cxtNoBukti.Text := q.FieldByName('no_bukti').AsString;
-      cxlNoPO.EditValue := q.FieldByName('id_po').AsInteger;
-      cxdTglDatang.Date := q.FieldByName('tanggal').AsDateTime;
-      cxdTglPO.Date := q.fieldbyname('tglpo').AsDateTime;
-      cxCboPembayaran.Properties.Items.Text := q.FieldByName('pembayaran').AsString;
-      cxCboPembayaran.ItemIndex := 0;
-      cxCboPembayaran.Properties.ReadOnly := True;
+
+    cxlSupp.EditValue := q.FieldByName('id_supplier').AsInteger;
+    cxlSupp.Properties.ReadOnly := True;
+
+    cxtNoBukti.Text := q.FieldByName('no_bukti').AsString;
+
+    cxlNoPO.EditValue := q.FieldByName('id_po').AsInteger;
+    cxlSupp.Properties.ReadOnly := True;
+
+    cxdTglDatang.Date := q.FieldByName('tanggal').AsDateTime;
+    cxdTglPO.Date := q.fieldbyname('tglpo').AsDateTime;
+    cxCboPembayaran.Properties.Items.Text := q.FieldByName('pembayaran').AsString;
+    cxCboPembayaran.ItemIndex := 0;
+    cxCboPembayaran.Properties.ReadOnly := True;
+
+    cxtNopol.Text := q.FieldByname('nopol').AsString;
+    cxtSopir.Text := q.FieldByName('sopir').AsString;
+    cxtKeterangan.Text := q.FieldByName('keterangan').Text;
+
     if q.FieldByName('Currency').AsInteger = 1 then begin
       cxCboRate.Properties.Items.Text := 'IDR';
       cxCboRate.Properties.ReadOnly := True;

@@ -151,15 +151,26 @@ inherited frmInputPP: TfrmInputPP
       object cxColNo: TcxGridColumn
         Caption = 'No'
         PropertiesClassName = 'TcxTextEditProperties'
+        Visible = False
         OnGetDisplayText = cxColNoGetDisplayText
         Width = 42
       end
       object cxColKodeBrg: TcxGridColumn
-        Caption = 'Kode Brg'
-        PropertiesClassName = 'TcxTextEditProperties'
-        Properties.ReadOnly = True
-        Options.Editing = False
-        Width = 84
+        Caption = 'Kode Brg.'
+        PropertiesClassName = 'TcxLookupComboBoxProperties'
+        Properties.DropDownAutoSize = True
+        Properties.KeyFieldNames = 'id'
+        Properties.ListColumns = <
+          item
+            Caption = 'Kode'
+            FieldName = 'kode'
+          end
+          item
+            Caption = 'Deskripsi'
+            FieldName = 'deskripsi'
+          end>
+        Properties.ListSource = dsBarang
+        Width = 111
       end
       object cxColDeskripsi: TcxGridColumn
         Caption = 'Deskripsi'
@@ -175,7 +186,7 @@ inherited frmInputPP: TfrmInputPP
             FieldName = 'kode'
           end>
         Properties.ListSource = dsBarang
-        Width = 252
+        Width = 320
       end
       object cxColQty: TcxGridColumn
         Caption = 'Qty'
@@ -196,6 +207,9 @@ inherited frmInputPP: TfrmInputPP
       end
       object cxColIdSatuan: TcxGridColumn
         DataBinding.ValueType = 'Integer'
+        Visible = False
+      end
+      object cxColKodeBrg2: TcxGridColumn
         Visible = False
       end
     end

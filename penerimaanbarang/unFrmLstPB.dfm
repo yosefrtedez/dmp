@@ -80,6 +80,11 @@ inherited frmLstPB: TfrmLstPB
         Caption = 'User Dept'
         DataBinding.FieldName = 'user_dept'
       end
+      object cxtbPBHeadColumn2: TcxGridDBColumn
+        Caption = 'Keterangan'
+        DataBinding.FieldName = 'keterangan'
+        Width = 247
+      end
       object cxtbPBHeadColumn1: TcxGridDBColumn
         Caption = 'Posting'
         DataBinding.FieldName = 'f_posted'
@@ -234,7 +239,6 @@ inherited frmLstPB: TfrmLstPB
   end
   object zqrPBDet: TZReadOnlyQuery
     Connection = DM.zConn
-    Active = True
     SQL.Strings = (
       'SELECT a.*, b.deskripsi, c.satuan satuan2,'
       

@@ -68,7 +68,7 @@ var
 implementation
 
 uses
-  unDM, unTools, unFrmInputSO, unFrmUtama;
+  unDM, unTools, unFrmInputSO, unFrmUtama, unFrmInputSOMTS;
 
 {$R *.dfm}
 
@@ -79,11 +79,30 @@ var
  q: TZQuery;
 begin
   inherited;
+
+  q := OpenRS('SELECT * FROM tbl_history WHERE id_so = %s',[zqrSO.FieldByname('id').AsString]);
+  if not q.IsEmpty then begin
+    MsgBox('SO ini tidak bisa di edit karena sudah terjadi transaksi.');
+    q.Close;
+    Abort;
+  end;
+  q.Close;
+
+  q := OpenRS('SELECT * FROM tbl_mo WHERE id_so = %s',[zqrSO.FieldByname('id').AsString]);
+  if not q.FieldByName('id_spk').IsNull then begin
+    MsgBox('SO ini tidak bisa di edit karena sudah dibuatkan SPK.');
+    q.Close;
+    Abort;
+  end;
+  q.Close;
+
   if not fu.CekTabOpen('Edit Sales Order') then begin
     ts := TcxTabSheet.Create(Self);
     ts.PageControl := frmUtama.pgMain;
     f := TfrmInputSO.Create(Self);
     f.Jenis := 'E';
+    f.JenisSO := '';
+    f.FormInduk := Self;
     f.Caption := 'Edit Sales Order';
     f.EditKey := zqrSO.FieldByName('id').AsString;
     f.Parent := ts;
@@ -123,6 +142,7 @@ end;
 procedure TfrmLstSO.btnTambahClick(Sender: TObject);
 var
   f: TfrmInputSO;
+  f2: TFrminputSOMTS;
   ts: TcxTabSheet;
 begin
   inherited;
@@ -130,18 +150,31 @@ begin
     ts := TcxTabSheet.Create(Self);
     ts.PageControl := frmUtama.pgMain;
 
-    f := TfrmInputSO.Create(Self);
-
     if mJenisSO = 'MTS' then begin
-      f.JenisSO := mJenisSO;
-      f.Caption := 'Input Sales Order - MTS';
-      f.Label1.Caption := 'Input Sales Order - MTS';
+      f2 := TfrmInputSOMTS.Create(Self);
+      f2.FormInduk := Self;
+      f2.Jenis := 'T';
+      f2.Parent := ts;
+      ts.Caption := f.Caption;
+      f2.Show;
+    end
+    else begin
+      f := TfrmInputSO.Create(Self);
+
+      if mJenisSO = 'MTS' then begin
+        f.JenisSO := mJenisSO;
+        f.Caption := 'Input Sales Order - MTS';
+        f.Label1.Caption := 'Input Sales Order - MTS';
+      end;
+
+      f.FormInduk := Self;
+      f.Jenis := 'T';
+      f.Parent := ts;
+      ts.Caption := f.Caption;
+      f.Show;
     end;
 
-    f.Jenis := 'T';
-    f.Parent := ts;
-    ts.Caption := f.Caption;
-    f.Show;
+
 
     fu.pgMain.ActivePage := ts;
   end;

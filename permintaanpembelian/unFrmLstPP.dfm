@@ -36,9 +36,7 @@ inherited frmLstPP: TfrmLstPP
       ExplicitLeft = 92
     end
     inherited btnHapus: TButton
-      Top = 11
       OnClick = btnHapusClick
-      ExplicitTop = 11
     end
     inherited btnKeluar: TButton
       Left = 1027

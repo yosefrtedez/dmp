@@ -391,6 +391,11 @@ inherited frmInputPB: TfrmInputPB
       object cxColIdBrg: TcxGridColumn
         Visible = False
       end
+      object cxColIdGdg: TcxGridColumn
+        DataBinding.ValueType = 'Integer'
+        PropertiesClassName = 'TcxSpinEditProperties'
+        Visible = False
+      end
     end
     object cxgrdlvl1Grid1Level1: TcxGridLevel
       GridView = cxtbPB
@@ -435,7 +440,7 @@ inherited frmInputPB: TfrmInputPB
       'LEFT JOIN tbl_supplier b ON b.id = a.id_supplier'
       
         'WHERE f_completed = 0 AND id_supplier = :id_supplier AND a.f_com' +
-        'pleted = 0'
+        'pleted = 0 AND a.f_app = 1'
       'ORDER BY tanggal')
     Params = <
       item
@@ -443,8 +448,8 @@ inherited frmInputPB: TfrmInputPB
         Name = 'id_supplier'
         ParamType = ptUnknown
       end>
-    Left = 776
-    Top = 248
+    Left = 712
+    Top = 208
     ParamData = <
       item
         DataType = ftUnknown
@@ -477,7 +482,6 @@ inherited frmInputPB: TfrmInputPB
   end
   object zqrGdg: TZReadOnlyQuery
     Connection = DM.zConn
-    Active = True
     SQL.Strings = (
       'SELECT * FROM tbl_gudang')
     Params = <>

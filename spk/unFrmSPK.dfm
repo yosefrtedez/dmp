@@ -258,7 +258,6 @@ inherited frmSPK: TfrmSPK
   end
   object zqrMesin: TZReadOnlyQuery
     Connection = DM.zConn
-    Active = True
     SQL.Strings = (
       'SELECT id, kode, nama FROM tbl_mesin'
       'ORDER BY nama')
@@ -278,7 +277,6 @@ inherited frmSPK: TfrmSPK
   end
   object zqrBrg: TZReadOnlyQuery
     Connection = DM.zConn
-    Active = True
     SQL.Strings = (
       'SELECT id, kode, deskripsi'
       'FROM tbl_barang '

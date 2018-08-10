@@ -191,6 +191,8 @@ begin
       end;
       qd.Close;
 
+      dm.zConn.ExecuteDirect(Format('UPDATE tbl_mo SET id_spk = %d WHERE id = %d',[ID,mIDMO]));
+
       dm.zConn.Commit;
 
       MsgBox('SPK sudah disimpan dengan nomor: ' + sNoSPK);

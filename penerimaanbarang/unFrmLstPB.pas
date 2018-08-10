@@ -58,6 +58,7 @@ type
     cxtbPBHeadnama_supplier: TcxGridDBColumn;
     cxtbPBHeadColumn1: TcxGridDBColumn;
     cxtbPBDetColumn1: TcxGridDBColumn;
+    cxtbPBHeadColumn2: TcxGridDBColumn;
     procedure btnTambahClick(Sender: TObject);
     procedure cxtbPBHeadFocusedRecordChanged(Sender: TcxCustomGridTableView;
       APrevFocusedRecord, AFocusedRecord: TcxCustomGridRecord;
@@ -76,7 +77,7 @@ var
 
 implementation
 
-uses unFrmInputPB, unFrmUtama, unDM;
+uses unFrmInputPB, unFrmUtama, unDM, unTools;
 
 {$R *.dfm}
 
@@ -91,6 +92,7 @@ begin
     ts.PageControl := frmUtama.pgMain;
     f := TfrmInputPB.Create(Self);
     f.FormInduk := Self;
+    MsgBox('Transaksi tidak hanya bisa dilihat, karena sudah di posting.');
     f.Jenis := 'E';
     f.EditKey := zqrPBHead.FieldByName('id').AsString;
     f.Parent := ts;

@@ -90,7 +90,7 @@ begin
     ts := TcxTabSheet.Create(Self);
     ts.PageControl := frmUtama.pgMain;
     if zqrPPHead.FieldByName('f_app').AsString = '1' then begin
-      MsgBox('Maaf data tidak bisa diedit, karena sudah di approve');
+      MsgBox('Transaksi permintaan pembelian tidak bisa di edit, karena sudah di approve');
       Abort;
     end;
     f := TfrmInputPP.Create(Self);

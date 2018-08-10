@@ -280,6 +280,9 @@
 			<DCCReference Include="barangjasa\unFrmKartuStok.pas">
 				<Form>frmKartuStok</Form>
 			</DCCReference>
+			<DCCReference Include="salesorder\unFrmInputSOMTS.pas">
+				<Form>frmInputSOMTS</Form>
+			</DCCReference>
 			<BuildConfiguration Include="Base">
 				<Key>Base</Key>
 			</BuildConfiguration>
