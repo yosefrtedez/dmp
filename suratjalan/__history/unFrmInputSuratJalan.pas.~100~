@@ -77,8 +77,6 @@ type
     cxLabel8: TcxLabel;
     cxdTglJthTempo: TcxDateEdit;
     Button1: TButton;
-    cxLabel9: TcxLabel;
-    cxTextEdit1: TcxTextEdit;
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure cxColNoGetDisplayText(Sender: TcxCustomGridTableItem;
@@ -233,22 +231,17 @@ procedure TfrmInputSuratJalan.Button1Click(Sender: TObject);
 var
   f: TfrmPilihSO;
   cx: TcxGridTableView;
-  i,j: Integer;
+  i: Integer;
 begin
   inherited;
-  if cxlCustomer.Text = '' then Abort;
-  
   f := TfrmPilihSO.Create(Self);
   f.IdCust := cxlCustomer.EditValue;
   if f.ShowModal = mrOk then begin
     cx := f.cxtbSO;
     with cx.DataController do begin
       for i := 0 to RecordCount -  1 do begin
-        if Values[i, f.cxColPilih.Index] = 1 then begin
-          j := cxtbSJ.DataController.AppendRecord;
-          cxtbSJ.DataController.Values[i, cxColKodeBrg.Index] := Values[i,f.cxColKodeBrg.Index];
-          cxtbSJ.DataController.Values[i, cxColDeskripsi.Index] := Values[i,f.cxColDeskripsi.Index];
-        end;
+
+
       end;
     end;
   end;

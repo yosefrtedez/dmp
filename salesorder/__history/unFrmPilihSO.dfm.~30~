@@ -5,7 +5,7 @@ object frmPilihSO: TfrmPilihSO
   BorderStyle = bsSingle
   Caption = 'Pilih Sales Order '
   ClientHeight = 349
-  ClientWidth = 961
+  ClientWidth = 959
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText

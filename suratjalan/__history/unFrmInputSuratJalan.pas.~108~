@@ -77,8 +77,6 @@ type
     cxLabel8: TcxLabel;
     cxdTglJthTempo: TcxDateEdit;
     Button1: TButton;
-    cxLabel9: TcxLabel;
-    cxTextEdit1: TcxTextEdit;
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure cxColNoGetDisplayText(Sender: TcxCustomGridTableItem;

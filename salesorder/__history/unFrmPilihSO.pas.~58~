@@ -81,7 +81,6 @@ procedure TfrmPilihSO.cxtbSODataControllerRecordChanged(
 var
   sa: Real;
 begin
-
   if AItemIndex = cxColPilih.Index then begin
     if ADataController.Values[ARecordIndex, AItemIndex] = 1 then begin
       if (ADataController.Values[ARecordIndex, cxColJmlKirim.Index] = 0) or

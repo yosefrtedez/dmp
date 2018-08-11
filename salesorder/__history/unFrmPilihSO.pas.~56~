@@ -81,7 +81,6 @@ procedure TfrmPilihSO.cxtbSODataControllerRecordChanged(
 var
   sa: Real;
 begin
-
   if AItemIndex = cxColPilih.Index then begin
     if ADataController.Values[ARecordIndex, AItemIndex] = 1 then begin
       if (ADataController.Values[ARecordIndex, cxColJmlKirim.Index] = 0) or
@@ -97,7 +96,6 @@ begin
     sa := GetStokAkhir(ADataController.Values[ARecordIndex, cxColIdBrg.Index], ADataController.Values[ARecordIndex, cxColGdg.Index]);
     ADataController.Values[ARecordIndex, cxColStok.Index] := sa;
   end;
-
   if AItemIndex = cxColJmlKirim.Index then begin
     sa := GetStokAkhir(ADataController.Values[ARecordIndex, cxColIdBrg.Index], ADataController.Values[ARecordIndex, cxColGdg.Index]);
     if sa < ADataController.Values[ARecordIndex, cxColJmlKirim.Index] then begin

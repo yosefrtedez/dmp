@@ -28,7 +28,7 @@ inherited frmInputSuratJalan: TfrmInputSuratJalan
   inherited Panel2: TPanel
     Top = 638
     Width = 1119
-    TabOrder = 31
+    TabOrder = 29
     ExplicitTop = 638
     ExplicitWidth = 1119
     inherited btnSimpan: TButton
@@ -62,23 +62,23 @@ inherited frmInputSuratJalan: TfrmInputSuratJalan
   end
   object cxlbl14: TcxLabel
     Left = 11
-    Top = 226
+    Top = 198
     Caption = 'Keterangan'
   end
   object cxtKeterangan: TcxTextEdit
     Left = 112
-    Top = 224
+    Top = 196
     Properties.CharCase = ecUpperCase
-    TabOrder = 16
+    TabOrder = 14
     Width = 416
   end
   object cxgrdPP: TcxGrid
     Left = 8
-    Top = 280
+    Top = 253
     Width = 1103
     Height = 211
     Anchors = [akLeft, akTop, akRight]
-    TabOrder = 20
+    TabOrder = 18
     object cxtbSJ: TcxGridTableView
       NavigatorButtons.ConfirmDelete = False
       NavigatorButtons.Insert.Visible = False
@@ -246,52 +246,85 @@ inherited frmInputSuratJalan: TfrmInputSuratJalan
   end
   object cxLabel2: TcxLabel
     Left = 11
-    Top = 171
+    Top = 143
     Caption = 'Nopol'
   end
   object cxtNopol: TcxTextEdit
     Left = 112
-    Top = 170
+    Top = 142
     Properties.ReadOnly = False
-    TabOrder = 12
+    TabOrder = 10
     Width = 146
   end
   object cxtSopir: TcxTextEdit
     Left = 112
-    Top = 197
+    Top = 169
     Properties.ReadOnly = False
-    TabOrder = 14
+    TabOrder = 12
     Width = 146
   end
   object cxLabel3: TcxLabel
     Left = 11
-    Top = 198
+    Top = 170
     Caption = 'Sopir'
   end
   object cxLabel4: TcxLabel
     Left = 888
-    Top = 499
+    Top = 471
     Caption = 'Diskon (%)'
   end
   object cxsDiskon: TcxSpinEdit
     Left = 976
-    Top = 498
+    Top = 470
     Properties.Alignment.Horz = taRightJustify
     Properties.DisplayFormat = '#,#0.00'
     Properties.MaxValue = 100.000000000000000000
     Properties.ValueType = vtFloat
     Properties.OnChange = cxsDiskonPropertiesChange
-    TabOrder = 21
+    TabOrder = 19
     Width = 121
   end
   object DPP: TcxLabel
     Left = 888
-    Top = 526
+    Top = 498
     Caption = 'Setelah Diskon'
   end
   object cxsStlhDiskon: TcxSpinEdit
     Left = 976
+    Top = 497
+    Properties.Alignment.Horz = taRightJustify
+    Properties.DisplayFormat = '#,#0.00'
+    Properties.MaxValue = 100.000000000000000000
+    Properties.ValueType = vtFloat
+    TabOrder = 21
+    Width = 121
+  end
+  object cxsPPN: TcxSpinEdit
+    Left = 976
+    Top = 551
+    Properties.Alignment.Horz = taRightJustify
+    Properties.DisplayFormat = '#,#0.00'
+    Properties.MaxValue = 100.000000000000000000
+    Properties.ValueType = vtFloat
+    TabOrder = 26
+    Width = 121
+  end
+  object cxChkPPN: TcxCheckBox
+    Left = 888
+    Top = 551
+    Caption = 'PPN (10%)'
+    TabOrder = 25
+    OnClick = cxChkPPNClick
+    Width = 82
+  end
+  object cxLabel5: TcxLabel
+    Left = 888
     Top = 525
+    Caption = 'DPP'
+  end
+  object cxsDPP: TcxSpinEdit
+    Left = 976
+    Top = 524
     Properties.Alignment.Horz = taRightJustify
     Properties.DisplayFormat = '#,#0.00'
     Properties.MaxValue = 100.000000000000000000
@@ -299,52 +332,19 @@ inherited frmInputSuratJalan: TfrmInputSuratJalan
     TabOrder = 23
     Width = 121
   end
-  object cxsPPN: TcxSpinEdit
-    Left = 976
-    Top = 579
-    Properties.Alignment.Horz = taRightJustify
-    Properties.DisplayFormat = '#,#0.00'
-    Properties.MaxValue = 100.000000000000000000
-    Properties.ValueType = vtFloat
-    TabOrder = 28
-    Width = 121
-  end
-  object cxChkPPN: TcxCheckBox
-    Left = 888
-    Top = 579
-    Caption = 'PPN (10%)'
-    TabOrder = 27
-    OnClick = cxChkPPNClick
-    Width = 82
-  end
-  object cxLabel5: TcxLabel
-    Left = 888
-    Top = 553
-    Caption = 'DPP'
-  end
-  object cxsDPP: TcxSpinEdit
-    Left = 976
-    Top = 552
-    Properties.Alignment.Horz = taRightJustify
-    Properties.DisplayFormat = '#,#0.00'
-    Properties.MaxValue = 100.000000000000000000
-    Properties.ValueType = vtFloat
-    TabOrder = 25
-    Width = 121
-  end
   object cxLabel6: TcxLabel
     Left = 888
-    Top = 607
+    Top = 579
     Caption = 'Harga Total'
   end
   object cxsHargaTotal: TcxSpinEdit
     Left = 976
-    Top = 606
+    Top = 578
     Properties.Alignment.Horz = taRightJustify
     Properties.DisplayFormat = '#,#0.00'
     Properties.MaxValue = 100.000000000000000000
     Properties.ValueType = vtFloat
-    TabOrder = 29
+    TabOrder = 27
     Width = 121
   end
   object cxLabel7: TcxLabel
@@ -361,13 +361,13 @@ inherited frmInputSuratJalan: TfrmInputSuratJalan
   end
   object cxLabel8: TcxLabel
     Left = 11
-    Top = 252
+    Top = 224
     Caption = 'Tgl. Jatuh Tempo'
   end
   object cxdTglJthTempo: TcxDateEdit
     Left = 112
-    Top = 251
-    TabOrder = 18
+    Top = 223
+    TabOrder = 16
     Width = 146
   end
   object Button1: TButton
@@ -378,18 +378,6 @@ inherited frmInputSuratJalan: TfrmInputSuratJalan
     Caption = 'Pilih SO'
     TabOrder = 7
     OnClick = Button1Click
-  end
-  object cxLabel9: TcxLabel
-    Left = 11
-    Top = 144
-    Caption = 'Alamat'
-  end
-  object cxTextEdit1: TcxTextEdit
-    Left = 112
-    Top = 142
-    Properties.CharCase = ecUpperCase
-    TabOrder = 10
-    Width = 416
   end
   object zqrBarang: TZReadOnlyQuery
     Connection = DM.zConn
@@ -437,12 +425,12 @@ inherited frmInputSuratJalan: TfrmInputSuratJalan
       'from tbl_customer order by nama')
     Params = <>
     Left = 660
-    Top = 153
+    Top = 125
   end
   object dsCust: TDataSource
     DataSet = zqrCust
     Left = 720
-    Top = 153
+    Top = 125
   end
   object zqrSO: TZReadOnlyQuery
     Connection = DM.zConn
@@ -465,7 +453,7 @@ inherited frmInputSuratJalan: TfrmInputSuratJalan
         ParamType = ptUnknown
       end>
     Left = 852
-    Top = 153
+    Top = 125
     ParamData = <
       item
         DataType = ftUnknown
@@ -481,6 +469,6 @@ inherited frmInputSuratJalan: TfrmInputSuratJalan
   object dsSO: TDataSource
     DataSet = zqrSO
     Left = 912
-    Top = 153
+    Top = 125
   end
 end

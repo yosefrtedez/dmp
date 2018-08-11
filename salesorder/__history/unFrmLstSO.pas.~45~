@@ -222,11 +222,6 @@ begin
     zqrSO.Open;
     cxColNoPO.Visible := False;
     cxColNamaCust.Visible := False;
-  end
-  else begin
-    zqrSO.Close;
-    zqrSO.SQL.Strings[3] := 'WHERE LEFT(no_bukti,2) = ''SO''';
-    zqrSO.Open;
   end;
 
 end;

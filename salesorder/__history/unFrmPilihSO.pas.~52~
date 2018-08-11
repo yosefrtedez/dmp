@@ -81,15 +81,12 @@ procedure TfrmPilihSO.cxtbSODataControllerRecordChanged(
 var
   sa: Real;
 begin
-
   if AItemIndex = cxColPilih.Index then begin
-    if ADataController.Values[ARecordIndex, AItemIndex] = 1 then begin
-      if (ADataController.Values[ARecordIndex, cxColJmlKirim.Index] = 0) or
-        VarIsNull(ADataController.Values[ARecordIndex, cxColJmlKirim.Index]) then begin
-        MsgBox('Masukkan Jumlah pengiriman terlebih dahulu.');
-        ADataController.Values[ARecordIndex, AItemIndex] := 0;
-        Abort;
-      end;
+    if (ADataController.Values[ARecordIndex, cxColJmlKirim.Index] = 0) or
+      VarIsNull(ADataController.Values[ARecordIndex, cxColJmlKirim.Index]) then begin
+      MsgBox('Masukkan Jumlah pengiriman terlebih dahulu.');
+      ADataController.Values[ARecordIndex, AItemIndex] := 0;
+      Abort;
     end;
   end;
 
@@ -97,7 +94,6 @@ begin
     sa := GetStokAkhir(ADataController.Values[ARecordIndex, cxColIdBrg.Index], ADataController.Values[ARecordIndex, cxColGdg.Index]);
     ADataController.Values[ARecordIndex, cxColStok.Index] := sa;
   end;
-
   if AItemIndex = cxColJmlKirim.Index then begin
     sa := GetStokAkhir(ADataController.Values[ARecordIndex, cxColIdBrg.Index], ADataController.Values[ARecordIndex, cxColGdg.Index]);
     if sa < ADataController.Values[ARecordIndex, cxColJmlKirim.Index] then begin
@@ -125,10 +121,9 @@ begin
     'LEFT JOIN tbl_so_det b ON a.id = b.id_ref ' +
     'LEFT JOIN tbl_barang c ON c.id = b.id_brg ' +
     'WHERE a.id_cust = %d', [mIdCust]);
-
-  cxtbSO.BeginUpdate;
   while not q.Eof do begin
     with cxtbSO.DataController do begin
+      cxtbSO.BeginUpdate;
       i := AppendRecord;
       Values[i, cxColPilih.Index] := 0;
       Values[i, cxColTanggal.Index] := q.FieldByName('tanggal').AsDateTime;
@@ -144,7 +139,6 @@ begin
     end;
     q.Next;
   end;
-  cxtbSO.EndUpdate;
 end;
 
 end.

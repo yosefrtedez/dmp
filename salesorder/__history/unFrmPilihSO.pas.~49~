@@ -19,7 +19,7 @@ uses
   ZAbstractRODataset, ZDataset, cxSpinEdit, cxCheckBox, cxDBLookupComboBox;
 
 type
-  TfrmPilihSO = class(TForm)
+  TcxColQtyTerkirim = class(TForm)
     cxGrid1Level1: TcxGridLevel;
     cxGrid1: TcxGrid;
     Button1: TButton;
@@ -58,7 +58,7 @@ type
   end;
 
 var
-  frmPilihSO: TfrmPilihSO;
+  cxColQtyTerkirim: TcxColQtyTerkirim;
 
 implementation
 
@@ -66,30 +66,27 @@ uses unDM, unTools;
 
 {$R *.dfm}
 
-procedure TfrmPilihSO.Button1Click(Sender: TObject);
+procedure TcxColQtyTerkirim.Button1Click(Sender: TObject);
 begin
   ModalResult := mrOk;
 end;
 
-procedure TfrmPilihSO.Button2Click(Sender: TObject);
+procedure TcxColQtyTerkirim.Button2Click(Sender: TObject);
 begin
   ModalResult := mrCancel;
 end;
 
-procedure TfrmPilihSO.cxtbSODataControllerRecordChanged(
+procedure TcxColQtyTerkirim.cxtbSODataControllerRecordChanged(
   ADataController: TcxCustomDataController; ARecordIndex, AItemIndex: Integer);
 var
   sa: Real;
 begin
-
   if AItemIndex = cxColPilih.Index then begin
-    if ADataController.Values[ARecordIndex, AItemIndex] = 1 then begin
-      if (ADataController.Values[ARecordIndex, cxColJmlKirim.Index] = 0) or
-        VarIsNull(ADataController.Values[ARecordIndex, cxColJmlKirim.Index]) then begin
-        MsgBox('Masukkan Jumlah pengiriman terlebih dahulu.');
-        ADataController.Values[ARecordIndex, AItemIndex] := 0;
-        Abort;
-      end;
+    if (ADataController.Values[ARecordIndex, cxColJmlKirim.Index] = 0) or
+      VarIsNull(ADataController.Values[ARecordIndex, cxColJmlKirim.Index]) then begin
+      MsgBox('Masukkan Jumlah pengiriman terlebih dahulu.');
+      ADataController.Values[ARecordIndex, AItemIndex] := 0;
+      Abort;
     end;
   end;
 
@@ -97,7 +94,6 @@ begin
     sa := GetStokAkhir(ADataController.Values[ARecordIndex, cxColIdBrg.Index], ADataController.Values[ARecordIndex, cxColGdg.Index]);
     ADataController.Values[ARecordIndex, cxColStok.Index] := sa;
   end;
-
   if AItemIndex = cxColJmlKirim.Index then begin
     sa := GetStokAkhir(ADataController.Values[ARecordIndex, cxColIdBrg.Index], ADataController.Values[ARecordIndex, cxColGdg.Index]);
     if sa < ADataController.Values[ARecordIndex, cxColJmlKirim.Index] then begin
@@ -109,12 +105,12 @@ begin
 
 end;
 
-procedure TfrmPilihSO.FormCreate(Sender: TObject);
+procedure TcxColQtyTerkirim.FormCreate(Sender: TObject);
 begin
   zqrGdg.Open;
 end;
 
-procedure TfrmPilihSO.FormShow(Sender: TObject);
+procedure TcxColQtyTerkirim.FormShow(Sender: TObject);
 var
   q: TZQuery;
   i: integer;
@@ -125,8 +121,6 @@ begin
     'LEFT JOIN tbl_so_det b ON a.id = b.id_ref ' +
     'LEFT JOIN tbl_barang c ON c.id = b.id_brg ' +
     'WHERE a.id_cust = %d', [mIdCust]);
-
-  cxtbSO.BeginUpdate;
   while not q.Eof do begin
     with cxtbSO.DataController do begin
       i := AppendRecord;
@@ -136,7 +130,6 @@ begin
       Values[i, cxColKodeBrg.Index] := q.FieldByName('kode').AsString;
       Values[i, cxColDeskripsi.Index] := q.FieldByName('deskripsi').AsString;
       Values[i, cxColQty.Index] := q.FieldByName('qty').AsFloat;
-      Values[i, cxColQtyTerkirim.Index] := q.FieldByName('qty_terkirim').AsFloat;
       Values[i, cxColIdBrg.Index] := q.FieldByName('id_brg').AsInteger;
       Values[i, cxColIdSO.Index] := q.FieldByName('id').AsString;
       Values[i, cxColGdg.Index] := Aplikasi.GdgBJ;
@@ -144,7 +137,6 @@ begin
     end;
     q.Next;
   end;
-  cxtbSO.EndUpdate;
 end;
 
 end.
