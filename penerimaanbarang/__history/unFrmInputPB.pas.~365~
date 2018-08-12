@@ -254,7 +254,7 @@ begin
     qh.FieldByName('nopol').AsString := cxtNopol.text;
     qh.FieldByName('sopir').AsString := cxtSopir.text;
     qh.FieldByName('keterangan').AsString := cxtKeterangan.Text;
-    qh.FieldByName('tgl_edit').AsDateTime := Aplikasi.NowServer;
+    //qh.FieldByName('tgl_edit').AsDateTime := Aplikasi.NowServer;
     qh.Post;
 
     if Self.Jenis = 'E' then begin
@@ -360,7 +360,7 @@ var
   q: TZQuery;
   f: Boolean;
   a,b: Extended;
-  i, idx: integer;
+  i: integer;
   lst: TStringList;
 begin
   lst := TStringList.Create;
@@ -380,8 +380,7 @@ begin
     if f then begin
       dm.zConn.ExecuteDirect(Format('UPDATE tbl_po_head SET f_completed = 1 WHERE id = %s',
         [cxtbPB.DataController.Values[i, cxColIdPO.Index]]));
-      if not lst.Find(cxtbPB.DataController.Values[i, cxColIdPO.Index], idx) then
-        lst.Add(cxtbPB.DataController.Values[i, cxColNoPO.Index]);
+      lst.Add(cxtbPB.DataController.Values[i, cxColNoPO.Index]);
     end;
   end;
   Result := lst;

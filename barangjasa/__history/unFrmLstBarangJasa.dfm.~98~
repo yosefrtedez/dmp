@@ -549,7 +549,6 @@ inherited frmLstBarangJasa: TfrmLstBarangJasa
       object cxtbStokGudangColumn2: TcxGridDBColumn
         Caption = 'Satuan'
         DataBinding.FieldName = 'satuan'
-        BestFitMaxWidth = 64
       end
     end
     object cxGrid2Level1: TcxGridLevel
@@ -635,8 +634,8 @@ inherited frmLstBarangJasa: TfrmLstBarangJasa
       'FROM tbl_barang_det a'
       'LEFT JOIN tbl_gudang b on a.id_gdg = b.id'
       'LEFT JOIN tbl_barang c on c.id = a.id_brg'
-      'LEFT JOIN tbl_satuan d ON d.id = c.id_satuan'
-      'WHERE a. id_brg = :id_brg')
+      'LEFT JOIN tbl_satuan d ON c.id = c.id_satuan'
+      'WHERE id_brg = :id_brg')
     Params = <
       item
         DataType = ftUnknown

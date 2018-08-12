@@ -137,7 +137,7 @@ begin
     'LEFT JOIN tbl_so_det b ON a.id = b.id_ref ' +
     'LEFT JOIN tbl_barang c ON c.id = b.id_brg ' +
     'LEFT JOIN tbl_satuan d ON d.id = b.id_satuan ' +
-    'WHERE a.id_cust = %d', [mIdCust]);
+    'WHERE a.id_cust = %d AND a.f_completed = 0', [mIdCust]);
 
   cxtbSO.BeginUpdate;
   while not q.Eof do begin

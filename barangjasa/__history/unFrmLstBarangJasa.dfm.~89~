@@ -4,7 +4,6 @@ inherited frmLstBarangJasa: TfrmLstBarangJasa
   ClientHeight = 758
   ClientWidth = 1119
   OnCreate = FormCreate
-  ExplicitTop = -84
   ExplicitWidth = 1119
   ExplicitHeight = 758
   PixelsPerInch = 96
@@ -120,28 +119,21 @@ inherited frmLstBarangJasa: TfrmLstBarangJasa
         DataBinding.FieldName = 'stok2'
         PropertiesClassName = 'TcxSpinEditProperties'
         Properties.DisplayFormat = '#,#0.00'
-        BestFitMaxWidth = 67
         Width = 67
       end
       object cxColSatKonv: TcxGridDBColumn
         Caption = 'Sat. Konv'
         DataBinding.FieldName = 'satuan3'
-        BestFitMaxWidth = 62
-        Width = 62
       end
       object cxColSisa: TcxGridDBColumn
         Caption = 'Sisa'
         DataBinding.FieldName = 'sisa'
         PropertiesClassName = 'TcxSpinEditProperties'
         Properties.DisplayFormat = '#,#0.00'
-        BestFitMaxWidth = 69
-        Width = 69
       end
       object cxColSatSisa: TcxGridDBColumn
         Caption = 'Sat. Sisa'
         DataBinding.FieldName = 'satuan4'
-        BestFitMaxWidth = 60
-        Width = 60
       end
       object cxtbBarangkategori: TcxGridDBColumn
         Caption = 'Kategori'
@@ -496,23 +488,10 @@ inherited frmLstBarangJasa: TfrmLstBarangJasa
     Height = 41
     Align = alBottom
     TabOrder = 2
-    DesignSize = (
-      1119
-      41)
     object cxLabel2: TcxLabel
       Left = 10
       Top = 12
       Caption = 'Detail Stok Gudang'
-    end
-    object Button1: TButton
-      Left = 1036
-      Top = 6
-      Width = 75
-      Height = 25
-      Anchors = [akTop, akRight]
-      Caption = 'Cetak Excel'
-      TabOrder = 0
-      OnClick = Button1Click
     end
   end
   object cxGrid2: TcxGrid
@@ -542,14 +521,6 @@ inherited frmLstBarangJasa: TfrmLstBarangJasa
       object cxtbStokGudangstok: TcxGridDBColumn
         Caption = 'Stok'
         DataBinding.FieldName = 'stok'
-        PropertiesClassName = 'TcxSpinEditProperties'
-        Properties.DisplayFormat = '#,#0.00'
-        Width = 84
-      end
-      object cxtbStokGudangColumn2: TcxGridDBColumn
-        Caption = 'Satuan'
-        DataBinding.FieldName = 'satuan'
-        BestFitMaxWidth = 64
       end
     end
     object cxGrid2Level1: TcxGridLevel
@@ -631,12 +602,9 @@ inherited frmLstBarangJasa: TfrmLstBarangJasa
   object zqrDetGudang: TZReadOnlyQuery
     Connection = DM.zConn
     SQL.Strings = (
-      'SELECT a.*, b.nama, b.kode kode_gudang, d.satuan'
-      'FROM tbl_barang_det a'
+      'SELECT a.*, b.nama, b.kode kode_gudang FROM tbl_barang_det a'
       'LEFT JOIN tbl_gudang b on a.id_gdg = b.id'
-      'LEFT JOIN tbl_barang c on c.id = a.id_brg'
-      'LEFT JOIN tbl_satuan d ON d.id = c.id_satuan'
-      'WHERE a. id_brg = :id_brg')
+      'WHERE id_brg = :id_brg')
     Params = <
       item
         DataType = ftUnknown

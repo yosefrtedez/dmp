@@ -61,7 +61,6 @@ inherited frmLstPB: TfrmLstPB
       object cxtbPBHeadno_po: TcxGridDBColumn
         Caption = 'No. PO'
         DataBinding.FieldName = 'no_po2'
-        Visible = False
         Width = 122
       end
       object cxtbPBHeadnama_supplier: TcxGridDBColumn
@@ -248,8 +247,8 @@ inherited frmLstPB: TfrmLstPB
     SQL.Strings = (
       'SELECT a.*, b.deskripsi, c.satuan satuan2, d.no_bukti no_po,'
       
-        '(SELECT x.qty FROM tbl_po_det x WHERE x.id_ref = a.id_po AND x.i' +
-        'd_brg = a.id_brg) qty_po '
+        '(SELECT x.qty FROM tbl_po_det x WHERE x.id_ref = aa.id_po AND x.' +
+        'id_brg = a.id_brg) qty_po '
       'FROM tbl_pb_det a'
       'INNER JOIN tbl_pb_head aa ON aa.id = a.id_ref'
       'LEFT JOIN tbl_barang b ON a.id_brg = b.id'

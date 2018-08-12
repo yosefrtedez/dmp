@@ -27,11 +27,7 @@ inherited frmLstPenerimaanKas: TfrmLstPenerimaanKas
     inherited btnEdit: TButton
       OnClick = btnEditClick
     end
-    inherited btnKeluar: TButton
-      TabOrder = 4
-    end
     inherited btnRefresh: TButton
-      TabOrder = 3
       OnClick = btnRefreshClick
     end
   end
@@ -42,7 +38,6 @@ inherited frmLstPenerimaanKas: TfrmLstPenerimaanKas
     Height = 169
     Align = alClient
     TabOrder = 1
-    ExplicitHeight = 410
     object cxtbPK: TcxGridDBTableView
       NavigatorButtons.ConfirmDelete = False
       DataController.DataSource = dsPK
@@ -94,9 +89,6 @@ inherited frmLstPenerimaanKas: TfrmLstPenerimaanKas
     Height = 41
     Align = alBottom
     TabOrder = 2
-    ExplicitLeft = 504
-    ExplicitTop = 368
-    ExplicitWidth = 185
   end
   object cxGrid2: TcxGrid
     Left = 0
@@ -105,9 +97,6 @@ inherited frmLstPenerimaanKas: TfrmLstPenerimaanKas
     Height = 200
     Align = alBottom
     TabOrder = 3
-    ExplicitLeft = 448
-    ExplicitTop = 304
-    ExplicitWidth = 250
     object cxGrid2DBTableView1: TcxGridDBTableView
       NavigatorButtons.ConfirmDelete = False
       DataController.Summary.DefaultGroupSummaryItems = <>

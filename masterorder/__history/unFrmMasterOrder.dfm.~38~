@@ -90,7 +90,6 @@ inherited frmMasterOrder: TfrmMasterOrder
       object cxtbMOno_so: TcxGridDBColumn
         Caption = 'No.SO'
         DataBinding.FieldName = 'no_so'
-        Width = 104
       end
       object cxtbMOno_spk: TcxGridDBColumn
         Caption = 'No.SPK'

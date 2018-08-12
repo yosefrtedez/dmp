@@ -61,7 +61,6 @@ inherited frmLstPB: TfrmLstPB
       object cxtbPBHeadno_po: TcxGridDBColumn
         Caption = 'No. PO'
         DataBinding.FieldName = 'no_po2'
-        Visible = False
         Width = 122
       end
       object cxtbPBHeadnama_supplier: TcxGridDBColumn
@@ -184,11 +183,6 @@ inherited frmLstPB: TfrmLstPB
         DataBinding.FieldName = 'deskripsi'
         Width = 359
       end
-      object cxtbPBDetColumn2: TcxGridDBColumn
-        Caption = 'No. PO'
-        DataBinding.FieldName = 'no_po_1'
-        Width = 91
-      end
       object cxtbPBDetColumn1: TcxGridDBColumn
         Caption = 'Qty. PO'
         DataBinding.FieldName = 'qty_po'
@@ -246,15 +240,14 @@ inherited frmLstPB: TfrmLstPB
   object zqrPBDet: TZReadOnlyQuery
     Connection = DM.zConn
     SQL.Strings = (
-      'SELECT a.*, b.deskripsi, c.satuan satuan2, d.no_bukti no_po,'
+      'SELECT a.*, b.deskripsi, c.satuan satuan2,'
       
-        '(SELECT x.qty FROM tbl_po_det x WHERE x.id_ref = a.id_po AND x.i' +
-        'd_brg = a.id_brg) qty_po '
+        '(SELECT x.qty FROM tbl_po_det x WHERE x.id_ref = aa.id_po AND x.' +
+        'id_brg = a.id_brg) qty_po '
       'FROM tbl_pb_det a'
       'INNER JOIN tbl_pb_head aa ON aa.id = a.id_ref'
       'LEFT JOIN tbl_barang b ON a.id_brg = b.id'
       'LEFT JOIN tbl_satuan c ON a.id_satuan = c.id'
-      'LEFT JOIN tbl_po_head d ON d.id = a.id_po'
       'WHERE a.id_ref = :id_ref')
     Params = <
       item

@@ -254,7 +254,7 @@ begin
     qh.FieldByName('nopol').AsString := cxtNopol.text;
     qh.FieldByName('sopir').AsString := cxtSopir.text;
     qh.FieldByName('keterangan').AsString := cxtKeterangan.Text;
-    qh.FieldByName('tgl_edit').AsDateTime := Aplikasi.NowServer;
+    //qh.FieldByName('tgl_edit').AsDateTime := Aplikasi.NowServer;
     qh.Post;
 
     if Self.Jenis = 'E' then begin

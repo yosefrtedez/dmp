@@ -18,7 +18,7 @@ uses
   cxGridCustomView, cxGridCustomTableView, cxGridTableView, cxGridDBTableView,
   cxGrid, ExtCtrls, StdCtrls, cxPC, ZAbstractRODataset, ZDataset, cxContainer,
   cxLabel, cxTextEdit, cxMaskEdit, cxDropDownEdit, cxLookupEdit, cxDBLookupEdit,
-  cxDBLookupComboBox, cxCheckBox, cxSpinEdit, cxGridExportLink, ShellAPI;
+  cxDBLookupComboBox, cxCheckBox, cxSpinEdit;
 
 type
   TfrmLstBarangJasa = class(TfrmTplGrid)
@@ -130,8 +130,6 @@ type
     cxColSatKonv: TcxGridDBColumn;
     cxColSisa: TcxGridDBColumn;
     cxColSatSisa: TcxGridDBColumn;
-    Button1: TButton;
-    cxtbStokGudangColumn2: TcxGridDBColumn;
     procedure btnKartuStokClick(Sender: TObject);
     procedure btnTambahClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -143,7 +141,6 @@ type
       ANewItemRecordFocusingChanged: Boolean);
     procedure btnProsesClick(Sender: TObject);
     procedure cxChkSatKonvClick(Sender: TObject);
-    procedure Button1Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -243,20 +240,6 @@ begin
   end;
 end;
 
-procedure TfrmLstBarangJasa.Button1Click(Sender: TObject);
-begin
-  inherited;
-  try
-  ExportGridToExcel(aplikasi.AppPath + '\tmp.xls', cxgBarang);
-  ShellExecute(Handle,'open', PChar(aplikasi.AppPath + '\tmp.xls'),''
-    ,nil,SW_SHOWNORMAL);
-  except
-    on E: Exception do begin
-      MsgBox('Error: ' + E.Message);
-    end;
-  end;
-end;
-
 procedure TfrmLstBarangJasa.btnKartuStokClick(Sender: TObject);
 var
   f: TfrmKartuStok;
@@ -273,8 +256,7 @@ begin
   if cxChkSatKonv.Checked then begin
     zqrBarang.Close;
     zqrBarang.SQL.Text := 'SELECT a.*, b.satuan satuan2, c.kategori kategori2, d.subkategori subkategori2, e.tipe tipe2, ' +
-      'if(f.qty < 1,(a.stok div (1 / f.qty)),f.qty * a.stok) stok2, g.satuan satuan3, ' +
-      'if(f.qty < 1, (a.stok mod (1 / f.qty)),0) sisa, b.satuan satuan4 ' +
+      '(a.stok div (1 / f.qty)) stok2, g.satuan satuan3, (a.stok mod (1 / f.qty)) sisa, b.satuan satuan4 ' +
       'FROM tbl_barang a ' +
       'LEFT JOIN tbl_satuan b ON a.id_satuan = b.id ' +
       'LEFT JOIN tbl_kategori_brg c ON a.id_kategori = c.id ' +

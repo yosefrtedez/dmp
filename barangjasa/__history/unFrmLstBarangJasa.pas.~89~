@@ -18,7 +18,7 @@ uses
   cxGridCustomView, cxGridCustomTableView, cxGridTableView, cxGridDBTableView,
   cxGrid, ExtCtrls, StdCtrls, cxPC, ZAbstractRODataset, ZDataset, cxContainer,
   cxLabel, cxTextEdit, cxMaskEdit, cxDropDownEdit, cxLookupEdit, cxDBLookupEdit,
-  cxDBLookupComboBox, cxCheckBox, cxSpinEdit, cxGridExportLink, ShellAPI;
+  cxDBLookupComboBox, cxCheckBox, cxSpinEdit;
 
 type
   TfrmLstBarangJasa = class(TfrmTplGrid)
@@ -131,7 +131,6 @@ type
     cxColSisa: TcxGridDBColumn;
     cxColSatSisa: TcxGridDBColumn;
     Button1: TButton;
-    cxtbStokGudangColumn2: TcxGridDBColumn;
     procedure btnKartuStokClick(Sender: TObject);
     procedure btnTambahClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -143,7 +142,6 @@ type
       ANewItemRecordFocusingChanged: Boolean);
     procedure btnProsesClick(Sender: TObject);
     procedure cxChkSatKonvClick(Sender: TObject);
-    procedure Button1Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -240,20 +238,6 @@ begin
     f.Show;
 
     fu.pgMain.ActivePage := ts;
-  end;
-end;
-
-procedure TfrmLstBarangJasa.Button1Click(Sender: TObject);
-begin
-  inherited;
-  try
-  ExportGridToExcel(aplikasi.AppPath + '\tmp.xls', cxgBarang);
-  ShellExecute(Handle,'open', PChar(aplikasi.AppPath + '\tmp.xls'),''
-    ,nil,SW_SHOWNORMAL);
-  except
-    on E: Exception do begin
-      MsgBox('Error: ' + E.Message);
-    end;
   end;
 end;
 

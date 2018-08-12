@@ -4,6 +4,7 @@ inherited frmInputPB: TfrmInputPB
   ClientWidth = 1172
   OnCreate = FormCreate
   OnShow = FormShow
+  ExplicitTop = -58
   ExplicitWidth = 1172
   ExplicitHeight = 739
   PixelsPerInch = 96
@@ -56,7 +57,7 @@ inherited frmInputPB: TfrmInputPB
   end
   object cxlbl4: TcxLabel
     Left = 10
-    Top = 144
+    Top = 171
     Caption = 'Tgl. Kedatangan'
   end
   object cxlbl5: TcxLabel
@@ -71,12 +72,12 @@ inherited frmInputPB: TfrmInputPB
   end
   object cxlbl7: TcxLabel
     Left = 10
-    Top = 171
+    Top = 198
     Caption = 'Nopol'
   end
   object cxlbl8: TcxLabel
     Left = 234
-    Top = 171
+    Top = 198
     Caption = 'Sopir'
   end
   object cxlNoPO: TcxLookupComboBox
@@ -108,14 +109,14 @@ inherited frmInputPB: TfrmInputPB
   object cxdTglPO: TcxDateEdit
     Left = 682
     Top = 188
-    TabOrder = 25
+    TabOrder = 21
     Visible = False
     Width = 146
   end
   object cxdTglDatang: TcxDateEdit
     Left = 112
-    Top = 143
-    TabOrder = 13
+    Top = 170
+    TabOrder = 19
     Width = 146
   end
   object cxtAlamat: TcxTextEdit
@@ -134,16 +135,16 @@ inherited frmInputPB: TfrmInputPB
   end
   object cxtNopol: TcxTextEdit
     Left = 112
-    Top = 170
+    Top = 197
     Properties.CharCase = ecUpperCase
-    TabOrder = 21
+    TabOrder = 23
     Width = 113
   end
   object cxtSopir: TcxTextEdit
     Left = 268
-    Top = 170
+    Top = 197
     Properties.CharCase = ecUpperCase
-    TabOrder = 22
+    TabOrder = 24
     Width = 198
   end
   object cxgrpbx1: TcxGroupBox
@@ -202,7 +203,7 @@ inherited frmInputPB: TfrmInputPB
       '14 Hari'
       '30 Hari'
       '45 Hari')
-    TabOrder = 15
+    TabOrder = 13
     Visible = False
     Width = 198
   end
@@ -219,7 +220,7 @@ inherited frmInputPB: TfrmInputPB
     Properties.Items.Strings = (
       'IDR'
       'USD')
-    TabOrder = 16
+    TabOrder = 14
     Visible = False
     Width = 63
   end
@@ -231,12 +232,12 @@ inherited frmInputPB: TfrmInputPB
   end
   object cxlbl14: TcxLabel
     Left = 10
-    Top = 199
+    Top = 226
     Caption = 'Keterangan'
   end
   object cxtKeterangan: TcxTextEdit
     Left = 112
-    Top = 198
+    Top = 225
     Properties.CharCase = ecUpperCase
     TabOrder = 27
     Width = 464
@@ -244,13 +245,13 @@ inherited frmInputPB: TfrmInputPB
   object cxtRate: TcxTextEdit
     Left = 1033
     Top = 161
-    TabOrder = 17
+    TabOrder = 15
     Visible = False
     Width = 113
   end
   object cxgrdPP: TcxGrid
     Left = 10
-    Top = 229
+    Top = 255
     Width = 1150
     Height = 293
     Anchors = [akLeft, akTop, akRight]

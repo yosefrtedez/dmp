@@ -250,7 +250,7 @@ begin
     qh.FieldByName('tanggal').AsDateTime := Aplikasi.TanggalServer;
     qh.FieldByName('user').AsString := Aplikasi.NamaUser;
     qh.FieldByName('user_dept').AsString := Aplikasi.UserDept;
-    qh.FieldByName('id_supplier').AsInteger := cxlSupp.EditValue;
+    qh.FieldByName('id_supplier').AsInteger := id_supplier;
     qh.FieldByName('nopol').AsString := cxtNopol.text;
     qh.FieldByName('sopir').AsString := cxtSopir.text;
     qh.FieldByName('keterangan').AsString := cxtKeterangan.Text;
@@ -293,7 +293,7 @@ begin
           hst.FieldByname('kode_brg').AsString := Values[i, cxColKodeBrg.Index];
           hst.FieldByname('qty').AsFloat := Values[i, cxColQtyDatang.Index];
           hst.FieldByName('id_satuan').AsInteger := Values[i, cxColIdSatuan.Index];
-          hst.FieldByName('id_po').AsInteger := Values[i, cxColIdPO.Index];
+          hst.FieldByName('id_po').AsInteger := cxlNoPO.EditValue;
           hst.FieldByName('id_pb').AsInteger := ID;
           hst.FieldByName('tipe').AsString := 'i';
 
@@ -360,13 +360,13 @@ var
   q: TZQuery;
   f: Boolean;
   a,b: Extended;
-  i, idx: integer;
+  i: integer;
   lst: TStringList;
 begin
   lst := TStringList.Create;
   for i := 0 to cxtbPB.DataController.RecordCount - 1 do begin
     q := OpenRS('SELECT a.id_brg, a.qty, (SELECT SUM(qty) FROM tbl_pb_det WHERE id_po = a.id_ref AND id_brg = a.id_brg) qty_terima ' +
-      'FROM tbl_po_det a WHERE a.id_ref = %s',[cxtbPB.DataController.Values[i, cxColIdPO.Index]]);
+      'FROM tbl_po_det a WHERE a.id_ref = %s',[cxtbPB.DataController.Values[i, cxColNoPO.Index]]);
     f := False;
     while not q.Eof do begin
       a := q.FieldByName('qty').AsFloat;
@@ -378,10 +378,8 @@ begin
       q.Next;
     end;
     if f then begin
-      dm.zConn.ExecuteDirect(Format('UPDATE tbl_po_head SET f_completed = 1 WHERE id = %s',
-        [cxtbPB.DataController.Values[i, cxColIdPO.Index]]));
-      if not lst.Find(cxtbPB.DataController.Values[i, cxColIdPO.Index], idx) then
-        lst.Add(cxtbPB.DataController.Values[i, cxColNoPO.Index]);
+      dm.zConn.ExecuteDirect(Format('UPDATE tbl_po_head SET f_completed = 1 WHERE id = %s',[cxlNoPO.EditValue]));
+      lst.Add(cxtbPB.DataController.Values[i, cxColNoPO.Index]);
     end;
   end;
   Result := lst;

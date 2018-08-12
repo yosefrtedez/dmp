@@ -131,7 +131,6 @@ type
     cxColSisa: TcxGridDBColumn;
     cxColSatSisa: TcxGridDBColumn;
     Button1: TButton;
-    cxtbStokGudangColumn2: TcxGridDBColumn;
     procedure btnKartuStokClick(Sender: TObject);
     procedure btnTambahClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
