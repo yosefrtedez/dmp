@@ -44,6 +44,7 @@ type
     dsGudang: TDataSource;
     cxColStock: TcxGridColumn;
     cxColIdSatuan: TcxGridColumn;
+    cxColKodeBrg2: TcxGridColumn;
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure cxTblTransBarangDataControllerRecordChanged(
@@ -77,11 +78,23 @@ var
   sNoTrs : string;
 begin
   inherited;
+
+  if (cxTblTransBarang.DataController.EditState = [dceInsert, dceModified]) or (cxTblTransBarang.DataController.EditState = [dceEdit, dceModified]) then begin
+    MsgBox('Mohon selesaikan pengeditan detail sebelum disimpan. ' + Chr(10) + Chr(13) +
+      'Klik tombol centang hijau.');
+    Abort;
+  end;
+
+  if cxTblTransBarang.DataController.RecordCount = 0 then begin
+    MsgBox('Detail transaksi masih kosong.');
+    Abort;
+  end;
+
   try
     dm.zConn.StartTransaction;
 
     if Self.Jenis = 'T' then begin
-      sNoTrs := GetLastFak('mutasi_antar_barang');
+      sNoTrs := GetLastFak('mutasi');
       UpdateFaktur(Copy(sNoTrs,1,7));
     end
     else begin
@@ -107,13 +120,11 @@ begin
         FieldByName('user').AsString          := aplikasi.NamaUser;
         FieldByName('tgl_input').AsDateTime   := aplikasi.TanggalServer;
       end;
-      {if Self.Jenis = 'E' then begin
-        FieldByName('user_edit').AsString     := aplikasi.NamaUser;
-        FieldByName('tgl_edit').AsDateTime    := aplikasi.TanggalServer;
-      end;}
+      FieldByName('tgl_edit').AsDateTime := Aplikasi.NowServer;
       Post;
-      id := LastInsertID;
     end;
+
+    if Self.Jenis = 'T' then id := LastInsertID;
 
     // detail Mutasi
     if Self.Jenis = 'E' then begin
@@ -127,7 +138,7 @@ begin
         z.FieldByName('id_ref').AsInteger         := id;
         z.FieldByName('no_bukti').AsString        := sNoTrs;
         z.FieldByName('id_brg').AsInteger         := Values[i, cxColDeskripsi.index];
-        z.FieldByName('kode_brg').AsString := Values[i, cxColKode.Index];
+        z.FieldByName('kode_brg').AsString := Values[i, cxColKodeBrg2.Index];
         z.FieldByName('id_gdg_asal').AsInteger    := Values[i, cxColGudangAsal.index];
         z.FieldByName('id_gdg_tujuan').AsInteger  := Values[i, cxColGudangTujuan.index];
         z.FieldByName('qty').AsFloat              := Values[i, cxColQty.Index];
@@ -283,20 +294,42 @@ var
   sa: real;
 begin
   inherited;
+    if AItemIndex = cxColKode.Index then begin
+      try
+        cxTblTransBarang.BeginUpdate;
+        z := OpenRS('SELECT a.id_satuan,a.kode,b.satuan FROM tbl_barang a join tbl_satuan b on a.id_satuan=b.id where a.id =%s',
+          [ADataController.Values[ARecordIndex, AItemIndex]]) ;
+        with cxTblTransBarang.DataController do begin
+          Values[ARecordIndex, cxColDeskripsi.Index] := ADataController.Values[ARecordIndex, AItemIndex];
+          Values[i, cxColKodeBrg2.Index] := z.FieldByName('kode').AsString;
+          Values[i, cxColSatuan.Index] := z.FieldByName('satuan').AsString ;
+          Values[i, cxColIdSatuan.Index] := z.FieldByName('id_satuan').AsInteger ;
+        end;
+        z.Close ;
+
+        //Menampilkan Stock Gudang Asal
+        z := OpenRS('SELECT sf_get_stokakhir(''%s'',''%s'') as stok',
+          [ADataController.Values[ARecordIndex, cxColDeskripsi.Index],ADataController.Values[ARecordIndex, cxColGudangAsal.Index]]) ;
+        ADataController.Values[i, cxColStock.Index] := z.FieldByName('stok').AsFloat ;
+        z.Close ;
+
+      finally
+        cxTblTransBarang.EndUpdate;
+      end;
+    end;
+
     if AItemIndex = cxColDeskripsi.Index then begin
       i := ADataController.GetFocusedRecordIndex;
       try
         cxTblTransBarang.BeginUpdate;
-        //ADataController.Values[ARecordIndex, cxColKode.Index] :=
-        //ADataController.Values[ARecordIndex, cxColDeskripsi.Index];
-
-        //Menampilkan satuan dan kode barang
         z := OpenRS('SELECT a.id_satuan,a.kode,b.satuan FROM tbl_barang a join tbl_satuan b on a.id_satuan=b.id where a.id =%s',
           [ADataController.Values[ARecordIndex, cxColDeskripsi.Index]]) ;
         with cxTblTransBarang.DataController do begin
-         Values[i, cxColSatuan.Index]           := z.FieldByName('satuan').AsString ;
-         Values[i, cxColIdSatuan.Index]         := z.FieldByName('id_satuan').AsInteger ;
-         Values[i, cxColKode.Index]             := z.FieldByName('kode').AsString ;
+          Values[i, cxColKodeBrg2.Index] := z.FieldByName('kode').AsString;
+          Values[i, cxColKode.Index] := ADataController.Values[ARecordIndex, AItemIndex];
+          Values[i, cxColSatuan.Index] := z.FieldByName('satuan').AsString ;
+          Values[i, cxColIdSatuan.Index] := z.FieldByName('id_satuan').AsInteger ;
+          Values[i, cxColKode.Index] := z.FieldByName('kode').AsString ;
         end;
         z.Close ;
 
@@ -304,7 +337,7 @@ begin
         z := OpenRS('SELECT sf_get_stokakhir(''%s'',''%s'') as stok',
           [ADataController.Values[ARecordIndex, cxColDeskripsi.Index],ADataController.Values[ARecordIndex, cxColGudangAsal.Index]]) ;
         with cxTblTransBarang.DataController do begin
-         Values[i, cxColStock.Index]         := z.FieldByName('stok').AsFloat ;
+         Values[i, cxColStock.Index] := z.FieldByName('stok').AsFloat ;
         end;
         z.Close ;
 
@@ -322,7 +355,6 @@ begin
       sa := unTools.GetStokAkhir(ADataController.Values[ARecordIndex, cxColDeskripsi.Index],
         ADataController.Values[ARecordIndex, cxColGudangAsal.Index]);
       ADataController.Values[ARecordIndex, cxColStock.Index] := sa;
-      z.Close;
 
    end
    else if AItemIndex = cxColGudangTujuan.Index then begin
@@ -331,6 +363,7 @@ begin
         Abort;
       end;
    end;
+
 end;
 
 procedure TfrmInputTransferBarang.FormCreate(Sender: TObject);
@@ -352,53 +385,53 @@ var
   q,z,a : TZQuery;
   i : Integer ;
   sNoTrs : string;
+  sa: real;
 begin
   inherited;
 
   if Self.Jenis = 'T' then begin
-    sNoTrs            := GetLastFak('mutasi_antar_barang');
+    sNoTrs            := GetLastFak('mutasi');
     cxtNoTrans.Text   := sNoTrs;
     cxdTglTrs.Date    := Aplikasi.Tanggal;
   end
   else if Self.Jenis= 'E' then begin
-    //cxTblTransBarang.DataController.OnRecordChanged := nil ;
-    q := OpenRS('SELECT * FROM tbl_trsmutasi_head WHERE no_bukti=''%s''', [Self.EditKey] );
+    cxTblTransBarang.DataController.OnRecordChanged := nil ;
+    q := OpenRS('SELECT * FROM tbl_trsmutasi_head WHERE id = %s', [Self.EditKey] );
 
     with q do begin
       cxtNoTrans.Text               := FieldByName('no_bukti').AsString;
       cxtKeterangan.Text            := FieldByName('keterangan').AsString;
       cxdTglTrs.EditValue           := FieldByName('tanggal').AsDateTime;
 
-      z := OpenRS('SELECT a.no,a.no_bukti,b.kode,b.id,b.deskripsi,a.id_gdg_asal as asal,a.id_gdg_tujuan as tujuan,a.id_satuan,c.satuan,a.qty ' +
+      z := OpenRS('SELECT a.*, b.deskripsi, c.satuan satuan2 ' +
                   'FROM tbl_trsmutasi_det a ' +
                   'LEFT JOIN tbl_barang b ON a.id_brg = b.id ' +
                   'LEFT JOIN tbl_satuan c ON c.id = a.id_satuan ' +
-                  'LEFT JOIN tbl_gudang d ON a.id_gdg_asal=d.id ' +
-                  'LEFT JOIN tbl_gudang e ON a.id_gdg_tujuan=e.id where a.no_bukti =''%s'' order by no asc',[Self.EditKey]) ;
+                  'LEFT JOIN tbl_gudang d ON a.id_gdg_asal= d.id ' +
+                  'LEFT JOIN tbl_gudang e ON a.id_gdg_tujuan = e.id ' +
+                  'where a.id_ref = %s',[Self.EditKey]);
+
+      cxTblTransBarang.BeginUpdate;
       while not z.Eof do begin
-        cxGrid1.BeginUpdate;
         with cxTblTransBarang.DataController do begin
           i := AppendRecord ;
-          Values[i, cxColNo.Index]          := z.FieldByName('no').AsInteger ;
-          Values[i, cxColkode.index]        := z.FieldByName('kode').AsString;
-          Values[i, cxColDeskripsi.Index]   := z.FieldByName('id').AsInteger;
+          Values[i, cxColkode.index]        := z.FieldByName('id_brg').AsString;
+          Values[i, cxColKodeBrg2.Index] := z.FieldByName('kode_brg').AsString;
+          Values[i, cxColDeskripsi.Index]   := z.FieldByName('id_brg').AsInteger;
           Values[i, cxColQty.Index]         := z.FieldByName('qty').AsFloat ;
-          Values[i, cxColSatuan.Index]      := z.FieldByName('satuan').AsString ;
+          Values[i, cxColSatuan.Index]      := z.FieldByName('satuan2').AsString ;
           Values[i, cxColIdSatuan.Index]    := z.FieldByName('id_satuan').AsInteger ;
-          Values[i, cxColGudangAsal.Index]  := z.FieldByName('asal').AsInteger;
-          Values[i, cxColGudangTujuan.Index]:= z.FieldByName('tujuan').AsInteger ;
-
-          a := OpenRS('SELECT sf_get_stokakhir(''%d'',''%d'') as stok',[z.FieldByName('id').AsInteger,z.FieldByName('asal').AsInteger]) ;
-          Values[i, cxColStock.Index]       := (a.FieldByName('stok').AsFloat + z.FieldByName('qty').AsFloat) ;
-          a.Close ;
-
-          cxGrid1.EndUpdate;
-          z.Next;
+          Values[i, cxColGudangAsal.Index]  := z.FieldByName('id_gdg_asal').AsInteger;
+          Values[i, cxColGudangTujuan.Index]:= z.FieldByName('id_gdg_tujuan').AsInteger;
+          sa := GetStokAkhir(Values[i, cxColKode.Index], Values[i, cxColGudangAsal.Index]);
+          Values[i, cxColStock.Index]       := sa;
         end;
-          z.Close;
-
+        z.Next;
       end;
-      //cxTblTransBarang.DataController.OnRecordChanged := frmInputTransferBarang.cxTblTransBarangDataControllerRecordChanged ;
+      z.Close;
+      cxTblTransBarang.EndUpdate;
+
+      cxTblTransBarang.DataController.OnRecordChanged := frmInputTransferBarang.cxTblTransBarangDataControllerRecordChanged ;
     end;
 
 

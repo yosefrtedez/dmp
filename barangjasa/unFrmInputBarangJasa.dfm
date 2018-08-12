@@ -116,7 +116,7 @@ inherited frmInputBarangJasa: TfrmInputBarangJasa
     Top = 264
     Width = 1042
     Height = 344
-    ActivePage = cxTabSheet1
+    ActivePage = cxTabSheet4
     Anchors = [akLeft, akTop, akRight, akBottom]
     Style = 7
     TabOrder = 17

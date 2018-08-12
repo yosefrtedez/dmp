@@ -92,9 +92,19 @@ inherited frmSPK: TfrmSPK
       OptionsView.GroupByBox = False
       object cxColKodeBrg: TcxGridColumn
         Caption = 'Kode Brg.'
-        PropertiesClassName = 'TcxTextEditProperties'
-        Properties.ReadOnly = True
-        Width = 73
+        PropertiesClassName = 'TcxLookupComboBoxProperties'
+        Properties.KeyFieldNames = 'id'
+        Properties.ListColumns = <
+          item
+            Caption = 'Kode'
+            FieldName = 'kode'
+          end
+          item
+            Caption = 'Deskripsi'
+            FieldName = 'deskripsi'
+          end>
+        Properties.ListSource = dsBrg
+        Width = 91
       end
       object cxColDeskripsi: TcxGridColumn
         Caption = 'Deskripsi'
@@ -117,9 +127,14 @@ inherited frmSPK: TfrmSPK
         Properties.ReadOnly = True
       end
       object cxColIdSatuan: TcxGridColumn
+        Visible = False
       end
       object cxColId: TcxGridColumn
         DataBinding.ValueType = 'Integer'
+        Visible = False
+      end
+      object cxColKodeBrg2: TcxGridColumn
+        Visible = False
       end
     end
     object cxGrid1Level1: TcxGridLevel

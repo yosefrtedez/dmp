@@ -1,5 +1,5 @@
 inherited frmLstSuratJalan: TfrmLstSuratJalan
-  Caption = 'Koreksi Barang'
+  Caption = 'Surat Jalan'
   OnCreate = FormCreate
   ExplicitWidth = 1016
   ExplicitHeight = 508
@@ -23,16 +23,31 @@ inherited frmLstSuratJalan: TfrmLstSuratJalan
   inherited Panel2: TPanel
     TabOrder = 4
     inherited btnTambah: TButton
+      TabOrder = 2
       OnClick = btnTambahClick
     end
     inherited btnEdit: TButton
+      Left = 435
+      Top = 6
+      TabOrder = 0
+      Visible = False
       OnClick = btnEditClick
+      ExplicitLeft = 435
+      ExplicitTop = 6
     end
     inherited btnHapus: TButton
+      Left = 532
+      Top = 6
+      TabOrder = 1
+      Visible = False
       OnClick = btnHapusClick
+      ExplicitLeft = 532
+      ExplicitTop = 6
     end
     inherited btnRefresh: TButton
+      Left = 91
       OnClick = btnRefreshClick
+      ExplicitLeft = 91
     end
   end
   object cxgrd1: TcxGrid
@@ -190,6 +205,7 @@ inherited frmLstSuratJalan: TfrmLstSuratJalan
       Anchors = [akTop, akRight]
       Caption = 'Posting'
       TabOrder = 0
+      Visible = False
       OnClick = btnPostingClick
     end
     object Button1: TButton
@@ -234,10 +250,23 @@ inherited frmLstSuratJalan: TfrmLstSuratJalan
         Options.Editing = False
         Width = 200
       end
+      object cxtbSJDetColumn1: TcxGridDBColumn
+        Caption = 'No. SO'
+        DataBinding.FieldName = 'no_so'
+        Width = 85
+      end
+      object cxColQtySO: TcxGridDBColumn
+        Caption = 'Qty. SO'
+        DataBinding.FieldName = 'qty_so'
+        PropertiesClassName = 'TcxSpinEditProperties'
+        Properties.Alignment.Horz = taRightJustify
+        Properties.DisplayFormat = '#,#0.00'
+      end
       object cxColTblTrsMasukDetqty: TcxGridDBColumn
         Caption = 'Qty.'
         DataBinding.FieldName = 'qty'
         PropertiesClassName = 'TcxSpinEditProperties'
+        Properties.Alignment.Horz = taRightJustify
         Properties.DisplayFormat = '#,#0.00'
         Properties.ValueType = vtFloat
         Options.Editing = False
@@ -282,11 +311,15 @@ inherited frmLstSuratJalan: TfrmLstSuratJalan
     SQL.Strings = (
       
         'SELECT a.id, a.id_ref, a.no_bukti, a.kode_brg, b.deskripsi, c.sa' +
-        'tuan, a.qty, a.keterangan'
+        'tuan, a.qty, a.keterangan, e.no_bukti no_so,'
+      
+        '(SELECT qty FROM tbl_so_det WHERE id_ref = a.id_so AND id_brg = ' +
+        'a.id_brg) qty_so'
       'FROM tbl_sj_det a'
       'LEFT JOIN tbl_barang b ON a.id_brg = b.id'
       'LEFT JOIN tbl_satuan c ON a.id_satuan = c.id'
       'LEFT JOIN tbl_gudang d ON d.id = a.id_gdg'
+      'LEFT JOIN tbl_so_det e ON e.id_ref = a.id_so'
       'where a.id_ref = :id_ref')
     Params = <
       item

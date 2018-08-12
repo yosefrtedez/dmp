@@ -14,6 +14,7 @@ type
     procedure DataModuleCreate(Sender: TObject);
   private
     procedure CekUpdate;
+    procedure UpdateWallpaper(UpdatePath: string);
   public
     { Public declarations }
   end;
@@ -84,6 +85,7 @@ begin
   if ParamCount > 0 then begin
     if ParamStr(1) <> '/noupdate' then begin
       CekUpdate;
+      UpdateWallpaper(UpdatePath);
     end;
     if ParamStr(2) = '/admin:admin1' then begin
       aplikasi.debug := true;
@@ -189,6 +191,39 @@ begin
           on E: Exception do begin
             MsgBox('Update gagal, silahkan jalankan program kembali.');
             Application.Terminate;
+          end;
+        end;
+      end;
+    end;
+  end;
+end;
+
+procedure Tdm.UpdateWallpaper(UpdatePath: string);
+var
+  mSourcePath, mTargetPath, BackName: string;
+  f: TfrmKetUpdate;
+  sNamaFile: string;
+begin
+  sNamaFile := 'bg.jpg';
+
+  // cek folder
+  if not DirectoryExists(aplikasi.AppPath + '\images') then
+    MkDir(aplikasi.AppPath + '\images');
+
+  if UpdatePath <> '' then
+    mSourcePath := UpdatePath + '\images'
+  else
+    mSourcePath := '\\192.168.0.241\PUBLIC\SOFTWARE UPDATER\MutasiStok\images\';
+
+  mTargetPath := ExtractFilePath(Application.ExeName) + '\images\' + sNamaFile;
+
+  if DirectoryExists(mSourcePath) then begin
+    if FileExists(mSourcePath+ '\' + sNamaFile) then begin
+      if FileAge(mSourcePath + '\' + sNamaFile) <> FileAge(mTargetPath) then begin
+        try
+          CopyFile(PChar(mSourcePath + '\' + sNamaFile),PChar(mTargetPath), False);
+        except
+          on E: Exception do begin
           end;
         end;
       end;

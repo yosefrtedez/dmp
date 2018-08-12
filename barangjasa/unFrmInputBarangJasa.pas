@@ -210,6 +210,7 @@ begin
     else
       qd.Edit;
     with qd do begin
+      FieldByName('id_ref').AsInteger := ID;
       FieldByName('dimensi').AsString := cxtDimensi.Text;
       FieldByName('warna').AsString := Trim(cxtWarna.Text);
       FieldByName('brt_per_lbr').AsFloat := cxsBeratPerLbr.Value;

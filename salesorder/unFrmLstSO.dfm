@@ -86,6 +86,14 @@ inherited frmLstSO: TfrmLstSO
         DataBinding.FieldName = 'user_dept'
         Width = 109
       end
+      object cxtbSOColumn4: TcxGridDBColumn
+        Caption = 'Komplit'
+        DataBinding.FieldName = 'f_completed'
+        PropertiesClassName = 'TcxCheckBoxProperties'
+        Properties.Alignment = taCenter
+        Properties.ValueChecked = 1
+        Properties.ValueUnchecked = 0
+      end
     end
     object cxgCustomerLevel1: TcxGridLevel
       GridView = cxtbSO
@@ -122,7 +130,6 @@ inherited frmLstSO: TfrmLstSO
           Column = cxtbSODetColumn2
         end>
       DataController.Summary.SummaryGroups = <>
-      OptionsView.Footer = True
       object cxtbSODetkode_brg: TcxGridDBColumn
         Caption = 'Kode Brg.'
         DataBinding.FieldName = 'kode_brg'
@@ -131,7 +138,7 @@ inherited frmLstSO: TfrmLstSO
       object cxtbSODetdeskripsi: TcxGridDBColumn
         Caption = 'Deskripsi'
         DataBinding.FieldName = 'deskripsi'
-        Width = 374
+        Width = 254
       end
       object cxtbSODetqty: TcxGridDBColumn
         Caption = 'Qty.'
@@ -140,6 +147,14 @@ inherited frmLstSO: TfrmLstSO
         Properties.Alignment.Horz = taRightJustify
         Properties.DisplayFormat = '#,#0.00'
         HeaderAlignmentHorz = taRightJustify
+      end
+      object cxtbSODetColumn3: TcxGridDBColumn
+        Caption = 'Qty. Terkirim'
+        DataBinding.FieldName = 'qty_kirim'
+        PropertiesClassName = 'TcxSpinEditProperties'
+        Properties.DisplayFormat = '#,#0.00'
+        Properties.ReadOnly = True
+        Width = 82
       end
       object cxtbSODetsatuan: TcxGridDBColumn
         Caption = 'Satuan'
@@ -152,6 +167,7 @@ inherited frmLstSO: TfrmLstSO
         PropertiesClassName = 'TcxSpinEditProperties'
         Properties.Alignment.Horz = taRightJustify
         Properties.DisplayFormat = '#,#0.00'
+        Visible = False
         HeaderAlignmentHorz = taRightJustify
       end
       object cxtbSODetmata_uang: TcxGridDBColumn
@@ -169,6 +185,7 @@ inherited frmLstSO: TfrmLstSO
         PropertiesClassName = 'TcxSpinEditProperties'
         Properties.Alignment.Horz = taRightJustify
         Properties.DisplayFormat = '#,#0.00'
+        Visible = False
         FooterAlignmentHorz = taRightJustify
         HeaderAlignmentHorz = taRightJustify
         Width = 97
@@ -204,7 +221,10 @@ inherited frmLstSO: TfrmLstSO
   object zqrSODet: TZReadOnlyQuery
     Connection = DM.zConn
     SQL.Strings = (
-      'SELECT a.*, b.deskripsi, c.satuan satuan2'
+      'SELECT a.*, b.deskripsi, c.satuan satuan2,'
+      
+        '(SELECT SUM(qty) FROM tbl_sj_det WHERE id_so = a.id_ref AND id_b' +
+        'rg = a.id_brg) qty_kirim'
       'FROM tbl_so_det a'
       'LEFT JOIN tbl_barang b ON a.id_brg = b.id  '
       'LEFT JOIN tbl_satuan c ON c.id = a.id_satuan'

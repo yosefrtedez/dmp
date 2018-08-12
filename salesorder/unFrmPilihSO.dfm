@@ -5,7 +5,7 @@ object frmPilihSO: TfrmPilihSO
   BorderStyle = bsSingle
   Caption = 'Pilih Sales Order '
   ClientHeight = 349
-  ClientWidth = 961
+  ClientWidth = 998
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -21,7 +21,7 @@ object frmPilihSO: TfrmPilihSO
   object cxGrid1: TcxGrid
     Left = 16
     Top = 16
-    Width = 929
+    Width = 966
     Height = 281
     TabOrder = 0
     object cxtbSO: TcxGridTableView
@@ -62,7 +62,7 @@ object frmPilihSO: TfrmPilihSO
         Options.Editing = False
         Width = 215
       end
-      object cxColQty: TcxGridColumn
+      object cxColQtySO: TcxGridColumn
         Caption = 'Qty. SO'
         DataBinding.ValueType = 'Float'
         PropertiesClassName = 'TcxSpinEditProperties'
@@ -74,10 +74,15 @@ object frmPilihSO: TfrmPilihSO
         Caption = 'Qty. Terkirim'
         DataBinding.ValueType = 'Float'
         PropertiesClassName = 'TcxSpinEditProperties'
+        Properties.Alignment.Horz = taRightJustify
         Properties.DisplayFormat = '#,#0.00'
         Properties.ReadOnly = True
         Properties.ValueType = vtFloat
         Width = 81
+      end
+      object cxColSatuan: TcxGridColumn
+        Caption = 'Satuan'
+        Width = 53
       end
       object cxColGdg: TcxGridColumn
         Caption = 'Gudang'
@@ -117,6 +122,9 @@ object frmPilihSO: TfrmPilihSO
       object cxColIdSO: TcxGridColumn
         Visible = False
       end
+      object cxColIdSatuan: TcxGridColumn
+        Visible = False
+      end
     end
     object cxGrid1Level1: TcxGridLevel
       GridView = cxtbSO
@@ -128,7 +136,7 @@ object frmPilihSO: TfrmPilihSO
     Width = 75
     Height = 25
     Caption = 'Pilih'
-    TabOrder = 1
+    TabOrder = 2
     OnClick = Button1Click
   end
   object Button2: TButton
@@ -137,17 +145,25 @@ object frmPilihSO: TfrmPilihSO
     Width = 75
     Height = 25
     Caption = 'Batal'
-    TabOrder = 2
+    TabOrder = 3
     OnClick = Button2Click
+  end
+  object cxLabel1: TcxLabel
+    Left = 626
+    Top = 302
+    Caption = 
+      'Note : Input terlebih dahulu Jml. Kirim, kemudian centang pada k' +
+      'olom pilih'
   end
   object zqrSO: TZReadOnlyQuery
     Connection = DM.zConn
-    Active = True
     SQL.Strings = (
       'SELECT a.id, a.tanggal,a. no_bukti '
       'FROM tbl_so_head a'
       'LEFT JOIN tbl_so_det b ON a.id = b.id_ref'
-      'WHERE id_cust = :id_cust AND b.id_brg = :id_brg')
+      
+        'WHERE id_cust = :id_cust AND b.id_brg = :id_brg AND a.f_complete' +
+        'd = 0')
     Params = <
       item
         DataType = ftUnknown

@@ -16,7 +16,8 @@ uses
   dxSkinXmas2008Blue, dxSkinscxPCPainter, cxCustomData, cxFilter, cxData,
   cxDataStorage, cxEdit, DB, cxDBData, cxGridLevel, cxClasses, cxGridCustomView,
   cxGridCustomTableView, cxGridTableView, cxGridDBTableView, cxGrid, StdCtrls,
-  ZAbstractRODataset, ZDataset, cxSpinEdit, cxCheckBox, cxDBLookupComboBox;
+  ZAbstractRODataset, ZDataset, cxSpinEdit, cxCheckBox, cxDBLookupComboBox,
+  cxContainer, cxLabel;
 
 type
   TfrmPilihSO = class(TForm)
@@ -31,7 +32,7 @@ type
     cxColNoSO: TcxGridColumn;
     cxColKodeBrg: TcxGridColumn;
     cxColDeskripsi: TcxGridColumn;
-    cxColQty: TcxGridColumn;
+    cxColQtySO: TcxGridColumn;
     cxColPilih: TcxGridColumn;
     cxColIdBrg: TcxGridColumn;
     cxColIdSO: TcxGridColumn;
@@ -41,6 +42,9 @@ type
     zqrGdg: TZReadOnlyQuery;
     dsGdg: TDataSource;
     cxColQtyTerkirim: TcxGridColumn;
+    cxColSatuan: TcxGridColumn;
+    cxColIdSatuan: TcxGridColumn;
+    cxLabel1: TcxLabel;
     procedure Button2Click(Sender: TObject);
     procedure Button1Click(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -105,6 +109,14 @@ begin
       ADataController.Values[ARecordIndex, cxColJmlKirim.Index] := 0;
       Abort;
     end;
+
+    if ADataController.Values[ARecordIndex, cxColQtyTerkirim.Index] + ADataController.Values[ARecordIndex, AItemIndex] >
+      ADataController.Values[ARecordIndex, cxColQtySO.Index] then begin
+      MsgBox('Jumlah pengiriman melebihi jumlah SO.');
+      ADataController.Values[ARecordIndex, AItemIndex] := 0;
+      Abort;
+    end;
+
   end;
 
 end;
@@ -119,11 +131,12 @@ var
   q: TZQuery;
   i: integer;
 begin
-  q := OpenRS('SELECT a.id, a.tanggal, a.no_bukti, b.id_brg, c.kode, c.deskripsi, b.qty, ' +
+  q := OpenRS('SELECT a.id, a.tanggal, a.no_bukti, b.id_brg, c.kode, c.deskripsi, b.qty, b.id_satuan, d.satuan satuan2, ' +
     '(SELECT SUM(qty) FROM tbl_sj_det WHERE id_so = a.id AND id_brg = b.id_brg) qty_terkirim ' +
     'FROM tbl_so_head a ' +
     'LEFT JOIN tbl_so_det b ON a.id = b.id_ref ' +
     'LEFT JOIN tbl_barang c ON c.id = b.id_brg ' +
+    'LEFT JOIN tbl_satuan d ON d.id = b.id_satuan ' +
     'WHERE a.id_cust = %d', [mIdCust]);
 
   cxtbSO.BeginUpdate;
@@ -135,12 +148,14 @@ begin
       Values[i, cxColNoSO.Index] := q.FieldByname('no_bukti').AsString;
       Values[i, cxColKodeBrg.Index] := q.FieldByName('kode').AsString;
       Values[i, cxColDeskripsi.Index] := q.FieldByName('deskripsi').AsString;
-      Values[i, cxColQty.Index] := q.FieldByName('qty').AsFloat;
+      Values[i, cxColQtySO.Index] := q.FieldByName('qty').AsFloat;
       Values[i, cxColQtyTerkirim.Index] := q.FieldByName('qty_terkirim').AsFloat;
       Values[i, cxColIdBrg.Index] := q.FieldByName('id_brg').AsInteger;
       Values[i, cxColIdSO.Index] := q.FieldByName('id').AsString;
       Values[i, cxColGdg.Index] := Aplikasi.GdgBJ;
       Values[i, cxColStok.Index] := GetStokAkhir(q.FieldByName('id_brg').AsInteger, Aplikasi.GdgBJ);
+      Values[i, cxColSatuan.Index] := q.FieldByName('satuan2').AsString;
+      Values[i, cxColIdSatuan.Index] := q.FieldByName('id_satuan').AsInteger;
     end;
     q.Next;
   end;

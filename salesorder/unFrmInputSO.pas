@@ -78,15 +78,17 @@ type
     cxGridLevel1: TcxGridLevel;
     cxLabel4: TcxLabel;
     cxdTglRequired: TcxDateEdit;
-    Panel3: TPanel;
-    cxLabel11: TcxLabel;
-    cxsGross: TcxSpinEdit;
-    cxLabel12: TcxLabel;
-    cxsDisc: TcxSpinEdit;
-    cxLabel5: TcxLabel;
+    cxColJmlIkat: TcxGridColumn;
+    cxColHargaIkat: TcxGridColumn;
+    cxColIdBrg: TcxGridColumn;
     cxsTax: TcxSpinEdit;
-    cxLabel6: TcxLabel;
     cxsNet: TcxSpinEdit;
+    cxLabel6: TcxLabel;
+    cxLabel5: TcxLabel;
+    cxsDisc: TcxSpinEdit;
+    cxLabel12: TcxLabel;
+    cxsGross: TcxSpinEdit;
+    cxLabel11: TcxLabel;
     procedure FormShow(Sender: TObject);
     procedure cxCmbCurrPropertiesEditValueChanged(Sender: TObject);
     procedure cxColNoGetDisplayText(Sender: TcxCustomGridTableItem;
@@ -134,27 +136,22 @@ begin
   inherited;
 
   if cxChkMTS.Checked then
-    if (cxtbMTS.DataController.EditState = [dceInsert, dceModified]) or
-      (cxtbMTS.DataController.EditState = [dceEdit, dceModified]) then begin
-      MsgBox('Mohon selesaikan pengeditan detail sebelum disimpan.');
-      Abort;
-    end
   else
-    if (cxTblSO.DataController.EditState = [dceInsert, dceModified]) or
-      (cxTblSO.DataController.EditState = [dceEdit, dceModified]) then begin
-      MsgBox('Mohon selesaikan pengeditan detail sebelum disimpan.');
-      Abort;
-    end;
+  if (cxTblSO.DataController.EditState = [dceInsert, dceModified]) or
+    (cxTblSO.DataController.EditState = [dceEdit, dceModified]) then begin
+    MsgBox('Mohon selesaikan pengeditan detail sebelum disimpan.');
+    Abort;
+  end;
 
   if cxChkMTS.Checked then begin
 
   end
   else begin
-    if cxsNet.EditValue = 0 then begin
-      MsgBox('Detail Transaksi masih kosong.');
-      Abort;
-    end
-    else if cxlCust.Text = '' then begin
+    //if cxsNet.EditValue = 0 then begin
+    //  MsgBox('Detail Transaksi masih kosong.');
+    //  Abort;
+    //end
+    if cxlCust.Text = '' then begin
       MsgBox('Mohon isi nama customer.');
       cxlCust.SetFocus;
       Abort;
@@ -173,12 +170,7 @@ begin
 
   //Cek Qty
   if cxChkMTS.Checked then begin
-    for i := 0 to cxtbMTS.DataController.RecordCount - 1 do begin
-      if VarIsNull(cxtbMTS.DataController.Values[i, cxColQty2.Index]) then begin
-        MsgBox('Qty masih ada yang kosong.');
-        Abort;
-      end;
-    end;
+    //
   end
   else begin
     for i := 0 to cxTblSO.DataController.RecordCount - 1 do begin
@@ -312,114 +304,52 @@ begin
       ID := LastInsertID;
 
     if cxChkMTS.Checked then begin
-      with cxtbMTS.DataController  do begin
+      //
+    end
+    else begin
+      with cxTblSO.DataController  do begin
         for i := 0 to RecordCount -1 do begin
-          z := OpenRS('SELECT * FROM tbl_so_det where no_bukti =''%s''',[sNoTrs]) ;
+          z := OpenRS('SELECT * FROM tbl_so_det where id_ref = %d',[ID]) ;
           z.Insert;
           z.FieldByName('no').AsInteger           := i+1;
           z.FieldByName('no_bukti').AsString      := sNoTrs;
           z.FieldByname('id_ref').AsInteger       := ID;
-          z.FieldByName('kode_brg').AsString      := Values[i, cxColKode2.index];
-          z.FieldByName('id_brg').AsInteger       := Values[i, cxColDeskripsi2.Index];
-          z.FieldByName('qty').AsFloat            := Values[i, cxColQty2.Index];
-          z.FieldByName('satuan').AsString        := Values[i, cxColSatuan2.Index];
-          z.FieldByName('id_satuan').AsInteger    := Values[i, cxColIdSatuan2.Index];
-          z.FieldByName('keterangan').AsString := VarToStr(Values[i, cxColKeterangan2.Index]);
+          z.FieldByName('kode_brg').AsString      := Values[i, cxColKode.index];
+          z.FieldByName('id_brg').AsInteger       := Values[i, cxColDeskripsi.Index];
+          z.FieldByName('qty').AsFloat            := Values[i, cxColQty.Index];
+          z.FieldByName('satuan').AsString        := Values[i, cxColSatuan.Index];
+          z.FieldByName('id_satuan').AsInteger    := Values[i, cxColIdSatuan.Index];
+          z.FieldByName('harga').AsFloat          := Values[i, cxColHarga.Index];
+          //z.FieldByName('harga_gross').asFloat    := Values[i, cxColGross.Index];
+          //if Values[i, cxColDisc.Index]<> null then
+          //  z.FieldByName('disc').AsInteger         := Values[i, cxColDisc.Index];
+          //z.FieldByName('invoice_disc').AsFloat   := Values[i, cxColDiscAmount.Index] ;
+          //z.FieldByName('taxable').AsFloat        := Values[i, cxColTaxable.Index];
+          //z.FieldByName('taxamount').AsFloat      := Values[i, cxColTaxAmount.Index];
+          //z.FieldByName('net_amount').AsFloat     := Values[i, cxColNetAmount.Index];
+          z.FieldByName('keterangan').AsString := VarToStr(Values[i, cxColKeterangan.Index]);
           z.Post;
           z.Close;
 
-          //Simpan tbl_mo
-          if Self.Jenis = 'T' then begin
+          sNoMO := GetLastFak('master_order');
+          UpdateFaktur(Copy(sNoMO,1,7));
 
-            sNoMO := GetLastFak('master_order');
-            UpdateFaktur(Copy(sNoMO,1,7));
-
-            qmo := OpenRS('SELECT * FROM tbl_mo WHERE no_mo = ''%s''', [sNoMO]);
-            with qmo do begin
-              Insert;
-              FieldByName('no_mo').AsString     := sNoMO;
-              FieldByName('no_so').AsString     := sNoTrs;
-              FieldByName('id_so').AsInteger    := ID;
-              FieldByName('kode_brg').AsString  := Values[i, cxColKode2.index];
-              FieldByName('id_brg').AsInteger   := Values[i, cxColDeskripsi2.Index];
-              FieldByName('qty_mo').AsFloat     := Values[i, cxColQty2.Index];
-              FieldByName('qty_so').AsFloat     := Values[i, cxColQty2.Index];
-              FieldByName('jenis').AsString     := 'BJ';
-              FieldByName('app_cft').AsInteger  := 1;
-              FieldByName('keterangan').AsString := VarToStr(Values[i, cxColKeterangan2.Index]);
-              Post;
-            end;
-          end
-          else begin
-            qCekMO := OpenRS('SELECT * FROM tbl_mo WHERE no_so = ''%s'' ' +
-              'AND kode_brg = ''%s''',[sNoTrs, Values[i, cxColKode.index]]);
-
-            if tbl_tmp.Locate('kode_brg',Values[i, cxColKode.index],[]) then begin
-
-              if tbl_tmp.FieldByName('qty').AsFloat <> Values[i, cxColQty.Index] then begin
-
-                // update qty lama tbl_mo
-                if tbl_tmp.Locate('kode_brg',Values[i, cxColKode.index],[]) then begin
-                  qCekMO.Edit;
-                  qCekMO.FieldByName('qty_mo').AsFloat := Values[i, cxColQty.Index];
-                  qCekMO.FieldByName('qty_so').AsFloat := Values[i, cxColQty.Index];
-                  qCekMO.FieldByName('qty_lama').AsFloat := tbl_tmp.FieldByName('qty').AsFloat;
-                  qCekMO.FieldByName('jml_revisi').AsInteger := qCekMO.FieldByName('jml_revisi').AsInteger + 1;
-                  qCekMO.Post;
-                end;
-              end;
-
-            end;
+          qmo := OpenRS('SELECT * FROM tbl_mo WHERE id_so = %d', [ID]);
+          with qmo do begin
+            Insert;
+            FieldByName('no_mo').AsString     := sNoMO;
+            FieldByName('no_so').AsString     := sNoTrs;
+            FieldByName('id_so').AsInteger    := ID;
+            FieldByName('kode_brg').AsString  := Values[i, cxColKode.index];
+            FieldByName('id_brg').AsInteger   := Values[i, cxColDeskripsi.Index];
+            FieldByName('qty_mo').AsFloat     := Values[i, cxColQty.Index];
+            FieldByName('qty_so').AsFloat     := Values[i, cxColQty.Index];
+            FieldByName('jenis').AsString     := 'BJ';
+            FieldByName('app_cft').AsInteger  := 1;
+            FieldByName('keterangan').AsString := VarToStr(Values[i, cxColKeterangan.Index]);
+            Post;
           end;
-        end;
-      end;
-    end
-    else begin
-      if (cxsNet.EditValue <> 0) then begin
-        with cxTblSO.DataController  do begin
-          for i := 0 to RecordCount -1 do begin
-            z := OpenRS('SELECT * FROM tbl_so_det where id_ref = %d',[ID]) ;
-            z.Insert;
-            z.FieldByName('no').AsInteger           := i+1;
-            z.FieldByName('no_bukti').AsString      := sNoTrs;
-            z.FieldByname('id_ref').AsInteger       := ID;
-            z.FieldByName('kode_brg').AsString      := Values[i, cxColKode.index];
-            z.FieldByName('id_brg').AsInteger       := Values[i, cxColDeskripsi.Index];
-            z.FieldByName('qty').AsFloat            := Values[i, cxColQty.Index];
-            z.FieldByName('satuan').AsString        := Values[i, cxColSatuan.Index];
-            z.FieldByName('id_satuan').AsInteger    := Values[i, cxColIdSatuan.Index];
-            z.FieldByName('harga').AsFloat          := Values[i, cxColHarga.Index];
-            z.FieldByName('harga_gross').asFloat    := Values[i, cxColGross.Index];
-            if Values[i, cxColDisc.Index]<> null then
-              z.FieldByName('disc').AsInteger         := Values[i, cxColDisc.Index];
-            z.FieldByName('invoice_disc').AsFloat   := Values[i, cxColDiscAmount.Index] ;
-            z.FieldByName('taxable').AsFloat        := Values[i, cxColTaxable.Index];
-            z.FieldByName('taxamount').AsFloat      := Values[i, cxColTaxAmount.Index];
-            z.FieldByName('net_amount').AsFloat     := Values[i, cxColNetAmount.Index];
-            z.FieldByName('keterangan').AsString := VarToStr(Values[i, cxColKeterangan.Index]);
-            z.Post;
-            z.Close;
 
-            sNoMO := GetLastFak('master_order');
-            UpdateFaktur(Copy(sNoMO,1,7));
-
-            qmo := OpenRS('SELECT * FROM tbl_mo WHERE id_so = %d', [ID]);
-            with qmo do begin
-              Insert;
-              FieldByName('no_mo').AsString     := sNoMO;
-              FieldByName('no_so').AsString     := sNoTrs;
-              FieldByName('id_so').AsInteger    := ID;
-              FieldByName('kode_brg').AsString  := Values[i, cxColKode.index];
-              FieldByName('id_brg').AsInteger   := Values[i, cxColDeskripsi.Index];
-              FieldByName('qty_mo').AsFloat     := Values[i, cxColQty.Index];
-              FieldByName('qty_so').AsFloat     := Values[i, cxColQty.Index];
-              FieldByName('jenis').AsString     := 'BJ';
-              FieldByName('app_cft').AsInteger  := 1;
-              FieldByName('keterangan').AsString := VarToStr(Values[i, cxColKeterangan.Index]);
-              Post;
-            end;
-
-          end;
         end;
       end;
     end;
@@ -563,96 +493,156 @@ var
   z,q : TZQuery;
 begin
   inherited;
-   if AItemIndex = cxColDeskripsi.Index then begin
-      try
-        cxTblSO.BeginUpdate;
-        q := OpenRS('SELECT a.kode, a.id_satuan, b.satuan FROM tbl_barang a ' +
-          'LEFT JOIN tbl_satuan b ON a.id_satuan = b.id ' +
-          'WHERE a.id = %s',[ADataController.Values[ARecordIndex, cxColDeskripsi.Index]]);
-        ADataController.Values[ARecordIndex, cxColKode.Index] := q.FieldByname('kode').AsString;
-        ADataController.Values[ARecordIndex, cxColSatuan.Index] := q.FieldByName('satuan').AsString;
-        ADataController.Values[ARecordIndex, cxColIdSatuan.Index] := q.FieldByName('id_satuan').AsInteger;
-        q.Close;
-      finally
-        cxTblSO.EndUpdate;
-      end;
-   end
-   else if (AItemIndex = cxColHarga.Index) or (AItemIndex = cxColQty.Index) then begin
-      try
-        cxTblSO.BeginUpdate;
-        ADataController.Values [ARecordIndex, cxColGross.Index] :=
+
+  if AItemIndex = cxColKode.Index then begin
+    try
+      cxTblSO.BeginUpdate;
+      q := OpenRS('SELECT a.kode, a.id_satuan, b.satuan, c.jml_ikat_per_karung FROM tbl_barang a ' +
+        'LEFT JOIN tbl_satuan b ON a.id_satuan = b.id ' +
+        'LEFT JOIN tbl_barang_det_spek c ON c.id_ref = a.id ' +
+        'WHERE a.id = %s',[ADataController.Values[ARecordIndex, AItemIndex]]);
+      ADataController.Values[ARecordIndex, cxColDeskripsi.Index] := ADataController.Values[ARecordIndex, AItemIndex];
+      ADataController.Values[ARecordIndex, cxColIdBrg.Index] := ADataController.Values[ARecordIndex, AItemIndex];
+      ADataController.Values[ARecordIndex, cxColJmlIkat.Index] := q.FieldByName('jml_ikat_per_karung').AsInteger;
+      ADataController.Values[ARecordIndex, cxColSatuan.Index] := q.FieldByName('satuan').AsString;
+      ADataController.Values[ARecordIndex, cxColIdSatuan.Index] := q.FieldByName('id_satuan').AsInteger;
+      ADataController.Values[ARecordIndex, cxColQty.Index] := 1;
+      q.Close;
+    finally
+      cxTblSO.EndUpdate;
+    end;
+  end;
+
+  if AItemIndex = cxColDeskripsi.Index then begin
+    try
+      cxTblSO.BeginUpdate;
+      q := OpenRS('SELECT a.kode, a.id_satuan, b.satuan, c.jml_ikat_per_karung FROM tbl_barang a ' +
+        'LEFT JOIN tbl_satuan b ON a.id_satuan = b.id ' +
+        'LEFT JOIN tbl_barang_det_spek c ON c.id_ref = a.id ' +
+        'WHERE a.id = %s',[ADataController.Values[ARecordIndex, cxColDeskripsi.Index]]);
+      ADataController.Values[ARecordIndex, cxColKode.Index] := ADataController.Values[ARecordIndex, AItemIndex];
+      ADataController.Values[ARecordIndex, cxColIdBrg.Index] := ADataController.Values[ARecordIndex, AItemIndex];
+      ADataController.Values[ARecordIndex, cxColJmlIkat.Index] := q.FieldByName('jml_ikat_per_karung').AsInteger;
+      ADataController.Values[ARecordIndex, cxColSatuan.Index] := q.FieldByName('satuan').AsString;
+      ADataController.Values[ARecordIndex, cxColIdSatuan.Index] := q.FieldByName('id_satuan').AsInteger;
+      ADataController.Values[ARecordIndex, cxColQty.Index] := 1;
+      q.Close;
+    finally
+      cxTblSO.EndUpdate;
+    end;
+  end;
+
+  if AItemIndex = cxColHargaIkat.Index then begin
+    try
+      cxTblSO.BeginUpdate;
+      ADataController.Values[ARecordIndex, cxColHarga.Index] :=
+        ADataController.Values[ARecordIndex, AItemIndex] * ADataController.Values[ARecordIndex, cxColJmlIkat.Index];
+      ADataController.Values[ARecordIndex, cxColNetAmount.Index] :=
+        ADataController.Values[ARecordIndex, cxColHarga.Index] * ADataController.Values[ARecordIndex, cxColQty.Index];
+    finally
+      cxTblSO.EndUpdate;
+    end;
+  end;
+
+  if AItemIndex = cxColHarga.Index then begin
+    try
+      cxTblSO.BeginUpdate;
+      ADataController.Values[ARecordIndex, cxColNetAmount.Index] :=
+        ADataController.Values[ARecordIndex, cxColHarga.Index] * ADataController.Values[ARecordIndex, cxColQty.Index];
+    finally
+      cxTblSO.EndUpdate;
+    end;
+  end;
+
+  if AItemIndex = cxColQty.Index then begin
+    try
+      cxTblSO.BeginUpdate;
+      ADataController.Values[ARecordIndex, cxColNetAmount.Index] :=
+        ADataController.Values[ARecordIndex, cxColHarga.Index] * ADataController.Values[ARecordIndex, cxColQty.Index];
+    finally
+      cxTblSO.EndUpdate;
+    end;
+  end;
+
+
+  {
+  else if (AItemIndex = cxColHarga.Index) or (AItemIndex = cxColQty.Index) then begin
+    try
+      cxTblSO.BeginUpdate;
+      ADataController.Values [ARecordIndex, cxColGross.Index] :=
+      ADataController.Values [ARecordIndex, cxColQty.Index] *
+      ADataController.Values [ARecordIndex, cxColHarga.Index] ;
+
+      ADataController.Values[ARecordIndex, cxColDiscAmount.Index] := 0 ;
+
+      if cxCmbTax.Text = 'INCLUDE' then begin
+        ADataController.Values [ARecordIndex, cxColTaxable.Index] :=
+        (ADataController.Values [ARecordIndex, cxColQty.Index] * ADataController.Values [ARecordIndex, cxColHarga.Index])/1.1 ;
+
+        ADataController.Values [ARecordIndex, cxColTaxAmount.Index] :=
+        ADataController.Values [ARecordIndex, cxColTaxable.Index]* 0.1 ;
+        ADataController.Values [ARecordIndex, cxColNetAmount.Index] :=
         ADataController.Values [ARecordIndex, cxColQty.Index] *
-        ADataController.Values [ARecordIndex, cxColHarga.Index] ;
+        ADataController.Values [ARecordIndex, cxColHarga.Index];
+      end
+      else begin
+        ADataController.Values [ARecordIndex, cxColTaxable.Index] :=
+        (ADataController.Values [ARecordIndex, cxColQty.Index] * ADataController.Values [ARecordIndex, cxColHarga.Index]);
 
-        ADataController.Values[ARecordIndex, cxColDiscAmount.Index] := 0 ;
-
-        if cxCmbTax.Text = 'INCLUDE' then begin
-          ADataController.Values [ARecordIndex, cxColTaxable.Index] :=
-          (ADataController.Values [ARecordIndex, cxColQty.Index] * ADataController.Values [ARecordIndex, cxColHarga.Index])/1.1 ;
-
-          ADataController.Values [ARecordIndex, cxColTaxAmount.Index] :=
-          ADataController.Values [ARecordIndex, cxColTaxable.Index]* 0.1 ;
-          ADataController.Values [ARecordIndex, cxColNetAmount.Index] :=
-          ADataController.Values [ARecordIndex, cxColQty.Index] *
-          ADataController.Values [ARecordIndex, cxColHarga.Index];
-        end
-        else begin
-          ADataController.Values [ARecordIndex, cxColTaxable.Index] :=
-          (ADataController.Values [ARecordIndex, cxColQty.Index] * ADataController.Values [ARecordIndex, cxColHarga.Index]);
-
-          ADataController.Values [ARecordIndex, cxColTaxAmount.Index] :=
-          ADataController.Values [ARecordIndex, cxColTaxable.Index]* 0.1 ;
-          ADataController.Values [ARecordIndex, cxColNetAmount.Index] :=
-          (ADataController.Values [ARecordIndex, cxColQty.Index] *
-          ADataController.Values [ARecordIndex, cxColHarga.Index])+ ADataController.Values [ARecordIndex, cxColTaxAmount.Index];
-        end;
-      finally
-        cxTblSO.EndUpdate;
-
-        cxsGross.EditValue := cxTblSO.DataController.Summary.FooterSummaryValues[0];
-        cxsDisc.EditValue  := cxTblSO.DataController.Summary.FooterSummaryValues[1];
-        cxsTax.EditValue   := cxTblSO.DataController.Summary.FooterSummaryValues[2];
-        cxsNet.EditValue   := cxTblSO.DataController.Summary.FooterSummaryValues[3];
+        ADataController.Values [ARecordIndex, cxColTaxAmount.Index] :=
+        ADataController.Values [ARecordIndex, cxColTaxable.Index]* 0.1 ;
+        ADataController.Values [ARecordIndex, cxColNetAmount.Index] :=
+        (ADataController.Values [ARecordIndex, cxColQty.Index] *
+        ADataController.Values [ARecordIndex, cxColHarga.Index])+ ADataController.Values [ARecordIndex, cxColTaxAmount.Index];
       end;
-   end
-   else if AItemIndex = cxColDisc.Index then begin
-       try
-        cxTblSO.BeginUpdate;
-        ADataController.Values[ARecordIndex, cxColDiscAmount.Index] :=
-        (ADataController.Values [ARecordIndex, cxColGross.Index]*
-        ADataController.Values [ARecordIndex, cxColDisc.Index])/100 ;
+    finally
+      cxTblSO.EndUpdate;
 
-        if cxCmbTax.Text = 'INCLUDE' then begin
-          ADataController.Values [ARecordIndex, cxColTaxable.Index] :=
-          (ADataController.Values [ARecordIndex, cxColGross.Index] - ((ADataController.Values [ARecordIndex, cxColGross.Index]*
-          ADataController.Values [ARecordIndex, cxColDisc.Index])/100))/1.1 ;
+      cxsGross.EditValue := cxTblSO.DataController.Summary.FooterSummaryValues[0];
+      cxsDisc.EditValue  := cxTblSO.DataController.Summary.FooterSummaryValues[1];
+      cxsTax.EditValue   := cxTblSO.DataController.Summary.FooterSummaryValues[2];
+      cxsNet.EditValue   := cxTblSO.DataController.Summary.FooterSummaryValues[3];
+    end;
+  end
+  else if AItemIndex = cxColDisc.Index then begin
+     try
+      cxTblSO.BeginUpdate;
+      ADataController.Values[ARecordIndex, cxColDiscAmount.Index] :=
+      (ADataController.Values [ARecordIndex, cxColGross.Index]*
+      ADataController.Values [ARecordIndex, cxColDisc.Index])/100 ;
 
-          ADataController.Values [ARecordIndex, cxColTaxAmount.Index] :=
-          ADataController.Values [ARecordIndex, cxColTaxable.Index]* 0.1 ;
-          ADataController.Values [ARecordIndex, cxColNetAmount.Index] :=
-          (ADataController.Values [ARecordIndex, cxColGross.Index] -(ADataController.Values [ARecordIndex, cxColGross.Index]*
-          ADataController.Values [ARecordIndex, cxColDisc.Index])/100);
-        end
-        else begin
-          ADataController.Values [ARecordIndex, cxColTaxable.Index] :=
-          (ADataController.Values [ARecordIndex, cxColGross.Index] -((ADataController.Values [ARecordIndex, cxColGross.Index]*
-          ADataController.Values [ARecordIndex, cxColDisc.Index])/100));
+      if cxCmbTax.Text = 'INCLUDE' then begin
+        ADataController.Values [ARecordIndex, cxColTaxable.Index] :=
+        (ADataController.Values [ARecordIndex, cxColGross.Index] - ((ADataController.Values [ARecordIndex, cxColGross.Index]*
+        ADataController.Values [ARecordIndex, cxColDisc.Index])/100))/1.1 ;
 
-          ADataController.Values [ARecordIndex, cxColTaxAmount.Index] :=
-          ADataController.Values [ARecordIndex, cxColTaxable.Index]* 0.1 ;
-          ADataController.Values [ARecordIndex, cxColNetAmount.Index] :=
-          (ADataController.Values [ARecordIndex, cxColGross.Index] -((ADataController.Values [ARecordIndex, cxColGross.Index]*
-          ADataController.Values [ARecordIndex, cxColDisc.Index])/100))+ ADataController.Values [ARecordIndex, cxColTaxAmount.Index];
-        end;
+        ADataController.Values [ARecordIndex, cxColTaxAmount.Index] :=
+        ADataController.Values [ARecordIndex, cxColTaxable.Index]* 0.1 ;
+        ADataController.Values [ARecordIndex, cxColNetAmount.Index] :=
+        (ADataController.Values [ARecordIndex, cxColGross.Index] -(ADataController.Values [ARecordIndex, cxColGross.Index]*
+        ADataController.Values [ARecordIndex, cxColDisc.Index])/100);
+      end
+      else begin
+        ADataController.Values [ARecordIndex, cxColTaxable.Index] :=
+        (ADataController.Values [ARecordIndex, cxColGross.Index] -((ADataController.Values [ARecordIndex, cxColGross.Index]*
+        ADataController.Values [ARecordIndex, cxColDisc.Index])/100));
 
-      finally
-        cxTblSO.EndUpdate;
-        cxsGross.EditValue := cxTblSO.DataController.Summary.FooterSummaryValues[0];
-        cxsDisc.EditValue  := cxTblSO.DataController.Summary.FooterSummaryValues[1];
-        cxsTax.EditValue   := cxTblSO.DataController.Summary.FooterSummaryValues[2];
-        cxsNet.EditValue   := cxTblSO.DataController.Summary.FooterSummaryValues[3];
+        ADataController.Values [ARecordIndex, cxColTaxAmount.Index] :=
+        ADataController.Values [ARecordIndex, cxColTaxable.Index]* 0.1 ;
+        ADataController.Values [ARecordIndex, cxColNetAmount.Index] :=
+        (ADataController.Values [ARecordIndex, cxColGross.Index] -((ADataController.Values [ARecordIndex, cxColGross.Index]*
+        ADataController.Values [ARecordIndex, cxColDisc.Index])/100))+ ADataController.Values [ARecordIndex, cxColTaxAmount.Index];
       end;
-   end ;
+
+    finally
+      cxTblSO.EndUpdate;
+      cxsGross.EditValue := cxTblSO.DataController.Summary.FooterSummaryValues[0];
+      cxsDisc.EditValue  := cxTblSO.DataController.Summary.FooterSummaryValues[1];
+      cxsTax.EditValue   := cxTblSO.DataController.Summary.FooterSummaryValues[2];
+      cxsNet.EditValue   := cxTblSO.DataController.Summary.FooterSummaryValues[3];
+    end;
+  end ;
+  }
 
   if cxTblSO.DataController.RecordCount<>0 then cxCmbTax.Enabled := False;
 
@@ -721,7 +711,6 @@ begin
     cxGrid1.Visible := False;
     cxGrid2.Visible := True;
     GroupBox1.Visible := False;
-    Panel3.Visible := False;
   end
   else begin
     cxChkMTS.Checked := False;
@@ -733,7 +722,6 @@ begin
     cxGrid2.Visible := False;
     cxGrid1.Visible := True;
     GroupBox1.Visible := True;
-    Panel3.Visible := True;
   end;
 
   if Self.Jenis = 'T' then begin

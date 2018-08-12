@@ -81,7 +81,10 @@ type
     dsSupp: TDataSource;
     cxChkSelesai: TcxCheckBox;
     cxColIdGdg: TcxGridColumn;
-    Button1: TButton;
+    btnPilihPO: TButton;
+    cxColNoPO: TcxGridColumn;
+    cxColIdPO: TcxGridColumn;
+    cxColTglPO: TcxGridColumn;
     procedure FormCreate(Sender: TObject);
     procedure cxlNoPPPropertiesChange(Sender: TObject);
     procedure cxtbPBDataControllerBeforePost(
@@ -92,6 +95,7 @@ type
       AItemIndex: Integer);
     procedure FormShow(Sender: TObject);
     procedure cxlSuppPropertiesChange(Sender: TObject);
+    procedure btnPilihPOClick(Sender: TObject);
   private
     id_supplier: integer;
     f_posted: Boolean;
@@ -105,9 +109,58 @@ var
 
 implementation
 
-uses unDM, unTools, unFrmLstPB;
+uses unDM, unTools, unFrmLstPB, unFrmPilihPO;
 
 {$R *.dfm}
+
+procedure TfrmInputPB.btnPilihPOClick(Sender: TObject);
+var
+  f: TfrmPilihPO;
+  cx: TcxGridTableView;
+  i,j: Integer;
+  qhrg, qbrg: TZQuery;
+begin
+  inherited;
+  if cxlSupp.Text = '' then Abort;
+
+  f := TfrmPilihPO.Create(Self);
+  f.IdSupp := cxlSupp.EditValue;
+  if f.ShowModal = mrOk then begin
+    cx := f.cxtbSO;
+    cxtbPB.BeginUpdate;
+    cxtbPB.DataController.RecordCount := 0;
+    with cx.DataController do begin
+      for i := 0 to RecordCount -  1 do begin
+        if Values[i, f.cxColPilih.Index] = 1 then begin
+          j := cxtbPB.DataController.AppendRecord;
+          cxtbPB.DataController.Values[j, cxColIdBrg.Index] := Values[i, f.cxColIdBrg.Index];
+          cxtbPB.DataController.Values[j, cxColIdPO.Index] := Values[i, f.cxColIdSO.Index];
+          cxtbPB.DataController.Values[j, cxColKodeBrg.Index] := Values[i,f.cxColKodeBrg.Index];
+          cxtbPB.DataController.Values[j, cxColDeskripsi.Index] := Values[i,f.cxColDeskripsi.Index];
+          cxtbPB.DataController.Values[j, cxColNoPO.Index] := Values[i, f.cxColNoPO.Index];
+          cxtbPB.DataController.Values[j, cxColTglPO.Index] := Values[i, f.cxColTanggal.Index];
+          cxtbPB.DataController.Values[j, cxColQtyPO.Index] := Values[i, f.cxColQtyPO.Index];
+          cxtbPB.DataController.Values[j, cxColQtyTerima.Index] := Values[i, f.cxColQtyDiterima.Index];
+          cxtbPB.DataController.Values[j, cxColQtyDatang.Index] := Values[i, f.cxColJmlTerima.Index];
+
+          cxtbPB.DataController.Values[j, cxColGdg.Index] := Values[i, f.cxColGdg.Index];
+          cxtbPB.DataController.Values[j, cxColSatuan.Index] := Values[i, f.cxColSatuan.Index];
+          cxtbPB.DataController.Values[j, cxColIdSatuan.Index] := Values[i, f.cxColIdSatuan.Index];
+
+          qhrg := OpenRS('SELECT harga FROM tbl_so_det WHERE id_ref = %s AND id_brg = %s',
+            [Values[i, f.cxColIdSO.Index], Values[i, f.cxColIdBrg.Index]]);
+          cxtbPB.DataController.Values[j, cxColHarga.Index] := qhrg.FieldByname('harga').AsFloat;
+          qhrg.Close;
+
+          cxtbPB.DataController.Values[j, cxColTotal.Index] :=
+            cxtbPB.DataController.Values[j, cxColHarga.Index] * cxtbPB.DataController.Values[j, cxColQtyTerima.Index];
+        end;
+      end;
+      //HitungTotal;
+    end;
+    cxtbPB.EndUpdate;
+  end;
+end;
 
 procedure TfrmInputPB.btnSimpanClick(Sender: TObject);
 var

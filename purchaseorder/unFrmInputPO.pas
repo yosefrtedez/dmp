@@ -195,10 +195,9 @@ begin
         qh.FieldByName('f_revisi').AsInteger := 1
       else
         qh.FieldByName('f_revisi').AsInteger := 0;
-      if Self.Jenis = 'edit' then begin
+      if Self.Jenis = 'E' then begin
         qh.FieldByName('user_edit').AsString := aplikasi.NamaUser;
         qh.FieldByName('tgl_edit').AsDateTime := Aplikasi.NowServer;
-        qh.FieldByName('host').AsString := GetHostName2;
       end;
       qh.Post;
 

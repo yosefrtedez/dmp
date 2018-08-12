@@ -74,6 +74,8 @@ type
     cxtNoFaktur: TcxTextEdit;
     cxColQtyKG: TcxGridColumn;
     cxColHargaIkat: TcxGridColumn;
+    cxColIdBrg: TcxGridColumn;
+    cxColKodeBrg2: TcxGridColumn;
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure cxtbReturDataControllerRecordChanged(
@@ -179,6 +181,7 @@ begin
       qh.FieldByname('jenistrs').AsString := cxCmbJenisTrs.Text;
       qh.FieldByName('no_faktur').AsString := Trim(cxtNoFaktur.Text);
       qh.FieldByName('no_sj').AsString := cxtNoSJ.Text;
+      qh.FieldByName('tgl_edit').AsDateTime := Aplikasi.NowServer;
       qh.Post;
 
       if Self.Jenis = 'T' then  ID := LastInsertID;
@@ -195,7 +198,7 @@ begin
             qd.FieldByName('id_ref').AsString := qh.FieldByName('id').AsString;
           end;
           qd.FieldByName('no_bukti').AsString := sNoBukti;
-          qd.FieldByName('kode_brg').AsString := Values[i, cxColKodeBrg.Index];
+          qd.FieldByName('kode_brg').AsString := Values[i, cxColKodeBrg2.Index];
           qd.FieldByName('id_brg').AsInteger := Values[i, cxColDeskripsi.Index];
           qd.FieldByName('qty').AsFloat := Values[i, cxColQty.Index];
           qd.FieldByName('id_satuan').AsString := Values[i, cxColIdSatuan.Index];
@@ -370,12 +373,36 @@ var
 begin
   inherited;
 
+  if AItemIndex = cxColKodeBrg.Index then begin
+    try
+      cxtbBrgKeluar.BeginUpdate;
+      q := OpenRS('SELECT a.*, b.satuan satuan2 FROM tbl_barang a LEFT JOIN tbl_satuan b ON a.id_satuan = b.id WHERE a.id = %s',
+        [ADataController.Values[ARecordIndex, AItemIndex]]);
+      ADataController.Values[ARecordIndex, cxColKodeBrg2.Index] := q.FieldByName('kode').AsString;
+      ADataController.Values[ARecordIndex, cxColDeskripsi.Index] :=  ADataController.Values[ARecordIndex, AItemIndex];
+      ADataController.Values[ARecordIndex, cxColIdBrg.Index] := ADataController.Values[ARecordIndex, AItemIndex];
+      ADataController.Values[ARecordIndex, cxColSatuan.Index] := q.FieldByName('satuan2').AsString;
+      ADataController.Values[ARecordIndex, cxColIdSatuan.Index] := q.FieldByName('id_satuan').AsInteger;
+      ADataController.Values[ARecordIndex, cxColqty.Index] := '1';
+      q.Close;
+
+      q := OpenRS('SELECT * FROM tbl_barang_det_spek WHERE id_ref = %s',
+        [ADataController.Values[ARecordIndex, cxColDeskripsi.Index]]);
+      ADataController.Values[ARecordIndex, cxColJmlIkatPerBal.Index] := q.FieldByName('jml_ikat_per_karung').AsFloat;
+      q.Close;
+    finally
+      cxtbBrgKeluar.EndUpdate
+    end;
+  end;
+
   if AItemIndex = cxColDeskripsi.Index then begin
     try
       cxtbBrgKeluar.BeginUpdate;
       q := OpenRS('SELECT a.*, b.satuan satuan2 FROM tbl_barang a LEFT JOIN tbl_satuan b ON a.id_satuan = b.id WHERE a.id = %s',
-      [ADataController.Values[ARecordIndex, cxColDeskripsi.Index]]);
-      ADataController.Values[ARecordIndex, cxColKodeBrg.Index] :=  q.FieldByName('kode').AsString;
+        [ADataController.Values[ARecordIndex, cxColDeskripsi.Index]]);
+      ADataController.Values[ARecordIndex, cxColKodeBrg2.Index] := q.FieldByName('kode').AsString;
+      ADataController.Values[ARecordIndex, cxColKodeBrg.Index] :=  ADataController.Values[ARecordIndex, AItemIndex];
+      ADataController.Values[ARecordIndex, cxColIdBrg.Index] := ADatacontroller.Values[ARecordIndex, AItemIndex];
       ADataController.Values[ARecordIndex, cxColSatuan.Index] := q.FieldByName('satuan2').AsString;
       ADataController.Values[ARecordIndex, cxColIdSatuan.Index] := q.FieldByName('id_satuan').AsInteger;
       ADataController.Values[ARecordIndex, cxColqty.Index] := '1';
@@ -467,7 +494,9 @@ begin
       with cxtbBrgKeluar.DataController do begin
         i := AppendRecord;
         Values[i, cxColNo.Index] := nomer;
-        Values[i, cxColKodeBrg.Index] := z.FieldByName('kode_brg').AsString;
+        Values[i, cxColKodeBrg.Index] := z.FieldByName('id_brg').AsString;
+        Values[i, cxColKodeBrg2.Index] := z.FieldByName('kode_brg').AsString;
+        Values[i, cxColIdBrg.Index] := z.FieldByname('id_brg').AsInteger;
         Values[i, cxColDeskripsi.Index] := z.FieldByName('id_brg').AsString;
         Values[i, cxColQty.Index] := z.FieldByName('qty').AsFloat;
         Values[i, cxColSatuan.Index] := z.FieldByName('satuan2').AsString;

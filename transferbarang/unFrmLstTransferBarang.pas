@@ -84,7 +84,7 @@ begin
     f := TfrmInputTransferBarang.Create(Self);
     f.FormInduk := Self;
     f.Jenis := 'E';
-    f.EditKey := zqrTransBarang.FieldByName('no_bukti').AsString;
+    f.EditKey := zqrTransBarang.FieldByName('id').AsString;
     f.Parent := ts;
     f.Caption := 'Edit Transfer Barang';
     ts.Caption := f.Caption;

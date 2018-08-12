@@ -159,6 +159,7 @@ begin
       end else begin
         qh.FieldByName('f_edit').AsInteger := 0;
       end;
+      qh.FieldByName('tgl_edit').AsDateTime := Aplikasi.NowServer;
       qh.Post;
 
       if Self.Jenis = 'T' then  ID := LastInsertID;

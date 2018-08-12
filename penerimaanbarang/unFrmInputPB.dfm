@@ -4,7 +4,7 @@ inherited frmInputPB: TfrmInputPB
   ClientWidth = 1172
   OnCreate = FormCreate
   OnShow = FormShow
-  ExplicitTop = -89
+  ExplicitTop = -58
   ExplicitWidth = 1172
   ExplicitHeight = 739
   PixelsPerInch = 96
@@ -44,18 +44,19 @@ inherited frmInputPB: TfrmInputPB
     Caption = 'No. Bukti'
   end
   object cxlbl2: TcxLabel
-    Left = 10
-    Top = 143
+    Left = 898
+    Top = 62
     Caption = 'No. PO'
+    Visible = False
   end
   object cxlbl3: TcxLabel
     Left = 10
-    Top = 170
+    Top = 144
     Caption = 'Tanggal PO'
   end
   object cxlbl4: TcxLabel
     Left = 10
-    Top = 197
+    Top = 171
     Caption = 'Tgl. Kedatangan'
   end
   object cxlbl5: TcxLabel
@@ -70,17 +71,17 @@ inherited frmInputPB: TfrmInputPB
   end
   object cxlbl7: TcxLabel
     Left = 10
-    Top = 224
+    Top = 198
     Caption = 'Nopol'
   end
   object cxlbl8: TcxLabel
     Left = 234
-    Top = 224
+    Top = 198
     Caption = 'Sopir'
   end
   object cxlNoPO: TcxLookupComboBox
-    Left = 112
-    Top = 142
+    Left = 1000
+    Top = 61
     Properties.CharCase = ecUpperCase
     Properties.DropDownAutoSize = True
     Properties.KeyFieldNames = 'id'
@@ -100,18 +101,19 @@ inherited frmInputPB: TfrmInputPB
       end>
     Properties.ListSource = dsPO
     Properties.OnChange = cxlNoPPPropertiesChange
-    TabOrder = 10
+    TabOrder = 4
+    Visible = False
     Width = 146
   end
   object cxdTglPO: TcxDateEdit
     Left = 112
-    Top = 169
+    Top = 143
     TabOrder = 13
     Width = 146
   end
   object cxdTglDatang: TcxDateEdit
     Left = 112
-    Top = 196
+    Top = 170
     TabOrder = 21
     Width = 146
   end
@@ -119,7 +121,7 @@ inherited frmInputPB: TfrmInputPB
     Left = 112
     Top = 115
     Properties.ReadOnly = True
-    TabOrder = 7
+    TabOrder = 10
     Width = 396
   end
   object cxtNoBukti: TcxTextEdit
@@ -131,20 +133,20 @@ inherited frmInputPB: TfrmInputPB
   end
   object cxtNopol: TcxTextEdit
     Left = 112
-    Top = 223
+    Top = 197
     Properties.CharCase = ecUpperCase
     TabOrder = 23
     Width = 113
   end
   object cxtSopir: TcxTextEdit
     Left = 268
-    Top = 223
+    Top = 197
     Properties.CharCase = ecUpperCase
     TabOrder = 24
     Width = 198
   end
   object cxgrpbx1: TcxGroupBox
-    Left = 538
+    Left = 612
     Top = 55
     Caption = 'User Requesting'
     TabOrder = 1
@@ -183,14 +185,14 @@ inherited frmInputPB: TfrmInputPB
     end
   end
   object cxlbl11: TcxLabel
-    Left = 378
-    Top = 170
+    Left = 580
+    Top = 162
     Caption = 'Pembayaran'
     Visible = False
   end
   object cxCboPembayaran: TcxComboBox
-    Left = 480
-    Top = 169
+    Left = 682
+    Top = 161
     Properties.DropDownListStyle = lsEditFixedList
     Properties.Items.Strings = (
       'Cash On Delivery (COD)'
@@ -199,55 +201,55 @@ inherited frmInputPB: TfrmInputPB
       '14 Hari'
       '30 Hari'
       '45 Hari')
-    TabOrder = 14
+    TabOrder = 15
     Visible = False
     Width = 198
   end
   object cxlbl12: TcxLabel
-    Left = 685
-    Top = 170
+    Left = 887
+    Top = 162
     Caption = 'Valuta'
     Visible = False
   end
   object cxCboRate: TcxComboBox
-    Left = 729
-    Top = 169
+    Left = 931
+    Top = 161
     Properties.DropDownListStyle = lsEditFixedList
     Properties.Items.Strings = (
       'IDR'
       'USD')
-    TabOrder = 15
+    TabOrder = 16
     Visible = False
     Width = 63
   end
   object cxlbl13: TcxLabel
-    Left = 798
-    Top = 170
+    Left = 1000
+    Top = 162
     Caption = 'Rate'
     Visible = False
   end
   object cxlbl14: TcxLabel
     Left = 10
-    Top = 252
+    Top = 226
     Caption = 'Keterangan'
   end
   object cxtKeterangan: TcxTextEdit
     Left = 112
-    Top = 251
+    Top = 225
     Properties.CharCase = ecUpperCase
     TabOrder = 27
     Width = 464
   end
   object cxtRate: TcxTextEdit
-    Left = 831
-    Top = 169
-    TabOrder = 16
+    Left = 1033
+    Top = 161
+    TabOrder = 17
     Visible = False
     Width = 113
   end
   object cxgrdPP: TcxGrid
     Left = 10
-    Top = 281
+    Top = 255
     Width = 1150
     Height = 293
     Anchors = [akLeft, akTop, akRight]
@@ -296,7 +298,20 @@ inherited frmInputPB: TfrmInputPB
         Caption = 'Deskripsi'
         PropertiesClassName = 'TcxTextEditProperties'
         Properties.ReadOnly = True
-        Width = 237
+        Width = 219
+      end
+      object cxColNoPO: TcxGridColumn
+        Caption = 'No. PO'
+        PropertiesClassName = 'TcxTextEditProperties'
+        Properties.ReadOnly = True
+        Width = 96
+      end
+      object cxColTglPO: TcxGridColumn
+        Caption = 'Tgl. PO'
+        DataBinding.ValueType = 'DateTime'
+        PropertiesClassName = 'TcxDateEditProperties'
+        Properties.ReadOnly = True
+        Width = 81
       end
       object cxColQtyPO: TcxGridColumn
         Caption = 'Qty. PO'
@@ -307,6 +322,16 @@ inherited frmInputPB: TfrmInputPB
         Properties.ReadOnly = True
       end
       object cxColQtyTerima: TcxGridColumn
+        Caption = 'Qty. Sudah Terima'
+        DataBinding.ValueType = 'Float'
+        PropertiesClassName = 'TcxSpinEditProperties'
+        Properties.Alignment.Horz = taRightJustify
+        Properties.DisplayFormat = '#,#0.00'
+        Properties.ReadOnly = True
+        Properties.ValueType = vtFloat
+        Width = 108
+      end
+      object cxColQtyDatang: TcxGridColumn
         Caption = 'Qty. Datang'
         DataBinding.ValueType = 'Float'
         PropertiesClassName = 'TcxSpinEditProperties'
@@ -314,17 +339,8 @@ inherited frmInputPB: TfrmInputPB
         Properties.DisplayFormat = '#,#0.00'
         Properties.ReadOnly = False
         Properties.ValueType = vtFloat
-        Width = 71
-      end
-      object cxColQtyDatang: TcxGridColumn
-        Caption = 'Qty Terima'
-        DataBinding.ValueType = 'Float'
-        PropertiesClassName = 'TcxSpinEditProperties'
-        Properties.Alignment.Horz = taRightJustify
-        Properties.DisplayFormat = '#,#0.00'
-        Properties.ValueType = vtFloat
         Options.Editing = False
-        Width = 73
+        Width = 83
       end
       object cxColSatuan: TcxGridColumn
         Caption = 'Satuan'
@@ -398,6 +414,8 @@ inherited frmInputPB: TfrmInputPB
         PropertiesClassName = 'TcxSpinEditProperties'
         Visible = False
       end
+      object cxColIdPO: TcxGridColumn
+      end
     end
     object cxgrdlvl1Grid1Level1: TcxGridLevel
       GridView = cxtbPB
@@ -408,7 +426,7 @@ inherited frmInputPB: TfrmInputPB
     Top = 139
     Caption = 'Posting'
     State = cbsChecked
-    TabOrder = 9
+    TabOrder = 12
     Visible = False
     Width = 65
   end
@@ -423,7 +441,7 @@ inherited frmInputPB: TfrmInputPB
       end>
     Properties.ListSource = dsSupp
     Properties.OnChange = cxlSuppPropertiesChange
-    TabOrder = 5
+    TabOrder = 8
     Width = 396
   end
   object cxChkSelesai: TcxCheckBox
@@ -434,14 +452,14 @@ inherited frmInputPB: TfrmInputPB
     Visible = False
     Width = 121
   end
-  object Button1: TButton
-    Left = 262
-    Top = 142
-    Width = 29
-    Height = 21
-    Caption = '...'
-    TabOrder = 11
-    Visible = False
+  object btnPilihPO: TButton
+    Left = 514
+    Top = 86
+    Width = 75
+    Height = 25
+    Caption = 'Pilih PO'
+    TabOrder = 7
+    OnClick = btnPilihPOClick
   end
   object zqrPO: TZReadOnlyQuery
     Connection = DM.zConn
@@ -470,8 +488,8 @@ inherited frmInputPB: TfrmInputPB
   end
   object dsPO: TDataSource
     DataSet = zqrPO
-    Left = 832
-    Top = 248
+    Left = 992
+    Top = 184
   end
   object zqrBarang: TZReadOnlyQuery
     Connection = DM.zConn

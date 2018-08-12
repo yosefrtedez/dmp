@@ -185,9 +185,12 @@ begin
   pgMain.OnChange := PGChange;
   pgMain.Align := alClient;
   imgBackground.Align := alClient;
-  imgBackground.Picture.LoadFromFile(Aplikasi.AppPath + '/images/bg.jpg');
   Caption := Aplikasi.JudulAplikasi;
   HideAllMenu(True);
+  try
+  imgBackground.Picture.LoadFromFile(Aplikasi.AppPath + '/images/bg.jpg');
+  finally
+  end;
 end;
 
 procedure TfrmUtama.CloseTab(Frm: TForm; Sender: TObject);

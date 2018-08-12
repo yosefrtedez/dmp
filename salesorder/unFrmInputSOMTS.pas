@@ -60,6 +60,8 @@ type
     cxColIdSatuan2: TcxGridColumn;
     cxGridLevel1: TcxGridLevel;
     cxColKodeBrg2: TcxGridColumn;
+    cxLabel2: TcxLabel;
+    cxtKeterangan: TcxTextEdit;
     procedure FormShow(Sender: TObject);
     procedure cxColNoGetDisplayText(Sender: TcxCustomGridTableItem;
       ARecord: TcxCustomGridRecord; var AText: string);
@@ -356,9 +358,6 @@ begin
         ADataController.Values[ARecordIndex, cxColDiscAmount.Index] :=
         (ADataController.Values [ARecordIndex, cxColGross.Index]*
         ADataController.Values [ARecordIndex, cxColDisc.Index])/100 ;
-
-
-
       finally
         cxTblSO.EndUpdate;
       end;

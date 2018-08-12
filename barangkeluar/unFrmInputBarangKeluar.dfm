@@ -95,6 +95,7 @@ inherited frmInputBarangKeluar: TfrmInputBarangKeluar
       DataController.Summary.SummaryGroups = <>
       DataController.OnBeforePost = cxtbReturDataControllerBeforePost
       DataController.OnRecordChanged = cxtbReturDataControllerRecordChanged
+      OptionsBehavior.FocusCellOnTab = True
       OptionsData.Appending = True
       OptionsView.Navigator = True
       OptionsView.Footer = True
@@ -103,13 +104,25 @@ inherited frmInputBarangKeluar: TfrmInputBarangKeluar
         Caption = 'No'
         PropertiesClassName = 'TcxTextEditProperties'
         Properties.ReadOnly = False
+        Visible = False
         OnGetDisplayText = cxColNoGetDisplayText
         Width = 32
       end
       object cxColKodeBrg: TcxGridColumn
         Caption = 'Kode Brg'
-        PropertiesClassName = 'TcxTextEditProperties'
-        Properties.ReadOnly = True
+        PropertiesClassName = 'TcxLookupComboBoxProperties'
+        Properties.DropDownAutoSize = True
+        Properties.KeyFieldNames = 'id'
+        Properties.ListColumns = <
+          item
+            Caption = 'Kode'
+            FieldName = 'kode'
+          end
+          item
+            Caption = 'Deskripsi'
+            FieldName = 'deskripsi'
+          end>
+        Properties.ListSource = dsBarang
         Width = 95
       end
       object cxColDeskripsi: TcxGridColumn
@@ -211,6 +224,13 @@ inherited frmInputBarangKeluar: TfrmInputBarangKeluar
       end
       object cxColIdSatuan: TcxGridColumn
         DataBinding.ValueType = 'Integer'
+        Visible = False
+      end
+      object cxColIdBrg: TcxGridColumn
+        DataBinding.ValueType = 'Integer'
+        Visible = False
+      end
+      object cxColKodeBrg2: TcxGridColumn
         Visible = False
       end
     end

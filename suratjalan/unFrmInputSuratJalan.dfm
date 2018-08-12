@@ -81,8 +81,14 @@ inherited frmInputSuratJalan: TfrmInputSuratJalan
     TabOrder = 20
     object cxtbSJ: TcxGridTableView
       NavigatorButtons.ConfirmDelete = False
+      NavigatorButtons.PriorPage.Visible = False
+      NavigatorButtons.NextPage.Visible = False
       NavigatorButtons.Insert.Visible = False
-      NavigatorButtons.Append.Visible = True
+      NavigatorButtons.Append.Visible = False
+      NavigatorButtons.Refresh.Visible = True
+      NavigatorButtons.SaveBookmark.Visible = False
+      NavigatorButtons.GotoBookmark.Visible = False
+      NavigatorButtons.Filter.Visible = False
       DataController.Summary.DefaultGroupSummaryItems = <>
       DataController.Summary.FooterSummaryItems = <
         item
@@ -95,11 +101,12 @@ inherited frmInputSuratJalan: TfrmInputSuratJalan
           Kind = skSum
         end>
       DataController.Summary.SummaryGroups = <>
+      DataController.OnAfterDelete = cxtbSJDataControllerAfterDelete
       DataController.OnBeforePost = cxtbSJDataControllerBeforePost
       DataController.OnRecordChanged = cxtbSJDataControllerRecordChanged
+      OptionsBehavior.FocusCellOnTab = True
       OptionsData.Appending = True
       OptionsView.Navigator = True
-      OptionsView.Footer = True
       OptionsView.GroupByBox = False
       object cxColNo: TcxGridColumn
         Caption = 'No'
@@ -112,11 +119,49 @@ inherited frmInputSuratJalan: TfrmInputSuratJalan
       object cxColKodeBrg: TcxGridColumn
         Caption = 'Kode Brg'
         PropertiesClassName = 'TcxTextEditProperties'
+        Properties.ReadOnly = True
         Width = 66
       end
       object cxColDeskripsi: TcxGridColumn
         Caption = 'Deskripsi'
+        PropertiesClassName = 'TcxTextEditProperties'
+        Properties.ReadOnly = True
         Width = 237
+      end
+      object cxColNoSO: TcxGridColumn
+        Caption = 'No. SO'
+        PropertiesClassName = 'TcxTextEditProperties'
+        Properties.ReadOnly = True
+        Width = 92
+      end
+      object cxColQtySO: TcxGridColumn
+        Caption = 'Qty. SO'
+        DataBinding.ValueType = 'Float'
+        PropertiesClassName = 'TcxSpinEditProperties'
+        Properties.Alignment.Horz = taRightJustify
+        Properties.DisplayFormat = '#,#0.00'
+        Properties.ReadOnly = True
+        Properties.ValueType = vtFloat
+        Width = 70
+      end
+      object cxColQty: TcxGridColumn
+        Caption = 'Qty. Kirim'
+        DataBinding.ValueType = 'Float'
+        PropertiesClassName = 'TcxSpinEditProperties'
+        Properties.Alignment.Horz = taRightJustify
+        Properties.DisplayFormat = '#,##.00'
+        Properties.ReadOnly = True
+        Properties.ValueType = vtFloat
+        HeaderAlignmentHorz = taRightJustify
+        Width = 73
+      end
+      object cxColQtyTerkirim: TcxGridColumn
+        Caption = 'Qty. Terkirim'
+        PropertiesClassName = 'TcxSpinEditProperties'
+        Properties.Alignment.Horz = taRightJustify
+        Properties.DisplayFormat = '#,#0.00'
+        Properties.ReadOnly = True
+        Width = 89
       end
       object cxColJmlIkatPerBal: TcxGridColumn
         Caption = 'Jml. Ikat / Bal'
@@ -135,42 +180,14 @@ inherited frmInputSuratJalan: TfrmInputSuratJalan
         Properties.ValueType = vtFloat
         Width = 75
       end
-      object cxColNoSO: TcxGridColumn
-        Caption = 'No. SO'
-        Width = 92
-      end
-      object cxColQtySO: TcxGridColumn
-        Caption = 'Qty. SO'
-        DataBinding.ValueType = 'Float'
-        Width = 62
-      end
-      object cxColQty: TcxGridColumn
-        Caption = 'Qty. Kirim'
-        DataBinding.ValueType = 'Float'
-        PropertiesClassName = 'TcxSpinEditProperties'
-        Properties.Alignment.Horz = taRightJustify
-        Properties.DisplayFormat = '#,##.00'
-        Properties.ReadOnly = False
-        Properties.ValueType = vtFloat
-        HeaderAlignmentHorz = taRightJustify
-        Width = 73
-      end
-      object cxColQtyTerkirim: TcxGridColumn
-        Caption = 'Qty. Terkirim'
-        PropertiesClassName = 'TcxSpinEditProperties'
-        Properties.Alignment.Horz = taRightJustify
-        Properties.DisplayFormat = '#,#0.00'
-        Properties.ReadOnly = True
-        Width = 89
-      end
       object cxColHarga: TcxGridColumn
         Caption = 'Harga Jual'
         DataBinding.ValueType = 'Float'
         PropertiesClassName = 'TcxSpinEditProperties'
         Properties.Alignment.Horz = taRightJustify
         Properties.DisplayFormat = '#,#0.00'
-        Properties.ReadOnly = True
-        Width = 74
+        Properties.ReadOnly = False
+        Width = 76
       end
       object cxColGudang: TcxGridColumn
         Caption = 'Gudang'
@@ -191,6 +208,7 @@ inherited frmInputSuratJalan: TfrmInputSuratJalan
             FieldName = 'nama'
           end>
         Properties.ListSource = dsGudang
+        Properties.ReadOnly = True
         Width = 69
       end
       object cxColSatuan: TcxGridColumn
@@ -212,13 +230,16 @@ inherited frmInputSuratJalan: TfrmInputSuratJalan
         Properties.DisplayFormat = '#,#0.00'
         Properties.ReadOnly = True
         Properties.ValueType = vtFloat
-        Width = 93
+        Width = 101
       end
       object cxColIdSatuan: TcxGridColumn
         DataBinding.ValueType = 'Integer'
         Visible = False
       end
       object cxColIdSO: TcxGridColumn
+        Visible = False
+      end
+      object cxColIdBrg: TcxGridColumn
         Visible = False
       end
     end
@@ -241,6 +262,7 @@ inherited frmInputSuratJalan: TfrmInputSuratJalan
         FieldName = 'nama'
       end>
     Properties.ListSource = dsCust
+    Properties.OnChange = cxlCustomerPropertiesChange
     TabOrder = 8
     Width = 416
   end
@@ -384,7 +406,7 @@ inherited frmInputSuratJalan: TfrmInputSuratJalan
     Top = 144
     Caption = 'Alamat'
   end
-  object cxTextEdit1: TcxTextEdit
+  object cxtAlamat: TcxTextEdit
     Left = 112
     Top = 142
     Properties.CharCase = ecUpperCase
@@ -447,7 +469,6 @@ inherited frmInputSuratJalan: TfrmInputSuratJalan
   object zqrSO: TZReadOnlyQuery
     Connection = DM.zConn
     AutoCalcFields = False
-    Active = True
     SQL.Strings = (
       'SELECT a.id, a.no_bukti '
       'FROM tbl_so_head a'

@@ -3,7 +3,6 @@ inherited frmMenuLaporan: TfrmMenuLaporan
   ClientHeight = 698
   ClientWidth = 1085
   OnCreate = FormCreate
-  ExplicitTop = -67
   ExplicitWidth = 1085
   ExplicitHeight = 698
   PixelsPerInch = 96
@@ -51,6 +50,8 @@ inherited frmMenuLaporan: TfrmMenuLaporan
     BevelOuter = bvNone
     BorderStyle = bsNone
     TabOrder = 1
+    ExplicitLeft = -6
+    ExplicitTop = 55
     object btnMasterData: TButton
       Left = 10
       Top = 6
@@ -69,6 +70,24 @@ inherited frmMenuLaporan: TfrmMenuLaporan
       TabOrder = 1
       OnClick = btnTransaksiClick
     end
+    object Button1: TButton
+      Left = 10
+      Top = 104
+      Width = 196
+      Height = 43
+      Caption = 'Pembelian'
+      TabOrder = 2
+      OnClick = btnTransaksiClick
+    end
+    object Button2: TButton
+      Left = 10
+      Top = 154
+      Width = 196
+      Height = 43
+      Caption = 'Penjualan'
+      TabOrder = 3
+      OnClick = btnTransaksiClick
+    end
   end
   object pg: TcxPageControl
     Left = 215
@@ -78,6 +97,8 @@ inherited frmMenuLaporan: TfrmMenuLaporan
     Align = alClient
     Style = 6
     TabOrder = 2
+    ExplicitLeft = 212
+    ExplicitTop = 43
     ClientRectBottom = 600
     ClientRectRight = 870
     ClientRectTop = 0

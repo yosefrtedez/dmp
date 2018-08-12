@@ -1,0 +1,155 @@
+unit unFrmPilihPO;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, cxGraphics, cxControls, cxLookAndFeels, cxLookAndFeelPainters,
+  cxStyles, dxSkinsCore, dxSkinBlack, dxSkinBlue, dxSkinCaramel, dxSkinCoffee,
+  dxSkinDarkRoom, dxSkinDarkSide, dxSkinFoggy, dxSkinGlassOceans,
+  dxSkiniMaginary, dxSkinLilian, dxSkinLiquidSky, dxSkinLondonLiquidSky,
+  dxSkinMcSkin, dxSkinMoneyTwins, dxSkinOffice2007Black, dxSkinOffice2007Blue,
+  dxSkinOffice2007Green, dxSkinOffice2007Pink, dxSkinOffice2007Silver,
+  dxSkinOffice2010Black, dxSkinOffice2010Blue, dxSkinOffice2010Silver,
+  dxSkinPumpkin, dxSkinSeven, dxSkinSharp, dxSkinSilver, dxSkinSpringTime,
+  dxSkinStardust, dxSkinSummer2008, dxSkinsDefaultPainters, dxSkinValentine,
+  dxSkinXmas2008Blue, dxSkinscxPCPainter, cxCustomData, cxFilter, cxData,
+  cxDataStorage, cxEdit, DB, cxDBData, cxGridLevel, cxClasses, cxGridCustomView,
+  cxGridCustomTableView, cxGridTableView, cxGridDBTableView, cxGrid, StdCtrls,
+  ZAbstractRODataset, ZDataset, cxSpinEdit, cxCheckBox, cxDBLookupComboBox;
+
+type
+  TfrmPilihPO = class(TForm)
+    cxGrid1Level1: TcxGridLevel;
+    cxGrid1: TcxGrid;
+    Button1: TButton;
+    Button2: TButton;
+    zqrPO: TZReadOnlyQuery;
+    dsPO: TDataSource;
+    cxtbSO: TcxGridTableView;
+    cxColTanggal: TcxGridColumn;
+    cxColNoPO: TcxGridColumn;
+    cxColKodeBrg: TcxGridColumn;
+    cxColDeskripsi: TcxGridColumn;
+    cxColQtyPO: TcxGridColumn;
+    cxColPilih: TcxGridColumn;
+    cxColIdBrg: TcxGridColumn;
+    cxColIdSO: TcxGridColumn;
+    cxColGdg: TcxGridColumn;
+    cxColStok: TcxGridColumn;
+    cxColJmlTerima: TcxGridColumn;
+    zqrGdg: TZReadOnlyQuery;
+    dsGdg: TDataSource;
+    cxColQtyDiterima: TcxGridColumn;
+    cxColSatuan: TcxGridColumn;
+    cxColIdSatuan: TcxGridColumn;
+    procedure Button2Click(Sender: TObject);
+    procedure Button1Click(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+    procedure cxtbSODataControllerRecordChanged(
+      ADataController: TcxCustomDataController; ARecordIndex,
+      AItemIndex: Integer);
+    procedure FormCreate(Sender: TObject);
+  private
+    mIdBrg, mIdSupp: integer;
+    mIdPO: integer;
+  public
+    property IdBrg: integer read mIdBrg write mIdBrg;
+    property IdSupp: Integer read mIdSupp write mIdSupp;
+    property IdPO: Integer read mIdPO;
+  end;
+
+var
+  frmPilihPO: TfrmPilihPO;
+
+implementation
+
+uses unDM, unTools;
+
+{$R *.dfm}
+
+procedure TfrmPilihPO.Button1Click(Sender: TObject);
+begin
+  ModalResult := mrOk;
+end;
+
+procedure TfrmPilihPO.Button2Click(Sender: TObject);
+begin
+  ModalResult := mrCancel;
+end;
+
+procedure TfrmPilihPO.cxtbSODataControllerRecordChanged(
+  ADataController: TcxCustomDataController; ARecordIndex, AItemIndex: Integer);
+var
+  sa: Real;
+begin
+
+  if AItemIndex = cxColPilih.Index then begin
+    if ADataController.Values[ARecordIndex, AItemIndex] = 1 then begin
+      if (ADataController.Values[ARecordIndex, cxColJmlTerima.Index] = 0) or
+        VarIsNull(ADataController.Values[ARecordIndex, cxColJmlTerima.Index]) then begin
+        MsgBox('Masukkan Jumlah penerimaan terlebih dahulu.');
+        ADataController.Values[ARecordIndex, AItemIndex] := 0;
+        Abort;
+      end;
+    end;
+  end;
+
+  if AItemIndex = cxColGdg.Index then begin
+    sa := GetStokAkhir(ADataController.Values[ARecordIndex, cxColIdBrg.Index], ADataController.Values[ARecordIndex, cxColGdg.Index]);
+    ADataController.Values[ARecordIndex, cxColStok.Index] := sa;
+  end;
+
+  if AItemIndex = cxColJmlTerima.Index then begin
+    if ADataController.Values[ARecordIndex, cxColQtyDiterima.Index] + ADataController.Values[ARecordIndex, AItemIndex] >
+      ADataController.Values[ARecordIndex, cxColQtyPO.Index] then begin
+      MsgBox('Jumlah pengiriman melebihi jumlah PO.');
+      ADataController.Values[ARecordIndex, AItemIndex] := 0;
+      Abort;
+    end;
+  end;
+
+end;
+
+procedure TfrmPilihPO.FormCreate(Sender: TObject);
+begin
+  zqrGdg.Open;
+end;
+
+procedure TfrmPilihPO.FormShow(Sender: TObject);
+var
+  q: TZQuery;
+  i: integer;
+begin
+  q := OpenRS('SELECT a.id, a.tanggal, a.no_bukti, b.id_brg, c.kode, c.deskripsi, b.qty, b.id_satuan, d.satuan satuan2, ' +
+    '(SELECT SUM(qty) FROM tbl_pb_det WHERE id_po = a.id AND id_brg = b.id_brg) qty_terkirim ' +
+    'FROM tbl_po_head a ' +
+    'LEFT JOIN tbl_po_det b ON a.id = b.id_ref ' +
+    'LEFT JOIN tbl_barang c ON c.id = b.id_brg ' +
+    'LEFT JOIN tbl_satuan d ON d.id = b.id_satuan ' +
+    'WHERE a.id_supplier = %d', [mIdSupp]);
+
+  cxtbSO.BeginUpdate;
+  while not q.Eof do begin
+    with cxtbSO.DataController do begin
+      i := AppendRecord;
+      Values[i, cxColPilih.Index] := 0;
+      Values[i, cxColTanggal.Index] := q.FieldByName('tanggal').AsDateTime;
+      Values[i, cxColNoPO.Index] := q.FieldByname('no_bukti').AsString;
+      Values[i, cxColKodeBrg.Index] := q.FieldByName('kode').AsString;
+      Values[i, cxColDeskripsi.Index] := q.FieldByName('deskripsi').AsString;
+      Values[i, cxColQtyPO.Index] := q.FieldByName('qty').AsFloat;
+      Values[i, cxColQtyDiterima.Index] := q.FieldByName('qty_terkirim').AsFloat;
+      Values[i, cxColIdBrg.Index] := q.FieldByName('id_brg').AsInteger;
+      Values[i, cxColIdSO.Index] := q.FieldByName('id').AsString;
+      Values[i, cxColGdg.Index] := Aplikasi.GdgBB;
+      Values[i, cxColStok.Index] := GetStokAkhir(q.FieldByName('id_brg').AsInteger, Aplikasi.GdgBJ);
+      Values[i, cxColSatuan.Index] := q.FieldByName('satuan2').AsString;
+      Values[i, cxColIdSatuan.Index] := q.FieldByName('id_satuan').AsInteger;
+    end;
+    q.Next;
+  end;
+  cxtbSO.EndUpdate;
+end;
+
+end.

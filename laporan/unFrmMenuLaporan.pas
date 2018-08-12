@@ -23,6 +23,8 @@ type
     btnTransaksi: TButton;
     pg: TcxPageControl;
     Label1: TLabel;
+    Button1: TButton;
+    Button2: TButton;
     procedure FormCreate(Sender: TObject);
     procedure btnMasterDataClick(Sender: TObject);
     procedure btnTransaksiClick(Sender: TObject);

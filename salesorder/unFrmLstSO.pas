@@ -49,6 +49,8 @@ type
     cxtbSOColumn1: TcxGridDBColumn;
     cxtbSOColumn2: TcxGridDBColumn;
     cxtbSOColumn3: TcxGridDBColumn;
+    cxtbSODetColumn3: TcxGridDBColumn;
+    cxtbSOColumn4: TcxGridDBColumn;
     procedure btnRefreshClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure btnTambahClick(Sender: TObject);

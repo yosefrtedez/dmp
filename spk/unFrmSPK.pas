@@ -61,6 +61,7 @@ type
     cxsTotalSPK: TcxSpinEdit;
     cxLabel13: TcxLabel;
     cxtSatuan: TcxTextEdit;
+    cxColKodeBrg2: TcxGridColumn;
     procedure FormShow(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure cxtbBomDataControllerRecordChanged(
@@ -73,6 +74,7 @@ type
     mIDSO: integer;
     mIDMO: integer;
     mIDSPK: Integer;
+    mIdBrg: Integer;
     mEditable: boolean;
   public
     property IDSO: integer read mIDSO write mIDSO;
@@ -166,6 +168,8 @@ begin
         FieldByName('user').AsString := Aplikasi.NamaUser;
         FieldByName('user_dept').AsString := Aplikasi.UserDept;
         FieldByName('toleransi').AsFloat := cxsToleransi.EditValue;
+        FieldByName('id_brg').AsInteger := mIdBrg;
+        FieldByName('tgl_edit').AsDateTime := Aplikasi.NowServer;
         Post;
       end;
 
@@ -181,10 +185,11 @@ begin
             qd.Edit;
           end;
           qd.FieldByName('id_spk').AsInteger := ID;
-          qd.FieldByName('kode_brg').AsString := Values[i, cxColKodeBrg.Index];
+          qd.FieldByName('kode_brg').AsString := Values[i, cxColKodeBrg2.Index];
           qd.FieldByName('id_brg').AsInteger := Values[i, cxColDeskripsi.Index];
           qd.FieldByName('qty').AsFloat := Values[i, cxColQty.Index];
           qd.FieldByName('id_satuan').AsInteger := Values[i, cxColIdSatuan.Index];
+          qd.FieldByName('tgl_edit').AsDateTime := Aplikasi.NowServer;
           qd.Post;
           qd.First;
         end;
@@ -238,14 +243,27 @@ var
   q: TZQuery;
 begin
   inherited;
-  if AItemIndex = cxColDeskripsi.Index then begin
+
+  if AItemIndex = cxColKodeBrg.Index then begin
     q := OpenRS('SELECT a.kode, b.satuan, b.id id_satuan FROM tbl_barang a ' +
-      'LEFT JOIN tbl_satuan b ON a.id_satuan = b.id WHERE a.id = ''%s''',[ADataController.Values[ARecordIndex, cxColDeskripsi.Index]]);
+      'LEFT JOIN tbl_satuan b ON a.id_satuan = b.id WHERE a.id = ''%s''',[ADataController.Values[ARecordIndex, AItemIndex]]);
+    ADataController.Values[ARecordIndex, cxColDeskripsi.Index] := ADataController.Values[ARecordIndex, AItemIndex];
+    ADataController.Values[ARecordIndex, cxColKodeBrg2.Index] := q.FieldByName('kode').AsString;
     ADataController.Values[ARecordIndex, cxColSatuan.Index] := q.FieldByName('satuan').AsString;
     ADataController.Values[ARecordIndex, cxColIdSatuan.Index] := q.FieldByName('id_satuan').AsString;
-    ADataController.Values[ARecordIndex, cxColKodeBrg.Index] := q.FieldByName('kode').AsString;
     q.Close;
   end;
+
+  if AItemIndex = cxColDeskripsi.Index then begin
+    q := OpenRS('SELECT a.kode, b.satuan, b.id id_satuan FROM tbl_barang a ' +
+      'LEFT JOIN tbl_satuan b ON a.id_satuan = b.id WHERE a.id = ''%s''',[ADataController.Values[ARecordIndex, AItemIndex]]);
+    ADataController.Values[ARecordIndex, cxColKodeBrg.Index] := ADataController.Values[ARecordIndex, AItemIndex];
+    ADataController.Values[ARecordIndex, cxColSatuan.Index] := q.FieldByName('satuan').AsString;
+    ADataController.Values[ARecordIndex, cxColIdSatuan.Index] := q.FieldByName('id_satuan').AsString;
+    ADataController.Values[ARecordIndex, cxColKodeBrg2.Index] := q.FieldByName('kode').AsString;
+    q.Close;
+  end;
+
 end;
 
 procedure TfrmSPK.FormCreate(Sender: TObject);
@@ -273,6 +291,7 @@ begin
   cxsQtySPK.Value := q.FieldByName('qty_spk').AsFloat;
   cxsQtySO.Value := q.FieldbyName('qty_so').AsFloat;
   cxtSatuan.Text := q.FieldByName('satuan').AsString;
+  mIdBrg := q.FieldByname('id_brg').AsInteger;
   q.Close;
 
   qspk := OpenRS('SELECT IFNULL(SUM(qty),0) spk_total FROM tbl_spk WHERE id_so = %d',[mIDSO]);

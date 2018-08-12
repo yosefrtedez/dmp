@@ -1,8 +1,6 @@
 inherited frmLstTransferBarang: TfrmLstTransferBarang
   Caption = 'Transfer Barang'
   OnCreate = FormCreate
-  ExplicitWidth = 1016
-  ExplicitHeight = 508
   PixelsPerInch = 96
   TextHeight = 13
   inherited Panel1: TPanel
@@ -57,8 +55,6 @@ inherited frmLstTransferBarang: TfrmLstTransferBarang
     Height = 198
     Align = alClient
     TabOrder = 1
-    ExplicitTop = 75
-    ExplicitHeight = 172
     object cxTblTransBarang: TcxGridDBTableView
       NavigatorButtons.ConfirmDelete = False
       OnFocusedRecordChanged = cxTblTransBarangFocusedRecordChanged
