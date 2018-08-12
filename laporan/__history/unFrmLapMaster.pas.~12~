@@ -48,17 +48,16 @@ uses unFrmLapMasterData, unDM, unTools;
 procedure TfrmLapMaster.FormCreate(Sender: TObject);
 begin
   inherited;
-  lstBox.Items.Add('01. Master Barang / Persediaan');
-  lstBox.Items.Add('02. Customer');
-  lstBox.Items.Add('03. Supplier');
+  lstBox.Items.Add('Master Barang / Persediaan');
+  lstBox.Items.Add('Customer');
+  lstBox.Items.Add('Supplier');
   zqrKategori.Open;
 end;
 
 procedure TfrmLapMaster.lstBoxClick(Sender: TObject);
 begin
   inherited;
-  if lstBox.ItemIndex = 0 then
-    pgParam.Visible := True;
+  if lstBox then
   
 end;
 
@@ -78,9 +77,7 @@ var
 begin
   f := TfrmLapMasterData.Create(nil);
   with f do begin
-    if cxlKategoriBrg.EditValue = 0 then
-      zqrMstBarang.SQL.Strings[7] := ''
-    else
+    if cxlKategoriBrg.EditValue > 0 then
       zqrMstBarang.ParamByname('id_kategori').AsString := cxlKategoriBrg.EditValue;
     zqrMstBarang.Open;
     rptMstBarang.ShowReport(True);

@@ -30,7 +30,6 @@ inherited frmLapMaster: TfrmLapMaster
     Height = 345
     ItemHeight = 13
     TabOrder = 0
-    OnClick = lstBoxClick
   end
   object pgParam: TcxPageControl
     Left = 378

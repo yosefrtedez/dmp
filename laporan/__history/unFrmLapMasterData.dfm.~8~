@@ -89,8 +89,8 @@ object frmLapMasterData: TfrmLapMasterData
           ParentFont = False
         end
         object fdbMstBarangdeskripsi: TfrxMemoView
-          Left = 139.842610000000000000
-          Width = 313.700990000000000000
+          Left = 105.826840000000000000
+          Width = 302.362400000000000000
           Height = 18.897650000000000000
           ShowHint = False
           DataField = 'deskripsi'
@@ -107,7 +107,7 @@ object frmLapMasterData: TfrmLapMasterData
         end
         object fdbMstBarangkode: TfrxMemoView
           Left = 34.015770000000000000
-          Width = 102.047310000000000000
+          Width = 68.031540000000000000
           Height = 18.897650000000000000
           ShowHint = False
           DataField = 'kode'
@@ -123,27 +123,24 @@ object frmLapMasterData: TfrmLapMasterData
           ParentFont = False
         end
         object fdbMstBarangstok: TfrxMemoView
-          Left = 457.323130000000000000
+          Left = 411.968770000000000000
           Width = 68.031540000000000000
           Height = 18.897650000000000000
           ShowHint = False
           DataField = 'stok'
           DataSet = fdbMstBarang
           DataSetName = 'fdbMstBarang'
-          DisplayFormat.FormatStr = '#,#0.00'
-          DisplayFormat.Kind = fkNumeric
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clBlack
           Font.Height = -11
           Font.Name = 'Arial'
           Font.Style = []
-          HAlign = haRight
           Memo.UTF8W = (
             '[fdbMstBarang."stok"]')
           ParentFont = False
         end
         object fdbMstBarangsatuan: TfrxMemoView
-          Left = 529.134200000000000000
+          Left = 483.779840000000000000
           Width = 68.031540000000000000
           Height = 18.897650000000000000
           ShowHint = False
@@ -155,7 +152,6 @@ object frmLapMasterData: TfrmLapMasterData
           Font.Height = -11
           Font.Name = 'Arial'
           Font.Style = []
-          HAlign = haCenter
           Memo.UTF8W = (
             '[fdbMstBarang."satuan"]')
           ParentFont = False
@@ -168,7 +164,7 @@ object frmLapMasterData: TfrmLapMasterData
         object Memo2: TfrxMemoView
           Left = 34.015770000000000000
           Top = 3.779530000000000000
-          Width = 102.047310000000000000
+          Width = 68.031540000000000000
           Height = 18.897650000000000000
           ShowHint = False
           Font.Charset = DEFAULT_CHARSET
@@ -200,9 +196,9 @@ object frmLapMasterData: TfrmLapMasterData
           ParentFont = False
         end
         object Memo4: TfrxMemoView
-          Left = 139.842610000000000000
+          Left = 105.826840000000000000
           Top = 3.779530000000000000
-          Width = 313.700990000000000000
+          Width = 302.362400000000000000
           Height = 18.897650000000000000
           ShowHint = False
           Font.Charset = DEFAULT_CHARSET
@@ -221,7 +217,7 @@ object frmLapMasterData: TfrmLapMasterData
           Diagonal = True
         end
         object Memo5: TfrxMemoView
-          Left = 457.323130000000000000
+          Left = 411.968770000000000000
           Top = 3.779530000000000000
           Width = 68.031540000000000000
           Height = 18.897650000000000000
@@ -231,13 +227,12 @@ object frmLapMasterData: TfrmLapMasterData
           Font.Height = -11
           Font.Name = 'Arial'
           Font.Style = []
-          HAlign = haRight
           Memo.UTF8W = (
             'Stok')
           ParentFont = False
         end
         object Memo6: TfrxMemoView
-          Left = 529.134200000000000000
+          Left = 483.779840000000000000
           Top = 3.779530000000000000
           Width = 68.031540000000000000
           Height = 18.897650000000000000
@@ -247,7 +242,6 @@ object frmLapMasterData: TfrmLapMasterData
           Font.Height = -11
           Font.Name = 'Arial'
           Font.Style = []
-          HAlign = haCenter
           Memo.UTF8W = (
             'Satuan')
           ParentFont = False
@@ -264,22 +258,10 @@ object frmLapMasterData: TfrmLapMasterData
       ' FROM '
       'tbl_barang a'
       'LEFT JOIN tbl_satuan b ON a.id_satuan = b.id'
-      'LEFT JOIN tbl_kategori_brg c ON c.id = a.id_kategori'
-      'WHERE a.id_kategori = :id_kategori')
-    Params = <
-      item
-        DataType = ftUnknown
-        Name = 'id_kategori'
-        ParamType = ptUnknown
-      end>
+      'LEFT JOIN tbl_kategori_brg c ON c.id = a.id_kategori')
+    Params = <>
     Left = 104
     Top = 16
-    ParamData = <
-      item
-        DataType = ftUnknown
-        Name = 'id_kategori'
-        ParamType = ptUnknown
-      end>
   end
   object dsMstBarang: TDataSource
     DataSet = zqrMstBarang

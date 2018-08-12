@@ -542,6 +542,7 @@ object frmLapSJ: TfrmLapSJ
   end
   object zqrSJ01: TZReadOnlyQuery
     Connection = DM.zConn
+    Active = True
     SQL.Strings = (
       'SELECT a.*, b.qty, b.harga, '
       'c.nama, c.alamat, '
@@ -552,21 +553,10 @@ object frmLapSJ: TfrmLapSJ
       'LEFT JOIN tbl_customer c ON c.id = a.id_cust'
       'LEFT JOIN tbl_barang d ON d.id = b.id_brg'
       'LEFT JOIN tbl_barang_det_spek e ON e.id_ref = d.id'
-      'WHERE a.id = :id')
-    Params = <
-      item
-        DataType = ftUnknown
-        Name = 'id'
-        ParamType = ptUnknown
-      end>
+      '-- WHERE a.id = :id')
+    Params = <>
     Left = 88
     Top = 16
-    ParamData = <
-      item
-        DataType = ftUnknown
-        Name = 'id'
-        ParamType = ptUnknown
-      end>
   end
   object dsSJ01: TDataSource
     DataSet = zqrSJ01
@@ -1458,11 +1448,10 @@ object frmLapSJ: TfrmLapSJ
         Condition = 'fdbSJ01."id"'
         object fdbSJ01nama: TfrxMemoView
           Left = 532.913730000000000000
-          Top = 22.677180000000000000
+          Top = 18.897650000000000000
           Width = 219.212740000000000000
           Height = 18.897650000000000000
           ShowHint = False
-          DataField = 'nama'
           DataSet = fdbSJ01
           DataSetName = 'fdbSJ01'
           Font.Charset = DEFAULT_CHARSET
@@ -1471,12 +1460,11 @@ object frmLapSJ: TfrmLapSJ
           Font.Name = 'Arial'
           Font.Style = []
           Memo.UTF8W = (
-            '[fdbSJ01."nama"]')
+            '[fdbSJ01."nama_cust"]')
           ParentFont = False
         end
         object Memo4: TfrxMemoView
           Left = 438.425480000000000000
-          Top = 3.779530000000000000
           Width = 94.488250000000000000
           Height = 18.897650000000000000
           ShowHint = False
@@ -1491,7 +1479,7 @@ object frmLapSJ: TfrmLapSJ
         end
         object Memo5: TfrxMemoView
           Left = 438.425480000000000000
-          Top = 22.677180000000000000
+          Top = 18.897650000000000000
           Width = 94.488250000000000000
           Height = 18.897650000000000000
           ShowHint = False
@@ -1506,7 +1494,6 @@ object frmLapSJ: TfrmLapSJ
         end
         object fdbSJ01tanggal: TfrxMemoView
           Left = 532.913730000000000000
-          Top = 3.779530000000000000
           Width = 219.212740000000000000
           Height = 18.897650000000000000
           ShowHint = False
@@ -1988,7 +1975,7 @@ object frmLapSJ: TfrmLapSJ
           Font.Color = clBlack
           Font.Height = -13
           Font.Name = 'Arial'
-          Font.Style = []
+          Font.Style = [fsBold]
           Memo.UTF8W = (
             '[fdbSJ01."nama"]')
           ParentFont = False
@@ -2003,7 +1990,7 @@ object frmLapSJ: TfrmLapSJ
           Font.Color = clBlack
           Font.Height = -13
           Font.Name = 'Arial'
-          Font.Style = []
+          Font.Style = [fsBold]
           Memo.UTF8W = (
             'Tanggal')
           ParentFont = False
@@ -2018,7 +2005,7 @@ object frmLapSJ: TfrmLapSJ
           Font.Color = clBlack
           Font.Height = -13
           Font.Name = 'Arial'
-          Font.Style = []
+          Font.Style = [fsBold]
           Memo.UTF8W = (
             'Kepada Yth.')
           ParentFont = False
@@ -2038,7 +2025,7 @@ object frmLapSJ: TfrmLapSJ
           Font.Color = clBlack
           Font.Height = -13
           Font.Name = 'Arial'
-          Font.Style = []
+          Font.Style = [fsBold]
           Memo.UTF8W = (
             '[fdbSJ01."tanggal"]')
           ParentFont = False
@@ -2149,14 +2136,8 @@ object frmLapSJ: TfrmLapSJ
           ShowHint = False
           DataSet = fdbSJ01
           DataSetName = 'fdbSJ01'
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clBlack
-          Font.Height = -13
-          Font.Name = 'Arial'
-          Font.Style = []
           Memo.UTF8W = (
             '[fdbSJ01."no_bukti"]')
-          ParentFont = False
         end
       end
       object GroupFooter1: TfrxGroupFooter

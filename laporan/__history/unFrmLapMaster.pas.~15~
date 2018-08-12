@@ -81,6 +81,7 @@ begin
     if cxlKategoriBrg.EditValue = 0 then
       zqrMstBarang.SQL.Strings[7] := ''
     else
+    begin
       zqrMstBarang.ParamByname('id_kategori').AsString := cxlKategoriBrg.EditValue;
     zqrMstBarang.Open;
     rptMstBarang.ShowReport(True);

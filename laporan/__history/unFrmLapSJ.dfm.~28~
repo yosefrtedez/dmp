@@ -542,6 +542,7 @@ object frmLapSJ: TfrmLapSJ
   end
   object zqrSJ01: TZReadOnlyQuery
     Connection = DM.zConn
+    Active = True
     SQL.Strings = (
       'SELECT a.*, b.qty, b.harga, '
       'c.nama, c.alamat, '
@@ -552,21 +553,10 @@ object frmLapSJ: TfrmLapSJ
       'LEFT JOIN tbl_customer c ON c.id = a.id_cust'
       'LEFT JOIN tbl_barang d ON d.id = b.id_brg'
       'LEFT JOIN tbl_barang_det_spek e ON e.id_ref = d.id'
-      'WHERE a.id = :id')
-    Params = <
-      item
-        DataType = ftUnknown
-        Name = 'id'
-        ParamType = ptUnknown
-      end>
+      '-- WHERE a.id = :id')
+    Params = <>
     Left = 88
     Top = 16
-    ParamData = <
-      item
-        DataType = ftUnknown
-        Name = 'id'
-        ParamType = ptUnknown
-      end>
   end
   object dsSJ01: TDataSource
     DataSet = zqrSJ01

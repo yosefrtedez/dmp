@@ -307,8 +307,6 @@ begin
           z.FieldByName('satuan').AsString        := Values[i, cxColSatuan.Index];
           z.FieldByName('id_satuan').AsInteger    := Values[i, cxColIdSatuan.Index];
           z.FieldByName('harga').AsFloat          := Values[i, cxColHarga.Index];
-          if not VarIsNull(Values[i, cxColHargaIkat.Index]) then
-            z.FieldByName('hargaikat').AsFloat := Values[i, cxColHargaIkat.Index];
           //z.FieldByName('harga_gross').asFloat    := Values[i, cxColGross.Index];
           //if Values[i, cxColDisc.Index]<> null then
           //  z.FieldByName('disc').AsInteger         := Values[i, cxColDisc.Index];
@@ -699,11 +697,10 @@ begin
       cxsTax.EditValue              := FieldByName('tax_amount').AsFloat;
       cxsNet.EditValue              := FieldByName('net_amount').AsFloat;
 
-      z := OpenRS('SELECT a.*, c.kode kode_brg2, b.satuan satuan2, d.jml_ikat_per_karung FROM tbl_so_det a ' +
+      z := OpenRS('SELECT a.*, c.kode kode_brg2, b.satuan satuan2 FROM tbl_so_det a ' +
         'LEFT JOIN tbl_satuan b ON a.id_satuan = b.id ' +
         'LEFT JOIN tbl_barang c ON c.id = a.id_brg ' +
-        'LEFT JOIN tbl_barang_det_spek d ON d.id_ref = a.id_brg ' +
-        'where a.id_ref = %s order by no asc',[Self.EditKey]) ;
+        'where id_ref = %s order by no asc',[Self.EditKey]) ;
       while not z.Eof do begin
         cxGrid1.BeginUpdate;
         with cxTblSO.DataController do begin
@@ -716,8 +713,6 @@ begin
           Values[i, cxColSatuan.Index]      := z.FieldByName('satuan2').AsString ;
           Values[i, cxColIdSatuan.Index] := z.FieldByName('id_satuan').AsString;
           Values[i, cxColHarga.Index]       := z.FieldByName('harga').AsFloat;
-          Values[i, cxColHargaIkat.Index] := z.FieldByname('hargaikat').AsFloat;
-          Values[i, cxColJmlIkat.Index] := z.FieldByName('jml_ikat_per_karung').AsFloat;
           //Values[i, cxColGross.Index]       := z.FieldByName('harga_gross').asstring;
           //Values[i, cxColDisc.Index]        := z.FieldByName('disc').AsFloat ;
           //Values[i, cxColDiscAmount.Index]  := z.FieldByName('invoice_disc').AsFloat ;
@@ -725,7 +720,6 @@ begin
           //Values[i, cxColTaxAmount.Index]   := z.FieldByName('taxamount').AsFloat ;
           //Values[i, cxColNetAmount.Index]   := z.FieldByName('net_amount').AsFloat ;
           Values[i, cxColKeterangan.Index] := z.FieldByname('keterangan').AsString;
-          Values[i, cxColNetAmount.Index] := Values[i, cxColHarga.Index] * Values[i, cxColQty.Index];
         end;
         cxGrid1.EndUpdate;
         z.Next;

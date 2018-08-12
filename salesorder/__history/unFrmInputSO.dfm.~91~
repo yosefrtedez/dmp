@@ -59,7 +59,7 @@ inherited frmInputSO: TfrmInputSO
     Caption = 'No. PO Customer'
   end
   object cxlbl2: TcxLabel
-    Left = 8
+    Left = 10
     Top = 119
     Caption = 'Tanggal'
   end
@@ -422,7 +422,6 @@ inherited frmInputSO: TfrmInputSO
         Visible = False
       end
       object cxColKode2: TcxGridColumn
-        Visible = False
       end
     end
     object cxGrid1Level1: TcxGridLevel

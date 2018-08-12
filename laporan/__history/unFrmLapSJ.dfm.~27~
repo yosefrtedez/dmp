@@ -542,6 +542,7 @@ object frmLapSJ: TfrmLapSJ
   end
   object zqrSJ01: TZReadOnlyQuery
     Connection = DM.zConn
+    Active = True
     SQL.Strings = (
       'SELECT a.*, b.qty, b.harga, '
       'c.nama, c.alamat, '
@@ -552,21 +553,10 @@ object frmLapSJ: TfrmLapSJ
       'LEFT JOIN tbl_customer c ON c.id = a.id_cust'
       'LEFT JOIN tbl_barang d ON d.id = b.id_brg'
       'LEFT JOIN tbl_barang_det_spek e ON e.id_ref = d.id'
-      'WHERE a.id = :id')
-    Params = <
-      item
-        DataType = ftUnknown
-        Name = 'id'
-        ParamType = ptUnknown
-      end>
+      '-- WHERE a.id = :id')
+    Params = <>
     Left = 88
     Top = 16
-    ParamData = <
-      item
-        DataType = ftUnknown
-        Name = 'id'
-        ParamType = ptUnknown
-      end>
   end
   object dsSJ01: TDataSource
     DataSet = zqrSJ01
@@ -1988,7 +1978,7 @@ object frmLapSJ: TfrmLapSJ
           Font.Color = clBlack
           Font.Height = -13
           Font.Name = 'Arial'
-          Font.Style = []
+          Font.Style = [fsBold]
           Memo.UTF8W = (
             '[fdbSJ01."nama"]')
           ParentFont = False
@@ -2003,7 +1993,7 @@ object frmLapSJ: TfrmLapSJ
           Font.Color = clBlack
           Font.Height = -13
           Font.Name = 'Arial'
-          Font.Style = []
+          Font.Style = [fsBold]
           Memo.UTF8W = (
             'Tanggal')
           ParentFont = False
@@ -2018,7 +2008,7 @@ object frmLapSJ: TfrmLapSJ
           Font.Color = clBlack
           Font.Height = -13
           Font.Name = 'Arial'
-          Font.Style = []
+          Font.Style = [fsBold]
           Memo.UTF8W = (
             'Kepada Yth.')
           ParentFont = False
@@ -2038,7 +2028,7 @@ object frmLapSJ: TfrmLapSJ
           Font.Color = clBlack
           Font.Height = -13
           Font.Name = 'Arial'
-          Font.Style = []
+          Font.Style = [fsBold]
           Memo.UTF8W = (
             '[fdbSJ01."tanggal"]')
           ParentFont = False
@@ -2149,14 +2139,8 @@ object frmLapSJ: TfrmLapSJ
           ShowHint = False
           DataSet = fdbSJ01
           DataSetName = 'fdbSJ01'
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clBlack
-          Font.Height = -13
-          Font.Name = 'Arial'
-          Font.Style = []
           Memo.UTF8W = (
             '[fdbSJ01."no_bukti"]')
-          ParentFont = False
         end
       end
       object GroupFooter1: TfrxGroupFooter

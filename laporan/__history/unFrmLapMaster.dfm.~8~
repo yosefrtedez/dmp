@@ -30,7 +30,6 @@ inherited frmLapMaster: TfrmLapMaster
     Height = 345
     ItemHeight = 13
     TabOrder = 0
-    OnClick = lstBoxClick
   end
   object pgParam: TcxPageControl
     Left = 378
@@ -58,7 +57,6 @@ inherited frmLapMaster: TfrmLapMaster
       object cxlKategoriBrg: TcxLookupComboBox
         Left = 14
         Top = 28
-        Properties.KeyFieldNames = 'id'
         Properties.ListColumns = <
           item
             Caption = 'Kategori'

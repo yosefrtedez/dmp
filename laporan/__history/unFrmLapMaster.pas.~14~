@@ -78,9 +78,7 @@ var
 begin
   f := TfrmLapMasterData.Create(nil);
   with f do begin
-    if cxlKategoriBrg.EditValue = 0 then
-      zqrMstBarang.SQL.Strings[7] := ''
-    else
+    if cxlKategoriBrg.EditValue > 0 then
       zqrMstBarang.ParamByname('id_kategori').AsString := cxlKategoriBrg.EditValue;
     zqrMstBarang.Open;
     rptMstBarang.ShowReport(True);

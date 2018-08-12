@@ -130,14 +130,11 @@ object frmLapMasterData: TfrmLapMasterData
           DataField = 'stok'
           DataSet = fdbMstBarang
           DataSetName = 'fdbMstBarang'
-          DisplayFormat.FormatStr = '#,#0.00'
-          DisplayFormat.Kind = fkNumeric
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clBlack
           Font.Height = -11
           Font.Name = 'Arial'
           Font.Style = []
-          HAlign = haRight
           Memo.UTF8W = (
             '[fdbMstBarang."stok"]')
           ParentFont = False
@@ -155,7 +152,6 @@ object frmLapMasterData: TfrmLapMasterData
           Font.Height = -11
           Font.Name = 'Arial'
           Font.Style = []
-          HAlign = haCenter
           Memo.UTF8W = (
             '[fdbMstBarang."satuan"]')
           ParentFont = False
@@ -231,7 +227,6 @@ object frmLapMasterData: TfrmLapMasterData
           Font.Height = -11
           Font.Name = 'Arial'
           Font.Style = []
-          HAlign = haRight
           Memo.UTF8W = (
             'Stok')
           ParentFont = False
@@ -247,7 +242,6 @@ object frmLapMasterData: TfrmLapMasterData
           Font.Height = -11
           Font.Name = 'Arial'
           Font.Style = []
-          HAlign = haCenter
           Memo.UTF8W = (
             'Satuan')
           ParentFont = False

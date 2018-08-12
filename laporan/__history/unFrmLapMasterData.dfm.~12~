@@ -155,7 +155,6 @@ object frmLapMasterData: TfrmLapMasterData
           Font.Height = -11
           Font.Name = 'Arial'
           Font.Style = []
-          HAlign = haCenter
           Memo.UTF8W = (
             '[fdbMstBarang."satuan"]')
           ParentFont = False
@@ -231,7 +230,6 @@ object frmLapMasterData: TfrmLapMasterData
           Font.Height = -11
           Font.Name = 'Arial'
           Font.Style = []
-          HAlign = haRight
           Memo.UTF8W = (
             'Stok')
           ParentFont = False
@@ -247,7 +245,6 @@ object frmLapMasterData: TfrmLapMasterData
           Font.Height = -11
           Font.Name = 'Arial'
           Font.Style = []
-          HAlign = haCenter
           Memo.UTF8W = (
             'Satuan')
           ParentFont = False
