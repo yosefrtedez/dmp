@@ -186,7 +186,7 @@ inherited frmInputSuratJalan: TfrmInputSuratJalan
         PropertiesClassName = 'TcxSpinEditProperties'
         Properties.Alignment.Horz = taRightJustify
         Properties.DisplayFormat = '#,#0.00'
-        Properties.ReadOnly = False
+        Properties.ReadOnly = True
         Width = 76
       end
       object cxColGudang: TcxGridColumn

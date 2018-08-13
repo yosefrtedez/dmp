@@ -17,7 +17,7 @@ uses
   cxFilter, cxData, cxDataStorage, cxEdit, DB, cxDBData, StdCtrls, cxGridLevel,
   cxClasses, cxGridCustomView, cxGridCustomTableView, cxGridTableView,
   cxGridDBTableView, cxGrid, ExtCtrls, cxPC, ZAbstractRODataset, ZDataset,
-  cxCheckBox;
+  cxCheckBox, cxContainer, cxLabel, cxSpinEdit;
 
 type
   TfrmLstPenerimaanKas = class(TfrmTplGrid)
@@ -35,12 +35,24 @@ type
     cxtbPKuser: TcxGridDBColumn;
     cxtbPKf_posting: TcxGridDBColumn;
     Panel3: TPanel;
-    cxGrid2DBTableView1: TcxGridDBTableView;
+    cxtbPKDet: TcxGridDBTableView;
     cxGrid2Level1: TcxGridLevel;
     cxGrid2: TcxGrid;
+    zqrPKDet: TZReadOnlyQuery;
+    dsPKDet: TDataSource;
+    btnPosting: TButton;
+    cxLabel1: TcxLabel;
+    cxtbPKDetnoakun: TcxGridDBColumn;
+    cxtbPKDetmemo: TcxGridDBColumn;
+    cxtbPKDetjumlah: TcxGridDBColumn;
+    cxtbPKDetColumn1: TcxGridDBColumn;
     procedure btnTambahClick(Sender: TObject);
     procedure btnRefreshClick(Sender: TObject);
     procedure btnEditClick(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+    procedure cxtbPKFocusedRecordChanged(Sender: TcxCustomGridTableView;
+      APrevFocusedRecord, AFocusedRecord: TcxCustomGridRecord;
+      ANewItemRecordFocusingChanged: Boolean);
   private
     { Private declarations }
   public
@@ -100,6 +112,24 @@ begin
 
     fu.pgMain.ActivePage := ts;
   end;
+end;
+
+procedure TfrmLstPenerimaanKas.cxtbPKFocusedRecordChanged(
+  Sender: TcxCustomGridTableView; APrevFocusedRecord,
+  AFocusedRecord: TcxCustomGridRecord; ANewItemRecordFocusingChanged: Boolean);
+begin
+  inherited;
+  with zqrPKDet do begin
+    Close;
+    ParamByname('id_ref').AsInteger := zqrPK.FieldByName('id').AsInteger;
+    Open;
+  end;
+end;
+
+procedure TfrmLstPenerimaanKas.FormCreate(Sender: TObject);
+begin
+  inherited;
+  zqrPK.Open;
 end;
 
 end.

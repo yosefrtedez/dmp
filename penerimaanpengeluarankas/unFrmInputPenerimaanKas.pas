@@ -50,6 +50,7 @@ type
     zqrAkunKas: TZReadOnlyQuery;
     dsAkunKas: TDataSource;
     cxChkPosting: TcxCheckBox;
+    cxColNoAkun2: TcxGridColumn;
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure cxlAkunPropertiesEditValueChanged(Sender: TObject);
@@ -144,9 +145,10 @@ begin
             Insert;
             qd.FieldByName('id_ref').AsInteger := ID;
             qd.FieldByName('no_bukti').AsString := sNoBukti;
-            qd.FieldByName('noakun').AsString := Values[i, cxColNoAkun.Index];
+            qd.FieldByName('noakun').AsString := Values[i, cxColNoAkun2.Index];
             qd.FieldByName('jumlah').AsFloat := Values[i, cxColJumlah.Index];
             qd.FieldByName('memo').AsString := Values[i, cxColMemo.Index];
+            qd.FieldByName('id_akun').AsInteger := Values[i, cxColNoAkun.Index];
             Post;
           end;
         end;
@@ -220,10 +222,23 @@ end;
 
 procedure TfrmInputPenerimaanKas.cxtbPKDataControllerRecordChanged(
   ADataController: TcxCustomDataController; ARecordIndex, AItemIndex: Integer);
+var
+  q: TZQuery;
 begin
   inherited;
-  if AItemIndex = cxColNamaAkun.Index then
-    cxColNoAkun.EditValue := cxColNamaAkun.EditValue;
+  if AItemIndex = cxColNoAkun.Index then begin
+    ADataController.Values[ARecordIndex, cxColNamaAkun.Index] := ADataController.Values[ARecordIndex, AItemIndex];
+    q := OpenRS('SELECT noakun FROM tbl_coa WHERE id = %s',[ADataController.Values[ARecordIndex, AItemIndex]]);
+    ADataController.Values[ARecordIndex, cxColNoAkun2.Index] := q.FieldByName('noakun').AsString;
+    q.Close;
+  end;
+
+  if AItemIndex = cxColNamaAkun.index then begin
+    ADataController.Values[ARecordIndex, cxColNoAkun.Index] := ADataController.Values[ARecordIndex, AItemIndex];
+    q := OpenRS('SELECT noakun FROM tbl_coa WHERE id = %s',[ADataController.Values[ARecordIndex, AItemIndex]]);
+    ADataController.Values[ARecordIndex, cxColNoAkun2.Index] := q.FieldByName('noakun').AsString;
+    q.Close;
+  end;
 end;
 
 procedure TfrmInputPenerimaanKas.FormCreate(Sender: TObject);

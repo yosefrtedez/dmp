@@ -2,8 +2,6 @@ inherited frmLstSO: TfrmLstSO
   Caption = 'Sales Order'
   OnCreate = FormCreate
   OnShow = FormShow
-  ExplicitWidth = 1016
-  ExplicitHeight = 508
   PixelsPerInch = 96
   TextHeight = 13
   inherited Panel1: TPanel
@@ -30,10 +28,13 @@ inherited frmLstSO: TfrmLstSO
       OnClick = btnEditClick
     end
     inherited btnHapus: TButton
+      Visible = False
       OnClick = btnHapusClick
     end
     inherited btnRefresh: TButton
+      Left = 252
       OnClick = btnRefreshClick
+      ExplicitLeft = 252
     end
   end
   object cxgCustomer: TcxGrid
@@ -148,13 +149,34 @@ inherited frmLstSO: TfrmLstSO
         Properties.DisplayFormat = '#,#0.00'
         HeaderAlignmentHorz = taRightJustify
       end
+      object cxtbSODetColumn2: TcxGridDBColumn
+        Caption = 'Subtotal'
+        DataBinding.FieldName = 'subtotal'
+        PropertiesClassName = 'TcxSpinEditProperties'
+        Properties.Alignment.Horz = taRightJustify
+        Properties.DisplayFormat = '#,#0.00'
+        Visible = False
+        FooterAlignmentHorz = taRightJustify
+        HeaderAlignmentHorz = taRightJustify
+        Width = 97
+      end
       object cxtbSODetColumn3: TcxGridDBColumn
         Caption = 'Qty. Terkirim'
         DataBinding.FieldName = 'qty_kirim'
         PropertiesClassName = 'TcxSpinEditProperties'
+        Properties.Alignment.Horz = taRightJustify
         Properties.DisplayFormat = '#,#0.00'
         Properties.ReadOnly = True
         Width = 82
+      end
+      object cxtbSODetColumn4: TcxGridDBColumn
+        Caption = 'Qty. Prod'
+        DataBinding.FieldName = 'qty_prod'
+        PropertiesClassName = 'TcxSpinEditProperties'
+        Properties.Alignment.Horz = taRightJustify
+        Properties.DisplayFormat = '#,#0.00'
+        Visible = False
+        Width = 71
       end
       object cxtbSODetsatuan: TcxGridDBColumn
         Caption = 'Satuan'
@@ -178,17 +200,6 @@ inherited frmLstSO: TfrmLstSO
         Caption = 'Keterangan'
         DataBinding.FieldName = 'keterangan'
         Width = 370
-      end
-      object cxtbSODetColumn2: TcxGridDBColumn
-        Caption = 'Subtotal'
-        DataBinding.FieldName = 'subtotal'
-        PropertiesClassName = 'TcxSpinEditProperties'
-        Properties.Alignment.Horz = taRightJustify
-        Properties.DisplayFormat = '#,#0.00'
-        Visible = False
-        FooterAlignmentHorz = taRightJustify
-        HeaderAlignmentHorz = taRightJustify
-        Width = 97
       end
     end
     object cxGrid1Level1: TcxGridLevel

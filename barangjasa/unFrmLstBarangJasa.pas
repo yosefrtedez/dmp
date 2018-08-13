@@ -327,7 +327,7 @@ procedure TfrmLstBarangJasa.FormCreate(Sender: TObject);
 begin
   inherited;
   Self.NamaMenu := 'mnMst_BarangJasa';
-  TerapkanWewenang(Self.NamaMenu);
+  //TerapkanWewenang(Self.NamaMenu);
   zqrBarang.Open;
   zqrGudang.Open;
   cxColStokKonv.Visible := False;

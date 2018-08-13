@@ -1,8 +1,6 @@
 inherited frmLstReturPembelian: TfrmLstReturPembelian
   Caption = 'Retur Pembelian'
   OnCreate = FormCreate
-  ExplicitWidth = 1016
-  ExplicitHeight = 508
   PixelsPerInch = 96
   TextHeight = 13
   inherited Panel1: TPanel
@@ -31,11 +29,7 @@ inherited frmLstReturPembelian: TfrmLstReturPembelian
     inherited btnHapus: TButton
       OnClick = btnHapusClick
     end
-    inherited btnKeluar: TButton
-      TabOrder = 4
-    end
     inherited btnRefresh: TButton
-      TabOrder = 3
       OnClick = btnRefreshClick
     end
   end

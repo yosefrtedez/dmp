@@ -23,7 +23,7 @@ inherited frmPengambilanBahanBaku: TfrmPengambilanBahanBaku
   inherited Panel2: TPanel
     Top = 571
     TabOrder = 7
-    ExplicitTop = 577
+    ExplicitTop = 571
     inherited btnSimpan: TButton
       Visible = False
     end
@@ -139,7 +139,6 @@ inherited frmPengambilanBahanBaku: TfrmPengambilanBahanBaku
     Height = 110
     Align = alTop
     TabOrder = 4
-    ExplicitTop = 280
     object cxtbBOM: TcxGridDBTableView
       NavigatorButtons.ConfirmDelete = False
       OnFocusedRecordChanged = cxtbBOMFocusedRecordChanged
@@ -217,7 +216,6 @@ inherited frmPengambilanBahanBaku: TfrmPengambilanBahanBaku
     Height = 140
     Align = alTop
     TabOrder = 6
-    ExplicitTop = 413
     object cxtbBomDet: TcxGridTableView
       NavigatorButtons.ConfirmDelete = False
       NavigatorButtons.PriorPage.Visible = False
@@ -235,6 +233,7 @@ inherited frmPengambilanBahanBaku: TfrmPengambilanBahanBaku
       DataController.OnBeforeDelete = cxtbBomDetDataControllerBeforeDelete
       DataController.OnBeforePost = cxtbBomDetDataControllerBeforePost
       DataController.OnNewRecord = cxtbBomDetDataControllerNewRecord
+      OptionsBehavior.FocusCellOnTab = True
       OptionsData.Appending = True
       OptionsData.Inserting = False
       OptionsView.Navigator = True
@@ -260,9 +259,8 @@ inherited frmPengambilanBahanBaku: TfrmPengambilanBahanBaku
         Width = 84
       end
       object cxColOperator: TcxGridColumn
-        Caption = 'Operator'
+        Caption = 'Personil Gdg.'
         PropertiesClassName = 'TcxTextEditProperties'
-        Visible = False
         Width = 107
       end
       object cxColGdg: TcxGridColumn

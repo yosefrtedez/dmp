@@ -228,7 +228,6 @@ begin
     if VarIsNull(Values[i, cxColTanggal.Index]) then berr := false;
     if VarIsNull(Values[i, cxColJam.Index]) then berr := false;
     if VarIsNull(Values[i, cxColQtyInput.Index]) then berr := false;
-
   end;
   if not berr then begin
     MsgBox('Mohon lengkapi inputan yang masih kosong.');

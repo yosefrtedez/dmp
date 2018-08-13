@@ -169,6 +169,7 @@ inherited frmInputHasilProduksi: TfrmInputHasilProduksi
       DataController.OnBeforeDelete = cxtbHslProdDataControllerBeforeDelete
       DataController.OnBeforePost = cxtbHslProdDataControllerBeforePost
       DataController.OnNewRecord = cxtbHslProdDataControllerNewRecord
+      OptionsBehavior.FocusCellOnTab = True
       OptionsData.Appending = True
       OptionsView.Navigator = True
       OptionsView.GroupByBox = False

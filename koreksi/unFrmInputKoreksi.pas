@@ -397,8 +397,8 @@ begin
     z := OpenRS('SELECT a.*, b.deskripsi, c.satuan satuan2 ' +
           'FROM tbl_trskoreksi_det a ' +
           'LEFT JOIN tbl_barang b ON a.kode_brg = b.kode ' +
-          'LEFT JOIN tbl_satuan c ON a.id_brg = c.id ' +
-          'LEFT JOIN tbl_gudang d ON d.id = a.kode_gdg ' +
+          'LEFT JOIN tbl_satuan c ON a.id_gdg = c.id ' +
+          'LEFT JOIN tbl_gudang d ON d.id = a.id_gdg ' +
           'WHERE id_ref = %s',[Self.EditKey]);
     nomer := 1;
 

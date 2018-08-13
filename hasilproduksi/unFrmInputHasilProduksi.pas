@@ -145,6 +145,9 @@ begin
     q.FieldByName('id_gdg').AsInteger := ADataController.Values[i, cxColGdgBJ.Index];
     q.FieldByName('user').AsString := Aplikasi.NamaUser;
     q.FieldByName('user_dept').AsString := Aplikasi.UserDept;
+    q.FIeldByName('id_so').AsInteger := zqrSPK.FieldByname('id_so').AsInteger;
+    q.FieldByName('id_brg').AsInteger := zqrSPK.FieldByName('id_brg').AsInteger;
+    q.FieldByName('tgl_edit').AsDateTime := Aplikasi.NowServer;
     ADataController.Values[i, cxColStatus.Index] := 1;
     q.Post;
     q.Close;

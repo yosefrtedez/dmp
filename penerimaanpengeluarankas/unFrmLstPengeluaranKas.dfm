@@ -20,18 +20,14 @@ inherited frmLstPengeluaranKas: TfrmLstPengeluaranKas
     end
   end
   inherited Panel2: TPanel
-    TabOrder = 2
+    TabOrder = 4
     inherited btnTambah: TButton
       OnClick = btnTambahClick
     end
     inherited btnEdit: TButton
       OnClick = btnEditClick
     end
-    inherited btnKeluar: TButton
-      TabOrder = 4
-    end
     inherited btnRefresh: TButton
-      TabOrder = 3
       OnClick = btnRefreshClick
     end
   end
@@ -39,19 +35,17 @@ inherited frmLstPengeluaranKas: TfrmLstPengeluaranKas
     Left = 0
     Top = 49
     Width = 1016
-    Height = 410
+    Height = 169
     Align = alClient
     TabOrder = 1
+    ExplicitHeight = 410
     object cxtbPK: TcxGridDBTableView
       NavigatorButtons.ConfirmDelete = False
+      OnFocusedRecordChanged = cxtbPKFocusedRecordChanged
       DataController.DataSource = dsPK
       DataController.Summary.DefaultGroupSummaryItems = <>
       DataController.Summary.FooterSummaryItems = <>
       DataController.Summary.SummaryGroups = <>
-      object cxColPKid: TcxGridDBColumn
-        Caption = 'ID'
-        DataBinding.FieldName = 'id'
-      end
       object cxColPKno_bukti: TcxGridDBColumn
         Caption = 'No Bukti'
         DataBinding.FieldName = 'no_bukti'
@@ -93,6 +87,59 @@ inherited frmLstPengeluaranKas: TfrmLstPengeluaranKas
       GridView = cxtbPK
     end
   end
+  object Panel3: TPanel
+    Left = 0
+    Top = 218
+    Width = 1016
+    Height = 41
+    Align = alBottom
+    TabOrder = 2
+    ExplicitLeft = -8
+    ExplicitTop = 177
+  end
+  object cxGrid2: TcxGrid
+    Left = 0
+    Top = 259
+    Width = 1016
+    Height = 200
+    Align = alBottom
+    TabOrder = 3
+    ExplicitLeft = 480
+    ExplicitTop = 40
+    ExplicitWidth = 250
+    object cxtbPKDet: TcxGridDBTableView
+      NavigatorButtons.ConfirmDelete = False
+      DataController.DataSource = dsPKDet
+      DataController.Summary.DefaultGroupSummaryItems = <>
+      DataController.Summary.FooterSummaryItems = <>
+      DataController.Summary.SummaryGroups = <>
+      object cxtbPKDetnoakun: TcxGridDBColumn
+        Caption = 'No. Akun'
+        DataBinding.FieldName = 'noakun'
+        Width = 87
+      end
+      object cxtbPKDetnamaakun: TcxGridDBColumn
+        Caption = 'Nama Akun'
+        DataBinding.FieldName = 'namaakun'
+        Width = 240
+      end
+      object cxtbPKDetmemo: TcxGridDBColumn
+        Caption = 'Memo'
+        DataBinding.FieldName = 'memo'
+        Width = 277
+      end
+      object cxtbPKDetjumlah: TcxGridDBColumn
+        Caption = 'Jumlah'
+        DataBinding.FieldName = 'jumlah'
+        PropertiesClassName = 'TcxSpinEditProperties'
+        Properties.DisplayFormat = '#,#0.00'
+        Width = 73
+      end
+    end
+    object cxGrid2Level1: TcxGridLevel
+      GridView = cxtbPKDet
+    end
+  end
   object zqrPK: TZReadOnlyQuery
     Connection = DM.zConn
     Active = True
@@ -110,5 +157,33 @@ inherited frmLstPengeluaranKas: TfrmLstPengeluaranKas
     DataSet = zqrPK
     Left = 800
     Top = 152
+  end
+  object zqrPKDet: TZReadOnlyQuery
+    Connection = DM.zConn
+    Active = True
+    SQL.Strings = (
+      'SELECT a.noakun, a.memo, a.jumlah, b.nama namaakun'
+      'FROM tbl_pengeluarankas_det a'
+      'LEFT JOIN tbl_coa b ON b.id = a.id_akun'
+      'WHERE a.id_ref = :id_ref')
+    Params = <
+      item
+        DataType = ftUnknown
+        Name = 'id_ref'
+        ParamType = ptUnknown
+      end>
+    Left = 648
+    Top = 344
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'id_ref'
+        ParamType = ptUnknown
+      end>
+  end
+  object dsPKDet: TDataSource
+    DataSet = zqrPKDet
+    Left = 728
+    Top = 376
   end
 end

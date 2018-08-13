@@ -3,7 +3,6 @@ inherited frmInputSO: TfrmInputSO
   ClientHeight = 726
   ClientWidth = 1048
   OnShow = FormShow
-  ExplicitTop = -28
   ExplicitWidth = 1048
   ExplicitHeight = 726
   PixelsPerInch = 96
@@ -401,8 +400,8 @@ inherited frmInputSO: TfrmInputSO
         DataBinding.ValueType = 'Float'
         PropertiesClassName = 'TcxSpinEditProperties'
         Properties.Alignment.Horz = taRightJustify
-        Properties.DisplayFormat = '#,###'
-        Properties.EditFormat = '#,###'
+        Properties.AssignedValues.EditFormat = True
+        Properties.DisplayFormat = '#,#0.00'
         Properties.ReadOnly = True
         Properties.ValueType = vtFloat
         HeaderAlignmentHorz = taRightJustify

@@ -87,12 +87,14 @@ inherited frmSPK: TfrmSPK
       DataController.Summary.SummaryGroups = <>
       DataController.OnBeforePost = cxtbBomDataControllerBeforePost
       DataController.OnRecordChanged = cxtbBomDataControllerRecordChanged
+      OptionsBehavior.FocusCellOnTab = True
       OptionsData.Appending = True
       OptionsView.Navigator = True
       OptionsView.GroupByBox = False
       object cxColKodeBrg: TcxGridColumn
         Caption = 'Kode Brg.'
         PropertiesClassName = 'TcxLookupComboBoxProperties'
+        Properties.DropDownAutoSize = True
         Properties.KeyFieldNames = 'id'
         Properties.ListColumns = <
           item

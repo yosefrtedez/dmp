@@ -14,7 +14,7 @@ uses
   dxSkinPumpkin, dxSkinSeven, dxSkinSharp, dxSkinSilver, dxSkinSpringTime,
   dxSkinStardust, dxSkinSummer2008, dxSkinsDefaultPainters, dxSkinValentine,
   dxSkinXmas2008Blue, dxSkinsdxStatusBarPainter, dxStatusBar, ZDataset,
-  dxSkinscxPCPainter, cxPC, ExtCtrls;
+  dxSkinscxPCPainter, cxPC, ExtCtrls, StdCtrls;
 
 type
   TfrmUtama = class(TForm)
@@ -33,7 +33,7 @@ type
     mnMst_UserProgram: TMenuItem;
     mnPPIC: TMenuItem;
     mnPRD: TMenuItem;
-    PUR1: TMenuItem;
+    mnPUR: TMenuItem;
     mnMst_COA: TMenuItem;
     mnMst_Lain2: TMenuItem;
     mnSys_TutupTab: TMenuItem;
@@ -69,9 +69,6 @@ type
     mnMst_Sales: TMenuItem;
     N4: TMenuItem;
     mnPur_ReturPembelian: TMenuItem;
-    N5: TMenuItem;
-    mnPur_FakturPembelian: TMenuItem;
-    mnPur_PembayaranHutUsaha: TMenuItem;
     mnPur_AppReturPembelian: TMenuItem;
     mnWhl_BarangMasuk: TMenuItem;
     mnWhl_BarangKeluar: TMenuItem;
@@ -86,6 +83,9 @@ type
     InvoicePenjualan1: TMenuItem;
     PembayaranPenjualan1: TMenuItem;
     mnPpic_SoMts: TMenuItem;
+    N6: TMenuItem;
+    mnPur_OutstandingPO: TMenuItem;
+    ListBox1: TListBox;
     procedure FormShow(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure mnMst_BarangJasaClick(Sender: TObject);
@@ -128,6 +128,8 @@ type
     procedure mnMkt_SuratJalanClick(Sender: TObject);
     procedure mnPpic_SoMtsClick(Sender: TObject);
     procedure mnPrd_LapInputHPClick(Sender: TObject);
+    procedure mnPrd_LapPengambilanBBClick(Sender: TObject);
+    procedure mnPur_OutstandingPOClick(Sender: TObject);
   private
     procedure PGChange(Sender: TObject);
   public
@@ -157,7 +159,7 @@ uses
   unFrmInputBarangMasuk, unFrmLstBarangMasuk, unFrmLstBarangKeluar,
   unFrmKalkulasiStok, unFrmLstKoreksi, unFrmMenuLaporan,
   unFrmPengambilanBahanBaku, unFrmInputHasilProduksi, unFrmLstSuratJalan,
-  unFrmLapHasilProduksi;
+  unFrmLapHasilProduksi, unFrmLapPengambilanBB, unFrmLapOutstandingPO;
 
 {$R *.dfm}
 
@@ -659,6 +661,26 @@ begin
   end;
 end;
 
+procedure TfrmUtama.mnPrd_LapPengambilanBBClick(Sender: TObject);
+var
+  f: TfrmLapPengambilanBB;
+  ts: TcxTabSheet;
+begin
+  if not CekTabOpen('Laporan Pengambilan Bahan Baku') then begin
+    ToggleMainPage;
+    ts := TcxTabSheet.Create(Self);
+    ts.PageControl := pgMain;
+
+    f := TfrmLapPengambilanBB.Create(Self);
+    f.Caption := 'Laporan Pengambilan Bahan Baku';
+    f.Parent := ts;
+    ts.Caption := f.Caption;
+    f.Show;
+
+    pgMain.ActivePage := ts;
+  end;
+end;
+
 procedure TfrmUtama.mnPrd_PengambilanBBClick(Sender: TObject);
 var
   f: TfrmPengambilanBahanBaku;
@@ -727,6 +749,25 @@ begin
     ts.PageControl := pgMain;
 
     f := TfrmAppRetur.Create(Self);
+    f.Parent := ts;
+    ts.Caption := f.Caption;
+    f.Show;
+
+    pgMain.ActivePage := ts;
+  end;
+end;
+
+procedure TfrmUtama.mnPur_OutstandingPOClick(Sender: TObject);
+var
+  f: TfrmLapOutstandingPO;
+  ts: TcxTabSheet;
+begin
+  if not CekTabOpen('Laporan Outstanding Purchase Order') then begin
+    ToggleMainPage;
+    ts := TcxTabSheet.Create(Self);
+    ts.PageControl := pgMain;
+
+    f := TfrmLapOutstandingPO.Create(Self);
     f.Parent := ts;
     ts.Caption := f.Caption;
     f.Show;
@@ -1040,6 +1081,7 @@ begin
   q := OpenRS('SELECT * FROM tbl_wewenang WHERE nama = ''%s''', [Aplikasi.NamaUser]);
 
   if (Aplikasi.NamaUser = 'ADMIN') or (Aplikasi.NamaUser = 'FELGITO') or (Aplikasi.NamaUser = 'HENDRA') then begin
+  //if Aplikasi.NamaUser = 'ADMIN' then begin
     HideAllMenu(False);
   end
   else begin
@@ -1047,6 +1089,7 @@ begin
     for i := 0 to frmUtama.ComponentCount - 1 do begin
 
       namaKomponen := Trim(frmUtama.Components[i].Name);
+      ListBox1.Items.Add(namaKomponen);
 
       if q.Locate('nm_comp', namaKomponen,[]) then begin
         f := false;
@@ -1094,8 +1137,15 @@ begin
     mnSys_TutupTab.Visible := True;
     mnSys_LogOff.Visible := True;
     mnSys_Keluar.Visible := True;
+
   end;
   Self.Menu := mainMenu;
+
+  mnMkt_ReturPenjualan.Visible := False;
+  mnPpic_MasterSchedule.Visible := False;
+  mnPur_ReturPembelian.Visible := False;
+  mnPur_AppReturPembelian.Visible := False;
+  //mnAKT.Visible := False;
 end;
 
 procedure TfrmUtama.ToggleMainPage;

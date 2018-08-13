@@ -66,11 +66,20 @@ object frmUtama: TfrmUtama
     Options = [pcoAlwaysShowGoDialogButton, pcoCloseButton, pcoGradient, pcoGradientClientArea, pcoRedrawOnResize]
     ParentBackground = False
     Style = 5
-    TabOrder = 0
+    TabOrder = 1
     Visible = False
     ClientRectBottom = 193
     ClientRectRight = 441
     ClientRectTop = 0
+  end
+  object ListBox1: TListBox
+    Left = 504
+    Top = 8
+    Width = 201
+    Height = 441
+    ItemHeight = 13
+    TabOrder = 0
+    Visible = False
   end
   object MainMenu: TMainMenu
     Left = 40
@@ -191,6 +200,10 @@ object frmUtama: TfrmUtama
       end
       object mnPrd_LapPengambilanBB: TMenuItem
         Caption = 'Laporan Pengambilan Bahan Baku '
+        OnClick = mnPrd_LapPengambilanBBClick
+      end
+      object N6: TMenuItem
+        Caption = '-'
       end
       object mnPrd_InputHslProd: TMenuItem
         Caption = 'Input Hasil Produksi '
@@ -201,7 +214,7 @@ object frmUtama: TfrmUtama
         OnClick = mnPrd_LapInputHPClick
       end
     end
-    object PUR1: TMenuItem
+    object mnPUR: TMenuItem
       Caption = 'PUR'
       object mnPur_PP: TMenuItem
         Caption = 'Permintaan Pembelian'
@@ -222,6 +235,10 @@ object frmUtama: TfrmUtama
         Caption = 'Approval Purchase Order'
         OnClick = mnPur_AppPOClick
       end
+      object mnPur_OutstandingPO: TMenuItem
+        Caption = 'Laporan Outstanding PO'
+        OnClick = mnPur_OutstandingPOClick
+      end
       object N3: TMenuItem
         Caption = '-'
       end
@@ -239,15 +256,6 @@ object frmUtama: TfrmUtama
       object mnPur_AppReturPembelian: TMenuItem
         Caption = 'Approval Retur Pembelian'
         OnClick = mnPur_AppReturPembelianClick
-      end
-      object N5: TMenuItem
-        Caption = '-'
-      end
-      object mnPur_FakturPembelian: TMenuItem
-        Caption = 'Faktur Pembelian'
-      end
-      object mnPur_PembayaranHutUsaha: TMenuItem
-        Caption = 'Pembayaran Hutang Usaha'
       end
     end
     object mnAKT: TMenuItem

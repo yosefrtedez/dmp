@@ -235,6 +235,19 @@ begin
     end;
   end;
 
+  if (VarIsNull(ADataController.Values[i, cxColDeskripsi.Index])) or
+      (Trim(ADataController.Values[i, cxColDeskripsi.Index]) = '')  then begin
+    MsgBox('Kode barang harus diisi.');
+    Abort;
+  end;
+
+
+  if VarIsNull(ADataController.Values[i, cxColQty.Index]) or
+    (ADataController.Values[i, cxColQty.Index] < 1) then begin
+    MsgBox('Qty. Bahan baku harus di isi.');
+    Abort;
+  end;
+
 end;
 
 procedure TfrmSPK.cxtbBomDataControllerRecordChanged(
@@ -262,6 +275,14 @@ begin
     ADataController.Values[ARecordIndex, cxColIdSatuan.Index] := q.FieldByName('id_satuan').AsString;
     ADataController.Values[ARecordIndex, cxColKodeBrg2.Index] := q.FieldByName('kode').AsString;
     q.Close;
+  end;
+
+  if AItemIndex = cxColQty.Index then begin
+    if VarIsNull(ADataController.Values[ARecordIndex, AItemIndex]) or
+      (ADataController.Values[ARecordIndex, AItemIndex] < 1) then begin
+      MsgBox('Qty. Bahan baku harus di isi.');
+      Abort;
+    end;
   end;
 
 end;

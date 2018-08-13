@@ -27,7 +27,7 @@ inherited frmInputSOMTS: TfrmInputSOMTS
   inherited Panel2: TPanel
     Top = 677
     Width = 1048
-    TabOrder = 9
+    TabOrder = 8
     ExplicitTop = 677
     ExplicitWidth = 1048
     inherited btnSimpan: TButton
@@ -57,192 +57,9 @@ inherited frmInputSOMTS: TfrmInputSOMTS
     TabOrder = 3
     Width = 147
   end
-  object cxGrid1: TcxGrid
-    Left = 8
-    Top = 152
-    Width = 1032
-    Height = 200
-    Anchors = [akLeft, akTop, akRight]
-    TabOrder = 8
-    Visible = False
-    object cxTblSO: TcxGridTableView
-      NavigatorButtons.ConfirmDelete = False
-      NavigatorButtons.Insert.Visible = False
-      NavigatorButtons.Append.Visible = True
-      NavigatorButtons.Refresh.Visible = False
-      NavigatorButtons.SaveBookmark.Visible = False
-      NavigatorButtons.GotoBookmark.Visible = False
-      NavigatorButtons.Filter.Visible = False
-      DataController.Summary.DefaultGroupSummaryItems = <
-        item
-          Kind = skSum
-          Position = spFooter
-        end
-        item
-          Kind = skSum
-          Column = cxColGross
-        end>
-      DataController.Summary.FooterSummaryItems = <
-        item
-          Format = '#,###'
-          Kind = skSum
-          Column = cxColGross
-        end
-        item
-          Format = '#,###'
-          Kind = skSum
-          Column = cxColDiscAmount
-        end
-        item
-          Format = '#,###'
-          Kind = skSum
-          Column = cxColTaxAmount
-        end
-        item
-          Format = '#,###'
-          Kind = skSum
-          Column = cxColNetAmount
-        end>
-      DataController.Summary.SummaryGroups = <>
-      DataController.OnBeforePost = cxTblSODataControllerBeforePost
-      DataController.OnRecordChanged = cxTblSODataControllerRecordChanged
-      OptionsData.Appending = True
-      OptionsView.Navigator = True
-      OptionsView.GroupByBox = False
-      object cxColNo: TcxGridColumn
-        Caption = 'No'
-        PropertiesClassName = 'TcxSpinEditProperties'
-        Properties.ReadOnly = True
-        Visible = False
-        OnGetDisplayText = cxColNoGetDisplayText
-        HeaderAlignmentHorz = taCenter
-        Width = 42
-      end
-      object cxColKode: TcxGridColumn
-        Caption = 'Kode Brg'
-        PropertiesClassName = 'TcxTextEditProperties'
-        Options.ShowEditButtons = isebAlways
-        Width = 108
-      end
-      object cxColDeskripsi: TcxGridColumn
-        Caption = 'Deskripsi'
-        PropertiesClassName = 'TcxLookupComboBoxProperties'
-        Properties.DropDownAutoSize = True
-        Properties.KeyFieldNames = 'id'
-        Properties.ListColumns = <
-          item
-            FieldName = 'deskripsi'
-          end
-          item
-            FieldName = 'kode'
-          end>
-        Properties.ListSource = dsBarang
-        Width = 193
-      end
-      object cxColQty: TcxGridColumn
-        Caption = 'Qty'
-        PropertiesClassName = 'TcxSpinEditProperties'
-        Properties.Alignment.Horz = taRightJustify
-        Properties.DisplayFormat = '#,#0.00'
-        Properties.EditFormat = '#,#0.00'
-        Properties.ValueType = vtFloat
-        HeaderAlignmentHorz = taRightJustify
-      end
-      object cxColSatuan: TcxGridColumn
-        Caption = 'Satuan'
-        PropertiesClassName = 'TcxTextEditProperties'
-        Properties.ReadOnly = True
-        Width = 72
-      end
-      object cxColHarga: TcxGridColumn
-        Caption = 'Harga'
-        PropertiesClassName = 'TcxSpinEditProperties'
-        Properties.Alignment.Horz = taRightJustify
-        Properties.AssignedValues.EditFormat = True
-        Properties.DisplayFormat = '#,#0.00'
-        Properties.ValueType = vtFloat
-        HeaderAlignmentHorz = taRightJustify
-        Width = 87
-      end
-      object cxColGross: TcxGridColumn
-        Caption = 'Harga Gross'
-        DataBinding.ValueType = 'Float'
-        PropertiesClassName = 'TcxSpinEditProperties'
-        Properties.Alignment.Horz = taRightJustify
-        Properties.DisplayFormat = '#,#0.00'
-        Properties.ReadOnly = True
-        HeaderAlignmentHorz = taRightJustify
-        Width = 98
-      end
-      object cxColDisc: TcxGridColumn
-        Caption = 'Disc(%)'
-        PropertiesClassName = 'TcxSpinEditProperties'
-        Properties.Alignment.Horz = taRightJustify
-        HeaderAlignmentHorz = taCenter
-      end
-      object cxColDiscAmount: TcxGridColumn
-        Caption = 'Disc Amount'
-        PropertiesClassName = 'TcxSpinEditProperties'
-        Properties.Alignment.Horz = taRightJustify
-        Properties.DisplayFormat = '#,###'
-        Properties.EditFormat = '#,###'
-        Properties.ReadOnly = True
-        Properties.ValueType = vtFloat
-        HeaderAlignmentHorz = taCenter
-        Width = 102
-      end
-      object cxColTaxable: TcxGridColumn
-        Caption = 'DPP'
-        PropertiesClassName = 'TcxSpinEditProperties'
-        Properties.Alignment.Horz = taRightJustify
-        Properties.DisplayFormat = '#,###'
-        Properties.EditFormat = '#,###'
-        Properties.ReadOnly = True
-        Properties.ValueType = vtFloat
-        HeaderAlignmentHorz = taCenter
-        Width = 112
-      end
-      object cxColTaxAmount: TcxGridColumn
-        Caption = 'PPN'
-        DataBinding.ValueType = 'Float'
-        PropertiesClassName = 'TcxSpinEditProperties'
-        Properties.Alignment.Horz = taRightJustify
-        Properties.DisplayFormat = '#,###'
-        Properties.EditFormat = '#,###'
-        Properties.ReadOnly = True
-        Properties.ValueType = vtFloat
-        HeaderAlignmentHorz = taCenter
-        Width = 101
-      end
-      object cxColNetAmount: TcxGridColumn
-        Caption = 'Net Amount'
-        DataBinding.ValueType = 'Float'
-        PropertiesClassName = 'TcxSpinEditProperties'
-        Properties.Alignment.Horz = taRightJustify
-        Properties.DisplayFormat = '#,###'
-        Properties.EditFormat = '#,###'
-        Properties.ReadOnly = True
-        Properties.ValueType = vtFloat
-        HeaderAlignmentHorz = taCenter
-        Width = 133
-      end
-      object cxColKeterangan: TcxGridColumn
-        Caption = 'Keterangan'
-        PropertiesClassName = 'TcxTextEditProperties'
-        Properties.CharCase = ecUpperCase
-        Width = 281
-      end
-      object cxColIdSatuan: TcxGridColumn
-        Visible = False
-      end
-    end
-    object cxGrid1Level1: TcxGridLevel
-      GridView = cxTblSO
-    end
-  end
   object cxGrid2: TcxGrid
-    Left = 8
-    Top = 152
+    Left = 10
+    Top = 149
     Width = 1032
     Height = 200
     Anchors = [akLeft, akTop, akRight]
@@ -294,6 +111,7 @@ inherited frmInputSOMTS: TfrmInputSOMTS
       end
       object cxColKode2: TcxGridColumn
         Caption = 'Kode Brg'
+        DataBinding.ValueType = 'Integer'
         PropertiesClassName = 'TcxLookupComboBoxProperties'
         Properties.DropDownAutoSize = True
         Properties.KeyFieldNames = 'id'
@@ -312,6 +130,7 @@ inherited frmInputSOMTS: TfrmInputSOMTS
       end
       object cxColDeskripsi2: TcxGridColumn
         Caption = 'Deskripsi'
+        DataBinding.ValueType = 'Integer'
         PropertiesClassName = 'TcxLookupComboBoxProperties'
         Properties.DropDownAutoSize = True
         Properties.KeyFieldNames = 'id'

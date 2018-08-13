@@ -1,0 +1,238 @@
+inherited frmLapPengambilanBB: TfrmLapPengambilanBB
+  Caption = 'frmLapHasilProduksi'
+  ClientHeight = 610
+  ClientWidth = 1125
+  OnCreate = FormCreate
+  ExplicitWidth = 1125
+  ExplicitHeight = 610
+  PixelsPerInch = 96
+  TextHeight = 13
+  inherited Panel1: TPanel
+    Width = 1125
+    ExplicitWidth = 1125
+    object Label13: TLabel
+      Left = 10
+      Top = 16
+      Width = 284
+      Height = 19
+      Caption = 'Laporan Pengambilan Bahan Baku '
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -16
+      Font.Name = 'Tahoma'
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+  end
+  inherited Panel2: TPanel
+    Top = 561
+    Width = 1125
+    TabOrder = 3
+    ExplicitTop = 561
+    ExplicitWidth = 1125
+    inherited btnTambah: TButton
+      Left = 498
+      TabOrder = 2
+      Visible = False
+      ExplicitLeft = 498
+    end
+    inherited btnEdit: TButton
+      Left = 579
+      TabOrder = 3
+      Visible = False
+      ExplicitLeft = 579
+    end
+    inherited btnHapus: TButton
+      Left = 660
+      TabOrder = 4
+      Visible = False
+      ExplicitLeft = 660
+    end
+    inherited btnKeluar: TButton
+      Left = 822
+      Top = 19
+      TabOrder = 6
+      Visible = False
+      ExplicitLeft = 822
+      ExplicitTop = 19
+    end
+    inherited btnRefresh: TButton
+      Left = 741
+      TabOrder = 5
+      Visible = False
+      ExplicitLeft = 741
+    end
+    object Button1: TButton
+      Left = 15
+      Top = 11
+      Width = 75
+      Height = 25
+      Caption = 'Excel'
+      TabOrder = 0
+      OnClick = Button1Click
+    end
+    object Button2: TButton
+      Left = 96
+      Top = 11
+      Width = 75
+      Height = 25
+      Caption = 'Keluar'
+      TabOrder = 1
+      OnClick = Button2Click
+    end
+  end
+  object cxGrid1: TcxGrid
+    Left = 0
+    Top = 97
+    Width = 1125
+    Height = 464
+    Align = alClient
+    TabOrder = 2
+    object cxGrid1DBTableView1: TcxGridDBTableView
+      NavigatorButtons.ConfirmDelete = False
+      DataController.DataSource = dsBB
+      DataController.Summary.DefaultGroupSummaryItems = <>
+      DataController.Summary.FooterSummaryItems = <>
+      DataController.Summary.SummaryGroups = <>
+      FilterRow.Visible = True
+      object cxGrid1DBTableView1no_spk: TcxGridDBColumn
+        Caption = 'No. SPK'
+        DataBinding.FieldName = 'no_spk'
+        Width = 86
+      end
+      object cxGrid1DBTableView1no_bukti: TcxGridDBColumn
+        Caption = 'No. Bukti'
+        DataBinding.FieldName = 'no_bukti'
+        Width = 93
+      end
+      object cxGrid1DBTableView1tanggal: TcxGridDBColumn
+        Caption = 'Tanggal'
+        DataBinding.FieldName = 'tanggal'
+      end
+      object cxGrid1DBTableView1deskripsi_spk: TcxGridDBColumn
+        Caption = 'Deskripsi SPK'
+        DataBinding.FieldName = 'deskripsi_spk'
+        Width = 165
+      end
+      object cxGrid1DBTableView1qty_spk: TcxGridDBColumn
+        Caption = 'Qty. SPK'
+        DataBinding.FieldName = 'qty_spk'
+        Width = 52
+      end
+      object cxGrid1DBTableView1deskripsi_bom: TcxGridDBColumn
+        Caption = 'Deskripsi BB (BOM)'
+        DataBinding.FieldName = 'deskripsi_bom'
+        Width = 166
+      end
+      object cxGrid1DBTableView1qty_bom: TcxGridDBColumn
+        Caption = 'Qty. BOM'
+        DataBinding.FieldName = 'qty_bom'
+      end
+      object cxGrid1DBTableView1qty_pengambilan: TcxGridDBColumn
+        Caption = 'Qty. Pengambilan'
+        DataBinding.FieldName = 'qty_pengambilan'
+        Width = 93
+      end
+      object cxGrid1DBTableView1satuan: TcxGridDBColumn
+        Caption = 'Sat'
+        DataBinding.FieldName = 'satuan'
+        Width = 33
+      end
+      object cxGrid1DBTableView1kode: TcxGridDBColumn
+        Caption = 'Gdg'
+        DataBinding.FieldName = 'kode'
+        Width = 36
+      end
+      object cxGrid1DBTableView1operator: TcxGridDBColumn
+        Caption = 'Person Gdg.'
+        DataBinding.FieldName = 'operator'
+        Width = 73
+      end
+      object cxGrid1DBTableView1user: TcxGridDBColumn
+        Caption = 'User'
+        DataBinding.FieldName = 'user'
+        Width = 60
+      end
+      object cxGrid1DBTableView1user_dept: TcxGridDBColumn
+        Caption = 'Dept.'
+        DataBinding.FieldName = 'user_dept'
+        Width = 70
+      end
+      object cxGrid1DBTableView1tgl_edit: TcxGridDBColumn
+        Caption = 'Tgl. Input'
+        DataBinding.FieldName = 'tgl_edit'
+        Width = 95
+      end
+    end
+    object cxGrid1Level1: TcxGridLevel
+      GridView = cxGrid1DBTableView1
+    end
+  end
+  object Panel3: TPanel
+    Left = 0
+    Top = 49
+    Width = 1125
+    Height = 48
+    Align = alTop
+    TabOrder = 1
+    object cxLabel1: TcxLabel
+      Left = 15
+      Top = 14
+      Caption = 'Tanggal'
+    end
+    object cxdTgl1: TcxDateEdit
+      Left = 70
+      Top = 14
+      TabOrder = 2
+      Width = 121
+    end
+    object cxdTgl2: TcxDateEdit
+      Left = 225
+      Top = 14
+      TabOrder = 3
+      Width = 121
+    end
+    object cxLabel2: TcxLabel
+      Left = 197
+      Top = 15
+      Caption = 'S/D'
+    end
+    object btnProses: TButton
+      Left = 353
+      Top = 12
+      Width = 75
+      Height = 25
+      Caption = 'Proses'
+      TabOrder = 0
+      OnClick = btnProsesClick
+    end
+  end
+  object zqrBB: TZReadOnlyQuery
+    Connection = DM.zConn
+    Active = True
+    SQL.Strings = (
+      
+        'select b.no_spk, a.no_bukti, a.tanggal, d.deskripsi deskripsi_sp' +
+        'k, b.qty qty_spk, c.deskripsi deskripsi_bom,   '
+      
+        '(select qty from tbl_bom where id_spk = b.id and id_brg = a.id_b' +
+        'rg) qty_bom, '
+      
+        'a.qty qty_pengambilan, e.satuan, a.operator, f.kode, a.user, a.u' +
+        'ser_dept, a.tgl_edit'
+      'from tbl_trspengambilanbb a'
+      'left join tbl_spk b on a.id_spk = b.id'
+      'left join tbl_barang c on c.id = a.id_brg'
+      'left join tbl_barang d on d.id = b.id_brg'
+      'left join tbl_satuan e on e.id = a.id_satuan'
+      'left join tbl_gudang f on f.id = a.id_gdg;')
+    Params = <>
+    Left = 632
+    Top = 184
+  end
+  object dsBB: TDataSource
+    DataSet = zqrBB
+    Left = 728
+    Top = 184
+  end
+end

@@ -289,6 +289,9 @@ procedure TfrmLstSuratJalan.FormCreate(Sender: TObject);
 begin
   inherited;
   zqrSJ.Open;
+
+  btnHapus.Visible := False;
+  btnEdit.Visible := False;
 end;
 
 end.

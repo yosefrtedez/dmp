@@ -286,6 +286,12 @@
 			<DCCReference Include="purchaseorder\unFrmPilihPO.pas">
 				<Form>frmPilihPO</Form>
 			</DCCReference>
+			<DCCReference Include="laporan\unFrmLapPengambilanBB.pas">
+				<Form>frmLapPengambilanBB</Form>
+			</DCCReference>
+			<DCCReference Include="purchaseorder\unFrmLapOutstandingPO.pas">
+				<Form>frmLapOutstandingPO</Form>
+			</DCCReference>
 			<BuildConfiguration Include="Base">
 				<Key>Base</Key>
 			</BuildConfiguration>

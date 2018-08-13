@@ -55,6 +55,7 @@ type
     zqrBKK: TZReadOnlyQuery;
     dsBKK: TDataSource;
     fdbBKK: TfrxDBDataset;
+    cxColNoAkun2: TcxGridColumn;
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure cxlAkunPropertiesEditValueChanged(Sender: TObject);
@@ -120,7 +121,7 @@ begin
         sNoBukti := cxtNoBukti.Text;
       end;
 
-      qh := OpenRS('SELECT * FROM tbl_trskk_head WHERE no_bukti = ''%s''',[sNoBukti]);
+      qh := OpenRS('SELECT * FROM tbl_pengeluarankas_head WHERE no_bukti = ''%s''',[sNoBukti]);
       if Self.Jenis = 'T' then
         qh.Insert
       else begin
@@ -143,23 +144,25 @@ begin
       if Self.Jenis = 'T' then ID := LastInsertID;
 
       if Self.Jenis = 'E' then
-        dm.zConn.ExecuteDirect(Format('DELETE FROM tbl_trskk_det WHERE id_ref = %d', [ID]));
+        dm.zConn.ExecuteDirect(Format('DELETE FROM tbl_pengeluarankas_det WHERE id_ref = %d', [ID]));
 
-      qd := OpenRS('SELECT * FROM tbl_trskk_det WHERE id_ref = %d',[ID]);
+      qd := OpenRS('SELECT * FROM tbl_pengeluarankas_det WHERE id_ref = %d',[ID]);
       for i := 0 to cxtbPK.DataController.RecordCount - 1 do begin
         with cxtbPK.DataController do begin
           with qd do begin
             Insert;
             qd.FieldByName('id_ref').AsInteger := ID;
             qd.FieldByName('no_bukti').AsString := sNoBukti;
-            qd.FieldByName('akun').AsString := Values[i, cxColNoAkun.Index];
+            qd.FieldByName('noakun').AsString := Values[i, cxColnoAkun2.Index];
             qd.FieldByName('jumlah').AsFloat := Values[i, cxColJumlah.Index];
             qd.FieldByName('keterangan').AsString := Values[i, cxColMemo.Index];
+            qd.FieldByname('id_akun').AsInteger := Values[i, cxColNoAkun.Index];
             Post;
           end;
         end;
       end;
 
+      {
       sAkun := cxtNoAkun.Text;
       sNoJ := GetLastFak('jurnal');
       UpdateFaktur(copy(sNoJ,1,6));
@@ -191,12 +194,12 @@ begin
             end;
           end;
       end;
+      }
 
       zqrBKK.Close;
       zqrBKK.ParamByName('no_bukti').AsString := sNoBukti;
       zqrBKK.Open;
-      rptBKK.ShowReport(True);
-
+      //rptBKK.ShowReport(True);
 
       MsgBox('Pengeluaran kas sudah disimpan dengan nomor : ' + sNoBukti);
       btnBatalClick(nil);
@@ -266,10 +269,23 @@ end;
 
 procedure TfrmInputPengeluaranKas.cxtbPKDataControllerRecordChanged(
   ADataController: TcxCustomDataController; ARecordIndex, AItemIndex: Integer);
+var
+  q: TZQuery;
 begin
   inherited;
-  if AItemIndex = cxColNamaAkun.Index then
-    cxColNoAkun.EditValue := cxColNamaAkun.EditValue;
+  if AItemIndex = cxColNoAkun.Index then begin
+    ADataController.Values[ARecordIndex, cxColNamaAkun.Index] := ADataController.Values[ARecordIndex, AItemIndex];
+    q := OpenRS('SELECT noakun FROM tbl_coa WHERE id = %s',[ADataController.Values[ARecordIndex, AItemIndex]]);
+    ADataController.Values[ARecordIndex, cxColNoAkun2.Index] := q.FieldByName('noakun').AsString;
+    q.Close;
+  end;
+
+  if AItemIndex = cxColNamaAkun.index then begin
+    ADataController.Values[ARecordIndex, cxColNoAkun.Index] := ADataController.Values[ARecordIndex, AItemIndex];
+    q := OpenRS('SELECT noakun FROM tbl_coa WHERE id = %s',[ADataController.Values[ARecordIndex, AItemIndex]]);
+    ADataController.Values[ARecordIndex, cxColNoAkun2.Index] := q.FieldByName('noakun').AsString;
+    q.Close;
+  end;
 end;
 
 procedure TfrmInputPengeluaranKas.FormCreate(Sender: TObject);

@@ -1,7 +1,6 @@
 inherited frmLstPenerimaanKas: TfrmLstPenerimaanKas
   Caption = 'Penerimaan Kas'
-  ExplicitWidth = 1016
-  ExplicitHeight = 508
+  OnCreate = FormCreate
   PixelsPerInch = 96
   TextHeight = 13
   inherited Panel1: TPanel
@@ -40,6 +39,7 @@ inherited frmLstPenerimaanKas: TfrmLstPenerimaanKas
     TabOrder = 1
     object cxtbPK: TcxGridDBTableView
       NavigatorButtons.ConfirmDelete = False
+      OnFocusedRecordChanged = cxtbPKFocusedRecordChanged
       DataController.DataSource = dsPK
       DataController.Summary.DefaultGroupSummaryItems = <>
       DataController.Summary.FooterSummaryItems = <>
@@ -89,6 +89,19 @@ inherited frmLstPenerimaanKas: TfrmLstPenerimaanKas
     Height = 41
     Align = alBottom
     TabOrder = 2
+    object btnPosting: TButton
+      Left = 933
+      Top = 9
+      Width = 75
+      Height = 25
+      Caption = 'Posting'
+      TabOrder = 0
+    end
+    object cxLabel1: TcxLabel
+      Left = 10
+      Top = 12
+      Caption = 'Detail Penerimaan Kas'
+    end
   end
   object cxGrid2: TcxGrid
     Left = 0
@@ -97,19 +110,43 @@ inherited frmLstPenerimaanKas: TfrmLstPenerimaanKas
     Height = 200
     Align = alBottom
     TabOrder = 3
-    object cxGrid2DBTableView1: TcxGridDBTableView
+    ExplicitTop = 265
+    object cxtbPKDet: TcxGridDBTableView
       NavigatorButtons.ConfirmDelete = False
+      DataController.DataSource = dsPKDet
       DataController.Summary.DefaultGroupSummaryItems = <>
       DataController.Summary.FooterSummaryItems = <>
       DataController.Summary.SummaryGroups = <>
+      object cxtbPKDetnoakun: TcxGridDBColumn
+        Caption = 'No. Akun'
+        DataBinding.FieldName = 'noakun'
+        Width = 78
+      end
+      object cxtbPKDetColumn1: TcxGridDBColumn
+        Caption = 'Nama Akun'
+        DataBinding.FieldName = 'namaakun'
+        Width = 163
+      end
+      object cxtbPKDetmemo: TcxGridDBColumn
+        Caption = 'Memo'
+        DataBinding.FieldName = 'memo'
+        Width = 334
+      end
+      object cxtbPKDetjumlah: TcxGridDBColumn
+        Caption = 'Jumlah'
+        DataBinding.FieldName = 'jumlah'
+        PropertiesClassName = 'TcxSpinEditProperties'
+        Properties.AssignedValues.EditFormat = True
+        Properties.DisplayFormat = '#,#0.00'
+        Width = 87
+      end
     end
     object cxGrid2Level1: TcxGridLevel
-      GridView = cxGrid2DBTableView1
+      GridView = cxtbPKDet
     end
   end
   object zqrPK: TZReadOnlyQuery
     Connection = DM.zConn
-    Active = True
     SQL.Strings = (
       'SELECT *'
       'FROM tbl_penerimaankas_head'
@@ -122,5 +159,32 @@ inherited frmLstPenerimaanKas: TfrmLstPenerimaanKas
     DataSet = zqrPK
     Left = 800
     Top = 152
+  end
+  object zqrPKDet: TZReadOnlyQuery
+    Connection = DM.zConn
+    SQL.Strings = (
+      'SELECT a.noakun, a.memo, a.jumlah, b.nama namaakun'
+      'FROM tbl_penerimaankas_det a'
+      'LEFT JOIN tbl_coa b ON b.id = a.id_akun'
+      'WHERE a.id_ref = :id_ref')
+    Params = <
+      item
+        DataType = ftUnknown
+        Name = 'id_ref'
+        ParamType = ptUnknown
+      end>
+    Left = 544
+    Top = 320
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'id_ref'
+        ParamType = ptUnknown
+      end>
+  end
+  object dsPKDet: TDataSource
+    DataSet = zqrPKDet
+    Left = 648
+    Top = 344
   end
 end

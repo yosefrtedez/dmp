@@ -35,6 +35,7 @@ inherited frmInputUser: TfrmInputUser
   object cxtUserLogin: TcxTextEdit
     Left = 104
     Top = 63
+    Properties.CharCase = ecUpperCase
     TabOrder = 1
     Width = 265
   end
@@ -46,6 +47,7 @@ inherited frmInputUser: TfrmInputUser
   object cxtNamaLengkap: TcxTextEdit
     Left = 104
     Top = 90
+    Properties.CharCase = ecUpperCase
     TabOrder = 3
     Width = 377
   end

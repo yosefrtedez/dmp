@@ -1,10 +1,11 @@
 inherited frmInputPenerimaanKas: TfrmInputPenerimaanKas
   Caption = 'Input Penerimaan Kas'
+  ClientHeight = 599
   ClientWidth = 1102
   OnCreate = FormCreate
   OnShow = FormShow
   ExplicitWidth = 1102
-  ExplicitHeight = 553
+  ExplicitHeight = 599
   PixelsPerInch = 96
   TextHeight = 13
   inherited Panel1: TPanel
@@ -25,8 +26,10 @@ inherited frmInputPenerimaanKas: TfrmInputPenerimaanKas
     end
   end
   inherited Panel2: TPanel
+    Top = 550
     Width = 1102
     TabOrder = 18
+    ExplicitTop = 550
     ExplicitWidth = 1102
     inherited btnSimpan: TButton
       OnClick = btnSimpanClick
@@ -71,25 +74,32 @@ inherited frmInputPenerimaanKas: TfrmInputPenerimaanKas
       DataController.OnAfterPost = cxtbPKDataControllerAfterPost
       DataController.OnBeforePost = cxtbPKDataControllerBeforePost
       DataController.OnRecordChanged = cxtbPKDataControllerRecordChanged
+      OptionsBehavior.FocusCellOnTab = True
       OptionsData.Appending = True
       OptionsView.Navigator = True
       OptionsView.Footer = True
       OptionsView.GroupByBox = False
       object cxColNoAkun: TcxGridColumn
         Caption = 'Akun'
-        PropertiesClassName = 'TcxButtonEditProperties'
-        Properties.Buttons = <
+        PropertiesClassName = 'TcxLookupComboBoxProperties'
+        Properties.DropDownAutoSize = True
+        Properties.KeyFieldNames = 'id'
+        Properties.ListColumns = <
           item
-            Default = True
-            Kind = bkEllipsis
+            Caption = 'No. Akun'
+            FieldName = 'noakun'
+          end
+          item
+            Caption = 'Nama Akun'
+            FieldName = 'nama'
           end>
-        Properties.ReadOnly = True
+        Properties.ListSource = dsAkunDet
         Width = 117
       end
       object cxColNamaAkun: TcxGridColumn
         Caption = 'Nama Akun'
         PropertiesClassName = 'TcxLookupComboBoxProperties'
-        Properties.KeyFieldNames = 'noakun'
+        Properties.KeyFieldNames = 'id'
         Properties.ListColumns = <
           item
             Caption = 'Nama Akun'
@@ -115,6 +125,9 @@ inherited frmInputPenerimaanKas: TfrmInputPenerimaanKas
       object cxColMemo: TcxGridColumn
         Caption = 'Memo'
         Width = 333
+      end
+      object cxColNoAkun2: TcxGridColumn
+        Visible = False
       end
     end
     object cxGrid1Level1: TcxGridLevel

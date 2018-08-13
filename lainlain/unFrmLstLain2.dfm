@@ -2,7 +2,6 @@ inherited frmLstLain2: TfrmLstLain2
   Caption = 'Kategori - Departemen'
   ClientHeight = 533
   OnCreate = FormCreate
-  ExplicitWidth = 1016
   ExplicitHeight = 533
   PixelsPerInch = 96
   TextHeight = 13
@@ -23,6 +22,7 @@ inherited frmLstLain2: TfrmLstLain2
   end
   inherited Panel2: TPanel
     Top = 484
+    TabOrder = 2
     ExplicitTop = 484
     inherited btnTambah: TButton
       Visible = False
@@ -42,10 +42,10 @@ inherited frmLstLain2: TfrmLstLain2
     Top = 67
     Width = 1000
     Height = 423
-    ActivePage = cxTabSheet3
+    ActivePage = cxTabSheet1
     Anchors = [akLeft, akTop, akRight, akBottom]
     Style = 7
-    TabOrder = 2
+    TabOrder = 1
     ClientRectBottom = 422
     ClientRectLeft = 1
     ClientRectRight = 999
@@ -94,21 +94,18 @@ inherited frmLstLain2: TfrmLstLain2
         TabOrder = 0
         object cxGridDBTableView4: TcxGridDBTableView
           NavigatorButtons.ConfirmDelete = False
-          DataController.DataSource = dsKategoriBarang
+          DataController.DataSource = dsSubKategori
           DataController.Summary.DefaultGroupSummaryItems = <>
           DataController.Summary.FooterSummaryItems = <>
           DataController.Summary.SummaryGroups = <>
           OptionsView.Navigator = True
-          object cxGridDBColumn3: TcxGridDBColumn
+          object cxGridDBTableView4id: TcxGridDBColumn
             Caption = 'ID'
-            DataBinding.FieldName = 'kode'
-            Options.Editing = False
-            Width = 41
+            DataBinding.FieldName = 'id'
           end
-          object cxGridDBColumn4: TcxGridDBColumn
-            Caption = 'Kategori'
-            DataBinding.FieldName = 'kategori'
-            Width = 477
+          object cxGridDBTableView4subkategori: TcxGridDBColumn
+            Caption = 'Subkategori'
+            DataBinding.FieldName = 'subkategori'
           end
         end
         object cxGridLevel4: TcxGridLevel
@@ -295,5 +292,16 @@ inherited frmLstLain2: TfrmLstLain2
     DataSet = tblGudang
     Left = 880
     Top = 296
+  end
+  object tblSubKategori: TZTable
+    Connection = DM.zConn
+    TableName = 'tbl_subkategori_brg'
+    Left = 704
+    Top = 360
+  end
+  object dsSubKategori: TDataSource
+    DataSet = tblSubKategori
+    Left = 888
+    Top = 368
   end
 end

@@ -51,6 +51,7 @@ type
     cxtbSOColumn3: TcxGridDBColumn;
     cxtbSODetColumn3: TcxGridDBColumn;
     cxtbSOColumn4: TcxGridDBColumn;
+    cxtbSODetColumn4: TcxGridDBColumn;
     procedure btnRefreshClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure btnTambahClick(Sender: TObject);
@@ -131,20 +132,33 @@ begin
 end;
 
 procedure TfrmLstSO.btnHapusClick(Sender: TObject);
+var
+  q: TZQuery;
+  i: integer;
 begin
   inherited;
-  try
-    dm.zConn.StartTransaction;
-    dm.zConn.ExecuteDirect('DELETE from tbl_so_head_dmp WHERE no_bukti = ''' + zqrSO.FieldByName('no_bukti').AsString + '''');
-    dm.zConn.ExecuteDirect('DELETE from tbl_so_det_dmp WHERE no_bukti = ''' + zqrSO.FieldByName('no_bukti').AsString + '''');
-    dm.zConn.Commit;
-    MsgBox('No.SO: ' + zqrSO.FieldByName('no_bukti').AsString + ' sudah berhasil di Hapus.');
-    zqrSO.Close;
-    zqrSO.Open;
-  except
-    on E: Exception do begin
-      MsgBox('Error: ' + E.Message);
-      dm.zConn.Rollback;
+  q := OpenRS('SELECT * FROM tbl_history WHERE id_so = %d', [zqrSO.FieldByName('id').AsInteger]);
+  if not q.IsEmpty then begin
+    MsgBox('Sales order tidak bisa dihapus karena sudah ada transaksi.');
+    Abort;
+  end
+  else begin
+    i := unTools.QBox(Self,'Hapus nomer SO ini : ' + zqrSO.FieldByName('no_bukti').AsString + ' ?', 'Hapus SO');
+    if i = IDYES then begin
+      try
+        dm.zConn.StartTransaction;
+        dm.zConn.ExecuteDirect(Format('DELETE FROM tbl_so_head WHERE id = %d',[zqrSO.FieldByName('id').AsInteger]));
+        dm.zConn.ExecuteDirect(Format('DELETE FROM tbl_so_det WHERE id_ref = %d',[zqrSO.FieldByName('id').AsInteger]));
+        dm.zConn.Commit;
+        MsgBox('No.SO: ' + zqrSO.FieldByName('no_bukti').AsString + ' sudah berhasil di Hapus.');
+        zqrSO.Close;
+        zqrSO.Open;
+      except
+        on E: Exception do begin
+          MsgBox('Error: ' + E.Message);
+          dm.zConn.Rollback;
+        end;
+      end;
     end;
   end;
 end;

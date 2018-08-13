@@ -377,9 +377,9 @@ begin
   else if sTipe = 'po' then
     depan := 'PO/'
   else if sTipe = 'penerimaan_kas' then
-    depan := 'PNK/'
+    depan := 'BKM/'
   else if sTipe = 'pengeluaran_kas' then
-    depan := 'PLK/';
+    depan := 'BKK/';
 
   head := depan + GetFaktur;
 

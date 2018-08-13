@@ -54,8 +54,6 @@ type
     cxTabSheet5: TcxTabSheet;
     cxGrid5: TcxGrid;
     cxGridDBTableView4: TcxGridDBTableView;
-    cxGridDBColumn3: TcxGridDBColumn;
-    cxGridDBColumn4: TcxGridDBColumn;
     cxGridLevel4: TcxGridLevel;
     tblGudang: TZTable;
     dsGudang: TDataSource;
@@ -69,6 +67,10 @@ type
     tblGudangnama: TWideStringField;
     tblGudangf_aktif: TSmallintField;
     tblGudanglokasi: TWideStringField;
+    tblSubKategori: TZTable;
+    dsSubKategori: TDataSource;
+    cxGridDBTableView4id: TcxGridDBColumn;
+    cxGridDBTableView4subkategori: TcxGridDBColumn;
     procedure FormCreate(Sender: TObject);
   private
     { Private declarations }
@@ -92,6 +94,7 @@ begin
   tblKategoriBarang.Open;
   tblJabatan.Open;
   tblGudang.Open;
+  tblSubKategori.Open;
   pgLain2.ActivePageIndex := 0;
 end;
 

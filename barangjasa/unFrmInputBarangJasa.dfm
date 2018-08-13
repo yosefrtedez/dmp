@@ -116,7 +116,7 @@ inherited frmInputBarangJasa: TfrmInputBarangJasa
     Top = 264
     Width = 1042
     Height = 344
-    ActivePage = cxTabSheet1
+    ActivePage = cxTabSheet3
     Anchors = [akLeft, akTop, akRight, akBottom]
     Style = 7
     TabOrder = 17
@@ -534,7 +534,7 @@ inherited frmInputBarangJasa: TfrmInputBarangJasa
             Caption = 'Qty.'
             DataBinding.ValueType = 'Float'
             PropertiesClassName = 'TcxSpinEditProperties'
-            Properties.DisplayFormat = '#,#0.00'
+            Properties.DisplayFormat = '#,#0.000'
             Properties.ValueType = vtFloat
           end
           object cxColKeterangan: TcxGridColumn

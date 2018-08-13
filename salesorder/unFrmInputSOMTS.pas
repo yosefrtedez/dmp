@@ -32,23 +32,6 @@ type
     dsSales: TDataSource;
     zqrBarang: TZReadOnlyQuery;
     dsBarang: TDataSource;
-    cxGrid1Level1: TcxGridLevel;
-    cxGrid1: TcxGrid;
-    cxTblSO: TcxGridTableView;
-    cxColNo: TcxGridColumn;
-    cxColKode: TcxGridColumn;
-    cxColDeskripsi: TcxGridColumn;
-    cxColQty: TcxGridColumn;
-    cxColSatuan: TcxGridColumn;
-    cxColHarga: TcxGridColumn;
-    cxColGross: TcxGridColumn;
-    cxColDisc: TcxGridColumn;
-    cxColDiscAmount: TcxGridColumn;
-    cxColTaxable: TcxGridColumn;
-    cxColTaxAmount: TcxGridColumn;
-    cxColNetAmount: TcxGridColumn;
-    cxColIdSatuan: TcxGridColumn;
-    cxColKeterangan: TcxGridColumn;
     cxGrid2: TcxGrid;
     cxtbMTS: TcxGridTableView;
     cxColNo2: TcxGridColumn;
@@ -68,8 +51,6 @@ type
     procedure cxTblSODataControllerRecordChanged(
       ADataController: TcxCustomDataController; ARecordIndex,
       AItemIndex: Integer);
-    procedure cxTblSODataControllerBeforePost(
-      ADataController: TcxCustomDataController);
     procedure btnSimpanClick(Sender: TObject);
     procedure ClearAll;
     procedure cxColKodePropertiesButtonClick(Sender: TObject;
@@ -200,9 +181,9 @@ begin
           FieldByName('no_so').AsString     := sNoTrs;
           FieldByName('id_so').AsInteger    := ID;
           FieldByName('kode_brg').AsString  := Values[i, cxColKodeBrg2.index];
-          FieldByName('id_brg').AsInteger   := Values[i, cxColDeskripsi.Index];
-          FieldByName('qty_mo').AsFloat     := Values[i, cxColQty.Index];
-          FieldByName('qty_so').AsFloat     := Values[i, cxColQty.Index];
+          FieldByName('id_brg').AsInteger   := Values[i, cxColDeskripsi2.Index];
+          FieldByName('qty_mo').AsFloat     := Values[i, cxColQty2.Index];
+          FieldByName('qty_so').AsFloat     := Values[i, cxColQty2.Index];
           FieldByName('jenis').AsString     := 'BJ';
           FieldByName('keterangan').AsString := VarToStr(Values[i, cxColKeterangan2.Index]);
           Post;
@@ -214,7 +195,6 @@ begin
     dm.zConn.Commit;
 
     MsgBox('Sales Order MTS sudah disimpan dengan nomor : ' + sNoTrs);
-    cxTblSO.DataController.RecordCount := 0;
 
     if Assigned(Self.FormInduk) then
       (Self.FormInduk as TfrmLstSO).btnRefreshClick(nil);
@@ -291,34 +271,6 @@ begin
   AText := IntToStr(Row+1);
 end;
 
-procedure TfrmInputSOMTS.cxTblSODataControllerBeforePost(
-  ADataController: TcxCustomDataController);
-var
-  i,j,k: integer;
-  v: variant;
-begin
-  inherited;
-  i := ADataController.FocusedRowIndex;
-  k := ADataController.GetEditingRecordIndex;
-  v := ADataController.Values[i, cxColKode.Index];
-
-  for j := 0 to ADataController.RecordCount - 1 do begin
-    if j <> k then begin
-      if v = ADataController.Values[j, cxColKode.Index] then begin
-        MsgBox('Item tersebut sudah ada.');
-        ADataController.DeleteRecord(i);
-        Abort
-      end;
-    end;
-  end;
-
-  if (VarIsNull(ADataController.Values[i, cxColKode.Index])) or
-    (Trim(ADataController.Values[i, cxColKode.Index]) = '')  then begin
-    MsgBox('Kode barang harus di isi.');
-    Abort;
-  end;
-end;
-
 procedure TfrmInputSOMTS.cxTblSODataControllerRecordChanged(
   ADataController: TcxCustomDataController; ARecordIndex, AItemIndex: Integer);
 var
@@ -326,6 +278,7 @@ var
   z,q : TZQuery;
 begin
   inherited;
+  {
    if AItemIndex = cxColDeskripsi.Index then begin
       try
         cxTblSO.BeginUpdate;
@@ -362,6 +315,7 @@ begin
         cxTblSO.EndUpdate;
       end;
    end;
+   }
 end;
 
 procedure TfrmInputSOMTS.cxtbMTSDataControllerBeforePost(
@@ -402,7 +356,7 @@ begin
         'LEFT JOIN tbl_satuan b ON a.id_satuan = b.id ' +
         'WHERE a.id = %s',[ADataController.Values[ARecordIndex, AItemIndex]]);
       ADataController.Values[ARecordIndex, cxColKodeBrg2.Index] := q.FieldbyName('kode').AsString;
-      ADataController.Values[ARecordIndex, cxColDeskripsi2.Index] := ADataController.Values[ARecordIndex, cxColKode2.Index];
+      ADataController.Values[ARecordIndex, cxColDeskripsi2.Index] := ADataController.Values[ARecordIndex, AItemindex];
       ADataController.Values[ARecordIndex, cxColSatuan2.Index] := q.FieldByName('satuan').AsString;
       ADataController.Values[ARecordIndex, cxColIdSatuan2.Index] := q.FieldByName('id_satuan').AsInteger;
       q.Close;
@@ -418,7 +372,7 @@ begin
         'LEFT JOIN tbl_satuan b ON a.id_satuan = b.id ' +
         'WHERE a.id = %s',[ADataController.Values[ARecordIndex, cxColDeskripsi2.Index]]);
       ADataController.Values[ARecordIndex, cxColKodeBrg2.Index] := q.FieldByName('kode').AsString;
-      ADataController.Values[ARecordIndex, cxColKode2.Index] := q.FieldByname('kode').AsString;
+      ADataController.Values[ARecordIndex, cxColKode2.Index] := ADataController.Values[ARecordIndex, AItemIndex];
       ADataController.Values[ARecordIndex, cxColSatuan2.Index] := q.FieldByName('satuan').AsString;
       ADataController.Values[ARecordIndex, cxColIdSatuan2.Index] := q.FieldByName('id_satuan').AsInteger;
       q.Close;

@@ -85,7 +85,9 @@ uses
   unFrmLapHasilProduksi in 'laporan\unFrmLapHasilProduksi.pas' {frmLapHasilProduksi},
   unFrmKartuStok in 'barangjasa\unFrmKartuStok.pas' {frmKartuStok},
   unFrmInputSOMTS in 'salesorder\unFrmInputSOMTS.pas' {frmInputSOMTS},
-  unFrmPilihPO in 'purchaseorder\unFrmPilihPO.pas' {frmPilihPO};
+  unFrmPilihPO in 'purchaseorder\unFrmPilihPO.pas' {frmPilihPO},
+  unFrmLapPengambilanBB in 'laporan\unFrmLapPengambilanBB.pas' {frmLapPengambilanBB},
+  unFrmLapOutstandingPO in 'purchaseorder\unFrmLapOutstandingPO.pas' {frmLapOutstandingPO};
 
 {$R *.res}
 
@@ -95,8 +97,6 @@ begin
   Application.CreateForm(TDM, DM);
   Application.CreateForm(TfrmUtama, frmUtama);
   Application.CreateForm(TfrmLogin, frmLogin);
-  Application.CreateForm(TfrmInputSOMTS, frmInputSOMTS);
-  Application.CreateForm(TfrmPilihPO, frmPilihPO);
   frmUtama.Show;
 
   frmLogin.ShowModal;

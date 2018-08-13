@@ -473,6 +473,12 @@ begin
     MsgBox('Kode barang harus di isi.');
     Abort;
   end;
+
+  if (VarIsNull(ADataController.Values[i, cxColHarga.Index])) or
+    (ADataController.Values[i, cxColHarga.Index] = 0)  then begin
+    MsgBox('Harga harus di isi.');
+    Abort;
+  end;
 end;
 
 procedure TfrmInputSO.cxTblSODataControllerRecordChanged(

@@ -55,7 +55,7 @@ inherited frmInputPengeluaranKas: TfrmInputPengeluaranKas
     Width = 1082
     Height = 216
     Anchors = [akLeft, akTop, akRight]
-    TabOrder = 16
+    TabOrder = 17
     object cxtbPK: TcxGridTableView
       NavigatorButtons.ConfirmDelete = False
       NavigatorButtons.Insert.Visible = False
@@ -77,19 +77,25 @@ inherited frmInputPengeluaranKas: TfrmInputPengeluaranKas
       OptionsView.GroupByBox = False
       object cxColNoAkun: TcxGridColumn
         Caption = 'Akun'
-        PropertiesClassName = 'TcxButtonEditProperties'
-        Properties.Buttons = <
+        PropertiesClassName = 'TcxLookupComboBoxProperties'
+        Properties.DropDownAutoSize = True
+        Properties.KeyFieldNames = 'id'
+        Properties.ListColumns = <
           item
-            Default = True
-            Kind = bkEllipsis
+            Caption = 'No. Akun'
+            FieldName = 'noakun'
+          end
+          item
+            Caption = 'Nama Akun'
+            FieldName = 'nama'
           end>
-        Properties.ReadOnly = True
+        Properties.ListSource = dsAkunDet
         Width = 117
       end
       object cxColNamaAkun: TcxGridColumn
         Caption = 'Nama Akun'
         PropertiesClassName = 'TcxLookupComboBoxProperties'
-        Properties.KeyFieldNames = 'noakun'
+        Properties.KeyFieldNames = 'id'
         Properties.ListColumns = <
           item
             Caption = 'Nama Akun'
@@ -116,6 +122,9 @@ inherited frmInputPengeluaranKas: TfrmInputPengeluaranKas
         Caption = 'Memo'
         Width = 333
       end
+      object cxColNoAkun2: TcxGridColumn
+        Visible = False
+      end
     end
     object cxGrid1Level1: TcxGridLevel
       GridView = cxtbPK
@@ -124,7 +133,7 @@ inherited frmInputPengeluaranKas: TfrmInputPengeluaranKas
   object cxdTanggal: TcxDateEdit
     Left = 104
     Top = 89
-    TabOrder = 3
+    TabOrder = 4
     Width = 121
   end
   object cxLabel3: TcxLabel
@@ -148,7 +157,7 @@ inherited frmInputPengeluaranKas: TfrmInputPengeluaranKas
     Properties.ListOptions.SyncMode = True
     Properties.ListSource = dsAkunKas
     Properties.OnEditValueChanged = cxlAkunPropertiesEditValueChanged
-    TabOrder = 5
+    TabOrder = 6
     Width = 353
   end
   object cxLabel4: TcxLabel
@@ -170,7 +179,7 @@ inherited frmInputPengeluaranKas: TfrmInputPengeluaranKas
     Left = 104
     Top = 197
     Properties.ReadOnly = True
-    TabOrder = 11
+    TabOrder = 13
     Width = 521
   end
   object cxsSebesar: TcxSpinEdit
@@ -180,21 +189,21 @@ inherited frmInputPengeluaranKas: TfrmInputPengeluaranKas
     Properties.DisplayFormat = '#,#0.00'
     Properties.ReadOnly = True
     Properties.ValueType = vtFloat
-    TabOrder = 9
+    TabOrder = 11
     Width = 169
   end
   object cxtPenerima: TcxTextEdit
     Left = 104
     Top = 143
     Properties.CharCase = ecUpperCase
-    TabOrder = 8
+    TabOrder = 9
     Width = 353
   end
   object cxtNoAkun: TcxTextEdit
     Left = 463
     Top = 116
     Properties.ReadOnly = True
-    TabOrder = 6
+    TabOrder = 7
     Width = 121
   end
   object cxLabel7: TcxLabel
@@ -206,7 +215,7 @@ inherited frmInputPengeluaranKas: TfrmInputPengeluaranKas
     Left = 104
     Top = 224
     Properties.CharCase = ecUpperCase
-    TabOrder = 13
+    TabOrder = 15
     Width = 521
   end
   object cxChkPosting: TcxCheckBox
@@ -214,7 +223,7 @@ inherited frmInputPengeluaranKas: TfrmInputPengeluaranKas
     Top = 63
     Caption = 'Posting'
     Properties.ReadOnly = False
-    TabOrder = 2
+    TabOrder = 3
     Width = 73
   end
   object zqrAkunDet: TZReadOnlyQuery

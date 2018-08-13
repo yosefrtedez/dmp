@@ -4,7 +4,6 @@ inherited frmLstBarangJasa: TfrmLstBarangJasa
   ClientHeight = 758
   ClientWidth = 1119
   OnCreate = FormCreate
-  ExplicitTop = -84
   ExplicitWidth = 1119
   ExplicitHeight = 758
   PixelsPerInch = 96
