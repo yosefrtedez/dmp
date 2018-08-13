@@ -234,6 +234,7 @@ begin
     ts := TcxTabSheet.Create(Self);
     ts.PageControl := frmUtama.pgMain;
     f := TfrmInputKoreksi.Create(Self);
+    f.Caption := 'Input Koreksi Barang';
     f.FormInduk := Self;
     f.Jenis := 'T';
     f.Parent := ts;

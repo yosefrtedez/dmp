@@ -95,8 +95,9 @@ inherited frmInputKoreksi: TfrmInputKoreksi
           Kind = skSum
         end>
       DataController.Summary.SummaryGroups = <>
-      DataController.OnBeforePost = cxtbBarangMasukDataControllerBeforePost
-      DataController.OnRecordChanged = cxtbBarangMasukDataControllerRecordChanged
+      DataController.OnBeforePost = cxtbKoreksiDataControllerBeforePost
+      DataController.OnRecordChanged = cxtbKoreksiDataControllerRecordChanged
+      OptionsBehavior.FocusCellOnTab = True
       OptionsData.Appending = True
       OptionsView.Navigator = True
       OptionsView.Footer = True
@@ -105,17 +106,31 @@ inherited frmInputKoreksi: TfrmInputKoreksi
         Caption = 'No'
         PropertiesClassName = 'TcxTextEditProperties'
         Properties.ReadOnly = False
+        Visible = False
         OnGetDisplayText = cxColNoGetDisplayText
         Width = 32
       end
       object cxColKodeBrg: TcxGridColumn
         Caption = 'Kode Brg'
-        PropertiesClassName = 'TcxTextEditProperties'
-        Properties.ReadOnly = True
+        DataBinding.ValueType = 'Integer'
+        PropertiesClassName = 'TcxLookupComboBoxProperties'
+        Properties.DropDownAutoSize = True
+        Properties.KeyFieldNames = 'id'
+        Properties.ListColumns = <
+          item
+            Caption = 'Kode'
+            FieldName = 'kode'
+          end
+          item
+            Caption = 'Deskripsi'
+            FieldName = 'deskripsi'
+          end>
+        Properties.ListSource = dsBarang
         Width = 95
       end
       object cxColDeskripsi: TcxGridColumn
         Caption = 'Deskripsi'
+        DataBinding.ValueType = 'Integer'
         PropertiesClassName = 'TcxLookupComboBoxProperties'
         Properties.DropDownAutoSize = True
         Properties.KeyFieldNames = 'id'
@@ -132,6 +147,7 @@ inherited frmInputKoreksi: TfrmInputKoreksi
       object cxColGudang: TcxGridColumn
         Caption = 'Gudang'
         PropertiesClassName = 'TcxLookupComboBoxProperties'
+        Properties.DropDownAutoSize = True
         Properties.KeyFieldNames = 'id'
         Properties.ListColumns = <
           item
@@ -141,6 +157,10 @@ inherited frmInputKoreksi: TfrmInputKoreksi
           item
             Caption = 'ID'
             FieldName = 'id'
+          end
+          item
+            Caption = 'Nama'
+            FieldName = 'nama'
           end>
         Properties.ListSource = dsGudang
         Width = 80
@@ -151,7 +171,8 @@ inherited frmInputKoreksi: TfrmInputKoreksi
         PropertiesClassName = 'TcxSpinEditProperties'
         Properties.Alignment.Horz = taRightJustify
         Properties.DisplayFormat = '#,##.00'
-        Properties.ReadOnly = False
+        Properties.ReadOnly = True
+        Properties.ValueType = vtFloat
         Width = 73
       end
       object cxColStokBaru: TcxGridColumn
@@ -160,6 +181,7 @@ inherited frmInputKoreksi: TfrmInputKoreksi
         PropertiesClassName = 'TcxSpinEditProperties'
         Properties.Alignment.Horz = taRightJustify
         Properties.DisplayFormat = '#,#0.00'
+        Properties.ValueType = vtFloat
         Width = 76
       end
       object cxColSatuan: TcxGridColumn
@@ -175,6 +197,9 @@ inherited frmInputKoreksi: TfrmInputKoreksi
       end
       object cxColIdSatuan: TcxGridColumn
         DataBinding.ValueType = 'Integer'
+        Visible = False
+      end
+      object cxColKodeBrg2: TcxGridColumn
         Visible = False
       end
     end

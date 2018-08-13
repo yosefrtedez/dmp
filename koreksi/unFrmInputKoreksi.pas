@@ -53,9 +53,6 @@ type
     procedure btnSimpanClick(Sender: TObject);
     procedure cxtbBarangMasukDataControllerBeforePost(
       ADataController: TcxCustomDataController);
-    procedure cxtbBarangMasukDataControllerRecordChanged(
-      ADataController: TcxCustomDataController; ARecordIndex,
-      AItemIndex: Integer);
     procedure cxtbKoreksiDataControllerBeforePost(
       ADataController: TcxCustomDataController);
     procedure cxtbKoreksiDataControllerRecordChanged(
@@ -181,8 +178,8 @@ var
   row : Integer;
 begin
   inherited;
-  Row := Sender.GridView.DataController.GetRowIndexByRecordIndex(ARecord.RecordIndex, False);
-  AText := IntToStr(Row+1);
+  //Row := Sender.GridView.DataController.GetRowIndexByRecordIndex(ARecord.RecordIndex, False);
+  //AText := IntToStr(Row+1);
 end;
 
 
@@ -228,42 +225,6 @@ begin
 end;
 
 
-
-procedure TfrmInputKoreksi.cxtbBarangMasukDataControllerRecordChanged(
-  ADataController: TcxCustomDataController; ARecordIndex, AItemIndex: Integer);
-var
-  q: TZQuery;
-  t, t1, t2, t3 : Real;
-  i: Integer ;
-begin
-  inherited;
-
-  if AItemIndex = cxColDeskripsi.Index then begin
-    try
-      cxtbKoreksi.BeginUpdate;
-      q := OpenRS('SELECT a.*, b.satuan satuan2 FROM tbl_barang a LEFT JOIN tbl_satuan b ON a.id_satuan = b.id WHERE a.id = %s',
-      [ADataController.Values[ARecordIndex, cxColDeskripsi.Index]]);
-      ADataController.Values[ARecordIndex, cxColKodeBrg.Index] :=  q.FieldByName('kode').AsString;
-      ADataController.Values[ARecordIndex, cxColSatuan.Index] := q.FieldByName('satuan2').AsString;
-      ADataController.Values[ARecordIndex, cxColIdSatuan.Index] := q.FieldByName('id_satuan').AsInteger;
-      q.Close;
-    finally
-      cxtbKoreksi.EndUpdate
-    end;
-  end;
-
-  if AItemIndex = cxColGudang.Index then begin
-    try
-      q := OpenRS('SELECT sf_getstok_per_gdg(%s,%s) as stok',
-        [ADataController.Values[ARecordIndex, cxColDeskripsi.Index], ADataController.Values[ARecordIndex, cxColGudang.Index]]);
-      ADataController.Values[ARecordIndex, cxColStokLama.Index] := q.FieldByName('stok').AsFloat;
-      q.Close;
-    finally
-
-    end;
-  end;
-
-end;
 
 procedure TfrmInputKoreksi.cxtbKoreksiDataControllerBeforePost(
   ADataController: TcxCustomDataController);
@@ -421,7 +382,7 @@ begin
       z.Next;
     end;
     z.Close;
-    cxtbKoreksi.DataController.OnRecordChanged := Self.cxtbBarangMasukDataControllerRecordChanged;
+    cxtbKoreksi.DataController.OnRecordChanged := Self.cxtbKoreksiDataControllerRecordChanged;
 
   end;
 end;

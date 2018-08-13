@@ -53,9 +53,6 @@ type
     procedure btnSimpanClick(Sender: TObject);
     procedure cxtbBarangMasukDataControllerBeforePost(
       ADataController: TcxCustomDataController);
-    procedure cxtbBarangMasukDataControllerRecordChanged(
-      ADataController: TcxCustomDataController; ARecordIndex,
-      AItemIndex: Integer);
     procedure cxtbKoreksiDataControllerBeforePost(
       ADataController: TcxCustomDataController);
     procedure cxtbKoreksiDataControllerRecordChanged(
@@ -125,6 +122,7 @@ begin
       qh.FieldByName('user').AsString := Aplikasi.NamaUser;
       qh.FieldByName('user_dept').AsString := Aplikasi.UserDept;
       qh.FieldByName('tgl_input').AsDateTime := Aplikasi.Tanggal;
+      qh.FieldByname('tgl_edit').AsDateTime := Aplikasi.NowServer;
       qh.Post;
 
       if Self.Jenis = 'T' then  ID := LastInsertID;
@@ -140,7 +138,7 @@ begin
             qd.FieldByName('id_ref').AsString := qh.FieldByName('id').AsString;
           end;
           qd.FieldByName('no_bukti').AsString := sNoBukti;
-          qd.FieldByName('kode_brg').AsString := Values[i, cxColKodeBrg.Index];
+          qd.FieldByName('kode_brg').AsString := Values[i, cxColKodeBrg2.Index];
           qd.FieldByName('id_brg').AsInteger := Values[i, cxColDeskripsi.Index];
           qd.FieldByName('stoklama').AsFloat := Values[i, cxColStokLama.Index];
           qd.FieldByName('stokbaru').AsFloat := Values[i, cxColStokBaru.Index];
@@ -180,8 +178,8 @@ var
   row : Integer;
 begin
   inherited;
-  Row := Sender.GridView.DataController.GetRowIndexByRecordIndex(ARecord.RecordIndex, False);
-  AText := IntToStr(Row+1);
+  //Row := Sender.GridView.DataController.GetRowIndexByRecordIndex(ARecord.RecordIndex, False);
+  //AText := IntToStr(Row+1);
 end;
 
 
@@ -227,42 +225,6 @@ begin
 end;
 
 
-
-procedure TfrmInputKoreksi.cxtbBarangMasukDataControllerRecordChanged(
-  ADataController: TcxCustomDataController; ARecordIndex, AItemIndex: Integer);
-var
-  q: TZQuery;
-  t, t1, t2, t3 : Real;
-  i: Integer ;
-begin
-  inherited;
-
-  if AItemIndex = cxColDeskripsi.Index then begin
-    try
-      cxtbKoreksi.BeginUpdate;
-      q := OpenRS('SELECT a.*, b.satuan satuan2 FROM tbl_barang a LEFT JOIN tbl_satuan b ON a.id_satuan = b.id WHERE a.id = %s',
-      [ADataController.Values[ARecordIndex, cxColDeskripsi.Index]]);
-      ADataController.Values[ARecordIndex, cxColKodeBrg.Index] :=  q.FieldByName('kode').AsString;
-      ADataController.Values[ARecordIndex, cxColSatuan.Index] := q.FieldByName('satuan2').AsString;
-      ADataController.Values[ARecordIndex, cxColIdSatuan.Index] := q.FieldByName('id_satuan').AsInteger;
-      q.Close;
-    finally
-      cxtbKoreksi.EndUpdate
-    end;
-  end;
-
-  if AItemIndex = cxColGudang.Index then begin
-    try
-      q := OpenRS('SELECT sf_getstok_per_gdg(%s,%s) as stok',
-        [ADataController.Values[ARecordIndex, cxColDeskripsi.Index], ADataController.Values[ARecordIndex, cxColGudang.Index]]);
-      ADataController.Values[ARecordIndex, cxColStokLama.Index] := q.FieldByName('stok').AsFloat;
-      q.Close;
-    finally
-
-    end;
-  end;
-
-end;
 
 procedure TfrmInputKoreksi.cxtbKoreksiDataControllerBeforePost(
   ADataController: TcxCustomDataController);
@@ -324,7 +286,7 @@ begin
       cxtbKoreksi.BeginUpdate;
       q := OpenRS('SELECT a.*, b.satuan satuan2 FROM tbl_barang a LEFT JOIN tbl_satuan b ON a.id_satuan = b.id WHERE a.id = %s',
         [ADataController.Values[ARecordIndex, AItemIndex]]);
-      ADataController.Values[ARecordIndex, cxColDeskripsi.Index] := ADataController
+      ADataController.Values[ARecordIndex, cxColDeskripsi.Index] := ADataController.Values[ARecordIndex, AItemIndex];
       ADataController.Values[ARecordIndex, cxColKodeBrg2.Index] :=  q.FieldByName('kode').AsString;
       ADataController.Values[ARecordIndex, cxColSatuan.Index] := q.FieldByName('satuan2').AsString;
       ADataController.Values[ARecordIndex, cxColIdSatuan.Index] := q.FieldByName('id_satuan').AsInteger;
@@ -338,8 +300,9 @@ begin
     try
       cxtbKoreksi.BeginUpdate;
       q := OpenRS('SELECT a.*, b.satuan satuan2 FROM tbl_barang a LEFT JOIN tbl_satuan b ON a.id_satuan = b.id WHERE a.id = %s',
-      [ADataController.Values[ARecordIndex, cxColDeskripsi.Index]]);
-      ADataController.Values[ARecordIndex, cxColKodeBrg.Index] :=  q.FieldByName('kode').AsString;
+        [ADataController.Values[ARecordIndex, cxColDeskripsi.Index]]);
+      ADataController.Values[ARecordIndex, cxColKodeBrg.Index] := ADataController.Values[ARecordIndex, AItemIndex];
+      ADataController.Values[ARecordIndex, cxColKodeBrg2.Index] :=  q.FieldByName('kode').AsString;
       ADataController.Values[ARecordIndex, cxColSatuan.Index] := q.FieldByName('satuan2').AsString;
       ADataController.Values[ARecordIndex, cxColIdSatuan.Index] := q.FieldByName('id_satuan').AsInteger;
       q.Close;
@@ -395,8 +358,8 @@ begin
     z := OpenRS('SELECT a.*, b.deskripsi, c.satuan satuan2 ' +
           'FROM tbl_trskoreksi_det a ' +
           'LEFT JOIN tbl_barang b ON a.kode_brg = b.kode ' +
-          'LEFT JOIN tbl_satuan c ON a.id_brg = c.id ' +
-          'LEFT JOIN tbl_gudang d ON d.id = a.kode_gdg ' +
+          'LEFT JOIN tbl_satuan c ON a.id_gdg = c.id ' +
+          'LEFT JOIN tbl_gudang d ON d.id = a.id_gdg ' +
           'WHERE id_ref = %s',[Self.EditKey]);
     nomer := 1;
 
@@ -405,7 +368,8 @@ begin
       with cxtbKoreksi.DataController do begin
         i := AppendRecord;
         Values[i, cxColNo.Index] := nomer;
-        Values[i, cxColKodeBrg.Index] := z.FieldByName('kode_brg').AsString;
+        Values[i, cxColKodeBrg.Index] := z.FieldByName('id_brg').AsString;
+        Values[i, cxColKodeBrg2.Index] := z.FieldByName('kode_brg').AsString;
         Values[i, cxColDeskripsi.Index] := z.FieldByName('id_brg').AsString;
         Values[i, cxColStokLama.Index] := z.FieldByName('stoklama').AsFloat;
         Values[i, cxColStokBaru.Index] := z.FieldByName('stokbaru').AsFloat;

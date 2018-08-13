@@ -90,24 +90,25 @@ var
  q: TZQuery;
 begin
   inherited;
-  {
-  if not fu.CekTabOpen('Edit Barang Masuk') then begin
+
+  if not fu.CekTabOpen('Edit Koreksi Barang') then begin
     ts := TcxTabSheet.Create(Self);
     ts.PageControl := frmUtama.pgMain;
-    if zqrBarangMasuk.FieldByName('f_posting').AsString = '1' then begin
-      MsgBox('Maaf data barang masuk tidak bisa diedit, karena sudah di posting.');
+    if zqrKoreksi.FieldByName('f_posting').AsString = '1' then begin
+      MsgBox('Mohon Maaf, koreksi barang masuk tidak bisa diedit, karena sudah di posting.');
       Abort;
     end;
-    f := TfrmInputBarangMasuk.Create(Self);
-    ts.Caption := 'Edit Barang Masuk';
+    f := TfrmInputKoreksi.Create(Self);
+    f.FormInduk := Self;
+    ts.Caption := 'Edit Koreksi Barang';
     f.Jenis := 'E';
-    f.EditKey := zqrBarangMasuk.FieldByName('id').AsString;
+    f.EditKey := zqrKoreksi.FieldByName('id').AsString;
     f.Parent := ts;
     ts.Caption := f.Caption;
     f.Show;
     fu.pgMain.ActivePage := ts;
   end;
-  }
+
 end;
 
 
@@ -146,14 +147,16 @@ var
   qd, q, qbrg: TZQuery;
 begin
   inherited;
+  if zqrKoreksi.FieldByName('f_posting').AsInteger = 1 then Abort;
   try
     dm.zConn.StartTransaction;
+
+    Screen.Cursor := crSQLWait;
 
     q := OpenRS('SELECT * FROM tbl_history WHERE no_bukti = ''%s''',[zqrKoreksi.FieldByName('no_bukti').AsString]);
     qd := OpenRS('SELECT * FROM tbl_trskoreksi_det WHERE id_ref = ''%s''',[zqrKoreksi.FieldByName('id').AsString]);
 
-    zqrKoreksiDet.First;
-    while not zqrKoreksiDet.Eof do begin
+    while not qd.Eof do begin
       with q do begin
         Insert;
         FieldByName('no_bukti').AsString := zqrKoreksi.FieldByName('no_bukti').AsString;
@@ -194,17 +197,19 @@ begin
       dm.zConn.ExecuteDirect(Format('UPDATE tbl_trskoreksi_head SET f_posting = 1 WHERE id = %s',
         [zqrKoreksi.FieldByName('id').AsString]));
 
-      zqrKoreksiDet.Next;
+      qd.Next;
     end;
 
     dm.zConn.Commit;
 
+    Screen.Cursor := crDefault;
     MsgBox('Transaksi koreksi barang sudah di posting.');
 
     btnRefreshClick(nil);
   except
     on E: Exception do begin
       dm.zConn.Rollback;
+      Screen.Cursor := crDefault;
       MsgBox('Error: ' + E.Message);
     end;
   end;
@@ -229,6 +234,7 @@ begin
     ts := TcxTabSheet.Create(Self);
     ts.PageControl := frmUtama.pgMain;
     f := TfrmInputKoreksi.Create(Self);
+    f.FormInduk := Self;
     f.Jenis := 'T';
     f.Parent := ts;
     ts.Caption := f.Caption;

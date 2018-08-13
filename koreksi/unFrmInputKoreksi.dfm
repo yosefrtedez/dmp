@@ -1,5 +1,5 @@
 inherited frmInputKoreksi: TfrmInputKoreksi
-  Caption = 'Input Barang Masuk'
+  Caption = 'Input Koreksi Barang'
   ClientHeight = 619
   ClientWidth = 973
   OnCreate = FormCreate
@@ -112,6 +112,7 @@ inherited frmInputKoreksi: TfrmInputKoreksi
       end
       object cxColKodeBrg: TcxGridColumn
         Caption = 'Kode Brg'
+        DataBinding.ValueType = 'Integer'
         PropertiesClassName = 'TcxLookupComboBoxProperties'
         Properties.DropDownAutoSize = True
         Properties.KeyFieldNames = 'id'
@@ -129,6 +130,7 @@ inherited frmInputKoreksi: TfrmInputKoreksi
       end
       object cxColDeskripsi: TcxGridColumn
         Caption = 'Deskripsi'
+        DataBinding.ValueType = 'Integer'
         PropertiesClassName = 'TcxLookupComboBoxProperties'
         Properties.DropDownAutoSize = True
         Properties.KeyFieldNames = 'id'
