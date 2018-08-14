@@ -69,6 +69,8 @@ type
     fdbPO: TfrxDBDataset;
     rptPO: TfrxReport;
     cxtbPODetColumn3: TcxGridDBColumn;
+    btnBatalApproval: TButton;
+    btnTutupPO: TButton;
     procedure FormCreate(Sender: TObject);
     procedure btnRefreshClick(Sender: TObject);
     procedure btnTambahClick(Sender: TObject);
@@ -79,6 +81,8 @@ type
       ANewItemRecordFocusingChanged: Boolean);
     procedure btnCtkPOClick(Sender: TObject);
     procedure btnCetakPOClick(Sender: TObject);
+    procedure btnBatalApprovalClick(Sender: TObject);
+    procedure btnTutupPOClick(Sender: TObject);
   private
     { Private declarations }
     mjenis : string;
@@ -95,6 +99,27 @@ uses
   unFrmUtama, unDM, unFrmInputPO, unTools, unAplikasi;
 
 {$R *.dfm}
+
+procedure TfrmLstPO.btnBatalApprovalClick(Sender: TObject);
+var
+  q: TZQuery;
+begin
+  inherited;
+  try
+    q := OpenRS('SELECT id_po FROM tbl_pb_det WHERE id_po = %s',[zqrPO.FieldByName('id').AsString]);
+    if not q.IsEmpty then begin
+      MsgBox('Approval PO tidak bisa dibatalkan karena sudah ada penerimaan.');
+      q.Close;
+      Abort;
+    end;
+    q.Close;
+    dm.zConn.ExecuteDirect(Format('UPDATE tbl_po_head SET f_app = 0 WHERE id = %s',[zqrPO.FieldByName('id').AsString]));
+    MsgBox('Approval PO sudah dibatalkan.');
+    btnRefreshClick(nil);
+  except
+
+  end;
+end;
 
 procedure TfrmLstPO.btnCetakPOClick(Sender: TObject);
 var
@@ -153,17 +178,19 @@ var
   q : TZQuery;
 begin
   inherited;
-  q := OpenRS('select * from tbl_po_head where f_app = 1 and no_bukti = ''%s''',[zqrPO.FieldByName('no_bukti').AsString]);
+  q := OpenRS('select * from tbl_po_head where f_app = 1 and id = %s',[zqrPO.FieldByName('id').AsString]);
+
   if not q.Eof then begin
-    MsgBox('Maaf data tidak bisa dihapus, karena sudah ada penerimaan barang');
+    MsgBox('Purchase Order tidak bisa dihapus, karena sudah di-Approval.');
+    q.Close;
     Abort;
   end else begin
     try
       DM.zConn.StartTransaction;
-      DM.zConn.ExecuteDirect('delete  from tbl_po_head where no_bukti = ''' + zqrPO.FieldByName('no_bukti').AsString + '''');
-      DM.zConn.ExecuteDirect('delete  from tbl_po_det where no_bukti = ''' + zqrpodet.FieldByName('no_bukti').AsString + '''');
+      DM.zConn.ExecuteDirect(Format('delete  from tbl_po_head where id = %s',[zqrPO.FieldByName('id').AsString]));
+      DM.zConn.ExecuteDirect(Format('delete  from tbl_po_det where id_ref = %s',[zqrpodet.FieldByName('id').AsString]));
       DM.zConn.Commit;
-      MsgBox('Data berhasil dihapus');
+      MsgBox('Purchase Order sudah berhasil dihapus');
       btnRefreshClick(nil);
     except
        on e : Exception do begin
@@ -173,7 +200,7 @@ begin
        end;
     end;
   end;
-
+  q.Close;
 
 end;
 
@@ -206,6 +233,30 @@ begin
   end;
 end;
 
+procedure TfrmLstPO.btnTutupPOClick(Sender: TObject);
+var
+  q: TZQuery;
+  i: integer;
+begin
+  inherited;
+  try
+    q := OpenRS('SELECT f_app FROM tbl_po_head WHERE id = %s',[zqrPO.FieldByName('id').AsString]);
+    if q.FieldByName('f_app').AsInteger = 0 then begin
+      MsgBox('PO tidak bisa ditutup karena belum di-Approval.');
+      q.Close;
+      Abort;
+    end;
+    i := QBox(Self, 'Yakin PO ini akan ditutup / komplit ?', 'Tutup PO');
+    if i = IDYES then begin
+      dm.zConn.ExecuteDirect(Format('UPDATE tbl_po_head SET f_completed = 1 WHERE id = %s',[zqrPO.FieldByName('id').AsString]));
+      MsgBox('PO Sudah berhasil ditutup / komplit.');
+      btnRefreshClick(nil);
+    end;
+  except
+
+  end;
+end;
+
 procedure TfrmLstPO.cxtbPOHeadFocusedRecordChanged(
   Sender: TcxCustomGridTableView; APrevFocusedRecord,
   AFocusedRecord: TcxCustomGridRecord; ANewItemRecordFocusingChanged: Boolean);
@@ -223,6 +274,28 @@ procedure TfrmLstPO.FormCreate(Sender: TObject);
 begin
   inherited;
   zqrPO.Open;
+
+  if CheckWewenang('pembatalan-po', Aplikasi.NamaUser) then
+    btnBatalApproval.Visible := True
+  else
+    btnBatalApproval.Visible := False;
+
+  if CheckWewenang('tutup-po', Aplikasi.NamaUser) then
+    btnTutupPO.Visible := True
+  else
+    btnTutupPO.Visible := False;
+
+  if (Aplikasi.NamaUser = 'ADMIN') or (Aplikasi.NamaUser = 'FELGITO') or (Aplikasi.NamaUser = 'HENDRA') then
+    btnBatalApproval.Visible := true
+  else
+    btnBatalApproval.Visible := false;
+
+  if (Aplikasi.NamaUser = 'ADMIN') or (Aplikasi.NamaUser = 'FELGITO') or (Aplikasi.NamaUser = 'HENDRA') then
+    btnTutupPO.Visible := true
+  else
+    btnTutupPO.Visible := false;
+
+
 end;
 
 end.

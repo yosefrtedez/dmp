@@ -3,6 +3,7 @@ inherited frmLstPO: TfrmLstPO
   ClientHeight = 507
   ClientWidth = 1169
   OnCreate = FormCreate
+  ExplicitLeft = -24
   ExplicitWidth = 1169
   ExplicitHeight = 507
   PixelsPerInch = 96
@@ -288,8 +289,28 @@ inherited frmLstPO: TfrmLstPO
       Height = 25
       Anchors = [akTop, akRight]
       Caption = 'Cetak PO'
-      TabOrder = 0
+      TabOrder = 2
       OnClick = btnCetakPOClick
+    end
+    object btnBatalApproval: TButton
+      Left = 968
+      Top = 9
+      Width = 112
+      Height = 25
+      Anchors = [akTop, akRight]
+      Caption = 'Batalkan Approval'
+      TabOrder = 1
+      OnClick = btnBatalApprovalClick
+    end
+    object btnTutupPO: TButton
+      Left = 888
+      Top = 9
+      Width = 74
+      Height = 25
+      Anchors = [akTop, akRight]
+      Caption = 'Tutup PO'
+      TabOrder = 0
+      OnClick = btnTutupPOClick
     end
   end
   object zqrPO: TZReadOnlyQuery

@@ -29,7 +29,7 @@ inherited frmLstPO: TfrmLstPO
     Top = 458
     Width = 1169
     TabOrder = 4
-    ExplicitLeft = 2
+    ExplicitTop = 458
     ExplicitWidth = 1169
     inherited btnTambah: TButton
       OnClick = btnTambahClick
@@ -42,21 +42,10 @@ inherited frmLstPO: TfrmLstPO
     end
     inherited btnKeluar: TButton
       Left = 1086
-      TabOrder = 4
       ExplicitLeft = 1086
     end
     inherited btnRefresh: TButton
-      TabOrder = 3
       OnClick = btnRefreshClick
-    end
-    object btnCtkPO: TcxButton
-      Left = 338
-      Top = 11
-      Width = 80
-      Height = 26
-      Caption = 'Cetak PO'
-      TabOrder = 5
-      OnClick = btnCtkPOClick
     end
   end
   object cxgrd1: TcxGrid
@@ -233,6 +222,14 @@ inherited frmLstPO: TfrmLstPO
         Properties.DisplayFormat = '#,#0.00'
         HeaderAlignmentHorz = taRightJustify
       end
+      object cxtbPODetColumn3: TcxGridDBColumn
+        Caption = 'Qty. Terima'
+        DataBinding.FieldName = 'qty_terima'
+        PropertiesClassName = 'TcxSpinEditProperties'
+        Properties.DisplayFormat = '#,#0.00'
+        HeaderAlignmentHorz = taRightJustify
+        Width = 71
+      end
       object cxtbPODetsatuan: TcxGridDBColumn
         Caption = 'Satuan'
         DataBinding.FieldName = 'satuan'
@@ -292,6 +289,26 @@ inherited frmLstPO: TfrmLstPO
       Height = 25
       Anchors = [akTop, akRight]
       Caption = 'Cetak PO'
+      TabOrder = 2
+      OnClick = btnCetakPOClick
+    end
+    object btnBatalApproval: TButton
+      Left = 968
+      Top = 9
+      Width = 112
+      Height = 25
+      Anchors = [akTop, akRight]
+      Caption = 'Batalkan Approval'
+      TabOrder = 1
+      OnClick = btnBatalApprovalClick
+    end
+    object btnTutupPO: TButton
+      Left = 888
+      Top = 9
+      Width = 74
+      Height = 25
+      Anchors = [akTop, akRight]
+      Caption = 'Tutup PO'
       TabOrder = 0
     end
   end
@@ -321,7 +338,10 @@ inherited frmLstPO: TfrmLstPO
     SQL.Strings = (
       
         'SELECT a.*, b.deskripsi, a.qty, c.satuan, a.harga, a.mata_uang, ' +
-        'a.qty * a.harga subtotal'
+        'a.qty * a.harga subtotal,'
+      
+        '(SELECT SUM(qty) FROM tbl_pb_det WHERE id_brg = a.id_brg AND id_' +
+        'po = a.id_ref) qty_terima'
       'FROM tbl_po_det a'
       'LEFT JOIN tbl_barang b ON a.kode_brg = b.kode '
       'LEFT JOIN tbl_satuan c ON c.id = a.id_satuan'
@@ -799,6 +819,7 @@ inherited frmLstPO: TfrmLstPO
           Top = 53.811070000000000000
           Width = 94.488250000000000000
           Height = 18.897650000000000000
+          Visible = False
           ShowHint = False
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clBlack
@@ -815,70 +836,7 @@ inherited frmLstPO: TfrmLstPO
           Top = 106.724490000000000000
           Width = 94.488250000000000000
           Height = 18.897650000000000000
-          ShowHint = False
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clBlack
-          Font.Height = -13
-          Font.Name = 'Arial'
-          Font.Style = [fsBold]
-          HAlign = haCenter
-          Memo.UTF8W = (
-            '( .................... )')
-          ParentFont = False
-        end
-        object Memo14: TfrxMemoView
-          Left = 374.173470000000000000
-          Top = 53.811070000000000000
-          Width = 94.488250000000000000
-          Height = 18.897650000000000000
-          ShowHint = False
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clBlack
-          Font.Height = -13
-          Font.Name = 'Arial'
-          Font.Style = []
-          HAlign = haCenter
-          Memo.UTF8W = (
-            'Sopir')
-          ParentFont = False
-        end
-        object Memo15: TfrxMemoView
-          Left = 374.173470000000000000
-          Top = 106.724490000000000000
-          Width = 94.488250000000000000
-          Height = 18.897650000000000000
-          ShowHint = False
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clBlack
-          Font.Height = -13
-          Font.Name = 'Arial'
-          Font.Style = [fsBold]
-          HAlign = haCenter
-          Memo.UTF8W = (
-            '( .................... )')
-          ParentFont = False
-        end
-        object Memo16: TfrxMemoView
-          Left = 472.441250000000000000
-          Top = 53.811070000000000000
-          Width = 94.488250000000000000
-          Height = 18.897650000000000000
-          ShowHint = False
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clBlack
-          Font.Height = -13
-          Font.Name = 'Arial'
-          Font.Style = []
-          HAlign = haCenter
-          Memo.UTF8W = (
-            'Gudang')
-          ParentFont = False
-        end
-        object Memo17: TfrxMemoView
-          Left = 472.441250000000000000
-          Top = 106.724490000000000000
-          Width = 94.488250000000000000
-          Height = 18.897650000000000000
+          Visible = False
           ShowHint = False
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clBlack

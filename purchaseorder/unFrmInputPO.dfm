@@ -2,7 +2,6 @@ inherited frmInputPO: TfrmInputPO
   Caption = 'Input Purchase Order'
   ClientHeight = 690
   ClientWidth = 1063
-  OnCreate = FormCreate
   OnShow = FormShow
   ExplicitWidth = 1063
   ExplicitHeight = 690
@@ -31,9 +30,6 @@ inherited frmInputPO: TfrmInputPO
     TabOrder = 25
     ExplicitTop = 641
     ExplicitWidth = 1063
-    inherited btnSimpan: TButton
-      OnClick = btnSimpanClick
-    end
   end
   object cxgrdPP: TcxGrid
     Left = 11
@@ -276,6 +272,7 @@ inherited frmInputPO: TfrmInputPO
     Caption = 'Komplit / Selesai'
     Properties.ReadOnly = True
     TabOrder = 2
+    Visible = False
     Width = 104
   end
   object cxgrpbx1: TcxGroupBox
@@ -380,6 +377,7 @@ inherited frmInputPO: TfrmInputPO
     Caption = 'Approval'
     Properties.ReadOnly = True
     TabOrder = 5
+    Visible = False
     Width = 104
   end
   object zqrPPHead: TZReadOnlyQuery

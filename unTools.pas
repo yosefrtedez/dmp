@@ -77,6 +77,7 @@ function Terbilang(sValue: string): string;
 
 function GetStokAkhir(id_brg: integer; id_gdg: Integer): real;
 function GetHpp(id_brg: integer; id_gdg: Integer): real;
+function CheckWewenang(sNamaWewenang, sNamaUser: string): Boolean;
 
 implementation
 
@@ -1315,6 +1316,20 @@ begin
   q := OpenRS('SELECT sf_get_hpp(%d,%d) hpp',[id_brg, id_gdg]);
   Result := q.FieldByName('hpp').AsFloat;
   q.Close;
+end;
+
+function CheckWewenang(sNamaWewenang, sNamaUser: string): Boolean;
+var
+  q: TZQuery;
+  f: Boolean;
+begin
+  f := False;
+  q := OpenRS('SELECT * FROM tbl_wewenang WHERE nama = ''%s'' AND nm_comp = ''%s''',
+    [sNamaUser, sNamaWewenang]);
+  if not q.IsEmpty then
+    if q.FieldByName('b').AsInteger = 1 then
+      f := True;
+  Result := f;
 end;
 
 end.

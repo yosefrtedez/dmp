@@ -3,7 +3,7 @@ unit unTools;
 interface
 
 uses SysUtils, ZDataset, unDM, Dialogs, Windows, Forms, Controls, DB, Winsock,
-  Classes, DateUtils, Printers, WinSpool, ZConnection;
+  Classes, DateUtils, Printers, WinSpool, ZConnection, StdCtrls;
 
 const
 c1 = 52845;
@@ -77,6 +77,7 @@ function Terbilang(sValue: string): string;
 
 function GetStokAkhir(id_brg: integer; id_gdg: Integer): real;
 function GetHpp(id_brg: integer; id_gdg: Integer): real;
+function CheckWewenang(sNamaWewenang, sNamaUser: string): Boolean;
 
 implementation
 
@@ -223,8 +224,23 @@ begin
 end;
 
 procedure MsgBox(sCaption:string);
+var
+  Form: TForm;
+  lbl: TLabel;
+  ExtraWidth: integer;
 begin
-  MessageDlg(sCaption,mtWarning,[mbOk],0);
+  //MessageDlg(sCaption,mtWarning,[mbOk],0);
+  Form := CreateMessageDialog(sCaption, mtWarning, [mbOK]);
+  ExtraWidth := 10;
+  try
+    lbl := Form.FindComponent('Message') as TLabel;
+    lbl.Width := lbl.Width + ExtraWidth;
+    Form.ClientWidth := Form.ClientWidth + ExtraWidth;
+    Form.Position := poScreenCenter;
+    Form.ShowModal;
+  finally
+    Form.Free;
+  end;
 end;
 
 function StrIsInt(str: string): Boolean;
@@ -362,9 +378,9 @@ begin
   else if sTipe = 'po' then
     depan := 'PO/'
   else if sTipe = 'penerimaan_kas' then
-    depan := 'PNK/'
+    depan := 'BKM/'
   else if sTipe = 'pengeluaran_kas' then
-    depan := 'PLK/';
+    depan := 'BKK/';
 
   head := depan + GetFaktur;
 
@@ -1300,6 +1316,11 @@ begin
   q := OpenRS('SELECT sf_get_hpp(%d,%d) hpp',[id_brg, id_gdg]);
   Result := q.FieldByName('hpp').AsFloat;
   q.Close;
+end;
+
+function CheckWewenang(sNamaWewenang, sNamaUser: string): Boolean;
+begin
+
 end;
 
 end.

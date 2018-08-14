@@ -3,7 +3,6 @@ inherited frmLstPO: TfrmLstPO
   ClientHeight = 507
   ClientWidth = 1169
   OnCreate = FormCreate
-  ExplicitLeft = -93
   ExplicitWidth = 1169
   ExplicitHeight = 507
   PixelsPerInch = 96
@@ -46,15 +45,6 @@ inherited frmLstPO: TfrmLstPO
     end
     inherited btnRefresh: TButton
       OnClick = btnRefreshClick
-    end
-    object btn1: TcxButton
-      Left = 338
-      Top = 12
-      Width = 80
-      Height = 26
-      Caption = 'Cetak PO'
-      TabOrder = 5
-      OnClick = btn1Click
     end
   end
   object cxgrd1: TcxGrid
@@ -231,6 +221,14 @@ inherited frmLstPO: TfrmLstPO
         Properties.DisplayFormat = '#,#0.00'
         HeaderAlignmentHorz = taRightJustify
       end
+      object cxtbPODetColumn3: TcxGridDBColumn
+        Caption = 'Qty. Terima'
+        DataBinding.FieldName = 'qty_terima'
+        PropertiesClassName = 'TcxSpinEditProperties'
+        Properties.DisplayFormat = '#,#0.00'
+        HeaderAlignmentHorz = taRightJustify
+        Width = 71
+      end
       object cxtbPODetsatuan: TcxGridDBColumn
         Caption = 'Satuan'
         DataBinding.FieldName = 'satuan'
@@ -290,7 +288,18 @@ inherited frmLstPO: TfrmLstPO
       Height = 25
       Anchors = [akTop, akRight]
       Caption = 'Cetak PO'
+      TabOrder = 1
+      OnClick = btnCetakPOClick
+    end
+    object btnBatalApproval: TButton
+      Left = 968
+      Top = 9
+      Width = 112
+      Height = 25
+      Anchors = [akTop, akRight]
+      Caption = 'Batalkan Approval'
       TabOrder = 0
+      OnClick = btnBatalApprovalClick
     end
   end
   object zqrPO: TZReadOnlyQuery
@@ -319,7 +328,10 @@ inherited frmLstPO: TfrmLstPO
     SQL.Strings = (
       
         'SELECT a.*, b.deskripsi, a.qty, c.satuan, a.harga, a.mata_uang, ' +
-        'a.qty * a.harga subtotal'
+        'a.qty * a.harga subtotal,'
+      
+        '(SELECT SUM(qty) FROM tbl_pb_det WHERE id_brg = a.id_brg AND id_' +
+        'po = a.id_ref) qty_terima'
       'FROM tbl_po_det a'
       'LEFT JOIN tbl_barang b ON a.kode_brg = b.kode '
       'LEFT JOIN tbl_satuan c ON c.id = a.id_satuan'
@@ -577,8 +589,6 @@ inherited frmLstPO: TfrmLstPO
           Width = 170.078850000000000000
           Height = 18.897650000000000000
           ShowHint = False
-          DataSet = frmTmpLap01.fdbSJ01
-          DataSetName = 'fdbSJ01'
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clBlack
           Font.Height = -13
@@ -624,8 +634,6 @@ inherited frmLstPO: TfrmLstPO
           Width = 139.842610000000000000
           Height = 18.897650000000000000
           ShowHint = False
-          DataSet = frmTmpLap01.fdbSJ01
-          DataSetName = 'fdbSJ01'
           DisplayFormat.FormatStr = 'dd-MM-yyyy'
           DisplayFormat.Kind = fkDateTime
           Font.Charset = DEFAULT_CHARSET
@@ -801,6 +809,7 @@ inherited frmLstPO: TfrmLstPO
           Top = 53.811070000000000000
           Width = 94.488250000000000000
           Height = 18.897650000000000000
+          Visible = False
           ShowHint = False
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clBlack
@@ -817,70 +826,7 @@ inherited frmLstPO: TfrmLstPO
           Top = 106.724490000000000000
           Width = 94.488250000000000000
           Height = 18.897650000000000000
-          ShowHint = False
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clBlack
-          Font.Height = -13
-          Font.Name = 'Arial'
-          Font.Style = [fsBold]
-          HAlign = haCenter
-          Memo.UTF8W = (
-            '( .................... )')
-          ParentFont = False
-        end
-        object Memo14: TfrxMemoView
-          Left = 374.173470000000000000
-          Top = 53.811070000000000000
-          Width = 94.488250000000000000
-          Height = 18.897650000000000000
-          ShowHint = False
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clBlack
-          Font.Height = -13
-          Font.Name = 'Arial'
-          Font.Style = []
-          HAlign = haCenter
-          Memo.UTF8W = (
-            'Sopir')
-          ParentFont = False
-        end
-        object Memo15: TfrxMemoView
-          Left = 374.173470000000000000
-          Top = 106.724490000000000000
-          Width = 94.488250000000000000
-          Height = 18.897650000000000000
-          ShowHint = False
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clBlack
-          Font.Height = -13
-          Font.Name = 'Arial'
-          Font.Style = [fsBold]
-          HAlign = haCenter
-          Memo.UTF8W = (
-            '( .................... )')
-          ParentFont = False
-        end
-        object Memo16: TfrxMemoView
-          Left = 472.441250000000000000
-          Top = 53.811070000000000000
-          Width = 94.488250000000000000
-          Height = 18.897650000000000000
-          ShowHint = False
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clBlack
-          Font.Height = -13
-          Font.Name = 'Arial'
-          Font.Style = []
-          HAlign = haCenter
-          Memo.UTF8W = (
-            'Gudang')
-          ParentFont = False
-        end
-        object Memo17: TfrxMemoView
-          Left = 472.441250000000000000
-          Top = 106.724490000000000000
-          Width = 94.488250000000000000
-          Height = 18.897650000000000000
+          Visible = False
           ShowHint = False
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clBlack
