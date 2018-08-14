@@ -94,6 +94,7 @@ begin
       Abort;
     end;
     f := TfrmInputPP.Create(Self);
+    f.TabSheet := Self.Parent as TcxTabSheet;
     f.FormInduk := Self;
     ts.Caption := 'Edit PP';
     f.Jenis := 'E';
@@ -149,6 +150,7 @@ begin
   inherited;
    if not fu.CekTabOpen('Input Permintaan Pembelian') then begin
     ts := TcxTabSheet.Create(Self);
+    f.TabSheet := Self.Parent as TcxTabSheet;
     ts.PageControl := frmUtama.pgMain;
     f := TfrmInputPP.Create(Self);
     f.FormInduk := Self;

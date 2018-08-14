@@ -110,7 +110,6 @@ inherited frmLstPenerimaanKas: TfrmLstPenerimaanKas
     Height = 200
     Align = alBottom
     TabOrder = 3
-    ExplicitTop = 265
     object cxtbPKDet: TcxGridDBTableView
       NavigatorButtons.ConfirmDelete = False
       DataController.DataSource = dsPKDet

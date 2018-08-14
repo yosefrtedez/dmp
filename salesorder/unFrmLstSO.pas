@@ -107,6 +107,7 @@ begin
     ts.PageControl := frmUtama.pgMain;
     if mJenisSO = 'MTS' then begin
       f2 := TfrmInputSOMTS.Create(Self);
+      f.TabSheet := Self.Parent as TcxTabSheet;
       f2.Jenis := 'E';
       f2.FormInduk := Self;
       f2.Caption := 'Edit Sales Order - MTS';
@@ -117,6 +118,7 @@ begin
     end
     else begin
       f := TfrmInputSO.Create(Self);
+      f.TabSheet := Self.Parent as TcxTabSheet;
       f.Jenis := 'E';
       f.JenisSO := '';
       f.FormInduk := Self;
@@ -183,6 +185,7 @@ begin
 
     if mJenisSO = 'MTS' then begin
       f2 := TfrmInputSOMTS.Create(Self);
+      f.TabSheet := Self.Parent as TcxTabSheet;
       f2.FormInduk := Self;
       f2.Jenis := 'T';
       f2.Parent := ts;
@@ -191,6 +194,7 @@ begin
     end
     else begin
       f := TfrmInputSO.Create(Self);
+      f.TabSheet := Self.Parent as TcxTabSheet;
 
       if mJenisSO = 'MTS' then begin
         f.JenisSO := mJenisSO;
@@ -225,7 +229,7 @@ procedure TfrmLstSO.FormCreate(Sender: TObject);
 begin
   inherited;
   Self.NamaMenu := 'mnMkt_SalesOrder';
-  TerapkanWewenang(Self.NamaMenu);
+  //TerapkanWewenang(Self.NamaMenu);
   zqrSO.Open;
 end;
 

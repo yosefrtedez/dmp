@@ -82,6 +82,7 @@ begin
     ts := TcxTabSheet.Create(Self);
     ts.PageControl := frmUtama.pgMain;
     f := TfrmInputTransferBarang.Create(Self);
+    f.TabSheet := Self.Parent as TcxTabSheet;
     f.FormInduk := Self;
     f.Jenis := 'E';
     f.EditKey := zqrTransBarang.FieldByName('id').AsString;
@@ -222,6 +223,7 @@ begin
     ts.PageControl := frmUtama.pgMain;
 
     f := TfrmInputTransferBarang.Create(Self);
+    f.TabSheet := Self.Parent as TcxTabSheet;
     f.FormInduk := Self;
     f.Jenis := 'T';
     f.Parent := ts;

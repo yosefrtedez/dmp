@@ -169,6 +169,7 @@ begin
     ts.PageControl := frmUtama.pgMain;
 
     f := TfrmInputBarangJasa.Create(Self);
+    f.TabSheet := Self.Parent as TcxTabSheet;
     f.Caption := 'Edit Barang Jasa';
     f.FormInduk := Self;
     f.Jenis := 'E';
@@ -233,6 +234,7 @@ begin
     ts.PageControl := frmUtama.pgMain;
 
     f := TfrmInputBarangJasa.Create(Self);
+    f.TabSheet := Self.Parent as TcxTabSheet;
     f.FormInduk := Self;
     f.Jenis := 'T';
     f.Parent := ts;

@@ -55,6 +55,8 @@ begin
     ts.PageControl := frmUtama.pgMain;
 
     f := TfrmInputSales.Create(Self);
+    f.TabSheet := Self.Parent as TcxTabSheet;
+    f.TabSheet := Self.Parent as TcxTabSheet;
     f.Jenis := 'T';
     f.Parent := ts;
     ts.Caption := f.Caption;

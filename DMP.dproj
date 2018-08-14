@@ -292,6 +292,18 @@
 			<DCCReference Include="purchaseorder\unFrmLapOutstandingPO.pas">
 				<Form>frmLapOutstandingPO</Form>
 			</DCCReference>
+			<DCCReference Include="salesorder\unFrmLapOutstandingSO.pas">
+				<Form>frmLapOutstandingSO</Form>
+			</DCCReference>
+			<DCCReference Include="setting\unFrmUbahPassword.pas">
+				<Form>frmUbahPassword</Form>
+			</DCCReference>
+			<DCCReference Include="invoicepembelian\unFrmInputInvoicePembelian.pas">
+				<Form>frmInputInvoicePembelian</Form>
+			</DCCReference>
+			<DCCReference Include="invoicepembelian\unFrmLstInvoicePembelian.pas">
+				<Form>frmLstInvoicePembelian</Form>
+			</DCCReference>
 			<BuildConfiguration Include="Base">
 				<Key>Base</Key>
 			</BuildConfiguration>

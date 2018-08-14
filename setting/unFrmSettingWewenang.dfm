@@ -156,7 +156,7 @@ inherited frmSettingWewenang: TfrmSettingWewenang
       DataBinding.ValueType = 'String'
       Options.Editing = False
       Options.Sorting = False
-      Width = 381
+      Width = 469
       Position.ColIndex = 0
       Position.RowIndex = 0
       Position.BandIndex = 0
@@ -168,9 +168,9 @@ inherited frmSettingWewenang: TfrmSettingWewenang
       Properties.ValueChecked = 1
       Properties.ValueUnchecked = 0
       Caption.AlignHorz = taCenter
-      Caption.Text = 'Buka'
+      Caption.Text = 'Wewenang'
       DataBinding.ValueType = 'Integer'
-      Width = 64
+      Width = 73
       Position.ColIndex = 1
       Position.RowIndex = 0
       Position.BandIndex = 0
@@ -181,6 +181,7 @@ inherited frmSettingWewenang: TfrmSettingWewenang
       PropertiesClassName = 'TcxCheckBoxProperties'
       Properties.ValueChecked = 1
       Properties.ValueUnchecked = 0
+      Visible = False
       Caption.AlignHorz = taCenter
       Caption.Text = 'Input'
       DataBinding.ValueType = 'Integer'
@@ -195,6 +196,7 @@ inherited frmSettingWewenang: TfrmSettingWewenang
       PropertiesClassName = 'TcxCheckBoxProperties'
       Properties.ValueChecked = 1
       Properties.ValueUnchecked = 0
+      Visible = False
       Caption.AlignHorz = taCenter
       Caption.Text = 'Edit'
       DataBinding.ValueType = 'Integer'
@@ -209,6 +211,7 @@ inherited frmSettingWewenang: TfrmSettingWewenang
       PropertiesClassName = 'TcxCheckBoxProperties'
       Properties.ValueChecked = 1
       Properties.ValueUnchecked = 0
+      Visible = False
       Caption.AlignHorz = taCenter
       Caption.Text = 'Hapus'
       DataBinding.ValueType = 'Integer'

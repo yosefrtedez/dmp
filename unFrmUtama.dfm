@@ -2,8 +2,8 @@ object frmUtama: TfrmUtama
   Left = 0
   Top = 0
   Caption = 'frmUtama'
-  ClientHeight = 523
-  ClientWidth = 1129
+  ClientHeight = 486
+  ClientWidth = 937
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -27,8 +27,8 @@ object frmUtama: TfrmUtama
   end
   object stsBar: TdxStatusBar
     Left = 0
-    Top = 499
-    Width = 1129
+    Top = 462
+    Width = 937
     Height = 24
     Panels = <
       item
@@ -55,6 +55,8 @@ object frmUtama: TfrmUtama
     Font.Height = -11
     Font.Name = 'Tahoma'
     Font.Style = []
+    ExplicitTop = 499
+    ExplicitWidth = 1129
   end
   object pgMain: TcxPageControl
     Left = 8
@@ -73,10 +75,10 @@ object frmUtama: TfrmUtama
     ClientRectTop = 0
   end
   object ListBox1: TListBox
-    Left = 504
+    Left = 455
     Top = 8
-    Width = 201
-    Height = 441
+    Width = 386
+    Height = 225
     ItemHeight = 13
     TabOrder = 0
     Visible = False
@@ -157,6 +159,13 @@ object frmUtama: TfrmUtama
       end
       object mnMkt_ReturPenjualan: TMenuItem
         Caption = 'Retur Penjualan'
+      end
+      object N5: TMenuItem
+        Caption = '-'
+      end
+      object mnMkt_LapOustandingSO: TMenuItem
+        Caption = 'Laporan Outstanding SO'
+        OnClick = mnMkt_LapOustandingSOClick
       end
     end
     object mnPPIC: TMenuItem
@@ -308,6 +317,10 @@ object frmUtama: TfrmUtama
       object mnSet_KalkulasiUlangStok: TMenuItem
         Caption = 'Kalkulasi Ulang Stok'
         OnClick = mnSet_KalkulasiUlangStokClick
+      end
+      object mnSet_UbahPassword: TMenuItem
+        Caption = 'Ubah Password'
+        OnClick = mnSet_UbahPasswordClick
       end
     end
     object mnLap: TMenuItem

@@ -8,6 +8,7 @@ inherited frmLstUser: TfrmLstUser
   TextHeight = 13
   inherited Panel1: TPanel
     Width = 1043
+    ExplicitWidth = 1043
     object Label13: TLabel
       Left = 10
       Top = 16
@@ -24,7 +25,8 @@ inherited frmLstUser: TfrmLstUser
   end
   inherited Panel2: TPanel
     Width = 1043
-    TabOrder = 3
+    TabOrder = 2
+    ExplicitWidth = 1043
     inherited btnTambah: TButton
       OnClick = btnTambahClick
     end
@@ -33,6 +35,7 @@ inherited frmLstUser: TfrmLstUser
     end
     inherited btnKeluar: TButton
       Left = 960
+      ExplicitLeft = 960
     end
     inherited btnRefresh: TButton
       OnClick = btnRefreshClick
@@ -42,10 +45,10 @@ inherited frmLstUser: TfrmLstUser
     Left = 0
     Top = 49
     Width = 1043
-    Height = 361
+    Height = 410
     Align = alClient
     TabOrder = 1
-    ExplicitWidth = 1016
+    ExplicitHeight = 361
     object cxtbUser: TcxGridDBTableView
       NavigatorButtons.ConfirmDelete = False
       DataController.DataSource = dsUser
@@ -73,23 +76,6 @@ inherited frmLstUser: TfrmLstUser
     end
     object cxGrid1Level1: TcxGridLevel
       GridView = cxtbUser
-    end
-  end
-  object Panel3: TPanel
-    Left = 0
-    Top = 410
-    Width = 1043
-    Height = 49
-    Align = alBottom
-    TabOrder = 2
-    ExplicitWidth = 1016
-    object Button1: TButton
-      Left = 10
-      Top = 12
-      Width = 143
-      Height = 25
-      Caption = 'Setting Wewenang User'
-      TabOrder = 0
     end
   end
   object zqrUser: TZReadOnlyQuery

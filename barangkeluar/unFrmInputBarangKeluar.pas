@@ -76,6 +76,7 @@ type
     cxColHargaIkat: TcxGridColumn;
     cxColIdBrg: TcxGridColumn;
     cxColKodeBrg2: TcxGridColumn;
+    Button1: TButton;
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure cxtbReturDataControllerRecordChanged(
@@ -90,6 +91,8 @@ type
     procedure cxsDiskonPropertiesChange(Sender: TObject);
     procedure cxCmbJenisTrsPropertiesChange(Sender: TObject);
     procedure btnPilihHargaClick(Sender: TObject);
+    procedure btnBatalClick(Sender: TObject);
+    procedure Button1Click(Sender: TObject);
   private
     procedure HitungTotal;
   public
@@ -101,9 +104,15 @@ var
 
 implementation
 
-uses unDM, unTools, unFrmPilihHarga, unFrmLstBarangKeluar;
+uses unDM, unTools, unFrmPilihHarga, unFrmLstBarangKeluar, unFrmUtama;
 
 {$R *.dfm}
+
+procedure TfrmInputBarangKeluar.btnBatalClick(Sender: TObject);
+begin
+  inherited;
+  frmUtama.pgMain.ActivePage := Self.TabSheet;
+end;
 
 procedure TfrmInputBarangKeluar.btnPilihHargaClick(Sender: TObject);
 var
@@ -111,6 +120,7 @@ var
   i: integer;
 begin
   inherited;
+
   if cxtbBrgKeluar.DataController.RecordCount = 0 then Abort;
 
   i := cxtbBrgKeluar.DataController.GetFocusedRecordIndex;
@@ -135,6 +145,12 @@ begin
   if (cxtbBrgKeluar.DataController.EditState = [dceInsert, dceModified]) or (cxtbBrgKeluar.DataController.EditState = [dceEdit, dceModified]) then begin
     MsgBox('Mohon selesaikan pengeditan detail sebelum disimpan. ' + Chr(10) + Chr(13) +
       'Klik tombol centang hijau.');
+    Abort;
+  end;
+
+  if cxCmbJenisTrs.Text = '' then begin
+    MsgBox('Jenis transaksi harus di isi.');
+    cxCmbJenisTrs.SetFocus;
     Abort;
   end;
 
@@ -212,7 +228,9 @@ begin
             qd.FieldByName('hrgjual').AsFloat := Values[i, cxColHarga.Index];
           if not VarIsNull(Values[i, cxColQtyKG.Index]) then
             qd.FieldByName('qty_kg').AsFloat := Values[i,cxColQtyKG.Index];
-          qd.FieldByName('hrgikat').AsFloat := Values[i, cxColHargaIkat.Index];
+          if cxCmbJenisTrs.Text = 'PENJUALAN' then begin
+            qd.FieldByName('hrgikat').AsFloat := Values[i, cxColHargaIkat.Index];
+          end;
           qd.Post;
 
           { 01/08/2018
@@ -262,6 +280,7 @@ begin
       MsgBox('Transaksi barang keluar sudah disimpan dengan No. Bukti : ' + sNoBukti);
       if Assigned(Self.FormInduk) then
         (Self.FormInduk as TFrmLstBarangKeluar).btnRefreshClick(nil);
+
       btnBatalClick(nil);
     except
       on E: Exception do begin
@@ -271,6 +290,12 @@ begin
     end;
   end;
 
+end;
+
+procedure TfrmInputBarangKeluar.Button1Click(Sender: TObject);
+begin
+  inherited;
+  MsgBOx(Self.TabSheet.Caption);
 end;
 
 procedure TfrmInputBarangKeluar.cxChkPPNClick(Sender: TObject);
@@ -291,7 +316,18 @@ begin
     zqrBarang.Close;
     zqrBarang.SQL.Strings[2] := 'WHERE f_dijual = 1';
     zqrBarang.Open;
+    cxColJmlIkatPerBal.Visible := True;
+    cxColHargaIkat.Visible := True;
+    cxColHarga.Visible := True;
+    cxColQtyKG.Visible := True;
+  end
+  else if (cxCmbJenisTrs.Text = 'MUTASI') or (cxCmbJenisTrs.Text = 'RETUR PENJUALAN') then begin
+    cxColJmlIkatPerBal.Visible := False;
+    cxColHargaIkat.Visible := False;
+    cxColHarga.Visible := False;
+    cxColQtyKG.Visible := False;
   end;
+
 end;
 
 procedure TfrmInputBarangKeluar.cxColNoGetDisplayText(
@@ -339,10 +375,12 @@ begin
       Abort;
   end;
 
-  if (VarIsNull(ADataController.Values[i, cxColHargaIkat.Index])) or
-      (Trim(ADataController.Values[i, cxColHargaIkat.Index]) = '')  then begin
-      MsgBox('Harga per ikat harus di isi.');
-      Abort;
+  if cxCmbJenisTrs.Text = 'PENJUALAN' then begin
+    if (VarIsNull(ADataController.Values[i, cxColHargaIkat.Index])) or
+        (Trim(ADataController.Values[i, cxColHargaIkat.Index]) = '')  then begin
+        MsgBox('Harga per ikat harus di isi.');
+        Abort;
+    end;
   end;
 
   if (VarIsNull(ADataController.Values[i, cxColGudang.Index])) or
@@ -417,16 +455,18 @@ begin
     end;
   end;
 
-  if (AItemIndex = cxColHargaIkat.Index) or (AItemIndex = cxColQty.Index) then begin
-    try
-      ADataController.Values[ARecordIndex, cxColHarga.Index] :=
-        ADataController.Values[ARecordIndex, cxColHargaIkat.Index] *
-        ADataController.Values[ARecordIndex, cxColJmlIkatPerBal.Index];
-      ADataController.Values[ARecordIndex, cxColTotal.Index] :=
-        ADataController.Values[ARecordIndex, cxColQty.Index] * ADataController.Values[ARecordIndex, cxColHarga.Index];
-    finally
+  if cxCmbJenisTrs.Text = 'PENJUALAN' then begin
+    if (AItemIndex = cxColHargaIkat.Index) or (AItemIndex = cxColQty.Index) then begin
+      try
+        ADataController.Values[ARecordIndex, cxColHarga.Index] :=
+          ADataController.Values[ARecordIndex, cxColHargaIkat.Index] *
+          ADataController.Values[ARecordIndex, cxColJmlIkatPerBal.Index];
+        ADataController.Values[ARecordIndex, cxColTotal.Index] :=
+          ADataController.Values[ARecordIndex, cxColQty.Index] * ADataController.Values[ARecordIndex, cxColHarga.Index];
+      finally
+      end;
+      HitungTotal;
     end;
-    HitungTotal;
   end;
 
   {
@@ -450,7 +490,7 @@ begin
   zqrGudang.Open;
   zqrCust.Open;
 
-  cxCmbJenisTrs.Properties.Items.CommaText := ',PENJUALAN,"RETUR PENJUALAN",MUTASI,LAIN-LAIN';
+  cxCmbJenisTrs.Properties.Items.CommaText := ',PENJUALAN,"RETUR PENJUALAN",MUTASI';
   cxCmbJenisTrs.ItemIndex := 0;
 
 end;

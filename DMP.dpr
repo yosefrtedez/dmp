@@ -87,7 +87,11 @@ uses
   unFrmInputSOMTS in 'salesorder\unFrmInputSOMTS.pas' {frmInputSOMTS},
   unFrmPilihPO in 'purchaseorder\unFrmPilihPO.pas' {frmPilihPO},
   unFrmLapPengambilanBB in 'laporan\unFrmLapPengambilanBB.pas' {frmLapPengambilanBB},
-  unFrmLapOutstandingPO in 'purchaseorder\unFrmLapOutstandingPO.pas' {frmLapOutstandingPO};
+  unFrmLapOutstandingPO in 'purchaseorder\unFrmLapOutstandingPO.pas' {frmLapOutstandingPO},
+  unFrmLapOutstandingSO in 'salesorder\unFrmLapOutstandingSO.pas' {frmLapOutstandingSO},
+  unFrmUbahPassword in 'setting\unFrmUbahPassword.pas' {frmUbahPassword},
+  unFrmInputInvoicePembelian in 'invoicepembelian\unFrmInputInvoicePembelian.pas' {frmInputInvoicePembelian},
+  unFrmLstInvoicePembelian in 'invoicepembelian\unFrmLstInvoicePembelian.pas' {frmLstInvoicePembelian};
 
 {$R *.res}
 
@@ -97,6 +101,7 @@ begin
   Application.CreateForm(TDM, DM);
   Application.CreateForm(TfrmUtama, frmUtama);
   Application.CreateForm(TfrmLogin, frmLogin);
+  Application.CreateForm(TfrmLstInvoicePembelian, frmLstInvoicePembelian);
   frmUtama.Show;
 
   frmLogin.ShowModal;

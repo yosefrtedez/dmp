@@ -103,6 +103,7 @@ begin
       Abort;
     end;
     f := TfrmInputReturPembelian.Create(Self);
+    f.TabSheet := Self.Parent as TcxTabSheet;
     ts.Caption := 'Edit Retur Pembelian';
     f.Jenis := 'E';
     f.EditKey := zqrReturPembHead.FieldByName('id').AsString;
@@ -163,6 +164,7 @@ begin
     ts := TcxTabSheet.Create(Self);
     ts.PageControl := frmUtama.pgMain;
     f := TfrmInputReturPembelian.Create(Self);
+    f.TabSheet := Self.Parent as TcxTabSheet;
     f.Jenis := 'T';
     f.Parent := ts;
     ts.Caption := f.Caption;

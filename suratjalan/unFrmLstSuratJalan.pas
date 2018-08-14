@@ -17,7 +17,7 @@ uses
   dxSkinscxPCPainter, cxCustomData, cxFilter, cxData, cxDataStorage, cxEdit, DB,
   cxDBData, cxCheckBox, cxSpinEdit, cxContainer, cxLabel, cxGridLevel,
   cxGridCustomTableView, cxGridTableView, cxGridDBTableView, cxClasses,
-  cxGridCustomView, cxGrid, cxPC, ZAbstractRODataset, ZDataset;
+  cxGridCustomView, cxGrid, cxPC, ZAbstractRODataset, ZDataset, Math;
 
 type
   TfrmLstSuratJalan = class(TfrmTplGrid)
@@ -71,9 +71,10 @@ type
     procedure btnHapusClick(Sender: TObject);
     procedure btnPostingClick(Sender: TObject);
     procedure Button1Click(Sender: TObject);
+
   private
-    { Private declarations }
     mjenis : string;
+    function CheckSOComplete: boolean;
   public
     { Public declarations }
   end;
@@ -104,6 +105,7 @@ begin
       Abort;
     end;
     f := TfrmInputSuratJalan.Create(Self);
+    f.TabSheet := Self.Parent as TcxTabSheet;
     ts.Caption := 'Edit Surat Jalan';
     f.Jenis := 'E';
     f.EditKey := zqrSJ.FieldByName('id').AsString;
@@ -202,6 +204,8 @@ begin
 
     dm.zConn.Commit;
 
+    CheckSOComplete;
+
     Screen.Cursor := crDefault;
     MsgBox('Transaksi surat jalan sudah di posting.');
 
@@ -235,6 +239,7 @@ begin
     ts := TcxTabSheet.Create(Self);
     ts.PageControl := frmUtama.pgMain;
     f := TfrmInputSuratJalan.Create(Self);
+    f.TabSheet := Self.Parent as TcxTabSheet;
     f.FormInduk := Self;
     f.Jenis := 'T';
     f.Parent := ts;
@@ -293,5 +298,32 @@ begin
   btnHapus.Visible := False;
   btnEdit.Visible := False;
 end;
+
+function TfrmLstSuratJalan.CheckSOComplete: boolean;
+var
+  qsj, q: TZQuery;
+  f: Boolean;
+  a,b: Extended;
+  i: integer;
+begin
+  qsj := OpenRS('SELECT * FROM tbl_sj_det WHERE id_ref = %s',[zqrSJ.FieldByname('id').AsString]);
+  with qsj do begin
+    q := OpenRS('SELECT a.id_brg, a.qty, (SELECT SUM(qty) FROM tbl_sj_det WHERE id_so = a.id_ref AND id_brg = a.id_brg) qty_kirim ' +
+      'FROM tbl_so_det a WHERE a.id_ref = %s',[qsj.FieldByname('id_so').AsString]);
+    f := False;
+    while not q.Eof do begin
+      a := q.FieldByName('qty').AsFloat;
+      b := q.FIeldByName('qty_kirim').AsFloat;
+      if CompareValue(a, b) = 0 then
+        f := true
+      else
+        f := false;
+      q.Next;
+    end;
+    if f then
+      dm.zConn.ExecuteDirect(Format('UPDATE tbl_so_head SET f_completed = 1 WHERE id = %s',[qsj.FieldByname('id_so').AsString]));
+  end;
+end;
+
 
 end.

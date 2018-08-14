@@ -73,6 +73,7 @@ begin
     ts.PageControl := frmUtama.pgMain;
 
     f := TfrmInputSupplier.Create(Self);
+    f.TabSheet := Self.Parent as TcxTabSheet;
     f.FormInduk := Self;
     f.Caption := 'Edit User';
     f.Jenis := 'E';
@@ -132,6 +133,7 @@ begin
     ts.PageControl := frmUtama.pgMain;
 
     f := TfrmInputSupplier.Create(Self);
+    f.TabSheet := Self.Parent as TcxTabSheet;
     f.FormInduk := Self;
     f.Jenis := 'T';
     f.Parent := ts;

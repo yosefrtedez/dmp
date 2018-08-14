@@ -205,7 +205,6 @@ inherited frmLstSuratJalan: TfrmLstSuratJalan
       Anchors = [akTop, akRight]
       Caption = 'Posting'
       TabOrder = 0
-      Visible = False
       OnClick = btnPostingClick
     end
     object Button1: TButton
@@ -319,7 +318,9 @@ inherited frmLstSuratJalan: TfrmLstSuratJalan
       'LEFT JOIN tbl_barang b ON a.id_brg = b.id'
       'LEFT JOIN tbl_satuan c ON a.id_satuan = c.id'
       'LEFT JOIN tbl_gudang d ON d.id = a.id_gdg'
-      'LEFT JOIN tbl_so_det e ON e.id_ref = a.id_so'
+      
+        'LEFT JOIN tbl_so_det e ON e.id_ref = a.id_so AND e.id_brg = a.id' +
+        '_brg'
       'where a.id_ref = :id_ref')
     Params = <
       item

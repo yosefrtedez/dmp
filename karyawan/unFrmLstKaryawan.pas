@@ -61,6 +61,7 @@ begin
     ts := TcxTabSheet.Create(Self);
     ts.PageControl := frmUtama.pgMain;
     f := TfrmInputKaryawan.Create(Self);
+    f.TabSheet := Self.Parent as TcxTabSheet;
     f.Caption := 'Edit Karyawan';
     f.FormInduk := Self;
     f.Jenis := 'E';
@@ -116,6 +117,7 @@ begin
     ts := TcxTabSheet.Create(Self);
     ts.PageControl := frmUtama.pgMain;
     f := TfrmInputKaryawan.Create(Self);
+    f.TabSheet := Self.Parent as TcxTabSheet;
     f.FormInduk := Self;
     f.Jenis := 'T';
     f.Parent := ts;

@@ -14,6 +14,7 @@ object frmTplInput: TfrmTplInput
   Font.Name = 'Tahoma'
   Font.Style = []
   OldCreateOrder = False
+  OnCreate = FormCreate
   PixelsPerInch = 96
   TextHeight = 13
   object Panel1: TPanel
@@ -38,6 +39,7 @@ object frmTplInput: TfrmTplInput
       Height = 25
       Caption = 'Simpan'
       TabOrder = 0
+      OnClick = btnSimpanClick
     end
     object btnBatal: TButton
       Left = 91

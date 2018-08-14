@@ -38,7 +38,6 @@ inherited frmLstPengeluaranKas: TfrmLstPengeluaranKas
     Height = 169
     Align = alClient
     TabOrder = 1
-    ExplicitHeight = 410
     object cxtbPK: TcxGridDBTableView
       NavigatorButtons.ConfirmDelete = False
       OnFocusedRecordChanged = cxtbPKFocusedRecordChanged
@@ -94,8 +93,6 @@ inherited frmLstPengeluaranKas: TfrmLstPengeluaranKas
     Height = 41
     Align = alBottom
     TabOrder = 2
-    ExplicitLeft = -8
-    ExplicitTop = 177
   end
   object cxGrid2: TcxGrid
     Left = 0
@@ -104,9 +101,6 @@ inherited frmLstPengeluaranKas: TfrmLstPengeluaranKas
     Height = 200
     Align = alBottom
     TabOrder = 3
-    ExplicitLeft = 480
-    ExplicitTop = 40
-    ExplicitWidth = 250
     object cxtbPKDet: TcxGridDBTableView
       NavigatorButtons.ConfirmDelete = False
       DataController.DataSource = dsPKDet
@@ -142,7 +136,6 @@ inherited frmLstPengeluaranKas: TfrmLstPengeluaranKas
   end
   object zqrPK: TZReadOnlyQuery
     Connection = DM.zConn
-    Active = True
     SQL.Strings = (
       'SELECT *'
       'FROM tbl_trskk_head'
@@ -160,7 +153,6 @@ inherited frmLstPengeluaranKas: TfrmLstPengeluaranKas
   end
   object zqrPKDet: TZReadOnlyQuery
     Connection = DM.zConn
-    Active = True
     SQL.Strings = (
       'SELECT a.noakun, a.memo, a.jumlah, b.nama namaakun'
       'FROM tbl_pengeluarankas_det a'

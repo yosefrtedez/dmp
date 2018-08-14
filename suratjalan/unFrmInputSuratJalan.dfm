@@ -1,5 +1,5 @@
 inherited frmInputSuratJalan: TfrmInputSuratJalan
-  Caption = 'Input Barang Masuk'
+  Caption = 'Input Surat Jalan'
   ClientHeight = 687
   ClientWidth = 1119
   OnCreate = FormCreate

@@ -2,12 +2,19 @@ inherited frmInputPB: TfrmInputPB
   Caption = 'Input Penerimaan Barang'
   ClientHeight = 739
   ClientWidth = 1172
-  OnCreate = FormCreate
   OnShow = FormShow
+  ExplicitTop = -58
   ExplicitWidth = 1172
   ExplicitHeight = 739
   PixelsPerInch = 96
   TextHeight = 13
+  object Label2: TLabel [0]
+    Left = 504
+    Top = 560
+    Width = 31
+    Height = 13
+    Caption = 'Label2'
+  end
   inherited Panel1: TPanel
     Width = 1172
     ExplicitWidth = 1172
@@ -33,7 +40,6 @@ inherited frmInputPB: TfrmInputPB
     ExplicitWidth = 1172
     inherited btnSimpan: TButton
       Left = 11
-      OnClick = btnSimpanClick
       ExplicitLeft = 11
     end
   end
@@ -443,6 +449,7 @@ inherited frmInputPB: TfrmInputPB
     Properties.ListSource = dsSupp
     Properties.OnChange = cxlSuppPropertiesChange
     TabOrder = 8
+    OnExit = cxlSuppExit
     Width = 396
   end
   object cxChkSelesai: TcxCheckBox

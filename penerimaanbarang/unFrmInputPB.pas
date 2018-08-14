@@ -85,6 +85,7 @@ type
     cxColNoPO: TcxGridColumn;
     cxColIdPO: TcxGridColumn;
     cxColTglPO: TcxGridColumn;
+    Label2: TLabel;
     procedure FormCreate(Sender: TObject);
     procedure cxlNoPPPropertiesChange(Sender: TObject);
     procedure cxtbPBDataControllerBeforePost(
@@ -96,6 +97,7 @@ type
     procedure FormShow(Sender: TObject);
     procedure cxlSuppPropertiesChange(Sender: TObject);
     procedure btnPilihPOClick(Sender: TObject);
+    procedure cxlSuppExit(Sender: TObject);
   private
     id_supplier: integer;
     f_posted: Boolean;
@@ -247,7 +249,7 @@ begin
 
     qh.FieldByName('no_bukti').AsString := sNoTrs;
     //qh.FieldByName('id_po').AsInteger := cxlNoPO.EditValue;
-    qh.FieldByName('tanggal').AsDateTime := Aplikasi.TanggalServer;
+    qh.FieldByName('tanggal').AsDateTime := cxdTglDatang.Date;
     qh.FieldByName('user').AsString := Aplikasi.NamaUser;
     qh.FieldByName('user_dept').AsString := Aplikasi.UserDept;
     qh.FieldByName('id_supplier').AsInteger := cxlSupp.EditValue;
@@ -452,23 +454,45 @@ begin
 
 end;
 
+procedure TfrmInputPB.cxlSuppExit(Sender: TObject);
+var
+  q: TZQuery;
+begin
+  inherited;
+  try
+    zqrPO.Close;
+    zqrPO.ParamByName('id_supplier').AsInteger := cxlSupp.EditValue;
+    zqrPO.Open;
+
+    cxtbPB.DataController.RecordCount := 0;
+    cxdTglPO.Text := '';
+    q := OpenRS('SELECT alamat, alamat2, kota, provinsi, negara FROM tbl_supplier WHERE id = %s',[cxlSupp.EditValue]);
+    cxtAlamat.Text := q.FieldByName('alamat').AsString + ', ' + q.FieldByName('alamat2').AsString +
+      ', ' + q.FieldByname('kota').AsString + ', ' + q.FieldByName('provinsi').AsString;
+    q.Close;
+  except
+  end;
+end;
+
 procedure TfrmInputPB.cxlSuppPropertiesChange(Sender: TObject);
 var
   q: TZQuery;
 begin
   inherited;
   try
-  zqrPO.Close;
-  zqrPO.ParamByName('id_supplier').AsInteger := cxlSupp.EditValue;
-  zqrPO.Open;
-  cxtbPB.DataController.RecordCount := 0;
-  cxdTglPO.Text := '';
-  q := OpenRS('SELECT alamat, alamat2, kota, provinsi, negara FROM tbl_supplier WHERE id = %s',[cxlSupp.EditValue]);
-  cxtAlamat.Text := q.FieldByName('alamat').AsString + ', ' + q.FieldByName('alamat2').AsString +
-    ', ' + q.FieldByname('kota').AsString + ', ' + q.FieldByName('provinsi').AsString;
-  q.Close;
-  finally
+    //if not VarIsNull(cxlSupp.EditValue) then begin
+      zqrPO.Close;
+      zqrPO.ParamByName('id_supplier').AsInteger := cxlSupp.EditValue;
+      zqrPO.Open;
 
+      cxtbPB.DataController.RecordCount := 0;
+      cxdTglPO.Text := '';
+      q := OpenRS('SELECT alamat, alamat2, kota, provinsi, negara FROM tbl_supplier WHERE id = %s',[cxlSupp.EditValue]);
+      cxtAlamat.Text := q.FieldByName('alamat').AsString + ', ' + q.FieldByName('alamat2').AsString +
+        ', ' + q.FieldByname('kota').AsString + ', ' + q.FieldByName('provinsi').AsString;
+      q.Close;
+    //end;
+  except
   end;
 end;
 

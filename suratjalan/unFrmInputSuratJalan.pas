@@ -225,8 +225,8 @@ begin
       qd.Close;
       Self.Jenis := '';
 
-      Self.Posting(ID);
-      Self.CheckSOComplete;
+      //Self.Posting(ID);
+      //Self.CheckSOComplete;
 
       MsgBox('Transaksi Surat Jalan barang sudah disimpan dengan No. Bukti : ' + sNoBukti);
 

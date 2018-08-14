@@ -99,6 +99,7 @@ begin
       Abort;
     end;
     f := TfrmInputKoreksi.Create(Self);
+    f.TabSheet := Self.Parent as TcxTabSheet;
     f.FormInduk := Self;
     ts.Caption := 'Edit Koreksi Barang';
     f.Jenis := 'E';
@@ -234,6 +235,7 @@ begin
     ts := TcxTabSheet.Create(Self);
     ts.PageControl := frmUtama.pgMain;
     f := TfrmInputKoreksi.Create(Self);
+    f.TabSheet := Self.Parent as TcxTabSheet;
     f.Caption := 'Input Koreksi Barang';
     f.FormInduk := Self;
     f.Jenis := 'T';

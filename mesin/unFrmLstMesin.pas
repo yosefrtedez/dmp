@@ -61,6 +61,7 @@ begin
     ts := TcxTabSheet.Create(Self);
     ts.PageControl := frmUtama.pgMain;
     f := TfrmInputMesin.Create(Self);
+    f.TabSheet := Self.Parent as TcxTabSheet;
     f.FormInduk := Self;
     f.Jenis := 'E';
     f.Caption := 'Edit Mesin';
@@ -107,6 +108,7 @@ begin
     ts.PageControl := frmUtama.pgMain;
 
     f := TfrmInputMesin.Create(Self);
+    f.TabSheet := Self.Parent as TcxTabSheet;
     f.FormInduk := Self;
     f.Jenis := 'T';
     f.cxChkAktif.Checked := True ;

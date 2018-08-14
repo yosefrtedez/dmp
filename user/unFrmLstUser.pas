@@ -30,8 +30,6 @@ type
     cxtbUserdept: TcxGridDBColumn;
     cxtbUseremail: TcxGridDBColumn;
     Label13: TLabel;
-    Panel3: TPanel;
-    Button1: TButton;
     procedure btnTambahClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure btnRefreshClick(Sender: TObject);
@@ -61,6 +59,7 @@ begin
     ts.PageControl := frmUtama.pgMain;
 
     f := TfrmInputUser.Create(Self);
+    f.TabSheet := Self.Parent as TcxTabSheet;
     f.FormInduk := Self;
     f.Caption := 'Edit User';
     f.Jenis := 'E';
@@ -90,6 +89,7 @@ begin
     ts.PageControl := frmUtama.pgMain;
 
     f := TfrmInputUser.Create(Self);
+    f.TabSheet := Self.Parent as TcxTabSheet;
     f.FormInduk := Self;
     f.Jenis := 'T';
     f.Parent := ts;
