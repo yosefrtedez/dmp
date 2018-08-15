@@ -192,7 +192,7 @@ var
   ts: TcxTabSheet;
 begin
   inherited;
-  if not fu.CekTabOpen('Input Invoice Pembelian') then begin
+   if not fu.CekTabOpen('Input Purchase Order') then begin
     ts := TcxTabSheet.Create(Self);
     ts.PageControl := frmUtama.pgMain;
     f := TfrmInputPO.Create(Self);

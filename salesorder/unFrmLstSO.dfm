@@ -28,7 +28,6 @@ inherited frmLstSO: TfrmLstSO
       OnClick = btnEditClick
     end
     inherited btnHapus: TButton
-      Visible = False
       OnClick = btnHapusClick
     end
     inherited btnRefresh: TButton

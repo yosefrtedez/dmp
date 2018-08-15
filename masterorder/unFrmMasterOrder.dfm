@@ -2,7 +2,6 @@ inherited frmMasterOrder: TfrmMasterOrder
   Caption = 'Master Order'
   ClientHeight = 667
   ClientWidth = 1076
-  OnCreate = FormCreate
   ExplicitWidth = 1076
   ExplicitHeight = 667
   PixelsPerInch = 96
@@ -268,7 +267,6 @@ inherited frmMasterOrder: TfrmMasterOrder
   end
   object zqrMO: TZReadOnlyQuery
     Connection = DM.zConn
-    Active = True
     SQL.Strings = (
       'SELECT * FROM v_mo'
       'WHERE (tanggal BETWEEN :tgl1 AND :tgl2) AND (no_mo IS NOT NULL)'

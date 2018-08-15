@@ -66,6 +66,10 @@ type
     dsGdg: TDataSource;
     cxLabel3: TcxLabel;
     cxLabel4: TcxLabel;
+    cxLabel5: TcxLabel;
+    cxlbNoSPK: TcxLabel;
+    cxLabel6: TcxLabel;
+    cxlbBahanBaku: TcxLabel;
     procedure btnProsesClick(Sender: TObject);
     procedure cxtbSPKFocusedRecordChanged(Sender: TcxCustomGridTableView;
       APrevFocusedRecord, AFocusedRecord: TcxCustomGridRecord;
@@ -149,7 +153,6 @@ begin
     q.FieldByName('id_satuan').AsInteger := cxtbBOM.DataController.Values[j, cxColIdSatuan.Index];
     q.FieldByName('user').AsString := Aplikasi.NamaUser;
     q.FieldByName('user_dept').AsString := Aplikasi.UserDept;
-    q.FieldByName('id_so').AsInteger := zqrSPK.FieldByName('id_so').AsInteger;
     ADataController.Values[i, cxColStatus.Index] := 1;
     q.Post;
     q.Close;
@@ -229,7 +232,6 @@ begin
     if VarIsNull(Values[i, cxColTanggal.Index]) then berr := false;
     if VarIsNull(Values[i, cxColJam.Index]) then berr := false;
     if VarIsNull(Values[i, cxColQtyInput.Index]) then berr := false;
-
   end;
   if not berr then begin
     MsgBox('Mohon lengkapi inputan yang masih kosong.');
@@ -282,6 +284,8 @@ begin
   end;
   cxtbBomDet.EndUpdate;
   q.Close;
+
+  cxlbBahanBaku.Caption := cxtbBomDet.DataController.Values[j, cxColDeskripsi.Index];
   Except
   end;
 end;
@@ -296,6 +300,8 @@ begin
   inherited;
   try
   with cxtbBOM.DataController do begin
+    cxlbNoSPK.Caption := '-';
+
     cxtbBomDet.DataController.RecordCount := 0;
     RecordCount := 0;
     q := OpenRS('SELECT a.*, b.kode, b.deskripsi, c.satuan satuan2, ' +
@@ -317,7 +323,8 @@ begin
     end;
     q.Close;
   end;
-  finally
+  cxlNoSPK.Caption := zqrSPK.FieldByName('no_spk').AsString;
+  except
 
   end;
 end;

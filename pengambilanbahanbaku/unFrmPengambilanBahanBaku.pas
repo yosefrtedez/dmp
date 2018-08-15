@@ -66,6 +66,10 @@ type
     dsGdg: TDataSource;
     cxLabel3: TcxLabel;
     cxLabel4: TcxLabel;
+    cxLabel5: TcxLabel;
+    cxlbNoSPK: TcxLabel;
+    cxLabel6: TcxLabel;
+    cxlbBahanBaku: TcxLabel;
     procedure btnProsesClick(Sender: TObject);
     procedure cxtbSPKFocusedRecordChanged(Sender: TcxCustomGridTableView;
       APrevFocusedRecord, AFocusedRecord: TcxCustomGridRecord;
@@ -280,6 +284,8 @@ begin
   end;
   cxtbBomDet.EndUpdate;
   q.Close;
+
+  cxlbBahanBaku.Caption := cxtbBom.DataController.Values[j, cxColDeskripsi.Index];
   Except
   end;
 end;
@@ -294,6 +300,9 @@ begin
   inherited;
   try
   with cxtbBOM.DataController do begin
+    cxlbNoSPK.Caption := '-';
+    cxlbBahanBaku.Caption := '-';
+
     cxtbBomDet.DataController.RecordCount := 0;
     RecordCount := 0;
     q := OpenRS('SELECT a.*, b.kode, b.deskripsi, c.satuan satuan2, ' +
@@ -315,7 +324,8 @@ begin
     end;
     q.Close;
   end;
-  finally
+  cxlbNoSPK.Caption := zqrSPK.FieldByName('no_spk').AsString;
+  except
 
   end;
 end;

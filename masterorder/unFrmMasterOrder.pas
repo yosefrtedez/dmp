@@ -131,6 +131,7 @@ begin
     ts.PageControl := frmUtama.pgMain;
 
     f := TfrmSPK.Create(nil);
+    f.TabSheet := (Self.Parent as TcxTabSheet);
     f.Jenis := 'T';
     if not zqrMO.FieldByName('id_spk').IsNull then begin
       f.IDSPK := zqrMO.FieldByName('id_spk').AsInteger;

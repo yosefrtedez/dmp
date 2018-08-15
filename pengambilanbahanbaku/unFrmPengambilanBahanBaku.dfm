@@ -1,7 +1,7 @@
 inherited frmPengambilanBahanBaku: TfrmPengambilanBahanBaku
   Caption = 'Pengambilan Bahan Baku'
   ClientHeight = 620
-  OnCreate = FormCreate
+  ExplicitWidth = 894
   ExplicitHeight = 620
   PixelsPerInch = 96
   TextHeight = 13
@@ -123,22 +123,34 @@ inherited frmPengambilanBahanBaku: TfrmPengambilanBahanBaku
     Left = 0
     Top = 257
     Width = 894
-    Height = 32
+    Height = 49
     Align = alTop
     TabOrder = 3
+    ExplicitTop = 251
     object cxLabel3: TcxLabel
       Left = 10
       Top = 8
       Caption = 'Bill Of Material / Bahan Baku :'
     end
+    object cxLabel5: TcxLabel
+      Left = 10
+      Top = 26
+      Caption = 'No. SPK : '
+    end
+    object cxlbNoSPK: TcxLabel
+      Left = 60
+      Top = 26
+      Caption = '-'
+    end
   end
   object cxGrid2: TcxGrid
     Left = 0
-    Top = 289
+    Top = 306
     Width = 894
     Height = 110
     Align = alTop
     TabOrder = 4
+    ExplicitTop = 289
     object cxtbBOM: TcxGridDBTableView
       NavigatorButtons.ConfirmDelete = False
       OnFocusedRecordChanged = cxtbBOMFocusedRecordChanged
@@ -198,9 +210,9 @@ inherited frmPengambilanBahanBaku: TfrmPengambilanBahanBaku
   end
   object Panel5: TPanel
     Left = 0
-    Top = 399
+    Top = 416
     Width = 894
-    Height = 32
+    Height = 49
     Align = alTop
     TabOrder = 5
     object cxLabel4: TcxLabel
@@ -208,14 +220,25 @@ inherited frmPengambilanBahanBaku: TfrmPengambilanBahanBaku
       Top = 8
       Caption = 'Input Pengambilan Bahan Baku :'
     end
+    object cxLabel6: TcxLabel
+      Left = 10
+      Top = 26
+      Caption = 'Bahan Baku : '
+    end
+    object cxlbBahanBaku: TcxLabel
+      Left = 79
+      Top = 26
+      Caption = '-'
+    end
   end
   object cxGrid3: TcxGrid
     Left = 0
-    Top = 431
+    Top = 465
     Width = 894
     Height = 140
     Align = alTop
     TabOrder = 6
+    ExplicitTop = 431
     object cxtbBomDet: TcxGridTableView
       NavigatorButtons.ConfirmDelete = False
       NavigatorButtons.PriorPage.Visible = False
@@ -331,7 +354,6 @@ inherited frmPengambilanBahanBaku: TfrmPengambilanBahanBaku
   end
   object zqrGdg: TZReadOnlyQuery
     Connection = DM.zConn
-    Active = True
     SQL.Strings = (
       'SELECT id, kode FROM tbl_gudang')
     Params = <>

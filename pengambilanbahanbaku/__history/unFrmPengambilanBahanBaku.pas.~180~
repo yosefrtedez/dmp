@@ -64,6 +64,12 @@ type
     cxColGdg: TcxGridColumn;
     zqrGdg: TZReadOnlyQuery;
     dsGdg: TDataSource;
+    cxLabel3: TcxLabel;
+    cxLabel4: TcxLabel;
+    cxLabel5: TcxLabel;
+    cxlNoSPK: TcxLabel;
+    cxLabel6: TcxLabel;
+    cxlBahanBaku: TcxLabel;
     procedure btnProsesClick(Sender: TObject);
     procedure cxtbSPKFocusedRecordChanged(Sender: TcxCustomGridTableView;
       APrevFocusedRecord, AFocusedRecord: TcxCustomGridRecord;
@@ -226,7 +232,6 @@ begin
     if VarIsNull(Values[i, cxColTanggal.Index]) then berr := false;
     if VarIsNull(Values[i, cxColJam.Index]) then berr := false;
     if VarIsNull(Values[i, cxColQtyInput.Index]) then berr := false;
-
   end;
   if not berr then begin
     MsgBox('Mohon lengkapi inputan yang masih kosong.');

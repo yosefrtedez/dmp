@@ -143,6 +143,11 @@ begin
     q.FieldByName('qty_prod').AsFloat := ADataController.Values[i, cxColQtyProd.Index];
     q.FieldByName('id_satuan').AsInteger := zqrSPK.FieldByName('id_satuan').AsInteger;
     q.FieldByName('id_gdg').AsInteger := ADataController.Values[i, cxColGdgBJ.Index];
+    q.FieldByName('user').AsString := Aplikasi.NamaUser;
+    q.FieldByName('user_dept').AsString := Aplikasi.UserDept;
+    q.FIeldByName('id_so').AsInteger := zqrSPK.FieldByname('id_so').AsInteger;
+    q.FieldByName('id_brg').AsInteger := zqrSPK.FieldByName('id_brg').AsInteger;
+    q.FieldByName('tgl_edit').AsDateTime := Aplikasi.NowServer;
     ADataController.Values[i, cxColStatus.Index] := 1;
     q.Post;
     q.Close;
@@ -170,13 +175,13 @@ begin
     q.FieldByName('stok').AsFloat := q.FieldByName('stok').AsFloat + ADataController.Values[i, cxColQtyProd.Index];
     q.Post;
 
-    q := OpenRS('SELECT id_brg, id_gdg, stok FROM tbl_barang_det WHERE id_brg = %s AND id_gdg = %d',
-      [zqrSPK.FieldByName('id_brg').AsInteger,ADataController.Values[i, cxColGdgBJ.Index]]);
+    q := OpenRS('SELECT id_brg, id_gdg, stok FROM tbl_barang_det WHERE id_brg = %s AND id_gdg = %s',
+      [zqrSPK.FieldByName('id_brg').AsString, ADataController.Values[i, cxColGdgBJ.Index]]);
     if not q.IsEmpty then
       q.Edit
     else
       q.Insert;
-    q.FieldByName('id_brg').AsInteger := zqrSPK.FieldByName('id_brg').AsInteger];
+    q.FieldByName('id_brg').AsInteger := zqrSPK.FieldByName('id_brg').AsInteger;
     q.FieldByName('id_gdg').AsInteger := ADataController.Values[i, cxColGdgBJ.Index];
     q.FieldByName('stok').AsFloat := q.FieldByName('stok').AsFloat + ADataController.Values[i, cxColQtyProd.Index];
     q.Post;

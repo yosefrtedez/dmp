@@ -329,11 +329,14 @@ begin
     cxlMesin.EditValue := q.FieldByName('id_mesin').AsInteger;
     q.Close;
 
-    q := OpenRS('SELECT a.*, b.satuan satuan2 FROM tbl_bom a LEFT JOIN tbl_satuan b on a.id_satuan = b.id WHERE a.id_spk = %d',[mIDSPK]);
+    q := OpenRS('SELECT a.*, b.satuan satuan2 FROM tbl_bom a ' +
+      'LEFT JOIN tbl_satuan b on a.id_satuan = b.id ' +
+      'WHERE a.id_spk = %d',[mIDSPK]);
     while not q.Eof do begin
       with cxtbBom.DataController do begin
         i := AppendRecord;
-        Values[i, cxColKodeBrg.Index] := q.FieldByName('kode_brg').AsString;
+        Values[i, cxColKodeBrg.Index] := q.FieldByName('id_brg').AsString;
+        Values[i, cxColKodeBrg2.Index] := q.FieldByName('kode_brg').AsString;
         Values[i, cxColDeskripsi.Index] := q.FieldByName('id_brg').AsInteger;
         Values[i, cxColQty.Index] := q.FieldByName('qty').AsFloat;
         Values[i, cxColSatuan.Index] := q.FieldByName('satuan2').AsString;

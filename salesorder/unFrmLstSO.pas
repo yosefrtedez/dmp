@@ -185,7 +185,7 @@ begin
 
     if mJenisSO = 'MTS' then begin
       f2 := TfrmInputSOMTS.Create(Self);
-      f.TabSheet := Self.Parent as TcxTabSheet;
+      f2.TabSheet := Self.Parent as TcxTabSheet;
       f2.FormInduk := Self;
       f2.Jenis := 'T';
       f2.Parent := ts;

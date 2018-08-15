@@ -105,6 +105,11 @@ inherited frmInputHasilProduksi: TfrmInputHasilProduksi
         Caption = 'No. SO'
         DataBinding.FieldName = 'no_so'
       end
+      object cxtbSPKColumn4: TcxGridDBColumn
+        Caption = 'Kode Brg.'
+        DataBinding.FieldName = 'kode_brg'
+        Width = 85
+      end
       object cxtbSPKdeskripsi: TcxGridDBColumn
         Caption = 'Deskripsi'
         DataBinding.FieldName = 'deskripsi'
@@ -112,11 +117,20 @@ inherited frmInputHasilProduksi: TfrmInputHasilProduksi
       end
       object cxtbSPKColumn1: TcxGridDBColumn
         Caption = 'Qty. SPK'
+        DataBinding.FieldName = 'qty_spk'
+        PropertiesClassName = 'TcxSpinEditProperties'
+        Properties.DisplayFormat = '#,#0.00'
       end
       object cxtbSPKColumn2: TcxGridDBColumn
         Caption = 'Total Hasil Prod.'
         DataBinding.FieldName = 'qty_prod'
+        PropertiesClassName = 'TcxSpinEditProperties'
+        Properties.DisplayFormat = '#,#0.00'
         Width = 94
+      end
+      object cxtbSPKColumn3: TcxGridDBColumn
+        Caption = 'Satuan'
+        DataBinding.FieldName = 'satuan'
       end
     end
     object cxGrid1Level1: TcxGridLevel
@@ -138,7 +152,6 @@ inherited frmInputHasilProduksi: TfrmInputHasilProduksi
     Height = 129
     Align = alTop
     TabOrder = 4
-    ExplicitTop = 288
     object cxtbHslProd: TcxGridTableView
       NavigatorButtons.ConfirmDelete = False
       NavigatorButtons.PriorPage.Visible = False
@@ -153,8 +166,10 @@ inherited frmInputHasilProduksi: TfrmInputHasilProduksi
       DataController.Summary.FooterSummaryItems = <>
       DataController.Summary.SummaryGroups = <>
       DataController.OnAfterPost = cxtbHslProdDataControllerAfterPost
+      DataController.OnBeforeDelete = cxtbHslProdDataControllerBeforeDelete
       DataController.OnBeforePost = cxtbHslProdDataControllerBeforePost
       DataController.OnNewRecord = cxtbHslProdDataControllerNewRecord
+      OptionsBehavior.FocusCellOnTab = True
       OptionsData.Appending = True
       OptionsView.Navigator = True
       OptionsView.GroupByBox = False
@@ -242,6 +257,7 @@ inherited frmInputHasilProduksi: TfrmInputHasilProduksi
         DataBinding.ValueType = 'Float'
         PropertiesClassName = 'TcxSpinEditProperties'
         Properties.DisplayFormat = '#,#0.00'
+        Visible = False
         Width = 69
       end
       object cxColSatAfal: TcxGridColumn
@@ -255,6 +271,7 @@ inherited frmInputHasilProduksi: TfrmInputHasilProduksi
             FieldName = 'satuan'
           end>
         Properties.ListSource = dsSatuan
+        Visible = False
       end
       object cxColGdgAfal: TcxGridColumn
         Caption = 'Gudang Afal'
@@ -266,18 +283,22 @@ inherited frmInputHasilProduksi: TfrmInputHasilProduksi
             FieldName = 'kode'
           end>
         Properties.ListSource = dsGdg
+        Visible = False
         Width = 79
       end
       object cxColStatus: TcxGridColumn
         Caption = 'Status'
         DataBinding.ValueType = 'Integer'
         PropertiesClassName = 'TcxCheckBoxProperties'
+        Properties.ReadOnly = True
         Properties.ValueChecked = 1
         Properties.ValueUnchecked = 0
       end
       object cxColIdSat: TcxGridColumn
+        Visible = False
       end
       object cxColIdGdg: TcxGridColumn
+        Visible = False
       end
     end
     object cxGridLevel2: TcxGridLevel
@@ -294,13 +315,15 @@ inherited frmInputHasilProduksi: TfrmInputHasilProduksi
     SQL.Strings = (
       
         'SELECT a.id, a.no_spk, a.tanggal, b.no_mo, b.no_so, c.deskripsi,' +
-        ' c.id_satuan,'
+        ' c.id_satuan, a.qty qty_spk, d.satuan,c.kode kode_brg,c.id id_br' +
+        'g, b.id_so,'
       
         'IFNULL((SELECT SUM(qty_prod) FROM tbl_hsl_prd WHERE id_spk = a.i' +
         'd),0) qty_prod '
       'FROM tbl_spk a '
       'LEFT JOIN tbl_mo b on a.id_mo = b.id'
       'LEFT JOIN tbl_barang c on b.id_brg = c.id'
+      'LEFT JOIN tbl_satuan d on d.id = c.id_satuan'
       'WHERE a.tanggal BETWEEN :tgl1 AND :tgl2')
     Params = <
       item
@@ -334,7 +357,6 @@ inherited frmInputHasilProduksi: TfrmInputHasilProduksi
   end
   object zqrMesin: TZReadOnlyQuery
     Connection = DM.zConn
-    Active = True
     SQL.Strings = (
       'SELECT id, kode, nama '
       'FROM tbl_mesin'

@@ -64,6 +64,12 @@ type
     cxColGdg: TcxGridColumn;
     zqrGdg: TZReadOnlyQuery;
     dsGdg: TDataSource;
+    cxLabel3: TcxLabel;
+    cxLabel4: TcxLabel;
+    cxLabel5: TcxLabel;
+    cxlbNoSPK: TcxLabel;
+    cxLabel6: TcxLabel;
+    cxlbBahanBaku: TcxLabel;
     procedure btnProsesClick(Sender: TObject);
     procedure cxtbSPKFocusedRecordChanged(Sender: TcxCustomGridTableView;
       APrevFocusedRecord, AFocusedRecord: TcxCustomGridRecord;
@@ -145,6 +151,8 @@ begin
     //q.FieldByName('operator').AsString := ADataController.Values[i, cxColOperator.INdex];
     q.FieldByName('id_gdg').AsInteger := ADataController.Values[i, cxColGdg.Index];
     q.FieldByName('id_satuan').AsInteger := cxtbBOM.DataController.Values[j, cxColIdSatuan.Index];
+    q.FieldByName('user').AsString := Aplikasi.NamaUser;
+    q.FieldByName('user_dept').AsString := Aplikasi.UserDept;
     ADataController.Values[i, cxColStatus.Index] := 1;
     q.Post;
     q.Close;
@@ -166,13 +174,13 @@ begin
     qh.Post;
     qh.Close;
 
-    q := OpenRS('SELECT id, stok FROM tbl_barang WHERE id = %d',[cxtbBOM.DataController.Values[j, cxColIdBrg.Index]]);
+    q := OpenRS('SELECT id, stok FROM tbl_barang WHERE id = %s',[cxtbBOM.DataController.Values[j, cxColIdBrg.Index]]);
     q.Edit;
     q.FieldByName('stok').AsFloat := q.FieldByName('stok').AsFloat - ADataController.Values[i, cxColQtyInput.Index];
     q.Post;
 
-    q := OpenRS('SELECT id_brg, id_gdg, stok FROM tbl_barang_det WHERE id_brg = %d AND id_gdg = %d',
-      [cxtbBOM.DataController.Values[j, cxColIdBrg.Index],ADataController.Values[i, cxColGdg.Index]]);
+    q := OpenRS('SELECT id_brg, id_gdg, stok FROM tbl_barang_det WHERE id_brg = %s AND id_gdg = %s',
+      [cxtbBOM.DataController.Values[j, cxColIdBrg.Index], ADataController.Values[i, cxColGdg.Index]]);
     if not q.IsEmpty then
       q.Edit
     else
@@ -224,7 +232,6 @@ begin
     if VarIsNull(Values[i, cxColTanggal.Index]) then berr := false;
     if VarIsNull(Values[i, cxColJam.Index]) then berr := false;
     if VarIsNull(Values[i, cxColQtyInput.Index]) then berr := false;
-
   end;
   if not berr then begin
     MsgBox('Mohon lengkapi inputan yang masih kosong.');
@@ -277,6 +284,8 @@ begin
   end;
   cxtbBomDet.EndUpdate;
   q.Close;
+
+  cxlbBahanBaku.Caption := cxtbBomDet.DataController[j, cxColDeskripsi.Index].Values;
   Except
   end;
 end;
@@ -291,6 +300,9 @@ begin
   inherited;
   try
   with cxtbBOM.DataController do begin
+    cxlNoSPK
+
+    cxtbBomDet.DataController.RecordCount := 0;
     RecordCount := 0;
     q := OpenRS('SELECT a.*, b.kode, b.deskripsi, c.satuan satuan2, ' +
       '(SELECT SUM(qty) FROM tbl_trspengambilanbb WHERE id_spk = a.id_spk AND id_brg = a.id_brg) qty_ambil ' +
@@ -311,7 +323,8 @@ begin
     end;
     q.Close;
   end;
-  finally
+  cxlNoSPK.Caption := zqrSPK.FieldByName('no_spk').AsString;
+  except
 
   end;
 end;

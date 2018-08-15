@@ -2,7 +2,6 @@ inherited frmInputHasilProduksi: TfrmInputHasilProduksi
   Caption = 'Input Hasil Produksi'
   ClientHeight = 653
   ClientWidth = 1011
-  OnCreate = FormCreate
   ExplicitWidth = 1011
   ExplicitHeight = 653
   PixelsPerInch = 96
@@ -141,17 +140,33 @@ inherited frmInputHasilProduksi: TfrmInputHasilProduksi
     Left = 0
     Top = 257
     Width = 1011
-    Height = 23
+    Height = 49
     Align = alTop
     TabOrder = 3
+    object cxLabel4: TcxLabel
+      Left = 10
+      Top = 8
+      Caption = 'Input Hasil Produksi :'
+    end
+    object cxLabel6: TcxLabel
+      Left = 10
+      Top = 26
+      Caption = 'No. SPK :'
+    end
+    object cxlbNoSPK: TcxLabel
+      Left = 61
+      Top = 26
+      Caption = '-'
+    end
   end
   object cxGrid3: TcxGrid
     Left = 0
-    Top = 280
+    Top = 306
     Width = 1011
     Height = 129
     Align = alTop
     TabOrder = 4
+    ExplicitTop = 280
     object cxtbHslProd: TcxGridTableView
       NavigatorButtons.ConfirmDelete = False
       NavigatorButtons.PriorPage.Visible = False

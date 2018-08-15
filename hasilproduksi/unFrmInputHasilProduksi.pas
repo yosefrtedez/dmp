@@ -69,6 +69,9 @@ type
     zqrGdg: TZReadOnlyQuery;
     cxtbSPKColumn3: TcxGridDBColumn;
     cxtbSPKColumn4: TcxGridDBColumn;
+    cxLabel4: TcxLabel;
+    cxLabel6: TcxLabel;
+    cxlbNoSPK: TcxLabel;
     procedure btnProsesClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure cxtbHslProdDataControllerAfterPost(
@@ -269,7 +272,8 @@ begin
     end;
     q.Close;
   end;
-  finally
+  cxlbNoSPK.Caption := zqrSPK.FieldByName('no_spk').AsString;
+  except
 
   end;
 end;

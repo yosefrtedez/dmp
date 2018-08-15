@@ -1,7 +1,6 @@
 inherited frmSPK: TfrmSPK
   Caption = 'Surat Perintah Kerja (SPK)'
   ClientHeight = 620
-  OnCreate = FormCreate
   OnShow = FormShow
   ExplicitWidth = 894
   ExplicitHeight = 620
@@ -26,9 +25,6 @@ inherited frmSPK: TfrmSPK
     Top = 571
     TabOrder = 27
     ExplicitTop = 571
-    inherited btnSimpan: TButton
-      OnClick = btnSimpanClick
-    end
   end
   object cxLabel1: TcxLabel
     Left = 8

@@ -107,6 +107,7 @@ begin
     ts.PageControl := frmUtama.pgMain;
     if mJenisSO = 'MTS' then begin
       f2 := TfrmInputSOMTS.Create(Self);
+      f.TabSheet := Self.Parent as TcxTabSheet;
       f2.Jenis := 'E';
       f2.FormInduk := Self;
       f2.Caption := 'Edit Sales Order - MTS';
@@ -117,6 +118,7 @@ begin
     end
     else begin
       f := TfrmInputSO.Create(Self);
+      f.TabSheet := Self.Parent as TcxTabSheet;
       f.Jenis := 'E';
       f.JenisSO := '';
       f.FormInduk := Self;
@@ -134,6 +136,7 @@ end;
 procedure TfrmLstSO.btnHapusClick(Sender: TObject);
 var
   q: TZQuery;
+  i: integer;
 begin
   inherited;
   q := OpenRS('SELECT * FROM tbl_history WHERE id_so = %d', [zqrSO.FieldByName('id').AsInteger]);
@@ -142,16 +145,21 @@ begin
     Abort;
   end
   else begin
-    try
-      dm.zConn.StartTransaction;
-      dm.zConn.Commit;
-      MsgBox('No.SO: ' + zqrSO.FieldByName('no_bukti').AsString + ' sudah berhasil di Hapus.');
-      zqrSO.Close;
-      zqrSO.Open;
-    except
-      on E: Exception do begin
-        MsgBox('Error: ' + E.Message);
-        dm.zConn.Rollback;
+    i := unTools.QBox(Self,'Hapus nomer SO ini : ' + zqrSO.FieldByName('no_bukti').AsString + ' ?', 'Hapus SO');
+    if i = IDYES then begin
+      try
+        dm.zConn.StartTransaction;
+        dm.zConn.ExecuteDirect(Format('DELETE FROM tbl_so_head WHERE id = %d',[zqrSO.FieldByName('id').AsInteger]));
+        dm.zConn.ExecuteDirect(Format('DELETE FROM tbl_so_det WHERE id_ref = %d',[zqrSO.FieldByName('id').AsInteger]));
+        dm.zConn.Commit;
+        MsgBox('No.SO: ' + zqrSO.FieldByName('no_bukti').AsString + ' sudah berhasil di Hapus.');
+        zqrSO.Close;
+        zqrSO.Open;
+      except
+        on E: Exception do begin
+          MsgBox('Error: ' + E.Message);
+          dm.zConn.Rollback;
+        end;
       end;
     end;
   end;
@@ -177,6 +185,7 @@ begin
 
     if mJenisSO = 'MTS' then begin
       f2 := TfrmInputSOMTS.Create(Self);
+      f.TabSheet := Self.Parent as TcxTabSheet;
       f2.FormInduk := Self;
       f2.Jenis := 'T';
       f2.Parent := ts;
@@ -185,6 +194,7 @@ begin
     end
     else begin
       f := TfrmInputSO.Create(Self);
+      f.TabSheet := Self.Parent as TcxTabSheet;
 
       if mJenisSO = 'MTS' then begin
         f.JenisSO := mJenisSO;
@@ -219,7 +229,7 @@ procedure TfrmLstSO.FormCreate(Sender: TObject);
 begin
   inherited;
   Self.NamaMenu := 'mnMkt_SalesOrder';
-  TerapkanWewenang(Self.NamaMenu);
+  //TerapkanWewenang(Self.NamaMenu);
   zqrSO.Open;
 end;
 
