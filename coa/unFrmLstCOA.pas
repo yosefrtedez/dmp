@@ -69,6 +69,7 @@ begin
     ts := TcxTabSheet.Create(Self);
     ts.PageControl := frmUtama.pgMain;
     f := TfrmInputCOA.Create(Self);
+    f.TabSheet := Self.Parent as TcxTabSheet;
     f.Caption := 'Edit COA';
     f.FormInduk := Self;
     f.Jenis := 'E';
@@ -98,6 +99,7 @@ begin
     ts.PageControl := frmUtama.pgMain;
 
     f := TfrmInputCOA.Create(Self);
+    f.TabSheet := Self.Parent as TcxTabSheet;
     f.FormInduk := Self;
     f.Jenis := 'T';
     f.cxChkAktif.Checked := True ;

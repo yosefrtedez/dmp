@@ -36,25 +36,13 @@ type
     cxColTotal: TcxGridColumn;
     cxgrdlvl1Grid1Level1: TcxGridLevel;
     cxlbl1: TcxLabel;
-    cxlbl2: TcxLabel;
     cxlbl3: TcxLabel;
-    cxlbl4: TcxLabel;
     cxlbl5: TcxLabel;
     cxlbl6: TcxLabel;
-    cxlNoPP: TcxLookupComboBox;
     cxdTgl: TcxDateEdit;
-    cxdTglDatang: TcxDateEdit;
     cxlSupplier: TcxLookupComboBox;
     cxtAlamat: TcxTextEdit;
     cxtNoBukti: TcxTextEdit;
-    cxchk1: TcxCheckBox;
-    cxgrpbx1: TcxGroupBox;
-    cxlbl9: TcxLabel;
-    cxlbl10: TcxLabel;
-    cxtUser: TcxTextEdit;
-    cxtDepartemen: TcxTextEdit;
-    cxlbl11: TcxLabel;
-    cxCboPembayaran: TcxComboBox;
     zqrPPHead: TZReadOnlyQuery;
     dsPPHead: TDataSource;
     zqrSupplier: TZReadOnlyQuery;
@@ -62,19 +50,21 @@ type
     cxColPPn: TcxGridColumn;
     zqrBarang: TZReadOnlyQuery;
     dsBarang: TDataSource;
-    cxlbl12: TcxLabel;
-    cxCboRate: TcxComboBox;
-    cxlbl13: TcxLabel;
     cxlbl14: TcxLabel;
     cxtKeterangan: TcxTextEdit;
-    cxtRate: TcxTextEdit;
     cxColIdSatuan: TcxGridColumn;
-    cxChkApproval: TcxCheckBox;
     cxColKodeBrg2: TcxGridColumn;
+    cxLabel1: TcxLabel;
+    cxLookupComboBox1: TcxLookupComboBox;
+    cxSpinEdit1: TcxSpinEdit;
+    cxLabel2: TcxLabel;
+    cxLabel3: TcxLabel;
+    cxSpinEdit2: TcxSpinEdit;
+    cxLabel4: TcxLabel;
+    cxSpinEdit3: TcxSpinEdit;
     procedure cxLuNoPPPropertiesChange(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure cxLuSupplierPropertiesChange(Sender: TObject);
-    procedure cxCbo2PropertiesChange(Sender: TObject);
     procedure btnSimpanClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure cxtbTblPODataControllerRecordChanged(
@@ -109,6 +99,7 @@ var
   f0: Boolean;
 
 begin
+  {
   inherited;
 
   if cxCboPembayaran.Text = '' then begin
@@ -253,19 +244,7 @@ begin
       end;
     end;
   end;
-
-end;
-
-procedure TfrmInputInvoicePembelian.cxCbo2PropertiesChange(Sender: TObject);
-begin
-  inherited;
-  if cxCboRate.Text = 'USD' then begin
-    cxlbl13.Visible := True;
-    cxtRate.Visible := True;
-  end else begin
-    cxlbl13.Visible := False;
-    cxtRate.Visible := False;
-  end;
+  }
 end;
 
 procedure TfrmInputInvoicePembelian.cxColNoGetDisplayText(Sender: TcxCustomGridTableItem;
@@ -285,7 +264,7 @@ var
 
 begin
   inherited;
-
+  {
   q := OpenRS('select diajukan_oleh, diajukan_dept from tbl_pp_head where id = %s',[cxlNoPP.EditValue]);
   if not q.Eof then begin
     cxtUser.Text := q.FieldByName('diajukan_oleh').AsString;
@@ -333,12 +312,13 @@ begin
 
   end;
   z.Close;
-
+  }
 end;
 
 procedure TfrmInputInvoicePembelian.cxLuNoPPPropertiesEditValueChanged(Sender: TObject);
 begin
   inherited;
+  {
   if cxlNoPP.Text <> '' then begin
     cxtbTblPO.NavigatorButtons.Append.Enabled := False;
     cxtbTblPO.NavigatorButtons.Delete.Enabled := False;
@@ -356,6 +336,7 @@ begin
       end
     end;
   end;
+  }
 end;
 
 procedure TfrmInputInvoicePembelian.cxLuSupplierPropertiesChange(Sender: TObject);
@@ -501,12 +482,14 @@ end;
 procedure TfrmInputInvoicePembelian.FormCreate(Sender: TObject);
 begin
 inherited;
+  {
   cxdTgl.Date := Aplikasi.Tanggal;
   cxdTglDatang.Date := Aplikasi.Tanggal;
   zqrPPHead.Open;
   cxCboRate.ItemIndex := 0;
   zqrSupplier.Open;
   zqrBarang.Open;
+  }
 end;
 
 procedure TfrmInputInvoicePembelian.FormShow(Sender: TObject);
@@ -516,6 +499,7 @@ procedure TfrmInputInvoicePembelian.FormShow(Sender: TObject);
    sNoTrs : string;
 begin
   inherited;
+  {
   if Self.Jenis = 'T' then begin
     sNoTrs := GetLastFak('po');
     cxtNoBukti.Text := sNoTrs;
@@ -573,6 +557,7 @@ begin
     cxtbTblPO.DataController.OnRecordChanged := Self.cxtbTblPODataControllerRecordChanged;
 
   end;
+  }
 end;
 
 

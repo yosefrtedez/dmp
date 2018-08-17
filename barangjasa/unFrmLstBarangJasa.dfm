@@ -25,7 +25,7 @@ inherited frmLstBarangJasa: TfrmLstBarangJasa
       ParentFont = False
     end
     object cxChkSatKonv: TcxCheckBox
-      Left = 959
+      Left = 950
       Top = 22
       Anchors = [akTop, akRight]
       Caption = 'Tampilkan Satuan Konversi '

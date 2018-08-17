@@ -2,7 +2,6 @@ inherited frmInputInvoicePembelian: TfrmInputInvoicePembelian
   Caption = 'Input Invoice Pembelian'
   ClientHeight = 690
   ClientWidth = 1063
-  OnCreate = FormCreate
   OnShow = FormShow
   ExplicitWidth = 1063
   ExplicitHeight = 690
@@ -28,20 +27,17 @@ inherited frmInputInvoicePembelian: TfrmInputInvoicePembelian
   inherited Panel2: TPanel
     Top = 641
     Width = 1063
-    TabOrder = 25
+    TabOrder = 20
     ExplicitTop = 641
     ExplicitWidth = 1063
-    inherited btnSimpan: TButton
-      OnClick = btnSimpanClick
-    end
   end
   object cxgrdPP: TcxGrid
-    Left = 11
-    Top = 290
+    Left = 10
+    Top = 234
     Width = 1045
     Height = 293
     Anchors = [akLeft, akTop, akRight]
-    TabOrder = 24
+    TabOrder = 13
     object cxtbTblPO: TcxGridTableView
       NavigatorButtons.ConfirmDelete = False
       NavigatorButtons.Insert.Visible = False
@@ -174,72 +170,31 @@ inherited frmInputInvoicePembelian: TfrmInputInvoicePembelian
     Top = 62
     Caption = 'No. Bukti'
   end
-  object cxlbl2: TcxLabel
-    Left = 10
-    Top = 89
-    Caption = 'No. PP'
-  end
   object cxlbl3: TcxLabel
     Left = 10
-    Top = 116
+    Top = 89
     Caption = 'Tanggal'
-  end
-  object cxlbl4: TcxLabel
-    Left = 10
-    Top = 143
-    Caption = 'Tgl. Perkiraan Datang'
   end
   object cxlbl5: TcxLabel
     Left = 10
-    Top = 170
+    Top = 116
     Caption = 'Nama Supplier'
   end
   object cxlbl6: TcxLabel
     Left = 10
-    Top = 197
+    Top = 143
     Caption = 'Alamat'
-  end
-  object cxlNoPP: TcxLookupComboBox
-    Left = 122
-    Top = 88
-    Properties.CharCase = ecUpperCase
-    Properties.DropDownAutoSize = True
-    Properties.KeyFieldNames = 'id'
-    Properties.ListColumns = <
-      item
-        Caption = 'No Bukti'
-        Width = 80
-        FieldName = 'no_bukti'
-      end
-      item
-        Caption = 'User'
-        FieldName = 'user'
-      end
-      item
-        Caption = 'Dept'
-        FieldName = 'user_dept'
-      end>
-    Properties.ListSource = dsPPHead
-    Properties.OnChange = cxLuNoPPPropertiesChange
-    TabOrder = 6
-    Width = 146
   end
   object cxdTgl: TcxDateEdit
     Left = 122
-    Top = 115
+    Top = 88
     Properties.ReadOnly = False
-    TabOrder = 8
-    Width = 146
-  end
-  object cxdTglDatang: TcxDateEdit
-    Left = 122
-    Top = 142
-    TabOrder = 10
+    TabOrder = 3
     Width = 146
   end
   object cxlSupplier: TcxLookupComboBox
     Left = 122
-    Top = 169
+    Top = 115
     Properties.DropDownAutoSize = True
     Properties.KeyFieldNames = 'id'
     Properties.ListColumns = <
@@ -253,14 +208,14 @@ inherited frmInputInvoicePembelian: TfrmInputInvoicePembelian
       end>
     Properties.ListSource = dsSupplier
     Properties.OnChange = cxLuSupplierPropertiesChange
-    TabOrder = 12
+    TabOrder = 5
     Width = 351
   end
   object cxtAlamat: TcxTextEdit
     Left = 122
-    Top = 196
+    Top = 142
     Properties.ReadOnly = True
-    TabOrder = 14
+    TabOrder = 7
     Width = 351
   end
   object cxtNoBukti: TcxTextEdit
@@ -270,117 +225,62 @@ inherited frmInputInvoicePembelian: TfrmInputInvoicePembelian
     TabOrder = 1
     Width = 146
   end
-  object cxchk1: TcxCheckBox
-    Left = 274
-    Top = 61
-    Caption = 'Komplit / Selesai'
-    Properties.ReadOnly = True
-    TabOrder = 2
-    Width = 104
-  end
-  object cxgrpbx1: TcxGroupBox
-    Left = 387
-    Top = 62
-    Caption = 'User Requesting'
-    TabOrder = 4
-    Height = 89
-    Width = 233
-    object cxlbl9: TcxLabel
-      Left = 8
-      Top = 48
-      Caption = 'Divisi'
-    end
-    object cxlbl10: TcxLabel
-      Left = 8
-      Top = 24
-      Caption = 'Nama User'
-    end
-    object cxtUser: TcxTextEdit
-      Tag = 1
-      Left = 72
-      Top = 19
-      TabStop = False
-      Properties.CharCase = ecUpperCase
-      Properties.ReadOnly = True
-      TabOrder = 0
-      Width = 137
-    end
-    object cxtDepartemen: TcxTextEdit
-      Tag = 1
-      Left = 73
-      Top = 46
-      TabStop = False
-      Properties.CharCase = ecUpperCase
-      Properties.ReadOnly = True
-      TabOrder = 2
-      Width = 137
-    end
-  end
-  object cxlbl11: TcxLabel
-    Left = 10
-    Top = 227
-    Caption = 'Pembayaran'
-  end
-  object cxCboPembayaran: TcxComboBox
-    Left = 122
-    Top = 226
-    Properties.DropDownListStyle = lsEditFixedList
-    Properties.Items.Strings = (
-      'Cash On Delivery (COD)'
-      'Cash Before Delivery (CBD)'
-      '7 Hari'
-      '14 Hari'
-      '30 Hari'
-      '45 Hari')
-    TabOrder = 16
-    Width = 198
-  end
-  object cxlbl12: TcxLabel
-    Left = 329
-    Top = 227
-    Caption = 'Valuta'
-  end
-  object cxCboRate: TcxComboBox
-    Left = 369
-    Top = 226
-    Properties.DropDownListStyle = lsEditFixedList
-    Properties.Items.Strings = (
-      'IDR'
-      'USD')
-    Properties.OnChange = cxCbo2PropertiesChange
-    TabOrder = 17
-    Width = 63
-  end
-  object cxlbl13: TcxLabel
-    Left = 438
-    Top = 227
-    Caption = 'Rate'
-  end
   object cxlbl14: TcxLabel
     Left = 10
-    Top = 254
+    Top = 170
     Caption = 'Keterangan'
   end
   object cxtKeterangan: TcxTextEdit
     Left = 122
-    Top = 253
+    Top = 169
     Properties.CharCase = ecUpperCase
-    TabOrder = 22
+    TabOrder = 9
     Width = 416
   end
-  object cxtRate: TcxTextEdit
-    Left = 471
-    Top = 226
-    TabOrder = 18
-    Width = 113
+  object cxLabel1: TcxLabel
+    Left = 10
+    Top = 197
+    Caption = 'No. Penerimaan'
   end
-  object cxChkApproval: TcxCheckBox
-    Left = 274
-    Top = 81
-    Caption = 'Approval'
-    Properties.ReadOnly = True
-    TabOrder = 5
-    Width = 104
+  object cxLookupComboBox1: TcxLookupComboBox
+    Left = 122
+    Top = 196
+    Properties.ListColumns = <>
+    TabOrder = 11
+    Width = 199
+  end
+  object cxSpinEdit1: TcxSpinEdit
+    Left = 880
+    Top = 533
+    TabOrder = 14
+    Width = 175
+  end
+  object cxLabel2: TcxLabel
+    Left = 800
+    Top = 534
+    Caption = 'Subtotal'
+  end
+  object cxLabel3: TcxLabel
+    Left = 800
+    Top = 561
+    Caption = 'PPN'
+  end
+  object cxSpinEdit2: TcxSpinEdit
+    Left = 880
+    Top = 560
+    TabOrder = 16
+    Width = 175
+  end
+  object cxLabel4: TcxLabel
+    Left = 800
+    Top = 588
+    Caption = 'Total'
+  end
+  object cxSpinEdit3: TcxSpinEdit
+    Left = 880
+    Top = 587
+    TabOrder = 18
+    Width = 175
   end
   object zqrPPHead: TZReadOnlyQuery
     Connection = DM.zConn
@@ -422,12 +322,12 @@ inherited frmInputInvoicePembelian: TfrmInputInvoicePembelian
       
         'select kode, deskripsi, satuan from tbl_barang order by deskrips' +
         'i')
-    Left = 705
-    Top = 243
+    Left = 857
+    Top = 155
   end
   object dsBarang: TDataSource
     DataSet = zqrBarang
-    Left = 782
-    Top = 245
+    Left = 942
+    Top = 157
   end
 end

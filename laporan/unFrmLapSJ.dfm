@@ -136,7 +136,7 @@ object frmLapSJ: TfrmLapSJ
         Width = 869.291900000000000000
         object Memo1: TfrxMemoView
           Top = 6.000000000000000000
-          Width = 869.291900000000000000
+          Width = 823.937540000000000000
           Height = 18.897650000000000000
           ShowHint = False
           Font.Charset = DEFAULT_CHARSET

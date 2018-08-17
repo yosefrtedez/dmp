@@ -91,7 +91,9 @@ uses
   unFrmLapOutstandingSO in 'salesorder\unFrmLapOutstandingSO.pas' {frmLapOutstandingSO},
   unFrmUbahPassword in 'setting\unFrmUbahPassword.pas' {frmUbahPassword},
   unFrmInputInvoicePembelian in 'invoicepembelian\unFrmInputInvoicePembelian.pas' {frmInputInvoicePembelian},
-  unFrmLstInvoicePembelian in 'invoicepembelian\unFrmLstInvoicePembelian.pas' {frmLstInvoicePembelian};
+  unFrmLstInvoicePembelian in 'invoicepembelian\unFrmLstInvoicePembelian.pas' {frmLstInvoicePembelian},
+  unFrmInputPembayaranPembelian in 'pembayaranpembelian\unFrmInputPembayaranPembelian.pas' {frmInputPembayaranPembelian},
+  unFrmLstPembayaranPembelian in 'pembayaranpembelian\unFrmLstPembayaranPembelian.pas' {frmLstPembayaranPembelian};
 
 {$R *.res}
 
@@ -102,6 +104,8 @@ begin
   Application.CreateForm(TfrmUtama, frmUtama);
   Application.CreateForm(TfrmLogin, frmLogin);
   Application.CreateForm(TfrmLstInvoicePembelian, frmLstInvoicePembelian);
+  Application.CreateForm(TfrmInputPembayaranPembelian, frmInputPembayaranPembelian);
+  Application.CreateForm(TfrmLstPembayaranPembelian, frmLstPembayaranPembelian);
   frmUtama.Show;
 
   frmLogin.ShowModal;

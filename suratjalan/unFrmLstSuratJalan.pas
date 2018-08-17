@@ -296,7 +296,7 @@ begin
   zqrSJ.Open;
 
   btnHapus.Visible := False;
-  btnEdit.Visible := False;
+  //btnEdit.Visible := False;
 end;
 
 function TfrmLstSuratJalan.CheckSOComplete: boolean;

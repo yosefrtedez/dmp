@@ -116,8 +116,31 @@ end;
 procedure TfrmLstBarangKeluar.btnPostingClick(Sender: TObject);
 var
   qd, q, qbrg: TZQuery;
+  sa: Real;
 begin
   inherited;
+
+  try
+    q := OpenRS('SELECT a.id_brg, a.id_gdg, a.qty, b.kode, b.deskripsi ' +
+      'FROM tbl_trskeluar_det a ' +
+      'LEFT JOIN tbl_barang b ON b.id = a.id_brg ' +
+      'WHERE id_ref = %s',[zqrBarangKeluar.FieldByName('id').AsString]);
+    while not q.Eof do begin
+      sa := GetStokAkhir(q.FieldByName('id_brg').AsInteger, q.FieldByName('id_gdg').AsInteger);
+      if sa < q.FieldByName('qty').AsFloat then begin
+        MsgBox('Stok Barang : ' + q.FieldByName('kode').AsString + ', ' +
+          q.FieldByName('deskripsi').AsString + ' tidak mencukupi ( ' +
+          FormatFloat('#,#0.00', sa) +' )');
+        MsgBox('Posting dibatalkan.');
+        q.Close;
+        Abort;
+      end;
+      q.Next;
+    end;
+    q.Close;
+  except
+  end;
+
   try
     dm.zConn.StartTransaction;
 

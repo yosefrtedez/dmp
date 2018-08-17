@@ -2,7 +2,6 @@ inherited frmInputSuratJalan: TfrmInputSuratJalan
   Caption = 'Input Surat Jalan'
   ClientHeight = 687
   ClientWidth = 1119
-  OnCreate = FormCreate
   OnShow = FormShow
   ExplicitWidth = 1119
   ExplicitHeight = 687
@@ -33,7 +32,6 @@ inherited frmInputSuratJalan: TfrmInputSuratJalan
     ExplicitWidth = 1119
     inherited btnSimpan: TButton
       Top = 11
-      OnClick = btnSimpanClick
       ExplicitTop = 11
     end
   end

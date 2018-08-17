@@ -76,7 +76,6 @@ type
     cxColHargaIkat: TcxGridColumn;
     cxColIdBrg: TcxGridColumn;
     cxColKodeBrg2: TcxGridColumn;
-    Button1: TButton;
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure cxtbReturDataControllerRecordChanged(

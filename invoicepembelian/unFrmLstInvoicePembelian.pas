@@ -26,11 +26,11 @@ type
     cxtbPOHead: TcxGridDBTableView;
     cxgrdlvl1Grid1Level1: TcxGridLevel;
     cxgrd1: TcxGrid;
-    zqrPO: TZReadOnlyQuery;
-    dsPO: TDataSource;
+    zqrInvPembelian: TZReadOnlyQuery;
+    dsInvPembelian: TDataSource;
     cxTblDet: TcxGridDBTableView;
-    zqrPoDet: TZReadOnlyQuery;
-    dsPoDet: TDataSource;
+    zqrInvPembelianDet: TZReadOnlyQuery;
+    dsInvPembelianDet: TDataSource;
     cxColTblDetid: TcxGridDBColumn;
     cxColTblDetid_ref: TcxGridDBColumn;
     cxColTblDetno_bukti: TcxGridDBColumn;
@@ -101,6 +101,7 @@ var
   q :TZQuery;
 begin
   inherited;
+  {
   q := OpenRS('select * from tbl_po_head where f_app = 1 and no_bukti = ''%s''',[zqrpo.FieldByName('no_bukti').AsString]);
   if q.Eof  then begin
      MsgBox('PO ini tidak bisa dicetak karena belum di approve');
@@ -110,15 +111,18 @@ begin
   zqrRptPO.ParamByName('no_bukti').AsString := zqrPO.FieldByName('no_bukti').AsString;
   zqrRptPO.Open;
   rptPO.ShowReport(True);
+  }
 end;
 
 procedure TfrmLstInvoicePembelian.btnCtkPOClick(Sender: TObject);
 begin
   inherited;
+  {
   zqrRptPO.Close;
   zqrRptPO.ParamByName('no_bukti').AsString := zqrPO.FieldByName('no_bukti').AsString;
   zqrRptPO.Open;
   rptPO.ShowReport(True);
+  }
 end;
 
 procedure TfrmLstInvoicePembelian.btnEditClick(Sender: TObject);
@@ -128,6 +132,7 @@ var
  q: TZQuery;
 begin
   inherited;
+  {
   if not fu.CekTabOpen('Edit Purchase Order') then begin
     ts := TcxTabSheet.Create(Self);
     ts.PageControl := frmUtama.pgMain;
@@ -146,6 +151,7 @@ begin
     f.Show;
     fu.pgMain.ActivePage := ts;
   end;
+  }
 end;
 
 procedure TfrmLstInvoicePembelian.btnHapusClick(Sender: TObject);
@@ -153,6 +159,7 @@ var
   q : TZQuery;
 begin
   inherited;
+  {
   q := OpenRS('select * from tbl_po_head where f_app = 1 and no_bukti = ''%s''',[zqrPO.FieldByName('no_bukti').AsString]);
   if not q.Eof then begin
     MsgBox('Maaf data tidak bisa dihapus, karena sudah ada penerimaan barang');
@@ -173,17 +180,18 @@ begin
        end;
     end;
   end;
-
-
+  }
 end;
 
 procedure TfrmLstInvoicePembelian.btnRefreshClick(Sender: TObject);
 begin
   inherited;
+  {
   zqrPo.Close;
   zqrPO.Open;
   zqrPoDet.Close;
   zqrPoDet.Open;
+  }
 end;
 
 procedure TfrmLstInvoicePembelian.btnTambahClick(Sender: TObject);
@@ -211,18 +219,22 @@ procedure TfrmLstInvoicePembelian.cxtbPOHeadFocusedRecordChanged(
   AFocusedRecord: TcxCustomGridRecord; ANewItemRecordFocusingChanged: Boolean);
 begin
   inherited;
+  {
   try
     zqrPoDet.Close;
     zqrPoDet.ParamByName('id_ref').AsInteger := zqrPO.FieldByName('id').AsInteger;
     zqrPoDet.Open;
   except
   end;
+  }
 end;
 
 procedure TfrmLstInvoicePembelian.FormCreate(Sender: TObject);
 begin
   inherited;
+  {
   zqrPO.Open;
+  }
 end;
 
 end.

@@ -138,5 +138,9 @@
     <Transaction>2018/08/07 18.25.06.762.dfm,D:\108 JSP\My Project\05. Felgito\02. Source Code\Unit1.dfm=D:\108 JSP\My Project\05. Felgito\02. Source Code\barangjasa\unFrmKartuStok.dfm</Transaction>
     <Transaction>2018/08/13 19.29.09.297.pas,D:\108 JSP\My Project\05. Felgito\02. Source Code\Unit1.pas=D:\108 JSP\My Project\05. Felgito\02. Source Code\setting\unFrmUbahPassword.pas</Transaction>
     <Transaction>2018/08/13 19.29.09.297.dfm,D:\108 JSP\My Project\05. Felgito\02. Source Code\Unit1.dfm=D:\108 JSP\My Project\05. Felgito\02. Source Code\setting\unFrmUbahPassword.dfm</Transaction>
+    <Transaction>2018/08/16 07.56.18.678.pas,D:\108 JSP\My Project\05. Felgito\02. Source Code\pembayaranpembelian\unFrmInputPembayaranPembelian.pas=</Transaction>
+    <Transaction>2018/08/16 07.56.18.678.dfm,D:\108 JSP\My Project\05. Felgito\02. Source Code\pembayaranpembelian\unFrmInputPembayaranPembelian.dfm=</Transaction>
+    <Transaction>2018/08/16 07.56.22.505.pas,D:\108 JSP\My Project\05. Felgito\02. Source Code\pembayaranpembelian\unFrmLstPembayaranPembelian.pas=</Transaction>
+    <Transaction>2018/08/16 07.56.22.505.dfm,D:\108 JSP\My Project\05. Felgito\02. Source Code\pembayaranpembelian\unFrmLstPembayaranPembelian.dfm=</Transaction>
   </Transactions>
 </BorlandProject>

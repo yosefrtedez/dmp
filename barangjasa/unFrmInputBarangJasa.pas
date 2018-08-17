@@ -114,6 +114,26 @@ type
     cxColHarga: TcxGridColumn;
     zqrHrg: TZReadOnlyQuery;
     dsHrg: TDataSource;
+    cxLabel30: TcxLabel;
+    cxlAkunPersediaan: TcxLookupComboBox;
+    cxlAkunPersediaan2: TcxLookupComboBox;
+    cxLabel31: TcxLabel;
+    cxlAkunPenjualan: TcxLookupComboBox;
+    cxlAkunPenjualan2: TcxLookupComboBox;
+    cxLabel32: TcxLabel;
+    cxlAkunReturPenjualan: TcxLookupComboBox;
+    cxlAkunReturPenjualan2: TcxLookupComboBox;
+    cxLabel33: TcxLabel;
+    cxlAkunDiskonPenjualan: TcxLookupComboBox;
+    cxlAkunDiskonPenjualan2: TcxLookupComboBox;
+    cxLabel34: TcxLabel;
+    cxlAkunHPP: TcxLookupComboBox;
+    cxlAkunHPP2: TcxLookupComboBox;
+    cxLabel35: TcxLabel;
+    cxlAkunReturPembelian: TcxLookupComboBox;
+    cxlAkunReturPembelian2: TcxLookupComboBox;
+    zqrCoa: TZReadOnlyQuery;
+    dsCoa: TDataSource;
     procedure btnSimpanClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -125,6 +145,8 @@ type
     procedure cxsBrtTaliPropertiesChange(Sender: TObject);
     procedure cxtbSatuanDataControllerBeforeDelete(
       ADataController: TcxCustomDataController; ARecordIndex: Integer);
+    procedure cxlAkunPersediaan2PropertiesChange(Sender: TObject);
+    procedure cxlAkunPenjualan2PropertiesChange(Sender: TObject);
   private
     //
   public
@@ -279,6 +301,20 @@ begin
     btnBatalClick(nil);
   end;
 
+end;
+
+procedure TfrmInputBarangJasa.cxlAkunPenjualan2PropertiesChange(
+  Sender: TObject);
+begin
+  inherited;
+  cxlAkunPenjualan.EditValue := cxlAkunPenjualan2.EditValue;
+end;
+
+procedure TfrmInputBarangJasa.cxlAkunPersediaan2PropertiesChange(
+  Sender: TObject);
+begin
+  inherited;
+  cxlAkunPersediaan.EditValue := cxlAkunPersediaan2.EditValue;
 end;
 
 procedure TfrmInputBarangJasa.cxsBrtPerIkatPropertiesChange(Sender: TObject);

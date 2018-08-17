@@ -57,7 +57,7 @@ inherited frmLstInvoicePembelian: TfrmLstInvoicePembelian
     object cxtbPOHead: TcxGridDBTableView
       NavigatorButtons.ConfirmDelete = False
       OnFocusedRecordChanged = cxtbPOHeadFocusedRecordChanged
-      DataController.DataSource = dsPO
+      DataController.DataSource = dsInvPembelian
       DataController.KeyFieldNames = 'id'
       DataController.Summary.DefaultGroupSummaryItems = <>
       DataController.Summary.FooterSummaryItems = <>
@@ -132,7 +132,7 @@ inherited frmLstInvoicePembelian: TfrmLstInvoicePembelian
     end
     object cxTblDet: TcxGridDBTableView
       NavigatorButtons.ConfirmDelete = False
-      DataController.DataSource = dsPoDet
+      DataController.DataSource = dsInvPembelianDet
       DataController.DetailKeyFieldNames = 'id_ref'
       DataController.MasterKeyFieldNames = 'id'
       DataController.Summary.DefaultGroupSummaryItems = <>
@@ -193,7 +193,7 @@ inherited frmLstInvoicePembelian: TfrmLstInvoicePembelian
     TabOrder = 3
     object cxtbPODet: TcxGridDBTableView
       NavigatorButtons.ConfirmDelete = False
-      DataController.DataSource = dsPoDet
+      DataController.DataSource = dsInvPembelianDet
       DataController.Summary.DefaultGroupSummaryItems = <>
       DataController.Summary.FooterSummaryItems = <
         item
@@ -292,7 +292,7 @@ inherited frmLstInvoicePembelian: TfrmLstInvoicePembelian
       OnClick = btnCetakPOClick
     end
   end
-  object zqrPO: TZReadOnlyQuery
+  object zqrInvPembelian: TZReadOnlyQuery
     Connection = DM.zConn
     SQL.Strings = (
       
@@ -307,12 +307,12 @@ inherited frmLstInvoicePembelian: TfrmLstInvoicePembelian
     Left = 759
     Top = 196
   end
-  object dsPO: TDataSource
-    DataSet = zqrPO
-    Left = 803
-    Top = 197
+  object dsInvPembelian: TDataSource
+    DataSet = zqrInvPembelian
+    Left = 835
+    Top = 173
   end
-  object zqrPoDet: TZReadOnlyQuery
+  object zqrInvPembelianDet: TZReadOnlyQuery
     Connection = DM.zConn
     AutoCalcFields = False
     SQL.Strings = (
@@ -332,8 +332,8 @@ inherited frmLstInvoicePembelian: TfrmLstInvoicePembelian
         Name = 'id_ref'
         ParamType = ptUnknown
       end>
-    Left = 764
-    Top = 252
+    Left = 660
+    Top = 332
     ParamData = <
       item
         DataType = ftUnknown
@@ -341,10 +341,10 @@ inherited frmLstInvoicePembelian: TfrmLstInvoicePembelian
         ParamType = ptUnknown
       end>
   end
-  object dsPoDet: TDataSource
-    DataSet = zqrPoDet
-    Left = 801
-    Top = 252
+  object dsInvPembelianDet: TDataSource
+    DataSet = zqrInvPembelianDet
+    Left = 793
+    Top = 324
   end
   object zqrRptPO: TZReadOnlyQuery
     Connection = DM.zConn

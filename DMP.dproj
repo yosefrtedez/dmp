@@ -304,6 +304,12 @@
 			<DCCReference Include="invoicepembelian\unFrmLstInvoicePembelian.pas">
 				<Form>frmLstInvoicePembelian</Form>
 			</DCCReference>
+			<DCCReference Include="pembayaranpembelian\unFrmInputPembayaranPembelian.pas">
+				<Form>frmInputPembayaranPembelian</Form>
+			</DCCReference>
+			<DCCReference Include="pembayaranpembelian\unFrmLstPembayaranPembelian.pas">
+				<Form>frmLstPembayaranPembelian</Form>
+			</DCCReference>
 			<BuildConfiguration Include="Base">
 				<Key>Base</Key>
 			</BuildConfiguration>

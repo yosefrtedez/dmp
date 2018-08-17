@@ -8,10 +8,11 @@ uses
 
 type
   TfrmLapSPK = class(TForm)
-    rptSPK: TfrxReport;
+    rptSPK_OLD: TfrxReport;
     zqrSPK: TZReadOnlyQuery;
     dsSPK: TDataSource;
     fdbSPK: TfrxDBDataset;
+    rptSPK: TfrxReport;
   private
     { Private declarations }
   public

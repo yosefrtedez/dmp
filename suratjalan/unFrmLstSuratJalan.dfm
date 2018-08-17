@@ -23,31 +23,26 @@ inherited frmLstSuratJalan: TfrmLstSuratJalan
   inherited Panel2: TPanel
     TabOrder = 4
     inherited btnTambah: TButton
-      TabOrder = 2
+      TabOrder = 1
       OnClick = btnTambahClick
     end
     inherited btnEdit: TButton
-      Left = 435
-      Top = 6
-      TabOrder = 0
-      Visible = False
+      TabOrder = 2
       OnClick = btnEditClick
-      ExplicitLeft = 435
-      ExplicitTop = 6
     end
     inherited btnHapus: TButton
       Left = 532
       Top = 6
-      TabOrder = 1
+      TabOrder = 0
       Visible = False
       OnClick = btnHapusClick
       ExplicitLeft = 532
       ExplicitTop = 6
     end
     inherited btnRefresh: TButton
-      Left = 91
+      Left = 172
       OnClick = btnRefreshClick
-      ExplicitLeft = 91
+      ExplicitLeft = 172
     end
   end
   object cxgrd1: TcxGrid

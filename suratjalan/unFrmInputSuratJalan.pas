@@ -607,10 +607,11 @@ begin
     cxtNoFaktur.Text := q.FieldByName('no_faktur').AsString;
     q.Close;
 
-    z := OpenRS('SELECT a.*, b.deskripsi, c.satuan satuan2, d.jml_ikat_per_karung  FROM tbl_sj_det a ' +
+    z := OpenRS('SELECT a.*, b.deskripsi, c.satuan satuan2, d.jml_ikat_per_karung, e.no_bukti no_so2 FROM tbl_sj_det a ' +
       'left join tbl_barang b on a.id_brg = b.id ' +
       'LEFT JOIN tbl_satuan c on c.id = a.id_satuan ' +
       'LEFT JOIN tbl_barang_det_spek d on d.id_ref = a.id_brg ' +
+      'LEFT JOIN tbl_so_det e on e.id_ref = a.id_so and e.id_brg = a.id_brg ' +
       'WHERE a.id_ref = %s',[Self.EditKey]);
     nomer := 1;
 
@@ -620,7 +621,8 @@ begin
         i := AppendRecord;
         Values[i, cxColNo.Index] := nomer;
         Values[i, cxColKodeBrg.Index] := z.FieldByName('kode_brg').AsString;
-        Values[i, cxColDeskripsi.Index] := z.FieldByName('id_brg').AsString;
+        Values[i, cxColDeskripsi.Index] := z.FieldByName('deskripsi').AsString;
+        Values[i, cxColNoSO.Index] := z.FieldByName('no_so2').AsString;
         Values[i, cxColQty.Index] := z.FieldByName('qty').AsFloat;
         Values[i, cxColSatuan.Index] := z.FieldByName('satuan2').AsString;
         Values[i, cxColIdSatuan.Index] := z.FieldByname('id_satuan').AsInteger;
@@ -630,6 +632,8 @@ begin
         Values[i, cxColTotal.Index] := z.FieldByname('harga').AsFloat * z.FieldByname('qty').AsFloat;
         Values[i, cxColGudang.Index] := z.FieldByName('id_gdg').AsInteger;
         Values[i, cxColJmlIkatPerBal.Index] := z.FieldByName('jml_ikat_per_karung').AsFloat;
+        Values[i, cxColIdSO.Index] := z.FieldByName('id_so').AsInteger;
+        Values[i, cxColIdBrg.Index] := z.FieldByName('id_brg').AsInteger;
         nomer := nomer +1;
       end;
       z.Next;
