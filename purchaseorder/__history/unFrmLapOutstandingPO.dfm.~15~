@@ -27,7 +27,7 @@ inherited frmLapOutstandingPO: TfrmLapOutstandingPO
   inherited Panel2: TPanel
     Top = 561
     Width = 1125
-    TabOrder = 3
+    TabOrder = 5
     ExplicitTop = 561
     ExplicitWidth = 1125
     inherited btnTambah: TButton
@@ -85,11 +85,13 @@ inherited frmLapOutstandingPO: TfrmLapOutstandingPO
     Left = 0
     Top = 97
     Width = 1125
-    Height = 464
+    Height = 223
     Align = alClient
     TabOrder = 2
+    ExplicitHeight = 464
     object cxGrid1DBTableView1: TcxGridDBTableView
       NavigatorButtons.ConfirmDelete = False
+      OnFocusedRecordChanged = cxGrid1DBTableView1FocusedRecordChanged
       DataController.DataSource = dsPO
       DataController.Summary.DefaultGroupSummaryItems = <>
       DataController.Summary.FooterSummaryItems = <>
@@ -105,6 +107,11 @@ inherited frmLapOutstandingPO: TfrmLapOutstandingPO
         DataBinding.FieldName = 'nama_supplier'
         Width = 303
       end
+      object cxGrid1DBTableView1Column2: TcxGridDBColumn
+        Caption = 'Telpon'
+        DataBinding.FieldName = 'telpon'
+        Width = 82
+      end
       object cxGrid1DBTableView1kode_brg: TcxGridDBColumn
         Caption = 'Kode Brg.'
         DataBinding.FieldName = 'kode_brg'
@@ -118,15 +125,28 @@ inherited frmLapOutstandingPO: TfrmLapOutstandingPO
       object cxGrid1DBTableView1qty_po: TcxGridDBColumn
         Caption = 'Qty. PO'
         DataBinding.FieldName = 'qty_po'
+        PropertiesClassName = 'TcxSpinEditProperties'
+        Properties.DisplayFormat = '#,#0.00'
       end
       object cxGrid1DBTableView1qty_terima: TcxGridDBColumn
         Caption = 'Qty. Datang '
         DataBinding.FieldName = 'qty_terima'
+        PropertiesClassName = 'TcxSpinEditProperties'
+        Properties.DisplayFormat = '#,#0.00'
         Width = 76
       end
       object cxGrid1DBTableView1satuan: TcxGridDBColumn
         Caption = 'Satuan'
         DataBinding.FieldName = 'satuan'
+        Width = 59
+      end
+      object cxGrid1DBTableView1Column1: TcxGridDBColumn
+        Caption = 'Komplit'
+        DataBinding.FieldName = 'f_completed'
+        PropertiesClassName = 'TcxCheckBoxProperties'
+        Properties.ValueChecked = 1
+        Properties.ValueUnchecked = 0
+        HeaderAlignmentHorz = taCenter
       end
     end
     object cxGrid1Level1: TcxGridLevel
@@ -172,17 +192,84 @@ inherited frmLapOutstandingPO: TfrmLapOutstandingPO
       OnClick = btnProsesClick
     end
   end
+  object Panel4: TPanel
+    Left = 0
+    Top = 320
+    Width = 1125
+    Height = 41
+    Align = alBottom
+    TabOrder = 3
+    ExplicitLeft = -8
+    ExplicitTop = 296
+    object cxLabel3: TcxLabel
+      Left = 10
+      Top = 11
+      Caption = 'Detail Penerimaan PO'
+    end
+  end
+  object cxGrid2: TcxGrid
+    Left = 0
+    Top = 361
+    Width = 1125
+    Height = 200
+    Align = alBottom
+    TabOrder = 4
+    ExplicitLeft = 168
+    ExplicitTop = 355
+    ExplicitWidth = 250
+    object cxtbPBDet: TcxGridDBTableView
+      NavigatorButtons.ConfirmDelete = False
+      DataController.DataSource = dsPB
+      DataController.Summary.DefaultGroupSummaryItems = <>
+      DataController.Summary.FooterSummaryItems = <
+        item
+          Format = '#,#0.00'
+          Kind = skSum
+          Column = cxtbPBDetqty
+        end>
+      DataController.Summary.SummaryGroups = <>
+      OptionsView.Footer = True
+      object cxtbPBDetColumn1: TcxGridDBColumn
+        Caption = 'No. Bukti'
+        DataBinding.FieldName = 'no_bukti'
+        Width = 77
+      end
+      object cxtbPBDettanggal: TcxGridDBColumn
+        Caption = 'Tanggal'
+        DataBinding.FieldName = 'tanggal'
+        Width = 75
+      end
+      object cxtbPBDetid_brg: TcxGridDBColumn
+        DataBinding.FieldName = 'id_brg'
+        Visible = False
+      end
+      object cxtbPBDetid_po: TcxGridDBColumn
+        DataBinding.FieldName = 'id_po'
+        Visible = False
+      end
+      object cxtbPBDetqty: TcxGridDBColumn
+        Caption = 'Qty. Terima'
+        DataBinding.FieldName = 'qty'
+        PropertiesClassName = 'TcxSpinEditProperties'
+        Properties.DisplayFormat = '#,#0.00'
+        Properties.ReadOnly = True
+        Width = 83
+      end
+    end
+    object cxGrid2Level1: TcxGridLevel
+      GridView = cxtbPBDet
+    end
+  end
   object zqrPO: TZReadOnlyQuery
     Connection = DM.zConn
-    Active = True
     SQL.Strings = (
       
-        'select a.no_bukti, b.nama nama_supplier, c.kode_brg, d.deskripsi' +
-        ', c.qty qty_po,'
+        'select a.no_bukti, b.nama nama_supplier, b.telpon, c.kode_brg, d' +
+        '.deskripsi, c.qty qty_po, a.id, c.id_brg,'
       
         'ifnull((select sum(qty) from tbl_pb_det where id_po = a.id and i' +
         'd_brg = c.id_brg),0) qty_terima,'
-      'e.satuan'
+      'e.satuan, a.f_completed'
       'from tbl_po_head a'
       'left join tbl_supplier b on a.id_supplier = b.id'
       'left join tbl_po_det c on c.id_ref = a.id'
@@ -218,5 +305,42 @@ inherited frmLapOutstandingPO: TfrmLapOutstandingPO
     DataSet = zqrPO
     Left = 728
     Top = 184
+  end
+  object zqrPB: TZReadOnlyQuery
+    Connection = DM.zConn
+    SQL.Strings = (
+      'SELECT b.no_bukti,  b.tanggal, a.id_brg, a.id_po, a.qty '
+      'FROM tbl_pb_det a'
+      'INNER JOIN tbl_pb_head b ON a.id_ref = b.id'
+      'WHERE a.id_po = :id_po AND a.id_brg = :id_brg')
+    Params = <
+      item
+        DataType = ftUnknown
+        Name = 'id_po'
+        ParamType = ptUnknown
+      end
+      item
+        DataType = ftUnknown
+        Name = 'id_brg'
+        ParamType = ptUnknown
+      end>
+    Left = 696
+    Top = 56
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'id_po'
+        ParamType = ptUnknown
+      end
+      item
+        DataType = ftUnknown
+        Name = 'id_brg'
+        ParamType = ptUnknown
+      end>
+  end
+  object dsPB: TDataSource
+    DataSet = zqrPB
+    Left = 792
+    Top = 56
   end
 end

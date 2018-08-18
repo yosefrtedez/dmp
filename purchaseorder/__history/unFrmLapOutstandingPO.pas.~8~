@@ -45,26 +45,16 @@ type
     cxGrid1DBTableView1satuan: TcxGridDBColumn;
     cxGrid1DBTableView1Column1: TcxGridDBColumn;
     cxGrid1DBTableView1Column2: TcxGridDBColumn;
+    cxGrid1Level2: TcxGridLevel;
+    cxGrid1DBTableView2: TcxGridDBTableView;
     zqrPB: TZReadOnlyQuery;
     dsPB: TDataSource;
-    Panel4: TPanel;
-    cxtbPBDet: TcxGridDBTableView;
-    cxGrid2Level1: TcxGridLevel;
-    cxGrid2: TcxGrid;
-    cxtbPBDettanggal: TcxGridDBColumn;
-    cxtbPBDetid_brg: TcxGridDBColumn;
-    cxtbPBDetid_po: TcxGridDBColumn;
-    cxtbPBDetqty: TcxGridDBColumn;
-    cxLabel3: TcxLabel;
-    cxtbPBDetColumn1: TcxGridDBColumn;
+    cxGrid1DBTableView2id_brg: TcxGridDBColumn;
+    cxGrid1DBTableView2id_po: TcxGridDBColumn;
     procedure FormCreate(Sender: TObject);
     procedure Button1Click(Sender: TObject);
     procedure btnProsesClick(Sender: TObject);
     procedure Button2Click(Sender: TObject);
-    procedure cxGrid1DBTableView1FocusedRecordChanged(
-      Sender: TcxCustomGridTableView; APrevFocusedRecord,
-      AFocusedRecord: TcxCustomGridRecord;
-      ANewItemRecordFocusingChanged: Boolean);
   private
     { Private declarations }
   public
@@ -107,17 +97,6 @@ procedure TfrmLapOutstandingPO.Button2Click(Sender: TObject);
 begin
   inherited;
   btnKeluarClick(nil);
-end;
-
-procedure TfrmLapOutstandingPO.cxGrid1DBTableView1FocusedRecordChanged(
-  Sender: TcxCustomGridTableView; APrevFocusedRecord,
-  AFocusedRecord: TcxCustomGridRecord; ANewItemRecordFocusingChanged: Boolean);
-begin
-  inherited;
-  zqrPB.Close;
-  zqrPB.ParamByName('id_po').AsInteger := zqrPO.FieldByName('id').AsInteger;
-  zqrPB.ParamByName('id_brg').AsInteger := zqrPO.FieldByName('id_brg').AsInteger;
-  zqrPB.Open;
 end;
 
 procedure TfrmLapOutstandingPO.FormCreate(Sender: TObject);

@@ -221,15 +221,8 @@ inherited frmLapOutstandingPO: TfrmLapOutstandingPO
       NavigatorButtons.ConfirmDelete = False
       DataController.DataSource = dsPB
       DataController.Summary.DefaultGroupSummaryItems = <>
-      DataController.Summary.FooterSummaryItems = <
-        item
-          Format = '#,#0.00'
-          Kind = skSum
-          FieldName = 'qty'
-          Column = cxtbPBDetqty
-        end>
+      DataController.Summary.FooterSummaryItems = <>
       DataController.Summary.SummaryGroups = <>
-      OptionsView.Footer = True
       object cxtbPBDetColumn1: TcxGridDBColumn
         Caption = 'No. Bukti'
         DataBinding.FieldName = 'no_bukti'

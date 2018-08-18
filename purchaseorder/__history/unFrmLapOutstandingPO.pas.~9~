@@ -18,7 +18,7 @@ uses
   cxTextEdit, cxMaskEdit, cxDropDownEdit, cxCalendar, cxLabel, cxGridLevel,
   cxClasses, cxGridCustomView, cxGridCustomTableView, cxGridTableView,
   cxGridDBTableView, cxGrid, StdCtrls, ExtCtrls, ZAbstractRODataset, ZDataset,
-  cxGridExportLink, ShellAPI, cxSpinEdit;
+  cxGridExportLink, ShellAPI, cxSpinEdit, cxCheckBox;
 
 type
   TfrmLapOutstandingPO = class(TfrmTplGrid)
@@ -31,25 +31,22 @@ type
     cxdTgl2: TcxDateEdit;
     cxLabel2: TcxLabel;
     btnProses: TButton;
-    zqrBB: TZReadOnlyQuery;
-    dsBB: TDataSource;
+    zqrPO: TZReadOnlyQuery;
+    dsPO: TDataSource;
     Button1: TButton;
     Label13: TLabel;
     Button2: TButton;
-    cxGrid1DBTableView1no_spk: TcxGridDBColumn;
     cxGrid1DBTableView1no_bukti: TcxGridDBColumn;
-    cxGrid1DBTableView1tanggal: TcxGridDBColumn;
-    cxGrid1DBTableView1deskripsi_spk: TcxGridDBColumn;
-    cxGrid1DBTableView1qty_spk: TcxGridDBColumn;
-    cxGrid1DBTableView1deskripsi_bom: TcxGridDBColumn;
-    cxGrid1DBTableView1qty_bom: TcxGridDBColumn;
-    cxGrid1DBTableView1qty_pengambilan: TcxGridDBColumn;
+    cxGrid1DBTableView1nama_supplier: TcxGridDBColumn;
+    cxGrid1DBTableView1kode_brg: TcxGridDBColumn;
+    cxGrid1DBTableView1deskripsi: TcxGridDBColumn;
+    cxGrid1DBTableView1qty_po: TcxGridDBColumn;
+    cxGrid1DBTableView1qty_terima: TcxGridDBColumn;
     cxGrid1DBTableView1satuan: TcxGridDBColumn;
-    cxGrid1DBTableView1operator: TcxGridDBColumn;
-    cxGrid1DBTableView1kode: TcxGridDBColumn;
-    cxGrid1DBTableView1user: TcxGridDBColumn;
-    cxGrid1DBTableView1user_dept: TcxGridDBColumn;
-    cxGrid1DBTableView1tgl_edit: TcxGridDBColumn;
+    cxGrid1DBTableView1Column1: TcxGridDBColumn;
+    cxGrid1DBTableView1Column2: TcxGridDBColumn;
+    zqrPB: TZReadOnlyQuery;
+    dsPB: TDataSource;
     procedure FormCreate(Sender: TObject);
     procedure Button1Click(Sender: TObject);
     procedure btnProsesClick(Sender: TObject);
@@ -72,10 +69,11 @@ uses unTools, unAplikasi, unDM;
 procedure TfrmLapOutstandingPO.btnProsesClick(Sender: TObject);
 begin
   inherited;
-  zqrBB.Close;
-  zqrBB.ParamByName('tgl1').AsDate := cxdTgl1.Date;
-  zqrBB.ParamByName('tgl2').AsDate := cxdTgl2.Date;
-  zqrBB.Open;
+  zqrPO.Close;
+  zqrPO.ParamByName('tgl1').AsDate := cxdTgl1.Date;
+  zqrPO.ParamByName('tgl2').AsDate := cxdTgl2.Date;
+  zqrPO.Open;
+  zqrPB.Open;
 end;
 
 procedure TfrmLapOutstandingPO.Button1Click(Sender: TObject);

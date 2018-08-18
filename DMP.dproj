@@ -310,6 +310,12 @@
 			<DCCReference Include="pembayaranpembelian\unFrmLstPembayaranPembelian.pas">
 				<Form>frmLstPembayaranPembelian</Form>
 			</DCCReference>
+			<DCCReference Include="invoicepenjualan\unFrmInputInvoicePenjualan.pas">
+				<Form>frmInputInvoicePenjualan</Form>
+			</DCCReference>
+			<DCCReference Include="invoicepenjualan\unFrmLstInvoicePenjualan.pas">
+				<Form>frmLstInvoicePenjualan</Form>
+			</DCCReference>
 			<BuildConfiguration Include="Base">
 				<Key>Base</Key>
 			</BuildConfiguration>

@@ -3,6 +3,7 @@ inherited frmLstPO: TfrmLstPO
   ClientHeight = 507
   ClientWidth = 1169
   OnCreate = FormCreate
+  ExplicitLeft = -24
   ExplicitWidth = 1169
   ExplicitHeight = 507
   PixelsPerInch = 96

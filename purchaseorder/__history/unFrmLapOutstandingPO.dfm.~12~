@@ -201,11 +201,6 @@ inherited frmLapOutstandingPO: TfrmLapOutstandingPO
     TabOrder = 3
     ExplicitLeft = -8
     ExplicitTop = 296
-    object cxLabel3: TcxLabel
-      Left = 10
-      Top = 11
-      Caption = 'Detail Penerimaan PO'
-    end
   end
   object cxGrid2: TcxGrid
     Left = 0
@@ -221,20 +216,8 @@ inherited frmLapOutstandingPO: TfrmLapOutstandingPO
       NavigatorButtons.ConfirmDelete = False
       DataController.DataSource = dsPB
       DataController.Summary.DefaultGroupSummaryItems = <>
-      DataController.Summary.FooterSummaryItems = <
-        item
-          Format = '#,#0.00'
-          Kind = skSum
-          FieldName = 'qty'
-          Column = cxtbPBDetqty
-        end>
+      DataController.Summary.FooterSummaryItems = <>
       DataController.Summary.SummaryGroups = <>
-      OptionsView.Footer = True
-      object cxtbPBDetColumn1: TcxGridDBColumn
-        Caption = 'No. Bukti'
-        DataBinding.FieldName = 'no_bukti'
-        Width = 77
-      end
       object cxtbPBDettanggal: TcxGridDBColumn
         Caption = 'Tanggal'
         DataBinding.FieldName = 'tanggal'
@@ -309,8 +292,9 @@ inherited frmLapOutstandingPO: TfrmLapOutstandingPO
   end
   object zqrPB: TZReadOnlyQuery
     Connection = DM.zConn
+    Active = True
     SQL.Strings = (
-      'SELECT b.no_bukti,  b.tanggal, a.id_brg, a.id_po, a.qty '
+      'SELECT b.tanggal, a.id_brg, a.id_po, a.qty '
       'FROM tbl_pb_det a'
       'INNER JOIN tbl_pb_head b ON a.id_ref = b.id'
       'WHERE a.id_po = :id_po AND a.id_brg = :id_brg')

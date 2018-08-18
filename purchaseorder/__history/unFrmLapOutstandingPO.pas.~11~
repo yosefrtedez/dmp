@@ -55,8 +55,6 @@ type
     cxtbPBDetid_brg: TcxGridDBColumn;
     cxtbPBDetid_po: TcxGridDBColumn;
     cxtbPBDetqty: TcxGridDBColumn;
-    cxLabel3: TcxLabel;
-    cxtbPBDetColumn1: TcxGridDBColumn;
     procedure FormCreate(Sender: TObject);
     procedure Button1Click(Sender: TObject);
     procedure btnProsesClick(Sender: TObject);

@@ -1,5 +1,5 @@
 inherited frmLapOutstandingPO: TfrmLapOutstandingPO
-  Caption = 'frmLapHasilProduksi'
+  Caption = 'Laporan Outstanding Purchase Order'
   ClientHeight = 610
   ClientWidth = 1125
   OnCreate = FormCreate
@@ -95,79 +95,56 @@ inherited frmLapOutstandingPO: TfrmLapOutstandingPO
       DataController.Summary.FooterSummaryItems = <>
       DataController.Summary.SummaryGroups = <>
       FilterRow.Visible = True
-      object cxGrid1DBTableView1no_spk: TcxGridDBColumn
-        Caption = 'No. SPK'
-        DataBinding.FieldName = 'no_spk'
-        Width = 86
-      end
       object cxGrid1DBTableView1no_bukti: TcxGridDBColumn
         Caption = 'No. Bukti'
         DataBinding.FieldName = 'no_bukti'
-        Width = 93
+        Width = 123
       end
-      object cxGrid1DBTableView1tanggal: TcxGridDBColumn
-        Caption = 'Tanggal'
-        DataBinding.FieldName = 'tanggal'
+      object cxGrid1DBTableView1nama_supplier: TcxGridDBColumn
+        Caption = 'Nama Supplier'
+        DataBinding.FieldName = 'nama_supplier'
+        Width = 303
       end
-      object cxGrid1DBTableView1deskripsi_spk: TcxGridDBColumn
-        Caption = 'Deskripsi SPK'
-        DataBinding.FieldName = 'deskripsi_spk'
-        Width = 165
+      object cxGrid1DBTableView1Column2: TcxGridDBColumn
+        Caption = 'Telpon'
+        DataBinding.FieldName = 'telpon'
+        Width = 82
       end
-      object cxGrid1DBTableView1qty_spk: TcxGridDBColumn
-        Caption = 'Qty. SPK'
-        DataBinding.FieldName = 'qty_spk'
+      object cxGrid1DBTableView1kode_brg: TcxGridDBColumn
+        Caption = 'Kode Brg.'
+        DataBinding.FieldName = 'kode_brg'
+        Width = 72
+      end
+      object cxGrid1DBTableView1deskripsi: TcxGridDBColumn
+        Caption = 'Deskripsi'
+        DataBinding.FieldName = 'deskripsi'
+        Width = 241
+      end
+      object cxGrid1DBTableView1qty_po: TcxGridDBColumn
+        Caption = 'Qty. PO'
+        DataBinding.FieldName = 'qty_po'
         PropertiesClassName = 'TcxSpinEditProperties'
         Properties.DisplayFormat = '#,#0.00'
-        Width = 52
       end
-      object cxGrid1DBTableView1deskripsi_bom: TcxGridDBColumn
-        Caption = 'Deskripsi BB (BOM)'
-        DataBinding.FieldName = 'deskripsi_bom'
-        Width = 166
-      end
-      object cxGrid1DBTableView1qty_bom: TcxGridDBColumn
-        Caption = 'Qty. BOM'
-        DataBinding.FieldName = 'qty_bom'
+      object cxGrid1DBTableView1qty_terima: TcxGridDBColumn
+        Caption = 'Qty. Datang '
+        DataBinding.FieldName = 'qty_terima'
         PropertiesClassName = 'TcxSpinEditProperties'
         Properties.DisplayFormat = '#,#0.00'
-      end
-      object cxGrid1DBTableView1qty_pengambilan: TcxGridDBColumn
-        Caption = 'Qty. Pengambilan'
-        DataBinding.FieldName = 'qty_pengambilan'
-        PropertiesClassName = 'TcxSpinEditProperties'
-        Properties.DisplayFormat = '#,#0.00'
-        Width = 93
+        Width = 76
       end
       object cxGrid1DBTableView1satuan: TcxGridDBColumn
-        Caption = 'Sat'
+        Caption = 'Satuan'
         DataBinding.FieldName = 'satuan'
-        Width = 33
+        Width = 59
       end
-      object cxGrid1DBTableView1kode: TcxGridDBColumn
-        Caption = 'Gdg'
-        DataBinding.FieldName = 'kode'
-        Width = 36
-      end
-      object cxGrid1DBTableView1operator: TcxGridDBColumn
-        Caption = 'Person Gdg.'
-        DataBinding.FieldName = 'operator'
-        Width = 73
-      end
-      object cxGrid1DBTableView1user: TcxGridDBColumn
-        Caption = 'User'
-        DataBinding.FieldName = 'user'
-        Width = 60
-      end
-      object cxGrid1DBTableView1user_dept: TcxGridDBColumn
-        Caption = 'Dept.'
-        DataBinding.FieldName = 'user_dept'
-        Width = 70
-      end
-      object cxGrid1DBTableView1tgl_edit: TcxGridDBColumn
-        Caption = 'Tgl. Input'
-        DataBinding.FieldName = 'tgl_edit'
-        Width = 95
+      object cxGrid1DBTableView1Column1: TcxGridDBColumn
+        Caption = 'Komplit'
+        DataBinding.FieldName = 'f_completed'
+        PropertiesClassName = 'TcxCheckBoxProperties'
+        Properties.ValueChecked = 1
+        Properties.ValueUnchecked = 0
+        HeaderAlignmentHorz = taCenter
       end
     end
     object cxGrid1Level1: TcxGridLevel
@@ -217,20 +194,17 @@ inherited frmLapOutstandingPO: TfrmLapOutstandingPO
     Connection = DM.zConn
     SQL.Strings = (
       
-        'select b.no_spk, a.no_bukti, a.tanggal, d.deskripsi deskripsi_sp' +
-        'k, b.qty qty_spk, c.deskripsi deskripsi_bom,   '
+        'select a.no_bukti, b.nama nama_supplier, b.telpon, c.kode_brg, d' +
+        '.deskripsi, c.qty qty_po, a.id,'
       
-        '(select qty from tbl_bom where id_spk = b.id and id_brg = a.id_b' +
-        'rg) qty_bom, '
-      
-        'a.qty qty_pengambilan, e.satuan, a.operator, f.kode, a.user, a.u' +
-        'ser_dept, a.tgl_edit'
-      'from tbl_trspengambilanbb a'
-      'left join tbl_spk b on a.id_spk = b.id'
-      'left join tbl_barang c on c.id = a.id_brg'
-      'left join tbl_barang d on d.id = b.id_brg'
-      'left join tbl_satuan e on e.id = a.id_satuan'
-      'left join tbl_gudang f on f.id = a.id_gdg'
+        'ifnull((select sum(qty) from tbl_pb_det where id_po = a.id and i' +
+        'd_brg = c.id_brg),0) qty_terima,'
+      'e.satuan, a.f_completed'
+      'from tbl_po_head a'
+      'left join tbl_supplier b on a.id_supplier = b.id'
+      'left join tbl_po_det c on c.id_ref = a.id'
+      'left join tbl_barang d on d.id = c.id_brg'
+      'left join tbl_satuan e on e.id = c.id_satuan'
       'where a.tanggal between :tgl1 and :tgl2')
     Params = <
       item
@@ -261,5 +235,21 @@ inherited frmLapOutstandingPO: TfrmLapOutstandingPO
     DataSet = zqrPO
     Left = 728
     Top = 184
+  end
+  object zqrPB: TZReadOnlyQuery
+    Connection = DM.zConn
+    Active = True
+    SQL.Strings = (
+      'SELECT a.id_brg, a.id_po'
+      'FROM tbl_pb_det a'
+      '')
+    Params = <>
+    Left = 696
+    Top = 56
+  end
+  object dsPB: TDataSource
+    DataSet = zqrPB
+    Left = 792
+    Top = 56
   end
 end

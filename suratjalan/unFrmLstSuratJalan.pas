@@ -297,6 +297,8 @@ begin
 
   btnHapus.Visible := False;
   //btnEdit.Visible := False;
+
+  cxColTblTrsMasukHeadno_bukti.SortOrder := soAscending;
 end;
 
 function TfrmLstSuratJalan.CheckSOComplete: boolean;

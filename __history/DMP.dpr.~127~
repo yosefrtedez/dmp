@@ -80,11 +80,20 @@ uses
   unFrmInputHasilProduksi in 'hasilproduksi\unFrmInputHasilProduksi.pas' {frmInputHasilProduksi},
   unFrmLapTransaksi in 'laporan\unFrmLapTransaksi.pas' {frmLapTransaksi},
   unFrmLapSPK in 'laporan\unFrmLapSPK.pas' {frmLapSPK},
-  unFrmPilihSO in 'salesorder\unFrmPilihSO.pas' {cxColQtyTerkirim},
+  unFrmPilihSO in 'salesorder\unFrmPilihSO.pas' {frmPilihSO},
   unFrmLapSJ in 'laporan\unFrmLapSJ.pas' {frmLapSJ},
   unFrmLapHasilProduksi in 'laporan\unFrmLapHasilProduksi.pas' {frmLapHasilProduksi},
   unFrmKartuStok in 'barangjasa\unFrmKartuStok.pas' {frmKartuStok},
-  unFrmInputSOMTS in 'salesorder\unFrmInputSOMTS.pas' {frmInputSOMTS};
+  unFrmInputSOMTS in 'salesorder\unFrmInputSOMTS.pas' {frmInputSOMTS},
+  unFrmPilihPO in 'purchaseorder\unFrmPilihPO.pas' {frmPilihPO},
+  unFrmLapPengambilanBB in 'laporan\unFrmLapPengambilanBB.pas' {frmLapPengambilanBB},
+  unFrmLapOutstandingPO in 'purchaseorder\unFrmLapOutstandingPO.pas' {frmLapOutstandingPO},
+  unFrmLapOutstandingSO in 'salesorder\unFrmLapOutstandingSO.pas' {frmLapOutstandingSO},
+  unFrmUbahPassword in 'setting\unFrmUbahPassword.pas' {frmUbahPassword},
+  unFrmInputInvoicePembelian in 'invoicepembelian\unFrmInputInvoicePembelian.pas' {frmInputInvoicePembelian},
+  unFrmLstInvoicePembelian in 'invoicepembelian\unFrmLstInvoicePembelian.pas' {frmLstInvoicePembelian},
+  unFrmInputPembayaranPembelian in 'pembayaranpembelian\unFrmInputPembayaranPembelian.pas' {frmInputPembayaranPembelian},
+  unFrmLstPembayaranPembelian in 'pembayaranpembelian\unFrmLstPembayaranPembelian.pas' {frmLstPembayaranPembelian};
 
 {$R *.res}
 
@@ -94,7 +103,9 @@ begin
   Application.CreateForm(TDM, DM);
   Application.CreateForm(TfrmUtama, frmUtama);
   Application.CreateForm(TfrmLogin, frmLogin);
-  Application.CreateForm(TfrmInputSOMTS, frmInputSOMTS);
+  Application.CreateForm(TfrmLstInvoicePembelian, frmLstInvoicePembelian);
+  Application.CreateForm(TfrmInputPembayaranPembelian, frmInputPembayaranPembelian);
+  Application.CreateForm(TfrmLstPembayaranPembelian, frmLstPembayaranPembelian);
   frmUtama.Show;
 
   frmLogin.ShowModal;

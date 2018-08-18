@@ -231,6 +231,7 @@ begin
   Self.NamaMenu := 'mnMkt_SalesOrder';
   //TerapkanWewenang(Self.NamaMenu);
   zqrSO.Open;
+  cxtbSOno_bukti.SortOrder := soAscending;
 end;
 
 procedure TfrmLstSO.FormShow(Sender: TObject);

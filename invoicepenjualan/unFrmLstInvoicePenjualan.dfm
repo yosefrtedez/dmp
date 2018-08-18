@@ -1,5 +1,5 @@
-inherited frmLstPO: TfrmLstPO
-  Caption = 'Purchase Order'
+inherited frmLstInvoicePenjualan: TfrmLstInvoicePenjualan
+  Caption = 'Invoice Pembelian'
   ClientHeight = 507
   ClientWidth = 1169
   OnCreate = FormCreate
@@ -13,9 +13,9 @@ inherited frmLstPO: TfrmLstPO
     object Label1: TLabel
       Left = 10
       Top = 16
-      Width = 125
+      Width = 146
       Height = 19
-      Caption = 'Purchase Order'
+      Caption = 'Invoice Penjualan'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -16
@@ -57,7 +57,7 @@ inherited frmLstPO: TfrmLstPO
     object cxtbPOHead: TcxGridDBTableView
       NavigatorButtons.ConfirmDelete = False
       OnFocusedRecordChanged = cxtbPOHeadFocusedRecordChanged
-      DataController.DataSource = dsPO
+      DataController.DataSource = dsInvPembelian
       DataController.KeyFieldNames = 'id'
       DataController.Summary.DefaultGroupSummaryItems = <>
       DataController.Summary.FooterSummaryItems = <>
@@ -132,7 +132,7 @@ inherited frmLstPO: TfrmLstPO
     end
     object cxTblDet: TcxGridDBTableView
       NavigatorButtons.ConfirmDelete = False
-      DataController.DataSource = dsPoDet
+      DataController.DataSource = dsInvPembelianDet
       DataController.DetailKeyFieldNames = 'id_ref'
       DataController.MasterKeyFieldNames = 'id'
       DataController.Summary.DefaultGroupSummaryItems = <>
@@ -193,7 +193,7 @@ inherited frmLstPO: TfrmLstPO
     TabOrder = 3
     object cxtbPODet: TcxGridDBTableView
       NavigatorButtons.ConfirmDelete = False
-      DataController.DataSource = dsPoDet
+      DataController.DataSource = dsInvPembelianDet
       DataController.Summary.DefaultGroupSummaryItems = <>
       DataController.Summary.FooterSummaryItems = <
         item
@@ -220,6 +220,14 @@ inherited frmLstPO: TfrmLstPO
         Properties.Alignment.Horz = taRightJustify
         Properties.DisplayFormat = '#,#0.00'
         HeaderAlignmentHorz = taRightJustify
+      end
+      object cxtbPODetColumn3: TcxGridDBColumn
+        Caption = 'Qty. Terima'
+        DataBinding.FieldName = 'qty_terima'
+        PropertiesClassName = 'TcxSpinEditProperties'
+        Properties.DisplayFormat = '#,#0.00'
+        HeaderAlignmentHorz = taRightJustify
+        Width = 71
       end
       object cxtbPODetsatuan: TcxGridDBColumn
         Caption = 'Satuan'
@@ -284,7 +292,7 @@ inherited frmLstPO: TfrmLstPO
       OnClick = btnCetakPOClick
     end
   end
-  object zqrPO: TZReadOnlyQuery
+  object zqrInvPembelian: TZReadOnlyQuery
     Connection = DM.zConn
     SQL.Strings = (
       
@@ -299,18 +307,21 @@ inherited frmLstPO: TfrmLstPO
     Left = 759
     Top = 196
   end
-  object dsPO: TDataSource
-    DataSet = zqrPO
-    Left = 803
-    Top = 197
+  object dsInvPembelian: TDataSource
+    DataSet = zqrInvPembelian
+    Left = 835
+    Top = 173
   end
-  object zqrPoDet: TZReadOnlyQuery
+  object zqrInvPembelianDet: TZReadOnlyQuery
     Connection = DM.zConn
     AutoCalcFields = False
     SQL.Strings = (
       
         'SELECT a.*, b.deskripsi, a.qty, c.satuan, a.harga, a.mata_uang, ' +
-        'a.qty * a.harga subtotal'
+        'a.qty * a.harga subtotal,'
+      
+        '(SELECT SUM(qty) FROM tbl_pb_det WHERE id_brg = a.id_brg AND id_' +
+        'po = a.id_ref) qty_terima'
       'FROM tbl_po_det a'
       'LEFT JOIN tbl_barang b ON a.kode_brg = b.kode '
       'LEFT JOIN tbl_satuan c ON c.id = a.id_satuan'
@@ -321,8 +332,8 @@ inherited frmLstPO: TfrmLstPO
         Name = 'id_ref'
         ParamType = ptUnknown
       end>
-    Left = 764
-    Top = 252
+    Left = 660
+    Top = 332
     ParamData = <
       item
         DataType = ftUnknown
@@ -330,10 +341,10 @@ inherited frmLstPO: TfrmLstPO
         ParamType = ptUnknown
       end>
   end
-  object dsPoDet: TDataSource
-    DataSet = zqrPoDet
-    Left = 801
-    Top = 252
+  object dsInvPembelianDet: TDataSource
+    DataSet = zqrInvPembelianDet
+    Left = 793
+    Top = 324
   end
   object zqrRptPO: TZReadOnlyQuery
     Connection = DM.zConn

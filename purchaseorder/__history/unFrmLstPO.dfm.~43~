@@ -221,6 +221,14 @@ inherited frmLstPO: TfrmLstPO
         Properties.DisplayFormat = '#,#0.00'
         HeaderAlignmentHorz = taRightJustify
       end
+      object cxtbPODetColumn3: TcxGridDBColumn
+        Caption = 'Qty. Terima'
+        DataBinding.FieldName = 'qty_terima'
+        PropertiesClassName = 'TcxSpinEditProperties'
+        Properties.DisplayFormat = '#,#0.00'
+        HeaderAlignmentHorz = taRightJustify
+        Width = 71
+      end
       object cxtbPODetsatuan: TcxGridDBColumn
         Caption = 'Satuan'
         DataBinding.FieldName = 'satuan'
@@ -280,8 +288,28 @@ inherited frmLstPO: TfrmLstPO
       Height = 25
       Anchors = [akTop, akRight]
       Caption = 'Cetak PO'
-      TabOrder = 0
+      TabOrder = 2
       OnClick = btnCetakPOClick
+    end
+    object btnBatalApproval: TButton
+      Left = 968
+      Top = 9
+      Width = 112
+      Height = 25
+      Anchors = [akTop, akRight]
+      Caption = 'Batalkan Approval'
+      TabOrder = 1
+      OnClick = btnBatalApprovalClick
+    end
+    object btnTutupPO: TButton
+      Left = 888
+      Top = 9
+      Width = 74
+      Height = 25
+      Anchors = [akTop, akRight]
+      Caption = 'Tutup PO'
+      TabOrder = 0
+      OnClick = btnTutupPOClick
     end
   end
   object zqrPO: TZReadOnlyQuery
@@ -294,7 +322,8 @@ inherited frmLstPO: TfrmLstPO
       'FROM tbl_po_head a '
       'LEFT JOIN tbl_supplier b ON a.kode_supp = b.kode'
       'LEFT JOIN tbl_pp_head c ON c.id = a.id_pp'
-      'LEFT JOIN tbl_supplier d ON d.id = a.id_supplier')
+      'LEFT JOIN tbl_supplier d ON d.id = a.id_supplier'
+      'ORDER BY a.no_bukti')
     Params = <>
     Left = 759
     Top = 196
@@ -310,7 +339,10 @@ inherited frmLstPO: TfrmLstPO
     SQL.Strings = (
       
         'SELECT a.*, b.deskripsi, a.qty, c.satuan, a.harga, a.mata_uang, ' +
-        'a.qty * a.harga subtotal'
+        'a.qty * a.harga subtotal,'
+      
+        '(SELECT SUM(qty) FROM tbl_pb_det WHERE id_brg = a.id_brg AND id_' +
+        'po = a.id_ref) qty_terima'
       'FROM tbl_po_det a'
       'LEFT JOIN tbl_barang b ON a.kode_brg = b.kode '
       'LEFT JOIN tbl_satuan c ON c.id = a.id_satuan'
@@ -788,6 +820,7 @@ inherited frmLstPO: TfrmLstPO
           Top = 53.811070000000000000
           Width = 94.488250000000000000
           Height = 18.897650000000000000
+          Visible = False
           ShowHint = False
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clBlack
@@ -804,6 +837,7 @@ inherited frmLstPO: TfrmLstPO
           Top = 106.724490000000000000
           Width = 94.488250000000000000
           Height = 18.897650000000000000
+          Visible = False
           ShowHint = False
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clBlack
