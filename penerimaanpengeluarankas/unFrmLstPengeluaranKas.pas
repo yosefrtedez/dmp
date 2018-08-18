@@ -17,7 +17,7 @@ uses
   cxFilter, cxData, cxDataStorage, cxEdit, DB, cxDBData, StdCtrls, cxGridLevel,
   cxClasses, cxGridCustomView, cxGridCustomTableView, cxGridTableView,
   cxGridDBTableView, cxGrid, ExtCtrls, cxPC, ZAbstractRODataset, ZDataset,
-  cxCheckBox, cxSpinEdit;
+  cxCheckBox, cxSpinEdit, cxContainer, cxLabel, frxClass;
 
 type
   TfrmLstPengeluaranKas = class(TfrmTplGrid)
@@ -45,12 +45,17 @@ type
     cxtbPKDetmemo: TcxGridDBColumn;
     cxtbPKDetjumlah: TcxGridDBColumn;
     cxtbPKDetnamaakun: TcxGridDBColumn;
+    btnPosting: TButton;
+    Button1: TButton;
+    cxLabel1: TcxLabel;
+    cxtbPKColumn1: TcxGridDBColumn;
     procedure btnTambahClick(Sender: TObject);
     procedure btnRefreshClick(Sender: TObject);
     procedure btnEditClick(Sender: TObject);
     procedure cxtbPKFocusedRecordChanged(Sender: TcxCustomGridTableView;
       APrevFocusedRecord, AFocusedRecord: TcxCustomGridRecord;
       ANewItemRecordFocusingChanged: Boolean);
+    procedure Button1Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -62,7 +67,8 @@ var
 
 implementation
 
-uses unFrmInputPengeluaranKas, unFrmUtama, unDM;
+uses unFrmInputPengeluaranKas, unFrmUtama, unDM, unFrmLapKasMasukKasKeluar,
+  unTools;
 
 {$R *.dfm}
 
@@ -112,6 +118,23 @@ begin
 
     fu.pgMain.ActivePage := ts;
   end;
+end;
+
+procedure TfrmLstPengeluaranKas.Button1Click(Sender: TObject);
+var
+  f: TfrmLapKasMasukKasKeluar;
+  mm: TfrxMemoView;
+begin
+  inherited;
+  f := TfrmLapKasMasukKasKeluar.Create(Self);
+  with f do begin
+    zqrPK.ParamByName('id').AsInteger := zqrPK.FieldByName('id').AsInteger;
+    zqrPK.Open;
+    mm := rptKasKeluar.FindObject('mmTerbilang') as TfrxMemoView;
+    mm.Text := Terbilang(zqrPK.FieldByName('Jumlah').AsString);
+    rptKasKeluar.ShowReport(true);
+  end;
+  f.Free;
 end;
 
 procedure TfrmLstPengeluaranKas.cxtbPKFocusedRecordChanged(

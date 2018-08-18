@@ -132,9 +132,9 @@ begin
       with qh do begin
         FieldByName('no_bukti').AsString := sNoBukti;
         FieldByName('tanggal').AsDateTime := cxdTanggal.Date;
-        FieldByName('akun').AsString := cxtNoAkun.Text;
-        FieldByName('kepada').AsString := Trim(cxtPenerima.Text);
-        FieldByName('keterangan').AsString := Trim(cxtMemo.Text);
+        FieldByName('id_akun').AsString := cxlAkunKas.EditValue;
+        FieldByName('penerima').AsString := Trim(cxtPenerima.Text);
+        FieldByName('memo').AsString := Trim(cxtMemo.Text);
         FieldByName('jumlah').AsFloat := cxsSebesar.Value;
         FieldByName('user').AsString := Aplikasi.NamaUser;
         FieldByName('user_dept').AsString := Aplikasi.UserDept;

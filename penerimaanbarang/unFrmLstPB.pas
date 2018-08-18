@@ -60,6 +60,7 @@ type
     cxtbPBDetColumn1: TcxGridDBColumn;
     cxtbPBHeadColumn2: TcxGridDBColumn;
     cxtbPBDetColumn2: TcxGridDBColumn;
+    cxtbPBHeadColumn3: TcxGridDBColumn;
     procedure btnTambahClick(Sender: TObject);
     procedure cxtbPBHeadFocusedRecordChanged(Sender: TcxCustomGridTableView;
       APrevFocusedRecord, AFocusedRecord: TcxCustomGridRecord;

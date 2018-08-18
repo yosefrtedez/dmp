@@ -85,7 +85,21 @@ type
     cxColNoPO: TcxGridColumn;
     cxColIdPO: TcxGridColumn;
     cxColTglPO: TcxGridColumn;
-    Label2: TLabel;
+    cxChkPBTanpaPO: TcxCheckBox;
+    cxGrdPB2: TcxGrid;
+    cxtbPB2: TcxGridTableView;
+    cxColKodeBrg2: TcxGridColumn;
+    cxColDeskripsi2: TcxGridColumn;
+    cxColSatuan2: TcxGridColumn;
+    cxGridColumn10: TcxGridColumn;
+    cxColGdg2: TcxGridColumn;
+    cxColKeterangan2: TcxGridColumn;
+    cxColKodeBrg22: TcxGridColumn;
+    cxColIdGdg22: TcxGridColumn;
+    cxGridLevel1: TcxGridLevel;
+    cxColIdSatuan22: TcxGridColumn;
+    cxColQtyDatang2: TcxGridColumn;
+    btnSimpan2: TButton;
     procedure FormCreate(Sender: TObject);
     procedure cxlNoPPPropertiesChange(Sender: TObject);
     procedure cxtbPBDataControllerBeforePost(
@@ -98,6 +112,13 @@ type
     procedure cxlSuppPropertiesChange(Sender: TObject);
     procedure btnPilihPOClick(Sender: TObject);
     procedure cxlSuppExit(Sender: TObject);
+    procedure cxChkPBTanpaPOClick(Sender: TObject);
+    procedure cxtbPB2DataControllerRecordChanged(
+      ADataController: TcxCustomDataController; ARecordIndex,
+      AItemIndex: Integer);
+    procedure cxtbPB2DataControllerBeforePost(
+      ADataController: TcxCustomDataController);
+    procedure btnSimpan2Click(Sender: TObject);
   private
     id_supplier: integer;
     f_posted: Boolean;
@@ -164,6 +185,186 @@ begin
   end;
 end;
 
+procedure TfrmInputPB.btnSimpan2Click(Sender: TObject);
+var
+  sNoTrs: string;
+  q, qh,qd, hst, qbrg: TZQuery;
+  i, ID: Integer;
+  sAkhir, hppAkhir, hpp: real;
+  f0: boolean;
+  lstPOClose: TStringList;
+begin
+
+  if cxtbPB2.DataController.RecordCount = 0 then begin
+    MsgBox('Detail transaksi tidak boleh kosong.');
+    Abort;
+  end;
+
+  if (cxtbPB2.DataController.EditState = [dceEdit, dceModified]) or
+    (cxtbPB2.DataController.EditState = [dceInsert, dceModified]) then begin
+    MsgBox('Mohon selesaikan pengeditan detail sebelum disimpan.');
+    Abort;
+  end;
+
+  if Trim(cxdTglDatang.Text) = '' then begin
+    MsgBox('Mohon masukkan tanggal kedatangan barang.');
+    cxdTglDatang.SetFocus;
+    Abort;
+  end;
+
+  if f_posted then begin
+    MsgBox('Transaksi ini sudah di posting, tidak bisa di edit.');
+    Abort;
+  end;
+
+  f0 := false;
+  with cxtbPB2.DataController do begin
+    for i := 0 to RecordCount - 1 do begin
+      if (VarIsNull(Values[i, cxColQtyDatang2.Index])) or
+        (Values[i, cxColQtyDatang2.Index] = 0) then begin
+        f0 := True;
+        Break;
+      end;
+    end;
+  end;
+  if f0 then begin
+    MsgBox('Qty. Penerimaan barang masih ada yang 0. Lakukan penghapusan jika barang belum diterima.');
+    Abort;
+  end;
+
+  try
+
+    if Self.Jenis = 'E' then begin
+      MsgBox('Transaksi tidak bisa di simpan karena sudah di posting.');
+      Abort;
+    end;
+
+    dm.zConn.StartTransaction;
+
+    if Self.Jenis = 'T' then begin
+      sNoTrs := GetLastFak('penerimaan');
+      UpdateFaktur(Copy(sNoTrs,1,7));
+    end
+    else begin
+
+    end;
+
+    qh := OpenRS('SELECT * FROM tbl_pb_head WHERE no_bukti = ''%s''',[sNoTrs]);
+    if Self.Jenis = 'T' then
+      qh.Insert
+    else begin
+      qh.Edit;
+      ID := qh.FieldByName('id').AsInteger;
+    end;
+
+    qh.FieldByName('no_bukti').AsString := sNoTrs;
+    qh.FieldByName('tanggal').AsDateTime := cxdTglDatang.Date;
+    qh.FieldByName('user').AsString := Aplikasi.NamaUser;
+    qh.FieldByName('user_dept').AsString := Aplikasi.UserDept;
+    qh.FieldByName('id_supplier').AsInteger := cxlSupp.EditValue;
+    qh.FieldByName('nopol').AsString := cxtNopol.text;
+    qh.FieldByName('sopir').AsString := cxtSopir.text;
+    qh.FieldByName('keterangan').AsString := cxtKeterangan.Text;
+    qh.FieldByName('tgl_edit').AsDateTime := Aplikasi.NowServer;
+    qh.FieldByname('jenis_pb').AsInteger := 1;
+    qh.Post;
+
+    if Self.Jenis = 'E' then begin
+      dm.zConn.ExecuteDirect(Format('DELETE FROM tbl_pb_det WHERE id_ref = %d',[ID]));
+    end
+    else begin
+      ID := LastInsertID;
+    end;
+
+    qd := OpenRS('SELECT * FROM tbl_pb_det WHERE id_ref = %d',[ID]);
+    with cxtbPB2.DataController do begin
+      for i := 0 to RecordCount - 1 do begin
+        qd.Insert;
+        qd.FieldByName('id_ref').AsInteger := ID;
+        qd.FieldByName('no_bukti').AsString := sNoTrs;
+        qd.FieldByName('id_brg').AsInteger := Values[i, cxColKodeBrg2.Index];
+        qd.FieldByname('kode_brg').AsString := Values[i, cxColKodeBrg2.Index];
+        qd.FieldByname('qty').AsFloat := Values[i, cxColQtyDatang2.Index];
+        qd.FieldByName('id_satuan').AsInteger := Values[i, cxColIdSatuan22.Index];
+        qd.FieldbyName('id_gdg').AsInteger := Values[i, cxColGdg2.Index];
+        qd.Post;
+      end;
+    end;
+
+    if cxChkPosting.Checked then begin
+      hst := OpenRS('SELECT * FROM tbl_history WHERE no_bukti = ''%s''',[sNoTrs]);
+      with cxtbPB2.DataController do begin
+        for i := 0 to RecordCount - 1 do begin
+          hst.Insert;
+          hst.FieldByName('no_bukti').AsString := sNoTrs;
+          hst.FieldByname('tanggal').AsDateTime := cxdTglDatang.Date;
+          hst.FieldByName('id_brg').AsInteger := Values[i, cxColKodeBrg2.Index];
+          hst.FieldByName('id_gdg').AsInteger := Values[i, cxColGdg2.Index];
+          hst.FieldByname('kode_brg').AsString := Values[i, cxColKodeBrg2.Index];
+          hst.FieldByname('qty').AsFloat := Values[i, cxColQtyDatang2.Index];
+          hst.FieldByName('id_satuan').AsInteger := Values[i, cxColIdSatuan22.Index];
+          hst.FieldByName('id_pb').AsInteger := ID;
+          hst.FieldByName('tipe').AsString := 'i';
+
+          sAkhir := GetStokAkhir(Values[i, cxColKodeBrg2.Index], Values[i, cxColGdg2.Index]);
+          //hppAkhir := GetHpp(Values[i, cxColKodeBrg2.Index], Values[i, cxColGdg2.Index]);
+          //hpp := ((hppAkhir * sAkhir) + (Values[i, cxColQtyDatang2.Index] * Values[i, cxColHarga.Index])) /
+          //  (sAkhir + Values[i, cxColQtyDatang2.Index]);
+          //hst.FieldByName('avgcost').AsFloat := hpp;
+
+          hst.FieldByName('user').AsString := Aplikasi.NamaUser;
+          hst.FieldByName('user_dept').AsString := Aplikasi.UserDept;
+          hst.FieldByName('tgl_input').AsDateTime := Aplikasi.NowServer;
+
+          hst.Post;
+
+          // update barang
+          qbrg := OpenRS('SELECT * FROM tbl_barang WHERE id = %s',[Values[i, cxColKodeBrg2.Index]]);
+          qbrg.Edit;
+          qbrg.FieldByName('stok').AsFloat := qbrg.FieldByName('stok').AsFloat + Values[i, cxColQtyDatang2.Index];
+          qbrg.Post;
+          qbrg.Close;
+
+          // update detail barang
+          qbrg := OpenRS('SELECT * FROM tbl_barang_det WHERE id_brg = %s AND id_gdg = %s',
+            [Values[i, cxColKodeBrg2.Index], Values[i, cxColGdg2.Index]]);
+          if qbrg.IsEmpty then
+            qbrg.Insert
+          else
+            qbrg.Edit;
+          qbrg.FieldByName('id_brg').AsInteger := Values[i, cxColKodeBrg2.Index];
+          qbrg.FieldByName('id_gdg').AsInteger := Values[i, cxColGdg2.Index];
+          qbrg.FieldByName('stok').AsFloat := qbrg.FieldByName('stok').AsFloat + Values[i, cxColQtyDatang2.Index];
+          qbrg.Post;
+          qbrg.Close;
+        end;
+      end;
+      dm.zConn.ExecuteDirect(Format('UPDATE tbl_pb_head SET f_posted = 1 WHERE id = %d',[ID]));
+    end;
+
+    dm.zConn.Commit;
+
+    MsgBox('Penerimaan barang sudah disimpan dengan nomor: ' + sNoTrs);
+
+    lstPOClose := CheckPOComplete;
+    if lstPOClose.Count > 0 then begin
+      MsgBox('PO : ' + lstPOClose.CommaText + ' sudah selesai.');
+    end;
+
+    if Assigned(Self.FormInduk) then
+        (Self.FormInduk as TFrmLstPB).btnRefreshClick(nil);
+
+    btnBatalClick(nil);
+
+    inherited;
+  except
+    on E: Exception do begin
+      dm.zConn.Rollback;
+      MsgBox('Error: ' + E.Message);
+    end;
+  end;
+
+end;
 procedure TfrmInputPB.btnSimpanClick(Sender: TObject);
 var
   sNoTrs: string;
@@ -173,7 +374,6 @@ var
   f0: boolean;
   lstPOClose: TStringList;
 begin
-  inherited;
 
   if cxtbPB.DataController.RecordCount = 0 then begin
     MsgBox('Detail transaksi tidak boleh kosong.');
@@ -348,6 +548,8 @@ begin
         (Self.FormInduk as TFrmLstPB).btnRefreshClick(nil);
 
     btnBatalClick(nil);
+
+    inherited;
   except
     on E: Exception do begin
       dm.zConn.Rollback;
@@ -387,6 +589,15 @@ begin
     end;
   end;
   Result := lst;
+end;
+
+procedure TfrmInputPB.cxChkPBTanpaPOClick(Sender: TObject);
+begin
+  inherited;
+  cxGrdPB2.Visible := cxChkPBTanpaPO.Checked;
+  btnPilihPO.Visible := not cxChkPBTanpaPO.Checked;
+  btnSimpan.Visible := not cxChkPBTanpaPO.Checked;
+  btnSimpan2.Visible := cxChkPBTanpaPO.Checked;
 end;
 
 procedure TfrmInputPB.cxlNoPPPropertiesChange(Sender: TObject);
@@ -496,6 +707,80 @@ begin
   end;
 end;
 
+procedure TfrmInputPB.cxtbPB2DataControllerBeforePost(
+  ADataController: TcxCustomDataController);
+var
+  i,j,k: integer;
+  v: variant;
+  sa: real;
+begin
+  inherited;
+  i := ADataController.FocusedRowIndex;
+  k := ADataController.GetEditingRecordIndex;
+  v := ADataController.Values[i, cxColKodeBrg2.Index];
+
+  for j := 0 to ADataController.RecordCount - 1 do begin
+    if j <> k then begin
+      if v = ADataController.Values[j, cxColKodeBrg2.Index] then begin
+        MsgBox('Item tersebut sudah ada.');
+        ADataController.DeleteRecord(i);
+        Abort
+      end;
+    end;
+  end;
+
+  if (VarIsNull(ADataController.Values[i, cxColKodeBrg2.Index])) or
+      (Trim(ADataController.Values[i, cxColKodeBrg2.Index]) = '')  then begin
+    MsgBox('Kode barang harus diisi.');
+    Abort;
+  end;
+
+  if (VarIsNull(ADataController.Values[i, cxColGdg2.Index])) or
+      (Trim(ADataController.Values[i, cxColGdg2.Index]) = '')  then begin
+    MsgBox('Kode gudang harus diisi.');
+    Abort;
+  end;
+
+  if ADataController.Values[i, cxColQtyDatang2.Index] <= 0 then begin
+    MsgBox('Qty. Datang tidak boleh 0 atau minus.');
+    Abort;
+  end;
+
+end;
+
+procedure TfrmInputPB.cxtbPB2DataControllerRecordChanged(
+  ADataController: TcxCustomDataController; ARecordIndex, AItemIndex: Integer);
+var
+  sat: string;
+begin
+  inherited;
+  if AItemIndex = cxColKodeBrg2.Index then begin
+    ADataController.Values[ARecordIndex, cxColDeskripsi2.Index] := ADataController.Values[ARecordIndex, AItemIndex];
+    ADataController.Values[ARecordIndex, cxColIdSatuan22.Index] := GetSatuan(ADataController.Values[ARecordIndex, AItemIndex], sat);
+    ADataController.Values[ARecordIndex, cxColSatuan2.Index] := sat;
+  end;
+
+  if AItemIndex = cxColDeskripsi2.index then begin
+    ADataController.Values[ARecordIndex, cxColKodeBrg2.Index] := ADataController.Values[ARecordIndex, AItemIndex];
+    ADataController.Values[ARecordIndex, cxColIdSatuan22.Index] := GetSatuan(ADataController.Values[ARecordIndex, AItemIndex], sat);
+    ADataController.Values[ARecordIndex, cxColSatuan2.Index] := sat;
+  end;
+
+  {
+  if AItemIndex = cxColQtyTerima.Index then begin
+    ADataController.Values[ARecordIndex, cxColTotal.Index] :=
+      ADataController.Values[ARecordIndex, cxColQtyTerima.Index] * ADataController.Values[ARecordIndex, cxColHarga.Index];
+  end;
+
+  if AItemIndex = cxColQtyTerima.Index then begin
+    if ADataController.Values[ARecordIndex, cxColQtyTerima.Index] > ADataController.Values[ARecordIndex, cxColQtyPO.Index] then begin
+      MsgBox('Qty. Terima tidak boleh melebihi Qty. PO.');
+      Abort;
+    end;
+  end;
+  }
+end;
+
 procedure TfrmInputPB.cxtbPBDataControllerBeforePost(
   ADataController: TcxCustomDataController);
 var
@@ -566,6 +851,14 @@ begin
   zqrSupp.Open;
   zqrBarang.Open;
   zqrGdg.Open;
+
+  cxGrdPB2.Top := cxgrdPP.Top;
+  cxGrdPB2.Left := cxgrdPP.Left;
+  cxGrdPB2.Visible := False;
+  cxChkPBTanpaPO.Visible := True;
+
+  btnSimpan2.Visible := False;
+  btnSimpan2.Left := btnSimpan.Left;
 end;
 
 procedure TfrmInputPB.FormShow(Sender: TObject);

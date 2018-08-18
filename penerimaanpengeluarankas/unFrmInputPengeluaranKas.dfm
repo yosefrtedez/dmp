@@ -1,7 +1,6 @@
 inherited frmInputPengeluaranKas: TfrmInputPengeluaranKas
   Caption = 'Input Penerimaan Kas'
   ClientWidth = 1102
-  OnCreate = FormCreate
   OnShow = FormShow
   ExplicitWidth = 1102
   ExplicitHeight = 553
@@ -28,9 +27,6 @@ inherited frmInputPengeluaranKas: TfrmInputPengeluaranKas
     Width = 1102
     TabOrder = 18
     ExplicitWidth = 1102
-    inherited btnSimpan: TButton
-      OnClick = btnSimpanClick
-    end
   end
   object cxLabel1: TcxLabel
     Left = 10

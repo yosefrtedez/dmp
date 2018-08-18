@@ -73,7 +73,7 @@ var
 
 implementation
 
-uses unDM, unTools;
+uses unDM, unTools, unFrmLstPenerimaanKas;
 
 {$R *.dfm}
 
@@ -83,7 +83,7 @@ var
   sNoBukti: string;
   qh, qd: TZQuery;
 begin
-  inherited;
+
   if cxlAkunKas.Text = '' then begin
     MsgBox('Mohon pilih akun kas.');
     cxlAkunKas.SetFocus;
@@ -157,6 +157,13 @@ begin
       MsgBox('Penerimaan kas sudah disimpan dengan nomor : ' + sNoBukti);
 
       dm.zConn.Commit;
+
+      if Assigned(Self.FormInduk) then
+        (Self.FormInduk as TFrmLstPenerimaanKas).btnRefreshClick(nil);
+
+      btnBatalClick(nil);
+
+      inherited;
     except
       on E: Exception do begin
         dm.zConn.Rollback;

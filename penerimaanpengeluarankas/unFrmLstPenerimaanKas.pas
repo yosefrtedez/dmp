@@ -46,6 +46,7 @@ type
     cxtbPKDetmemo: TcxGridDBColumn;
     cxtbPKDetjumlah: TcxGridDBColumn;
     cxtbPKDetColumn1: TcxGridDBColumn;
+    Button1: TButton;
     procedure btnTambahClick(Sender: TObject);
     procedure btnRefreshClick(Sender: TObject);
     procedure btnEditClick(Sender: TObject);
@@ -53,6 +54,8 @@ type
     procedure cxtbPKFocusedRecordChanged(Sender: TcxCustomGridTableView;
       APrevFocusedRecord, AFocusedRecord: TcxCustomGridRecord;
       ANewItemRecordFocusingChanged: Boolean);
+    procedure Button1Click(Sender: TObject);
+    procedure btnPostingClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -64,7 +67,8 @@ var
 
 implementation
 
-uses unFrmInputPenerimaanKas, unFrmUtama, unDM;
+uses unFrmInputPenerimaanKas, unFrmUtama, unDM, unFrmLapKasMasukKasKeluar,
+  unTools;
 
 {$R *.dfm}
 
@@ -86,6 +90,25 @@ begin
     f.Show;
 
     fu.pgMain.ActivePage := ts;
+  end;
+end;
+
+procedure TfrmLstPenerimaanKas.btnPostingClick(Sender: TObject);
+var
+  qh, qdet, qj: TZQuery;
+  sNoJ: string;
+begin
+  inherited;
+
+  if zqrPK.FieldByName('f_posting').AsInteger = 1 then Abort;
+
+  try
+    sNoJ := GetLastFak('jurnal');
+    UpdateFaktur(Copy(sNoJ,1,7));
+
+    qj := OpenRS('SELECT tbl_jurnal WHERE no_jurnal = ''%s''',[])
+  except
+
   end;
 end;
 
@@ -116,6 +139,21 @@ begin
   end;
 end;
 
+procedure TfrmLstPenerimaanKas.Button1Click(Sender: TObject);
+var
+  f: TfrmLapKasMasukKasKeluar;
+begin
+  inherited;
+
+  f := TfrmLapKasMasukKasKeluar.Create(Self);
+  with f do begin
+    zqrKasMasuk.ParamByName('id').AsInteger := zqrPK.FieldByName('id').AsInteger;
+    zqrKasMasuk.Open;
+    rptKasMasuk.ShowReport(true);
+  end;
+  f.Free;
+end;
+
 procedure TfrmLstPenerimaanKas.cxtbPKFocusedRecordChanged(
   Sender: TcxCustomGridTableView; APrevFocusedRecord,
   AFocusedRecord: TcxCustomGridRecord; ANewItemRecordFocusingChanged: Boolean);
@@ -132,6 +170,7 @@ procedure TfrmLstPenerimaanKas.FormCreate(Sender: TObject);
 begin
   inherited;
   zqrPK.Open;
+  cxtbPKno_bukti.SortOrder := soAscending;
 end;
 
 end.

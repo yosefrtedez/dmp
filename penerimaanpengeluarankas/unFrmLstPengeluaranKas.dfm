@@ -81,6 +81,14 @@ inherited frmLstPengeluaranKas: TfrmLstPengeluaranKas
         Caption = 'Departemen'
         DataBinding.FieldName = 'user_dept'
       end
+      object cxtbPKColumn1: TcxGridDBColumn
+        Caption = 'Posting'
+        DataBinding.FieldName = 'f_posting'
+        PropertiesClassName = 'TcxCheckBoxProperties'
+        Properties.ValueChecked = 1
+        Properties.ValueUnchecked = 0
+        Width = 47
+      end
     end
     object cxGrid1Level1: TcxGridLevel
       GridView = cxtbPK
@@ -93,6 +101,33 @@ inherited frmLstPengeluaranKas: TfrmLstPengeluaranKas
     Height = 41
     Align = alBottom
     TabOrder = 2
+    DesignSize = (
+      1016
+      41)
+    object btnPosting: TButton
+      Left = 786
+      Top = 9
+      Width = 75
+      Height = 25
+      Anchors = [akTop, akRight]
+      Caption = 'Posting'
+      TabOrder = 0
+    end
+    object Button1: TButton
+      Left = 866
+      Top = 9
+      Width = 141
+      Height = 25
+      Anchors = [akTop, akRight]
+      Caption = 'Cetak Bukti Pengeluaran'
+      TabOrder = 1
+      OnClick = Button1Click
+    end
+    object cxLabel1: TcxLabel
+      Left = 10
+      Top = 12
+      Caption = 'Detail Pengeluaran Kas'
+    end
   end
   object cxGrid2: TcxGrid
     Left = 0

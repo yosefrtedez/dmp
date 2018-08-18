@@ -94,6 +94,13 @@ inherited frmLstPB: TfrmLstPB
         Properties.ValueUnchecked = 0
         Width = 50
       end
+      object cxtbPBHeadColumn3: TcxGridDBColumn
+        Caption = 'Tanpa PO'
+        DataBinding.FieldName = 'jenis_pb'
+        PropertiesClassName = 'TcxCheckBoxProperties'
+        Properties.ValueChecked = 1
+        Properties.ValueUnchecked = 0
+      end
     end
     object cxTblDet: TcxGridDBTableView
       NavigatorButtons.ConfirmDelete = False
@@ -229,7 +236,7 @@ inherited frmLstPB: TfrmLstPB
   object zqrPBHead: TZReadOnlyQuery
     Connection = DM.zConn
     SQL.Strings = (
-      'SELECT a.*,  b.no_bukti no_po2, c.nama nama_supplier'
+      'SELECT a.*,  b.no_bukti no_po2, c.nama nama_supplier, a.jenis_pb'
       'FROM tbl_pb_head a'
       'LEFT JOIN tbl_po_head b ON a.id_po = b.id'
       'LEFT JOIN tbl_supplier c ON c.id = a.id_supplier'

@@ -1,6 +1,8 @@
 inherited frmLstPenerimaanKas: TfrmLstPenerimaanKas
   Caption = 'Penerimaan Kas'
   OnCreate = FormCreate
+  ExplicitWidth = 1016
+  ExplicitHeight = 508
   PixelsPerInch = 96
   TextHeight = 13
   inherited Panel1: TPanel
@@ -76,6 +78,7 @@ inherited frmLstPenerimaanKas: TfrmLstPenerimaanKas
         PropertiesClassName = 'TcxCheckBoxProperties'
         Properties.ValueChecked = 1
         Properties.ValueUnchecked = 0
+        Width = 47
       end
     end
     object cxGrid1Level1: TcxGridLevel
@@ -89,18 +92,33 @@ inherited frmLstPenerimaanKas: TfrmLstPenerimaanKas
     Height = 41
     Align = alBottom
     TabOrder = 2
+    DesignSize = (
+      1016
+      41)
     object btnPosting: TButton
-      Left = 933
+      Left = 786
       Top = 9
       Width = 75
       Height = 25
+      Anchors = [akTop, akRight]
       Caption = 'Posting'
       TabOrder = 0
+      OnClick = btnPostingClick
     end
     object cxLabel1: TcxLabel
       Left = 10
       Top = 12
       Caption = 'Detail Penerimaan Kas'
+    end
+    object Button1: TButton
+      Left = 866
+      Top = 9
+      Width = 141
+      Height = 25
+      Anchors = [akTop, akRight]
+      Caption = 'Cetak Bukti Penerimaan'
+      TabOrder = 1
+      OnClick = Button1Click
     end
   end
   object cxGrid2: TcxGrid

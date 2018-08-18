@@ -139,7 +139,6 @@ var
   f0: Boolean;
 
 begin
-  inherited;
 
   if (cxtbBrgKeluar.DataController.EditState = [dceInsert, dceModified]) or (cxtbBrgKeluar.DataController.EditState = [dceEdit, dceModified]) then begin
     MsgBox('Mohon selesaikan pengeditan detail sebelum disimpan. ' + Chr(10) + Chr(13) +
@@ -277,10 +276,15 @@ begin
       qd.Close;
       Self.Jenis := '';
       MsgBox('Transaksi barang keluar sudah disimpan dengan No. Bukti : ' + sNoBukti);
+
       if Assigned(Self.FormInduk) then
         (Self.FormInduk as TFrmLstBarangKeluar).btnRefreshClick(nil);
 
+      inherited;
+
       btnBatalClick(nil);
+
+
     except
       on E: Exception do begin
         dm.zConn.Rollback;

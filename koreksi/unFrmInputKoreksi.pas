@@ -141,7 +141,10 @@ begin
           qd.FieldByName('kode_brg').AsString := Values[i, cxColKodeBrg2.Index];
           qd.FieldByName('id_brg').AsInteger := Values[i, cxColDeskripsi.Index];
           qd.FieldByName('stoklama').AsFloat := Values[i, cxColStokLama.Index];
-          qd.FieldByName('stokbaru').AsFloat := Values[i, cxColStokBaru.Index];
+          if VarIsNull(Values[i, cxColStokBaru.Index]) then
+            qd.FieldByName('stokbaru').AsFloat := 0
+          else
+            qd.FieldByName('stokbaru').AsFloat := Values[i, cxColStokBaru.Index];
           qd.FieldByName('qtykoreksi').AsFloat := Values[i, cxColStokBaru.Index] - Values[i, cxColStokLama.Index];
           qd.FieldByName('id_satuan').AsString := Values[i, cxColIdSatuan.Index];
           qd.FieldByName('id_gdg').AsString := Values[i, cxColGudang.Index];
@@ -265,10 +268,10 @@ begin
     Abort;
   end;
 
-  if ADataController.Values[i, cxColStokBaru.Index] < 1 then begin
-    MsgBox('Stok baru harus diisi.');
-    Abort;
-  end;
+  //if ADataController.Values[i, cxColStokBaru.Index] < 1 then begin
+  //  MsgBox('Stok baru harus diisi.');
+  //  Abort;
+  //end;
 
 end;
 

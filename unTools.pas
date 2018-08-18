@@ -79,6 +79,8 @@ function GetStokAkhir(id_brg: integer; id_gdg: Integer): real;
 function GetHpp(id_brg: integer; id_gdg: Integer): real;
 function CheckWewenang(sNamaWewenang, sNamaUser: string): Boolean;
 
+function GetSatuan(id_brg: Integer; var satuan: string): Integer;
+
 implementation
 
 function LastInsertID: integer;
@@ -1330,6 +1332,21 @@ begin
     if q.FieldByName('b').AsInteger = 1 then
       f := True;
   Result := f;
+end;
+
+function GetSatuan(id_brg: Integer; var satuan: string): Integer;
+var
+  q: TZQuery;
+begin
+  q := OpenRS('SELECT a.id_satuan, b.satuan FROM tbl_barang a LEFT JOIN tbl_satuan b ON a.id_satuan = b.id ' +
+    'WHERE a.id = %d',[id_brg]);
+  if not q.IsEmpty then begin
+    Result := q.FieldByName('id_satuan').AsInteger;
+    satuan := q.FieldByName('satuan').AsString;
+  end
+  else
+    Result := 0;
+  q.Close;
 end;
 
 end.
