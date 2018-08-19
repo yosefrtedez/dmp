@@ -23,25 +23,13 @@ inherited frmLstJurnalUmum: TfrmLstJurnalUmum
   inherited Panel2: TPanel
     TabOrder = 4
     inherited btnTambah: TButton
-      TabOrder = 1
       OnClick = btnTambahClick
     end
     inherited btnEdit: TButton
-      TabOrder = 2
       OnClick = btnEditClick
     end
-    inherited btnHapus: TButton
-      Left = 388
-      Top = 6
-      TabOrder = 0
-      Visible = False
-      ExplicitLeft = 388
-      ExplicitTop = 6
-    end
     inherited btnRefresh: TButton
-      Left = 172
       OnClick = btnRefreshClick
-      ExplicitLeft = 172
     end
   end
   object cxgJurnalUmum: TcxGrid
