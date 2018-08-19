@@ -75,7 +75,8 @@ inherited frmLstCOA: TfrmLstCOA
   object zqrCOA: TZReadOnlyQuery
     Connection = DM.zConn
     SQL.Strings = (
-      'SELECT * FROM tbl_coa')
+      'SELECT * FROM tbl_coa'
+      'ORDER BY noakun')
     Params = <>
     Left = 704
     Top = 144

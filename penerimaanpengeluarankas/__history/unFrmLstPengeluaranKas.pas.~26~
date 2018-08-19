@@ -57,7 +57,6 @@ type
       ANewItemRecordFocusingChanged: Boolean);
     procedure Button1Click(Sender: TObject);
     procedure FormCreate(Sender: TObject);
-    procedure btnPostingClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -95,73 +94,6 @@ begin
   end;
 end;
 
-procedure TfrmLstPengeluaranKas.btnPostingClick(Sender: TObject);
-var
-  qh, qd, qj: TZQuery;
-  sNoJ: string;
-begin
-  inherited;
-
-  if zqrPK.FieldByName('f_posting').AsInteger = 1 then Abort;
-
-  try
-    dm.zConn.StartTransaction;
-
-    sNoJ := GetLastFak('jurnal');
-    UpdateFaktur(Copy(sNoJ,1,6));
-
-    qj := OpenRS('SELECT * FROM tbl_jurnal WHERE no_jurnal = ''%s''',[sNoJ]);
-
-    qh := OpenRS('SELECT SUM(jumlah) jumlah FROM tbl_pengeluarankas_det WHERE id_ref = %d',
-      [zqrPK.FieldByName('id').AsInteger]);
-
-    qj.Insert;
-    qj.FieldByName('tanggal').AsDateTime := Aplikasi.TanggalServer;
-    qj.FieldByName('no_jurnal').AsString := sNoJ;
-    qj.FieldByName('no_trans').AsString := zqrPK.FieldbyName('no_bukti').AsString;
-    qj.FieldByName('id_akun').AsString := zqrPK.FieldByName('id_akun').AsString;
-    qj.FieldByName('debet').AsFloat := qh.FieldByName('jumlah').AsFloat;
-    qj.FieldByName('jenis_trs').AsString := 'BKK';
-    qj.FieldByName('tgl_input').AsDateTime := Aplikasi.NowServer;
-    qj.Post;
-
-    qh.Close;
-
-    qd := OpenRS('SELECT * FROM tbl_pengeluarankas_det WHERE id_ref = %d',[zqrPK.FieldByName('id').AsInteger]);
-    while not qd.Eof do begin
-      qj.Insert;
-      qj.FieldByName('tanggal').AsDateTime := Aplikasi.TanggalServer;
-      qj.FieldByName('no_jurnal').AsString := sNoJ;
-      qj.FieldByName('no_trans').AsString := zqrPK.FieldbyName('no_bukti').AsString;
-      qj.FieldByName('id_akun').AsInteger := qd.FieldByName('id_akun').AsInteger;
-      qj.FieldByName('kredit').AsFloat := qd.FieldByName('jumlah').AsFloat;
-      qj.FieldByName('jenis_trs').AsString := 'BKK';
-      qj.FieldByName('tgl_input').AsDateTime := Aplikasi.NowServer;
-      qj.Post;
-      qd.Next;
-    end;
-
-    qd.Close;
-    qj.Close;
-
-    dm.zConn.ExecuteDirect(
-      Format('UPDATE tbl_pengeluarankas_head SET f_posting = 1 WHERE id = %d',[zqrPK.FieldByName('id').AsInteger])
-    );
-
-    dm.zConn.Commit;
-
-    MsgBox('Posting transaksi pengeluaran kas sudah dilakukan.');
-
-    zqrPK.Close;
-    zqrPK.Open;
-  except
-    on E: Exception do begin
-      dm.zConn.Rollback;
-      MsgBox('Error: ' + E.Message);
-    end;
-  end;
-end;
-
 procedure TfrmLstPengeluaranKas.btnRefreshClick(Sender: TObject);
 begin
   inherited;
@@ -195,9 +127,6 @@ var
   mm: TfrxMemoView;
 begin
   inherited;
-  if zqrPK.FieldByName('f_posting').AsInteger = 0 then Abort;
-  
-
   f := TfrmLapKasMasukKasKeluar.Create(Self);
   with f do begin
     zqrKasKeluar.ParamByName('id').AsInteger := zqrPK.FieldByName('id').AsInteger;

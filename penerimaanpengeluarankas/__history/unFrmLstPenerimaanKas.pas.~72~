@@ -192,8 +192,6 @@ var
   f: TfrmLapKasMasukKasKeluar;
 begin
   inherited;
-  if zqrPK.FieldByName('f_posting').AsInteger = 0 then Abort;
-
   f := TfrmLapKasMasukKasKeluar.Create(Self);
   with f do begin
     zqrKasMasuk.ParamByName('id').AsInteger := zqrPK.FieldByName('id').AsInteger;

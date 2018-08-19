@@ -1,6 +1,7 @@
 inherited frmInputJurnalUmum: TfrmInputJurnalUmum
   Caption = 'Input Jurnal Umum'
   ClientWidth = 995
+  OnCreate = FormCreate
   OnShow = FormShow
   ExplicitWidth = 995
   ExplicitHeight = 553
@@ -9,24 +10,14 @@ inherited frmInputJurnalUmum: TfrmInputJurnalUmum
   inherited Panel1: TPanel
     Width = 995
     ExplicitWidth = 995
-    object Label13: TLabel
-      Left = 10
-      Top = 13
-      Width = 156
-      Height = 19
-      Caption = 'Input Jurnal Umum'
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -16
-      Font.Name = 'Tahoma'
-      Font.Style = [fsBold]
-      ParentFont = False
-    end
   end
   inherited Panel2: TPanel
     Width = 995
     TabOrder = 9
     ExplicitWidth = 995
+    inherited btnSimpan: TButton
+      OnClick = btnSimpanClick
+    end
   end
   object cxLabel2: TcxLabel
     Left = 10
@@ -75,7 +66,7 @@ inherited frmInputJurnalUmum: TfrmInputJurnalUmum
   end
   object cxGrd: TcxGrid
     Left = 8
-    Top = 152
+    Top = 162
     Width = 953
     Height = 249
     TabOrder = 8
@@ -117,7 +108,7 @@ inherited frmInputJurnalUmum: TfrmInputJurnalUmum
         Caption = 'No. Akun'
         PropertiesClassName = 'TcxLookupComboBoxProperties'
         Properties.DropDownAutoSize = True
-        Properties.KeyFieldNames = 'id'
+        Properties.KeyFieldNames = 'noakun'
         Properties.ListColumns = <
           item
             Caption = 'No. Akun'
@@ -128,13 +119,13 @@ inherited frmInputJurnalUmum: TfrmInputJurnalUmum
             FieldName = 'nama'
           end>
         Properties.ListSource = dsAkun
-        Width = 98
+        Width = 79
       end
       object cxColNamaAkun: TcxGridColumn
         Caption = 'Nama Akun'
         PropertiesClassName = 'TcxLookupComboBoxProperties'
         Properties.DropDownAutoSize = True
-        Properties.KeyFieldNames = 'id'
+        Properties.KeyFieldNames = 'noakun'
         Properties.ListColumns = <
           item
             Caption = 'Nama Akun'
@@ -180,8 +171,9 @@ inherited frmInputJurnalUmum: TfrmInputJurnalUmum
   end
   object zqrAkun: TZReadOnlyQuery
     Connection = DM.zConn
+    Active = True
     SQL.Strings = (
-      'SELECT id, noakun, nama, '
+      'SELECT noakun, nama, '
       
         '(SELECT COUNT(noakun) FROM tbl_coa WHERE induk = a.noakun) jml_a' +
         'nak '

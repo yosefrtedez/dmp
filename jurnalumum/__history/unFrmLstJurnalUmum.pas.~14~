@@ -32,10 +32,6 @@ type
     cxtbJurnalUmumuser: TcxGridDBColumn;
     cxtbJurnalUmumuser_dept: TcxGridDBColumn;
     Label13: TLabel;
-    Panel3: TPanel;
-    cxGrid1DBTableView1: TcxGridDBTableView;
-    cxGrid1Level1: TcxGridLevel;
-    cxGrid1: TcxGrid;
     procedure FormShow(Sender: TObject);
     procedure btnRefreshClick(Sender: TObject);
     procedure btnTambahClick(Sender: TObject);
@@ -94,7 +90,6 @@ begin
     ts.PageControl := frmUtama.pgMain;
 
     f := TfrmInputJurnalUmum.Create(Self);
-    f.TabSheet := (Self.Parent as TcxTabSheet);
     f.FormInduk := Self;
     f.Jenis := 'T';
     f.Parent := ts;

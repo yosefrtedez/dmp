@@ -40,28 +40,29 @@ type
     cxlbl5: TcxLabel;
     cxlbl6: TcxLabel;
     cxdTgl: TcxDateEdit;
-    cxlSupplier: TcxLookupComboBox;
+    cxLuCustomer: TcxLookupComboBox;
     cxtAlamat: TcxTextEdit;
     cxtNoBukti: TcxTextEdit;
-    zqrPPHead: TZReadOnlyQuery;
-    dsPPHead: TDataSource;
-    zqrSupplier: TZReadOnlyQuery;
-    dsSupplier: TDataSource;
-    cxColPPn: TcxGridColumn;
+    zqrSjHead: TZReadOnlyQuery;
+    dsSjHead: TDataSource;
+    zqrCustomer: TZReadOnlyQuery;
+    dsCustomer: TDataSource;
     zqrBarang: TZReadOnlyQuery;
     dsBarang: TDataSource;
     cxlbl14: TcxLabel;
     cxtKeterangan: TcxTextEdit;
     cxColIdSatuan: TcxGridColumn;
-    cxColKodeBrg2: TcxGridColumn;
     cxLabel1: TcxLabel;
-    cxLookupComboBox1: TcxLookupComboBox;
-    cxSpinEdit1: TcxSpinEdit;
+    cxLuSj: TcxLookupComboBox;
+    cxsSubTotal: TcxSpinEdit;
     cxLabel2: TcxLabel;
     cxLabel3: TcxLabel;
-    cxSpinEdit2: TcxSpinEdit;
+    cxsPPN: TcxSpinEdit;
     cxLabel4: TcxLabel;
-    cxSpinEdit3: TcxSpinEdit;
+    cxsTotal: TcxSpinEdit;
+    cxColKodeBrg2: TcxGridColumn;
+    cxColPPN: TcxGridColumn;
+    cxColDiscount: TcxGridColumn;
     procedure cxLuNoPPPropertiesChange(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure cxLuSupplierPropertiesChange(Sender: TObject);
@@ -75,6 +76,8 @@ type
     procedure cxtbTblPODataControllerBeforePost(
       ADataController: TcxCustomDataController);
     procedure cxLuNoPPPropertiesEditValueChanged(Sender: TObject);
+    procedure cxLuCustomerClick(Sender: TObject);
+    procedure cxLuSjPropertiesChange(Sender: TObject);
   private
     mStatus: string;
   public
@@ -87,45 +90,39 @@ var
 implementation
 
 uses
-  unFrmUtama, unDM, unAplikasi, unTools, unFrmLstPO;
+  unFrmUtama, unDM, unAplikasi, unTools, unFrmLstPO, unFrmLstInvoicePenjualan;
 
 {$R *.dfm}
 
 procedure TfrmInputInvoicePenjualan.btnSimpanClick(Sender: TObject);
 var
-  q, qh, qd, rs_fobj: TZQuery;
+  q, qh, qd, rs_sj: TZQuery;
   sNoBukti : string;
   i, id : integer;
   f0: Boolean;
 
 begin
-  {
+
   inherited;
 
-  if cxCboPembayaran.Text = '' then begin
-    MsgBox('Mode pembayaran masih kosong');
-    cxCboPembayaran.SetFocus;
-    Abort;
-  end;
-
-  if (cxtbTblPO.DataController.EditState = [dceInsert, dceModified]) or (cxtbTblPO.DataController.EditState = [dceEdit, dceModified]) then begin
+  {if (cxtbTblPO.DataController.EditState = [dceInsert, dceModified]) or (cxtbTblPO.DataController.EditState = [dceEdit, dceModified]) then begin
     MsgBox('Mohon selesaikan pengeditan detail sebelum disimpan.');
     Abort;
-  end;
+  end;}
 
-  if cxlSupplier.Text = '' then begin
-    MsgBox('Nama supllier masih kosong.');
+  if cxLuCustomer.Text = '' then begin
+    MsgBox('Nama Customer masih kosong.');
     Abort;
   end;
 
   // cek approval PO
-  if Self.Jenis = 'E' then begin
+  {if Self.Jenis = 'E' then begin
     q := OpenRS('SELECT f_app FROM tbl_po_head WHERE id = %s',[Self.EditKey]);
     if q.FieldByName('f_app').AsInteger = 1 then begin
       MsgBox('Purchase order tidak bisa di edit karena sudah di Approval.');
       Abort;
     end;
-  end;
+  end;}
 
   with cxtbTblPO.DataController do begin
     if RecordCount = 0 then begin
@@ -134,8 +131,8 @@ begin
     end;
 
     if Self.Jenis = 'T' then begin
-      sNoBukti := GetLastFak('po');
-      UpdateFaktur(Copy(sNoBukti,1,7));
+      sNoBukti := GetLastFak('invoice_penjualan');
+      UpdateFaktur(Copy(sNoBukti,1,8));
     end
     else begin
       sNoBukti := cxtNoBukti.text;
@@ -144,7 +141,7 @@ begin
     try
       dm.zConn.StartTransaction;
 
-      qh := OpenRS('SELECT * FROM tbl_po_head WHERE no_bukti = ''%s''',[sNoBukti]);
+      qh := OpenRS('SELECT * FROM tbl_invoicepenjualan_head WHERE no_bukti = ''%s''',[sNoBukti]);
       if Self.Jenis = 'T' then begin
         qh.Insert;
       end
@@ -154,47 +151,36 @@ begin
         dm.zConn.ExecuteDirect(Format('DELETE FROM tbl_po_det WHERE id_ref = %s',[Self.EditKey]));
       end;
 
-      rs_fobj := OpenRS('select * from tbl_pp_head where no_bukti = ''' + cxlNoPP.Text + '''');
-      if not rs_fobj.Eof then begin
-        rs_fobj.Edit;
-        rs_fobj.FieldByName('f_po').AsString := '1';
-        rs_fobj.Post;
+      rs_sj := OpenRS('select * from tbl_sj_head where no_bukti = ''' + cxLuSj.Text + '''');
+      if not rs_sj.Eof then begin
+        rs_sj.Edit;
+        rs_sj.FieldByName('f_inv').AsString := '1';
+        rs_sj.Post;
       end;
-      rs_fobj.Close;
+      rs_sj.Close;
 
       qh.FieldByName('no_bukti').AsString := sNoBukti;
-      if cxlNoPP.Text <> '' then
-        qh.FieldByName('id_pp').AsString := cxlNoPP.EditValue;
       qh.FieldByName('tanggal').AsDateTime := cxdTgl.Date;
       qh.FieldByName('jam').AsDateTime := Aplikasi.ServerTime;
-      qh.FieldByName('tgl_required').AsDateTime := cxdTglDatang.Date;
-      qh.FieldByName('id_supplier').AsString := cxlSupplier.EditValue;
-      qh.FieldByName('f_revisi').AsString := '0';
+      qh.FieldByName('id_cust').AsString := cxLuCustomer.EditValue;
       qh.FieldByName('user').AsString := Aplikasi.NamaUser;
       qh.FieldByName('user_dept').AsString := Aplikasi.UserDept;
       qh.FieldByName('tgl_input').AsDateTime := Aplikasi.Tanggal;
-      qh.FieldByName('jenis_po').AsString := 'st';
       qh.FieldByName('keterangan').AsString := Trim(cxtKeterangan.Text);
-      qh.FieldByName('pembayaran').AsString := cxCboPembayaran.Text;
-      qh.FieldByName('jam').AsDateTime := Aplikasi.ServerTime;
-      if cxCboRate.Text = 'IDR' then begin
-        qh.FieldByName('currency').AsString := '1';
-      end else begin
-        qh.FieldByName('currency').AsString := cxtRate.Text;
-      end;
-      if self.Jenis = 'E' then
+      qh.FieldByName('no_sj').AsString := cxLuSj.Text;
+      {if self.Jenis = 'E' then
         qh.FieldByName('f_revisi').AsInteger := 1
       else
         qh.FieldByName('f_revisi').AsInteger := 0;
       if Self.Jenis = 'E' then begin
         qh.FieldByName('user_edit').AsString := aplikasi.NamaUser;
         qh.FieldByName('tgl_edit').AsDateTime := Aplikasi.NowServer;
-      end;
+      end;}
       qh.Post;
 
       if Self.Jenis = 'T' then  ID := LastInsertID;
 
-      qd := OpenRS('SELECT * FROM tbl_po_det WHERE no_bukti = ''%s''',[sNoBukti]);
+      qd := OpenRS('SELECT * FROM tbl_invoicepenjualan_det WHERE no_bukti = ''%s''',[sNoBukti]);
       with cxtbTblPO.DataController do begin
         for i := 0 to RecordCount - 1 do begin
           qd.Insert;
@@ -204,26 +190,14 @@ begin
             qd.FieldByName('id_ref').AsString := qh.FieldByName('id').AsString;
           end;
           qd.FieldByName('no_bukti').AsString := sNoBukti;
-          qd.FieldByName('kode_brg').AsString := Values[i, cxColKodeBrg2.Index];
-          qd.FieldByName('id_brg').AsInteger := Values[i, cxColDeskripsi.Index];
+          qd.FieldByName('kode_brg').AsString := Values[i, cxColKodeBrg.Index];
           qd.FieldByName('qty').AsFloat := Values[i, cxColQty.Index];
-          qd.FieldByName('id_satuan').AsString := Values[i, cxColIdSatuan.Index];
-
           qd.FieldByName('harga').AsFloat := Values[i, cxColHarga.Index];
-          if Values[i, cxColValuta.Index] = 'IDR' then begin
-            qd.FieldByName('mata_uang').AsString := 'IDR';
-            qd.FieldByName('nilai_tukar').AsString := '1';
-          end else begin
-            qd.FieldByName('mata_uang').AsString := Values[i, cxColValuta.Index];
-            qd.FieldByName('nilai_tukar').AsString := cxtRate.Text;
-          end;
-          if VarIsNull(Values[i, cxColPPn.index]) = True then begin
-            qd.FieldByName('ppn').AsString := '';
-          end else begin
-            qd.FieldByName('ppn').AsString := Values[i, cxColPPn.index];
-          end;
-          if not VarIsNull(Values[i, cxColKeterangan.Index]) then
-            qd.FieldByname('keterangan').AsString := Values[i, cxColKeterangan.Index];
+          qd.FieldByName('id_satuan').AsInteger := Values[i, cxColIdSatuan.Index];
+          qd.FieldByName('ppn').AsString := Values[i, cxColPPN.Index];
+          qd.FieldByName('discount').AsFloat := Values[i, cxColDiscount.Index];
+          qd.FieldByName('valuta').AsString := values[i, cxColValuta.Index];
+          qd.FieldByName('keterangan').AsString := values[i, cxColKeterangan.Index];
           qd.Post;
         end;
       end;
@@ -231,10 +205,10 @@ begin
       qh.Close;
       qd.Close;
       Self.Jenis := '';
-      MsgBox('Transaksi Purchase Order sudah disimpan dengan No. Bukti : ' + sNoBukti);
+      MsgBox('Transaksi Invoice Penjualan sudah disimpan dengan No. Bukti : ' + sNoBukti);
 
       if Assigned(Self.FormInduk) then
-        (Self.FormInduk as TfrmLstPO).btnRefreshClick(nil);
+        (Self.FormInduk as TfrmLstInvoicePenjualan).btnRefreshClick(nil);
 
       btnBatalClick(nil);
     except
@@ -244,7 +218,7 @@ begin
       end;
     end;
   end;
-  }
+
 end;
 
 procedure TfrmInputInvoicePenjualan.cxColNoGetDisplayText(Sender: TcxCustomGridTableItem;
@@ -255,6 +229,26 @@ begin
   inherited;
   Row := Sender.GridView.DataController.GetRowIndexByRecordIndex(ARecord.RecordIndex, False);
   AText := IntToStr(Row+1);
+end;
+
+procedure TfrmInputInvoicePenjualan.cxLuCustomerClick(Sender: TObject);
+var
+  q: TZQuery;
+begin
+  inherited;
+  try
+  q := OpenRS('SELECT * FROM tbl_customer WHERE id = %s',[CxLuCustomer.EditValue]);
+  cxtAlamat.Text := q.FieldByName('alamat').AsString + ', ' + q.FieldByName('alamat2').AsString +
+    ', ' + q.FieldByname('kota').AsString + ', ' + q.FieldByName('provinsi').AsString;
+
+  zqrSjHead.ParamByName('id_Cust').AsString := q.FieldByName('id').AsString;
+  zqrSjHead.Close;
+
+  zqrSjHead.Open;
+  q.Close;
+  finally
+
+  end;
 end;
 
 procedure TfrmInputInvoicePenjualan.cxLuNoPPPropertiesChange(Sender: TObject);
@@ -339,15 +333,86 @@ begin
   }
 end;
 
+procedure TfrmInputInvoicePenjualan.cxLuSjPropertiesChange(Sender: TObject);
+var
+  q : TZQuery;
+  i : Integer;
+  subtotal, total : Double;
+begin
+  inherited;
+  try
+    q := OpenRS('select a.kode_brg, a.id_brg, b.deskripsi, a.qty, d.f_ppn, d.diskon, c.satuan, a.id_satuan, a.harga, a.qty * a.harga as total from tbl_sj_det a left join tbl_barang b on a.kode_brg = b.kode ' +
+              'left join tbl_sj_head d on a.id_ref = d.id left join tbl_satuan c on a.id_satuan = c.id where a.no_bukti = ''%s''',[cxluSj.Text]);
+    cxtbTblPO.DataController.OnRecordChanged := nil;
+    cxtbTblPO.DataController.RecordCount := 0;
+    total := 0;
+    subtotal := 0;
+    while not q.Eof do begin
+      with cxtbTblPO.DataController do begin
+        i := AppendRecord;
+        Values[i, cxColKodeBrg.Index] := q.FieldByName('id_brg').AsString;
+        Values[i, cxColDeskripsi.Index] := q.FieldByName('id_brg').AsString;
+        Values[i, cxColQty.Index] := q.FieldByName('qty').AsFloat;
+        Values[i, cxColSatuan.Index] := q.FieldByName('satuan').AsString;
+        Values[i, cxColIdSatuan.Index] := q.FieldByname('id_satuan').AsInteger;
+        Values[i, cxColValuta.Index] := 'IDR';
+        Values[i, cxColHarga.Index] := q.FieldByName('harga').AsFloat;
+        Values[i, cxColDiscount.Index] := q.FieldByName('diskon').AsFloat;
+        if q.FieldByName('f_ppn').AsString = '1'  then begin
+          Values[i, cxColPPN.Index] := 'PPN';
+          if q .FieldByName('diskon').AsFloat <> 0 then begin
+            Values[i, cxColTotal.Index] := q.FieldByName('qty').AsFloat * q.FieldByName('harga').AsFloat * 110/100;
+            cxsPPN.Value := 10;
+            subtotal := subtotal + (q.FieldByName('qty').AsFloat * q.FieldByName('harga').AsFloat);
+            total := total + (q.FieldByName('qty').AsFloat * q.FieldByName('harga').AsFloat * 110/100);
+          end else begin
+            Values[i, cxColTotal.Index] := q.FieldByName('qty').AsFloat * q.FieldByName('harga').AsFloat * 110/100;
+            cxsPPN.Value := 10;
+            subtotal := subtotal + (q.FieldByName('qty').AsFloat * q.FieldByName('harga').AsFloat);
+            total := total + (q.FieldByName('qty').AsFloat * q.FieldByName('harga').AsFloat * 110/100);
+          end
+        end else begin
+          if q.FieldByName('diskon').AsFloat <> 0  then begin
+            Values[i, cxColPPN.Index] := 'NON PPN';
+            Values[i, cxColTotal.Index] := q.FieldByName('qty').AsFloat * q.FieldByName('harga').AsFloat;
+            total := total + (q.FieldByName('qty').AsFloat * q.FieldByName('harga').AsFloat);
+            subtotal := subtotal + (q.FieldByName('qty').AsFloat * q.FieldByName('harga').AsFloat);
+            cxsPPN.Value := 0;
+          end else begin
+            Values[i, cxColPPN.Index] := 'NON PPN';
+            Values[i, cxColTotal.Index] := q.FieldByName('qty').AsFloat * q.FieldByName('harga').AsFloat;
+            total := total + (q.FieldByName('qty').AsFloat * q.FieldByName('harga').AsFloat);
+            subtotal := subtotal + (q.FieldByName('qty').AsFloat * q.FieldByName('harga').AsFloat);
+            cxsPPN.Value := 0;          
+          end;
+        end;
+        Values[i, cxColKeterangan.Index] := '';
+
+       // Values[i, cxColKodeBrg2.Index] := q.FieldByName('kode').AsString;
+      end;
+      q.Next;
+      cxsTotal.Value := total;
+      cxsSubTotal.Value := subtotal
+    end;
+  finally
+
+  end;
+end;
+
 procedure TfrmInputInvoicePenjualan.cxLuSupplierPropertiesChange(Sender: TObject);
 var
   q: TZQuery;
 begin
   inherited;
   try
-  q := OpenRS('SELECT alamat, alamat2, kota, provinsi, negara FROM tbl_supplier WHERE id = %s',[cxlSupplier.EditValue]);
+  q := OpenRS('SELECT * FROM tbl_customer WHERE id = %s',[CxLuCustomer.EditValue]);
   cxtAlamat.Text := q.FieldByName('alamat').AsString + ', ' + q.FieldByName('alamat2').AsString +
     ', ' + q.FieldByname('kota').AsString + ', ' + q.FieldByName('provinsi').AsString;
+
+  zqrSjHead.ParamByName('id_Cust').AsString := q.FieldByName('id').AsString;
+  zqrSjHead.Close;
+
+  zqrSjHead.Open;
   q.Close;
   finally
 
@@ -418,7 +483,6 @@ begin
       ADataController.Values[ARecordIndex, cxColSatuan.Index] := q.FieldByName('satuan2').AsString;
       ADataController.Values[ARecordIndex, cxColIdSatuan.Index] := q.FieldByName('id_satuan').AsInteger;
       ADataController.Values[ARecordIndex, cxColqty.Index] := '1';
-      ADataController.Values[ARecordIndex, cxColPPn.Index] := 'NON PPN';
       ADataController.Values[ARecordIndex, cxColValuta.Index] := 'IDR';
       ADataController.Values[ARecordIndex, cxColKodeBrg2.Index] := q.FieldByName('kode').AsString;
       q.Close;
@@ -436,7 +500,6 @@ begin
       ADataController.Values[ARecordIndex, cxColSatuan.Index] := q.FieldByName('satuan2').AsString;
       ADataController.Values[ARecordIndex, cxColIdSatuan.Index] := q.FieldByName('id_satuan').AsInteger;
       ADataController.Values[ARecordIndex, cxColqty.Index] := '1';
-      ADataController.Values[ARecordIndex, cxColPPn.Index] := 'NON PPN';
       ADataController.Values[ARecordIndex, cxColValuta.Index] := 'IDR';
       ADataController.Values[ARecordIndex, cxColKodeBrg2.Index] := q.FieldByName('kode').AsString;
       q.Close;
@@ -448,48 +511,46 @@ begin
   if AItemIndex = cxColHarga.Index then begin
     try
       cxtbTblPO.BeginUpdate;
-      if cxColPPn.EditValue = 'PPN' then begin
-        cxColtotal.EditValue := cxColQty.EditValue *  cxColHarga.EditValue * 110 /100 ;
-        cxtbTblPO.DataController.RefreshExternalData;
-      end
-      else begin
-        cxColTotal.EditValue := cxColQty.EditValue * cxColHarga.EditValue;
-        cxtbTblPO.DataController.RefreshExternalData;
-      end;
+//      if cxColPPn.EditValue = 'PPN' then begin
+//        cxColtotal.EditValue := cxColQty.EditValue *  cxColHarga.EditValue * 110 /100 ;
+//        cxtbTblPO.DataController.RefreshExternalData;
+//      end
+//      else begin
+//        cxColTotal.EditValue := cxColQty.EditValue * cxColHarga.EditValue;
+//        cxtbTblPO.DataController.RefreshExternalData;
+//      end;
     finally
       cxtbTblPO.EndUpdate
     end;
   end;
 
-  if AItemIndex = cxColPPn.Index then begin
-    try
-      cxtbTblPO.BeginUpdate;
-      if cxColPPn.EditValue = 'PPN' then begin
-        cxColTotal.EditValue := cxColQty.EditValue * cxColHarga.EditValue * 110 /100;
-        cxtbTblPO.DataController.RefreshExternalData;
-      end
-      else begin
-        cxColtotal.EditValue := cxColQty.EditValue * cxColHarga.EditValue;
-        cxtbTblPO.DataController.RefreshExternalData;
-      end;
-    finally
-      cxtbTblPO.EndUpdate;
-    end;
-  end;
+//  if AItemIndex = cxColPPn.Index then begin
+//    try
+//      cxtbTblPO.BeginUpdate;
+//     { if cxColPPn.EditValue = 'PPN' then begin
+//        cxColTotal.EditValue := cxColQty.EditValue * cxColHarga.EditValue * 110 /100;
+//        cxtbTblPO.DataController.RefreshExternalData;
+//      end
+//      else begin
+//        cxColtotal.EditValue := cxColQty.EditValue * cxColHarga.EditValue;
+//        cxtbTblPO.DataController.RefreshExternalData;
+//      end;}
+//    finally
+//      cxtbTblPO.EndUpdate;
+//    end;
+//  end;
 
 end;
 
 procedure TfrmInputInvoicePenjualan.FormCreate(Sender: TObject);
 begin
 inherited;
-  {
+
   cxdTgl.Date := Aplikasi.Tanggal;
-  cxdTglDatang.Date := Aplikasi.Tanggal;
-  zqrPPHead.Open;
-  cxCboRate.ItemIndex := 0;
-  zqrSupplier.Open;
+  zqrSjHead.Open;
+  zqrCustomer.Open;
   zqrBarang.Open;
-  }
+
 end;
 
 procedure TfrmInputInvoicePenjualan.FormShow(Sender: TObject);
@@ -499,18 +560,15 @@ procedure TfrmInputInvoicePenjualan.FormShow(Sender: TObject);
    sNoTrs : string;
 begin
   inherited;
-  {
+
   if Self.Jenis = 'T' then begin
-    sNoTrs := GetLastFak('po');
+    sNoTrs := GetLastFak('invoice_penjualan');
     cxtNoBukti.Text := sNoTrs;
     cxdTgl.Date := Aplikasi.Tanggal;
-    cxdTglDatang.Date := Aplikasi.Tanggal;
-    cxtUser.Text := Aplikasi.NamaUser;
-    cxtDepartemen.Text := Aplikasi.UserDept;
-    cxChkApproval.Visible := False;
+   
   end
   else if Self.Jenis = 'E' then begin
-    q := OpenRS('SELECT * FROM tbl_po_head WHERE id = %s',[Self.EditKey]);
+   { q := OpenRS('SELECT * FROM tbl_invoicepenjualan_head WHERE id = %s',[Self.EditKey]);
     cxtNoBukti.Text := q.FieldByName('no_bukti').AsString;
     cxlSupplier.EditValue := q.FieldByName('id_supplier').AsInteger;
     cxtKeterangan.Text := q.FieldByName('keterangan').AsString;
@@ -555,9 +613,9 @@ begin
     end;
     z.Close;
     cxtbTblPO.DataController.OnRecordChanged := Self.cxtbTblPODataControllerRecordChanged;
-
-  end;
   }
+  end;
+
 end;
 
 

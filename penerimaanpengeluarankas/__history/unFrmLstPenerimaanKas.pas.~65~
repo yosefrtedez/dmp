@@ -106,9 +106,9 @@ begin
     dm.zConn.StartTransaction;
 
     sNoJ := GetLastFak('jurnal');
-    UpdateFaktur(Copy(sNoJ,1,6));
+    UpdateFaktur(Copy(sNoJ,1,7));
 
-    qj := OpenRS('SELECT * FROM tbl_jurnal WHERE no_jurnal = ''%s''',[sNoJ]);
+    qj := OpenRS('SELECT tbl_jurnal WHERE no_jurnal = ''%s''',[sNoJ]);
 
     qh := OpenRS('SELECT SUM(jumlah) jumlah FROM tbl_penerimaankas_det WHERE id_ref = %d',
       [zqrPK.FieldByName('id').AsInteger]);
@@ -131,20 +131,15 @@ begin
       qj.FieldByName('tanggal').AsDateTime := Aplikasi.TanggalServer;
       qj.FieldByName('no_jurnal').AsString := sNoJ;
       qj.FieldByName('no_trans').AsString := zqrPK.FieldbyName('no_bukti').AsString;
-      qj.FieldByName('id_akun').AsInteger := qd.FieldByName('id_akun').AsInteger;
+      qj.FieldByName('id_akun').AsString := zqrPK.FieldByName('id_akun').AsString;
       qj.FieldByName('debet').AsFloat := qd.FieldByName('jumlah').AsFloat;
       qj.FieldByName('jenis_trs').AsString := 'BKM';
       qj.FieldByName('tgl_input').AsDateTime := Aplikasi.NowServer;
       qj.Post;
-      qd.Next;
     end;
 
     qd.Close;
     qj.Close;
-
-    dm.zConn.ExecuteDirect(
-      Format('UPDATE tbl_penerimaankas_head SET f_posting = 1 WHERE id = %d',[zqrPK.FieldByName('id').AsInteger])
-    );
 
     dm.zConn.Commit;
 
@@ -192,8 +187,6 @@ var
   f: TfrmLapKasMasukKasKeluar;
 begin
   inherited;
-  if zqrPK.FieldByName('f_posting').AsInteger = 0 then Abort;
-
   f := TfrmLapKasMasukKasKeluar.Create(Self);
   with f do begin
     zqrKasMasuk.ParamByName('id').AsInteger := zqrPK.FieldByName('id').AsInteger;

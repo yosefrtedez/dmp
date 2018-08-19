@@ -164,7 +164,7 @@ begin
         qh.FieldByName('user').AsString := Aplikasi.NamaUser;
         qh.Post;
 
-        if Self.Jenis = 'T' then ID := LastInsertID;
+        ID := LastInsertID;
 
         qd := OpenRS('SELECT * FROM tbl_jurnal WHERE no_jurnal = ''%s''',[sNoBukti]);
         for i := 0 to RecordCount - 1 do begin
@@ -176,7 +176,6 @@ begin
           qd.FieldByName('debet').AsFloat := Values[i, cxColDebet.Index];
           qd.FieldByName('kredit').AsFloat := Values[i, cxColKredit.Index];
           qd.FieldByName('keterangan').AsString := Values[i, cxColKeterangan.Index];
-          qd.FieldByName('tgl_input').AsDateTime := Aplikasi.TanggalServer;
           qd.Post;
         end;
 

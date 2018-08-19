@@ -94,7 +94,6 @@ begin
     ts.PageControl := frmUtama.pgMain;
 
     f := TfrmInputJurnalUmum.Create(Self);
-    f.TabSheet := (Self.Parent as TcxTabSheet);
     f.FormInduk := Self;
     f.Jenis := 'T';
     f.Parent := ts;

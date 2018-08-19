@@ -75,7 +75,7 @@ inherited frmInputJurnalUmum: TfrmInputJurnalUmum
   end
   object cxGrd: TcxGrid
     Left = 8
-    Top = 152
+    Top = 162
     Width = 953
     Height = 249
     TabOrder = 8

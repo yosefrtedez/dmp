@@ -1,10 +1,10 @@
 inherited frmLstInvoicePenjualan: TfrmLstInvoicePenjualan
   Caption = 'Invoice Pembelian'
-  ClientHeight = 507
+  ClientHeight = 503
   ClientWidth = 1169
   OnCreate = FormCreate
   ExplicitWidth = 1169
-  ExplicitHeight = 507
+  ExplicitHeight = 503
   PixelsPerInch = 96
   TextHeight = 13
   inherited Panel1: TPanel
@@ -25,18 +25,22 @@ inherited frmLstInvoicePenjualan: TfrmLstInvoicePenjualan
     end
   end
   inherited Panel2: TPanel
-    Top = 458
+    Top = 454
     Width = 1169
     TabOrder = 4
-    ExplicitTop = 458
+    ExplicitTop = 454
     ExplicitWidth = 1169
     inherited btnTambah: TButton
       OnClick = btnTambahClick
     end
     inherited btnEdit: TButton
+      Left = 92
+      Visible = False
       OnClick = btnEditClick
+      ExplicitLeft = 92
     end
     inherited btnHapus: TButton
+      Visible = False
       OnClick = btnHapusClick
     end
     inherited btnKeluar: TButton
@@ -44,95 +48,57 @@ inherited frmLstInvoicePenjualan: TfrmLstInvoicePenjualan
       ExplicitLeft = 1086
     end
     inherited btnRefresh: TButton
+      Left = 91
       OnClick = btnRefreshClick
+      ExplicitLeft = 91
     end
   end
   object cxgrd1: TcxGrid
     Left = 0
     Top = 49
     Width = 1169
-    Height = 168
+    Height = 164
     Align = alClient
     TabOrder = 1
-    object cxtbPOHead: TcxGridDBTableView
+    object cxTblInvHead: TcxGridDBTableView
       NavigatorButtons.ConfirmDelete = False
-      OnFocusedRecordChanged = cxtbPOHeadFocusedRecordChanged
-      DataController.DataSource = dsInvPembelian
-      DataController.KeyFieldNames = 'id'
+      OnFocusedRecordChanged = cxTblInvHeadFocusedRecordChanged
+      DataController.DataSource = dsInvPenjualan
+      DataController.KeyFieldNames = 'no_bukti'
       DataController.Summary.DefaultGroupSummaryItems = <>
       DataController.Summary.FooterSummaryItems = <>
       DataController.Summary.SummaryGroups = <>
       FilterRow.Visible = True
       OptionsView.CellTextMaxLineCount = 10
       Preview.MaxLineCount = 10
-      object cxColTblHeadno_bukti: TcxGridDBColumn
-        Caption = 'No. Bukti'
+      object cxColNo_bukti: TcxGridDBColumn
+        Caption = 'No Bukti'
         DataBinding.FieldName = 'no_bukti'
         Options.Editing = False
-        Width = 90
+        Width = 100
       end
-      object cxColTblHeadno_fobj: TcxGridDBColumn
-        Caption = 'No PP'
-        DataBinding.FieldName = 'no_pp'
-        Options.Filtering = False
-        Width = 90
-      end
-      object cxColTblHeadnama: TcxGridDBColumn
-        Caption = 'Nama'
-        DataBinding.FieldName = 'nama_supplier'
-        Options.Editing = False
-        Width = 150
-      end
-      object cxColTblHeadkontak: TcxGridDBColumn
-        DataBinding.FieldName = 'kontak'
-        Options.Editing = False
-        Width = 120
-      end
-      object cxColTblHeadtgl_required: TcxGridDBColumn
-        Caption = 'Tgl Kedatangan'
-        DataBinding.FieldName = 'tgl_required'
-        Options.Editing = False
-        Width = 90
-      end
-      object cxColTblHeaduser: TcxGridDBColumn
-        Caption = 'User'
-        DataBinding.FieldName = 'user'
+      object cxColTanggal: TcxGridDBColumn
+        Caption = 'Tanggal'
+        DataBinding.FieldName = 'tanggal'
         Options.Editing = False
         Width = 100
       end
-      object cxColTblHeaduser_dept: TcxGridDBColumn
-        Caption = 'Departemen'
-        DataBinding.FieldName = 'user_dept'
+      object cxColCustomer: TcxGridDBColumn
+        Caption = 'Nama Customer'
+        DataBinding.FieldName = 'nama'
         Options.Editing = False
-        Width = 100
+        Width = 200
       end
-      object cxColTblHeadpembayaran: TcxGridDBColumn
-        Caption = 'Pembayaran'
-        DataBinding.FieldName = 'pembayaran'
+      object cxColSuratJalan: TcxGridDBColumn
+        Caption = 'No. Surat Jalan'
+        DataBinding.FieldName = 'suratjalan'
         Options.Editing = False
-        Width = 100
-      end
-      object cxColTblHeadf_approval: TcxGridDBColumn
-        Caption = 'Approval'
-        DataBinding.FieldName = 'f_app'
-        PropertiesClassName = 'TcxCheckBoxProperties'
-        Properties.ValueChecked = 1
-        Properties.ValueUnchecked = 0
-        Options.Editing = False
-        Width = 50
-      end
-      object cxColTblHeadf_completed: TcxGridDBColumn
-        Caption = 'Komplit'
-        DataBinding.FieldName = 'f_completed'
-        PropertiesClassName = 'TcxCheckBoxProperties'
-        Properties.ValueChecked = 1
-        Properties.ValueUnchecked = 0
-        Options.Editing = False
+        Width = 80
       end
     end
     object cxTblDet: TcxGridDBTableView
       NavigatorButtons.ConfirmDelete = False
-      DataController.DataSource = dsInvPembelianDet
+      DataController.DataSource = dsInvPenjualanDet
       DataController.DetailKeyFieldNames = 'id_ref'
       DataController.MasterKeyFieldNames = 'id'
       DataController.Summary.DefaultGroupSummaryItems = <>
@@ -181,94 +147,72 @@ inherited frmLstInvoicePenjualan: TfrmLstInvoicePenjualan
       end
     end
     object cxgrdlvl1Grid1Level1: TcxGridLevel
-      GridView = cxtbPOHead
+      GridView = cxTblInvHead
     end
   end
   object cxGrid1: TcxGrid
     Left = 0
-    Top = 258
+    Top = 254
     Width = 1169
     Height = 200
     Align = alBottom
     TabOrder = 3
-    object cxtbPODet: TcxGridDBTableView
+    object cxTblInvDet: TcxGridDBTableView
       NavigatorButtons.ConfirmDelete = False
-      DataController.DataSource = dsInvPembelianDet
+      DataController.DataSource = dsInvPenjualanDet
       DataController.Summary.DefaultGroupSummaryItems = <>
       DataController.Summary.FooterSummaryItems = <
         item
           Format = '#,#0.00'
           Kind = skSum
-          Column = cxtbPODetColumn2
         end>
       DataController.Summary.SummaryGroups = <>
       OptionsView.Footer = True
-      object cxtbPODetkode_brg: TcxGridDBColumn
-        Caption = 'Kode Brg.'
+      object cxColNobukti: TcxGridDBColumn
+        Caption = 'No Bukti'
+        DataBinding.FieldName = 'no_bukti'
+        Options.Editing = False
+        Width = 80
+      end
+      object cxColKodeBrg: TcxGridDBColumn
+        Caption = 'Kode Barang'
         DataBinding.FieldName = 'kode_brg'
-        Width = 103
+        Options.Editing = False
+        Width = 100
       end
-      object cxtbPODetdeskripsi: TcxGridDBColumn
-        Caption = 'Deskripsi'
+      object cxColNama: TcxGridDBColumn
+        Caption = 'Nama'
         DataBinding.FieldName = 'deskripsi'
-        Width = 374
+        Width = 200
       end
-      object cxtbPODetqty: TcxGridDBColumn
-        Caption = 'Qty.'
+      object cxColQty: TcxGridDBColumn
+        Caption = 'Qty'
         DataBinding.FieldName = 'qty'
-        PropertiesClassName = 'TcxSpinEditProperties'
-        Properties.Alignment.Horz = taRightJustify
-        Properties.DisplayFormat = '#,#0.00'
-        HeaderAlignmentHorz = taRightJustify
+        Options.Editing = False
+        Width = 80
       end
-      object cxtbPODetColumn3: TcxGridDBColumn
-        Caption = 'Qty. Terima'
-        DataBinding.FieldName = 'qty_terima'
-        PropertiesClassName = 'TcxSpinEditProperties'
-        Properties.DisplayFormat = '#,#0.00'
-        HeaderAlignmentHorz = taRightJustify
-        Width = 71
-      end
-      object cxtbPODetsatuan: TcxGridDBColumn
+      object cxColSatuan: TcxGridDBColumn
         Caption = 'Satuan'
         DataBinding.FieldName = 'satuan'
-        Width = 54
+        Options.Editing = False
+        Width = 60
       end
-      object cxtbPODetharga: TcxGridDBColumn
+      object cxColHarga: TcxGridDBColumn
         Caption = 'Harga'
         DataBinding.FieldName = 'harga'
-        PropertiesClassName = 'TcxSpinEditProperties'
-        Properties.Alignment.Horz = taRightJustify
-        Properties.DisplayFormat = '#,#0.00'
+        GroupSummaryAlignment = taRightJustify
         HeaderAlignmentHorz = taRightJustify
-      end
-      object cxtbPODetmata_uang: TcxGridDBColumn
-        DataBinding.FieldName = 'mata_uang'
-        Visible = False
-      end
-      object cxtbPODetColumn1: TcxGridDBColumn
-        Caption = 'Keterangan'
-        DataBinding.FieldName = 'keterangan'
-        Width = 370
-      end
-      object cxtbPODetColumn2: TcxGridDBColumn
-        Caption = 'Subtotal'
-        DataBinding.FieldName = 'subtotal'
-        PropertiesClassName = 'TcxSpinEditProperties'
-        Properties.Alignment.Horz = taRightJustify
-        Properties.DisplayFormat = '#,#0.00'
-        FooterAlignmentHorz = taRightJustify
-        HeaderAlignmentHorz = taRightJustify
-        Width = 97
+        Options.Editing = False
+        Width = 100
       end
     end
     object cxGrid1Level1: TcxGridLevel
-      GridView = cxtbPODet
+      GridView = cxTblInvDet
     end
   end
   object Panel3: TPanel
     Left = 0
-    Top = 217
+    Top = 213
     Width = 1169
     Height = 41
     Align = alBottom
@@ -283,80 +227,41 @@ inherited frmLstInvoicePenjualan: TfrmLstInvoicePenjualan
     end
     object btnCetakPO: TButton
       Left = 1086
-      Top = 9
+      Top = 8
       Width = 75
       Height = 25
       Anchors = [akTop, akRight]
-      Caption = 'Cetak PO'
+      Caption = 'Cetak Invoice'
       TabOrder = 0
       OnClick = btnCetakPOClick
     end
   end
-  object zqrInvPembelian: TZReadOnlyQuery
+  object zqrInvPenjualan: TZReadOnlyQuery
     Connection = DM.zConn
     SQL.Strings = (
-      
-        'SELECT a.id, a.no_bukti, a.tgl_required, jenis_po, a.user, a.use' +
-        'r_dept, a.pembayaran, a.f_app, a.f_completed,'
-      'b.nama, b.kontak, c.no_bukti no_pp, d.nama nama_supplier'
-      'FROM tbl_po_head a '
-      'LEFT JOIN tbl_supplier b ON a.kode_supp = b.kode'
-      'LEFT JOIN tbl_pp_head c ON c.id = a.id_pp'
-      'LEFT JOIN tbl_supplier d ON d.id = a.id_supplier')
+      'SELECT a.no_bukti, a.tanggal, b.nama, c.no_bukti AS suratjalan '
+      'FROM tbl_invoicepenjualan_head a'
+      'LEFT JOIN tbl_customer b ON a.`id_cust` = b.`id`'
+      'LEFT JOIN tbl_sj_head c ON a.`no_sj` = c.`no_bukti`;')
     Params = <>
-    Left = 759
-    Top = 196
+    Left = 728
+    Top = 146
   end
-  object dsInvPembelian: TDataSource
-    DataSet = zqrInvPembelian
-    Left = 835
-    Top = 173
+  object dsInvPenjualan: TDataSource
+    DataSet = zqrInvPenjualan
+    Left = 811
+    Top = 148
   end
-  object zqrInvPembelianDet: TZReadOnlyQuery
+  object zqrInvPenjualanDet: TZReadOnlyQuery
     Connection = DM.zConn
     AutoCalcFields = False
     SQL.Strings = (
       
-        'SELECT a.*, b.deskripsi, a.qty, c.satuan, a.harga, a.mata_uang, ' +
-        'a.qty * a.harga subtotal,'
-      
-        '(SELECT SUM(qty) FROM tbl_pb_det WHERE id_brg = a.id_brg AND id_' +
-        'po = a.id_ref) qty_terima'
-      'FROM tbl_po_det a'
-      'LEFT JOIN tbl_barang b ON a.kode_brg = b.kode '
-      'LEFT JOIN tbl_satuan c ON c.id = a.id_satuan'
-      'WHERE a.id_ref = :id_ref')
-    Params = <
-      item
-        DataType = ftUnknown
-        Name = 'id_ref'
-        ParamType = ptUnknown
-      end>
-    Left = 660
-    Top = 332
-    ParamData = <
-      item
-        DataType = ftUnknown
-        Name = 'id_ref'
-        ParamType = ptUnknown
-      end>
-  end
-  object dsInvPembelianDet: TDataSource
-    DataSet = zqrInvPembelianDet
-    Left = 793
-    Top = 324
-  end
-  object zqrRptPO: TZReadOnlyQuery
-    Connection = DM.zConn
-    SQL.Strings = (
-      
-        'SELECT a.id, a.no_bukti, a.tanggal, a.pembayaran,  e.nama, e.ala' +
-        'mat, e.hp, a.pembayaran, b.qty, c.deskripsi, b.harga, d.satuan'
-      'FROM tbl_po_head a '
-      'INNER JOIN tbl_po_det b ON a.id = b.id_ref'
-      'LEFT JOIN tbl_barang c ON c.id = b.id_brg'
-      'LEFT JOIN tbl_supplier e ON a.id_supplier = e.id'
-      'LEFT JOIN tbl_satuan d ON d.id = b.id_satuan '
+        'SELECT a.no_bukti, a.kode_brg, b.deskripsi, c.satuan, a.qty, a.h' +
+        'arga'
+      'FROM tbl_invoicepenjualan_det a'
+      'LEFT JOIN tbl_barang b ON a.`kode_brg` = b.`id`'
+      'LEFT JOIN tbl_satuan c ON a.`id_satuan` = c.id'
       'WHERE a.no_bukti = :no_bukti;')
     Params = <
       item
@@ -364,8 +269,8 @@ inherited frmLstInvoicePenjualan: TfrmLstInvoicePenjualan
         Name = 'no_bukti'
         ParamType = ptUnknown
       end>
-    Left = 571
-    Top = 444
+    Left = 661
+    Top = 330
     ParamData = <
       item
         DataType = ftUnknown
@@ -373,33 +278,75 @@ inherited frmLstInvoicePenjualan: TfrmLstInvoicePenjualan
         ParamType = ptUnknown
       end>
   end
-  object dsRptPO: TDataSource
-    DataSet = zqrRptPO
-    Left = 638
-    Top = 455
+  object dsInvPenjualanDet: TDataSource
+    DataSet = zqrInvPenjualanDet
+    Left = 793
+    Top = 322
   end
-  object fdbPO: TfrxDBDataset
-    UserName = 'fdbPO'
+  object zqrRptInvoicePenjualan: TZReadOnlyQuery
+    Connection = DM.zConn
+    SQL.Strings = (
+      
+        'SELECT a.no_bukti, a.tanggal, a.no_sj, b.nama, b.`alamat`, b.`al' +
+        'amat2`, b.`kota`, b.hp, e.satuan,'
+      'c.kode_brg, d.deskripsi, c.qty, c.harga, c.ppn, c.discount,'
+      
+        'CASE WHEN c.ppn = '#39'PPN'#39' THEN c.qty * c.harga * 1.1 ELSE c.qty * ' +
+        'c.harga END AS total'
+      'FROM tbl_invoicepenjualan_head a'
+      'LEFT JOIN tbl_customer b ON a.`id_cust` = b.`id`'
+      
+        'LEFT JOIN tbl_invoicepenjualan_det c ON a.`no_bukti` = c.`no_buk' +
+        'ti`'
+      'LEFT JOIN tbl_barang d ON c.`kode_brg` = d.`id`'
+      'LEFT JOIN tbl_satuan e ON e.id = c.id_satuan'
+      'WHERE a.no_bukti = :no_bukti;')
+    Params = <
+      item
+        DataType = ftUnknown
+        Name = 'no_bukti'
+        ParamType = ptUnknown
+      end>
+    Left = 561
+    Top = 441
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'no_bukti'
+        ParamType = ptUnknown
+      end>
+  end
+  object dsRptInvoicePenjualan: TDataSource
+    DataSet = zqrRptInvoicePenjualan
+    Left = 595
+    Top = 442
+  end
+  object fdbInvoicePenjualan: TfrxDBDataset
+    UserName = 'fdbInvoicePenjualan'
     CloseDataSource = False
     FieldAliases.Strings = (
-      'id=id'
       'no_bukti=no_bukti'
       'tanggal=tanggal'
-      'pembayaran=pembayaran'
+      'no_sj=no_sj'
       'nama=nama'
       'alamat=alamat'
+      'alamat2=alamat2'
+      'kota=kota'
       'hp=hp'
-      'pembayaran_1=pembayaran_1'
-      'qty=qty'
+      'satuan=satuan'
+      'kode_brg=kode_brg'
       'deskripsi=deskripsi'
+      'qty=qty'
       'harga=harga'
-      'satuan=satuan')
-    DataSource = dsRptPO
+      'ppn=ppn'
+      'discount=discount'
+      'total=total')
+    DataSource = dsRptInvoicePenjualan
     BCDToCurrency = False
-    Left = 676
-    Top = 454
+    Left = 660
+    Top = 439
   end
-  object rptPO: TfrxReport
+  object rptInvoicePenjualan: TfrxReport
     Version = '4.12.6'
     DotMatrixReport = False
     IniFile = '\Software\Fast Reports'
@@ -408,18 +355,17 @@ inherited frmLstInvoicePenjualan: TfrmLstInvoicePenjualan
     PrintOptions.Printer = 'Default'
     PrintOptions.PrintOnSheet = 0
     ReportOptions.CreateDate = 43314.475617500000000000
-    ReportOptions.LastChange = 43314.475617500000000000
+    ReportOptions.LastChange = 43331.507893194440000000
     ScriptLanguage = 'PascalScript'
     ScriptText.Strings = (
-      'begin'
-      ''
+      'begin                                '
       'end.')
-    Left = 536
-    Top = 446
+    Left = 530
+    Top = 441
     Datasets = <
       item
-        DataSet = fdbPO
-        DataSetName = 'fdbPO'
+        DataSet = fdbInvoicePenjualan
+        DataSetName = 'fdbInvoicePenjualan'
       end>
     Variables = <>
     Style = <>
@@ -439,8 +385,8 @@ inherited frmLstInvoicePenjualan: TfrmLstInvoicePenjualan
         Height = 22.677180000000000000
         Top = 336.378170000000000000
         Width = 718.110700000000000000
-        DataSet = fdbPO
-        DataSetName = 'fdbPO'
+        DataSet = fdbInvoicePenjualan
+        DataSetName = 'fdbInvoicePenjualan'
         KeepFooter = True
         KeepTogether = True
         RowCount = 0
@@ -458,47 +404,56 @@ inherited frmLstInvoicePenjualan: TfrmLstInvoicePenjualan
             '[Line#]')
           ParentFont = False
         end
-        object fdbPOdeskripsi: TfrxMemoView
+        object fdbInvoicePenjualandeskripsi: TfrxMemoView
           Left = 34.015770000000000000
-          Width = 370.393940000000000000
+          Width = 272.126160000000000000
           Height = 18.897650000000000000
           ShowHint = False
           DataField = 'deskripsi'
-          DataSet = fdbPO
-          DataSetName = 'fdbPO'
+          DataSet = fdbInvoicePenjualan
+          DataSetName = 'fdbInvoicePenjualan'
           Memo.UTF8W = (
-            '[fdbPO."deskripsi"]')
+            '[fdbInvoicePenjualan."deskripsi"]')
         end
-        object fdbPOqty: TfrxMemoView
-          Left = 404.409710000000000000
-          Width = 64.252010000000000000
+        object fdbInvoicePenjualanqty: TfrxMemoView
+          Left = 309.921460000000000000
+          Width = 60.472480000000000000
           Height = 18.897650000000000000
           ShowHint = False
           DataField = 'qty'
-          DataSet = fdbPO
-          DataSetName = 'fdbPO'
+          DataSet = fdbInvoicePenjualan
+          DataSetName = 'fdbInvoicePenjualan'
+          DisplayFormat.FormatStr = '%2.2n'
+          DisplayFormat.Kind = fkNumeric
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = []
+          HAlign = haRight
           Memo.UTF8W = (
-            '[fdbPO."qty"]')
+            '[fdbInvoicePenjualan."qty"]')
+          ParentFont = False
         end
-        object fdbPOsatuan: TfrxMemoView
-          Left = 468.661720000000000000
-          Width = 52.913420000000000000
+        object fdbInvoicePenjualansatuan: TfrxMemoView
+          Left = 370.393940000000000000
+          Width = 64.252010000000000000
           Height = 18.897650000000000000
           ShowHint = False
           DataField = 'satuan'
-          DataSet = fdbPO
-          DataSetName = 'fdbPO'
+          DataSet = fdbInvoicePenjualan
+          DataSetName = 'fdbInvoicePenjualan'
           Memo.UTF8W = (
-            '[fdbPO."satuan"]')
+            '[fdbInvoicePenjualan."satuan"]')
         end
-        object fdbPOharga: TfrxMemoView
-          Left = 521.575140000000000000
-          Width = 79.370130000000000000
+        object fdbInvoicePenjualanharga: TfrxMemoView
+          Left = 434.645950000000000000
+          Width = 68.031540000000000000
           Height = 18.897650000000000000
           ShowHint = False
           DataField = 'harga'
-          DataSet = fdbPO
-          DataSetName = 'fdbPO'
+          DataSet = fdbInvoicePenjualan
+          DataSetName = 'fdbInvoicePenjualan'
           DisplayFormat.FormatStr = '%2.2n'
           DisplayFormat.Kind = fkNumeric
           Font.Charset = DEFAULT_CHARSET
@@ -508,14 +463,17 @@ inherited frmLstInvoicePenjualan: TfrmLstInvoicePenjualan
           Font.Style = []
           HAlign = haRight
           Memo.UTF8W = (
-            '[fdbPO."harga"]')
+            '[fdbInvoicePenjualan."harga"]')
           ParentFont = False
         end
-        object SysMemo1: TfrxSysMemoView
-          Left = 604.724800000000000000
-          Width = 94.488250000000000000
+        object fdbInvoicePenjualantotal: TfrxMemoView
+          Left = 616.063390000000000000
+          Width = 90.708720000000000000
           Height = 18.897650000000000000
           ShowHint = False
+          DataField = 'total'
+          DataSet = fdbInvoicePenjualan
+          DataSetName = 'fdbInvoicePenjualan'
           DisplayFormat.FormatStr = '%2.2n'
           DisplayFormat.Kind = fkNumeric
           Font.Charset = DEFAULT_CHARSET
@@ -525,7 +483,42 @@ inherited frmLstInvoicePenjualan: TfrmLstInvoicePenjualan
           Font.Style = []
           HAlign = haRight
           Memo.UTF8W = (
-            '[(<fdbPO."qty">*<fdbPO."harga">)]')
+            '[fdbInvoicePenjualan."total"]')
+          ParentFont = False
+        end
+        object fdbInvoicePenjualanppn: TfrxMemoView
+          Left = 506.457020000000000000
+          Width = 56.692950000000000000
+          Height = 18.897650000000000000
+          ShowHint = False
+          DataField = 'ppn'
+          DataSet = fdbInvoicePenjualan
+          DataSetName = 'fdbInvoicePenjualan'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = []
+          Memo.UTF8W = (
+            '[fdbInvoicePenjualan."ppn"]')
+          ParentFont = False
+        end
+        object fdbInvoicePenjualandiscount: TfrxMemoView
+          Left = 566.929500000000000000
+          Top = -0.000000000000000028
+          Width = 45.354360000000000000
+          Height = 18.897650000000000000
+          ShowHint = False
+          DataField = 'discount'
+          DataSet = fdbInvoicePenjualan
+          DataSetName = 'fdbInvoicePenjualan'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = []
+          Memo.UTF8W = (
+            '[fdbInvoicePenjualan."discount"]')
           ParentFont = False
         end
       end
@@ -533,12 +526,27 @@ inherited frmLstInvoicePenjualan: TfrmLstInvoicePenjualan
         Height = 45.354360000000000000
         Top = 18.897650000000000000
         Width = 718.110700000000000000
+        object Memo1: TfrxMemoView
+          Top = 1.338590000000000000
+          Width = 718.110700000000000000
+          Height = 30.236240000000000000
+          ShowHint = False
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -19
+          Font.Name = 'Arial'
+          Font.Style = []
+          HAlign = haCenter
+          Memo.UTF8W = (
+            'Faktur Penjualan')
+          ParentFont = False
+        end
       end
       object GroupHeader1: TfrxGroupHeader
         Height = 188.976500000000000000
         Top = 124.724490000000000000
         Width = 718.110700000000000000
-        Condition = '<fdbPO."id">'
+        Condition = '<fdbInvoicePenjualan."no_bukti">'
         KeepTogether = True
         object Memo2: TfrxMemoView
           Width = 238.110390000000000000
@@ -573,21 +581,6 @@ inherited frmLstInvoicePenjualan: TfrmLstInvoicePenjualan
             'Fax. +62-31-99890860')
           ParentFont = False
         end
-        object fdbSJ01nama: TfrxMemoView
-          Left = 535.827150000000000000
-          Top = 22.677180000000000000
-          Width = 170.078850000000000000
-          Height = 18.897650000000000000
-          ShowHint = False
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clBlack
-          Font.Height = -13
-          Font.Name = 'Arial'
-          Font.Style = []
-          Memo.UTF8W = (
-            '[fdbPO."nama"]')
-          ParentFont = False
-        end
         object Memo4: TfrxMemoView
           Left = 441.338900000000000000
           Top = 3.779530000000000000
@@ -618,23 +611,6 @@ inherited frmLstInvoicePenjualan: TfrmLstInvoicePenjualan
             'Kepada Yth.')
           ParentFont = False
         end
-        object fdbSJ01tanggal: TfrxMemoView
-          Left = 535.827150000000000000
-          Top = 3.779530000000000000
-          Width = 139.842610000000000000
-          Height = 18.897650000000000000
-          ShowHint = False
-          DisplayFormat.FormatStr = 'dd-MM-yyyy'
-          DisplayFormat.Kind = fkDateTime
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clBlack
-          Font.Height = -13
-          Font.Name = 'Arial'
-          Font.Style = []
-          Memo.UTF8W = (
-            '[fdbPO."tanggal"]')
-          ParentFont = False
-        end
         object Line1: TfrxLineView
           Top = 154.960730000000000000
           Width = 865.512370000000000000
@@ -661,51 +637,6 @@ inherited frmLstInvoicePenjualan: TfrmLstInvoicePenjualan
           ShowHint = False
           Frame.Typ = [ftTop]
         end
-        object fdbPOalamat: TfrxMemoView
-          Left = 536.693260000000000000
-          Top = 41.574830000000000000
-          Width = 170.078850000000000000
-          Height = 18.897650000000000000
-          ShowHint = False
-          DataField = 'alamat'
-          DataSet = fdbPO
-          DataSetName = 'fdbPO'
-          Memo.UTF8W = (
-            '[fdbPO."alamat"]')
-        end
-        object Memo7: TfrxMemoView
-          Left = 536.693260000000000000
-          Top = 60.472480000000000000
-          Width = 132.283550000000000000
-          Height = 18.897650000000000000
-          ShowHint = False
-          DataField = 'hp'
-          DataSet = fdbPO
-          DataSetName = 'fdbPO'
-          Memo.UTF8W = (
-            '[fdbPO."hp"]')
-        end
-        object Memo8: TfrxMemoView
-          Left = 3.779530000000000000
-          Top = 128.504020000000000000
-          Width = 94.488250000000000000
-          Height = 18.897650000000000000
-          ShowHint = False
-          Memo.UTF8W = (
-            'Payment Term')
-        end
-        object fdbPOpembayaran: TfrxMemoView
-          Left = 109.606370000000000000
-          Top = 128.504020000000000000
-          Width = 177.637910000000000000
-          Height = 18.897650000000000000
-          ShowHint = False
-          DataField = 'pembayaran'
-          DataSet = fdbPO
-          DataSetName = 'fdbPO'
-          Memo.UTF8W = (
-            '[fdbPO."pembayaran"]')
-        end
         object Memo9: TfrxMemoView
           Left = 37.795300000000000000
           Top = 162.519790000000000000
@@ -722,7 +653,7 @@ inherited frmLstInvoicePenjualan: TfrmLstInvoicePenjualan
           ParentFont = False
         end
         object Memo10: TfrxMemoView
-          Left = 406.189240000000000000
+          Left = 319.260050000000000000
           Top = 162.519790000000000000
           Width = 49.133890000000000000
           Height = 18.897650000000000000
@@ -732,12 +663,13 @@ inherited frmLstInvoicePenjualan: TfrmLstInvoicePenjualan
           Font.Height = -13
           Font.Name = 'Arial'
           Font.Style = []
+          HAlign = haRight
           Memo.UTF8W = (
             'Qty')
           ParentFont = False
         end
         object Memo11: TfrxMemoView
-          Left = 472.441250000000000000
+          Left = 370.393940000000000000
           Top = 162.519790000000000000
           Width = 49.133890000000000000
           Height = 18.897650000000000000
@@ -752,9 +684,9 @@ inherited frmLstInvoicePenjualan: TfrmLstInvoicePenjualan
           ParentFont = False
         end
         object Memo21: TfrxMemoView
-          Left = 538.134200000000000000
+          Left = 436.086890000000000000
           Top = 162.519790000000000000
-          Width = 60.472480000000000000
+          Width = 64.252010000000000000
           Height = 18.897650000000000000
           ShowHint = False
           Font.Charset = DEFAULT_CHARSET
@@ -770,7 +702,7 @@ inherited frmLstInvoicePenjualan: TfrmLstInvoicePenjualan
         object Memo22: TfrxMemoView
           Left = 623.724800000000000000
           Top = 162.519790000000000000
-          Width = 71.811070000000000000
+          Width = 83.149660000000000000
           Height = 18.897650000000000000
           ShowHint = False
           Font.Charset = DEFAULT_CHARSET
@@ -781,6 +713,118 @@ inherited frmLstInvoicePenjualan: TfrmLstInvoicePenjualan
           HAlign = haRight
           Memo.UTF8W = (
             'Sub Total')
+          ParentFont = False
+        end
+        object fdbInvoicePenjualantanggal: TfrxMemoView
+          Left = 544.252320000000000000
+          Top = 3.779530000000000000
+          Width = 147.401670000000000000
+          Height = 18.897650000000000000
+          ShowHint = False
+          DataField = 'tanggal'
+          DataSet = fdbInvoicePenjualan
+          DataSetName = 'fdbInvoicePenjualan'
+          Memo.UTF8W = (
+            '[fdbInvoicePenjualan."tanggal"]')
+        end
+        object fdbInvoicePenjualannama: TfrxMemoView
+          Left = 543.252320000000000000
+          Top = 22.677180000000000000
+          Width = 188.976500000000000000
+          Height = 18.897650000000000000
+          ShowHint = False
+          DataField = 'nama'
+          DataSet = fdbInvoicePenjualan
+          DataSetName = 'fdbInvoicePenjualan'
+          Memo.UTF8W = (
+            '[fdbInvoicePenjualan."nama"]')
+        end
+        object fdbInvoicePenjualankota: TfrxMemoView
+          Left = 544.252320000000000000
+          Top = 37.795300000000000000
+          Width = 173.858380000000000000
+          Height = 18.897650000000000000
+          ShowHint = False
+          DataField = 'kota'
+          DataSet = fdbInvoicePenjualan
+          DataSetName = 'fdbInvoicePenjualan'
+          Memo.UTF8W = (
+            '[fdbInvoicePenjualan."kota"]')
+        end
+        object fdbInvoicePenjualanhp: TfrxMemoView
+          Left = 544.252320000000000000
+          Top = 56.692950000000000000
+          Width = 170.078850000000000000
+          Height = 18.897650000000000000
+          ShowHint = False
+          DataField = 'hp'
+          DataSet = fdbInvoicePenjualan
+          DataSetName = 'fdbInvoicePenjualan'
+          Memo.UTF8W = (
+            '[fdbInvoicePenjualan."hp"]')
+        end
+        object Memo7: TfrxMemoView
+          Left = 442.205010000000000000
+          Top = 79.370130000000000000
+          Width = 94.488250000000000000
+          Height = 18.897650000000000000
+          ShowHint = False
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = []
+          Memo.UTF8W = (
+            'Nomer Invoice')
+          ParentFont = False
+        end
+        object fdbInvoicePenjualanno_bukti: TfrxMemoView
+          Left = 544.252320000000000000
+          Top = 79.370130000000000000
+          Width = 158.740260000000000000
+          Height = 18.897650000000000000
+          ShowHint = False
+          DataField = 'no_bukti'
+          DataSet = fdbInvoicePenjualan
+          DataSetName = 'fdbInvoicePenjualan'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = []
+          Memo.UTF8W = (
+            '[fdbInvoicePenjualan."no_bukti"]')
+          ParentFont = False
+        end
+        object Memo8: TfrxMemoView
+          Left = 502.677490000000000000
+          Top = 162.519790000000000000
+          Width = 64.252010000000000000
+          Height = 18.897650000000000000
+          ShowHint = False
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = []
+          Memo.UTF8W = (
+            'PPN')
+          ParentFont = False
+        end
+        object Memo14: TfrxMemoView
+          Left = 566.929500000000000000
+          Top = 162.519790000000000000
+          Width = 52.913420000000000000
+          Height = 18.897650000000000000
+          ShowHint = False
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = []
+          Memo.UTF8W = (
+            'Disc'
+            '')
           ParentFont = False
         end
       end
@@ -876,24 +920,6 @@ inherited frmLstInvoicePenjualan: TfrmLstInvoicePenjualan
             'Admin PT. DMP')
           ParentFont = False
         end
-        object SysMemo2: TfrxSysMemoView
-          Left = 604.724800000000000000
-          Top = 18.897650000000000000
-          Width = 94.488250000000000000
-          Height = 18.897650000000000000
-          ShowHint = False
-          DisplayFormat.FormatStr = '%2.2n'
-          DisplayFormat.Kind = fkNumeric
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clBlack
-          Font.Height = -13
-          Font.Name = 'Arial'
-          Font.Style = []
-          HAlign = haRight
-          Memo.UTF8W = (
-            '[SUM(<fdbPO."qty">*<fdbPO."harga">,MasterData1)]')
-          ParentFont = False
-        end
         object Memo23: TfrxMemoView
           Left = 525.354670000000000000
           Top = 18.897650000000000000
@@ -909,21 +935,26 @@ inherited frmLstInvoicePenjualan: TfrmLstInvoicePenjualan
             'Total ')
           ParentFont = False
         end
-      end
-      object Memo1: TfrxMemoView
-        Top = 17.338590000000000000
-        Width = 718.110700000000000000
-        Height = 18.897650000000000000
-        ShowHint = False
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clBlack
-        Font.Height = -19
-        Font.Name = 'Arial'
-        Font.Style = []
-        HAlign = haCenter
-        Memo.UTF8W = (
-          'Purchase Order')
-        ParentFont = False
+        object fdbInvoicePenjualantotal1: TfrxMemoView
+          Left = 616.063390000000000000
+          Top = 18.897650000000000000
+          Width = 90.708720000000000000
+          Height = 18.897650000000000000
+          ShowHint = False
+          DataSet = fdbInvoicePenjualan
+          DataSetName = 'fdbInvoicePenjualan'
+          DisplayFormat.FormatStr = '%2.2n'
+          DisplayFormat.Kind = fkNumeric
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = []
+          HAlign = haRight
+          Memo.UTF8W = (
+            '[SUM(<fdbInvoicePenjualan."total">,MasterData1,2)]')
+          ParentFont = False
+        end
       end
     end
   end

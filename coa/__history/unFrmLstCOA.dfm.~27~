@@ -51,7 +51,7 @@ inherited frmLstCOA: TfrmLstCOA
     ExplicitTop = 80
     ExplicitWidth = 250
     ExplicitHeight = 150
-    object cxColNoAkun: TcxDBTreeListColumn
+    object cxDBTreeList1cxDBTreeListColumn1: TcxDBTreeListColumn
       Caption.Text = 'No. Akun'
       DataBinding.FieldName = 'noakun'
       Width = 100
@@ -75,7 +75,8 @@ inherited frmLstCOA: TfrmLstCOA
   object zqrCOA: TZReadOnlyQuery
     Connection = DM.zConn
     SQL.Strings = (
-      'SELECT * FROM tbl_coa')
+      'SELECT * FROM tbl_coa'
+      'ORDER BY noakun')
     Params = <>
     Left = 704
     Top = 144

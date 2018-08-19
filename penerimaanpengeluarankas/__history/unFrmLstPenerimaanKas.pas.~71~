@@ -131,7 +131,7 @@ begin
       qj.FieldByName('tanggal').AsDateTime := Aplikasi.TanggalServer;
       qj.FieldByName('no_jurnal').AsString := sNoJ;
       qj.FieldByName('no_trans').AsString := zqrPK.FieldbyName('no_bukti').AsString;
-      qj.FieldByName('id_akun').AsInteger := qd.FieldByName('id_akun').AsInteger;
+      qj.FieldByName('id_akun').AsString := qd.FieldByName('id_akun').AsInteger;
       qj.FieldByName('debet').AsFloat := qd.FieldByName('jumlah').AsFloat;
       qj.FieldByName('jenis_trs').AsString := 'BKM';
       qj.FieldByName('tgl_input').AsDateTime := Aplikasi.NowServer;
@@ -192,8 +192,6 @@ var
   f: TfrmLapKasMasukKasKeluar;
 begin
   inherited;
-  if zqrPK.FieldByName('f_posting').AsInteger = 0 then Abort;
-
   f := TfrmLapKasMasukKasKeluar.Create(Self);
   with f do begin
     zqrKasMasuk.ParamByName('id').AsInteger := zqrPK.FieldByName('id').AsInteger;

@@ -25,7 +25,7 @@ type
     zqrCOA: TZReadOnlyQuery;
     dsCOA: TDataSource;
     treeCOA: TcxDBTreeList;
-    cxColNoAkun: TcxDBTreeListColumn;
+    cxDBTreeList1cxDBTreeListColumn1: TcxDBTreeListColumn;
     cxDBTreeList1cxDBTreeListColumn2: TcxDBTreeListColumn;
     procedure btnTambahClick(Sender: TObject);
     procedure btnEditClick(Sender: TObject);
@@ -101,7 +101,6 @@ begin
   zqrCOA.Open;
   //zqrCOA.Refresh;
   treeCOA.FullExpand;
-  cxColNoAkun.SortOrder := soAscending;
 end;
 
 procedure TfrmLstCOA.RefreshGrid;

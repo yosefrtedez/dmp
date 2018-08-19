@@ -41,8 +41,6 @@ inherited frmLstCOA: TfrmLstCOA
     DataController.DataSource = dsCOA
     DataController.ParentField = 'induk'
     DataController.KeyField = 'noakun'
-    OptionsBehavior.IncSearch = True
-    OptionsBehavior.IncSearchItem = cxDBTreeList1cxDBTreeListColumn2
     OptionsData.Editing = False
     OptionsData.Deleting = False
     RootValue = -1
@@ -51,7 +49,7 @@ inherited frmLstCOA: TfrmLstCOA
     ExplicitTop = 80
     ExplicitWidth = 250
     ExplicitHeight = 150
-    object cxColNoAkun: TcxDBTreeListColumn
+    object cxDBTreeList1cxDBTreeListColumn1: TcxDBTreeListColumn
       Caption.Text = 'No. Akun'
       DataBinding.FieldName = 'noakun'
       Width = 100
