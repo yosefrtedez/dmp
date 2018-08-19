@@ -126,7 +126,6 @@ inherited frmLstJurnalUmum: TfrmLstJurnalUmum
         Width = 75
       end
       object cxtbJUDetketerangan: TcxGridDBColumn
-        Caption = 'Keterangan'
         DataBinding.FieldName = 'keterangan'
         Width = 333
       end

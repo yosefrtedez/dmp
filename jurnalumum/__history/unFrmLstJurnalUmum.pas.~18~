@@ -16,7 +16,8 @@ uses
   dxSkinsDefaultPainters, dxSkinValentine, dxSkinXmas2008Blue,
   dxSkinscxPCPainter, cxCustomData, cxFilter, cxData, cxDataStorage, cxEdit, DB,
   cxDBData, cxGridLevel, cxClasses, cxGridCustomView, cxGridCustomTableView,
-  cxGridTableView, cxGridDBTableView, cxGrid, ZAbstractRODataset, ZDataset, cxPC;
+  cxGridTableView, cxGridDBTableView, cxGrid, ZAbstractRODataset, ZDataset, cxPC,
+  cxSpinEdit;
 
 type
   TfrmLstJurnalUmum = class(TfrmTplGrid)
@@ -27,14 +28,29 @@ type
     dsJurnalUmum: TDataSource;
     cxtbJurnalUmumno_jurnal: TcxGridDBColumn;
     cxtbJurnalUmumtanggal: TcxGridDBColumn;
-    cxtbJurnalUmumtgljam: TcxGridDBColumn;
     cxtbJurnalUmumketerangan: TcxGridDBColumn;
     cxtbJurnalUmumjenis: TcxGridDBColumn;
     cxtbJurnalUmumuser: TcxGridDBColumn;
     cxtbJurnalUmumuser_dept: TcxGridDBColumn;
+    Label13: TLabel;
+    Panel3: TPanel;
+    cxtbJUDet: TcxGridDBTableView;
+    cxGrid1Level1: TcxGridLevel;
+    cxGrid1: TcxGrid;
+    zqrJUDet: TZReadOnlyQuery;
+    dsJUDet: TDataSource;
+    cxtbJUDetnoakun: TcxGridDBColumn;
+    cxtbJUDetnamaakun: TcxGridDBColumn;
+    cxtbJUDetdebet: TcxGridDBColumn;
+    cxtbJUDetkredit: TcxGridDBColumn;
+    cxtbJUDetketerangan: TcxGridDBColumn;
     procedure FormShow(Sender: TObject);
     procedure btnRefreshClick(Sender: TObject);
     procedure btnTambahClick(Sender: TObject);
+    procedure btnEditClick(Sender: TObject);
+    procedure cxtbJurnalUmumFocusedRecordChanged(Sender: TcxCustomGridTableView;
+      APrevFocusedRecord, AFocusedRecord: TcxCustomGridRecord;
+      ANewItemRecordFocusingChanged: Boolean);
   private
     { Private declarations }
   public
@@ -46,9 +62,31 @@ var
 
 implementation
 
-uses unDM, unFrmInputJurnalUmum;
+uses unDM, unFrmInputJurnalUmum, unFrmUtama;
 
 {$R *.dfm}
+
+procedure TfrmLstJurnalUmum.btnEditClick(Sender: TObject);
+var
+ f: TfrmInputJurnalUmum;
+ ts: TcxTabSheet;
+ q: TZQuery;
+begin
+ if not fu.CekTabOpen('Edit Jurnal Umum') then begin
+    ts := TcxTabSheet.Create(Self);
+    ts.PageControl := frmUtama.pgMain;
+    f := TfrmInputJurnalUmum.Create(Self);
+    f.FormInduk := Self;
+    f.Jenis := 'E';
+    f.Caption := 'Edit Jurnal Umum';
+    f.EditKey := zqrJurnalUmum.FieldByName('no_jurnal').AsString;
+    f.Parent := ts;
+    ts.Caption := f.Caption;
+    f.Show;
+
+	  fu.pgMain.ActivePage := ts;
+  end;
+end;
 
 procedure TfrmLstJurnalUmum.btnRefreshClick(Sender: TObject);
 begin
@@ -66,14 +104,25 @@ begin
     ts := TcxTabSheet.Create(Self);
     ts.PageControl := frmUtama.pgMain;
 
-    f := TfrmInputCustomer.Create(Self);
+    f := TfrmInputJurnalUmum.Create(Self);
+    f.TabSheet := (Self.Parent as TcxTabSheet);
+    f.FormInduk := Self;
     f.Jenis := 'T';
-    f.cxChkAktif.Checked := True ;
     f.Parent := ts;
     ts.Caption := f.Caption;
     f.Show;
     fu.pgMain.ActivePage := ts;
   end;
+end;
+
+procedure TfrmLstJurnalUmum.cxtbJurnalUmumFocusedRecordChanged(
+  Sender: TcxCustomGridTableView; APrevFocusedRecord,
+  AFocusedRecord: TcxCustomGridRecord; ANewItemRecordFocusingChanged: Boolean);
+begin
+  inherited;
+  zqrJUDet.Close;
+  zqrJUDet.ParamByName('id_ref').AsInteger := zqrJurnalUmum.FieldByName('id').AsInteger;
+  zqrJUDet.Open;
 end;
 
 procedure TfrmLstJurnalUmum.FormShow(Sender: TObject);

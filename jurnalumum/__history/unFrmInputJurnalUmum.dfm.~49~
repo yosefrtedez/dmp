@@ -1,22 +1,32 @@
 inherited frmInputJurnalUmum: TfrmInputJurnalUmum
   Caption = 'Input Jurnal Umum'
-  ClientWidth = 995
-  OnCreate = FormCreate
+  ClientWidth = 1025
   OnShow = FormShow
-  ExplicitWidth = 995
+  ExplicitWidth = 1025
   ExplicitHeight = 553
   PixelsPerInch = 96
   TextHeight = 13
   inherited Panel1: TPanel
-    Width = 995
+    Width = 1025
     ExplicitWidth = 995
+    object Label13: TLabel
+      Left = 10
+      Top = 13
+      Width = 156
+      Height = 19
+      Caption = 'Input Jurnal Umum'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -16
+      Font.Name = 'Tahoma'
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
   end
   inherited Panel2: TPanel
-    Width = 995
+    Width = 1025
+    TabOrder = 9
     ExplicitWidth = 995
-    inherited btnSimpan: TButton
-      OnClick = btnSimpanClick
-    end
   end
   object cxLabel2: TcxLabel
     Left = 10
@@ -26,14 +36,14 @@ inherited frmInputJurnalUmum: TfrmInputJurnalUmum
   object cxdTgl: TcxDateEdit
     Left = 101
     Top = 67
-    TabOrder = 3
+    TabOrder = 1
     Width = 121
   end
   object cxChkPosting: TcxCheckBox
     Left = 224
     Top = 68
     Caption = 'Posting'
-    TabOrder = 4
+    TabOrder = 2
     Width = 121
   end
   object cxtNoBukti: TcxTextEdit
@@ -41,7 +51,7 @@ inherited frmInputJurnalUmum: TfrmInputJurnalUmum
     Top = 94
     Properties.ReadOnly = True
     Style.Color = clWindow
-    TabOrder = 5
+    TabOrder = 4
     Width = 121
   end
   object cxLabel3: TcxLabel
@@ -60,15 +70,16 @@ inherited frmInputJurnalUmum: TfrmInputJurnalUmum
     Properties.CharCase = ecUpperCase
     Properties.ReadOnly = False
     Style.Color = clWindow
-    TabOrder = 8
+    TabOrder = 6
     Width = 410
   end
   object cxGrd: TcxGrid
     Left = 8
-    Top = 162
-    Width = 953
+    Top = 152
+    Width = 1009
     Height = 249
-    TabOrder = 9
+    Anchors = [akLeft, akTop, akRight]
+    TabOrder = 8
     object cxtbJurnalUmum: TcxGridTableView
       NavigatorButtons.ConfirmDelete = False
       NavigatorButtons.Insert.Visible = False
@@ -96,7 +107,9 @@ inherited frmInputJurnalUmum: TfrmInputJurnalUmum
           Column = cxColKredit
         end>
       DataController.Summary.SummaryGroups = <>
+      DataController.OnBeforePost = cxtbJurnalUmumDataControllerBeforePost
       DataController.OnNewRecord = cxtbJurnalUmumDataControllerNewRecord
+      DataController.OnRecordChanged = cxtbJurnalUmumDataControllerRecordChanged
       OptionsData.Appending = True
       OptionsView.Navigator = True
       OptionsView.Footer = True
@@ -105,7 +118,7 @@ inherited frmInputJurnalUmum: TfrmInputJurnalUmum
         Caption = 'No. Akun'
         PropertiesClassName = 'TcxLookupComboBoxProperties'
         Properties.DropDownAutoSize = True
-        Properties.KeyFieldNames = 'noakun'
+        Properties.KeyFieldNames = 'id'
         Properties.ListColumns = <
           item
             Caption = 'No. Akun'
@@ -116,15 +129,13 @@ inherited frmInputJurnalUmum: TfrmInputJurnalUmum
             FieldName = 'nama'
           end>
         Properties.ListSource = dsAkun
-        Properties.OnChange = cxColNoAkunPropertiesChange
-        Properties.OnEditValueChanged = cxColNoAkunPropertiesEditValueChanged
-        Width = 79
+        Width = 98
       end
       object cxColNamaAkun: TcxGridColumn
         Caption = 'Nama Akun'
         PropertiesClassName = 'TcxLookupComboBoxProperties'
         Properties.DropDownAutoSize = True
-        Properties.KeyFieldNames = 'noakun'
+        Properties.KeyFieldNames = 'id'
         Properties.ListColumns = <
           item
             Caption = 'Nama Akun'
@@ -146,7 +157,7 @@ inherited frmInputJurnalUmum: TfrmInputJurnalUmum
         Properties.ValueType = vtFloat
         FooterAlignmentHorz = taRightJustify
         HeaderAlignmentHorz = taRightJustify
-        Width = 101
+        Width = 125
       end
       object cxColKredit: TcxGridColumn
         Caption = 'Kredit'
@@ -157,7 +168,7 @@ inherited frmInputJurnalUmum: TfrmInputJurnalUmum
         Properties.ValueType = vtFloat
         FooterAlignmentHorz = taRightJustify
         HeaderAlignmentHorz = taRightJustify
-        Width = 94
+        Width = 110
       end
       object cxColKeterangan: TcxGridColumn
         Caption = 'Keterangan'
@@ -170,9 +181,8 @@ inherited frmInputJurnalUmum: TfrmInputJurnalUmum
   end
   object zqrAkun: TZReadOnlyQuery
     Connection = DM.zConn
-    Active = True
     SQL.Strings = (
-      'SELECT noakun, nama, '
+      'SELECT id, noakun, nama, '
       
         '(SELECT COUNT(noakun) FROM tbl_coa WHERE induk = a.noakun) jml_a' +
         'nak '

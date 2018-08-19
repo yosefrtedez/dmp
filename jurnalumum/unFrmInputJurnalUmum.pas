@@ -79,6 +79,13 @@ var
   sNoBukti: string;
 begin
 
+  if (cxtbJurnalUmum.DataController.EditState = [dceInsert, dceModified]) or
+    (cxtbJurnalUmum.DataController.EditState = [dceEdit, dceModified]) then begin
+    MsgBox('Mohon selesaikan pengeditan detail sebelum disimpan.' + Chr(10) + Chr(13) +
+      'Klik Klik tombol centang hijau.');
+    Abort;
+  end;
+
   if Trim(cxdTgl.Text) = '' then begin
     MsgBox('Mohon isi tanggal transaksi.');
     cxdTgl.SetFocus;
@@ -176,7 +183,10 @@ begin
           qd.FieldByName('debet').AsFloat := Values[i, cxColDebet.Index];
           qd.FieldByName('kredit').AsFloat := Values[i, cxColKredit.Index];
           qd.FieldByName('keterangan').AsString := Values[i, cxColKeterangan.Index];
-          qd.FieldByName('tgl_input').AsDateTime := Aplikasi.TanggalServer;
+          qd.FieldByName('tgl_input').AsDateTime := Aplikasi.NowServer;
+          qd.FieldByName('jenis_trs').AsString := 'JU';
+          qd.FieldByName('user').AsString := Aplikasi.NamaUser;
+          qd.FieldByName('user_dept').AsString := Aplikasi.UserDept;
           qd.Post;
         end;
 
@@ -212,6 +222,8 @@ begin
   inherited;
 
   i := ADataController.GetEditingRecordIndex;
+
+  {
   v := ADataController.Values[i, cxColNoAkun.Index];
 
   for j := 0 to ADataController.RecordCount - 1 do begin
@@ -223,6 +235,15 @@ begin
       end;
     end;
   end;
+  }
+
+  if VarIsNull(ADataController.Values[i, cxColKeterangan.Index]) then begin
+    MsgBox('Keterangan harus di isi.');
+    Abort;
+  end;
+
+
+
 
 end;
 

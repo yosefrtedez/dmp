@@ -1,13 +1,13 @@
 inherited frmInputJurnalUmum: TfrmInputJurnalUmum
   Caption = 'Input Jurnal Umum'
-  ClientWidth = 995
+  ClientWidth = 1025
   OnShow = FormShow
-  ExplicitWidth = 995
+  ExplicitWidth = 1025
   ExplicitHeight = 553
   PixelsPerInch = 96
   TextHeight = 13
   inherited Panel1: TPanel
-    Width = 995
+    Width = 1025
     ExplicitWidth = 995
     object Label13: TLabel
       Left = 10
@@ -24,7 +24,7 @@ inherited frmInputJurnalUmum: TfrmInputJurnalUmum
     end
   end
   inherited Panel2: TPanel
-    Width = 995
+    Width = 1025
     TabOrder = 9
     ExplicitWidth = 995
   end
@@ -76,8 +76,9 @@ inherited frmInputJurnalUmum: TfrmInputJurnalUmum
   object cxGrd: TcxGrid
     Left = 8
     Top = 152
-    Width = 953
+    Width = 1009
     Height = 249
+    Anchors = [akLeft, akTop, akRight]
     TabOrder = 8
     object cxtbJurnalUmum: TcxGridTableView
       NavigatorButtons.ConfirmDelete = False
@@ -156,7 +157,7 @@ inherited frmInputJurnalUmum: TfrmInputJurnalUmum
         Properties.ValueType = vtFloat
         FooterAlignmentHorz = taRightJustify
         HeaderAlignmentHorz = taRightJustify
-        Width = 101
+        Width = 125
       end
       object cxColKredit: TcxGridColumn
         Caption = 'Kredit'
@@ -167,7 +168,7 @@ inherited frmInputJurnalUmum: TfrmInputJurnalUmum
         Properties.ValueType = vtFloat
         FooterAlignmentHorz = taRightJustify
         HeaderAlignmentHorz = taRightJustify
-        Width = 94
+        Width = 110
       end
       object cxColKeterangan: TcxGridColumn
         Caption = 'Keterangan'

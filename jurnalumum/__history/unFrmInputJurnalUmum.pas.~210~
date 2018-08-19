@@ -39,6 +39,7 @@ type
     cxColKeterangan: TcxGridColumn;
     zqrAkun: TZReadOnlyQuery;
     dsAkun: TDataSource;
+    Label13: TLabel;
     procedure FormShow(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure cxtbJurnalUmumFocusedItemChanged(Sender: TcxCustomGridTableView;
@@ -65,7 +66,7 @@ var
 
 implementation
 
-uses unTools, unDM;
+uses unTools, unDM, unFrmLstJurnalUmum;
 
 {$R *.dfm}
 
@@ -77,7 +78,7 @@ var
   qh, qd: TZQuery;
   sNoBukti: string;
 begin
-  inherited;
+
   if Trim(cxdTgl.Text) = '' then begin
     MsgBox('Mohon isi tanggal transaksi.');
     cxdTgl.SetFocus;
@@ -163,17 +164,19 @@ begin
         qh.FieldByName('user').AsString := Aplikasi.NamaUser;
         qh.Post;
 
-        ID := LastInsertID;
+        if Self.Jenis = 'T' then ID := LastInsertID;
 
-        qd := OpenRS('SELECT * FROM tbl_jurnal_det WHERE no_jurnal = ''%s''',[sNoBukti]);
+        qd := OpenRS('SELECT * FROM tbl_jurnal WHERE no_jurnal = ''%s''',[sNoBukti]);
         for i := 0 to RecordCount - 1 do begin
           qd.Insert;
+          qd.FieldByName('tanggal').AsDateTime := cxdTgl.Date;
           qd.FieldByName('id_ref').AsInteger := ID;
           qd.FieldByName('no_jurnal').AsString := sNoBukti;
-          qd.FieldByName('akun').AsString := Values[i, cxColNoAkun.Index];
+          qd.FieldByName('id_akun').AsString := Values[i, cxColNoAkun.Index];
           qd.FieldByName('debet').AsFloat := Values[i, cxColDebet.Index];
           qd.FieldByName('kredit').AsFloat := Values[i, cxColKredit.Index];
           qd.FieldByName('keterangan').AsString := Values[i, cxColKeterangan.Index];
+          qd.FieldByName('tgl_input').AsDateTime := Aplikasi.TanggalServer;
           qd.Post;
         end;
 
@@ -184,6 +187,12 @@ begin
 
         MsgBox('Transaksi jurnal umum sudah disimpan dengan No. Bukti : ' + sNoBukti);
 
+        if Assigned(Self.FormInduk) then
+          (Self.FormInduk as TfrmLstJurnalUmum).btnRefreshClick(nil);
+
+        inherited;
+
+        btnBatalClick(nil);
       except
         on E: Exception do begin
           dm.zConn.Rollback;
@@ -203,6 +212,8 @@ begin
   inherited;
 
   i := ADataController.GetEditingRecordIndex;
+
+  {
   v := ADataController.Values[i, cxColNoAkun.Index];
 
   for j := 0 to ADataController.RecordCount - 1 do begin
@@ -214,6 +225,9 @@ begin
       end;
     end;
   end;
+  }
+
+
 
 end;
 

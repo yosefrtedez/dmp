@@ -2,7 +2,6 @@ inherited frmInputBarangMasuk: TfrmInputBarangMasuk
   Caption = 'Input Barang Masuk'
   ClientHeight = 619
   ClientWidth = 973
-  OnCreate = FormCreate
   OnShow = FormShow
   ExplicitWidth = 973
   ExplicitHeight = 619
@@ -33,7 +32,6 @@ inherited frmInputBarangMasuk: TfrmInputBarangMasuk
     ExplicitWidth = 973
     inherited btnSimpan: TButton
       Top = 11
-      OnClick = btnSimpanClick
       ExplicitTop = 11
     end
   end

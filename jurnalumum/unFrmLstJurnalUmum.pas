@@ -16,7 +16,8 @@ uses
   dxSkinsDefaultPainters, dxSkinValentine, dxSkinXmas2008Blue,
   dxSkinscxPCPainter, cxCustomData, cxFilter, cxData, cxDataStorage, cxEdit, DB,
   cxDBData, cxGridLevel, cxClasses, cxGridCustomView, cxGridCustomTableView,
-  cxGridTableView, cxGridDBTableView, cxGrid, ZAbstractRODataset, ZDataset, cxPC;
+  cxGridTableView, cxGridDBTableView, cxGrid, ZAbstractRODataset, ZDataset, cxPC,
+  cxSpinEdit;
 
 type
   TfrmLstJurnalUmum = class(TfrmTplGrid)
@@ -33,13 +34,23 @@ type
     cxtbJurnalUmumuser_dept: TcxGridDBColumn;
     Label13: TLabel;
     Panel3: TPanel;
-    cxGrid1DBTableView1: TcxGridDBTableView;
+    cxtbJUDet: TcxGridDBTableView;
     cxGrid1Level1: TcxGridLevel;
     cxGrid1: TcxGrid;
+    zqrJUDet: TZReadOnlyQuery;
+    dsJUDet: TDataSource;
+    cxtbJUDetnoakun: TcxGridDBColumn;
+    cxtbJUDetnamaakun: TcxGridDBColumn;
+    cxtbJUDetdebet: TcxGridDBColumn;
+    cxtbJUDetkredit: TcxGridDBColumn;
+    cxtbJUDetketerangan: TcxGridDBColumn;
     procedure FormShow(Sender: TObject);
     procedure btnRefreshClick(Sender: TObject);
     procedure btnTambahClick(Sender: TObject);
     procedure btnEditClick(Sender: TObject);
+    procedure cxtbJurnalUmumFocusedRecordChanged(Sender: TcxCustomGridTableView;
+      APrevFocusedRecord, AFocusedRecord: TcxCustomGridRecord;
+      ANewItemRecordFocusingChanged: Boolean);
   private
     { Private declarations }
   public
@@ -104,10 +115,21 @@ begin
   end;
 end;
 
+procedure TfrmLstJurnalUmum.cxtbJurnalUmumFocusedRecordChanged(
+  Sender: TcxCustomGridTableView; APrevFocusedRecord,
+  AFocusedRecord: TcxCustomGridRecord; ANewItemRecordFocusingChanged: Boolean);
+begin
+  inherited;
+  zqrJUDet.Close;
+  zqrJUDet.ParamByName('id_ref').AsInteger := zqrJurnalUmum.FieldByName('id').AsInteger;
+  zqrJUDet.Open;
+end;
+
 procedure TfrmLstJurnalUmum.FormShow(Sender: TObject);
 begin
   inherited;
   zqrJurnalUmum.Open;
+  cxtbJurnalUmumno_jurnal.SortOrder := soAscending;
 end;
 
 end.

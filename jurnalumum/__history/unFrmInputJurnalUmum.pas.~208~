@@ -164,7 +164,7 @@ begin
         qh.FieldByName('user').AsString := Aplikasi.NamaUser;
         qh.Post;
 
-        ID := LastInsertID;
+        if Self.Jenis = 'T' then ID := LastInsertID;
 
         qd := OpenRS('SELECT * FROM tbl_jurnal WHERE no_jurnal = ''%s''',[sNoBukti]);
         for i := 0 to RecordCount - 1 do begin
