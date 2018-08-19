@@ -17,18 +17,27 @@ uses
   dxSkinscxPCPainter, cxCustomData, cxFilter, cxData, cxDataStorage, cxEdit, DB,
   cxDBData, cxGridLevel, cxClasses, cxGridCustomView, cxGridCustomTableView,
   cxGridTableView, cxGridDBTableView, cxGrid, ZAbstractRODataset, ZDataset, cxPC,
-  cxTL, cxTLdxBarBuiltInMenu, cxInplaceContainer, cxTLData, cxDBTL, cxMaskEdit;
+  cxTL, cxTLdxBarBuiltInMenu, cxInplaceContainer, cxTLData, cxDBTL;
 
 type
   TfrmLstCOA = class(TfrmTplGrid)
     Label13: TLabel;
+    cxtbCOA: TcxGridDBTableView;
+    cxgCOALevel1: TcxGridLevel;
+    cxgCOA: TcxGrid;
     zqrCOA: TZReadOnlyQuery;
     dsCOA: TDataSource;
-    treeCOA: TcxDBTreeList;
-    cxDBTreeList1cxDBTreeListColumn1: TcxDBTreeListColumn;
-    cxDBTreeList1cxDBTreeListColumn2: TcxDBTreeListColumn;
+    cxtbCOAnoakun: TcxGridDBColumn;
+    cxtbCOAnama: TcxGridDBColumn;
+    cxtbCOAinduk: TcxGridDBColumn;
+    cxtbCOAf_subakun: TcxGridDBColumn;
+    cxtbCOAf_aktif: TcxGridDBColumn;
+    cxtbCOAsawal: TcxGridDBColumn;
+    cxtbCOAdfl: TcxGridDBColumn;
+    cxDBTreeList1: TcxDBTreeList;
     procedure btnTambahClick(Sender: TObject);
     procedure btnEditClick(Sender: TObject);
+    procedure btnRefreshClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
   private
     { Private declarations }
@@ -74,6 +83,14 @@ begin
   end;
 end;
 
+procedure TfrmLstCOA.btnRefreshClick(Sender: TObject);
+begin
+  inherited;
+  zqrCOA.Close;
+  zqrCOA.Open;
+  //cxtbCOA.DataController.UpdateItems(False);
+end;
+
 procedure TfrmLstCOA.btnTambahClick(Sender: TObject);
 var
   f: TfrmInputCOA;
@@ -98,14 +115,12 @@ end;
 procedure TfrmLstCOA.FormCreate(Sender: TObject);
 begin
   inherited;
-  zqrCOA.Open;
-  //zqrCOA.Refresh;
-  treeCOA.FullExpand;
+  zqrCOA.Refresh;
 end;
 
 procedure TfrmLstCOA.RefreshGrid;
 begin
-  //Self.btnRefreshClick(nil);
+  Self.btnRefreshClick(nil);
 end;
 
 end.

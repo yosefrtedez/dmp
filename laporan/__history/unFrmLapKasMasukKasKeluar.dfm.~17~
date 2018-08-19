@@ -615,6 +615,7 @@ object frmLapKasMasukKasKeluar: TfrmLapKasMasukKasKeluar
   end
   object zqrKasKeluar: TZReadOnlyQuery
     Connection = DM.zConn
+    Active = True
     SQL.Strings = (
       
         'SELECT a.*, b.noakun, b.nama nama_head,  c.jumlah, d.noakun noak' +
@@ -626,19 +627,17 @@ object frmLapKasMasukKasKeluar: TfrmLapKasMasukKasKeluar
       'WHERE a.id = :id')
     Params = <
       item
-        DataType = ftString
+        DataType = ftUnknown
         Name = 'id'
         ParamType = ptUnknown
-        Value = '1'
       end>
     Left = 88
     Top = 96
     ParamData = <
       item
-        DataType = ftString
+        DataType = ftUnknown
         Name = 'id'
         ParamType = ptUnknown
-        Value = '1'
       end>
   end
   object dsKasKeluar: TDataSource
@@ -653,19 +652,18 @@ object frmLapKasMasukKasKeluar: TfrmLapKasMasukKasKeluar
       'id=id'
       'no_bukti=no_bukti'
       'tanggal=tanggal'
-      'akunkas=akunkas'
-      'penerima=penerima'
-      'jumlah=jumlah'
+      'id_akun=id_akun'
+      'dari=dari'
+      'sebesar=sebesar'
       'memo=memo'
       'user=user'
       'user_dept=user_dept'
       'tglinput=tglinput'
       'tgledit=tgledit'
       'f_posting=f_posting'
-      'id_akun=id_akun'
       'noakun=noakun'
       'nama_head=nama_head'
-      'jumlah_1=jumlah_1'
+      'jumlah=jumlah'
       'noakun_det=noakun_det'
       'nama_det=nama_det'
       'memo_det=memo_det')
@@ -770,6 +768,8 @@ object frmLapKasMasukKasKeluar: TfrmLapKasMasukKasKeluar
           ShowHint = False
           DataSet = fdbKasKeluar
           DataSetName = 'fdbKasKeluar'
+          Memo.UTF8W = (
+            '[<fdbKasMasuk."nama_det">] ([<fdbKasMasuk."noakun_det">])')
         end
       end
       object GroupHeader1: TfrxGroupHeader
@@ -959,11 +959,11 @@ object frmLapKasMasukKasKeluar: TfrmLapKasMasukKasKeluar
           Width = 400.630180000000000000
           Height = 18.897650000000000000
           ShowHint = False
-          DataField = 'penerima'
+          DataField = 'dari'
           DataSet = fdbKasKeluar
           DataSetName = 'fdbKasKeluar'
           Memo.UTF8W = (
-            '[fdbKasKeluar."penerima"]')
+            '[fdbKasKeluar."dari"]')
         end
         object fdbKasMasukmemo: TfrxMemoView
           Left = 143.622140000000000000
@@ -1130,7 +1130,7 @@ object frmLapKasMasukKasKeluar: TfrmLapKasMasukKasKeluar
           Font.Style = []
           HAlign = haRight
           Memo.UTF8W = (
-            '[SUM(<fdbKasKeluar."jumlah">,MasterData1)]')
+            '[SUM(<fdbKasMasuk."jumlah">,MasterData1)]')
           ParentFont = False
         end
         object Memo13: TfrxMemoView

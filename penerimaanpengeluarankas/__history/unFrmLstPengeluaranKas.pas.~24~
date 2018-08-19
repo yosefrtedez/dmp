@@ -56,7 +56,6 @@ type
       APrevFocusedRecord, AFocusedRecord: TcxCustomGridRecord;
       ANewItemRecordFocusingChanged: Boolean);
     procedure Button1Click(Sender: TObject);
-    procedure FormCreate(Sender: TObject);
   private
     { Private declarations }
   public
@@ -129,8 +128,8 @@ begin
   inherited;
   f := TfrmLapKasMasukKasKeluar.Create(Self);
   with f do begin
-    zqrKasKeluar.ParamByName('id').AsInteger := zqrPK.FieldByName('id').AsInteger;
-    zqrKasKeluar.Open;
+    zqrPK.ParamByName('id').AsInteger := zqrPK.FieldByName('id').AsInteger;
+    zqrPK.Open;
     mm := rptKasKeluar.FindObject('mmTerbilang') as TfrxMemoView;
     mm.Text := Terbilang(zqrPK.FieldByName('Jumlah').AsString);
     rptKasKeluar.ShowReport(true);
@@ -148,13 +147,6 @@ begin
     ParamByName('id_ref').AsInteger := zqrPK.FieldByName('id').AsInteger;
     Open;
   end;
-end;
-
-procedure TfrmLstPengeluaranKas.FormCreate(Sender: TObject);
-begin
-  inherited;
-  zqrPK.Open;
-  cxColPKno_bukti.SortOrder := soAscending;
 end;
 
 end.

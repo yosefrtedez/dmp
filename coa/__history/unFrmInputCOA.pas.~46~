@@ -106,8 +106,8 @@ begin
 
     MsgBox('Data COA sudah berhasil disimpan.');
 
-    //if Assigned(Self.FormInduk) then
-    //  (Self.FormInduk as TFrmLstCOA).btnRefreshClick(nil);
+    if Assigned(Self.FormInduk) then
+      (Self.FormInduk as TFrmLstCOA).btnRefreshClick(nil);
 
     btnBatalClick(nil);
   end;
@@ -116,7 +116,7 @@ end;
 procedure TfrmInputCOA.Button1Click(Sender: TObject);
 begin
   inherited;
-  //frmLstCOA.btnRefreshClick(nil);
+  frmLstCOA.btnRefreshClick(nil);
 end;
 
 procedure TfrmInputCOA.cxlIndukAkunPropertiesChange(Sender: TObject);

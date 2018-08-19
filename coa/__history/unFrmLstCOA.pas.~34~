@@ -24,7 +24,7 @@ type
     Label13: TLabel;
     zqrCOA: TZReadOnlyQuery;
     dsCOA: TDataSource;
-    treeCOA: TcxDBTreeList;
+    cxDBTreeList1: TcxDBTreeList;
     cxDBTreeList1cxDBTreeListColumn1: TcxDBTreeListColumn;
     cxDBTreeList1cxDBTreeListColumn2: TcxDBTreeListColumn;
     procedure btnTambahClick(Sender: TObject);
@@ -100,7 +100,6 @@ begin
   inherited;
   zqrCOA.Open;
   //zqrCOA.Refresh;
-  treeCOA.FullExpand;
 end;
 
 procedure TfrmLstCOA.RefreshGrid;

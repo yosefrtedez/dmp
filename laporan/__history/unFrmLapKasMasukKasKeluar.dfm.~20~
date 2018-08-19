@@ -615,6 +615,7 @@ object frmLapKasMasukKasKeluar: TfrmLapKasMasukKasKeluar
   end
   object zqrKasKeluar: TZReadOnlyQuery
     Connection = DM.zConn
+    Active = True
     SQL.Strings = (
       
         'SELECT a.*, b.noakun, b.nama nama_head,  c.jumlah, d.noakun noak' +

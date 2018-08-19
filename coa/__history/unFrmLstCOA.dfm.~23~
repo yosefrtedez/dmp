@@ -41,8 +41,6 @@ inherited frmLstCOA: TfrmLstCOA
     DataController.DataSource = dsCOA
     DataController.ParentField = 'induk'
     DataController.KeyField = 'noakun'
-    OptionsData.Editing = False
-    OptionsData.Deleting = False
     RootValue = -1
     TabOrder = 1
     ExplicitLeft = 32

@@ -144,7 +144,6 @@ var
   f: TfrmLapKasMasukKasKeluar;
 begin
   inherited;
-
   f := TfrmLapKasMasukKasKeluar.Create(Self);
   with f do begin
     zqrKasMasuk.ParamByName('id').AsInteger := zqrPK.FieldByName('id').AsInteger;

@@ -29,7 +29,7 @@ inherited frmLstCOA: TfrmLstCOA
       OnClick = btnEditClick
     end
   end
-  object treeCOA: TcxDBTreeList
+  object cxDBTreeList1: TcxDBTreeList
     Left = 0
     Top = 49
     Width = 1016
@@ -40,18 +40,15 @@ inherited frmLstCOA: TfrmLstCOA
       end>
     DataController.DataSource = dsCOA
     DataController.ParentField = 'induk'
-    DataController.KeyField = 'noakun'
-    OptionsData.Editing = False
-    OptionsData.Deleting = False
+    DataController.KeyField = 'id'
     RootValue = -1
     TabOrder = 1
-    ExplicitLeft = 32
-    ExplicitTop = 80
+    ExplicitLeft = 91
+    ExplicitTop = 144
     ExplicitWidth = 250
     ExplicitHeight = 150
     object cxDBTreeList1cxDBTreeListColumn1: TcxDBTreeListColumn
       Caption.Text = 'No. Akun'
-      DataBinding.FieldName = 'noakun'
       Width = 100
       Position.ColIndex = 0
       Position.RowIndex = 0
@@ -61,8 +58,7 @@ inherited frmLstCOA: TfrmLstCOA
     end
     object cxDBTreeList1cxDBTreeListColumn2: TcxDBTreeListColumn
       Caption.Text = 'Nama Akun'
-      DataBinding.FieldName = 'nama'
-      Width = 470
+      Width = 469
       Position.ColIndex = 1
       Position.RowIndex = 0
       Position.BandIndex = 0

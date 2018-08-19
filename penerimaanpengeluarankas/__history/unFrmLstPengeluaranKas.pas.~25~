@@ -129,8 +129,8 @@ begin
   inherited;
   f := TfrmLapKasMasukKasKeluar.Create(Self);
   with f do begin
-    zqrKasKeluar.ParamByName('id').AsInteger := zqrPK.FieldByName('id').AsInteger;
-    zqrKasKeluar.Open;
+    zqrPK.ParamByName('id').AsInteger := zqrPK.FieldByName('id').AsInteger;
+    zqrPK.Open;
     mm := rptKasKeluar.FindObject('mmTerbilang') as TfrxMemoView;
     mm.Text := Terbilang(zqrPK.FieldByName('Jumlah').AsString);
     rptKasKeluar.ShowReport(true);

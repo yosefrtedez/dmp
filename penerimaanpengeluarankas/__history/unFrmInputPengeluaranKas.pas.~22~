@@ -89,6 +89,7 @@ var
   sNoTrs, sNoJ, sAkun: string;
   qh, qd, qjd: TZQuery;
 begin
+  inherited;
   if cxlAkunKas.Text = '' then begin
     MsgBox('Mohon pilih akun kas.');
     cxlAkunKas.SetFocus;
@@ -154,7 +155,7 @@ begin
             qd.FieldByName('no_bukti').AsString := sNoBukti;
             qd.FieldByName('noakun').AsString := Values[i, cxColnoAkun2.Index];
             qd.FieldByName('jumlah').AsFloat := Values[i, cxColJumlah.Index];
-            qd.FieldByName('memo').AsString := Values[i, cxColMemo.Index];
+            qd.FieldByName('keterangan').AsString := Values[i, cxColMemo.Index];
             qd.FieldByname('id_akun').AsInteger := Values[i, cxColNoAkun.Index];
             Post;
           end;
@@ -200,14 +201,9 @@ begin
       zqrBKK.Open;
       //rptBKK.ShowReport(True);
 
-      dm.zConn.Commit;
-
       MsgBox('Pengeluaran kas sudah disimpan dengan nomor : ' + sNoBukti);
-
-      inherited;
       btnBatalClick(nil);
-
-
+      dm.zConn.Commit;
     except
       on E: Exception do begin
         dm.zConn.Rollback;

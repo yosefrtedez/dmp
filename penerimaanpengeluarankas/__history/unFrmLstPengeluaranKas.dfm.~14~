@@ -1,6 +1,5 @@
 inherited frmLstPengeluaranKas: TfrmLstPengeluaranKas
   Caption = 'Penerimaan Kas'
-  OnCreate = FormCreate
   ExplicitWidth = 1016
   ExplicitHeight = 508
   PixelsPerInch = 96
@@ -49,7 +48,6 @@ inherited frmLstPengeluaranKas: TfrmLstPengeluaranKas
       object cxColPKno_bukti: TcxGridDBColumn
         Caption = 'No Bukti'
         DataBinding.FieldName = 'no_bukti'
-        Width = 87
       end
       object cxColPKtanggal: TcxGridDBColumn
         Caption = 'Tanggal'
@@ -57,12 +55,12 @@ inherited frmLstPengeluaranKas: TfrmLstPengeluaranKas
       end
       object cxColPKkepada: TcxGridDBColumn
         Caption = 'Kepada'
-        DataBinding.FieldName = 'penerima'
-        Width = 153
+        DataBinding.FieldName = 'kepada'
+        Width = 168
       end
       object cxColPKketerangan: TcxGridDBColumn
         Caption = 'Keterangan'
-        DataBinding.FieldName = 'memo'
+        DataBinding.FieldName = 'keterangan'
         Width = 200
       end
       object cxColPKjumlah: TcxGridDBColumn
@@ -72,7 +70,7 @@ inherited frmLstPengeluaranKas: TfrmLstPengeluaranKas
       object cxColPKakun: TcxGridDBColumn
         Caption = 'Akun'
         DataBinding.FieldName = 'akun'
-        Width = 99
+        Width = 80
       end
       object cxColPKuser: TcxGridDBColumn
         Caption = 'User'
@@ -174,9 +172,9 @@ inherited frmLstPengeluaranKas: TfrmLstPengeluaranKas
   object zqrPK: TZReadOnlyQuery
     Connection = DM.zConn
     SQL.Strings = (
-      'SELECT a.*, b.nama namaakun'
-      'FROM tbl_pengeluarankas_head a'
-      'LEFT JOIN tbl_coa b ON b.id = a.id_akun')
+      'SELECT *'
+      'FROM tbl_trskk_head'
+      'ORDER BY tanggal')
     Params = <>
     Properties.Strings = (
       'select * from tbl_trskk_head order by id;')
