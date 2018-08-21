@@ -78,7 +78,7 @@ var
   q: TZQuery;
   fotoku : TMemoryStream;
 begin
-  inherited;
+
   if cxtNik.Text = '' then begin
     MsgBox('Mohon isi NIK Karyawan.');
     cxtNik.SetFocus;
@@ -111,6 +111,7 @@ begin
     if Assigned(Self.FormInduk) then
       (Self.FormInduk as TfrmLstKaryawan).btnRefreshClick(nil);
     btnBatalClick(nil);
+    inherited;
     end;
 end;
 

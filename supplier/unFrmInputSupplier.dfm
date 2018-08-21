@@ -2,7 +2,6 @@ inherited frmInputSupplier: TfrmInputSupplier
   Caption = 'Input Supplier'
   ClientHeight = 663
   ClientWidth = 1058
-  OnCreate = FormCreate
   OnShow = FormShow
   ExplicitWidth = 1058
   ExplicitHeight = 663
@@ -31,9 +30,6 @@ inherited frmInputSupplier: TfrmInputSupplier
     TabOrder = 34
     ExplicitTop = 614
     ExplicitWidth = 1058
-    inherited btnSimpan: TButton
-      OnClick = btnSimpanClick
-    end
   end
   object cxtKode: TcxTextEdit
     Left = 94

@@ -30,9 +30,6 @@ inherited frmInputSOMTS: TfrmInputSOMTS
     TabOrder = 8
     ExplicitTop = 677
     ExplicitWidth = 1048
-    inherited btnSimpan: TButton
-      OnClick = btnSimpanClick
-    end
   end
   object cxtNoSO: TcxTextEdit
     Left = 101
@@ -145,7 +142,7 @@ inherited frmInputSOMTS: TfrmInputSOMTS
         Width = 300
       end
       object cxColQty2: TcxGridColumn
-        Caption = 'Qty'
+        Caption = 'Qty. MTS'
         DataBinding.ValueType = 'Float'
         PropertiesClassName = 'TcxSpinEditProperties'
         Properties.Alignment.Horz = taRightJustify
@@ -153,13 +150,26 @@ inherited frmInputSOMTS: TfrmInputSOMTS
         Properties.DisplayFormat = '#,#0.00'
         Properties.ValueType = vtFloat
         HeaderAlignmentHorz = taRightJustify
-        Width = 92
+        Width = 82
       end
       object cxColSatuan2: TcxGridColumn
         Caption = 'Satuan'
         PropertiesClassName = 'TcxTextEditProperties'
         Properties.ReadOnly = True
         Width = 72
+      end
+      object cxColQtyProd: TcxGridColumn
+        Caption = 'Qty. Prod'
+        DataBinding.ValueType = 'Float'
+        PropertiesClassName = 'TcxSpinEditProperties'
+        Properties.Alignment.Horz = taRightJustify
+        Properties.DisplayFormat = '#,#0.00'
+        Properties.ValueType = vtFloat
+        Width = 70
+      end
+      object cxColSatProd: TcxGridColumn
+        Caption = 'Satuan Prod'
+        Width = 84
       end
       object cxColKeterangan2: TcxGridColumn
         Caption = 'Keterangan'

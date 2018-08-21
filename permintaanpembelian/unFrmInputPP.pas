@@ -95,7 +95,7 @@ var
   qh, qd: TZQuery;
   sNoBukti: string;
 begin
-  inherited;
+
 
   if (cxGrdTblPP.DataController.EditState = [dceInsert, dceModified]) or (cxGrdTblPP.DataController.EditState = [dceEdit, dceModified]) then begin
     MsgBox('Mohon selesaikan pengeditan detail sebelum disimpan.');
@@ -193,6 +193,7 @@ begin
 
       MsgBox('Transaksi permintaan pembelian sudah disimpan dengan No. Bukti : ' + sNoBukti);
       btnBatalClick(nil);
+      inherited;
     except
       on E: Exception do begin
         dm.zConn.Rollback;

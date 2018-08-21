@@ -3,6 +3,7 @@ inherited frmInputSO: TfrmInputSO
   ClientHeight = 726
   ClientWidth = 1048
   OnShow = FormShow
+  ExplicitTop = -52
   ExplicitWidth = 1048
   ExplicitHeight = 726
   PixelsPerInch = 96
@@ -30,9 +31,6 @@ inherited frmInputSO: TfrmInputSO
     TabOrder = 22
     ExplicitTop = 677
     ExplicitWidth = 1048
-    inherited btnSimpan: TButton
-      OnClick = btnSimpanClick
-    end
   end
   object cxtNoSO: TcxTextEdit
     Left = 101

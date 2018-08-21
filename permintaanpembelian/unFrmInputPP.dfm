@@ -1,7 +1,6 @@
 inherited frmInputPP: TfrmInputPP
   Caption = 'Input Permintaan Pembelian'
   ClientWidth = 1099
-  OnCreate = FormCreate
   OnShow = FormShow
   ExplicitWidth = 1099
   ExplicitHeight = 553
@@ -34,7 +33,6 @@ inherited frmInputPP: TfrmInputPP
     ExplicitHeight = 48
     inherited btnSimpan: TButton
       Top = 11
-      OnClick = btnSimpanClick
       ExplicitTop = 11
     end
   end

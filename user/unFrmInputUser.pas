@@ -64,7 +64,7 @@ procedure TfrmInputUser.btnSimpanClick(Sender: TObject);
 var
   q: TZQuery;
 begin
-  inherited;
+
   if Trim(cxtUserLogin.Text) = '' then begin
     MsgBox('Mohon isi user login.');
     cxtUserLogin.SetFocus;
@@ -127,6 +127,7 @@ begin
     if Assigned(Self.FormInduk) then
       (Self.FormInduk as TfrmLstUser).btnRefreshClick(nil);
     btnBatalClick(nil);
+    inherited;
   end;
 end;
 

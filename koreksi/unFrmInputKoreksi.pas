@@ -81,7 +81,7 @@ var
   f0: Boolean;
 
 begin
-  inherited;
+
 
   if (cxtbKoreksi.DataController.EditState = [dceInsert, dceModified]) or
     (cxtbKoreksi.DataController.EditState = [dceEdit, dceModified]) then begin
@@ -164,6 +164,7 @@ begin
       if Assigned(Self.FormInduk) then
         (Self.FormInduk as TFrmLstKoreksi).btnRefreshClick(nil);
       btnBatalClick(nil);
+      inherited;
     except
       on E: Exception do begin
         dm.zConn.Rollback;

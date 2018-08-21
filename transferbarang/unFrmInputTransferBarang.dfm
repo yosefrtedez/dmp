@@ -1,7 +1,6 @@
 inherited frmInputTransferBarang: TfrmInputTransferBarang
   Caption = 'Input Transfer Barang'
   ClientWidth = 971
-  OnCreate = FormCreate
   OnShow = FormShow
   ExplicitWidth = 971
   ExplicitHeight = 553
@@ -28,9 +27,6 @@ inherited frmInputTransferBarang: TfrmInputTransferBarang
     Width = 971
     TabOrder = 8
     ExplicitWidth = 971
-    inherited btnSimpan: TButton
-      OnClick = btnSimpanClick
-    end
   end
   object cxLabel1: TcxLabel
     Left = 8

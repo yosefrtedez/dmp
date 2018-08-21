@@ -167,7 +167,7 @@ var
   q, qs, qd: TZQuery;
   i, ID: integer;
 begin
-  inherited;
+
 
   if Trim(cxtKode.Text) = '' then begin
     MsgBox('Mohon isi kode barang.');
@@ -215,7 +215,10 @@ begin
       q.FieldByName('f_aktif').AsInteger := 1
     else
       q.FieldByName('f_aktif').AsInteger := 0;
-    q.FieldByName('f_ppn').AsInteger := 1;
+    if cxChkPPN.Checked then
+      q.FieldByName('f_ppn').AsInteger := 1
+    else
+      q.FieldByName('f_ppn').AsInteger := 0;
     if cxChkDibeli.Checked then
       q.FieldByName('f_dibeli').AsInteger := 1;
     if cxChkDijual.Checked then
@@ -299,6 +302,8 @@ begin
       (Self.FormInduk as TfrmLstBarangJasa).btnRefreshClick(nil);
 
     btnBatalClick(nil);
+
+    inherited;
   end;
 
 end;

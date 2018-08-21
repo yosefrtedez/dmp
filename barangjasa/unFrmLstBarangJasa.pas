@@ -132,6 +132,7 @@ type
     cxColSatSisa: TcxGridDBColumn;
     Button1: TButton;
     cxtbStokGudangColumn2: TcxGridDBColumn;
+    cxtbBarangColumn1: TcxGridDBColumn;
     procedure btnKartuStokClick(Sender: TObject);
     procedure btnTambahClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -276,7 +277,7 @@ begin
     zqrBarang.Close;
     zqrBarang.SQL.Text := 'SELECT a.*, b.satuan satuan2, c.kategori kategori2, d.subkategori subkategori2, e.tipe tipe2, ' +
       'if(f.qty < 1,(a.stok div (1 / f.qty)),f.qty * a.stok) stok2, g.satuan satuan3, ' +
-      'if(f.qty < 1, (a.stok mod (1 / f.qty)),0) sisa, b.satuan satuan4 ' +
+      'if(f.qty < 1, if(ceil(a.stok mod (1 / f.qty)) = floor(1 / f.qty),0,ceil(a.stok mod (1 / f.qty))),0) sisa, floor(1 / f.qty) aa,  b.satuan satuan4 ' +
       'FROM tbl_barang a ' +
       'LEFT JOIN tbl_satuan b ON a.id_satuan = b.id ' +
       'LEFT JOIN tbl_kategori_brg c ON a.id_kategori = c.id ' +

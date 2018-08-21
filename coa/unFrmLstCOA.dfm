@@ -28,6 +28,9 @@ inherited frmLstCOA: TfrmLstCOA
     inherited btnEdit: TButton
       OnClick = btnEditClick
     end
+    inherited btnRefresh: TButton
+      OnClick = btnRefreshClick
+    end
   end
   object treeCOA: TcxDBTreeList
     Left = 0
@@ -47,10 +50,6 @@ inherited frmLstCOA: TfrmLstCOA
     OptionsData.Deleting = False
     RootValue = -1
     TabOrder = 1
-    ExplicitLeft = 32
-    ExplicitTop = 80
-    ExplicitWidth = 250
-    ExplicitHeight = 150
     object cxColNoAkun: TcxDBTreeListColumn
       Caption.Text = 'No. Akun'
       DataBinding.FieldName = 'noakun'

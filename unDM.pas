@@ -125,6 +125,7 @@ begin
     Aplikasi.GdgPB := q.FieldByName('gdg_pb').AsInteger;
     Aplikasi.GdgBB := q.FieldByName('gdg_bb').AsInteger;
     Aplikasi.GdgBJ := q.FieldByname('gdg_bj').AsInteger;
+    Aplikasi.SatProd := q.FieldByName('sat_prod').AsInteger;
 
     {
     if aplikasi.debug then

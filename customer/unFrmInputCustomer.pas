@@ -68,7 +68,7 @@ var
   q: TZQuery;
   f: Boolean;
 begin
-  inherited;
+
   if cxtKode.Text = '' then begin
     MsgBox('Mohon isi kode customer.');
     cxtKode.SetFocus;
@@ -131,6 +131,8 @@ begin
   if Assigned(Self.FormInduk) then
     (Self.FormInduk as TfrmLstCustomer).btnRefreshClick(nil);
   btnBatalClick(nil);
+
+  inherited;
 end;
 
 procedure TfrmInputCustomer.ClearAll;

@@ -128,7 +128,7 @@ var
   f0: Boolean;
 
 begin
-  inherited;
+
 
   if (cxtbSJ.DataController.EditState = [dceInsert, dceModified]) or
     (cxtbSJ.DataController.EditState = [dceEdit, dceModified]) then begin
@@ -234,6 +234,8 @@ begin
         (Self.FormInduk as TfrmLstSuratJalan).btnRefreshClick(nil);
 
       btnBatalClick(nil);
+
+      inherited;
     except
       on E: Exception do begin
         dm.zConn.Rollback;

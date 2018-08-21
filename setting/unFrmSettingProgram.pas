@@ -39,16 +39,23 @@ type
     cxPageControl1: TcxPageControl;
     cxTabSheet1: TcxTabSheet;
     cxTabSheet2: TcxTabSheet;
-    cxLabel9: TcxLabel;
-    cxlGdgPB: TcxLookupComboBox;
     zqrGdg: TZReadOnlyQuery;
     dsGdg: TDataSource;
-    cxLabel10: TcxLabel;
+    GroupBox1: TGroupBox;
+    cxlGdgPB: TcxLookupComboBox;
     cxlGdgBB: TcxLookupComboBox;
-    cxLabel11: TcxLabel;
     cxlGdgBJ: TcxLookupComboBox;
+    cxLabel9: TcxLabel;
+    cxLabel10: TcxLabel;
+    cxLabel11: TcxLabel;
+    GroupBox2: TGroupBox;
+    cxLabel12: TcxLabel;
+    cxlSatProd: TcxLookupComboBox;
+    zqrSat: TZReadOnlyQuery;
+    dsSat: TDataSource;
     procedure btnSimpanClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
   private
     { Private declarations }
   public
@@ -68,7 +75,7 @@ procedure TfrmSettingProgram.btnSimpanClick(Sender: TObject);
 var
   q: TZQuery;
 begin
-  inherited;
+
   q := OpenRS('SELECT * FROM tbl_app',[]);
   if not q.IsEmpty then
     q.Edit
@@ -85,10 +92,18 @@ begin
   q.FieldByName('gdg_pb').AsInteger := cxlGdgPB.EditValue;
   q.FieldByName('gdg_bb').AsInteger := cxlGdgBB.EditValue;
   q.FieldByName('gdg_bj').AsInteger := cxlGdgBJ.EditValue;
+  q.FieldByname('sat_prod').AsInteger := cxlSatProd.EditValue;
   q.Post;
 
   MsgBox('Setting Program sudah disimpan.');
 
+end;
+
+procedure TfrmSettingProgram.FormCreate(Sender: TObject);
+begin
+  inherited;
+  zqrGdg.Open;
+  zqrSat.Open;
 end;
 
 procedure TfrmSettingProgram.FormShow(Sender: TObject);
@@ -108,6 +123,7 @@ begin
   cxlGdgPB.EditValue := q.FieldByName('gdg_pb').AsInteger;
   cxlGdgBB.EditValue := q.FieldByName('gdg_bb').AsInteger;
   cxlGdgBJ.EditValue := q.FieldByName('gdg_bj').AsInteger;
+  cxlSatProd.EditValue := q.FieldByName('sat_prod').AsInteger;
   q.Close;
 end;
 

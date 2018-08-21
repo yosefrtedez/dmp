@@ -98,7 +98,7 @@ var
   q, qh, qd: TZQuery;
   ID, i: integer;
 begin
-  inherited;
+
 
   if (cxtbBom.DataController.EditState = [dceInsert, dceModified]) or (cxtbBom.DataController.EditState = [dceEdit, dceModified]) then begin
     MsgBox('Mohon selesaikan pengeditan detail sebelum disimpan. #10#13' +
@@ -203,6 +203,7 @@ begin
       MsgBox('SPK sudah disimpan dengan nomor: ' + sNoSPK);
 
       btnBatalClick(nil);
+      inherited;
     except
       on E: Exception do begin
         dm.zConn.Rollback;

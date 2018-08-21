@@ -204,9 +204,9 @@ begin
 
       MsgBox('Pengeluaran kas sudah disimpan dengan nomor : ' + sNoBukti);
 
-      inherited;
-      btnBatalClick(nil);
 
+      btnBatalClick(nil);
+      inherited;
 
     except
       on E: Exception do begin

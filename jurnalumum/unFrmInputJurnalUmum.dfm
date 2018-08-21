@@ -8,7 +8,7 @@ inherited frmInputJurnalUmum: TfrmInputJurnalUmum
   TextHeight = 13
   inherited Panel1: TPanel
     Width = 1025
-    ExplicitWidth = 995
+    ExplicitWidth = 1025
     object Label13: TLabel
       Left = 10
       Top = 13
@@ -26,7 +26,7 @@ inherited frmInputJurnalUmum: TfrmInputJurnalUmum
   inherited Panel2: TPanel
     Width = 1025
     TabOrder = 9
-    ExplicitWidth = 995
+    ExplicitWidth = 1025
   end
   object cxLabel2: TcxLabel
     Left = 10

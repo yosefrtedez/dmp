@@ -120,7 +120,7 @@ var
   sNoTrs,sNoMO : string;
   tbl_tmp: TZTable;
 begin
-  inherited;
+
 
   if cxChkMTS.Checked then
   else
@@ -352,7 +352,7 @@ begin
       (Self.FormInduk as TfrmLstSO).btnRefreshClick(nil);
 
     btnBatalClick(nil);
-
+    inherited;
   except
     on E: Exception do begin
       MsgBox('Error: ' + E.Message);

@@ -78,7 +78,7 @@ var
   i: Integer;
   q: TZQuery;
 begin
-  inherited;
+
    if (Trim(cxtKode.Text) = '') then begin
     MsgBox('Kode Mesin harus diisi.');
     cxtKode.SetFocus;
@@ -149,6 +149,8 @@ begin
       if Assigned(Self.FormInduk) then
         (Self.FormInduk as TfrmLstmesin).btnRefreshClick(nil);
       btnBatalClick(nil);
+
+      inherited;
     end;
 
   end;

@@ -77,7 +77,7 @@ var
   i,id : Integer;
   sNoTrs : string;
 begin
-  inherited;
+
 
   if (cxTblTransBarang.DataController.EditState = [dceInsert, dceModified]) or (cxTblTransBarang.DataController.EditState = [dceEdit, dceModified]) then begin
     MsgBox('Mohon selesaikan pengeditan detail sebelum disimpan. ' + Chr(10) + Chr(13) +
@@ -217,14 +217,15 @@ begin
           }
         end;
       end;
+      dm.zConn.Commit;
 
       MsgBox('Mutasi Barang sudah disimpan dengan nomor : ' + sNoTrs);
       cxTblTransBarang.DataController.RecordCount := 0;
       if Assigned(Self.FormInduk) then
         (Self.FormInduk as TfrmLstTransferBarang).btnRefreshClick(nil);
       btnBatalClick(nil);
-      dm.zConn.Commit;
 
+      inherited;
   except
     on E: Exception do begin
       MsgBox('Error: ' + E.Message);

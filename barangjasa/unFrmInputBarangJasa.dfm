@@ -112,7 +112,7 @@ inherited frmInputBarangJasa: TfrmInputBarangJasa
     Top = 264
     Width = 1042
     Height = 344
-    ActivePage = cxTabSheet2
+    ActivePage = cxTabSheet1
     Anchors = [akLeft, akTop, akRight, akBottom]
     Style = 7
     TabOrder = 17
@@ -495,7 +495,7 @@ inherited frmInputBarangJasa: TfrmInputBarangJasa
       object cxGrid1: TcxGrid
         Left = 16
         Top = 14
-        Width = 465
+        Width = 665
         Height = 200
         TabOrder = 0
         object cxtbSatuan: TcxGridTableView
@@ -526,8 +526,9 @@ inherited frmInputBarangJasa: TfrmInputBarangJasa
             Caption = 'Qty.'
             DataBinding.ValueType = 'Float'
             PropertiesClassName = 'TcxSpinEditProperties'
-            Properties.DisplayFormat = '#,#0.000'
+            Properties.DisplayFormat = '#,#0.0000000000'
             Properties.ValueType = vtFloat
+            Width = 196
           end
           object cxColKeterangan: TcxGridColumn
             Caption = 'Keterangan'
@@ -545,8 +546,6 @@ inherited frmInputBarangJasa: TfrmInputBarangJasa
     object cxTabSheet2: TcxTabSheet
       Caption = 'Kode Akun'
       ImageIndex = 1
-      ExplicitLeft = 2
-      ExplicitTop = 22
       object cxLabel30: TcxLabel
         Left = 14
         Top = 16

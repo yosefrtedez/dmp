@@ -200,9 +200,9 @@ begin
         if Assigned(Self.FormInduk) then
           (Self.FormInduk as TfrmLstJurnalUmum).btnRefreshClick(nil);
 
-        inherited;
-
         btnBatalClick(nil);
+
+        inherited;
       except
         on E: Exception do begin
           dm.zConn.Rollback;

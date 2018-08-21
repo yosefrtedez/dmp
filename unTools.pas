@@ -81,6 +81,8 @@ function CheckWewenang(sNamaWewenang, sNamaUser: string): Boolean;
 
 function GetSatuan(id_brg: Integer; var satuan: string): Integer;
 
+function GetKonversiSat(id_brg: Integer; id_satuan: Integer): Real;
+
 implementation
 
 function LastInsertID: integer;
@@ -1346,6 +1348,18 @@ begin
   end
   else
     Result := 0;
+  q.Close;
+end;
+
+function GetKonversiSat(id_brg: Integer; id_satuan: Integer): Real;
+var
+  q: TZQuery;
+begin
+  q := OpenRS('SELECT qty FROM tbl_konv_brg WHERE id_barang = %d AND id_satuan = %d',[id_brg, id_satuan]);
+  if q.IsEmpty then
+    Result := 0
+  else
+    Result := q.FieldByName('qty').AsFloat;
   q.Close;
 end;
 

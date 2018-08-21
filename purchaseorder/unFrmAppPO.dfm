@@ -1,14 +1,13 @@
 inherited frmAppPO: TfrmAppPO
   Caption = 'Approval Purchase Order'
-  ClientWidth = 939
-  OnCreate = FormCreate
+  ClientWidth = 1004
   OnShow = FormShow
-  ExplicitWidth = 939
+  ExplicitWidth = 1004
   ExplicitHeight = 553
   PixelsPerInch = 96
   TextHeight = 13
   inherited Panel1: TPanel
-    Width = 939
+    Width = 1004
     ExplicitWidth = 939
     object lbl1: TLabel
       Left = 10
@@ -25,20 +24,28 @@ inherited frmAppPO: TfrmAppPO
     end
   end
   inherited Panel2: TPanel
-    Width = 939
+    Width = 1004
     TabOrder = 4
     ExplicitWidth = 939
-    inherited btnSimpan: TButton
-      OnClick = btnSimpanClick
+    object btnRefresh: TButton
+      Left = 172
+      Top = 12
+      Width = 75
+      Height = 25
+      Caption = 'Refresh'
+      TabOrder = 2
+      OnClick = btnRefreshClick
     end
   end
   object cxgrd1: TcxGrid
     Left = 0
     Top = 49
-    Width = 939
+    Width = 1004
     Height = 214
     Align = alClient
     TabOrder = 1
+    ExplicitLeft = -40
+    ExplicitTop = 43
     object cxtbPOHead: TcxGridDBTableView
       NavigatorButtons.ConfirmDelete = False
       OnFocusedRecordChanged = cxtbPOHeadFocusedRecordChanged
@@ -165,10 +172,11 @@ inherited frmAppPO: TfrmAppPO
   object Panel3: TPanel
     Left = 0
     Top = 263
-    Width = 939
+    Width = 1004
     Height = 41
     Align = alBottom
     TabOrder = 2
+    ExplicitWidth = 939
     object cxLabel1: TcxLabel
       Left = 10
       Top = 11
@@ -178,10 +186,11 @@ inherited frmAppPO: TfrmAppPO
   object cxGrid1: TcxGrid
     Left = 0
     Top = 304
-    Width = 939
+    Width = 1004
     Height = 200
     Align = alBottom
     TabOrder = 3
+    ExplicitWidth = 939
     object cxtbPODet: TcxGridDBTableView
       NavigatorButtons.ConfirmDelete = False
       DataController.DataSource = dsPoDet
@@ -262,8 +271,8 @@ inherited frmAppPO: TfrmAppPO
       'LEFT JOIN tbl_supplier d ON d.id = a.id_supplier'
       'WHERE a.f_app = 0')
     Params = <>
-    Left = 775
-    Top = 196
+    Left = 687
+    Top = 172
   end
   object dsPO: TDataSource
     DataSet = zqrPO

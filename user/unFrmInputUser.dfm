@@ -1,9 +1,6 @@
 inherited frmInputUser: TfrmInputUser
   Caption = 'Input User'
-  OnCreate = FormCreate
   OnShow = FormShow
-  ExplicitWidth = 894
-  ExplicitHeight = 553
   PixelsPerInch = 96
   TextHeight = 13
   inherited Panel1: TPanel
@@ -23,9 +20,6 @@ inherited frmInputUser: TfrmInputUser
   end
   inherited Panel2: TPanel
     TabOrder = 17
-    inherited btnSimpan: TButton
-      OnClick = btnSimpanClick
-    end
   end
   object cxLabel1: TcxLabel
     Left = 10

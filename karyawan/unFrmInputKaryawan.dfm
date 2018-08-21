@@ -2,7 +2,6 @@ inherited frmInputKaryawan: TfrmInputKaryawan
   Caption = 'Input Karyawan'
   ClientHeight = 663
   ClientWidth = 1058
-  OnCreate = FormCreate
   OnShow = FormShow
   ExplicitWidth = 1058
   ExplicitHeight = 663
@@ -35,11 +34,9 @@ inherited frmInputKaryawan: TfrmInputKaryawan
   inherited Panel2: TPanel
     Top = 614
     Width = 1058
+    TabOrder = 14
     ExplicitTop = 614
     ExplicitWidth = 1058
-    inherited btnSimpan: TButton
-      OnClick = btnSimpanClick
-    end
   end
   object cxlbl1: TcxLabel
     Left = 10
@@ -50,20 +47,20 @@ inherited frmInputKaryawan: TfrmInputKaryawan
     Left = 83
     Top = 63
     Properties.CharCase = ecUpperCase
-    TabOrder = 2
+    TabOrder = 1
     Width = 99
   end
   object cxtNama: TcxTextEdit
     Left = 83
     Top = 90
     Properties.CharCase = ecUpperCase
-    TabOrder = 5
+    TabOrder = 4
     Width = 238
   end
   object cxtFoto: TcxTextEdit
     Left = 445
     Top = 259
-    TabOrder = 14
+    TabOrder = 13
     Visible = False
     Width = 248
   end
@@ -83,7 +80,7 @@ inherited frmInputKaryawan: TfrmInputKaryawan
     Width = 59
     Height = 26
     Caption = 'Cari Foto'
-    TabOrder = 13
+    TabOrder = 12
     Visible = False
     OnClick = btn1Click
   end
@@ -101,7 +98,7 @@ inherited frmInputKaryawan: TfrmInputKaryawan
     Left = 192
     Top = 63
     Caption = 'Aktif'
-    TabOrder = 3
+    TabOrder = 2
     Width = 82
   end
   object cxcboJabatan: TcxLookupComboBox
@@ -114,7 +111,7 @@ inherited frmInputKaryawan: TfrmInputKaryawan
         FieldName = 'jabatan'
       end>
     Properties.ListSource = dsJabatan
-    TabOrder = 7
+    TabOrder = 6
     Width = 183
   end
   object cxcboDepartemen: TcxLookupComboBox
@@ -128,14 +125,14 @@ inherited frmInputKaryawan: TfrmInputKaryawan
       end>
     Properties.ListSource = dsDepartemen
     Properties.OnChange = cxcboDepartemenPropertiesChange
-    TabOrder = 9
+    TabOrder = 8
     OnClick = cxcboDepartemenClick
     Width = 183
   end
   object cxCboDivisi: TcxComboBox
     Left = 83
     Top = 171
-    TabOrder = 11
+    TabOrder = 10
     Width = 200
   end
   object dlgOpen1: TOpenDialog

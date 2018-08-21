@@ -45,6 +45,8 @@ type
     cxColKodeBrg2: TcxGridColumn;
     cxLabel2: TcxLabel;
     cxtKeterangan: TcxTextEdit;
+    cxColQtyProd: TcxGridColumn;
+    cxColSatProd: TcxGridColumn;
     procedure FormShow(Sender: TObject);
     procedure cxColNoGetDisplayText(Sender: TcxCustomGridTableItem;
       ARecord: TcxCustomGridRecord; var AText: string);
@@ -84,7 +86,7 @@ var
   sNoTrs,sNoMO : string;
   tbl_tmp: TZTable;
 begin
-  inherited;
+
 
   if (cxtbMTS.DataController.EditState = [dceInsert, dceModified]) or
     (cxtbMTS.DataController.EditState = [dceEdit, dceModified]) then begin
@@ -200,7 +202,7 @@ begin
       (Self.FormInduk as TfrmLstSO).btnRefreshClick(nil);
 
     btnBatalClick(nil);
-
+    inherited;
   except
     on E: Exception do begin
       MsgBox('Error: ' + E.Message);
@@ -347,6 +349,8 @@ procedure TfrmInputSOMTS.cxtbMTSDataControllerRecordChanged(
 var
   i : Integer;
   z,q : TZQuery;
+  r: real;
+  sat: string;
 begin
   inherited;
   if AItemIndex = cxColKode2.Index then begin
@@ -380,6 +384,22 @@ begin
       cxtbMTS.EndUpdate;
     end;
   end;
+
+  if AItemIndex = cxColQty2.index then begin
+    try
+      if ADataController.Values[ARecordIndex, cxColIdSatuan2.Index] <> Aplikasi.SatProd then begin
+        r := GetKonversiSat(ADataController.Values[ARecordIndex, cxColKode2.Index], Aplikasi.SatProd);
+        ADataController.Values[ARecordIndex, cxColQtyProd.Index] :=
+          ADataController.Values[ARecordIndex, AItemIndex] * r;
+        q := OpenRS('SELECT satuan FROM tbl_satuan WHERE id = %d',[Aplikasi.SatProd]);
+        ADataController.Values[ARecordIndex, cxColSatProd.Index] := q.FieldByname('satuan').AsString;
+        q.Close;
+      end;
+    finally
+
+    end;
+  end;
+
 end;
 
 

@@ -78,7 +78,7 @@ var
   a,b: TcxTreeListNode;
   q: TZQuery;
 begin
-  inherited;
+
   Screen.Cursor := crSQLWait;
   dm.zConn.ExecuteDirect(Format('DELETE FROM tbl_wewenang WHERE nama = ''%s''',[cxlUser.Text]));
   q := OpenRS('SELECT * FROM tbl_wewenang WHERE nama = ''%s''',[cxlUser.Text]);
@@ -109,6 +109,7 @@ begin
   Screen.Cursor := crDefault;
 
   MsgBox('Setting wewenang user sudah disimpan.');
+
 end;
 
 procedure TfrmSettingWewenang.Button1Click(Sender: TObject);

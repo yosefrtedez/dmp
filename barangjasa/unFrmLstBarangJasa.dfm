@@ -165,6 +165,14 @@ inherited frmLstBarangJasa: TfrmLstBarangJasa
         DataBinding.FieldName = 'packinfo'
         Visible = False
       end
+      object cxtbBarangColumn1: TcxGridDBColumn
+        Caption = 'PPN'
+        DataBinding.FieldName = 'f_ppn'
+        PropertiesClassName = 'TcxCheckBoxProperties'
+        Properties.ValueChecked = 1
+        Properties.ValueUnchecked = 0
+        Width = 39
+      end
       object cxtbBarangf_aktif: TcxGridDBColumn
         Caption = 'Aktif'
         DataBinding.FieldName = 'f_aktif'
@@ -561,7 +569,7 @@ inherited frmLstBarangJasa: TfrmLstBarangJasa
       
         'SELECT a.*, b.satuan satuan2, c.kategori kategori2, d.subkategor' +
         'i subkategori2, e.tipe tipe2, 0 stok2, '#39#39' satuan3, 0 as sisa, '#39#39 +
-        ' as satuan4'
+        ' as satuan4, a.f_ppn'
       'FROM tbl_barang a'
       'LEFT JOIN tbl_satuan b ON a.id_satuan = b.id'
       'LEFT JOIN tbl_kategori_brg c ON a.id_kategori = c.id'

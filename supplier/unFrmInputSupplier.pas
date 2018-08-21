@@ -79,7 +79,7 @@ var
   q : TZQuery;
   f : TfrmLstSupplier;
 begin
-  inherited;
+
   if Trim(cxtKode.Text) = '' then begin
     MsgBox('Mohon isi Kode Supplier.');
     cxtKode.SetFocus;
@@ -129,7 +129,7 @@ begin
       (Self.FormInduk as TfrmLstSupplier).btnRefreshClick(nil);
 
     btnBatalClick(nil);
-
+    inherited;
   end;
 end;
 

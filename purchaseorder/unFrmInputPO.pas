@@ -109,7 +109,7 @@ var
   f0: Boolean;
 
 begin
-  inherited;
+
 
   if cxCboPembayaran.Text = '' then begin
     MsgBox('Mode pembayaran masih kosong');
@@ -246,6 +246,7 @@ begin
         (Self.FormInduk as TfrmLstPO).btnRefreshClick(nil);
 
       btnBatalClick(nil);
+      inherited;
     except
       on E: Exception do begin
         dm.zConn.Rollback;

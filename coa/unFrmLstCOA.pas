@@ -30,6 +30,7 @@ type
     procedure btnTambahClick(Sender: TObject);
     procedure btnEditClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
+    procedure btnRefreshClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -72,6 +73,13 @@ begin
     f.Show;
     fu.pgMain.ActivePage := ts;
   end;
+end;
+
+procedure TfrmLstCOA.btnRefreshClick(Sender: TObject);
+begin
+  inherited;
+  zqrCOA.Close;
+  zqrCOA.Open;
 end;
 
 procedure TfrmLstCOA.btnTambahClick(Sender: TObject);

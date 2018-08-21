@@ -1,6 +1,5 @@
 inherited frmSettingWewenang: TfrmSettingWewenang
   Caption = 'Setting Wewenang'
-  OnCreate = FormCreate
   OnShow = FormShow
   ExplicitWidth = 894
   ExplicitHeight = 553
@@ -23,9 +22,6 @@ inherited frmSettingWewenang: TfrmSettingWewenang
   end
   inherited Panel2: TPanel
     TabOrder = 6
-    inherited btnSimpan: TButton
-      OnClick = btnSimpanClick
-    end
   end
   object cxLabel1: TcxLabel
     Left = 10

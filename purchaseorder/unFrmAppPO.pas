@@ -61,12 +61,14 @@ type
     cxGrid1Level1: TcxGridLevel;
     cxtbPODetColumn1: TcxGridDBColumn;
     cxtbPODetColumn2: TcxGridDBColumn;
+    btnRefresh: TButton;
     procedure FormShow(Sender: TObject);
     procedure btnSimpanClick(Sender: TObject);
     procedure cxtbPOHeadFocusedRecordChanged(Sender: TcxCustomGridTableView;
       APrevFocusedRecord, AFocusedRecord: TcxCustomGridRecord;
       ANewItemRecordFocusingChanged: Boolean);
     procedure FormCreate(Sender: TObject);
+    procedure btnRefreshClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -82,6 +84,13 @@ uses
   unTools, unAplikasi, unDM;
 
 {$R *.dfm}
+
+procedure TfrmAppPO.btnRefreshClick(Sender: TObject);
+begin
+  inherited;
+  zqrPO.Close;
+  zqrPO.Open;
+end;
 
 procedure TfrmAppPO.btnSimpanClick(Sender: TObject);
 var

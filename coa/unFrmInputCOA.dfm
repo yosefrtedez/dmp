@@ -1,8 +1,6 @@
 inherited frmInputCOA: TfrmInputCOA
   Caption = 'Input COA'
   OnShow = FormShow
-  ExplicitWidth = 894
-  ExplicitHeight = 553
   PixelsPerInch = 96
   TextHeight = 13
   inherited Panel1: TPanel

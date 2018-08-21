@@ -111,89 +111,87 @@ inherited frmInputCustomer: TfrmInputCustomer
   inherited Panel2: TPanel
     Top = 475
     Width = 1058
+    TabOrder = 14
     ExplicitTop = 475
     ExplicitWidth = 1058
-    inherited btnSimpan: TButton
-      OnClick = btnSimpanClick
-    end
   end
   object cxtKode: TcxTextEdit
     Left = 112
     Top = 72
-    TabOrder = 2
+    TabOrder = 1
     Width = 169
   end
   object cxtNama: TcxTextEdit
     Left = 112
     Top = 99
-    TabOrder = 4
+    TabOrder = 3
     Width = 449
   end
   object cxtKontak: TcxTextEdit
     Left = 112
     Top = 126
-    TabOrder = 5
+    TabOrder = 4
     Width = 265
   end
   object cxtAlamat1: TcxTextEdit
     Left = 112
     Top = 153
-    TabOrder = 6
+    TabOrder = 5
     Width = 449
   end
   object cxtTelepon: TcxTextEdit
     Left = 112
     Top = 288
-    TabOrder = 11
+    TabOrder = 10
     Width = 233
   end
   object cxtNegara: TcxTextEdit
     Left = 112
     Top = 261
-    TabOrder = 10
+    TabOrder = 9
     Width = 249
   end
   object cxtAlamat2: TcxTextEdit
     Left = 112
     Top = 180
-    TabOrder = 7
+    TabOrder = 6
     Width = 449
   end
   object cxtProvinsi: TcxTextEdit
     Left = 112
     Top = 234
-    TabOrder = 9
+    TabOrder = 8
     Width = 249
   end
   object cxtHP: TcxTextEdit
     Left = 112
     Top = 315
-    TabOrder = 12
+    TabOrder = 11
     Width = 233
   end
   object cxtKota: TcxTextEdit
     Left = 112
     Top = 207
-    TabOrder = 8
+    TabOrder = 7
     Width = 249
   end
   object cxtFax: TcxTextEdit
     Left = 112
     Top = 342
-    TabOrder = 13
+    TabOrder = 12
     Width = 233
   end
   object cxtEmail: TcxTextEdit
     Left = 112
     Top = 369
-    TabOrder = 14
+    TabOrder = 13
     Width = 361
   end
   object cxChkAktif: TcxCheckBox
     Left = 284
     Top = 72
     Caption = 'Aktif'
-    TabOrder = 3
+    TabOrder = 2
     Width = 121
   end
 end
