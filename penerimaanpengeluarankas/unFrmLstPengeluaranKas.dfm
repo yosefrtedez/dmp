@@ -60,28 +60,34 @@ inherited frmLstPengeluaranKas: TfrmLstPengeluaranKas
         DataBinding.FieldName = 'penerima'
         Width = 153
       end
-      object cxColPKketerangan: TcxGridDBColumn
-        Caption = 'Keterangan'
-        DataBinding.FieldName = 'memo'
-        Width = 200
-      end
       object cxColPKjumlah: TcxGridDBColumn
         Caption = 'Jumlah'
         DataBinding.FieldName = 'jumlah'
+        PropertiesClassName = 'TcxSpinEditProperties'
+        Properties.Alignment.Horz = taRightJustify
+        Properties.DisplayFormat = '#,#0.00'
+        Properties.ValueType = vtFloat
+        Width = 69
+      end
+      object cxColPKketerangan: TcxGridDBColumn
+        Caption = 'Memo'
+        DataBinding.FieldName = 'memo'
+        Width = 200
       end
       object cxColPKakun: TcxGridDBColumn
         Caption = 'Akun'
-        DataBinding.FieldName = 'akun'
-        Width = 99
+        DataBinding.FieldName = 'namaakun'
+        Width = 162
       end
       object cxColPKuser: TcxGridDBColumn
         Caption = 'User'
         DataBinding.FieldName = 'user'
-        Width = 100
+        Width = 77
       end
       object cxColPKuser_dept: TcxGridDBColumn
-        Caption = 'Departemen'
+        Caption = 'Dept'
         DataBinding.FieldName = 'user_dept'
+        Width = 49
       end
       object cxtbPKColumn1: TcxGridDBColumn
         Caption = 'Posting'

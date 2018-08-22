@@ -48,7 +48,6 @@ type
     cxtbPKDetColumn1: TcxGridDBColumn;
     Button1: TButton;
     cxtbPKColumn1: TcxGridDBColumn;
-    cxtbPKColumn2: TcxGridDBColumn;
     procedure btnTambahClick(Sender: TObject);
     procedure btnRefreshClick(Sender: TObject);
     procedure btnEditClick(Sender: TObject);

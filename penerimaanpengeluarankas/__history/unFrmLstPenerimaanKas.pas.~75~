@@ -47,8 +47,6 @@ type
     cxtbPKDetjumlah: TcxGridDBColumn;
     cxtbPKDetColumn1: TcxGridDBColumn;
     Button1: TButton;
-    cxtbPKColumn1: TcxGridDBColumn;
-    cxtbPKColumn2: TcxGridDBColumn;
     procedure btnTambahClick(Sender: TObject);
     procedure btnRefreshClick(Sender: TObject);
     procedure btnEditClick(Sender: TObject);
@@ -78,18 +76,14 @@ procedure TfrmLstPenerimaanKas.btnEditClick(Sender: TObject);
 var
   f: TfrmInputPenerimaanKas;
   ts: TcxTabSheet;
+  qc: TZQuery;
 begin
   if not fu.CekTabOpen('Edit Penerimaan Kas') then begin
-
-    if zqrPK.FieldByName('f_posting').AsInteger = 1 then
-      MsgBox('Transaksi ini tidak bisa di edit karena sudah di posting.');
-
     ts := TcxTabSheet.Create(Self);
     ts.PageControl := frmUtama.pgMain;
 
     f := TfrmInputPenerimaanKas.Create(Self);
     f.TabSheet := Self.Parent as TcxTabSheet;
-    f.FormInduk := Self;
     f.Jenis := 'E';
     f.EditKey := zqrPK.FieldByName('id').AsString;
     f.Parent := ts;
@@ -174,17 +168,10 @@ begin
 end;
 
 procedure TfrmLstPenerimaanKas.btnRefreshClick(Sender: TObject);
-var
-  bm: Variant;
 begin
   inherited;
-  try
-    bm := zqrPK.Bookmark;
-    zqrPK.Close;
-    zqrPK.Open;
-    zqrPK.Bookmark := bm;
-  except
-  end;
+  zqrPK.Close;
+  zqrPK.Open;
 end;
 
 procedure TfrmLstPenerimaanKas.btnTambahClick(Sender: TObject);
@@ -198,7 +185,6 @@ begin
 
     f := TfrmInputPenerimaanKas.Create(Self);
     f.TabSheet := Self.Parent as TcxTabSheet;
-    f.FormInduk := Self;
     f.Jenis := 'T';
     f.Parent := ts;
     ts.Caption := 'Input Penerimaan Kas';

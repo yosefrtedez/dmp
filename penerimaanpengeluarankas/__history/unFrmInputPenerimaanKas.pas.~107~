@@ -104,16 +104,6 @@ begin
       Abort;
     end;
 
-    if Self.Jenis = 'E' then begin
-      qc := OpenRS('SELECT f_posting FROM tbl_penerimaankas_head WHERE id = %s',[Self.EditKey]);
-      if qc.FieldByname('f_posting').AsInteger = 1 then begin
-        MsgBox('Transaksi ini tidak bisa di edit karena sudah di posting.');
-        qc.Close;
-        Abort;
-      end;
-      qc.Close;
-    end;
-
     try
       dm.zConn.StartTransaction;
 
@@ -136,12 +126,10 @@ begin
       with qh do begin
         FieldByName('no_bukti').AsString := sNoBukti;
         FieldByName('tanggal').AsDateTime := cxdTanggal.Date;
-        FieldByName('id_akun').AsInteger := cxlAkunKas.EditValue;
+        FieldByName('akunkas').AsString := cxlAkunKas.EditValue;
         FieldByName('dari').AsString := Trim(cxtDari.Text);
         FieldByName('memo').AsString := Trim(cxtMemo.Text);
         FieldByName('sebesar').AsFloat := cxsSebesar.Value;
-        FieldByName('user').AsString := Aplikasi.NamaUser;
-        FieldByname('user_dept').AsString := Aplikasi.UserDept;
         Post;
       end;
 
@@ -280,7 +268,7 @@ begin
     q := OpenRS('SELECT * FROM tbl_penerimaankas_head WHERE id = %s', [Self.EditKey]);
     cxtNoBukti.Text := q.FieldByName('no_bukti').AsString;
     cxdTanggal.Date := q.FieldByName('tanggal').AsDateTime;
-    cxlAkunKas.EditValue := q.FieldByName('id_akun').AsInteger;
+    cxlAkunKas.EditValue := q.FieldByName('akunkas').AsString;
     cxtDari.Text := q.FieldByName('dari').AsString;
     cxtMemo.Text := q.FieldByName('memo').AsString;
     q.Close;
@@ -291,11 +279,10 @@ begin
     while not q.Eof do begin
       with cxtbPK.DataController do begin
         i := AppendRecord;
-        Values[i, cxColNoAkun.Index] := q.FieldByName('id_akun').AsInteger;
-        Values[i, cxColNamaAkun.Index] := q.FieldByName('id_akun').AsInteger;
+        Values[i, cxColNoAkun.Index] := q.FieldByName('noakun').AsString;
+        Values[i, cxColNamaAkun.Index] := q.FieldByName('noakun').AsString;
         Values[i, cxColJumlah.Index] := q.FieldByName('jumlah').AsString;
         Values[i, cxColMemo.Index] := q.FieldByName('memo').AsString;
-        Values[i, cxColNoAkun2.Index] := q.FieldByName('noakun').AsString;
         total := total + q.FieldByName('jumlah').AsFloat;
       end;
       q.Next;

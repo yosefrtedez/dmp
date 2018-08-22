@@ -78,7 +78,7 @@ var
 
 implementation
 
-uses unDM, unTools;
+uses unDM, unTools, unFrmLstPengeluaranKas;
 
 {$R *.dfm}
 
@@ -87,7 +87,7 @@ var
   ID, i: Integer;
   sNoBukti: string;
   sNoTrs, sNoJ, sAkun: string;
-  qh, qd, qjd: TZQuery;
+  qc,qh, qd, qjd: TZQuery;
 begin
   if cxlAkunKas.Text = '' then begin
     MsgBox('Mohon pilih akun kas.');
@@ -107,6 +107,16 @@ begin
       (cxtbPK.DataController.EditState = [dceInsert, dceModified]) then begin
       MsgBox('Mohon selesaikan pengeditan detail sebelum disimpan.');
       Abort;
+    end;
+
+    if Self.Jenis = 'E' then begin
+      qc := OpenRS('SELECT f_posting FROM tbl_pengeluarankas_head WHERE id = %s',[Self.EditKey]);
+      if qc.FieldByname('f_posting').AsInteger = 1 then begin
+        MsgBox('Transaksi ini tidak bisa di edit karena sudah di posting.');
+        qc.Close;
+        Abort;
+      end;
+      qc.Close;
     end;
 
     try
@@ -204,8 +214,11 @@ begin
 
       MsgBox('Pengeluaran kas sudah disimpan dengan nomor : ' + sNoBukti);
 
+      if Assigned(Self.FormInduk) then
+        (Self.FormInduk as TFrmLstPengeluaranKas).btnRefreshClick(nil);
 
       btnBatalClick(nil);
+
       inherited;
 
     except
@@ -312,7 +325,7 @@ begin
     q := OpenRS('SELECT * FROM tbl_pengeluarankas_head WHERE id = %s', [Self.EditKey]);
     cxtNoBukti.Text := q.FieldByName('no_bukti').AsString;
     cxdTanggal.Date := q.FieldByName('tanggal').AsDateTime;
-    cxlAkunKas.EditValue := q.FieldByName('akunkas').AsString;
+    cxlAkunKas.EditValue := q.FieldByName('id_akun').AsString;
     cxtPenerima.Text := q.FieldByName('penerima').AsString;
     cxtMemo.Text := q.FieldByName('memo').AsString;
     q.Close;
@@ -323,10 +336,11 @@ begin
     while not q.Eof do begin
       with cxtbPK.DataController do begin
         i := AppendRecord;
-        Values[i, cxColNoAkun.Index] := q.FieldByName('noakun').AsString;
-        Values[i, cxColNamaAkun.Index] := q.FieldByName('noakun').AsString;
+        Values[i, cxColNoAkun.Index] := q.FieldByName('id_akun').AsInteger;
+        Values[i, cxColNamaAkun.Index] := q.FieldByName('id_akun').AsInteger;
         Values[i, cxColJumlah.Index] := q.FieldByName('jumlah').AsString;
         Values[i, cxColMemo.Index] := q.FieldByName('memo').AsString;
+        Values[i, cxColNoAkun2.Index] := q.fieldByName('noakun').AsString;
         total := total + q.FieldByName('jumlah').AsFloat;
       end;
       q.Next;

@@ -62,29 +62,15 @@ inherited frmLstPenerimaanKas: TfrmLstPenerimaanKas
       object cxtbPKsebesar: TcxGridDBColumn
         Caption = 'Jumlah'
         DataBinding.FieldName = 'sebesar'
-        PropertiesClassName = 'TcxSpinEditProperties'
-        Properties.Alignment.Horz = taRightJustify
-        Properties.DisplayFormat = '#,#0.00'
-        Properties.ValueType = vtFloat
       end
       object cxtbPKmemo: TcxGridDBColumn
         Caption = 'Memo'
         DataBinding.FieldName = 'memo'
-        Width = 247
-      end
-      object cxtbPKColumn2: TcxGridDBColumn
-        Caption = 'Nama Akun'
-        DataBinding.FieldName = 'namakaun'
-        Width = 136
+        Width = 299
       end
       object cxtbPKuser: TcxGridDBColumn
         Caption = 'User Input'
         DataBinding.FieldName = 'user'
-      end
-      object cxtbPKColumn1: TcxGridDBColumn
-        Caption = 'Dept'
-        DataBinding.FieldName = 'user_dept'
-        Width = 76
       end
       object cxtbPKf_posting: TcxGridDBColumn
         Caption = 'Posting'
@@ -167,10 +153,8 @@ inherited frmLstPenerimaanKas: TfrmLstPenerimaanKas
         Caption = 'Jumlah'
         DataBinding.FieldName = 'jumlah'
         PropertiesClassName = 'TcxSpinEditProperties'
-        Properties.Alignment.Horz = taRightJustify
         Properties.AssignedValues.EditFormat = True
         Properties.DisplayFormat = '#,#0.00'
-        Properties.ValueType = vtFloat
         Width = 87
       end
     end
@@ -181,9 +165,8 @@ inherited frmLstPenerimaanKas: TfrmLstPenerimaanKas
   object zqrPK: TZReadOnlyQuery
     Connection = DM.zConn
     SQL.Strings = (
-      'SELECT a.*, b.nama namakaun'
-      'FROM tbl_penerimaankas_head a'
-      'LEFT JOIN tbl_coa b ON b.id = a.id_akun'
+      'SELECT *'
+      'FROM tbl_penerimaankas_head'
       'ORDER BY tanggal')
     Params = <>
     Left = 696

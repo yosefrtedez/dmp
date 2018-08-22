@@ -1,4 +1,4 @@
-unit unFrmLstPenerimaanKas;
+unit unFrmLstPengeluaranKas;
 
 interface
 
@@ -17,46 +17,46 @@ uses
   cxFilter, cxData, cxDataStorage, cxEdit, DB, cxDBData, StdCtrls, cxGridLevel,
   cxClasses, cxGridCustomView, cxGridCustomTableView, cxGridTableView,
   cxGridDBTableView, cxGrid, ExtCtrls, cxPC, ZAbstractRODataset, ZDataset,
-  cxCheckBox, cxContainer, cxLabel, cxSpinEdit;
+  cxCheckBox, cxSpinEdit, cxContainer, cxLabel, frxClass;
 
 type
-  TfrmLstPenerimaanKas = class(TfrmTplGrid)
+  TfrmLstPengeluaranKas = class(TfrmTplGrid)
     cxtbPK: TcxGridDBTableView;
     cxGrid1Level1: TcxGridLevel;
     cxGrid1: TcxGrid;
     Label13: TLabel;
     zqrPK: TZReadOnlyQuery;
     dsPK: TDataSource;
-    cxtbPKno_bukti: TcxGridDBColumn;
-    cxtbPKtanggal: TcxGridDBColumn;
-    cxtbPKdari: TcxGridDBColumn;
-    cxtbPKsebesar: TcxGridDBColumn;
-    cxtbPKmemo: TcxGridDBColumn;
-    cxtbPKuser: TcxGridDBColumn;
-    cxtbPKf_posting: TcxGridDBColumn;
+    cxColPKno_bukti: TcxGridDBColumn;
+    cxColPKtanggal: TcxGridDBColumn;
+    cxColPKkepada: TcxGridDBColumn;
+    cxColPKketerangan: TcxGridDBColumn;
+    cxColPKjumlah: TcxGridDBColumn;
+    cxColPKakun: TcxGridDBColumn;
+    cxColPKuser: TcxGridDBColumn;
+    cxColPKuser_dept: TcxGridDBColumn;
     Panel3: TPanel;
     cxtbPKDet: TcxGridDBTableView;
     cxGrid2Level1: TcxGridLevel;
     cxGrid2: TcxGrid;
     zqrPKDet: TZReadOnlyQuery;
     dsPKDet: TDataSource;
-    btnPosting: TButton;
-    cxLabel1: TcxLabel;
     cxtbPKDetnoakun: TcxGridDBColumn;
     cxtbPKDetmemo: TcxGridDBColumn;
     cxtbPKDetjumlah: TcxGridDBColumn;
-    cxtbPKDetColumn1: TcxGridDBColumn;
+    cxtbPKDetnamaakun: TcxGridDBColumn;
+    btnPosting: TButton;
     Button1: TButton;
+    cxLabel1: TcxLabel;
     cxtbPKColumn1: TcxGridDBColumn;
-    cxtbPKColumn2: TcxGridDBColumn;
     procedure btnTambahClick(Sender: TObject);
     procedure btnRefreshClick(Sender: TObject);
     procedure btnEditClick(Sender: TObject);
-    procedure FormCreate(Sender: TObject);
     procedure cxtbPKFocusedRecordChanged(Sender: TcxCustomGridTableView;
       APrevFocusedRecord, AFocusedRecord: TcxCustomGridRecord;
       ANewItemRecordFocusingChanged: Boolean);
     procedure Button1Click(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
     procedure btnPostingClick(Sender: TObject);
   private
     { Private declarations }
@@ -65,46 +65,43 @@ type
   end;
 
 var
-  frmLstPenerimaanKas: TfrmLstPenerimaanKas;
+  frmLstPengeluaranKas: TfrmLstPengeluaranKas;
 
 implementation
 
-uses unFrmInputPenerimaanKas, unFrmUtama, unDM, unFrmLapKasMasukKasKeluar,
+uses unFrmInputPengeluaranKas, unFrmUtama, unDM, unFrmLapKasMasukKasKeluar,
   unTools;
 
 {$R *.dfm}
 
-procedure TfrmLstPenerimaanKas.btnEditClick(Sender: TObject);
+procedure TfrmLstPengeluaranKas.btnEditClick(Sender: TObject);
 var
-  f: TfrmInputPenerimaanKas;
+  f: TfrmInputPengeluaranKas;
   ts: TcxTabSheet;
 begin
-  if not fu.CekTabOpen('Edit Penerimaan Kas') then begin
-
+  if not fu.CekTabOpen('Edit Pengeluaran Kas') then begin
     if zqrPK.FieldByName('f_posting').AsInteger = 1 then
       MsgBox('Transaksi ini tidak bisa di edit karena sudah di posting.');
 
     ts := TcxTabSheet.Create(Self);
     ts.PageControl := frmUtama.pgMain;
 
-    f := TfrmInputPenerimaanKas.Create(Self);
+    f := TfrmInputPengeluaranKas.Create(Self);
     f.TabSheet := Self.Parent as TcxTabSheet;
-    f.FormInduk := Self;
     f.Jenis := 'E';
     f.EditKey := zqrPK.FieldByName('id').AsString;
     f.Parent := ts;
-    ts.Caption := 'Edit Penerimaan Kas';
+    ts.Caption := 'Edit Pengeluaran Kas';
     f.Show;
 
     fu.pgMain.ActivePage := ts;
   end;
 end;
 
-procedure TfrmLstPenerimaanKas.btnPostingClick(Sender: TObject);
+procedure TfrmLstPengeluaranKas.btnPostingClick(Sender: TObject);
 var
   qh, qd, qj: TZQuery;
   sNoJ: string;
-  bm: Variant;
 begin
   inherited;
 
@@ -118,7 +115,7 @@ begin
 
     qj := OpenRS('SELECT * FROM tbl_jurnal WHERE no_jurnal = ''%s''',[sNoJ]);
 
-    qh := OpenRS('SELECT SUM(jumlah) jumlah FROM tbl_penerimaankas_det WHERE id_ref = %d',
+    qh := OpenRS('SELECT SUM(jumlah) jumlah FROM tbl_pengeluarankas_det WHERE id_ref = %d',
       [zqrPK.FieldByName('id').AsInteger]);
 
     qj.Insert;
@@ -126,22 +123,22 @@ begin
     qj.FieldByName('no_jurnal').AsString := sNoJ;
     qj.FieldByName('no_trans').AsString := zqrPK.FieldbyName('no_bukti').AsString;
     qj.FieldByName('id_akun').AsString := zqrPK.FieldByName('id_akun').AsString;
-    qj.FieldByName('kredit').AsFloat := qh.FieldByName('jumlah').AsFloat;
-    qj.FieldByName('jenis_trs').AsString := 'BKM';
+    qj.FieldByName('debet').AsFloat := qh.FieldByName('jumlah').AsFloat;
+    qj.FieldByName('jenis_trs').AsString := 'BKK';
     qj.FieldByName('tgl_input').AsDateTime := Aplikasi.NowServer;
     qj.Post;
 
     qh.Close;
 
-    qd := OpenRS('SELECT * FROM tbl_penerimaankas_det WHERE id_ref = %d',[zqrPK.FieldByName('id').AsInteger]);
+    qd := OpenRS('SELECT * FROM tbl_pengeluarankas_det WHERE id_ref = %d',[zqrPK.FieldByName('id').AsInteger]);
     while not qd.Eof do begin
       qj.Insert;
       qj.FieldByName('tanggal').AsDateTime := Aplikasi.TanggalServer;
       qj.FieldByName('no_jurnal').AsString := sNoJ;
       qj.FieldByName('no_trans').AsString := zqrPK.FieldbyName('no_bukti').AsString;
       qj.FieldByName('id_akun').AsInteger := qd.FieldByName('id_akun').AsInteger;
-      qj.FieldByName('debet').AsFloat := qd.FieldByName('jumlah').AsFloat;
-      qj.FieldByName('jenis_trs').AsString := 'BKM';
+      qj.FieldByName('kredit').AsFloat := qd.FieldByName('jumlah').AsFloat;
+      qj.FieldByName('jenis_trs').AsString := 'BKK';
       qj.FieldByName('tgl_input').AsDateTime := Aplikasi.NowServer;
       qj.Post;
       qd.Next;
@@ -151,20 +148,15 @@ begin
     qj.Close;
 
     dm.zConn.ExecuteDirect(
-      Format('UPDATE tbl_penerimaankas_head SET f_posting = 1 WHERE id = %d',[zqrPK.FieldByName('id').AsInteger])
+      Format('UPDATE tbl_pengeluarankas_head SET f_posting = 1 WHERE id = %d',[zqrPK.FieldByName('id').AsInteger])
     );
 
     dm.zConn.Commit;
 
-    MsgBox('Posting transaksi penerimaan kas sudah dilakukan.');
+    MsgBox('Posting transaksi pengeluaran kas sudah dilakukan.');
 
-    try
-      bm := zqrPK.Bookmark;
-      zqrPK.Close;
-      zqrPK.Open;
-      zqrPK.Bookmark := bm;
-    except
-    end;
+    zqrPK.Close;
+    zqrPK.Open;
   except
     on E: Exception do begin
       dm.zConn.Rollback;
@@ -173,74 +165,70 @@ begin
   end;
 end;
 
-procedure TfrmLstPenerimaanKas.btnRefreshClick(Sender: TObject);
-var
-  bm: Variant;
+procedure TfrmLstPengeluaranKas.btnRefreshClick(Sender: TObject);
 begin
   inherited;
-  try
-    bm := zqrPK.Bookmark;
-    zqrPK.Close;
-    zqrPK.Open;
-    zqrPK.Bookmark := bm;
-  except
-  end;
+  zqrPK.Close;
+  zqrPK.Open;
 end;
 
-procedure TfrmLstPenerimaanKas.btnTambahClick(Sender: TObject);
+procedure TfrmLstPengeluaranKas.btnTambahClick(Sender: TObject);
 var
-  f: TfrmInputPenerimaanKas;
+  f: TfrmInputPengeluaranKas;
   ts: TcxTabSheet;
 begin
-  if not fu.CekTabOpen('Input Penerimaan Kas') then begin
+  if not fu.CekTabOpen('Input Pengeluaran Kas') then begin
     ts := TcxTabSheet.Create(Self);
     ts.PageControl := frmUtama.pgMain;
 
-    f := TfrmInputPenerimaanKas.Create(Self);
+    f := TfrmInputPengeluaranKas.Create(Self);
     f.TabSheet := Self.Parent as TcxTabSheet;
-    f.FormInduk := Self;
     f.Jenis := 'T';
     f.Parent := ts;
-    ts.Caption := 'Input Penerimaan Kas';
+    ts.Caption := 'Input Pengeluaran Kas';
     f.Show;
 
     fu.pgMain.ActivePage := ts;
   end;
 end;
 
-procedure TfrmLstPenerimaanKas.Button1Click(Sender: TObject);
+procedure TfrmLstPengeluaranKas.Button1Click(Sender: TObject);
 var
   f: TfrmLapKasMasukKasKeluar;
+  mm: TfrxMemoView;
 begin
   inherited;
   if zqrPK.FieldByName('f_posting').AsInteger = 0 then Abort;
+  
 
   f := TfrmLapKasMasukKasKeluar.Create(Self);
   with f do begin
-    zqrKasMasuk.ParamByName('id').AsInteger := zqrPK.FieldByName('id').AsInteger;
-    zqrKasMasuk.Open;
-    rptKasMasuk.ShowReport(true);
+    zqrKasKeluar.ParamByName('id').AsInteger := zqrPK.FieldByName('id').AsInteger;
+    zqrKasKeluar.Open;
+    mm := rptKasKeluar.FindObject('mmTerbilang') as TfrxMemoView;
+    mm.Text := Terbilang(zqrPK.FieldByName('Jumlah').AsString);
+    rptKasKeluar.ShowReport(true);
   end;
   f.Free;
 end;
 
-procedure TfrmLstPenerimaanKas.cxtbPKFocusedRecordChanged(
+procedure TfrmLstPengeluaranKas.cxtbPKFocusedRecordChanged(
   Sender: TcxCustomGridTableView; APrevFocusedRecord,
   AFocusedRecord: TcxCustomGridRecord; ANewItemRecordFocusingChanged: Boolean);
 begin
   inherited;
   with zqrPKDet do begin
     Close;
-    ParamByname('id_ref').AsInteger := zqrPK.FieldByName('id').AsInteger;
+    ParamByName('id_ref').AsInteger := zqrPK.FieldByName('id').AsInteger;
     Open;
   end;
 end;
 
-procedure TfrmLstPenerimaanKas.FormCreate(Sender: TObject);
+procedure TfrmLstPengeluaranKas.FormCreate(Sender: TObject);
 begin
   inherited;
   zqrPK.Open;
-  cxtbPKno_bukti.SortOrder := soAscending;
+  cxColPKno_bukti.SortOrder := soAscending;
 end;
 
 end.

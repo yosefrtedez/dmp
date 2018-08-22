@@ -80,11 +80,16 @@ var
   ts: TcxTabSheet;
 begin
   if not fu.CekTabOpen('Edit Pengeluaran Kas') then begin
+
+    if zqrPK.FieldByName('f_posting').AsInteger = 1 then
+      MsgBox('Transaksi ini tidak bisa di edit karena sudah di posting.');
+
     ts := TcxTabSheet.Create(Self);
     ts.PageControl := frmUtama.pgMain;
 
     f := TfrmInputPengeluaranKas.Create(Self);
     f.TabSheet := Self.Parent as TcxTabSheet;
+    f.FormInduk := Self;
     f.Jenis := 'E';
     f.EditKey := zqrPK.FieldByName('id').AsString;
     f.Parent := ts;
@@ -99,6 +104,7 @@ procedure TfrmLstPengeluaranKas.btnPostingClick(Sender: TObject);
 var
   qh, qd, qj: TZQuery;
   sNoJ: string;
+  bm: Variant;
 begin
   inherited;
 
@@ -152,8 +158,13 @@ begin
 
     MsgBox('Posting transaksi pengeluaran kas sudah dilakukan.');
 
-    zqrPK.Close;
-    zqrPK.Open;
+    try
+      bm := zqrPK.Bookmark;
+      zqrPK.Close;
+      zqrPK.Open;
+      zqrPK.Bookmark := bm;
+    except
+    end;
   except
     on E: Exception do begin
       dm.zConn.Rollback;
@@ -163,10 +174,17 @@ begin
 end;
 
 procedure TfrmLstPengeluaranKas.btnRefreshClick(Sender: TObject);
+var
+  bm: Variant;
 begin
   inherited;
-  zqrPK.Close;
-  zqrPK.Open;
+  try
+    bm := zqrPK.Bookmark;
+    zqrPK.Close;
+    zqrPK.Open;
+    zqrPK.Bookmark := bm;
+  except
+  end;
 end;
 
 procedure TfrmLstPengeluaranKas.btnTambahClick(Sender: TObject);
@@ -180,6 +198,7 @@ begin
 
     f := TfrmInputPengeluaranKas.Create(Self);
     f.TabSheet := Self.Parent as TcxTabSheet;
+    f.FormInduk := Self;
     f.Jenis := 'T';
     f.Parent := ts;
     ts.Caption := 'Input Pengeluaran Kas';

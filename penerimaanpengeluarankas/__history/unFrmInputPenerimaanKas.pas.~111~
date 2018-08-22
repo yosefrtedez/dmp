@@ -136,12 +136,10 @@ begin
       with qh do begin
         FieldByName('no_bukti').AsString := sNoBukti;
         FieldByName('tanggal').AsDateTime := cxdTanggal.Date;
-        FieldByName('id_akun').AsInteger := cxlAkunKas.EditValue;
+        FieldByName('akunkas').AsString := cxlAkunKas.EditValue;
         FieldByName('dari').AsString := Trim(cxtDari.Text);
         FieldByName('memo').AsString := Trim(cxtMemo.Text);
         FieldByName('sebesar').AsFloat := cxsSebesar.Value;
-        FieldByName('user').AsString := Aplikasi.NamaUser;
-        FieldByname('user_dept').AsString := Aplikasi.UserDept;
         Post;
       end;
 
@@ -295,7 +293,6 @@ begin
         Values[i, cxColNamaAkun.Index] := q.FieldByName('id_akun').AsInteger;
         Values[i, cxColJumlah.Index] := q.FieldByName('jumlah').AsString;
         Values[i, cxColMemo.Index] := q.FieldByName('memo').AsString;
-        Values[i, cxColNoAkun2.Index] := q.FieldByName('noakun').AsString;
         total := total + q.FieldByName('jumlah').AsFloat;
       end;
       q.Next;

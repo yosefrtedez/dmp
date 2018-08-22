@@ -1,4 +1,4 @@
-inherited frmLstPenerimaanKas: TfrmLstPenerimaanKas
+inherited frmLstPengeluaranKas: TfrmLstPengeluaranKas
   Caption = 'Penerimaan Kas'
   OnCreate = FormCreate
   ExplicitWidth = 1016
@@ -9,9 +9,9 @@ inherited frmLstPenerimaanKas: TfrmLstPenerimaanKas
     object Label13: TLabel
       Left = 10
       Top = 13
-      Width = 132
+      Width = 137
       Height = 19
-      Caption = 'Penerimaan Kas'
+      Caption = 'Pengeluaran Kas'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -16
@@ -46,47 +46,44 @@ inherited frmLstPenerimaanKas: TfrmLstPenerimaanKas
       DataController.Summary.DefaultGroupSummaryItems = <>
       DataController.Summary.FooterSummaryItems = <>
       DataController.Summary.SummaryGroups = <>
-      object cxtbPKno_bukti: TcxGridDBColumn
-        Caption = 'No. Bukti'
+      object cxColPKno_bukti: TcxGridDBColumn
+        Caption = 'No Bukti'
         DataBinding.FieldName = 'no_bukti'
-        Width = 113
+        Width = 87
       end
-      object cxtbPKtanggal: TcxGridDBColumn
+      object cxColPKtanggal: TcxGridDBColumn
         Caption = 'Tanggal'
         DataBinding.FieldName = 'tanggal'
       end
-      object cxtbPKdari: TcxGridDBColumn
-        Caption = 'Terima Dari'
-        DataBinding.FieldName = 'dari'
+      object cxColPKkepada: TcxGridDBColumn
+        Caption = 'Kepada'
+        DataBinding.FieldName = 'penerima'
+        Width = 153
       end
-      object cxtbPKsebesar: TcxGridDBColumn
-        Caption = 'Jumlah'
-        DataBinding.FieldName = 'sebesar'
-        PropertiesClassName = 'TcxSpinEditProperties'
-        Properties.Alignment.Horz = taRightJustify
-        Properties.DisplayFormat = '#,#0.00'
-        Properties.ValueType = vtFloat
-      end
-      object cxtbPKmemo: TcxGridDBColumn
-        Caption = 'Memo'
+      object cxColPKketerangan: TcxGridDBColumn
+        Caption = 'Keterangan'
         DataBinding.FieldName = 'memo'
-        Width = 247
+        Width = 200
       end
-      object cxtbPKColumn2: TcxGridDBColumn
-        Caption = 'Nama Akun'
-        DataBinding.FieldName = 'namakaun'
-        Width = 136
+      object cxColPKjumlah: TcxGridDBColumn
+        Caption = 'Jumlah'
+        DataBinding.FieldName = 'jumlah'
       end
-      object cxtbPKuser: TcxGridDBColumn
-        Caption = 'User Input'
+      object cxColPKakun: TcxGridDBColumn
+        Caption = 'Akun'
+        DataBinding.FieldName = 'akun'
+        Width = 99
+      end
+      object cxColPKuser: TcxGridDBColumn
+        Caption = 'User'
         DataBinding.FieldName = 'user'
+        Width = 100
+      end
+      object cxColPKuser_dept: TcxGridDBColumn
+        Caption = 'Departemen'
+        DataBinding.FieldName = 'user_dept'
       end
       object cxtbPKColumn1: TcxGridDBColumn
-        Caption = 'Dept'
-        DataBinding.FieldName = 'user_dept'
-        Width = 76
-      end
-      object cxtbPKf_posting: TcxGridDBColumn
         Caption = 'Posting'
         DataBinding.FieldName = 'f_posting'
         PropertiesClassName = 'TcxCheckBoxProperties'
@@ -119,20 +116,20 @@ inherited frmLstPenerimaanKas: TfrmLstPenerimaanKas
       TabOrder = 0
       OnClick = btnPostingClick
     end
-    object cxLabel1: TcxLabel
-      Left = 10
-      Top = 12
-      Caption = 'Detail Penerimaan Kas'
-    end
     object Button1: TButton
       Left = 866
       Top = 9
       Width = 141
       Height = 25
       Anchors = [akTop, akRight]
-      Caption = 'Cetak Bukti Penerimaan'
+      Caption = 'Cetak Bukti Pengeluaran'
       TabOrder = 1
       OnClick = Button1Click
+    end
+    object cxLabel1: TcxLabel
+      Left = 10
+      Top = 12
+      Caption = 'Detail Pengeluaran Kas'
     end
   end
   object cxGrid2: TcxGrid
@@ -151,27 +148,24 @@ inherited frmLstPenerimaanKas: TfrmLstPenerimaanKas
       object cxtbPKDetnoakun: TcxGridDBColumn
         Caption = 'No. Akun'
         DataBinding.FieldName = 'noakun'
-        Width = 78
+        Width = 87
       end
-      object cxtbPKDetColumn1: TcxGridDBColumn
+      object cxtbPKDetnamaakun: TcxGridDBColumn
         Caption = 'Nama Akun'
         DataBinding.FieldName = 'namaakun'
-        Width = 163
+        Width = 240
       end
       object cxtbPKDetmemo: TcxGridDBColumn
         Caption = 'Memo'
         DataBinding.FieldName = 'memo'
-        Width = 334
+        Width = 277
       end
       object cxtbPKDetjumlah: TcxGridDBColumn
         Caption = 'Jumlah'
         DataBinding.FieldName = 'jumlah'
         PropertiesClassName = 'TcxSpinEditProperties'
-        Properties.Alignment.Horz = taRightJustify
-        Properties.AssignedValues.EditFormat = True
         Properties.DisplayFormat = '#,#0.00'
-        Properties.ValueType = vtFloat
-        Width = 87
+        Width = 73
       end
     end
     object cxGrid2Level1: TcxGridLevel
@@ -181,11 +175,12 @@ inherited frmLstPenerimaanKas: TfrmLstPenerimaanKas
   object zqrPK: TZReadOnlyQuery
     Connection = DM.zConn
     SQL.Strings = (
-      'SELECT a.*, b.nama namakaun'
-      'FROM tbl_penerimaankas_head a'
-      'LEFT JOIN tbl_coa b ON b.id = a.id_akun'
-      'ORDER BY tanggal')
+      'SELECT a.*, b.nama namaakun'
+      'FROM tbl_pengeluarankas_head a'
+      'LEFT JOIN tbl_coa b ON b.id = a.id_akun')
     Params = <>
+    Properties.Strings = (
+      'select * from tbl_trskk_head order by id;')
     Left = 696
     Top = 128
   end
@@ -198,7 +193,7 @@ inherited frmLstPenerimaanKas: TfrmLstPenerimaanKas
     Connection = DM.zConn
     SQL.Strings = (
       'SELECT a.noakun, a.memo, a.jumlah, b.nama namaakun'
-      'FROM tbl_penerimaankas_det a'
+      'FROM tbl_pengeluarankas_det a'
       'LEFT JOIN tbl_coa b ON b.id = a.id_akun'
       'WHERE a.id_ref = :id_ref')
     Params = <
@@ -207,8 +202,8 @@ inherited frmLstPenerimaanKas: TfrmLstPenerimaanKas
         Name = 'id_ref'
         ParamType = ptUnknown
       end>
-    Left = 544
-    Top = 320
+    Left = 648
+    Top = 344
     ParamData = <
       item
         DataType = ftUnknown
@@ -218,7 +213,7 @@ inherited frmLstPenerimaanKas: TfrmLstPenerimaanKas
   end
   object dsPKDet: TDataSource
     DataSet = zqrPKDet
-    Left = 648
-    Top = 344
+    Left = 728
+    Top = 376
   end
 end

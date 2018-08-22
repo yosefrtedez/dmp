@@ -224,7 +224,6 @@ inherited frmInputPenerimaanKas: TfrmInputPenerimaanKas
     Caption = 'Posting'
     Properties.ReadOnly = False
     TabOrder = 3
-    Visible = False
     Width = 73
   end
   object zqrAkunDet: TZReadOnlyQuery
