@@ -3,6 +3,7 @@ inherited frmInputSOMTS: TfrmInputSOMTS
   ClientHeight = 726
   ClientWidth = 1048
   OnShow = FormShow
+  ExplicitTop = -76
   ExplicitWidth = 1048
   ExplicitHeight = 726
   PixelsPerInch = 96
@@ -165,6 +166,7 @@ inherited frmInputSOMTS: TfrmInputSOMTS
         Properties.Alignment.Horz = taRightJustify
         Properties.DisplayFormat = '#,#0.00'
         Properties.ValueType = vtFloat
+        HeaderAlignmentHorz = taRightJustify
         Width = 70
       end
       object cxColSatProd: TcxGridColumn

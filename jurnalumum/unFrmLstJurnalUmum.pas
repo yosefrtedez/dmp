@@ -17,7 +17,7 @@ uses
   dxSkinscxPCPainter, cxCustomData, cxFilter, cxData, cxDataStorage, cxEdit, DB,
   cxDBData, cxGridLevel, cxClasses, cxGridCustomView, cxGridCustomTableView,
   cxGridTableView, cxGridDBTableView, cxGrid, ZAbstractRODataset, ZDataset, cxPC,
-  cxSpinEdit;
+  cxSpinEdit, cxContainer, cxLabel, cxCheckBox;
 
 type
   TfrmLstJurnalUmum = class(TfrmTplGrid)
@@ -44,6 +44,9 @@ type
     cxtbJUDetdebet: TcxGridDBColumn;
     cxtbJUDetkredit: TcxGridDBColumn;
     cxtbJUDetketerangan: TcxGridDBColumn;
+    btnPosting: TButton;
+    cxLabel1: TcxLabel;
+    cxtbJurnalUmumColumn1: TcxGridDBColumn;
     procedure FormShow(Sender: TObject);
     procedure btnRefreshClick(Sender: TObject);
     procedure btnTambahClick(Sender: TObject);
@@ -51,6 +54,7 @@ type
     procedure cxtbJurnalUmumFocusedRecordChanged(Sender: TcxCustomGridTableView;
       APrevFocusedRecord, AFocusedRecord: TcxCustomGridRecord;
       ANewItemRecordFocusingChanged: Boolean);
+    procedure btnPostingClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -62,7 +66,7 @@ var
 
 implementation
 
-uses unDM, unFrmInputJurnalUmum, unFrmUtama;
+uses unDM, unFrmInputJurnalUmum, unFrmUtama, unTools;
 
 {$R *.dfm}
 
@@ -73,19 +77,83 @@ var
  q: TZQuery;
 begin
  if not fu.CekTabOpen('Edit Jurnal Umum') then begin
+
+    if zqrJurnalUmum.FieldByName('f_posting').AsInteger = 1 then begin
+      MsgBox('Transaksi ini tidak bisa di edit karena sudah di posting.');
+    end;
+
     ts := TcxTabSheet.Create(Self);
     ts.PageControl := frmUtama.pgMain;
     f := TfrmInputJurnalUmum.Create(Self);
+    f.TabSheet := Self.Parent as TcxTabSheet;
     f.FormInduk := Self;
     f.Jenis := 'E';
     f.Caption := 'Edit Jurnal Umum';
-    f.EditKey := zqrJurnalUmum.FieldByName('no_jurnal').AsString;
+    f.EditKey := zqrJurnalUmum.FieldByName('id').AsString;
     f.Parent := ts;
     ts.Caption := f.Caption;
     f.Show;
 
 	  fu.pgMain.ActivePage := ts;
   end;
+end;
+
+procedure TfrmLstJurnalUmum.btnPostingClick(Sender: TObject);
+var
+  q, qj: TZQuery;
+  sNoJ: string;
+  b: Variant;
+begin
+  inherited;
+  if zqrJurnalUmum.FieldByname('f_posting').AsInteger = 1 then Abort;
+
+  try
+    dm.zConn.StartTransaction;
+    q := OpenRS('SELECT * FROM tbl_ju_det WHERE id_ref = %d',[zqrJurnalUmum.FieldByname('id').AsInteger]);
+
+    sNoJ := GetLastFak('jurnal');
+    UpdateFaktur(Copy(sNoJ,1,6));
+    qj := OpenRS('SELECT * FROM tbl_jurnal WHERE no_jurnal = ''%s''',[sNoJ]);
+    while not q.Eof do begin
+      qj.Insert;
+      qj.FieldByName('no_jurnal').AsString := sNoJ;
+      qj.FieldByName('tanggal').AsDateTime := Aplikasi.TanggalServer;
+      qj.FieldByName('no_trans').AsString := zqrJurnalUmum.FieldByName('no_jurnal').AsString;
+      qj.FieldByName('id_akun').AsInteger := q.FieldByname('id_akun').AsInteger;
+      qj.FieldByName('debet').AsFloat := q.FieldByName('debet').AsFloat;
+      qj.FieldByName('kredit').AsFloat := q.FieldByName('kredit').AsFloat;
+      qj.FieldByName('keterangan').AsString := q.FieldByName('keterangan').AsString;
+      qj.FieldByName('jenis_trs').AsString := 'JU';
+      qj.FieldByName('tgl_input').AsDateTime := Aplikasi.NowServer;
+      qj.FieldByName('user').AsString := Aplikasi.NamaUser;
+      qj.FieldByName('user_dept').AsString := Aplikasi.UserDept;
+      qj.Post;
+      q.Next;
+    end;
+    qj.Close;
+    q.Close;
+
+    dm.zConn.ExecuteDirect(Format('UPDATE tbl_ju_head SET f_posting = 1 WHERE id = %d',
+      [zqrJurnalUmum.FieldbyName('id').AsInteger]));
+
+    dm.zConn.Commit;
+
+    MsgBox('Transaksi jurnal umum sudah berhasil di posting.');
+
+    try
+      b := zqrJurnalUmum.Bookmark;
+      zqrJurnalUmum.Close;
+      zqrJurnalUmum.Open;
+      zqrJurnalUmum.Bookmark := b;
+    except
+    end;
+  except
+    on E: Exception do begin
+      DM.zConn.Rollback;
+      MsgBox('Error: ' + E.Message);
+    end;
+  end;
+
 end;
 
 procedure TfrmLstJurnalUmum.btnRefreshClick(Sender: TObject);

@@ -87,6 +87,14 @@ inherited frmLstJurnalUmum: TfrmLstJurnalUmum
         Caption = 'User Dept'
         DataBinding.FieldName = 'user_dept'
       end
+      object cxtbJurnalUmumColumn1: TcxGridDBColumn
+        Caption = 'Posting'
+        DataBinding.FieldName = 'f_posting'
+        PropertiesClassName = 'TcxCheckBoxProperties'
+        Properties.ValueChecked = 1
+        Properties.ValueUnchecked = 0
+        Width = 48
+      end
     end
     object cxgJurnalUmumLevel1: TcxGridLevel
       GridView = cxtbJurnalUmum
@@ -99,6 +107,24 @@ inherited frmLstJurnalUmum: TfrmLstJurnalUmum
     Height = 41
     Align = alBottom
     TabOrder = 2
+    DesignSize = (
+      1016
+      41)
+    object btnPosting: TButton
+      Left = 933
+      Top = 9
+      Width = 75
+      Height = 25
+      Anchors = [akTop, akRight]
+      Caption = 'Posting'
+      TabOrder = 0
+      OnClick = btnPostingClick
+    end
+    object cxLabel1: TcxLabel
+      Left = 10
+      Top = 12
+      Caption = 'Detail Jurnal Umum'
+    end
   end
   object cxGrid1: TcxGrid
     Left = 0
@@ -150,7 +176,7 @@ inherited frmLstJurnalUmum: TfrmLstJurnalUmum
   object zqrJurnalUmum: TZReadOnlyQuery
     Connection = DM.zConn
     SQL.Strings = (
-      'SELECT * FROM tbl_jurnal_head')
+      'SELECT * FROM tbl_ju_head')
     Params = <>
     Left = 760
     Top = 208
@@ -162,12 +188,11 @@ inherited frmLstJurnalUmum: TfrmLstJurnalUmum
   end
   object zqrJUDet: TZReadOnlyQuery
     Connection = DM.zConn
-    Active = True
     SQL.Strings = (
       
         'SELECT b.noakun, b.nama namaakun, a.debet, a.kredit, a.keteranga' +
         'n'
-      'FROM tbl_jurnal a'
+      'FROM tbl_ju_det a'
       'LEFT JOIN tbl_coa b on a.id_akun = b.id '
       'WHERE a.id_ref = :id_ref'
       '')

@@ -75,7 +75,7 @@ var
   t1, t2: real;
   i, ID: integer;
   f0: Boolean;
-  qh, qd: TZQuery;
+  qc, qh, qd: TZQuery;
   sNoBukti: string;
 begin
 
@@ -95,6 +95,17 @@ begin
     cxtKeterangan.SetFocus;
   end
   else begin
+
+    // cek apakah transaksi sudah di posting
+    if Self.Jenis = 'E' then begin
+      qc := OpenRS('SELECT f_posting FROM tbl_ju_head WHERE id = %s',[Self.EditKey]);
+      if qc.FieldByName('f_posting').AsInteger = 1 then begin
+        MsgBox('Transaksi ini tidak bisa di edit karena sudah di posting.');
+        qc.Close;
+        Abort;
+      end;
+      qc.Close;
+    end;
 
     with cxtbJurnalUmum.DataController do begin
 
@@ -146,8 +157,8 @@ begin
       end;
 
       if Self.Jenis = 'T' then begin
-        sNoBukti := GetLastFak('jurnal');
-        UpdateFaktur(Copy(sNoBukti,1,6));
+        sNoBukti := GetLastFak('jurnal-umum');
+        UpdateFaktur(Copy(sNoBukti,1,7));
       end
       else begin
         sNoBukti := cxtNoBukti.text;
@@ -156,13 +167,14 @@ begin
       try
         dm.zConn.StartTransaction;
 
-        qh := OpenRS('SELECT * FROM tbl_jurnal_head WHERE no_jurnal = ''%s''',[sNoBukti]);
+        qh := OpenRS('SELECT * FROM tbl_ju_head WHERE no_jurnal = ''%s''',[sNoBukti]);
 
         if Self.Jenis = 'T' then begin
           qh.Insert;
         end else begin
           qh.Edit;
-          dm.zConn.ExecuteDirect(Format('DELETE FROM tbl_jurnal_det WHERE no_jurnal = ''%s''',[sNoBukti]));
+          ID := qh.FieldByName('id').AsInteger;
+          dm.zConn.ExecuteDirect(Format('DELETE FROM tbl_ju_det WHERE id_ref = %d',[ID]));
         end;
 
         qh.FieldByName('no_jurnal').AsString := sNoBukti;
@@ -173,7 +185,7 @@ begin
 
         if Self.Jenis = 'T' then ID := LastInsertID;
 
-        qd := OpenRS('SELECT * FROM tbl_jurnal WHERE no_jurnal = ''%s''',[sNoBukti]);
+        qd := OpenRS('SELECT * FROM tbl_ju_det WHERE id_ref = %d',[ID]);
         for i := 0 to RecordCount - 1 do begin
           qd.Insert;
           qd.FieldByName('tanggal').AsDateTime := cxdTgl.Date;
@@ -344,21 +356,21 @@ var
 begin
   inherited;
   if Self.Jenis = 'T' then begin
-    cxtNoBukti.Text := GetLastFak('jurnal');
+    cxtNoBukti.Text := GetLastFak('jurnal-umum');
   end
   else if Self.Jenis = 'E' then begin
-    q := OpenRS('SELECT * FROM tbl_jurnal_head WHERE no_jurnal = ''%s''',[Self.EditKey]);
-    cxtNoBukti.Text := Self.EditKey;
+    q := OpenRS('SELECT * FROM tbl_ju_head WHERE id = %s',[Self.EditKey]);
+    cxtNoBukti.Text := q.FieldByName('no_jurnal').AsString;
     cxdTgl.Date := q.FieldByName('tanggal').AsDateTime;
     cxtKeterangan.Text := q.FieldByName('keterangan').AsString;
     q.Close;
 
-    q := OpenRS('SELECT * FROM tbl_jurnal_det WHERE no_jurnal = ''%s''',[Self.EditKey]);
+    q := OpenRS('SELECT * FROM tbl_ju_det WHERE id_ref = %s',[Self.EditKey]);
     while not q.Eof do begin
       with cxtbJurnalUmum.DataController do begin
         i := AppendRecord;
-        Values[i, cxColNoAkun.Index] := q.FieldByName('akun').AsString;
-        Values[i, cxColNamaAkun.Index] := q.FieldByName('akun').AsString;
+        Values[i, cxColNoAkun.Index] := q.FieldByName('id_akun').AsInteger;
+        Values[i, cxColNamaAkun.Index] := q.FieldByName('id_akun').AsInteger;
         Values[i, cxColDebet.Index] := q.FieldByName('debet').AsFloat;
         Values[i, cxColKredit.Index] := q.FieldByName('kredit').AsFloat;
         Values[i, cxColKeterangan.Index] := q.FieldByName('keterangan').AsString;

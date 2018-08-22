@@ -188,6 +188,8 @@ begin
           FieldByName('qty_so').AsFloat     := Values[i, cxColQty2.Index];
           FieldByName('jenis').AsString     := 'BJ';
           FieldByName('keterangan').AsString := VarToStr(Values[i, cxColKeterangan2.Index]);
+          if not VarIsNull(Values[i, cxColQtyProd.Index]) then
+            FieldByName('qty_kg').AsFloat := Values[i, cxColQtyProd.Index];
           Post;
         end;
 

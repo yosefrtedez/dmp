@@ -64,6 +64,7 @@ type
     cxColPengambilan: TcxGridDBColumn;
     cxtbMOColumn2: TcxGridDBColumn;
     cxtbMOColumn3: TcxGridDBColumn;
+    cxtbMOColumn4: TcxGridDBColumn;
     procedure btnProsesClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure Button1Click(Sender: TObject);
@@ -115,6 +116,7 @@ begin
     ParamByName('tgl1').AsDateTime := cxdTgl1.Date;
     ParamByName('tgl2').AsDateTime := cxdTgl2.Date;
     Open;
+    cxtbMOno_mo.SortOrder := soAscending;
     Screen.Cursor := crDefault;
   end;
 end;

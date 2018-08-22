@@ -1178,7 +1178,7 @@ begin
   mnPpic_MasterSchedule.Visible := False;
   mnPur_ReturPembelian.Visible := False;
   mnPur_AppReturPembelian.Visible := False;
-  mnAKT.Visible := False;
+  mnAKT.Visible := True;
 end;
 
 procedure TfrmUtama.ToggleMainPage;

@@ -29,6 +29,14 @@ inherited frmInputHasilProduksi: TfrmInputHasilProduksi
     TabOrder = 5
     ExplicitTop = 604
     ExplicitWidth = 1011
+    inherited btnSimpan: TButton
+      Visible = False
+    end
+    inherited btnBatal: TButton
+      Left = 10
+      Caption = 'Keluar'
+      ExplicitLeft = 10
+    end
   end
   object Panel3: TPanel
     Left = 0
@@ -120,6 +128,24 @@ inherited frmInputHasilProduksi: TfrmInputHasilProduksi
         PropertiesClassName = 'TcxSpinEditProperties'
         Properties.DisplayFormat = '#,#0.00'
       end
+      object cxtbSPKColumn3: TcxGridDBColumn
+        Caption = 'Satuan'
+        DataBinding.FieldName = 'satuan'
+        Width = 51
+      end
+      object cxtbSPKColumn6: TcxGridDBColumn
+        Caption = 'Total Hasil Prod. (KG)'
+        DataBinding.FieldName = 'qty_prod_kg'
+        PropertiesClassName = 'TcxSpinEditProperties'
+        Properties.Alignment.Horz = taRightJustify
+        Properties.DisplayFormat = '#,#0.00'
+        Width = 115
+      end
+      object cxtbSPKColumn7: TcxGridDBColumn
+        Caption = 'Satuan Prod.'
+        DataBinding.FieldName = 'satuan'
+        Width = 71
+      end
       object cxtbSPKColumn2: TcxGridDBColumn
         Caption = 'Total Hasil Prod.'
         DataBinding.FieldName = 'qty_prod'
@@ -127,9 +153,14 @@ inherited frmInputHasilProduksi: TfrmInputHasilProduksi
         Properties.DisplayFormat = '#,#0.00'
         Width = 94
       end
-      object cxtbSPKColumn3: TcxGridDBColumn
-        Caption = 'Satuan'
-        DataBinding.FieldName = 'satuan'
+      object cxtbSPKColumn5: TcxGridDBColumn
+        Caption = 'Satuan Brg. Jadi'
+        DataBinding.FieldName = 'satuan_bj'
+        Width = 98
+      end
+      object cxColIdBrg: TcxGridDBColumn
+        DataBinding.FieldName = 'id_brg'
+        Visible = False
       end
     end
     object cxGrid1Level1: TcxGridLevel
@@ -166,7 +197,6 @@ inherited frmInputHasilProduksi: TfrmInputHasilProduksi
     Height = 129
     Align = alTop
     TabOrder = 4
-    ExplicitTop = 280
     object cxtbHslProd: TcxGridTableView
       NavigatorButtons.ConfirmDelete = False
       NavigatorButtons.PriorPage.Visible = False
@@ -254,6 +284,14 @@ inherited frmInputHasilProduksi: TfrmInputHasilProduksi
         Properties.ReadOnly = True
         Width = 73
       end
+      object cxColQtyProdKG: TcxGridColumn
+        Caption = 'Qty. Hasil Prod (KG)'
+        DataBinding.ValueType = 'Float'
+        PropertiesClassName = 'TcxSpinEditProperties'
+        Properties.DisplayFormat = '#,#0.00'
+        Properties.ValueType = vtFloat
+        Width = 117
+      end
       object cxColGdgBJ: TcxGridColumn
         Caption = 'Gudang BJ'
         DataBinding.ValueType = 'Integer'
@@ -315,6 +353,8 @@ inherited frmInputHasilProduksi: TfrmInputHasilProduksi
       object cxColIdGdg: TcxGridColumn
         Visible = False
       end
+      object cxColIdSatBJ: TcxGridColumn
+      end
     end
     object cxGridLevel2: TcxGridLevel
       GridView = cxtbHslProd
@@ -330,15 +370,19 @@ inherited frmInputHasilProduksi: TfrmInputHasilProduksi
     SQL.Strings = (
       
         'SELECT a.id, a.no_spk, a.tanggal, b.no_mo, b.no_so, c.deskripsi,' +
-        ' c.id_satuan, a.qty qty_spk, d.satuan,c.kode kode_brg,c.id id_br' +
-        'g, b.id_so,'
+        ' a.id_satuan, a.qty qty_spk, d.satuan,c.kode kode_brg,c.id id_br' +
+        'g, b.id_so, a.id_satuan_bj, e.satuan satuan_bj,'
       
         'IFNULL((SELECT SUM(qty_prod) FROM tbl_hsl_prd WHERE id_spk = a.i' +
-        'd),0) qty_prod '
+        'd),0) qty_prod,'
+      
+        'IFNULL((SELECT SUM(qty_prod_kg) FROM tbl_hsl_prd WHERE id_spk = ' +
+        'a.id),0) qty_prod_kg '
       'FROM tbl_spk a '
       'LEFT JOIN tbl_mo b on a.id_mo = b.id'
       'LEFT JOIN tbl_barang c on b.id_brg = c.id'
-      'LEFT JOIN tbl_satuan d on d.id = c.id_satuan'
+      'LEFT JOIN tbl_satuan d on d.id = a.id_satuan'
+      'LEFT JOIN tbl_satuan e ON e.id = a.id_satuan_bj'
       'WHERE a.tanggal BETWEEN :tgl1 AND :tgl2')
     Params = <
       item

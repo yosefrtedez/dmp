@@ -121,6 +121,15 @@ inherited frmMasterOrder: TfrmMasterOrder
         PropertiesClassName = 'TcxSpinEditProperties'
         Properties.DisplayFormat = '#,#0.00'
       end
+      object cxtbMOColumn4: TcxGridDBColumn
+        Caption = 'Qty. SPK Prod'
+        DataBinding.FieldName = 'qty_kg'
+        PropertiesClassName = 'TcxSpinEditProperties'
+        Properties.Alignment.Horz = taRightJustify
+        Properties.DisplayFormat = '#,#0.00'
+        Properties.ValueType = vtFloat
+        Width = 80
+      end
       object cxtbMOColumn1: TcxGridDBColumn
         Caption = 'Qty. Prod'
         DataBinding.FieldName = 'qty_prod'
@@ -282,8 +291,8 @@ inherited frmMasterOrder: TfrmMasterOrder
         Name = 'tgl2'
         ParamType = ptUnknown
       end>
-    Left = 194
-    Top = 9
+    Left = 474
+    Top = 17
     ParamData = <
       item
         DataType = ftUnknown
@@ -298,7 +307,7 @@ inherited frmMasterOrder: TfrmMasterOrder
   end
   object dsMO: TDataSource
     DataSet = zqrMO
-    Left = 232
+    Left = 520
     Top = 12
   end
   object dsBOM: TDataSource

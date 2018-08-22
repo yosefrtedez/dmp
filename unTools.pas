@@ -377,6 +377,8 @@ begin
   // JURNAL
   else if sTipe = 'jurnal' then
     depan := 'J/'
+  else if sTipe = 'jurnal-umum' then
+    depan := 'JU/'
   else if sTipe = 'permintaan_pembelian' then
     depan := 'PP/'
   else if sTipe = 'po' then

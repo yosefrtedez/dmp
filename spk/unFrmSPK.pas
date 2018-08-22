@@ -59,9 +59,11 @@ type
     cxLabel11: TcxLabel;
     cxLabel12: TcxLabel;
     cxsTotalSPK: TcxSpinEdit;
-    cxLabel13: TcxLabel;
-    cxtSatuan: TcxTextEdit;
     cxColKodeBrg2: TcxGridColumn;
+    clblSat1: TcxLabel;
+    cxLabel14: TcxLabel;
+    cxsQtySOKG: TcxSpinEdit;
+    clblSat2: TcxLabel;
     procedure FormShow(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure cxtbBomDataControllerRecordChanged(
@@ -76,6 +78,7 @@ type
     mIDSPK: Integer;
     mIdBrg: Integer;
     mEditable: boolean;
+    mIdSatBJ: Integer;
   public
     property IDSO: integer read mIDSO write mIDSO;
     property IDMO: Integer read mIDMO write mIDMO;
@@ -125,6 +128,7 @@ begin
   end
   else begin
 
+    {
     q := OpenRS('SELECT SUM(qty) spk_total  FROM tbl_spk WHERE id_so = %d',[mIDSO]);
     if (cxsQtySPK.Value + q.FieldByName('spk_total').AsFloat) > cxsQtySO.Value then begin
       MsgBox('Qty. SPK sudah melebihi Qty. SO.');
@@ -132,6 +136,7 @@ begin
       Abort;
     end;
     q.Close;
+    }
 
     if cxtbBom.DataController.RecordCount = 0 then begin
       MsgBox('Detail Bill Of Material harus di isi.');
@@ -170,6 +175,8 @@ begin
         FieldByName('toleransi').AsFloat := cxsToleransi.EditValue;
         FieldByName('id_brg').AsInteger := mIdBrg;
         FieldByName('tgl_edit').AsDateTime := Aplikasi.NowServer;
+        FieldByName('id_satuan').AsInteger := Aplikasi.SatProd;
+        FieldByName('id_satuan_bj').AsInteger := mIdSatBJ;
         Post;
       end;
 
@@ -309,16 +316,23 @@ begin
   cxtNoSO.Text := q.FieldByName('no_so').AsString;
   cxtKodeBrg.Text := q.FieldByName('kode_brg').AsString;
   cxtDeskripsi.Text := q.FieldByName('deskripsi').AsString;
-  cxtSatuan.Text := q.FieldByName('satuan').AsString;
+  clblSat1.Caption := q.FieldByName('satuan').AsString;
+  clblSat2.Caption := 'KG';
   cxsQtySPK.Value := q.FieldByName('qty_spk').AsFloat;
   cxsQtySO.Value := q.FieldbyName('qty_so').AsFloat;
-  cxtSatuan.Text := q.FieldByName('satuan').AsString;
+  cxsQtySOKG.Value := q.FieldByName('qty_kg').AsFloat;
   mIdBrg := q.FieldByname('id_brg').AsInteger;
   q.Close;
 
   qspk := OpenRS('SELECT IFNULL(SUM(qty),0) spk_total FROM tbl_spk WHERE id_so = %d',[mIDSO]);
   cxsTotalSPK.Value := qspk.FieldByName('spk_total').AsFloat;
   qspk.Close;
+
+  // get satuan barang jadi
+  // 21/08
+  q := OpenRS('SELECT id_satuan FROM tbl_barang WHERE id = %d',[mIdBrg]);
+  mIdSatBJ := q.FieldByName('id_satuan').AsInteger;
+  q.Close;
 
   if Self.Jenis = 'T' then
     cxtNoSPK.Text := GetLastFak('spk');

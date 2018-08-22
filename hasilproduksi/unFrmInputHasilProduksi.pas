@@ -72,6 +72,12 @@ type
     cxLabel4: TcxLabel;
     cxLabel6: TcxLabel;
     cxlbNoSPK: TcxLabel;
+    cxColQtyProdKG: TcxGridColumn;
+    cxColIdBrg: TcxGridDBColumn;
+    cxColIdSatBJ: TcxGridColumn;
+    cxtbSPKColumn5: TcxGridDBColumn;
+    cxtbSPKColumn6: TcxGridDBColumn;
+    cxtbSPKColumn7: TcxGridDBColumn;
     procedure btnProsesClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure cxtbHslProdDataControllerAfterPost(
@@ -144,6 +150,7 @@ begin
     q.FieldByName('id_mesin').AsInteger := ADataController.Values[i, cxColMesin.Index];
     q.FieldByName('operator').AsString := ADataController.Values[i, cxColOperator.Index];
     q.FieldByName('qty_prod').AsFloat := ADataController.Values[i, cxColQtyProd.Index];
+    q.FieldByName('qty_prod_kg').AsFloat := ADataController.Values[i, cxColQtyProdKG.Index];
     q.FieldByName('id_satuan').AsInteger := zqrSPK.FieldByName('id_satuan').AsInteger;
     q.FieldByName('id_gdg').AsInteger := ADataController.Values[i, cxColGdgBJ.Index];
     q.FieldByName('user').AsString := Aplikasi.NamaUser;
@@ -162,7 +169,8 @@ begin
     qh.FieldByName('kode_brg').AsString := zqrSPK.FieldByName('kode_brg').AsString;
     qh.FieldByName('id_brg').AsInteger := zqrSPK.FieldByName('id_brg').AsInteger;
     qh.FieldByName('qty').AsFloat := ADataController.Values[i, cxColQtyProd.Index];
-    qh.FieldByName('id_satuan').AsInteger := zqrSPK.FieldByName('id_satuan').AsInteger; 
+    //qh.FieldByName('id_satuan').AsInteger := zqrSPK.FieldByName('id_satuan').AsInteger;
+    qh.FieldByName('id_satuan').AsInteger := zqrSPK.FieldByName('id_satuan_bj').AsInteger;
     qh.FieldByName('id_gdg').AsInteger := ADataController.Values[i, cxColGdgBJ.Index];
     qh.FieldByName('id_spk').AsInteger := zqrSPK.FieldByName('id').AsInteger;
     qh.FieldByName('id_so').AsInteger := zqrSPK.FieldByName('id_so').AsInteger;
@@ -170,6 +178,7 @@ begin
     qh.FieldByName('tgl_input').AsDateTime := Aplikasi.NowServer;
     qh.FieldbyName('user').AsString := Aplikasi.NamaUser;
     qh.FieldByName('user_dept').AsString := Aplikasi.UserDept;
+    qh.FieldByName('tgl_input').AsDateTime := Aplikasi.NowServer;
     qh.Post;
     qh.Close;
 
@@ -225,6 +234,8 @@ begin
     if VarIsNull(Values[i, cxColShift.Index]) then berr := false;
     if VarIsNull(Values[i, cxColMesin.Index]) then berr := false;
     if VarIsNull(Values[i, cxColQtyProd.Index]) then berr := false;
+    if VarIsNull(Values[i, cxColQtyProdKG.Index]) then berr := false;
+    
   end;
   if not berr then begin
     MsgBox('Mohon lengkapi inputan yang masih kosong.');
@@ -236,10 +247,18 @@ begin
 end;
 procedure TfrmInputHasilProduksi.cxtbHslProdDataControllerNewRecord(
   ADataController: TcxCustomDataController; ARecordIndex: Integer);
+var
+  q: TZQuery;
 begin
   inherited;
   ADataController.Values[ARecordIndex, cxColGdgBJ.Index] := Aplikasi.GdgBJ;
-  ADataController.Values[ARecordIndex, cxColSatBJ.Index] := zqrSPK.FieldByName('id_satuan').AsInteger;
+  //ADataController.Values[ARecordIndex, cxColSatBJ.Index] := zqrSPK.FieldByName('id_satuan').AsInteger;
+
+  q := OpenRS('SELECT id_satuan FROM tbl_barang WHERE id = %d',[zqrSPK.FieldByName('id_brg').AsInteger]);
+  ADataController.Values[ARecordIndex, cxColSatBJ.Index] := q.FieldByName('id_satuan').AsInteger;
+  q.Close;
+
+  ADataController.Values[ARecordIndex, cxColStatus.Index] := 0;
 end;
 
 procedure TfrmInputHasilProduksi.cxtbSPKFocusedRecordChanged(
@@ -251,28 +270,29 @@ var
 begin
   inherited;
   try
-  with cxtbHslProd.DataController do begin
-    RecordCount := 0;
-    q := OpenRS('SELECT a.*, b.satuan satuan2 ' +
-      'FROM tbl_hsl_prd a ' +
-      'LEFT JOIN tbl_satuan b ON b.id = a.id_satuan WHERE id_spk = %d',
-      [zqrSPK.FieldByName('id').AsInteger]);
-    while not q.Eof do begin
-      i := AppendRecord;
-      Values[i, cxColJam1.Index] := q.FieldByName('jam1').AsDateTime;
-      Values[i, cxColJam2.Index] := q.FieldByName('jam2').AsDateTime;
-      Values[i, cxColShift.Index] := q.FieldByName('shift').AsInteger;
-      Values[i, cxColMesin.Index] := q.FieldByName('id_mesin').AsInteger;
-      Values[i, cxColOperator.Index] := q.FieldByName('operator').AsString;
-      Values[i, cxColQtyProd.Index] := q.FieldByName('qty_prod').AsFloat;
-      Values[i, cxColSatBJ.Index] := zqrSPK.FieldByName('id_satuan').AsInteger;
-      Values[i, cxColGdgBJ.Index] := q.FieldByName('id_gdg').AsInteger;
-      Values[i, cxColStatus.Index] := 1;
-      q.Next;
+    with cxtbHslProd.DataController do begin
+      RecordCount := 0;
+      q := OpenRS('SELECT a.*, b.satuan satuan2 ' +
+        'FROM tbl_hsl_prd a ' +
+        'LEFT JOIN tbl_satuan b ON b.id = a.id_satuan WHERE id_spk = %d',
+        [zqrSPK.FieldByName('id').AsInteger]);
+      while not q.Eof do begin
+        i := AppendRecord;
+        Values[i, cxColJam1.Index] := q.FieldByName('jam1').AsDateTime;
+        Values[i, cxColJam2.Index] := q.FieldByName('jam2').AsDateTime;
+        Values[i, cxColShift.Index] := q.FieldByName('shift').AsInteger;
+        Values[i, cxColMesin.Index] := q.FieldByName('id_mesin').AsInteger;
+        Values[i, cxColOperator.Index] := q.FieldByName('operator').AsString;
+        Values[i, cxColQtyProd.Index] := q.FieldByName('qty_prod').AsFloat;
+        Values[i, cxColSatBJ.Index] := zqrSPK.FieldByName('id_satuan_bj').AsInteger;
+        Values[i, cxColGdgBJ.Index] := q.FieldByName('id_gdg').AsInteger;
+        Values[i, cxColQtyProdKG.Index] := q.FieldByName('qty_prod_kg').AsFloat;
+        Values[i, cxColStatus.Index] := 1;
+        q.Next;
+      end;
+      q.Close;
     end;
-    q.Close;
-  end;
-  cxlbNoSPK.Caption := zqrSPK.FieldByName('no_spk').AsString;
+    cxlbNoSPK.Caption := zqrSPK.FieldByName('no_spk').AsString;
   except
 
   end;
