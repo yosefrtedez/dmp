@@ -2,8 +2,8 @@ object frmUtama: TfrmUtama
   Left = 0
   Top = 0
   Caption = 'frmUtama'
-  ClientHeight = 486
-  ClientWidth = 937
+  ClientHeight = 523
+  ClientWidth = 972
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -27,8 +27,8 @@ object frmUtama: TfrmUtama
   end
   object stsBar: TdxStatusBar
     Left = 0
-    Top = 462
-    Width = 937
+    Top = 499
+    Width = 972
     Height = 24
     Panels = <
       item
@@ -55,6 +55,8 @@ object frmUtama: TfrmUtama
     Font.Height = -11
     Font.Name = 'Tahoma'
     Font.Style = []
+    ExplicitTop = 462
+    ExplicitWidth = 937
   end
   object pgMain: TcxPageControl
     Left = 8
@@ -287,6 +289,7 @@ object frmUtama: TfrmUtama
         Caption = 'Pembelian'
         object InvoicePembelian1: TMenuItem
           Caption = 'Invoice Pembelian'
+          OnClick = InvoicePembelian1Click
         end
         object PembayaranPembelian1: TMenuItem
           Caption = 'Pembayaran Pembelian'

@@ -305,17 +305,23 @@ var
 begin
   inherited;
   if cxChkPPN.Checked then begin
-    sNoSJ := GetLastFak('sj-pajak');
-    sNoFaktur := GetLastFak('faktur-pajak');
+    if Self.Jenis = 'T' then begin
+      sNoSJ := GetLastFak('sj-pajak');
+      sNoFaktur := GetLastFak('faktur-pajak');
+    end;
     cxsPPN.Value := 10;
   end
   else begin
-    cxsPPN.Value := 0;
-    sNoSJ := GetLastFak('sj');
+    if Self.Jenis = 'T' then begin
+      cxsPPN.Value := 0;
+      sNoSJ := GetLastFak('sj');
+    end;
     sNoFaktur := '';
   end;
-  cxtNoBukti.Text := sNoSJ;
-  cxtNoFaktur.Text := sNoFaktur;
+  if Self.Jenis = 'T' then begin
+    cxtNoBukti.Text := sNoSJ;
+    cxtNoFaktur.Text := sNoFaktur;
+  end;
 
   HitungTotal;
 end;
@@ -666,7 +672,10 @@ begin
 
     cxsStlhDiskon.Value := tot - diskon;
 
-    cxsDPP.Value := cxsStlhDiskon.Value / 1.1;
+    if cxChkPPN.Checked then
+      cxsDPP.Value := cxsStlhDiskon.Value / 1.1
+    else
+      cxsDPP.Value := 0;
 
     ppn := 0;
     if cxChkPPN.Checked then

@@ -108,7 +108,7 @@ inherited frmLstSuratJalan: TfrmLstSuratJalan
       end
       object cxtbSJColumn1: TcxGridDBColumn
         Caption = 'Customer'
-        DataBinding.FieldName = 'nama_cust'
+        DataBinding.FieldName = 'nama_customer'
         Width = 307
       end
       object cxColTblTrsMasukHeaduser: TcxGridDBColumn

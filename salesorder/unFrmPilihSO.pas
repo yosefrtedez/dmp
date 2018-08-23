@@ -110,12 +110,14 @@ begin
       Abort;
     end;
 
+    {
     if ADataController.Values[ARecordIndex, cxColQtyTerkirim.Index] + ADataController.Values[ARecordIndex, AItemIndex] >
       ADataController.Values[ARecordIndex, cxColQtySO.Index] then begin
       MsgBox('Jumlah pengiriman melebihi jumlah SO.');
       ADataController.Values[ARecordIndex, AItemIndex] := 0;
       Abort;
     end;
+    }
 
   end;
 

@@ -52,6 +52,7 @@ type
     cxtbSODetColumn3: TcxGridDBColumn;
     cxtbSOColumn4: TcxGridDBColumn;
     cxtbSODetColumn4: TcxGridDBColumn;
+    btnTutupSO: TButton;
     procedure btnRefreshClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure btnTambahClick(Sender: TObject);
@@ -61,6 +62,7 @@ type
       APrevFocusedRecord, AFocusedRecord: TcxCustomGridRecord;
       ANewItemRecordFocusingChanged: Boolean);
     procedure FormShow(Sender: TObject);
+    procedure btnTutupSOClick(Sender: TObject);
   private
     mJenisSO: string;
   public
@@ -166,10 +168,17 @@ begin
 end;
 
 procedure TfrmLstSO.btnRefreshClick(Sender: TObject);
+var
+  bm: Variant;
 begin
   inherited;
-  zqrSO.Close;
-  zqrSO.Open;
+  try
+    bm := zqrSO.Bookmark;
+    zqrSO.Close;
+    zqrSO.Open;
+    zqrSO.Bookmark := bm;
+  except
+  end;
 end;
 
 procedure TfrmLstSO.btnTambahClick(Sender: TObject);
@@ -212,6 +221,23 @@ begin
 
 
     fu.pgMain.ActivePage := ts;
+  end;
+end;
+
+procedure TfrmLstSO.btnTutupSOClick(Sender: TObject);
+var
+  i: integer;
+begin
+  inherited;
+  try
+    i := QBox(Self, 'Yakin SO ini akan ditutup / komplit ?', 'Tutup SO');
+    if i = IDYES then begin
+      dm.zConn.ExecuteDirect(Format('UPDATE tbl_so_head SET f_completed = 1 WHERE id = %s',
+        [zqrSO.FieldByName('id').AsString]));
+      MsgBox('SO Sudah berhasil ditutup / komplit.');
+      btnRefreshClick(nil);
+    end;
+  except
   end;
 end;
 

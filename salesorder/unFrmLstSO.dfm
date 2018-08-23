@@ -2,6 +2,8 @@ inherited frmLstSO: TfrmLstSO
   Caption = 'Sales Order'
   OnCreate = FormCreate
   OnShow = FormShow
+  ExplicitWidth = 1016
+  ExplicitHeight = 508
   PixelsPerInch = 96
   TextHeight = 13
   inherited Panel1: TPanel
@@ -106,10 +108,23 @@ inherited frmLstSO: TfrmLstSO
     Height = 41
     Align = alBottom
     TabOrder = 2
+    DesignSize = (
+      1016
+      41)
     object cxLabel1: TcxLabel
       Left = 10
       Top = 11
       Caption = 'Detail Sales Order'
+    end
+    object btnTutupSO: TButton
+      Left = 933
+      Top = 10
+      Width = 74
+      Height = 25
+      Anchors = [akTop, akRight]
+      Caption = 'Tutup SO'
+      TabOrder = 0
+      OnClick = btnTutupSOClick
     end
   end
   object cxGrid1: TcxGrid

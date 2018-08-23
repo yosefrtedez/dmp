@@ -275,6 +275,7 @@ begin
   inherited;
   if cxChkSatKonv.Checked then begin
     zqrBarang.Close;
+    {
     zqrBarang.SQL.Text := 'SELECT a.*, b.satuan satuan2, c.kategori kategori2, d.subkategori subkategori2, e.tipe tipe2, ' +
       'if(f.qty < 1,(a.stok div (1 / f.qty)),f.qty * a.stok) stok2, g.satuan satuan3, ' +
       'if(f.qty < 1, if(ceil(a.stok mod (1 / f.qty)) = floor(1 / f.qty),0,ceil(a.stok mod (1 / f.qty))),0) sisa, floor(1 / f.qty) aa,  b.satuan satuan4 ' +
@@ -286,6 +287,19 @@ begin
       'LEFT JOIN tbl_konv_brg f ON f.id_barang = a.id ' +
       'LEFT JOIN tbl_satuan g on g.id = f.id_satuan ' +
       'ORDER BY a.deskripsi ';
+    }
+   zqrBarang.SQL.Text :=  'SELECT a.*, b.satuan satuan2, c.kategori kategori2, d.subkategori subkategori2, e.tipe tipe2, f.qty, ' +
+      'if(f.qty < 1,(a.stok div floor(1 / f.qty)),f.qty * a.stok) stok2, g.satuan satuan3, ' +
+      'a.stok - (a.stok div floor(1 / f.qty) * floor(1 / f.qty)) sisa, ' +
+      'floor(1 / f.qty) aa,  b.satuan satuan4 ' +
+      'FROM tbl_barang a ' +
+      'LEFT JOIN tbl_satuan b ON a.id_satuan = b.id ' +
+      'LEFT JOIN tbl_kategori_brg c ON a.id_kategori = c.id ' +
+      'LEFT JOIN tbl_subkategori_brg d ON a.id_subkategori = d.id ' +
+      'LEFT JOIN tbl_tipe_brg e ON a.id_tipe = e.id ' +
+      'LEFT JOIN tbl_konv_brg f ON f.id_barang = a.id ' +
+      'LEFT JOIN tbl_satuan g on g.id = f.id_satuan ' +
+      'ORDER BY a.deskripsi';
     cxColStokKonv.Visible := True;
     cxColSatKonv.Visible := True;
     cxColSisa.Visible := True;

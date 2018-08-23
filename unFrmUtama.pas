@@ -136,6 +136,7 @@ type
     procedure mnMkt_LapOustandingSOClick(Sender: TObject);
     procedure mnSet_UbahPasswordClick(Sender: TObject);
     procedure InvoicePenjualan1Click(Sender: TObject);
+    procedure InvoicePembelian1Click(Sender: TObject);
   private
     procedure PGChange(Sender: TObject);
   public
@@ -166,7 +167,8 @@ uses
   unFrmKalkulasiStok, unFrmLstKoreksi, unFrmMenuLaporan,
   unFrmPengambilanBahanBaku, unFrmInputHasilProduksi, unFrmLstSuratJalan,
   unFrmLapHasilProduksi, unFrmLapPengambilanBB, unFrmLapOutstandingPO,
-  unFrmLapOutstandingSO, unFrmUbahPassword, unFrmLstInvoicePenjualan;
+  unFrmLapOutstandingSO, unFrmUbahPassword, unFrmLstInvoicePenjualan,
+  unFrmLstInvoicePembelian;
 
 {$R *.dfm}
 
@@ -241,6 +243,25 @@ begin
       else
         (Components[i] as TToolButton).Visible := Not Flag;
     }
+  end;
+end;
+
+procedure TfrmUtama.InvoicePembelian1Click(Sender: TObject);
+var
+  f: TfrmLstInvoicePembelian;
+  ts: TcxTabSheet;
+begin
+  if not CekTabOpen('Invoice Pembelian') then begin
+    ToggleMainPage;
+    ts := TcxTabSheet.Create(Self);
+    ts.PageControl := pgMain;
+
+    f := TfrmLstInvoicePembelian.Create(Self);
+    f.Parent := ts;
+    ts.Caption := f.Caption;
+    f.Show;
+
+    pgMain.ActivePage := ts;
   end;
 end;
 
@@ -1198,7 +1219,7 @@ begin
   mnPpic_MasterSchedule.Visible := False;
   mnPur_ReturPembelian.Visible := False;
   mnPur_AppReturPembelian.Visible := False;
-  mnAKT.Visible := True;
+  mnAKT.Visible := False;
 end;
 
 procedure TfrmUtama.ToggleMainPage;

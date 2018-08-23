@@ -148,9 +148,15 @@ end;
 
 procedure TfrmLstSuratJalan.btnPostingClick(Sender: TObject);
 var
-  qd, q, qbrg: TZQuery;
+  qc, qd, q, qbrg: TZQuery;
 begin
   inherited;
+
+  if zqrSJ.FieldByName('f_posting').AsInteger = 1 then begin
+    MsgBox('Transaksi sudah pernah di posting.');
+    Abort;
+  end;
+
   try
     dm.zConn.StartTransaction;
 

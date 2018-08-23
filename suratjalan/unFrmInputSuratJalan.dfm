@@ -3,6 +3,7 @@ inherited frmInputSuratJalan: TfrmInputSuratJalan
   ClientHeight = 687
   ClientWidth = 1119
   OnShow = FormShow
+  ExplicitTop = -80
   ExplicitWidth = 1119
   ExplicitHeight = 687
   PixelsPerInch = 96
@@ -31,6 +32,10 @@ inherited frmInputSuratJalan: TfrmInputSuratJalan
     ExplicitTop = 638
     ExplicitWidth = 1119
     inherited btnSimpan: TButton
+      Top = 11
+      ExplicitTop = 11
+    end
+    inherited btnBatal: TButton
       Top = 11
       ExplicitTop = 11
     end

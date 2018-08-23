@@ -148,7 +148,12 @@ var
   qd, q, qbrg: TZQuery;
 begin
   inherited;
-  if zqrKoreksi.FieldByName('f_posting').AsInteger = 1 then Abort;
+
+  if zqrKoreksi.FieldByName('f_posting').AsInteger = 1 then begin
+    MsgBox('Transaksi sudah pernah di posting.');
+    Abort;
+  end;
+
   try
     dm.zConn.StartTransaction;
 
