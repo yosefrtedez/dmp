@@ -96,7 +96,8 @@ uses
   unFrmLstPembayaranPembelian in 'pembayaranpembelian\unFrmLstPembayaranPembelian.pas' {frmLstPembayaranPembelian},
   unFrmInputInvoicePenjualan in 'invoicepenjualan\unFrmInputInvoicePenjualan.pas' {frmInputInvoicePenjualan},
   unFrmLstInvoicePenjualan in 'invoicepenjualan\unFrmLstInvoicePenjualan.pas' {frmLstInvoicePenjualan},
-  unFrmLapKasMasukKasKeluar in 'laporan\unFrmLapKasMasukKasKeluar.pas' {frmLapKasMasukKasKeluar};
+  unFrmLapKasMasukKasKeluar in 'laporan\unFrmLapKasMasukKasKeluar.pas' {frmLapKasMasukKasKeluar},
+  unFrmLapInvoicePenjualan in 'laporan\unFrmLapInvoicePenjualan.pas' {frmLapInvoicePenjualan};
 
 {$R *.res}
 

@@ -386,7 +386,11 @@ begin
   else if sTipe = 'penerimaan_kas' then
     depan := 'BKM/'
   else if sTipe = 'pengeluaran_kas' then
-    depan := 'BKK/';
+    depan := 'BKK/'
+  else if sTipe = 'invoice-penjualan' then
+    depan := 'INV/'
+  else if sTipe = 'invoie-pembelian' then
+    depan := 'INP/';
 
   head := depan + GetFaktur;
 

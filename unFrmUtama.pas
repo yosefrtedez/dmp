@@ -135,6 +135,7 @@ type
     procedure mnPur_OutstandingPOClick(Sender: TObject);
     procedure mnMkt_LapOustandingSOClick(Sender: TObject);
     procedure mnSet_UbahPasswordClick(Sender: TObject);
+    procedure InvoicePenjualan1Click(Sender: TObject);
   private
     procedure PGChange(Sender: TObject);
   public
@@ -165,7 +166,7 @@ uses
   unFrmKalkulasiStok, unFrmLstKoreksi, unFrmMenuLaporan,
   unFrmPengambilanBahanBaku, unFrmInputHasilProduksi, unFrmLstSuratJalan,
   unFrmLapHasilProduksi, unFrmLapPengambilanBB, unFrmLapOutstandingPO,
-  unFrmLapOutstandingSO, unFrmUbahPassword;
+  unFrmLapOutstandingSO, unFrmUbahPassword, unFrmLstInvoicePenjualan;
 
 {$R *.dfm}
 
@@ -240,6 +241,25 @@ begin
       else
         (Components[i] as TToolButton).Visible := Not Flag;
     }
+  end;
+end;
+
+procedure TfrmUtama.InvoicePenjualan1Click(Sender: TObject);
+var
+  f: TfrmLstInvoicePenjualan;
+  ts: TcxTabSheet;
+begin
+  if not CekTabOpen('Invoice Penjualan') then begin
+    ToggleMainPage;
+    ts := TcxTabSheet.Create(Self);
+    ts.PageControl := pgMain;
+
+    f := TfrmLstInvoicePenjualan.Create(Self);
+    f.Parent := ts;
+    ts.Caption := f.Caption;
+    f.Show;
+
+    pgMain.ActivePage := ts;
   end;
 end;
 

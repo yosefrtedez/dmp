@@ -86,6 +86,9 @@ type
     N6: TMenuItem;
     mnPur_OutstandingPO: TMenuItem;
     ListBox1: TListBox;
+    N5: TMenuItem;
+    mnMkt_LapOustandingSO: TMenuItem;
+    mnSet_UbahPassword: TMenuItem;
     procedure FormShow(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure mnMst_BarangJasaClick(Sender: TObject);
@@ -130,6 +133,8 @@ type
     procedure mnPrd_LapInputHPClick(Sender: TObject);
     procedure mnPrd_LapPengambilanBBClick(Sender: TObject);
     procedure mnPur_OutstandingPOClick(Sender: TObject);
+    procedure mnMkt_LapOustandingSOClick(Sender: TObject);
+    procedure mnSet_UbahPasswordClick(Sender: TObject);
   private
     procedure PGChange(Sender: TObject);
   public
@@ -159,7 +164,8 @@ uses
   unFrmInputBarangMasuk, unFrmLstBarangMasuk, unFrmLstBarangKeluar,
   unFrmKalkulasiStok, unFrmLstKoreksi, unFrmMenuLaporan,
   unFrmPengambilanBahanBaku, unFrmInputHasilProduksi, unFrmLstSuratJalan,
-  unFrmLapHasilProduksi, unFrmLapPengambilanBB, unFrmLapOutstandingPO;
+  unFrmLapHasilProduksi, unFrmLapPengambilanBB, unFrmLapOutstandingPO,
+  unFrmLapOutstandingSO, unFrmUbahPassword;
 
 {$R *.dfm}
 
@@ -352,6 +358,24 @@ begin
   end;
 end;
 
+procedure TfrmUtama.mnMkt_LapOustandingSOClick(Sender: TObject);
+var
+  f: TfrmLapOutstandingSO;
+  ts: TcxTabSheet;
+begin
+  if not CekTabOpen('Laporan Outstanding Sales Order') then begin
+    ToggleMainPage;
+    ts := TcxTabSheet.Create(Self);
+    ts.PageControl := pgMain;
+
+    f := TfrmLapOutstandingSO.Create(Self);
+    f.Parent := ts;
+    ts.Caption := f.Caption;
+    f.Show;
+
+    pgMain.ActivePage := ts;
+  end;
+end;
 procedure TfrmUtama.mnMkt_SalesOrderClick(Sender: TObject);
 var
   f: TfrmLstSO;
@@ -879,6 +903,15 @@ begin
   end;
 end;
 
+procedure TfrmUtama.mnSet_UbahPasswordClick(Sender: TObject);
+var
+  f: TfrmUbahPassword;
+begin
+  f := TfrmUbahPassword.Create(Self);
+  f.ShowModal;
+  f.Free;
+end;
+
 procedure TfrmUtama.mnSet_WewenangUserClick(Sender: TObject);
 var
   f: TfrmSettingWewenang;
@@ -1145,7 +1178,7 @@ begin
   mnPpic_MasterSchedule.Visible := False;
   mnPur_ReturPembelian.Visible := False;
   mnPur_AppReturPembelian.Visible := False;
-  mnAKT.Visible := False;
+  mnAKT.Visible := True;
 end;
 
 procedure TfrmUtama.ToggleMainPage;

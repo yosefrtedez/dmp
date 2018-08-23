@@ -46,10 +46,6 @@ type
     Panel3: TPanel;
     cxLabel1: TcxLabel;
     btnCetakPO: TButton;
-    zqrRptInvoicePenjualan: TZReadOnlyQuery;
-    dsRptInvoicePenjualan: TDataSource;
-    fdbInvoicePenjualan: TfrxDBDataset;
-    rptInvoicePenjualan: TfrxReport;
     cxColNo_bukti: TcxGridDBColumn;
     cxColTanggal: TcxGridDBColumn;
     cxColCustomer: TcxGridDBColumn;
@@ -60,6 +56,7 @@ type
     cxColSatuan: TcxGridDBColumn;
     cxColHarga: TcxGridDBColumn;
     cxColSuratJalan: TcxGridDBColumn;
+    btnPosting: TButton;
     procedure FormCreate(Sender: TObject);
     procedure btnRefreshClick(Sender: TObject);
     procedure btnTambahClick(Sender: TObject);
@@ -83,13 +80,15 @@ var
 implementation
 
 uses
-  unFrmUtama, unDM,  unTools, unAplikasi, unFrmInputInvoicePenjualan;
+  unFrmUtama, unDM,  unTools, unAplikasi, unFrmInputInvoicePenjualan,
+  unFrmLapInvoicePenjualan;
 
 {$R *.dfm}
 
 procedure TfrmLstInvoicePenjualan.btnCetakPOClick(Sender: TObject);
 var
   q :TZQuery;
+  f: TfrmLapInvoicePenjualan;
 begin
   inherited;
 
@@ -99,11 +98,14 @@ begin
      Abort;
   end;
 
-
-  zqrRptInvoicePenjualan.Close;
-  zqrRptInvoicePenjualan.ParamByName('no_bukti').AsString := zqrInvPenjualan.FieldByName('no_bukti').AsString;
-  zqrRptInvoicePenjualan.Open;
-  rptInvoicePenjualan.ShowReport(True);
+  f := TfrmLapInvoicePenjualan.Create(Self);
+  with f do begin
+    zqrRptInvoicePenjualan.Close;
+    zqrRptInvoicePenjualan.ParamByName('id').AsInteger := zqrInvPenjualan.FieldByName('id').AsInteger;
+    zqrRptInvoicePenjualan.Open;
+    rptInvoicePenjualan.ShowReport(True);
+  end;
+  f.Free;
 
 end;
 
@@ -212,14 +214,12 @@ procedure TfrmLstInvoicePenjualan.cxTblInvHeadFocusedRecordChanged(
   AFocusedRecord: TcxCustomGridRecord; ANewItemRecordFocusingChanged: Boolean);
 begin
   inherited;
-
   try
     zqrInvPenjualanDet.Close;
-    zqrInvPenjualanDet.ParamByName('no_bukti').AsString := zqrInvPenjualan.FieldByName('no_bukti').AsString;
+    zqrInvPenjualanDet.ParamByName('id_ref').AsInteger := zqrInvPenjualan.FieldByName('id').AsInteger;
     zqrInvPenjualanDet.Open;
   except
   end;
-
 end;
 
 procedure TfrmLstInvoicePenjualan.FormCreate(Sender: TObject);

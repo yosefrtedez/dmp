@@ -319,6 +319,9 @@
 			<DCCReference Include="laporan\unFrmLapKasMasukKasKeluar.pas">
 				<Form>frmLapKasMasukKasKeluar</Form>
 			</DCCReference>
+			<DCCReference Include="laporan\unFrmLapInvoicePenjualan.pas">
+				<Form>frmLapInvoicePenjualan</Form>
+			</DCCReference>
 			<BuildConfiguration Include="Base">
 				<Key>Base</Key>
 			</BuildConfiguration>

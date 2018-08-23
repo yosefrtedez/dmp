@@ -115,15 +115,6 @@ begin
     Abort;
   end;
 
-  // cek approval PO
-  {if Self.Jenis = 'E' then begin
-    q := OpenRS('SELECT f_app FROM tbl_po_head WHERE id = %s',[Self.EditKey]);
-    if q.FieldByName('f_app').AsInteger = 1 then begin
-      MsgBox('Purchase order tidak bisa di edit karena sudah di Approval.');
-      Abort;
-    end;
-  end;}
-
   with cxtbTblPO.DataController do begin
     if RecordCount = 0 then begin
       MsgBox('Detail transaksi masih kosong.');
@@ -151,23 +142,14 @@ begin
         dm.zConn.ExecuteDirect(Format('DELETE FROM tbl_po_det WHERE id_ref = %s',[Self.EditKey]));
       end;
 
-      rs_sj := OpenRS('select * from tbl_sj_head where no_bukti = ''' + cxLuSj.Text + '''');
-      if not rs_sj.Eof then begin
-        rs_sj.Edit;
-        rs_sj.FieldByName('f_inv').AsString := '1';
-        rs_sj.Post;
-      end;
-      rs_sj.Close;
-
       qh.FieldByName('no_bukti').AsString := sNoBukti;
       qh.FieldByName('tanggal').AsDateTime := cxdTgl.Date;
-      qh.FieldByName('jam').AsDateTime := Aplikasi.ServerTime;
       qh.FieldByName('id_cust').AsString := cxLuCustomer.EditValue;
       qh.FieldByName('user').AsString := Aplikasi.NamaUser;
       qh.FieldByName('user_dept').AsString := Aplikasi.UserDept;
-      qh.FieldByName('tgl_input').AsDateTime := Aplikasi.Tanggal;
+      qh.FieldByName('tgl_edit').AsDateTime := Aplikasi.NowServer;
       qh.FieldByName('keterangan').AsString := Trim(cxtKeterangan.Text);
-      qh.FieldByName('no_sj').AsString := cxLuSj.Text;
+      qh.FieldByName('id_sj').AsInteger := cxLuSj.EditValue;
       {if self.Jenis = 'E' then
         qh.FieldByName('f_revisi').AsInteger := 1
       else
@@ -180,31 +162,33 @@ begin
 
       if Self.Jenis = 'T' then  ID := LastInsertID;
 
-      qd := OpenRS('SELECT * FROM tbl_invoicepenjualan_det WHERE no_bukti = ''%s''',[sNoBukti]);
+      qd := OpenRS('SELECT * FROM tbl_invoicepenjualan_det WHERE id_ref = %d',[ID]);
       with cxtbTblPO.DataController do begin
         for i := 0 to RecordCount - 1 do begin
           qd.Insert;
-          if Self.Jenis = 'T' then begin
-            qd.FieldByName('id_ref').AsInteger := ID;
-          end else begin
-            qd.FieldByName('id_ref').AsString := qh.FieldByName('id').AsString;
-          end;
+          qd.FieldByName('id_ref').AsInteger := ID;
           qd.FieldByName('no_bukti').AsString := sNoBukti;
-          qd.FieldByName('kode_brg').AsString := Values[i, cxColKodeBrg.Index];
+          qd.FieldByName('id_brg').AsString := Values[i, cxColKodeBrg.Index];
           qd.FieldByName('qty').AsFloat := Values[i, cxColQty.Index];
           qd.FieldByName('harga').AsFloat := Values[i, cxColHarga.Index];
           qd.FieldByName('id_satuan').AsInteger := Values[i, cxColIdSatuan.Index];
           qd.FieldByName('ppn').AsString := Values[i, cxColPPN.Index];
           qd.FieldByName('discount').AsFloat := Values[i, cxColDiscount.Index];
-          qd.FieldByName('valuta').AsString := values[i, cxColValuta.Index];
+          //qd.FieldByName('valuta').AsString := values[i, cxColValuta.Index];
           qd.FieldByName('keterangan').AsString := values[i, cxColKeterangan.Index];
           qd.Post;
         end;
       end;
-      dm.zConn.Commit;
       qh.Close;
       qd.Close;
       Self.Jenis := '';
+
+      dm.zConn.ExecuteDirect(
+        Format('UPDATE tbl_sj_head SET f_inv = 1 WHERE id = %s',[cxLuSj.EditValue])
+      );
+
+      dm.zConn.Commit;
+
       MsgBox('Transaksi Invoice Penjualan sudah disimpan dengan No. Bukti : ' + sNoBukti);
 
       if Assigned(Self.FormInduk) then
@@ -562,7 +546,7 @@ begin
   inherited;
 
   if Self.Jenis = 'T' then begin
-    sNoTrs := GetLastFak('invoice_penjualan');
+    sNoTrs := GetLastFak('invoice-penjualan');
     cxtNoBukti.Text := sNoTrs;
     cxdTgl.Date := Aplikasi.Tanggal;
    

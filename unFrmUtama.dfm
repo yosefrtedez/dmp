@@ -296,6 +296,7 @@ object frmUtama: TfrmUtama
         Caption = 'Penjualan'
         object InvoicePenjualan1: TMenuItem
           Caption = 'Invoice Penjualan'
+          OnClick = InvoicePenjualan1Click
         end
         object PembayaranPenjualan1: TMenuItem
           Caption = 'Pembayaran Penjualan'

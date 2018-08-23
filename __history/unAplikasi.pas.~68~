@@ -103,6 +103,7 @@ type
     mGdgPB: Integer;
     mGdgBB: Integer;
     mGdgBJ: Integer;
+    mSatProd: Integer;
     mExeName: string;
 
     procedure SetNamaToko(value: string);
@@ -308,6 +309,8 @@ type
 
     property GdgBJ: Integer read mGdgBJ write mGdgBJ;
 
+    property SatProd: Integer read mSatProd write mSatProd;
+
     property ExeName: string read mExeName write mExeName;
   end;
 
@@ -323,7 +326,7 @@ begin
     self.demo := false;
     self.version := self.version + ' - ( DEMO VERSION )';
     {$ELSE}
-    mJudulAplikasi := 'PT. DMP - 18082018.0811';
+    mJudulAplikasi := 'PT. DMP - 21082018.0805';
     Self.version := '';
     Self.Ver := '17112015_0902';
     self.demo := false;

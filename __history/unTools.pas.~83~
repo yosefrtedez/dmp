@@ -81,6 +81,8 @@ function CheckWewenang(sNamaWewenang, sNamaUser: string): Boolean;
 
 function GetSatuan(id_brg: Integer; var satuan: string): Integer;
 
+function GetKonversiSat(id_brg: Integer; id_satuan: Integer): Real;
+
 implementation
 
 function LastInsertID: integer;
@@ -375,6 +377,8 @@ begin
   // JURNAL
   else if sTipe = 'jurnal' then
     depan := 'J/'
+  else if sTipe = 'jurnal-umum' then
+    depan := 'JU/'
   else if sTipe = 'permintaan_pembelian' then
     depan := 'PP/'
   else if sTipe = 'po' then
@@ -382,7 +386,9 @@ begin
   else if sTipe = 'penerimaan_kas' then
     depan := 'BKM/'
   else if sTipe = 'pengeluaran_kas' then
-    depan := 'BKK/';
+    depan := 'BKK/'
+  else if sTipe = 'invoice-penjualan' then
+    depan := 'INV/';
 
   head := depan + GetFaktur;
 
@@ -1342,7 +1348,23 @@ begin
     'WHERE a.id = %d',[id_brg]);
   if not q.IsEmpty then begin
     Result := q.FieldByName('id_satuan').AsInteger;
-  end;
+    satuan := q.FieldByName('satuan').AsString;
+  end
+  else
+    Result := 0;
+  q.Close;
+end;
+
+function GetKonversiSat(id_brg: Integer; id_satuan: Integer): Real;
+var
+  q: TZQuery;
+begin
+  q := OpenRS('SELECT qty FROM tbl_konv_brg WHERE id_barang = %d AND id_satuan = %d',[id_brg, id_satuan]);
+  if q.IsEmpty then
+    Result := 0
+  else
+    Result := q.FieldByName('qty').AsFloat;
+  q.Close;
 end;
 
 end.
