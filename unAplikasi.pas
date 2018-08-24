@@ -105,6 +105,7 @@ type
     mGdgBJ: Integer;
     mSatProd: Integer;
     mExeName: string;
+    mFAcc: boolean;
 
     procedure SetNamaToko(value: string);
     function GetNamaToko: string;
@@ -312,6 +313,8 @@ type
     property SatProd: Integer read mSatProd write mSatProd;
 
     property ExeName: string read mExeName write mExeName;
+
+    property FAcc: boolean read mFAcc write mFAcc;
   end;
 
 implementation
@@ -326,7 +329,7 @@ begin
     self.demo := false;
     self.version := self.version + ' - ( DEMO VERSION )';
     {$ELSE}
-    mJudulAplikasi := 'PT. DMP - 23082018.2030';
+    mJudulAplikasi := 'PT. DMP - 24082018.1659';
     Self.version := '';
     Self.Ver := '17112015_0902';
     self.demo := false;

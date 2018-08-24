@@ -389,7 +389,7 @@ begin
     depan := 'BKK/'
   else if sTipe = 'invoice-penjualan' then
     depan := 'INV/'
-  else if sTipe = 'invoie-pembelian' then
+  else if sTipe = 'invoice-pembelian' then
     depan := 'INP/';
 
   head := depan + GetFaktur;

@@ -120,10 +120,14 @@ var
 begin
   inherited;
 
-  if zqrBarangKeluar.FieldByName('f_posting').AsInteger = 1 then begin
-    MsgBox('Transaksi sudah pernah di posting.');
+  q := OpenRS('SELECT f_posting FROM tbl_trskeluar_head WHERE id = %d',
+    [zqrBarangKeluar.FieldByName('id').AsInteger]);
+  if (not q.IsEmpty) and (q.FieldByName('f_posting').AsInteger = 1) then begin
+    MsgBox('Transaksi sudah di terposting.');
+    q.Close;
     Abort;
   end;
+  q.Close;
 
   try
     q := OpenRS('SELECT a.id_brg, a.id_gdg, a.qty, b.kode, b.deskripsi ' +

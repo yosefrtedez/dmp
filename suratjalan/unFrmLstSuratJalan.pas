@@ -152,10 +152,14 @@ var
 begin
   inherited;
 
-  if zqrSJ.FieldByName('f_posting').AsInteger = 1 then begin
-    MsgBox('Transaksi sudah pernah di posting.');
+  q := OpenRS('SELECT f_posting FROM tbl_sj_head WHERE id = %d',
+    [zqrSJ.FieldByName('id').AsInteger]);
+  if (not q.IsEmpty) and (q.FieldByName('f_posting').AsInteger = 1) then begin
+    MsgBox('Transaksi sudah di terposting.');
+    q.Close;
     Abort;
   end;
+  q.Close;
 
   try
     dm.zConn.StartTransaction;

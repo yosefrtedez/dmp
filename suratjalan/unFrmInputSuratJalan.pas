@@ -775,10 +775,13 @@ begin
         b := q.FIeldByName('qty_kirim').AsFloat;
         if CompareValue(a, b) = 0 then
           f := true
-        else
+        else begin
           f := false;
+          Break;
+        end;
         q.Next;
       end;
+
       if f then
         dm.zConn.ExecuteDirect(Format('UPDATE tbl_so_head SET f_completed = 1 WHERE id = %s',[Values[i, cxColIdSO.Index]]));
     end;

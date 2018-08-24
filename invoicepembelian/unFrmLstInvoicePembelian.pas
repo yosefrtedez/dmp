@@ -23,14 +23,14 @@ uses
 type
   TfrmLstInvoicePembelian = class(TfrmTplGrid)
     Label1: TLabel;
-    cxtbPOHead: TcxGridDBTableView;
+    cxtbPIHead: TcxGridDBTableView;
     cxgrdlvl1Grid1Level1: TcxGridLevel;
     cxgrd1: TcxGrid;
-    zqrInvPembelian: TZReadOnlyQuery;
-    dsInvPembelian: TDataSource;
+    zqrPembayaranPembelian: TZReadOnlyQuery;
+    dsPembayaranPembelian: TDataSource;
     cxTblDet: TcxGridDBTableView;
-    zqrInvPembelianDet: TZReadOnlyQuery;
-    dsInvPembelianDet: TDataSource;
+    zqrPembayaranPembelianDet: TZReadOnlyQuery;
+    dsPembayaranPembelianDet: TDataSource;
     cxColTblDetid: TcxGridDBColumn;
     cxColTblDetid_ref: TcxGridDBColumn;
     cxColTblDetno_bukti: TcxGridDBColumn;
@@ -41,40 +41,34 @@ type
     cxColTblDetharga: TcxGridDBColumn;
     cxColTblDetmata_uang: TcxGridDBColumn;
     cxColTblHeadno_bukti: TcxGridDBColumn;
-    cxColTblHeadno_fobj: TcxGridDBColumn;
     cxColTblHeadtgl_required: TcxGridDBColumn;
     cxColTblHeaduser: TcxGridDBColumn;
     cxColTblHeaduser_dept: TcxGridDBColumn;
-    cxColTblHeadpembayaran: TcxGridDBColumn;
     cxColTblHeadf_approval: TcxGridDBColumn;
     cxColTblHeadnama: TcxGridDBColumn;
     cxColTblHeadkontak: TcxGridDBColumn;
-    cxColTblHeadf_completed: TcxGridDBColumn;
     cxGrid1: TcxGrid;
-    cxtbPODet: TcxGridDBTableView;
+    cxtbPIDet: TcxGridDBTableView;
     cxGrid1Level1: TcxGridLevel;
     Panel3: TPanel;
     cxLabel1: TcxLabel;
-    cxtbPODetkode_brg: TcxGridDBColumn;
-    cxtbPODetdeskripsi: TcxGridDBColumn;
-    cxtbPODetqty: TcxGridDBColumn;
-    cxtbPODetsatuan: TcxGridDBColumn;
-    cxtbPODetharga: TcxGridDBColumn;
-    cxtbPODetmata_uang: TcxGridDBColumn;
-    cxtbPODetColumn1: TcxGridDBColumn;
-    cxtbPODetColumn2: TcxGridDBColumn;
+    cxtbPIDetkode_brg: TcxGridDBColumn;
+    cxtbPIDetdeskripsi: TcxGridDBColumn;
+    cxtbPIDetqty: TcxGridDBColumn;
+    cxtbPIDetsatuan: TcxGridDBColumn;
+    cxtbPIDetharga: TcxGridDBColumn;
+    cxtbPIDetmata_uang: TcxGridDBColumn;
+    cxtbPIDetColumn1: TcxGridDBColumn;
+    cxtbPIDetColumn2: TcxGridDBColumn;
     btnCetakPO: TButton;
     zqrRptPO: TZReadOnlyQuery;
     dsRptPO: TDataSource;
-    fdbPO: TfrxDBDataset;
-    rptPO: TfrxReport;
-    cxtbPODetColumn3: TcxGridDBColumn;
     procedure FormCreate(Sender: TObject);
     procedure btnRefreshClick(Sender: TObject);
     procedure btnTambahClick(Sender: TObject);
     procedure btnEditClick(Sender: TObject);
     procedure btnHapusClick(Sender: TObject);
-    procedure cxtbPOHeadFocusedRecordChanged(Sender: TcxCustomGridTableView;
+    procedure cxtbPIHeadFocusedRecordChanged(Sender: TcxCustomGridTableView;
       APrevFocusedRecord, AFocusedRecord: TcxCustomGridRecord;
       ANewItemRecordFocusingChanged: Boolean);
     procedure btnCtkPOClick(Sender: TObject);
@@ -92,7 +86,8 @@ var
 implementation
 
 uses
-  unFrmUtama, unDM, unFrmInputPO, unTools, unAplikasi;
+  unFrmUtama, unDM, unFrmInputPO, unTools, unAplikasi, unFrmInputPembayaranPembelian,
+  unFrmInputInvoicePembelian;
 
 {$R *.dfm}
 
@@ -127,31 +122,30 @@ end;
 
 procedure TfrmLstInvoicePembelian.btnEditClick(Sender: TObject);
 var
- f: TfrmInputPO;
+ f: TfrmInputPembayaranPembelian;
  ts: TcxTabSheet;
  q: TZQuery;
 begin
   inherited;
-  {
-  if not fu.CekTabOpen('Edit Purchase Order') then begin
+
+  if not fu.CekTabOpen('Edit Purchase Invoice') then begin
     ts := TcxTabSheet.Create(Self);
     ts.PageControl := frmUtama.pgMain;
-    if zqrPO.FieldByName('f_app').AsString = '1' then begin
+    if zqrPembayaranPembelian.FieldByName('f_app').AsString = '1' then begin
       MsgBox('Maaf data tidak bisa diedit, karena sudah di approve');
       Abort;
     end;
-    f := TfrmInputPO.Create(Self);
-    f.TabSheet := Self.Parent as TcxTabSheet;
+    f := TfrmInputPembayaranPembelian.Create(Self);
     f.FormInduk := Self;
-    ts.Caption := 'Edit Purchase Order';
+    ts.Caption := 'Edit Purchase Invoice';
     f.Jenis := 'E';
-    f.EditKey := zqrPO.FieldByName('id').AsString;
+    f.EditKey := zqrPembayaranPembelian.FieldByName('id').AsString;
     f.Parent := ts;
     ts.Caption := f.Caption;
     f.Show;
     fu.pgMain.ActivePage := ts;
   end;
-  }
+
 end;
 
 procedure TfrmLstInvoicePembelian.btnHapusClick(Sender: TObject);
@@ -159,16 +153,16 @@ var
   q : TZQuery;
 begin
   inherited;
-  {
-  q := OpenRS('select * from tbl_po_head where f_app = 1 and no_bukti = ''%s''',[zqrPO.FieldByName('no_bukti').AsString]);
+
+  q := OpenRS('select * from tbl_invoicepembelian_head where f_app = 1 and no_bukti = ''%s''',[zqrPembayaranPembelian.FieldByName('no_bukti').AsString]);
   if not q.Eof then begin
-    MsgBox('Maaf data tidak bisa dihapus, karena sudah ada penerimaan barang');
+    MsgBox('Maaf data tidak bisa dihapus, karena sudah di Approveg');
     Abort;
   end else begin
     try
       DM.zConn.StartTransaction;
-      DM.zConn.ExecuteDirect('delete  from tbl_po_head where no_bukti = ''' + zqrPO.FieldByName('no_bukti').AsString + '''');
-      DM.zConn.ExecuteDirect('delete  from tbl_po_det where no_bukti = ''' + zqrpodet.FieldByName('no_bukti').AsString + '''');
+      DM.zConn.ExecuteDirect('delete  from tbl_invoicepembelian_head where no_bukti = ''' + zqrPembayaranPembelian.FieldByName('no_bukti').AsString + '''');
+      DM.zConn.ExecuteDirect('delete  from tbl_invoicepembelian_det where no_bukti = ''' + zqrPembayaranPembelian.FieldByName('no_bukti').AsString + '''');
       DM.zConn.Commit;
       MsgBox('Data berhasil dihapus');
       btnRefreshClick(nil);
@@ -180,30 +174,29 @@ begin
        end;
     end;
   end;
-  }
+
 end;
 
 procedure TfrmLstInvoicePembelian.btnRefreshClick(Sender: TObject);
 begin
   inherited;
-  {
-  zqrPo.Close;
-  zqrPO.Open;
-  zqrPoDet.Close;
-  zqrPoDet.Open;
-  }
+  zqrPembayaranPembelian.Close;
+  zqrPembayaranPembelian.Open;
+  zqrPembayaranPembelianDet.Close;
+  zqrPembayaranPembelianDet.Open;
+
 end;
 
 procedure TfrmLstInvoicePembelian.btnTambahClick(Sender: TObject);
 var
-  f: TfrmInputPO;
+  f: TfrmInputInvoicePembelian;
   ts: TcxTabSheet;
 begin
   inherited;
-  if not fu.CekTabOpen('Input Invoice Pembelian') then begin
+   if not fu.CekTabOpen('Input Invoice Pembelian') then begin
     ts := TcxTabSheet.Create(Self);
     ts.PageControl := frmUtama.pgMain;
-    f := TfrmInputPO.Create(Self);
+    f := TfrmInputInvoicePembelian.Create(Self);
     f.TabSheet := Self.Parent as TcxTabSheet;
     f.FormInduk := Self;
     f.Jenis := 'T';
@@ -214,27 +207,24 @@ begin
   end;
 end;
 
-procedure TfrmLstInvoicePembelian.cxtbPOHeadFocusedRecordChanged(
+procedure TfrmLstInvoicePembelian.cxtbPIHeadFocusedRecordChanged(
   Sender: TcxCustomGridTableView; APrevFocusedRecord,
   AFocusedRecord: TcxCustomGridRecord; ANewItemRecordFocusingChanged: Boolean);
 begin
   inherited;
-  {
   try
-    zqrPoDet.Close;
-    zqrPoDet.ParamByName('id_ref').AsInteger := zqrPO.FieldByName('id').AsInteger;
-    zqrPoDet.Open;
+    zqrPembayaranPembelianDet.Close;
+    zqrPembayaranPembelianDet.ParamByName('id_ref').AsInteger := zqrPembayaranPembelian.FieldByName('id').AsInteger;
+    zqrPembayaranPembelianDet.Open;
   except
   end;
-  }
+
 end;
 
 procedure TfrmLstInvoicePembelian.FormCreate(Sender: TObject);
 begin
   inherited;
-  {
-  zqrPO.Open;
-  }
+  zqrPembayaranPembelian.Open;
 end;
 
 end.

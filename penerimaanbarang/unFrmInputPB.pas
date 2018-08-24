@@ -577,8 +577,10 @@ begin
       b := q.FIeldByName('qty_terima').AsFloat;
       if CompareValue(a, b) = 0 then
         f := true
-      else
+      else begin
         f := false;
+        Break;
+      end;
       q.Next;
     end;
     if f then begin

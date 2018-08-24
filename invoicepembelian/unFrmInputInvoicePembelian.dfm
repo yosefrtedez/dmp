@@ -1,14 +1,14 @@
 inherited frmInputInvoicePembelian: TfrmInputInvoicePembelian
-  Caption = 'Input Invoice Pembelian'
+  Caption = 'Input Purchase Order'
   ClientHeight = 690
-  ClientWidth = 1063
+  ClientWidth = 1065
   OnShow = FormShow
-  ExplicitWidth = 1063
+  ExplicitWidth = 1065
   ExplicitHeight = 690
   PixelsPerInch = 96
   TextHeight = 13
   inherited Panel1: TPanel
-    Width = 1063
+    Width = 1065
     ExplicitWidth = 1063
     object Label1: TLabel
       Left = 10
@@ -26,22 +26,23 @@ inherited frmInputInvoicePembelian: TfrmInputInvoicePembelian
   end
   inherited Panel2: TPanel
     Top = 641
-    Width = 1063
-    TabOrder = 20
+    Width = 1065
+    TabOrder = 18
     ExplicitTop = 641
     ExplicitWidth = 1063
   end
   object cxgrdPP: TcxGrid
     Left = 10
-    Top = 234
-    Width = 1045
+    Top = 199
+    Width = 1047
     Height = 293
     Anchors = [akLeft, akTop, akRight]
-    TabOrder = 13
-    object cxtbTblPO: TcxGridTableView
+    TabOrder = 11
+    ExplicitWidth = 1045
+    object cxtbInvPemb: TcxGridTableView
       NavigatorButtons.ConfirmDelete = False
       NavigatorButtons.Insert.Visible = False
-      NavigatorButtons.Append.Visible = True
+      NavigatorButtons.Append.Visible = False
       NavigatorButtons.Refresh.Visible = False
       NavigatorButtons.SaveBookmark.Visible = False
       NavigatorButtons.GotoBookmark.Visible = False
@@ -88,6 +89,7 @@ inherited frmInputInvoicePembelian: TfrmInputInvoicePembelian
             FieldName = 'deskripsi'
           end>
         Properties.ListSource = dsBarang
+        Properties.ReadOnly = True
         Width = 95
       end
       object cxColDeskripsi: TcxGridColumn
@@ -102,12 +104,19 @@ inherited frmInputInvoicePembelian: TfrmInputInvoicePembelian
             FieldName = 'kode'
           end>
         Properties.ListSource = dsBarang
+        Properties.ReadOnly = True
         Width = 237
+      end
+      object cxColNoPO: TcxGridColumn
+        Caption = 'No.PO'
+        PropertiesClassName = 'TcxTextEditProperties'
+        Width = 105
       end
       object cxColQty: TcxGridColumn
         Caption = 'Qty'
         DataBinding.ValueType = 'Float'
         PropertiesClassName = 'TcxSpinEditProperties'
+        Properties.Alignment.Horz = taRightJustify
         Properties.DisplayFormat = '#,##.00'
         Properties.ReadOnly = False
         Properties.ValueType = vtFloat
@@ -122,6 +131,7 @@ inherited frmInputInvoicePembelian: TfrmInputInvoicePembelian
         Caption = 'Harga'
         DataBinding.ValueType = 'Float'
         PropertiesClassName = 'TcxSpinEditProperties'
+        Properties.Alignment.Horz = taRightJustify
         Properties.DisplayFormat = '#,##.00'
         Width = 88
       end
@@ -149,6 +159,7 @@ inherited frmInputInvoicePembelian: TfrmInputInvoicePembelian
         Caption = 'Total'
         DataBinding.ValueType = 'Float'
         PropertiesClassName = 'TcxSpinEditProperties'
+        Properties.Alignment.Horz = taRightJustify
         Properties.DisplayFormat = '#,##.00'
         Properties.ReadOnly = False
         Width = 112
@@ -162,7 +173,7 @@ inherited frmInputInvoicePembelian: TfrmInputInvoicePembelian
       end
     end
     object cxgrdlvl1Grid1Level1: TcxGridLevel
-      GridView = cxtbTblPO
+      GridView = cxtbInvPemb
     end
   end
   object cxlbl1: TcxLabel
@@ -171,12 +182,12 @@ inherited frmInputInvoicePembelian: TfrmInputInvoicePembelian
     Caption = 'No. Bukti'
   end
   object cxlbl3: TcxLabel
-    Left = 10
+    Left = 8
     Top = 89
     Caption = 'Tanggal'
   end
   object cxlbl5: TcxLabel
-    Left = 10
+    Left = 8
     Top = 116
     Caption = 'Nama Supplier'
   end
@@ -196,7 +207,7 @@ inherited frmInputInvoicePembelian: TfrmInputInvoicePembelian
     Left = 122
     Top = 115
     Properties.DropDownAutoSize = True
-    Properties.KeyFieldNames = 'id'
+    Properties.KeyFieldNames = 'id_supplier'
     Properties.ListColumns = <
       item
         Caption = 'Nama Supplier'
@@ -208,6 +219,7 @@ inherited frmInputInvoicePembelian: TfrmInputInvoicePembelian
       end>
     Properties.ListSource = dsSupplier
     Properties.OnChange = cxLuSupplierPropertiesChange
+    Properties.OnEditValueChanged = cxlSupplierPropertiesEditValueChanged
     TabOrder = 5
     Width = 351
   end
@@ -225,109 +237,167 @@ inherited frmInputInvoicePembelian: TfrmInputInvoicePembelian
     TabOrder = 1
     Width = 146
   end
-  object cxlbl14: TcxLabel
-    Left = 10
+  object cxlbl11: TcxLabel
+    Left = 8
     Top = 170
-    Caption = 'Keterangan'
+    Caption = 'No. Penerimaan '
+    Visible = False
   end
-  object cxtKeterangan: TcxTextEdit
+  object cxlNoPenerimaan: TcxLookupComboBox
     Left = 122
     Top = 169
-    Properties.CharCase = ecUpperCase
+    Properties.KeyFieldNames = 'id'
+    Properties.ListColumns = <
+      item
+        Caption = 'No. Penerimaan'
+        FieldName = 'no_bukti'
+      end>
+    Properties.ListSource = dsPB
+    Properties.OnChange = cxlNoPenerimaanPropertiesChange
     TabOrder = 9
-    Width = 416
+    Width = 183
+  end
+  object cxsSubtotal: TcxSpinEdit
+    Left = 888
+    Top = 502
+    Properties.Alignment.Horz = taRightJustify
+    Properties.DisplayFormat = '#,#0.00'
+    Properties.ReadOnly = True
+    TabOrder = 12
+    Width = 151
   end
   object cxLabel1: TcxLabel
-    Left = 10
-    Top = 197
-    Caption = 'No. Penerimaan'
-  end
-  object cxLookupComboBox1: TcxLookupComboBox
-    Left = 122
-    Top = 196
-    Properties.ListColumns = <>
-    TabOrder = 11
-    Width = 199
-  end
-  object cxSpinEdit1: TcxSpinEdit
-    Left = 880
-    Top = 533
-    TabOrder = 14
-    Width = 175
-  end
-  object cxLabel2: TcxLabel
-    Left = 800
-    Top = 534
+    Left = 796
+    Top = 503
     Caption = 'Subtotal'
   end
-  object cxLabel3: TcxLabel
-    Left = 800
-    Top = 561
+  object cxLabel2: TcxLabel
+    Left = 796
+    Top = 530
     Caption = 'PPN'
   end
-  object cxSpinEdit2: TcxSpinEdit
-    Left = 880
-    Top = 560
-    TabOrder = 16
-    Width = 175
+  object cxsPPN: TcxSpinEdit
+    Left = 888
+    Top = 529
+    Properties.Alignment.Horz = taRightJustify
+    Properties.DisplayFormat = '#,#0.00'
+    Properties.ReadOnly = True
+    TabOrder = 14
+    Width = 151
   end
-  object cxLabel4: TcxLabel
-    Left = 800
-    Top = 588
+  object cxLabel3: TcxLabel
+    Left = 796
+    Top = 557
     Caption = 'Total'
   end
-  object cxSpinEdit3: TcxSpinEdit
-    Left = 880
-    Top = 587
-    TabOrder = 18
-    Width = 175
+  object cxsTotal: TcxSpinEdit
+    Left = 888
+    Top = 556
+    Properties.Alignment.Horz = taRightJustify
+    Properties.DisplayFormat = '#,#0.00'
+    Properties.ReadOnly = True
+    TabOrder = 16
+    Width = 151
   end
-  object zqrPPHead: TZReadOnlyQuery
+  object zqrPOHead: TZReadOnlyQuery
     Connection = DM.zConn
     AutoCalcFields = False
     SQL.Strings = (
-      'SELECT id, no_bukti, user, user_dept'
-      'FROM tbl_pp_head WHERE f_app = 1;')
-    Params = <>
-    Left = 692
-    Top = 82
+      
+        'SELECT a.id,a.no_bukti,b.id_brg,b.kode_brg,c.deskripsi,b.qty,b.i' +
+        'd_satuan,d.satuan'
+      'from tbl_po_head a join tbl_po_det b'
+      'on a.id=b.id_ref left join tbl_barang c '
+      'on b.id_brg=c.id left join tbl_satuan d'
+      'on b.id_satuan=d.id '
+      'WHERE a.f_app=1 and a.id_supplier= :supplier;')
+    Params = <
+      item
+        DataType = ftUnknown
+        Name = 'supplier'
+        ParamType = ptUnknown
+      end>
+    Left = 492
+    Top = 58
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'supplier'
+        ParamType = ptUnknown
+      end>
   end
-  object dsPPHead: TDataSource
-    DataSet = zqrPPHead
-    Left = 769
-    Top = 67
+  object dsPOHead: TDataSource
+    DataSet = zqrPOHead
+    Left = 553
+    Top = 59
   end
   object zqrSupplier: TZReadOnlyQuery
     Connection = DM.zConn
     AutoCalcFields = False
     SQL.Strings = (
-      'select id, kode, nama '
-      'from tbl_supplier order by nama')
+      'select distinct a.id_supplier,b.kode,b.nama'
+      'from tbl_po_head a left join tbl_supplier b'
+      'on a.id_supplier=b.id WHERE f_app=1')
     Params = <>
-    Left = 707
-    Top = 182
+    Left = 635
+    Top = 62
   end
   object dsSupplier: TDataSource
     DataSet = zqrSupplier
-    Left = 768
-    Top = 181
+    Left = 704
+    Top = 61
   end
   object zqrBarang: TZReadOnlyQuery
     Connection = DM.zConn
     AutoCalcFields = False
     SQL.Strings = (
-      'select id, kode, deskripsi from tbl_barang')
+      'SELECT id, kode, deskripsi'
+      'FROM tbl_barang'
+      'ORDER BY deskripsi')
     Params = <>
     Properties.Strings = (
       
         'select kode, deskripsi, satuan from tbl_barang order by deskrips' +
         'i')
-    Left = 857
-    Top = 155
+    Left = 633
+    Top = 123
   end
   object dsBarang: TDataSource
     DataSet = zqrBarang
-    Left = 942
-    Top = 157
+    Left = 686
+    Top = 125
+  end
+  object zqrPB: TZReadOnlyQuery
+    Connection = DM.zConn
+    AutoCalcFields = False
+    Active = True
+    SQL.Strings = (
+      'SELECT id, no_bukti'
+      'FROM tbl_pb_head '
+      'WHERE id_supplier = :id_supplier'
+      '')
+    Params = <
+      item
+        DataType = ftUnknown
+        Name = 'id_supplier'
+        ParamType = ptUnknown
+      end>
+    Properties.Strings = (
+      
+        'select kode, deskripsi, satuan from tbl_barang order by deskrips' +
+        'i')
+    Left = 785
+    Top = 139
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'id_supplier'
+        ParamType = ptUnknown
+      end>
+  end
+  object dsPB: TDataSource
+    DataSet = zqrPB
+    Left = 838
+    Top = 141
   end
 end

@@ -90,6 +90,8 @@ begin
     if ParamStr(2) = '/admin:admin1' then begin
       aplikasi.debug := true;
     end;
+    if ParamStr(3) = '/acc' then
+      Aplikasi.FAcc := true;
   end
   else begin
     CekUpdate;
