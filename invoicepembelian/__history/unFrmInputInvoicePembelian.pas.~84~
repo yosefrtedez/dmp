@@ -63,7 +63,6 @@ type
     cxsPPN: TcxSpinEdit;
     cxLabel3: TcxLabel;
     cxsTotal: TcxSpinEdit;
-    cxColDiscPersen: TcxGridColumn;
     procedure cxLuNoPPPropertiesChange(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure cxLuSupplierPropertiesChange(Sender: TObject);

@@ -9,7 +9,7 @@ inherited frmInputInvoicePembelian: TfrmInputInvoicePembelian
   TextHeight = 13
   inherited Panel1: TPanel
     Width = 1065
-    ExplicitWidth = 1063
+    ExplicitWidth = 1065
     object Label1: TLabel
       Left = 10
       Top = 13
@@ -29,7 +29,7 @@ inherited frmInputInvoicePembelian: TfrmInputInvoicePembelian
     Width = 1065
     TabOrder = 18
     ExplicitTop = 641
-    ExplicitWidth = 1063
+    ExplicitWidth = 1065
   end
   object cxgrdPP: TcxGrid
     Left = 10
@@ -38,7 +38,6 @@ inherited frmInputInvoicePembelian: TfrmInputInvoicePembelian
     Height = 293
     Anchors = [akLeft, akTop, akRight]
     TabOrder = 11
-    ExplicitWidth = 1045
     object cxtbInvPemb: TcxGridTableView
       NavigatorButtons.ConfirmDelete = False
       NavigatorButtons.Insert.Visible = False
@@ -134,6 +133,13 @@ inherited frmInputInvoicePembelian: TfrmInputInvoicePembelian
         Properties.Alignment.Horz = taRightJustify
         Properties.DisplayFormat = '#,##.00'
         Width = 88
+      end
+      object cxColDiscPersen: TcxGridColumn
+        Caption = 'Disc (%)'
+        DataBinding.ValueType = 'Float'
+        PropertiesClassName = 'TcxSpinEditProperties'
+        Properties.DisplayFormat = '#,#0.00'
+        Properties.ValueType = vtFloat
       end
       object cxColPPn: TcxGridColumn
         Caption = 'PPn'

@@ -550,7 +550,6 @@ procedure TfrmInputPO.FormShow(Sender: TObject);
    q,z : TZQuery;
    i, nomer: integer;
    sNoTrs : string;
-   disc1: real;
 begin
   inherited;
   if Self.Jenis = 'T' then begin
@@ -595,17 +594,11 @@ begin
         Values[i, cxColValuta.Index] := z.FieldByName('mata_uang').AsString;
         Values[i, cxColHarga.Index] := z.FieldByName('harga').AsFloat;
         Values[i, cxColPPn.Index] := z.FieldByName('PPN').AsString;
-        Values[i, cxColDiscPersen.Index] := z.FieldByName('disc_persen').AsFloat;
-
-        disc1 := 0;
-        if Values[i, cxColDiscPersen.Index] > 0 then
-          disc1 := (Values[i, cxColHarga.Index] * Values[i, cxColQty.Index] * Values[i, cxColDiscPersen.Index] / 100);
-
-        if Values[i, cxColPPn.Index] = 'PPN' then
-          Values[i, cxColTotal.Index] := ((Values[i, cxColHarga.Index] * 110/100) * Values[i, cxColQty.Index]) - disc1
-        else
-          Values[i, cxColTotal.Index] := (Values[i, cxColHarga.Index] * Values[i, cxColQty.Index]) - disc1;
-
+        if Values[i, cxColPPn.Index] = 'PPN' then begin
+          Values[i, cxColTotal.Index] := z.FieldByName('qty').AsFloat * z.FieldByName('harga').AsFloat * 110/100;
+        end else begin
+          Values[i, cxColTotal.Index] := z.FieldByName('qty').AsFloat * z.FieldByName('harga').AsFloat
+        end;
         Values[i, cxColKeterangan.Index] := z.FieldByName('keterangan').AsString;
         nomer := nomer +1;
         Values[i, cxColKodeBrg2.Index] := z.FieldByName('kode').AsString;
@@ -639,11 +632,7 @@ begin
       if Values[i, cxColDiscRp.Index] > 0 then
         disc2 := (Values[i, cxColDiscRp.Index] * Values[i, cxColQty.Index]);
 
-      if Values[i, cxColPPn.Index] = 'PPN' then
-        Values[i, cxColTotal.Index] := ((Values[i, cxColHarga.Index] * 110/100) * Values[i, cxColQty.Index]) - disc1 - disc2
-      else
-        Values[i, cxColTotal.Index] := (Values[i, cxColHarga.Index] * Values[i, cxColQty.Index]) - disc1 - disc2;
-
+      Values[i, cxColTotal.Index] := (Values[i, cxColHarga.Index] * Values[i, cxColQty.Index]) - disc1 - disc2;
       EndUpdate;
     end;
   except

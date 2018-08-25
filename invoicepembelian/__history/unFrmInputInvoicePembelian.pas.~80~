@@ -63,7 +63,6 @@ type
     cxsPPN: TcxSpinEdit;
     cxLabel3: TcxLabel;
     cxsTotal: TcxSpinEdit;
-    cxColDiscPersen: TcxGridColumn;
     procedure cxLuNoPPPropertiesChange(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure cxLuSupplierPropertiesChange(Sender: TObject);
@@ -106,7 +105,7 @@ var
   f0: Boolean;
 
 begin
-  {
+
   if cxlSupplier.Text = '' then begin
     MsgBox('Nama supllier masih kosong.');
     Abort;
@@ -139,6 +138,7 @@ begin
         dm.zConn.ExecuteDirect(Format('DELETE FROM tbl_invoicepembelian_det WHERE id_ref = %s',[Self.EditKey]));
       end;
 
+
       qh.FieldByName('no_bukti').AsString := sNoBukti;
       qh.FieldByName('tanggal').AsDateTime := cxdTgl.Date;
       qh.FieldByName('id_supp').AsString := cxlSupplier.EditValue;
@@ -146,6 +146,10 @@ begin
       qh.FieldByName('user').AsString := Aplikasi.NamaUser;
       qh.FieldByName('user_dept').AsString := Aplikasi.UserDept;
       qh.FieldByName('tgl_input').AsDateTime := Aplikasi.Tanggal;
+      if cxChkTanpaPO.Checked = True then
+        qh.FieldByName('f_po').AsInteger := 1
+      else
+        qh.FieldByName('f_po').AsInteger := 0;
 
       if self.Jenis = 'E' then
         qh.FieldByName('f_revisi').AsInteger := 1

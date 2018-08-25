@@ -161,9 +161,7 @@ begin
   q := OpenRS('SELECT no_bukti FROM tbl_history WHERE no_bukti = ''%s''',
     [zqrKoreksi.FieldByName('no_bukti').AsString]);
   if not q.IsEmpty then begin
-    MsgBox('Transaksi sudah di terposting.');
-    q.Close;
-    Abort;
+
   end;
   q.Close;
 

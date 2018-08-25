@@ -63,7 +63,6 @@ type
     cxsPPN: TcxSpinEdit;
     cxLabel3: TcxLabel;
     cxsTotal: TcxSpinEdit;
-    cxColDiscPersen: TcxGridColumn;
     procedure cxLuNoPPPropertiesChange(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure cxLuSupplierPropertiesChange(Sender: TObject);
@@ -107,20 +106,31 @@ var
 
 begin
   {
+  inherited;
+
   if cxlSupplier.Text = '' then begin
     MsgBox('Nama supllier masih kosong.');
     Abort;
   end;
 
-  with cxtbInvPemb.DataController do begin
+  // cek approval PO
+  if Self.Jenis = 'E' then begin
+    q := OpenRS('SELECT f_app FROM tbl_invoicepembelian_head WHERE id = %s',[Self.EditKey]);
+    if q.FieldByName('f_app').AsInteger = 1 then begin
+      MsgBox('Purchase Invoice tidak bisa di edit karena sudah di Approval.');
+      Abort;
+    end;
+  end;
+
+  with cxtbTblPI.DataController do begin
     if RecordCount = 0 then begin
       MsgBox('Detail transaksi masih kosong.');
       Abort;
     end;
 
     if Self.Jenis = 'T' then begin
-      sNoBukti := GetLastFak('invoice-pembelian');
-      UpdateFaktur(Copy(sNoBukti,1,8));
+      sNoBukti := GetLastFak('pi');
+      UpdateFaktur(Copy(sNoBukti,1,7));
     end
     else begin
       sNoBukti := cxtNoBukti.text;
@@ -139,6 +149,7 @@ begin
         dm.zConn.ExecuteDirect(Format('DELETE FROM tbl_invoicepembelian_det WHERE id_ref = %s',[Self.EditKey]));
       end;
 
+
       qh.FieldByName('no_bukti').AsString := sNoBukti;
       qh.FieldByName('tanggal').AsDateTime := cxdTgl.Date;
       qh.FieldByName('id_supp').AsString := cxlSupplier.EditValue;
@@ -146,6 +157,10 @@ begin
       qh.FieldByName('user').AsString := Aplikasi.NamaUser;
       qh.FieldByName('user_dept').AsString := Aplikasi.UserDept;
       qh.FieldByName('tgl_input').AsDateTime := Aplikasi.Tanggal;
+      if cxChkTanpaPO.Checked = True then
+        qh.FieldByName('f_po').AsInteger := 1
+      else
+        qh.FieldByName('f_po').AsInteger := 0;
 
       if self.Jenis = 'E' then
         qh.FieldByName('f_revisi').AsInteger := 1
@@ -208,8 +223,6 @@ begin
         (Self.FormInduk as TfrmLstPembayaranPembelian).btnRefreshClick(nil);
 
       btnBatalClick(nil);
-
-      inherited;
     except
       on E: Exception do begin
         dm.zConn.Rollback;

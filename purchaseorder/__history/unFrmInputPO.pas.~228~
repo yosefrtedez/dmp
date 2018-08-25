@@ -606,6 +606,12 @@ begin
         else
           Values[i, cxColTotal.Index] := (Values[i, cxColHarga.Index] * Values[i, cxColQty.Index]) - disc1;
 
+        if Values[i, cxColPPn.Index] = 'PPN' then begin
+          Values[i, cxColTotal.Index] := z.FieldByName('qty').AsFloat * z.FieldByName('harga').AsFloat * 110/100;
+        end else begin
+          Values[i, cxColTotal.Index] := z.FieldByName('qty').AsFloat * z.FieldByName('harga').AsFloat
+        end;
+
         Values[i, cxColKeterangan.Index] := z.FieldByName('keterangan').AsString;
         nomer := nomer +1;
         Values[i, cxColKodeBrg2.Index] := z.FieldByName('kode').AsString;
