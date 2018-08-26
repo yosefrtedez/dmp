@@ -3,7 +3,7 @@ inherited frmInputPB: TfrmInputPB
   ClientHeight = 739
   ClientWidth = 1172
   OnShow = FormShow
-  ExplicitTop = -58
+  ExplicitTop = -91
   ExplicitWidth = 1172
   ExplicitHeight = 739
   PixelsPerInch = 96
@@ -605,6 +605,7 @@ inherited frmInputPB: TfrmInputPB
         Visible = False
       end
       object cxColIdSatuan22: TcxGridColumn
+        Visible = False
       end
     end
     object cxGridLevel1: TcxGridLevel

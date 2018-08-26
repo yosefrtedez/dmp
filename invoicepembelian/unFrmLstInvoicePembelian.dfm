@@ -54,10 +54,10 @@ inherited frmLstInvoicePembelian: TfrmLstInvoicePembelian
     Height = 168
     Align = alClient
     TabOrder = 1
-    object cxtbPIHead: TcxGridDBTableView
+    object cxtbInvPemb: TcxGridDBTableView
       NavigatorButtons.ConfirmDelete = False
-      OnFocusedRecordChanged = cxtbPIHeadFocusedRecordChanged
-      DataController.DataSource = dsPembayaranPembelian
+      OnFocusedRecordChanged = cxtbInvPembFocusedRecordChanged
+      DataController.DataSource = dsInvoicePembelian
       DataController.KeyFieldNames = 'id'
       DataController.Summary.DefaultGroupSummaryItems = <>
       DataController.Summary.FooterSummaryItems = <>
@@ -65,20 +65,21 @@ inherited frmLstInvoicePembelian: TfrmLstInvoicePembelian
       FilterRow.Visible = True
       OptionsView.CellTextMaxLineCount = 10
       Preview.MaxLineCount = 10
-      object cxColTblHeadno_bukti: TcxGridDBColumn
+      object cxColNoBukti: TcxGridDBColumn
         Caption = 'No. Bukti'
         DataBinding.FieldName = 'no_bukti'
         Options.Editing = False
         Width = 90
       end
       object cxColTblHeadnama: TcxGridDBColumn
-        Caption = 'Nama'
+        Caption = 'Supplier'
         DataBinding.FieldName = 'nama_supplier'
         Options.Editing = False
         Width = 150
       end
       object cxColTblHeadkontak: TcxGridDBColumn
         DataBinding.FieldName = 'kontak'
+        Visible = False
         Options.Editing = False
         Width = 120
       end
@@ -106,13 +107,14 @@ inherited frmLstInvoicePembelian: TfrmLstInvoicePembelian
         PropertiesClassName = 'TcxCheckBoxProperties'
         Properties.ValueChecked = 1
         Properties.ValueUnchecked = 0
+        Visible = False
         Options.Editing = False
-        Width = 50
+        Width = 67
       end
     end
     object cxTblDet: TcxGridDBTableView
       NavigatorButtons.ConfirmDelete = False
-      DataController.DataSource = dsPembayaranPembelianDet
+      DataController.DataSource = dsInvoicePembelianDet
       DataController.DetailKeyFieldNames = 'id_ref'
       DataController.MasterKeyFieldNames = 'id'
       DataController.Summary.DefaultGroupSummaryItems = <>
@@ -161,7 +163,7 @@ inherited frmLstInvoicePembelian: TfrmLstInvoicePembelian
       end
     end
     object cxgrdlvl1Grid1Level1: TcxGridLevel
-      GridView = cxtbPIHead
+      GridView = cxtbInvPemb
     end
   end
   object cxGrid1: TcxGrid
@@ -171,29 +173,34 @@ inherited frmLstInvoicePembelian: TfrmLstInvoicePembelian
     Height = 200
     Align = alBottom
     TabOrder = 3
-    object cxtbPIDet: TcxGridDBTableView
+    object cxtbInvPembDet: TcxGridDBTableView
       NavigatorButtons.ConfirmDelete = False
-      DataController.DataSource = dsPembayaranPembelianDet
+      DataController.DataSource = dsInvoicePembelianDet
       DataController.Summary.DefaultGroupSummaryItems = <>
       DataController.Summary.FooterSummaryItems = <
         item
           Format = '#,#0.00'
           Kind = skSum
-          Column = cxtbPIDetColumn2
+          Column = cxtbInvPembDetColumn2
         end>
       DataController.Summary.SummaryGroups = <>
       OptionsView.Footer = True
-      object cxtbPIDetkode_brg: TcxGridDBColumn
+      object cxtbInvPembDetColumn5: TcxGridDBColumn
+        Caption = 'No. PO'
+        DataBinding.FieldName = 'no_po'
+        Width = 97
+      end
+      object cxtbInvPembDetkode_brg: TcxGridDBColumn
         Caption = 'Kode Brg.'
-        DataBinding.FieldName = 'kode_brg'
+        DataBinding.FieldName = 'kode_brg2'
         Width = 103
       end
-      object cxtbPIDetdeskripsi: TcxGridDBColumn
+      object cxtbInvPembDetdeskripsi: TcxGridDBColumn
         Caption = 'Deskripsi'
         DataBinding.FieldName = 'deskripsi'
-        Width = 374
+        Width = 263
       end
-      object cxtbPIDetqty: TcxGridDBColumn
+      object cxtbInvPembDetqty: TcxGridDBColumn
         Caption = 'Qty.'
         DataBinding.FieldName = 'qty'
         PropertiesClassName = 'TcxSpinEditProperties'
@@ -201,12 +208,16 @@ inherited frmLstInvoicePembelian: TfrmLstInvoicePembelian
         Properties.DisplayFormat = '#,#0.00'
         HeaderAlignmentHorz = taRightJustify
       end
-      object cxtbPIDetsatuan: TcxGridDBColumn
+      object cxtbInvPembDetsatuan: TcxGridDBColumn
         Caption = 'Satuan'
         DataBinding.FieldName = 'satuan'
-        Width = 54
+        Width = 62
       end
-      object cxtbPIDetharga: TcxGridDBColumn
+      object cxtbInvPembDetColumn4: TcxGridDBColumn
+        Caption = 'PPN'
+        DataBinding.FieldName = 'ppn'
+      end
+      object cxtbInvPembDetharga: TcxGridDBColumn
         Caption = 'Harga'
         DataBinding.FieldName = 'harga'
         PropertiesClassName = 'TcxSpinEditProperties'
@@ -214,16 +225,22 @@ inherited frmLstInvoicePembelian: TfrmLstInvoicePembelian
         Properties.DisplayFormat = '#,#0.00'
         HeaderAlignmentHorz = taRightJustify
       end
-      object cxtbPIDetmata_uang: TcxGridDBColumn
+      object cxtbInvPembDetmata_uang: TcxGridDBColumn
         DataBinding.FieldName = 'mata_uang'
         Visible = False
       end
-      object cxtbPIDetColumn1: TcxGridDBColumn
+      object cxtbInvPembDetColumn3: TcxGridDBColumn
+        Caption = 'Disc (%)'
+        DataBinding.FieldName = 'disc_persen'
+        PropertiesClassName = 'TcxSpinEditProperties'
+        Properties.DisplayFormat = '#,#0.00'
+      end
+      object cxtbInvPembDetColumn1: TcxGridDBColumn
         Caption = 'Keterangan'
         DataBinding.FieldName = 'keterangan'
-        Width = 370
+        Width = 185
       end
-      object cxtbPIDetColumn2: TcxGridDBColumn
+      object cxtbInvPembDetColumn2: TcxGridDBColumn
         Caption = 'Subtotal'
         DataBinding.FieldName = 'subtotal'
         PropertiesClassName = 'TcxSpinEditProperties'
@@ -235,7 +252,7 @@ inherited frmLstInvoicePembelian: TfrmLstInvoicePembelian
       end
     end
     object cxGrid1Level1: TcxGridLevel
-      GridView = cxtbPIDet
+      GridView = cxtbInvPembDet
     end
   end
   object Panel3: TPanel
@@ -264,35 +281,37 @@ inherited frmLstInvoicePembelian: TfrmLstInvoicePembelian
       OnClick = btnCetakPOClick
     end
   end
-  object zqrPembayaranPembelian: TZReadOnlyQuery
+  object zqrInvoicePembelian: TZReadOnlyQuery
     Connection = DM.zConn
     SQL.Strings = (
       
         'SELECT a.id, a.no_bukti, a.tanggal, a.user, a.user_dept, a.f_app' +
         ','
-      'b.nama, b.kontak, d.nama nama_supplier'
+      'b.nama, b.kontak, b.nama nama_supplier'
       'FROM tbl_invoicepembelian_head a '
-      'LEFT JOIN tbl_supplier b ON a.id_supp = b.id'
-      'LEFT JOIN tbl_supplier d ON d.id = a.id_supp')
+      'LEFT JOIN tbl_supplier b ON a.id_supp = b.id')
     Params = <>
     Left = 647
     Top = 156
   end
-  object dsPembayaranPembelian: TDataSource
-    DataSet = zqrPembayaranPembelian
+  object dsInvoicePembelian: TDataSource
+    DataSet = zqrInvoicePembelian
     Left = 811
     Top = 157
   end
-  object zqrPembayaranPembelianDet: TZReadOnlyQuery
+  object zqrInvoicePembelianDet: TZReadOnlyQuery
     Connection = DM.zConn
     AutoCalcFields = False
     SQL.Strings = (
       
-        'SELECT a.*, b.deskripsi, a.qty, c.satuan, a.harga, a.mata_uang, ' +
-        'a.qty * a.harga subtotal'
+        'SELECT a.*, b.kode kode_brg2,  b.deskripsi, a.qty, c.satuan, a.h' +
+        'arga, a.mata_uang, a.qty * a.harga subtotal, d.no_bukti no_po'
       'FROM tbl_invoicepembelian_det a'
-      'LEFT JOIN tbl_barang b ON a.kode_brg = b.kode '
+      'LEFT JOIN tbl_barang b ON a.id_brg = b.id '
       'LEFT JOIN tbl_satuan c ON c.id = a.id_satuan'
+      
+        'LEFT JOIN tbl_po_det d ON d.id_ref = a.id_po AND d.id_brg = a.id' +
+        '_brg'
       'WHERE a.id_ref = :id_ref')
     Params = <
       item
@@ -300,8 +319,8 @@ inherited frmLstInvoicePembelian: TfrmLstInvoicePembelian
         Name = 'id_ref'
         ParamType = ptUnknown
       end>
-    Left = 412
-    Top = 340
+    Left = 660
+    Top = 332
     ParamData = <
       item
         DataType = ftUnknown
@@ -309,41 +328,9 @@ inherited frmLstInvoicePembelian: TfrmLstInvoicePembelian
         ParamType = ptUnknown
       end>
   end
-  object dsPembayaranPembelianDet: TDataSource
-    DataSet = zqrPembayaranPembelianDet
-    Left = 577
+  object dsInvoicePembelianDet: TDataSource
+    DataSet = zqrInvoicePembelianDet
+    Left = 777
     Top = 356
-  end
-  object zqrRptPO: TZReadOnlyQuery
-    Connection = DM.zConn
-    SQL.Strings = (
-      
-        'SELECT a.id, a.no_bukti, a.tanggal, a.pembayaran,  e.nama, e.ala' +
-        'mat, e.hp, a.pembayaran, b.qty, c.deskripsi, b.harga, d.satuan'
-      'FROM tbl_po_head a '
-      'INNER JOIN tbl_po_det b ON a.id = b.id_ref'
-      'LEFT JOIN tbl_barang c ON c.id = b.id_brg'
-      'LEFT JOIN tbl_supplier e ON a.id_supplier = e.id'
-      'LEFT JOIN tbl_satuan d ON d.id = b.id_satuan '
-      'WHERE a.no_bukti = :no_bukti;')
-    Params = <
-      item
-        DataType = ftUnknown
-        Name = 'no_bukti'
-        ParamType = ptUnknown
-      end>
-    Left = 571
-    Top = 444
-    ParamData = <
-      item
-        DataType = ftUnknown
-        Name = 'no_bukti'
-        ParamType = ptUnknown
-      end>
-  end
-  object dsRptPO: TDataSource
-    DataSet = zqrRptPO
-    Left = 638
-    Top = 455
   end
 end

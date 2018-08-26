@@ -129,6 +129,15 @@ begin
   end;
   q.Close;
 
+  q := OpenRS('SELECT no_bukti FROM tbl_history WHERE no_bukti = ''%s''',
+    [zqrBarangKeluar.FieldByName('no_bukti').AsString]);
+  if not q.IsEmpty then begin
+    MsgBox('Transaksi sudah di terposting.');
+    q.Close;
+    Abort;
+  end;
+  q.Close;
+
   try
     q := OpenRS('SELECT a.id_brg, a.id_gdg, a.qty, b.kode, b.deskripsi ' +
       'FROM tbl_trskeluar_det a ' +

@@ -247,11 +247,29 @@ begin
 end;
 
 procedure TfrmInputSuratJalan.Button1Click(Sender: TObject);
+
+  function CheckAda(id_brg, id_so: Integer; var row: Integer): Boolean;
+  var
+    x: integer;
+    f: Boolean;
+  begin
+    f := false;
+    for x := 0 to cxtbSJ.DataController.RecordCount - 1 do begin
+      with cxtbSJ.DataController do begin
+        if (Values[x, cxColIdBrg.Index] = id_brg) and (Values[x, cxColIdSO.Index] = id_so) then begin
+          f := true;
+          row := x;
+        end;
+      end;
+    end;
+    Result := f;
+  end;
+
 var
   f: TfrmPilihSO;
   cx: TcxGridTableView;
-  i,j: Integer;
-  qhrg, qbrg: TZQuery;
+  i,j, row: Integer;
+  qhrg, qbrg, qc: TZQuery;
 begin
   inherited;
   if cxlCustomer.Text = '' then Abort;
@@ -261,36 +279,67 @@ begin
   if f.ShowModal = mrOk then begin
     cx := f.cxtbSO;
     cxtbSJ.BeginUpdate;
-    cxtbSJ.DataController.RecordCount := 0;
+    //cxtbSJ.DataController.RecordCount := 0;
     with cx.DataController do begin
       for i := 0 to RecordCount -  1 do begin
         if Values[i, f.cxColPilih.Index] = 1 then begin
-          j := cxtbSJ.DataController.AppendRecord;
-          cxtbSJ.DataController.Values[j, cxColIdBrg.Index] := Values[i, f.cxColIdBrg.Index];
-          cxtbSJ.DataController.Values[j, cxColIdSO.Index] := Values[i, f.cxColIdSO.Index];
-          cxtbSJ.DataController.Values[j, cxColKodeBrg.Index] := Values[i,f.cxColKodeBrg.Index];
-          cxtbSJ.DataController.Values[j, cxColDeskripsi.Index] := Values[i,f.cxColDeskripsi.Index];
-          cxtbSJ.DataController.Values[j, cxColNoSO.Index] := Values[i, f.cxColNoSO.Index];
-          cxtbSJ.DataController.Values[j, cxColQtySO.Index] := Values[i, f.cxColQtySO.Index];
-          cxtbSJ.DataController.Values[j, cxColQty.Index] := Values[i, f.cxColJmlKirim.Index];
-          cxtbSJ.DataController.Values[j, cxColQtyTerkirim.Index] := Values[i, f.cxColQtyTerkirim.Index];
 
-          cxtbSJ.DataController.Values[j, cxColGudang.Index] := Values[i, f.cxColGdg.Index];
-          cxtbSJ.DataController.Values[j, cxColSatuan.Index] := Values[i, f.cxColSatuan.Index];
-          cxtbSJ.DataController.Values[j, cxColIdSatuan.Index] := Values[i, f.cxColIdSatuan.Index];
+          if CheckAda(Values[i, f.cxColIdBrg.Index], Values[i, f.cxColIdSO.Index], row) then begin
+            cxtbSJ.DataController.Values[row, cxColIdBrg.Index] := Values[i, f.cxColIdBrg.Index];
+            cxtbSJ.DataController.Values[row, cxColIdSO.Index] := Values[i, f.cxColIdSO.Index];
+            cxtbSJ.DataController.Values[row, cxColKodeBrg.Index] := Values[i,f.cxColKodeBrg.Index];
+            cxtbSJ.DataController.Values[row, cxColDeskripsi.Index] := Values[i,f.cxColDeskripsi.Index];
+            cxtbSJ.DataController.Values[row, cxColNoSO.Index] := Values[i, f.cxColNoSO.Index];
+            cxtbSJ.DataController.Values[row, cxColQtySO.Index] := Values[i, f.cxColQtySO.Index];
+            cxtbSJ.DataController.Values[row, cxColQty.Index] := Values[i, f.cxColJmlKirim.Index];
+            cxtbSJ.DataController.Values[row, cxColQtyTerkirim.Index] := Values[i, f.cxColQtyTerkirim.Index];
 
-          qhrg := OpenRS('SELECT harga FROM tbl_so_det WHERE id_ref = %s AND id_brg = %s',
-            [Values[i, f.cxColIdSO.Index], Values[i, f.cxColIdBrg.Index]]);
-          cxtbSJ.DataController.Values[j, cxColHarga.Index] := qhrg.FieldByname('harga').AsFloat;
-          qhrg.Close;
+            cxtbSJ.DataController.Values[row, cxColGudang.Index] := Values[i, f.cxColGdg.Index];
+            cxtbSJ.DataController.Values[row, cxColSatuan.Index] := Values[i, f.cxColSatuan.Index];
+            cxtbSJ.DataController.Values[row, cxColIdSatuan.Index] := Values[i, f.cxColIdSatuan.Index];
 
-          qbrg := OpenRS('SELECT jml_ikat_per_karung FROM tbl_barang_det_spek WHERE id_ref = %s',
-            [Values[i, f.cxColIdBrg.Index]]);
-          cxtbSJ.DataController.Values[j, cxColJmlIkatPerBal.Index] := qbrg.FieldbyName('jml_ikat_per_karung').AsInteger;
-          qbrg.Close;
+            qhrg := OpenRS('SELECT harga FROM tbl_so_det WHERE id_ref = %s AND id_brg = %s',
+              [Values[i, f.cxColIdSO.Index], Values[i, f.cxColIdBrg.Index]]);
+            cxtbSJ.DataController.Values[row, cxColHarga.Index] := qhrg.FieldByname('harga').AsFloat;
+            qhrg.Close;
 
-          cxtbSJ.DataController.Values[j, cxColTotal.Index] :=
-            cxtbSJ.DataController.Values[j, cxColHarga.Index] * cxtbSJ.DataController.Values[j, cxColQty.Index];
+            qbrg := OpenRS('SELECT jml_ikat_per_karung FROM tbl_barang_det_spek WHERE id_ref = %s',
+              [Values[i, f.cxColIdBrg.Index]]);
+            cxtbSJ.DataController.Values[row, cxColJmlIkatPerBal.Index] := qbrg.FieldbyName('jml_ikat_per_karung').AsInteger;
+            qbrg.Close;
+
+            cxtbSJ.DataController.Values[row, cxColTotal.Index] :=
+              cxtbSJ.DataController.Values[row, cxColHarga.Index] * cxtbSJ.DataController.Values[row, cxColQty.Index];
+          end
+          else begin
+
+            j := cxtbSJ.DataController.AppendRecord;
+            cxtbSJ.DataController.Values[j, cxColIdBrg.Index] := Values[i, f.cxColIdBrg.Index];
+            cxtbSJ.DataController.Values[j, cxColIdSO.Index] := Values[i, f.cxColIdSO.Index];
+            cxtbSJ.DataController.Values[j, cxColKodeBrg.Index] := Values[i,f.cxColKodeBrg.Index];
+            cxtbSJ.DataController.Values[j, cxColDeskripsi.Index] := Values[i,f.cxColDeskripsi.Index];
+            cxtbSJ.DataController.Values[j, cxColNoSO.Index] := Values[i, f.cxColNoSO.Index];
+            cxtbSJ.DataController.Values[j, cxColQtySO.Index] := Values[i, f.cxColQtySO.Index];
+            cxtbSJ.DataController.Values[j, cxColQty.Index] := Values[i, f.cxColJmlKirim.Index];
+            cxtbSJ.DataController.Values[j, cxColQtyTerkirim.Index] := Values[i, f.cxColQtyTerkirim.Index];
+
+            cxtbSJ.DataController.Values[j, cxColGudang.Index] := Values[i, f.cxColGdg.Index];
+            cxtbSJ.DataController.Values[j, cxColSatuan.Index] := Values[i, f.cxColSatuan.Index];
+            cxtbSJ.DataController.Values[j, cxColIdSatuan.Index] := Values[i, f.cxColIdSatuan.Index];
+
+            qhrg := OpenRS('SELECT harga FROM tbl_so_det WHERE id_ref = %s AND id_brg = %s',
+              [Values[i, f.cxColIdSO.Index], Values[i, f.cxColIdBrg.Index]]);
+            cxtbSJ.DataController.Values[j, cxColHarga.Index] := qhrg.FieldByname('harga').AsFloat;
+            qhrg.Close;
+
+            qbrg := OpenRS('SELECT jml_ikat_per_karung FROM tbl_barang_det_spek WHERE id_ref = %s',
+              [Values[i, f.cxColIdBrg.Index]]);
+            cxtbSJ.DataController.Values[j, cxColJmlIkatPerBal.Index] := qbrg.FieldbyName('jml_ikat_per_karung').AsInteger;
+            qbrg.Close;
+
+            cxtbSJ.DataController.Values[j, cxColTotal.Index] :=
+              cxtbSJ.DataController.Values[j, cxColHarga.Index] * cxtbSJ.DataController.Values[j, cxColQty.Index];
+          end;
         end;
       end;
       HitungTotal;
@@ -615,7 +664,8 @@ begin
     cxtNoFaktur.Text := q.FieldByName('no_faktur').AsString;
     q.Close;
 
-    z := OpenRS('SELECT a.*, b.deskripsi, c.satuan satuan2, d.jml_ikat_per_karung, e.no_bukti no_so2 FROM tbl_sj_det a ' +
+    z := OpenRS('SELECT a.*, b.deskripsi, c.satuan satuan2, d.jml_ikat_per_karung, e.no_bukti no_so2, e.qty qty_so2 ' +
+      'FROM tbl_sj_det a ' +
       'left join tbl_barang b on a.id_brg = b.id ' +
       'LEFT JOIN tbl_satuan c on c.id = a.id_satuan ' +
       'LEFT JOIN tbl_barang_det_spek d on d.id_ref = a.id_brg ' +
@@ -631,6 +681,7 @@ begin
         Values[i, cxColKodeBrg.Index] := z.FieldByName('kode_brg').AsString;
         Values[i, cxColDeskripsi.Index] := z.FieldByName('deskripsi').AsString;
         Values[i, cxColNoSO.Index] := z.FieldByName('no_so2').AsString;
+        Values[i, cxColQtySO.Index] := z.FieldByname('qty_so2').AsFloat;
         Values[i, cxColQty.Index] := z.FieldByName('qty').AsFloat;
         Values[i, cxColSatuan.Index] := z.FieldByName('satuan2').AsString;
         Values[i, cxColIdSatuan.Index] := z.FieldByname('id_satuan').AsInteger;

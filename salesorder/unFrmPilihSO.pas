@@ -134,7 +134,7 @@ var
   i: integer;
 begin
   q := OpenRS('SELECT a.id, a.tanggal, a.no_bukti, b.id_brg, c.kode, c.deskripsi, b.qty, b.id_satuan, d.satuan satuan2, ' +
-    '(SELECT SUM(qty) FROM tbl_sj_det WHERE id_so = a.id AND id_brg = b.id_brg) qty_terkirim ' +
+    'IFNULL((SELECT SUM(aa.qty) FROM tbl_sj_det aa INNER JOIN tbl_sj_head bb ON aa.id_ref = bb.id WHERE aa.id_so = a.id AND aa.id_brg = b.id_brg AND bb.f_posting = 1),0) qty_terkirim ' +
     'FROM tbl_so_head a ' +
     'LEFT JOIN tbl_so_det b ON a.id = b.id_ref ' +
     'LEFT JOIN tbl_barang c ON c.id = b.id_brg ' +
@@ -162,6 +162,7 @@ begin
     q.Next;
   end;
   cxtbSO.EndUpdate;
+
 end;
 
 end.

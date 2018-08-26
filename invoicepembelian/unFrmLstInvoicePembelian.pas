@@ -23,14 +23,14 @@ uses
 type
   TfrmLstInvoicePembelian = class(TfrmTplGrid)
     Label1: TLabel;
-    cxtbPIHead: TcxGridDBTableView;
+    cxtbInvPemb: TcxGridDBTableView;
     cxgrdlvl1Grid1Level1: TcxGridLevel;
     cxgrd1: TcxGrid;
-    zqrPembayaranPembelian: TZReadOnlyQuery;
-    dsPembayaranPembelian: TDataSource;
+    zqrInvoicePembelian: TZReadOnlyQuery;
+    dsInvoicePembelian: TDataSource;
     cxTblDet: TcxGridDBTableView;
-    zqrPembayaranPembelianDet: TZReadOnlyQuery;
-    dsPembayaranPembelianDet: TDataSource;
+    zqrInvoicePembelianDet: TZReadOnlyQuery;
+    dsInvoicePembelianDet: TDataSource;
     cxColTblDetid: TcxGridDBColumn;
     cxColTblDetid_ref: TcxGridDBColumn;
     cxColTblDetno_bukti: TcxGridDBColumn;
@@ -40,7 +40,7 @@ type
     cxColTblDetsatuan: TcxGridDBColumn;
     cxColTblDetharga: TcxGridDBColumn;
     cxColTblDetmata_uang: TcxGridDBColumn;
-    cxColTblHeadno_bukti: TcxGridDBColumn;
+    cxColNoBukti: TcxGridDBColumn;
     cxColTblHeadtgl_required: TcxGridDBColumn;
     cxColTblHeaduser: TcxGridDBColumn;
     cxColTblHeaduser_dept: TcxGridDBColumn;
@@ -48,27 +48,28 @@ type
     cxColTblHeadnama: TcxGridDBColumn;
     cxColTblHeadkontak: TcxGridDBColumn;
     cxGrid1: TcxGrid;
-    cxtbPIDet: TcxGridDBTableView;
+    cxtbInvPembDet: TcxGridDBTableView;
     cxGrid1Level1: TcxGridLevel;
     Panel3: TPanel;
     cxLabel1: TcxLabel;
-    cxtbPIDetkode_brg: TcxGridDBColumn;
-    cxtbPIDetdeskripsi: TcxGridDBColumn;
-    cxtbPIDetqty: TcxGridDBColumn;
-    cxtbPIDetsatuan: TcxGridDBColumn;
-    cxtbPIDetharga: TcxGridDBColumn;
-    cxtbPIDetmata_uang: TcxGridDBColumn;
-    cxtbPIDetColumn1: TcxGridDBColumn;
-    cxtbPIDetColumn2: TcxGridDBColumn;
+    cxtbInvPembDetkode_brg: TcxGridDBColumn;
+    cxtbInvPembDetdeskripsi: TcxGridDBColumn;
+    cxtbInvPembDetqty: TcxGridDBColumn;
+    cxtbInvPembDetsatuan: TcxGridDBColumn;
+    cxtbInvPembDetharga: TcxGridDBColumn;
+    cxtbInvPembDetmata_uang: TcxGridDBColumn;
+    cxtbInvPembDetColumn1: TcxGridDBColumn;
+    cxtbInvPembDetColumn2: TcxGridDBColumn;
     btnCetakPO: TButton;
-    zqrRptPO: TZReadOnlyQuery;
-    dsRptPO: TDataSource;
+    cxtbInvPembDetColumn3: TcxGridDBColumn;
+    cxtbInvPembDetColumn4: TcxGridDBColumn;
+    cxtbInvPembDetColumn5: TcxGridDBColumn;
     procedure FormCreate(Sender: TObject);
     procedure btnRefreshClick(Sender: TObject);
     procedure btnTambahClick(Sender: TObject);
     procedure btnEditClick(Sender: TObject);
     procedure btnHapusClick(Sender: TObject);
-    procedure cxtbPIHeadFocusedRecordChanged(Sender: TcxCustomGridTableView;
+    procedure cxtbInvPembFocusedRecordChanged(Sender: TcxCustomGridTableView;
       APrevFocusedRecord, AFocusedRecord: TcxCustomGridRecord;
       ANewItemRecordFocusingChanged: Boolean);
     procedure btnCtkPOClick(Sender: TObject);
@@ -127,7 +128,7 @@ var
  q: TZQuery;
 begin
   inherited;
-
+  {
   if not fu.CekTabOpen('Edit Purchase Invoice') then begin
     ts := TcxTabSheet.Create(Self);
     ts.PageControl := frmUtama.pgMain;
@@ -145,7 +146,7 @@ begin
     f.Show;
     fu.pgMain.ActivePage := ts;
   end;
-
+  }
 end;
 
 procedure TfrmLstInvoicePembelian.btnHapusClick(Sender: TObject);
@@ -153,7 +154,7 @@ var
   q : TZQuery;
 begin
   inherited;
-
+  {
   q := OpenRS('select * from tbl_invoicepembelian_head where f_app = 1 and no_bukti = ''%s''',[zqrPembayaranPembelian.FieldByName('no_bukti').AsString]);
   if not q.Eof then begin
     MsgBox('Maaf data tidak bisa dihapus, karena sudah di Approveg');
@@ -174,17 +175,21 @@ begin
        end;
     end;
   end;
-
+  }
 end;
 
 procedure TfrmLstInvoicePembelian.btnRefreshClick(Sender: TObject);
+var
+  bm: Variant;
 begin
   inherited;
-  zqrPembayaranPembelian.Close;
-  zqrPembayaranPembelian.Open;
-  zqrPembayaranPembelianDet.Close;
-  zqrPembayaranPembelianDet.Open;
-
+  try
+    bm := zqrInvoicePembelian.Bookmark;
+    zqrInvoicePembelian.Close;
+    zqrInvoicePembelian.Open;
+    zqrInvoicePembelian.Bookmark := bm;
+  except
+  end;
 end;
 
 procedure TfrmLstInvoicePembelian.btnTambahClick(Sender: TObject);
@@ -207,24 +212,24 @@ begin
   end;
 end;
 
-procedure TfrmLstInvoicePembelian.cxtbPIHeadFocusedRecordChanged(
+procedure TfrmLstInvoicePembelian.cxtbInvPembFocusedRecordChanged(
   Sender: TcxCustomGridTableView; APrevFocusedRecord,
   AFocusedRecord: TcxCustomGridRecord; ANewItemRecordFocusingChanged: Boolean);
 begin
   inherited;
   try
-    zqrPembayaranPembelianDet.Close;
-    zqrPembayaranPembelianDet.ParamByName('id_ref').AsInteger := zqrPembayaranPembelian.FieldByName('id').AsInteger;
-    zqrPembayaranPembelianDet.Open;
+    zqrInvoicePembelianDet.Close;
+    zqrInvoicePembelianDet.ParamByName('id_ref').AsInteger := zqrInvoicePembelian.FieldByName('id').AsInteger;
+    zqrInvoicePembelianDet.Open;
   except
   end;
-
 end;
 
 procedure TfrmLstInvoicePembelian.FormCreate(Sender: TObject);
 begin
   inherited;
-  zqrPembayaranPembelian.Open;
+  zqrInvoicePembelian.Open;
+  cxColNoBukti.SortOrder := soAscending;
 end;
 
 end.

@@ -3,6 +3,7 @@ inherited frmInputInvoicePembelian: TfrmInputInvoicePembelian
   ClientHeight = 690
   ClientWidth = 1065
   OnShow = FormShow
+  ExplicitTop = -49
   ExplicitWidth = 1065
   ExplicitHeight = 690
   PixelsPerInch = 96
@@ -42,6 +43,7 @@ inherited frmInputInvoicePembelian: TfrmInputInvoicePembelian
       NavigatorButtons.ConfirmDelete = False
       NavigatorButtons.Insert.Visible = False
       NavigatorButtons.Append.Visible = False
+      NavigatorButtons.Delete.Visible = False
       NavigatorButtons.Refresh.Visible = False
       NavigatorButtons.SaveBookmark.Visible = False
       NavigatorButtons.GotoBookmark.Visible = False
@@ -75,40 +77,20 @@ inherited frmInputInvoicePembelian: TfrmInputInvoicePembelian
       end
       object cxColKodeBrg: TcxGridColumn
         Caption = 'Kode Brg'
-        PropertiesClassName = 'TcxLookupComboBoxProperties'
-        Properties.DropDownAutoSize = True
-        Properties.KeyFieldNames = 'id'
-        Properties.ListColumns = <
-          item
-            Caption = 'Kode '
-            FieldName = 'kode'
-          end
-          item
-            Caption = 'Deskripsi'
-            FieldName = 'deskripsi'
-          end>
-        Properties.ListSource = dsBarang
+        PropertiesClassName = 'TcxTextEditProperties'
         Properties.ReadOnly = True
         Width = 95
       end
       object cxColDeskripsi: TcxGridColumn
         Caption = 'Deskripsi'
-        PropertiesClassName = 'TcxLookupComboBoxProperties'
-        Properties.KeyFieldNames = 'id'
-        Properties.ListColumns = <
-          item
-            FieldName = 'deskripsi'
-          end
-          item
-            FieldName = 'kode'
-          end>
-        Properties.ListSource = dsBarang
+        PropertiesClassName = 'TcxTextEditProperties'
         Properties.ReadOnly = True
         Width = 237
       end
       object cxColNoPO: TcxGridColumn
         Caption = 'No.PO'
         PropertiesClassName = 'TcxTextEditProperties'
+        Properties.ReadOnly = True
         Width = 105
       end
       object cxColQty: TcxGridColumn
@@ -117,7 +99,7 @@ inherited frmInputInvoicePembelian: TfrmInputInvoicePembelian
         PropertiesClassName = 'TcxSpinEditProperties'
         Properties.Alignment.Horz = taRightJustify
         Properties.DisplayFormat = '#,##.00'
-        Properties.ReadOnly = False
+        Properties.ReadOnly = True
         Properties.ValueType = vtFloat
       end
       object cxColSatuan: TcxGridColumn
@@ -132,13 +114,16 @@ inherited frmInputInvoicePembelian: TfrmInputInvoicePembelian
         PropertiesClassName = 'TcxSpinEditProperties'
         Properties.Alignment.Horz = taRightJustify
         Properties.DisplayFormat = '#,##.00'
+        Properties.ReadOnly = True
         Width = 88
       end
       object cxColDiscPersen: TcxGridColumn
         Caption = 'Disc (%)'
         DataBinding.ValueType = 'Float'
         PropertiesClassName = 'TcxSpinEditProperties'
+        Properties.Alignment.Horz = taRightJustify
         Properties.DisplayFormat = '#,#0.00'
+        Properties.ReadOnly = True
         Properties.ValueType = vtFloat
       end
       object cxColPPn: TcxGridColumn
@@ -147,6 +132,7 @@ inherited frmInputInvoicePembelian: TfrmInputInvoicePembelian
         Properties.Items.Strings = (
           'NON PPN'
           'PPN')
+        Properties.ReadOnly = True
       end
       object cxColValuta: TcxGridColumn
         Caption = 'Valuta'
@@ -154,11 +140,13 @@ inherited frmInputInvoicePembelian: TfrmInputInvoicePembelian
         Properties.Items.Strings = (
           'IDR'
           'USD')
+        Properties.ReadOnly = True
         Width = 61
       end
       object cxColKeterangan: TcxGridColumn
         Caption = 'Keterangan'
         PropertiesClassName = 'TcxTextEditProperties'
+        Properties.ReadOnly = True
         Width = 200
       end
       object cxColTotal: TcxGridColumn
@@ -167,14 +155,20 @@ inherited frmInputInvoicePembelian: TfrmInputInvoicePembelian
         PropertiesClassName = 'TcxSpinEditProperties'
         Properties.Alignment.Horz = taRightJustify
         Properties.DisplayFormat = '#,##.00'
-        Properties.ReadOnly = False
+        Properties.ReadOnly = True
         Width = 112
+      end
+      object cxColKodeBrg2: TcxGridColumn
+        Visible = False
       end
       object cxColIdSatuan: TcxGridColumn
         DataBinding.ValueType = 'Integer'
         Visible = False
       end
-      object cxColKodeBrg2: TcxGridColumn
+      object cxColIdBrg: TcxGridColumn
+        Visible = False
+      end
+      object cxColIdPO: TcxGridColumn
         Visible = False
       end
     end
@@ -247,7 +241,6 @@ inherited frmInputInvoicePembelian: TfrmInputInvoicePembelian
     Left = 8
     Top = 170
     Caption = 'No. Penerimaan '
-    Visible = False
   end
   object cxlNoPenerimaan: TcxLookupComboBox
     Left = 122
@@ -316,7 +309,7 @@ inherited frmInputInvoicePembelian: TfrmInputInvoicePembelian
       'on a.id=b.id_ref left join tbl_barang c '
       'on b.id_brg=c.id left join tbl_satuan d'
       'on b.id_satuan=d.id '
-      'WHERE a.f_app=1 and a.id_supplier= :supplier;')
+      'WHERE a.f_app=1 and a.id_supplier= :supplier ')
     Params = <
       item
         DataType = ftUnknown
@@ -376,11 +369,10 @@ inherited frmInputInvoicePembelian: TfrmInputInvoicePembelian
   object zqrPB: TZReadOnlyQuery
     Connection = DM.zConn
     AutoCalcFields = False
-    Active = True
     SQL.Strings = (
       'SELECT id, no_bukti'
       'FROM tbl_pb_head '
-      'WHERE id_supplier = :id_supplier'
+      'WHERE id_supplier = :id_supplier AND f_inv = 0'
       '')
     Params = <
       item
