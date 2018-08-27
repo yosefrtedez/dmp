@@ -3,6 +3,7 @@ inherited frmInputSuratJalan: TfrmInputSuratJalan
   ClientHeight = 687
   ClientWidth = 1119
   OnShow = FormShow
+  ExplicitTop = -22
   ExplicitWidth = 1119
   ExplicitHeight = 687
   PixelsPerInch = 96
@@ -27,7 +28,7 @@ inherited frmInputSuratJalan: TfrmInputSuratJalan
   inherited Panel2: TPanel
     Top = 638
     Width = 1119
-    TabOrder = 31
+    TabOrder = 33
     ExplicitTop = 638
     ExplicitWidth = 1119
     inherited btnSimpan: TButton
@@ -37,6 +38,16 @@ inherited frmInputSuratJalan: TfrmInputSuratJalan
     inherited btnBatal: TButton
       Top = 11
       ExplicitTop = 11
+    end
+    object btnSimpan2: TButton
+      Left = 172
+      Top = 11
+      Width = 75
+      Height = 25
+      Caption = 'Simpan'
+      TabOrder = 2
+      Visible = False
+      OnClick = btnSimpan2Click
     end
   end
   object cxlbl1: TcxLabel
@@ -52,7 +63,7 @@ inherited frmInputSuratJalan: TfrmInputSuratJalan
   object cxdTglDatang: TcxDateEdit
     Left = 112
     Top = 88
-    TabOrder = 5
+    TabOrder = 6
     Width = 146
   end
   object cxtNoBukti: TcxTextEdit
@@ -71,16 +82,16 @@ inherited frmInputSuratJalan: TfrmInputSuratJalan
     Left = 112
     Top = 224
     Properties.CharCase = ecUpperCase
-    TabOrder = 16
+    TabOrder = 18
     Width = 416
   end
-  object cxgrdPP: TcxGrid
+  object cxgSJ: TcxGrid
     Left = 8
     Top = 280
     Width = 1103
     Height = 211
     Anchors = [akLeft, akTop, akRight]
-    TabOrder = 20
+    TabOrder = 22
     object cxtbSJ: TcxGridTableView
       NavigatorButtons.ConfirmDelete = False
       NavigatorButtons.PriorPage.Visible = False
@@ -265,7 +276,7 @@ inherited frmInputSuratJalan: TfrmInputSuratJalan
       end>
     Properties.ListSource = dsCust
     Properties.OnChange = cxlCustomerPropertiesChange
-    TabOrder = 8
+    TabOrder = 9
     Width = 416
   end
   object cxLabel2: TcxLabel
@@ -277,14 +288,14 @@ inherited frmInputSuratJalan: TfrmInputSuratJalan
     Left = 112
     Top = 170
     Properties.ReadOnly = False
-    TabOrder = 12
+    TabOrder = 13
     Width = 146
   end
   object cxtSopir: TcxTextEdit
     Left = 112
     Top = 197
     Properties.ReadOnly = False
-    TabOrder = 14
+    TabOrder = 16
     Width = 146
   end
   object cxLabel3: TcxLabel
@@ -305,7 +316,7 @@ inherited frmInputSuratJalan: TfrmInputSuratJalan
     Properties.MaxValue = 100.000000000000000000
     Properties.ValueType = vtFloat
     Properties.OnChange = cxsDiskonPropertiesChange
-    TabOrder = 21
+    TabOrder = 23
     Width = 121
   end
   object DPP: TcxLabel
@@ -320,7 +331,7 @@ inherited frmInputSuratJalan: TfrmInputSuratJalan
     Properties.DisplayFormat = '#,#0.00'
     Properties.MaxValue = 100.000000000000000000
     Properties.ValueType = vtFloat
-    TabOrder = 23
+    TabOrder = 25
     Width = 121
   end
   object cxsPPN: TcxSpinEdit
@@ -330,14 +341,14 @@ inherited frmInputSuratJalan: TfrmInputSuratJalan
     Properties.DisplayFormat = '#,#0.00'
     Properties.MaxValue = 100.000000000000000000
     Properties.ValueType = vtFloat
-    TabOrder = 28
+    TabOrder = 30
     Width = 121
   end
   object cxChkPPN: TcxCheckBox
     Left = 888
     Top = 579
     Caption = 'PPN (10%)'
-    TabOrder = 27
+    TabOrder = 29
     OnClick = cxChkPPNClick
     Width = 82
   end
@@ -353,7 +364,7 @@ inherited frmInputSuratJalan: TfrmInputSuratJalan
     Properties.DisplayFormat = '#,#0.00'
     Properties.MaxValue = 100.000000000000000000
     Properties.ValueType = vtFloat
-    TabOrder = 25
+    TabOrder = 27
     Width = 121
   end
   object cxLabel6: TcxLabel
@@ -368,7 +379,7 @@ inherited frmInputSuratJalan: TfrmInputSuratJalan
     Properties.DisplayFormat = '#,#0.00'
     Properties.MaxValue = 100.000000000000000000
     Properties.ValueType = vtFloat
-    TabOrder = 29
+    TabOrder = 31
     Width = 121
   end
   object cxLabel7: TcxLabel
@@ -391,17 +402,17 @@ inherited frmInputSuratJalan: TfrmInputSuratJalan
   object cxdTglJthTempo: TcxDateEdit
     Left = 112
     Top = 251
-    TabOrder = 18
+    TabOrder = 20
     Width = 146
   end
-  object Button1: TButton
+  object btnPilihSO: TButton
     Left = 534
     Top = 113
     Width = 75
     Height = 25
     Caption = 'Pilih SO'
-    TabOrder = 7
-    OnClick = Button1Click
+    TabOrder = 8
+    OnClick = btnPilihSOClick
   end
   object cxLabel9: TcxLabel
     Left = 11
@@ -412,8 +423,187 @@ inherited frmInputSuratJalan: TfrmInputSuratJalan
     Left = 112
     Top = 142
     Properties.CharCase = ecUpperCase
-    TabOrder = 10
+    TabOrder = 11
     Width = 416
+  end
+  object cxChkSJTanpaSO: TcxCheckBox
+    Left = 480
+    Top = 61
+    Caption = 'Surat Jalan Tanpa SO '
+    TabOrder = 3
+    OnClick = cxChkSJTanpaSOClick
+    Width = 137
+  end
+  object cxgSJTanpaSO: TcxGrid
+    Left = 77
+    Top = 197
+    Width = 1103
+    Height = 211
+    Anchors = [akLeft, akTop, akRight]
+    TabOrder = 15
+    Visible = False
+    object cxtbSJTanpaSO: TcxGridTableView
+      NavigatorButtons.ConfirmDelete = False
+      NavigatorButtons.PriorPage.Visible = False
+      NavigatorButtons.NextPage.Visible = False
+      NavigatorButtons.Insert.Visible = False
+      NavigatorButtons.Append.Visible = True
+      NavigatorButtons.Refresh.Visible = True
+      NavigatorButtons.SaveBookmark.Visible = False
+      NavigatorButtons.GotoBookmark.Visible = False
+      NavigatorButtons.Filter.Visible = False
+      DataController.Summary.DefaultGroupSummaryItems = <>
+      DataController.Summary.FooterSummaryItems = <
+        item
+          Format = '#,##.00'
+          Kind = skSum
+          Column = cxColQty2
+        end
+        item
+          Format = '#,##.00'
+          Kind = skSum
+        end>
+      DataController.Summary.SummaryGroups = <>
+      DataController.OnRecordChanged = cxtbSJTanpaSODataControllerRecordChanged
+      OptionsBehavior.FocusCellOnTab = True
+      OptionsData.Appending = True
+      OptionsView.Navigator = True
+      OptionsView.GroupByBox = False
+      object cxGridColumn1: TcxGridColumn
+        Caption = 'No'
+        PropertiesClassName = 'TcxTextEditProperties'
+        Properties.ReadOnly = False
+        Visible = False
+        OnGetDisplayText = cxColNoGetDisplayText
+        Width = 32
+      end
+      object cxColKodeBrg2: TcxGridColumn
+        Caption = 'Kode Brg'
+        DataBinding.ValueType = 'Integer'
+        PropertiesClassName = 'TcxLookupComboBoxProperties'
+        Properties.DropDownAutoSize = True
+        Properties.KeyFieldNames = 'id'
+        Properties.ListColumns = <
+          item
+            Caption = 'Kode'
+            FieldName = 'kode'
+          end
+          item
+            Caption = 'Deskripsi'
+            FieldName = 'deskripsi'
+          end>
+        Properties.ListSource = dsBarang
+        Width = 66
+      end
+      object cxColDeskripsi2: TcxGridColumn
+        Caption = 'Deskripsi'
+        DataBinding.ValueType = 'Integer'
+        PropertiesClassName = 'TcxLookupComboBoxProperties'
+        Properties.DropDownAutoSize = True
+        Properties.KeyFieldNames = 'id'
+        Properties.ListColumns = <
+          item
+            Caption = 'Kode'
+            FieldName = 'deskripsi'
+          end
+          item
+            Caption = 'Kode'
+            FieldName = 'kode'
+          end>
+        Properties.ListSource = dsBarang
+        Width = 237
+      end
+      object cxColQty2: TcxGridColumn
+        Caption = 'Qty. Kirim'
+        DataBinding.ValueType = 'Float'
+        PropertiesClassName = 'TcxSpinEditProperties'
+        Properties.Alignment.Horz = taRightJustify
+        Properties.DisplayFormat = '#,##.00'
+        Properties.ReadOnly = True
+        Properties.ValueType = vtFloat
+        HeaderAlignmentHorz = taRightJustify
+        Width = 73
+      end
+      object cxColJmlIkatPerBal2: TcxGridColumn
+        Caption = 'Jml. Ikat / Bal'
+        DataBinding.ValueType = 'Integer'
+        PropertiesClassName = 'TcxSpinEditProperties'
+        Properties.Alignment.Horz = taRightJustify
+        Properties.ReadOnly = True
+        Width = 85
+      end
+      object cxColHargaIkat2: TcxGridColumn
+        Caption = 'Harga / Ikat'
+        DataBinding.ValueType = 'Float'
+        PropertiesClassName = 'TcxSpinEditProperties'
+        Properties.Alignment.Horz = taRightJustify
+        Properties.DisplayFormat = '#,#0.00'
+        Properties.ValueType = vtFloat
+        Width = 75
+      end
+      object cxColHarga2: TcxGridColumn
+        Caption = 'Harga Jual'
+        DataBinding.ValueType = 'Float'
+        PropertiesClassName = 'TcxSpinEditProperties'
+        Properties.Alignment.Horz = taRightJustify
+        Properties.DisplayFormat = '#,#0.00'
+        Properties.ReadOnly = True
+        Width = 76
+      end
+      object cxColGudang2: TcxGridColumn
+        Caption = 'Gudang'
+        PropertiesClassName = 'TcxLookupComboBoxProperties'
+        Properties.DropDownAutoSize = True
+        Properties.KeyFieldNames = 'id'
+        Properties.ListColumns = <
+          item
+            Caption = 'Kode'
+            FieldName = 'kode'
+          end
+          item
+            Caption = 'ID'
+            FieldName = 'id'
+          end
+          item
+            Caption = 'Nama'
+            FieldName = 'nama'
+          end>
+        Properties.ListSource = dsGudang
+        Properties.ReadOnly = True
+        Width = 69
+      end
+      object cxColSatuan2: TcxGridColumn
+        Caption = 'Satuan'
+        PropertiesClassName = 'TcxTextEditProperties'
+        Properties.ReadOnly = True
+        Width = 63
+      end
+      object cxColKeterangan2: TcxGridColumn
+        Caption = 'Keterangan'
+        PropertiesClassName = 'TcxTextEditProperties'
+        Width = 109
+      end
+      object cxColTotal2: TcxGridColumn
+        Caption = 'Subtotal'
+        DataBinding.ValueType = 'Float'
+        PropertiesClassName = 'TcxSpinEditProperties'
+        Properties.Alignment.Horz = taRightJustify
+        Properties.DisplayFormat = '#,#0.00'
+        Properties.ReadOnly = True
+        Properties.ValueType = vtFloat
+        Width = 101
+      end
+      object cxColIdSatuan2: TcxGridColumn
+        DataBinding.ValueType = 'Integer'
+        Visible = False
+      end
+      object cxColIdBrg2: TcxGridColumn
+        Visible = False
+      end
+    end
+    object cxGridLevel1: TcxGridLevel
+      GridView = cxtbSJTanpaSO
+    end
   end
   object zqrBarang: TZReadOnlyQuery
     Connection = DM.zConn
@@ -427,13 +617,13 @@ inherited frmInputSuratJalan: TfrmInputSuratJalan
       
         'select kode, deskripsi, satuan from tbl_barang order by deskrips' +
         'i')
-    Left = 581
-    Top = 56
+    Left = 869
+    Top = 96
   end
   object dsBarang: TDataSource
     DataSet = zqrBarang
-    Left = 633
-    Top = 56
+    Left = 921
+    Top = 96
   end
   object zqrGudang: TZReadOnlyQuery
     Connection = DM.zConn

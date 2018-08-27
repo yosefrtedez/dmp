@@ -76,9 +76,9 @@ type
     mnWhl_Koreksi: TMenuItem;
     mnPrd_LapPengambilanBB: TMenuItem;
     mnPrd_LapInputHP: TMenuItem;
-    Pembelian1: TMenuItem;
+    mnAkt_Pembelian: TMenuItem;
     Penjualan1: TMenuItem;
-    InvoicePembelian1: TMenuItem;
+    mnAkt_InvoicePembelian: TMenuItem;
     PembayaranPembelian1: TMenuItem;
     InvoicePenjualan1: TMenuItem;
     PembayaranPenjualan1: TMenuItem;
@@ -136,7 +136,7 @@ type
     procedure mnMkt_LapOustandingSOClick(Sender: TObject);
     procedure mnSet_UbahPasswordClick(Sender: TObject);
     procedure InvoicePenjualan1Click(Sender: TObject);
-    procedure InvoicePembelian1Click(Sender: TObject);
+    procedure mnAkt_InvoicePembelianClick(Sender: TObject);
   private
     procedure PGChange(Sender: TObject);
   public
@@ -246,7 +246,7 @@ begin
   end;
 end;
 
-procedure TfrmUtama.InvoicePembelian1Click(Sender: TObject);
+procedure TfrmUtama.mnAkt_InvoicePembelianClick(Sender: TObject);
 var
   f: TfrmLstInvoicePembelian;
   ts: TcxTabSheet;

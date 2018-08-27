@@ -74,8 +74,8 @@ uses unTools, unDM;
 
 procedure TfrmSettingWewenang.btnSimpanClick(Sender: TObject);
 var
-  i,j: Integer;
-  a,b: TcxTreeListNode;
+  i,j,k: Integer;
+  a,b,c: TcxTreeListNode;
   q: TZQuery;
 begin
 
@@ -103,6 +103,21 @@ begin
         q.FieldByName('e').AsInteger := b.Values[3];
         q.FieldByName('h').AsInteger := b.Values[4];
         q.Post;
+
+        if b.HasChildren then begin
+          for k := 0 to b.Count - 1 do begin
+            c := b.Items[k];
+            q.Insert;
+            q.FieldByName('nama').AsString := cxlUser.EditValue;
+            q.FieldByName('nm_comp').AsString := c.Values[6];
+            q.FieldByName('b').AsInteger := c.Values[1];
+            q.FieldByName('i').AsInteger := c.Values[2];
+            q.FieldByName('e').AsInteger := c.Values[3];
+            q.FieldByName('h').AsInteger := c.Values[4];
+            q.Post;
+          end;
+        end;
+
       end;
     end;
   end;
@@ -144,9 +159,14 @@ begin
   if Pos(AColumn.Name, 'cxtColInput,cxtColEdit,cxtColHapus') > 0 then begin
     if a.Values[5] = '1000' then Allow := False;
   end;
-  if Pos(AColumn.Name, 'cxtColBuka') > 0 then begin
+  if Pos(AColumn.Name, 'cxtColBuka') > 0 then
     if a.Values[5] = '0111' then Allow := False;
-  end;
+  if Pos(AColumn.Name, 'cxColInput') > 0 then
+    if a.Values[5] = '1011' then Allow := False;
+  if Pos(AColumn.Name, 'cxtColEdit') > 0 then
+    if a.Values[5] = '1101' then Allow := False;
+  if Pos(AColumn.Name, 'cxColHapus') > 0 then
+    if a.Values[5] = '1110' then Allow := False;
 
 end;
 

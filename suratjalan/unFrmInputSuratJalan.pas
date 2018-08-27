@@ -29,7 +29,7 @@ type
     cxtNoBukti: TcxTextEdit;
     cxlbl14: TcxLabel;
     cxtKeterangan: TcxTextEdit;
-    cxgrdPP: TcxGrid;
+    cxgSJ: TcxGrid;
     cxtbSJ: TcxGridTableView;
     cxColNo: TcxGridColumn;
     cxColKodeBrg: TcxGridColumn;
@@ -76,10 +76,28 @@ type
     cxColHargaIkat: TcxGridColumn;
     cxLabel8: TcxLabel;
     cxdTglJthTempo: TcxDateEdit;
-    Button1: TButton;
+    btnPilihSO: TButton;
     cxLabel9: TcxLabel;
     cxtAlamat: TcxTextEdit;
     cxColIdBrg: TcxGridColumn;
+    cxChkSJTanpaSO: TcxCheckBox;
+    cxgSJTanpaSO: TcxGrid;
+    cxtbSJTanpaSO: TcxGridTableView;
+    cxGridColumn1: TcxGridColumn;
+    cxColKodeBrg2: TcxGridColumn;
+    cxColDeskripsi2: TcxGridColumn;
+    cxColQty2: TcxGridColumn;
+    cxColJmlIkatPerBal2: TcxGridColumn;
+    cxColHargaIkat2: TcxGridColumn;
+    cxColHarga2: TcxGridColumn;
+    cxColGudang2: TcxGridColumn;
+    cxColSatuan2: TcxGridColumn;
+    cxColKeterangan2: TcxGridColumn;
+    cxColTotal2: TcxGridColumn;
+    cxColIdSatuan2: TcxGridColumn;
+    cxColIdBrg2: TcxGridColumn;
+    cxGridLevel1: TcxGridLevel;
+    btnSimpan2: TButton;
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure cxColNoGetDisplayText(Sender: TcxCustomGridTableItem;
@@ -99,10 +117,15 @@ type
       AButtonIndex: Integer);
     procedure cxsDiskonPropertiesChange(Sender: TObject);
     procedure cxChkPPNClick(Sender: TObject);
-    procedure Button1Click(Sender: TObject);
+    procedure btnPilihSOClick(Sender: TObject);
     procedure cxtbSJDataControllerAfterDelete(
       ADataController: TcxCustomDataController);
     procedure cxlCustomerPropertiesChange(Sender: TObject);
+    procedure cxChkSJTanpaSOClick(Sender: TObject);
+    procedure btnSimpan2Click(Sender: TObject);
+    procedure cxtbSJTanpaSODataControllerRecordChanged(
+      ADataController: TcxCustomDataController; ARecordIndex,
+      AItemIndex: Integer);
   private
     procedure HitungTotal;
     procedure Posting(IDSJ: Integer);
@@ -119,6 +142,12 @@ implementation
 uses unDM, unTools, unFrmPilihSO, unFrmLstSuratJalan;
 
 {$R *.dfm}
+
+procedure TfrmInputSuratJalan.btnSimpan2Click(Sender: TObject);
+begin
+  inherited;
+  //
+end;
 
 procedure TfrmInputSuratJalan.btnSimpanClick(Sender: TObject);
 var
@@ -246,7 +275,7 @@ begin
 
 end;
 
-procedure TfrmInputSuratJalan.Button1Click(Sender: TObject);
+procedure TfrmInputSuratJalan.btnPilihSOClick(Sender: TObject);
 
   function CheckAda(id_brg, id_so: Integer; var row: Integer): Boolean;
   var
@@ -373,6 +402,16 @@ begin
   end;
 
   HitungTotal;
+end;
+
+procedure TfrmInputSuratJalan.cxChkSJTanpaSOClick(Sender: TObject);
+begin
+  inherited;
+  btnPilihSO.Visible := not cxChkSJTanpaSO.Checked;
+  cxgSJ.Visible := not cxChkSJTanpaSO.Checked;
+  cxgSJTanpaSO.Visible := cxChkSJTanpaSO.Checked;
+  btnSimpan.Visible := not cxChkSJTanpaSO.Checked;
+  btnSimpan2.Visible := cxChkSJTanpaSO.Checked;
 end;
 
 procedure TfrmInputSuratJalan.cxColNoGetDisplayText(
@@ -628,6 +667,84 @@ begin
 
 end;
 
+procedure TfrmInputSuratJalan.cxtbSJTanpaSODataControllerRecordChanged(
+  ADataController: TcxCustomDataController; ARecordIndex, AItemIndex: Integer);
+var
+  q: TZQuery;
+  t, t1, t2, t3 : Real;
+  i: Integer ;
+begin
+  inherited;
+
+  if AItemIndex = cxColDeskripsi2.Index then begin
+    try
+      cxtbSJTanpaSO.BeginUpdate;
+      q := OpenRS('SELECT a.*, b.satuan satuan2 FROM tbl_barang a LEFT JOIN tbl_satuan b ON a.id_satuan = b.id WHERE a.id = %s',
+        [ADataController.Values[ARecordIndex, cxColDeskripsi2.Index]]);
+      ADataController.Values[ARecordIndex, cxColKodeBrg2.Index] :=  q.FieldByName('id').AsString;
+      ADataController.Values[ARecordIndex, cxColSatuan2.Index] := q.FieldByName('satuan2').AsString;
+      ADataController.Values[ARecordIndex, cxColIdSatuan2.Index] := q.FieldByName('id_satuan').AsInteger;
+      q.Close;
+
+      q := OpenRS('SELECT * FROM tbl_barang_det_spek WHERE id_ref = %s',
+        [ADataController.Values[ARecordIndex, cxColDeskripsi2.Index]]);
+      ADataController.Values[ARecordIndex, cxColJmlIkatPerBal2.Index] := q.FieldByName('jml_ikat_per_karung').AsFloat;
+      q.Close;
+    finally
+      cxtbSJTanpaSO.EndUpdate
+    end;
+  end;
+
+  if AItemIndex = cxColKodeBrg2.Index then begin
+    try
+      cxtbSJTanpaSO.BeginUpdate;
+      q := OpenRS('SELECT a.*, b.satuan satuan2 FROM tbl_barang a LEFT JOIN tbl_satuan b ON a.id_satuan = b.id WHERE a.id = %s',
+        [ADataController.Values[ARecordIndex, AItemIndex]]);
+      ADataController.Values[ARecordIndex, cxColDeskripsi2.Index] :=  q.FieldByName('id').AsString;
+      ADataController.Values[ARecordIndex, cxColSatuan2.Index] := q.FieldByName('satuan2').AsString;
+      ADataController.Values[ARecordIndex, cxColIdSatuan2.Index] := q.FieldByName('id_satuan').AsInteger;
+      q.Close;
+
+      q := OpenRS('SELECT * FROM tbl_barang_det_spek WHERE id_ref = %s',
+        [ADataController.Values[ARecordIndex, cxColDeskripsi2.Index]]);
+      ADataController.Values[ARecordIndex, cxColJmlIkatPerBal2.Index] := q.FieldByName('jml_ikat_per_karung').AsFloat;
+      q.Close;
+    finally
+      cxtbSJTanpaSO.EndUpdate
+    end;
+  end;
+
+  if (AItemIndex = cxColHargaIkat2.Index) or (AItemIndex = cxColQty2.Index) then begin
+    try
+      ADataController.Values[ARecordIndex, cxColHarga2.Index] :=
+        ADataController.Values[ARecordIndex, cxColHargaIkat2.Index] *
+        ADataController.Values[ARecordIndex, cxColJmlIkatPerBal2.Index];
+      ADataController.Values[ARecordIndex, cxColTotal2.Index] :=
+        ADataController.Values[ARecordIndex, cxColQty2.Index] * ADataController.Values[ARecordIndex, cxColHarga2.Index];
+    finally
+    end;
+    HitungTotal;
+  end;
+
+  {
+  if AItemIndex = cxColGudang.Index then begin
+    if VarIsNull(ADataController.Values[ARecordIndex, cxColDeskripsi.Index]) then begin
+      ADataController.Values[ARecordIndex, cxColGudang.Index] := '';
+      Abort;
+    end;
+    try
+      q := OpenRS('SELECT sf_getstok_per_gdg(%s,%s) as stok',
+        [ADataController.Values[ARecordIndex, cxColDeskripsi.Index], ADataController.Values[ARecordIndex, cxColGudang.Index]]);
+      ADataController.Values[ARecordIndex, cxColStokLama.Index] := q.FieldByName('stok').AsFloat;
+      q.Close;
+    finally
+
+    end;
+  end;
+  }
+
+end;
+
 procedure TfrmInputSuratJalan.FormCreate(Sender: TObject);
 begin
   inherited;
@@ -635,6 +752,12 @@ begin
   zqrBarang.Open;
   zqrGudang.Open;
   zqrCust.Open;
+
+  cxgSJTanpaSO.Top := cxgSJ.Top;
+  cxgSJTanpaSO.Left := cxgSJ.Left;
+
+  btnSimpan2.Left := btnSimpan.Left;
+
 end;
 
 procedure TfrmInputSuratJalan.FormShow(Sender: TObject);
@@ -711,28 +834,52 @@ var
   tot, diskon, ppn: real;
 begin
   try
+    if cxChkSJTanpaSO.Checked then begin
+      tot := 0;
+      for i := 0 to cxtbSJTanpaSO.DataController.RecordCount - 1 do begin
+        tot := tot +cxtbSJTanpaSO.DataController.Values[i, cxColTotal.Index];
+      end;
 
-    tot := 0;
-    for i := 0 to cxtbSJ.DataController.RecordCount - 1 do begin
-      tot := tot + cxtbSJ.DataController.Values[i, cxColTotal.Index];
+      diskon := 0;
+      if cxsDiskon.Value > 0 then
+        diskon := (cxsDiskon.Value /100) * tot;
+
+      cxsStlhDiskon.Value := tot - diskon;
+
+      if cxChkPPN.Checked then
+        cxsDPP.Value := cxsStlhDiskon.Value / 1.1
+      else
+        cxsDPP.Value := 0;
+
+      ppn := 0;
+      if cxChkPPN.Checked then
+        ppn := (10 / 100) * cxsDPP.Value;
+
+      cxsHargaTotal.Value := cxsDPP.Value + ppn;
+    end
+    else begin
+      tot := 0;
+      for i := 0 to cxtbSJ.DataController.RecordCount - 1 do begin
+        tot := tot + cxtbSJ.DataController.Values[i, cxColTotal.Index];
+      end;
+
+      diskon := 0;
+      if cxsDiskon.Value > 0 then
+        diskon := (cxsDiskon.Value /100) * tot;
+
+      cxsStlhDiskon.Value := tot - diskon;
+
+      if cxChkPPN.Checked then
+        cxsDPP.Value := cxsStlhDiskon.Value / 1.1
+      else
+        cxsDPP.Value := 0;
+
+      ppn := 0;
+      if cxChkPPN.Checked then
+        ppn := (10 / 100) * cxsDPP.Value;
+
+      cxsHargaTotal.Value := cxsDPP.Value + ppn;
     end;
-
-    diskon := 0;
-    if cxsDiskon.Value > 0 then
-      diskon := (cxsDiskon.Value /100) * tot;
-
-    cxsStlhDiskon.Value := tot - diskon;
-
-    if cxChkPPN.Checked then
-      cxsDPP.Value := cxsStlhDiskon.Value / 1.1
-    else
-      cxsDPP.Value := 0;
-
-    ppn := 0;
-    if cxChkPPN.Checked then
-      ppn := (10 / 100) * cxsDPP.Value;
-
-    cxsHargaTotal.Value := cxsDPP.Value + ppn;
   except
   end;
 end;

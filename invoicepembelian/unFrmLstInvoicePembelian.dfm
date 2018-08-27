@@ -34,11 +34,9 @@ inherited frmLstInvoicePembelian: TfrmLstInvoicePembelian
       OnClick = btnTambahClick
     end
     inherited btnEdit: TButton
-      Visible = False
       OnClick = btnEditClick
     end
     inherited btnHapus: TButton
-      Visible = False
       OnClick = btnHapusClick
     end
     inherited btnKeluar: TButton

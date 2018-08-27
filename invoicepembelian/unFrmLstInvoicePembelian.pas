@@ -227,6 +227,7 @@ begin
   inherited;
   zqrInvoicePembelian.Open;
   cxColNoBukti.SortOrder := soAscending;
+  Self.TerapkanWewenang('mnAkt_InvoicePembelian');
 end;
 
 end.
