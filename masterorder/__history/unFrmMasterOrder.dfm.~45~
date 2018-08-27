@@ -58,20 +58,13 @@ inherited frmMasterOrder: TfrmMasterOrder
       Width = 121
     end
     object btnProses: TButton
-      Left = 466
+      Left = 338
       Top = 7
       Width = 75
       Height = 25
       Caption = 'Proses'
       TabOrder = 0
       OnClick = btnProsesClick
-    end
-    object cxCmbJenisSO: TcxComboBox
-      Left = 339
-      Top = 9
-      Properties.DropDownListStyle = lsEditFixedList
-      TabOrder = 3
-      Width = 121
     end
   end
   object cxGrid1: TcxGrid
@@ -286,7 +279,6 @@ inherited frmMasterOrder: TfrmMasterOrder
     SQL.Strings = (
       'SELECT * FROM v_mo'
       'WHERE (tanggal BETWEEN :tgl1 AND :tgl2) AND (no_mo IS NOT NULL)'
-      '-- '
       'ORDER BY tanggal DESC')
     Params = <
       item
@@ -299,8 +291,8 @@ inherited frmMasterOrder: TfrmMasterOrder
         Name = 'tgl2'
         ParamType = ptUnknown
       end>
-    Left = 466
-    Top = 9
+    Left = 474
+    Top = 17
     ParamData = <
       item
         DataType = ftUnknown

@@ -116,11 +116,10 @@ inherited frmSPK: TfrmSPK
         Properties.ListSource = dsBrg
         Width = 304
       end
-      object cxColStok: TcxGridColumn
+      object cxtbBomColumn1: TcxGridColumn
         Caption = 'Stok'
         DataBinding.ValueType = 'Float'
         PropertiesClassName = 'TcxSpinEditProperties'
-        Properties.Alignment.Horz = taRightJustify
         Properties.DisplayFormat = '#,#0.00'
         Properties.ReadOnly = True
         Properties.ValueType = vtFloat
@@ -129,12 +128,6 @@ inherited frmSPK: TfrmSPK
       end
       object cxColQty: TcxGridColumn
         Caption = 'Qty.'
-        DataBinding.ValueType = 'Float'
-        PropertiesClassName = 'TcxSpinEditProperties'
-        Properties.Alignment.Horz = taRightJustify
-        Properties.DisplayFormat = '#,#0.00'
-        Properties.ValueType = vtFloat
-        HeaderAlignmentHorz = taRightJustify
       end
       object cxColSatuan: TcxGridColumn
         Caption = 'Satuan'

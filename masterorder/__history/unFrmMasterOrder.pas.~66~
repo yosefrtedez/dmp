@@ -116,12 +116,6 @@ begin
     //SQL.Text := cxMemo2.Lines.Text;
     ParamByName('tgl1').AsDateTime := cxdTgl1.Date;
     ParamByName('tgl2').AsDateTime := cxdTgl2.Date;
-    if cxCmbJenisSO.Text = 'MTS' then
-      SQL.Strings[2] := 'AND LEFT(no_so,3) = ''MTS'''
-    else if cxCmbJenisSO.Text = 'SO CUSTOMER' then
-      SQL.Strings[2] := 'AND LEFT(no_so,3) = ''SO/'''
-    else
-      SQL.Strings[2] := '-- ';
     Open;
     cxtbMOno_mo.SortOrder := soAscending;
     Screen.Cursor := crDefault;
@@ -192,7 +186,7 @@ begin
   cxdTgl1.Date := FDOM(Date);
   cxdTgl2.Date := LDOM(Date);
 
-  cxCmbJenisSO.Properties.Items.CommaText := 'SEMUA,MTS,"SO CUSTOMER"';
+  cxCmbJenisSO.Properties.Items.CommaText := 'SEMUA,MTS,"SO Customer"';
   cxCmbJenisSO.ItemIndex := 1;
 end;
 

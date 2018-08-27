@@ -251,11 +251,13 @@ begin
     Abort;
   end;
 
+
   if VarIsNull(ADataController.Values[i, cxColQty.Index]) or
     (ADataController.Values[i, cxColQty.Index] < 1) then begin
     MsgBox('Qty. Bahan baku harus di isi.');
     Abort;
   end;
+
 
 end;
 

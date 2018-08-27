@@ -249,7 +249,6 @@ begin
   inherited;
   zqrSODet.Close;
   zqrSODet.ParamByName('id_ref').AsInteger := zqrSO.FieldByName('id').AsInteger;
-  zqrSODet.ParamByName('id_gdg').AsInteger := Aplikasi.GdgBJ;
   zqrSODet.Open;
 end;
 

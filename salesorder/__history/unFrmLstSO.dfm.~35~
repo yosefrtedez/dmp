@@ -190,7 +190,6 @@ inherited frmLstSO: TfrmLstSO
         Properties.Alignment.Horz = taRightJustify
         Properties.DisplayFormat = '#,#0.00'
         Properties.ValueType = vtFloat
-        HeaderAlignmentHorz = taRightJustify
         Width = 73
       end
       object cxtbSODetColumn4: TcxGridDBColumn
@@ -250,8 +249,8 @@ inherited frmLstSO: TfrmLstSO
   end
   object dsSODet: TDataSource
     DataSet = zqrSODet
-    Left = 648
-    Top = 150
+    Left = 776
+    Top = 174
   end
   object zqrSODet: TZReadOnlyQuery
     Connection = DM.zConn
@@ -278,8 +277,8 @@ inherited frmLstSO: TfrmLstSO
         Name = 'id_ref'
         ParamType = ptUnknown
       end>
-    Left = 592
-    Top = 150
+    Left = 720
+    Top = 174
     ParamData = <
       item
         DataType = ftUnknown

@@ -227,7 +227,6 @@ procedure TfrmSPK.cxtbBomDataControllerBeforePost(
 var
   i,j,k: integer;
   v: variant;
-  qc: TZQuery;
 begin
   inherited;
 
@@ -250,6 +249,7 @@ begin
     MsgBox('Kode barang harus diisi.');
     Abort;
   end;
+
 
   if VarIsNull(ADataController.Values[i, cxColQty.Index]) or
     (ADataController.Values[i, cxColQty.Index] < 1) then begin
@@ -280,25 +280,20 @@ begin
       ADataController.Values[ARecordIndex, cxColStok.Index] := sa;
       q.Close;
     finally
-      cxtbBom.EndUpdate;
+
     end;
   end;
 
   if AItemIndex = cxColDeskripsi.Index then begin
-    try
-      cxtbBom.BeginUpdate;
-      q := OpenRS('SELECT a.kode, b.satuan, b.id id_satuan FROM tbl_barang a ' +
-        'LEFT JOIN tbl_satuan b ON a.id_satuan = b.id WHERE a.id = ''%s''',[ADataController.Values[ARecordIndex, AItemIndex]]);
-      ADataController.Values[ARecordIndex, cxColKodeBrg.Index] := ADataController.Values[ARecordIndex, AItemIndex];
-      ADataController.Values[ARecordIndex, cxColSatuan.Index] := q.FieldByName('satuan').AsString;
-      ADataController.Values[ARecordIndex, cxColIdSatuan.Index] := q.FieldByName('id_satuan').AsString;
-      ADataController.Values[ARecordIndex, cxColKodeBrg2.Index] := q.FieldByName('kode').AsString;
-      sa := GetStokAkhir(ADataController.Values[ARecordIndex, AItemIndex], Aplikasi.GdgBB);
-      ADataController.Values[ARecordIndex, cxColStok.Index] := sa;
-      q.Close;
-    finally
-      cxtbBom.EndUpdate;
-    end;
+    q := OpenRS('SELECT a.kode, b.satuan, b.id id_satuan FROM tbl_barang a ' +
+      'LEFT JOIN tbl_satuan b ON a.id_satuan = b.id WHERE a.id = ''%s''',[ADataController.Values[ARecordIndex, AItemIndex]]);
+    ADataController.Values[ARecordIndex, cxColKodeBrg.Index] := ADataController.Values[ARecordIndex, AItemIndex];
+    ADataController.Values[ARecordIndex, cxColSatuan.Index] := q.FieldByName('satuan').AsString;
+    ADataController.Values[ARecordIndex, cxColIdSatuan.Index] := q.FieldByName('id_satuan').AsString;
+    ADataController.Values[ARecordIndex, cxColKodeBrg2.Index] := q.FieldByName('kode').AsString;
+    sa := GetStokAkhir(ADataController.Values[ARecordIndex, AItemIndex], Aplikasi.GdgBB);
+    ADataController.Values[ARecordIndex, cxColStok.Index] := sa;
+    q.Close;
   end;
 
   if AItemIndex = cxColQty.Index then begin

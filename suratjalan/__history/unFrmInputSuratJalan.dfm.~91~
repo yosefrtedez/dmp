@@ -464,7 +464,6 @@ inherited frmInputSuratJalan: TfrmInputSuratJalan
           Kind = skSum
         end>
       DataController.Summary.SummaryGroups = <>
-      DataController.OnAfterPost = cxtbSJTanpaSODataControllerAfterPost
       DataController.OnBeforePost = cxtbSJTanpaSODataControllerBeforePost
       DataController.OnRecordChanged = cxtbSJTanpaSODataControllerRecordChanged
       OptionsBehavior.FocusCellOnTab = True

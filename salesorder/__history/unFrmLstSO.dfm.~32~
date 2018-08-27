@@ -183,16 +183,6 @@ inherited frmLstSO: TfrmLstSO
         Properties.ReadOnly = True
         Width = 82
       end
-      object cxtbSODetColumn5: TcxGridDBColumn
-        Caption = 'Stok '
-        DataBinding.FieldName = 'sa'
-        PropertiesClassName = 'TcxSpinEditProperties'
-        Properties.Alignment.Horz = taRightJustify
-        Properties.DisplayFormat = '#,#0.00'
-        Properties.ValueType = vtFloat
-        HeaderAlignmentHorz = taRightJustify
-        Width = 73
-      end
       object cxtbSODetColumn4: TcxGridDBColumn
         Caption = 'Qty. Prod'
         DataBinding.FieldName = 'qty_prod'
@@ -250,8 +240,8 @@ inherited frmLstSO: TfrmLstSO
   end
   object dsSODet: TDataSource
     DataSet = zqrSODet
-    Left = 648
-    Top = 150
+    Left = 776
+    Top = 174
   end
   object zqrSODet: TZReadOnlyQuery
     Connection = DM.zConn
@@ -259,33 +249,20 @@ inherited frmLstSO: TfrmLstSO
       'SELECT a.*, b.deskripsi, c.satuan satuan2,'
       
         '(SELECT SUM(qty) FROM tbl_sj_det WHERE id_so = a.id_ref AND id_b' +
-        'rg = a.id_brg) qty_kirim, d.sa'
+        'rg = a.id_brg) qty_kirim'
       'FROM tbl_so_det a'
       'LEFT JOIN tbl_barang b ON a.id_brg = b.id  '
       'LEFT JOIN tbl_satuan c ON c.id = a.id_satuan'
-      
-        'LEFT JOIN v_stok_akhir d ON d.id_brg = a.id_brg AND d.id_gdg = :' +
-        'id_gdg'
       'WHERE a.id_ref = :id_ref')
     Params = <
-      item
-        DataType = ftUnknown
-        Name = 'id_gdg'
-        ParamType = ptUnknown
-      end
       item
         DataType = ftUnknown
         Name = 'id_ref'
         ParamType = ptUnknown
       end>
-    Left = 592
-    Top = 150
+    Left = 720
+    Top = 174
     ParamData = <
-      item
-        DataType = ftUnknown
-        Name = 'id_gdg'
-        ParamType = ptUnknown
-      end
       item
         DataType = ftUnknown
         Name = 'id_ref'

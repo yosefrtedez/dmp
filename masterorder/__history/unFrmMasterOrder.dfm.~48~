@@ -286,7 +286,6 @@ inherited frmMasterOrder: TfrmMasterOrder
     SQL.Strings = (
       'SELECT * FROM v_mo'
       'WHERE (tanggal BETWEEN :tgl1 AND :tgl2) AND (no_mo IS NOT NULL)'
-      '-- '
       'ORDER BY tanggal DESC')
     Params = <
       item
@@ -299,8 +298,8 @@ inherited frmMasterOrder: TfrmMasterOrder
         Name = 'tgl2'
         ParamType = ptUnknown
       end>
-    Left = 466
-    Top = 9
+    Left = 474
+    Top = 17
     ParamData = <
       item
         DataType = ftUnknown

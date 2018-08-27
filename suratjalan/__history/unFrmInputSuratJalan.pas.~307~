@@ -128,8 +128,6 @@ type
       AItemIndex: Integer);
     procedure cxtbSJTanpaSODataControllerBeforePost(
       ADataController: TcxCustomDataController);
-    procedure cxtbSJTanpaSODataControllerAfterPost(
-      ADataController: TcxCustomDataController);
   private
     procedure HitungTotal;
     procedure Posting(IDSJ: Integer);
@@ -781,16 +779,6 @@ begin
 
 end;
 
-procedure TfrmInputSuratJalan.cxtbSJTanpaSODataControllerAfterPost(
-  ADataController: TcxCustomDataController);
-begin
-  inherited;
-  try
-    HitungTotal;
-  except
-  end;
-end;
-
 procedure TfrmInputSuratJalan.cxtbSJTanpaSODataControllerBeforePost(
   ADataController: TcxCustomDataController);
 var
@@ -814,7 +802,7 @@ begin
   end;
 
   if (VarIsNull(ADataController.Values[i, cxColKodeBrg2.Index])) or
-      (Trim(ADataController.Values[i, cxColKodeBrg2.Index]) = '')  then begin
+      (Trim(ADataController.Values[i, cxColKodeBrg.Index]) = '')  then begin
     MsgBox('Kode barang harus diisi.');
     Abort;
   end;
@@ -826,7 +814,7 @@ begin
   end;
 
   sa := GetStokAkhir(ADataController.Values[i, cxColDeskripsi2.Index], ADataController.Values[i, cxColGudang2.Index]);
-  if sa < ADataController.Values[i, cxColQty2.Index] then begin
+  if sa < ADataController.Values[i, cxColQty.Index] then begin
     MsgBox('Stok barang tidak mencukupi. Stok : ' + FormatFloat('#,#0.00', sa));
     Abort;
   end;
@@ -1001,7 +989,7 @@ begin
     if cxChkSJTanpaSO.Checked then begin
       tot := 0;
       for i := 0 to cxtbSJTanpaSO.DataController.RecordCount - 1 do begin
-        tot := tot +cxtbSJTanpaSO.DataController.Values[i, cxColTotal2.Index];
+        tot := tot +cxtbSJTanpaSO.DataController.Values[i, cxColTotal.Index];
       end;
 
       diskon := 0;

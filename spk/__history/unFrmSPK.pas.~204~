@@ -227,7 +227,6 @@ procedure TfrmSPK.cxtbBomDataControllerBeforePost(
 var
   i,j,k: integer;
   v: variant;
-  qc: TZQuery;
 begin
   inherited;
 
@@ -250,6 +249,7 @@ begin
     MsgBox('Kode barang harus diisi.');
     Abort;
   end;
+
 
   if VarIsNull(ADataController.Values[i, cxColQty.Index]) or
     (ADataController.Values[i, cxColQty.Index] < 1) then begin
