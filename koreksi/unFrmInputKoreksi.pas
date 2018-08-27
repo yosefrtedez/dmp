@@ -46,6 +46,7 @@ type
     dsGudang: TDataSource;
     cxColStokBaru: TcxGridColumn;
     cxColKodeBrg2: TcxGridColumn;
+    Button1: TButton;
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure cxColNoGetDisplayText(Sender: TcxCustomGridTableItem;

@@ -291,7 +291,8 @@ begin
    zqrBarang.SQL.Text :=  'SELECT a.*, b.satuan satuan2, c.kategori kategori2, d.subkategori subkategori2, e.tipe tipe2, f.qty, ' +
       'if(f.qty < 1,(a.stok div floor(1 / f.qty)),f.qty * a.stok) stok2, g.satuan satuan3, ' +
       'a.stok - (a.stok div floor(1 / f.qty) * floor(1 / f.qty)) sisa, ' +
-      'floor(1 / f.qty) aa,  b.satuan satuan4 ' +
+      'floor(1 / f.qty) aa,  b.satuan satuan4, ' +
+      '(SELECT IFNULL(SUM(IF(tipe=''i'',qty,0)),0) - IFNULL(SUM(IF(tipe=''o'',qty,0)),0) from tbl_history WHERE id_brg = a.id) stok_akhir ' +
       'FROM tbl_barang a ' +
       'LEFT JOIN tbl_satuan b ON a.id_satuan = b.id ' +
       'LEFT JOIN tbl_kategori_brg c ON a.id_kategori = c.id ' +
@@ -309,7 +310,8 @@ begin
   else begin
     zqrBarang.Close;
     zqrBarang.SQL.Text := 'SELECT a.*, b.satuan satuan2, c.kategori kategori2, d.subkategori subkategori2, e.tipe tipe2, 0 stok2, '''' satuan3, ' +
-      '0 as sisa, '''' as satuan4 ' +
+      '0 as sisa, '''' as satuan4, ' +
+      '(SELECT IFNULL(SUM(IF(tipe=''i'',qty,0)),0) - IFNULL(SUM(IF(tipe=''o'',qty,0)),0) from tbl_history WHERE id_brg = a.id) stok_akhir ' +
       'FROM tbl_barang a ' +
       'LEFT JOIN tbl_satuan b ON a.id_satuan = b.id ' +
       'LEFT JOIN tbl_kategori_brg c ON a.id_kategori = c.id  ' +

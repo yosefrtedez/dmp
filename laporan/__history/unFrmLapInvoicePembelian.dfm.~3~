@@ -1,0 +1,872 @@
+object frmLapInvoicePembelian: TfrmLapInvoicePembelian
+  Left = 0
+  Top = 0
+  Caption = 'frmLapInvoicePembelian'
+  ClientHeight = 299
+  ClientWidth = 635
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  OldCreateOrder = False
+  PixelsPerInch = 96
+  TextHeight = 13
+  object rptInvoicePembelian: TfrxReport
+    Version = '4.12.6'
+    DotMatrixReport = False
+    IniFile = '\Software\Fast Reports'
+    PreviewOptions.Buttons = [pbPrint, pbLoad, pbSave, pbExport, pbZoom, pbFind, pbOutline, pbPageSetup, pbTools, pbEdit, pbNavigator, pbExportQuick]
+    PreviewOptions.Zoom = 1.000000000000000000
+    PrintOptions.Printer = 'Default'
+    PrintOptions.PrintOnSheet = 0
+    ReportOptions.CreateDate = 43314.475617500000000000
+    ReportOptions.LastChange = 43331.507893194400000000
+    ScriptLanguage = 'PascalScript'
+    ScriptText.Strings = (
+      'begin                                '
+      'end.')
+    Left = 42
+    Top = 17
+    Datasets = <
+      item
+        DataSet = fdbInvoicePembelian
+        DataSetName = 'fdbInvoicePembelian'
+      end>
+    Variables = <
+      item
+        Name = ' my_var'
+        Value = Null
+      end
+      item
+        Name = 'tot_diskon'
+        Value = 
+          '(<fdbInvoicePembelian."disc_persen">/100) * (<fdbInvoicePembelia' +
+          'n."qty">*<fdbInvoicePembelian."harga">)'
+      end
+      item
+        Name = 'New Variable1'
+        Value = ''
+      end>
+    Style = <>
+    object Data: TfrxDataPage
+      Height = 1000.000000000000000000
+      Width = 1000.000000000000000000
+    end
+    object Page1: TfrxReportPage
+      PaperWidth = 210.000000000000000000
+      PaperHeight = 297.000000000000000000
+      PaperSize = 9
+      LeftMargin = 10.000000000000000000
+      RightMargin = 10.000000000000000000
+      TopMargin = 10.000000000000000000
+      BottomMargin = 10.000000000000000000
+      object MasterData1: TfrxMasterData
+        Height = 22.677180000000000000
+        Top = 313.700990000000000000
+        Width = 718.110700000000000000
+        DataSet = fdbInvoicePembelian
+        DataSetName = 'fdbInvoicePembelian'
+        KeepFooter = True
+        KeepTogether = True
+        RowCount = 0
+        object Line: TfrxMemoView
+          Width = 30.236240000000000000
+          Height = 18.897650000000000000
+          ShowHint = False
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = []
+          HAlign = haCenter
+          Memo.UTF8W = (
+            '[Line#]')
+          ParentFont = False
+        end
+        object fdbInvoicePenjualandeskripsi: TfrxMemoView
+          Left = 34.015770000000000000
+          Width = 272.126160000000000000
+          Height = 18.897650000000000000
+          ShowHint = False
+          DataField = 'deskripsi'
+          DataSet = fdbInvoicePembelian
+          DataSetName = 'fdbInvoicePembelian'
+          Memo.UTF8W = (
+            '[fdbInvoicePembelian."deskripsi"]')
+        end
+        object fdbInvoicePenjualanqty: TfrxMemoView
+          Left = 309.921460000000000000
+          Width = 60.472480000000000000
+          Height = 18.897650000000000000
+          ShowHint = False
+          DataField = 'qty'
+          DataSet = fdbInvoicePembelian
+          DataSetName = 'fdbInvoicePembelian'
+          DisplayFormat.FormatStr = '%2.2n'
+          DisplayFormat.Kind = fkNumeric
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = []
+          HAlign = haRight
+          Memo.UTF8W = (
+            '[fdbInvoicePembelian."qty"]')
+          ParentFont = False
+        end
+        object fdbInvoicePenjualansatuan: TfrxMemoView
+          Left = 370.393940000000000000
+          Width = 64.252010000000000000
+          Height = 18.897650000000000000
+          ShowHint = False
+          DataField = 'satuan'
+          DataSet = fdbInvoicePembelian
+          DataSetName = 'fdbInvoicePembelian'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = []
+          HAlign = haCenter
+          Memo.UTF8W = (
+            '[fdbInvoicePembelian."satuan"]')
+          ParentFont = False
+        end
+        object fdbInvoicePenjualanharga: TfrxMemoView
+          Left = 434.645950000000000000
+          Width = 64.252010000000000000
+          Height = 18.897650000000000000
+          ShowHint = False
+          DataField = 'harga'
+          DataSet = fdbInvoicePembelian
+          DataSetName = 'fdbInvoicePembelian'
+          DisplayFormat.FormatStr = '%2.2n'
+          DisplayFormat.Kind = fkNumeric
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = []
+          HAlign = haRight
+          Memo.UTF8W = (
+            '[fdbInvoicePembelian."harga"]')
+          ParentFont = False
+        end
+        object fdbInvoicePenjualantotal: TfrxMemoView
+          Left = 529.134200000000000000
+          Width = 151.181200000000000000
+          Height = 18.897650000000000000
+          ShowHint = False
+          DataField = 'total'
+          DataSet = fdbInvoicePembelian
+          DataSetName = 'fdbInvoicePembelian'
+          DisplayFormat.FormatStr = '%2.2n'
+          DisplayFormat.Kind = fkNumeric
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = []
+          HAlign = haRight
+          Memo.UTF8W = (
+            '[fdbInvoicePembelian."total"]')
+          ParentFont = False
+        end
+      end
+      object PageHeader1: TfrxPageHeader
+        Height = 45.354360000000000000
+        Top = 18.897650000000000000
+        Width = 718.110700000000000000
+        object Memo1: TfrxMemoView
+          Top = 1.338590000000000000
+          Width = 718.110700000000000000
+          Height = 30.236240000000000000
+          ShowHint = False
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -19
+          Font.Name = 'Arial'
+          Font.Style = []
+          HAlign = haCenter
+          Memo.UTF8W = (
+            'Faktur Pembelian')
+          ParentFont = False
+        end
+      end
+      object GroupHeader1: TfrxGroupHeader
+        Height = 166.299320000000000000
+        Top = 124.724490000000000000
+        Width = 718.110700000000000000
+        Condition = 'fdbInvoicePembelian."no_bukti"'
+        KeepTogether = True
+        object Memo2: TfrxMemoView
+          Width = 238.110390000000000000
+          Height = 18.897650000000000000
+          ShowHint = False
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = []
+          Memo.UTF8W = (
+            'PT. Damai Mulia Perkasa')
+          ParentFont = False
+        end
+        object Memo3: TfrxMemoView
+          Top = 18.897650000000000000
+          Width = 238.110390000000000000
+          Height = 98.267780000000000000
+          ShowHint = False
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = []
+          Frame.Width = 2.000000000000000000
+          LineSpacing = 5.000000000000000000
+          Memo.UTF8W = (
+            'Jl. Ds. Luwung Km. 02'
+            'Balongbendo, Sidoarjo'
+            'Tel. +62-31-99894381'
+            'Tel. +62-31-99894472'
+            'Fax. +62-31-99890860')
+          ParentFont = False
+        end
+        object Memo4: TfrxMemoView
+          Left = 388.425480000000000000
+          Top = 3.779530000000000000
+          Width = 94.488250000000000000
+          Height = 18.897650000000000000
+          ShowHint = False
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = []
+          Memo.UTF8W = (
+            'Tanggal')
+          ParentFont = False
+        end
+        object Memo5: TfrxMemoView
+          Left = 388.425480000000000000
+          Top = 22.677180000000000000
+          Width = 94.488250000000000000
+          Height = 18.897650000000000000
+          ShowHint = False
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = []
+          Memo.UTF8W = (
+            'Kepada Yth.')
+          ParentFont = False
+        end
+        object Line1: TfrxLineView
+          Top = 132.960730000000000000
+          Width = 865.512370000000000000
+          ShowHint = False
+          Frame.Typ = [ftTop]
+        end
+        object Memo6: TfrxMemoView
+          Top = 140.519790000000000000
+          Width = 30.236240000000000000
+          Height = 18.897650000000000000
+          ShowHint = False
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = []
+          Memo.UTF8W = (
+            'No.')
+          ParentFont = False
+        end
+        object Line2: TfrxLineView
+          Top = 163.196970000000000000
+          Width = 865.512370000000000000
+          ShowHint = False
+          Frame.Typ = [ftTop]
+        end
+        object Memo9: TfrxMemoView
+          Left = 37.795300000000000000
+          Top = 140.519790000000000000
+          Width = 124.724490000000000000
+          Height = 18.897650000000000000
+          ShowHint = False
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = []
+          Memo.UTF8W = (
+            'Deskripsi')
+          ParentFont = False
+        end
+        object Memo10: TfrxMemoView
+          Left = 311.700990000000000000
+          Top = 140.519790000000000000
+          Width = 56.692950000000000000
+          Height = 18.897650000000000000
+          ShowHint = False
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = []
+          HAlign = haRight
+          Memo.UTF8W = (
+            'Qty')
+          ParentFont = False
+        end
+        object Memo11: TfrxMemoView
+          Left = 370.393940000000000000
+          Top = 140.519790000000000000
+          Width = 60.472480000000000000
+          Height = 18.897650000000000000
+          ShowHint = False
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = []
+          HAlign = haCenter
+          Memo.UTF8W = (
+            'Satuan')
+          ParentFont = False
+        end
+        object Memo21: TfrxMemoView
+          Left = 436.086890000000000000
+          Top = 140.519790000000000000
+          Width = 64.252010000000000000
+          Height = 18.897650000000000000
+          ShowHint = False
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = []
+          HAlign = haRight
+          Memo.UTF8W = (
+            'Harga')
+          ParentFont = False
+        end
+        object Memo22: TfrxMemoView
+          Left = 529.134200000000000000
+          Top = 140.519790000000000000
+          Width = 151.181200000000000000
+          Height = 18.897650000000000000
+          ShowHint = False
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = []
+          HAlign = haRight
+          Memo.UTF8W = (
+            'Sub Total')
+          ParentFont = False
+        end
+        object fdbInvoicePenjualantanggal: TfrxMemoView
+          Left = 506.457020000000000000
+          Top = 3.779530000000000000
+          Width = 173.858380000000000000
+          Height = 18.897650000000000000
+          ShowHint = False
+          DataField = 'tanggal'
+          DataSet = fdbInvoicePembelian
+          DataSetName = 'fdbInvoicePembelian'
+          DisplayFormat.FormatStr = 'dd-MM-yyyy'
+          DisplayFormat.Kind = fkDateTime
+          Memo.UTF8W = (
+            '[fdbInvoicePembelian."tanggal"]')
+        end
+        object fdbInvoicePenjualannama: TfrxMemoView
+          Left = 506.457020000000000000
+          Top = 22.677180000000000000
+          Width = 173.858380000000000000
+          Height = 18.897650000000000000
+          ShowHint = False
+          DataField = 'nama'
+          DataSet = fdbInvoicePembelian
+          DataSetName = 'fdbInvoicePembelian'
+          Memo.UTF8W = (
+            '[fdbInvoicePembelian."nama"]')
+        end
+        object fdbInvoicePenjualankota: TfrxMemoView
+          Left = 506.457020000000000000
+          Top = 37.795300000000000000
+          Width = 173.858380000000000000
+          Height = 18.897650000000000000
+          ShowHint = False
+          DataField = 'kota'
+          DataSet = fdbInvoicePembelian
+          DataSetName = 'fdbInvoicePembelian'
+          Memo.UTF8W = (
+            '[fdbInvoicePembelian."kota"]')
+        end
+        object fdbInvoicePenjualanhp: TfrxMemoView
+          Left = 506.457020000000000000
+          Top = 56.692950000000000000
+          Width = 173.858380000000000000
+          Height = 18.897650000000000000
+          ShowHint = False
+          DataField = 'hp'
+          DataSet = fdbInvoicePembelian
+          DataSetName = 'fdbInvoicePembelian'
+          Memo.UTF8W = (
+            '[fdbInvoicePembelian."hp"]')
+        end
+        object Memo7: TfrxMemoView
+          Left = 388.425480000000000000
+          Top = 79.370130000000000000
+          Width = 94.488250000000000000
+          Height = 18.897650000000000000
+          ShowHint = False
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = []
+          Memo.UTF8W = (
+            'Nomer Invoice')
+          ParentFont = False
+        end
+        object fdbInvoicePenjualanno_bukti: TfrxMemoView
+          Left = 506.457020000000000000
+          Top = 79.370130000000000000
+          Width = 173.858380000000000000
+          Height = 18.897650000000000000
+          ShowHint = False
+          DataField = 'no_bukti'
+          DataSet = fdbInvoicePembelian
+          DataSetName = 'fdbInvoicePembelian'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = []
+          Memo.UTF8W = (
+            '[fdbInvoicePembelian."no_bukti"]')
+          ParentFont = False
+        end
+        object Memo15: TfrxMemoView
+          Left = 482.779840000000000000
+          Top = 3.779530000000000000
+          Width = 15.118120000000000000
+          Height = 18.897650000000000000
+          ShowHint = False
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = []
+          Memo.UTF8W = (
+            ':')
+          ParentFont = False
+        end
+        object Memo16: TfrxMemoView
+          Left = 482.779840000000000000
+          Top = 22.677180000000000000
+          Width = 15.118120000000000000
+          Height = 18.897650000000000000
+          ShowHint = False
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = []
+          Memo.UTF8W = (
+            ':')
+          ParentFont = False
+        end
+        object Memo17: TfrxMemoView
+          Left = 482.779840000000000000
+          Top = 79.370130000000000000
+          Width = 15.118120000000000000
+          Height = 18.897650000000000000
+          ShowHint = False
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = []
+          Memo.UTF8W = (
+            ':')
+          ParentFont = False
+        end
+      end
+      object GroupFooter1: TfrxGroupFooter
+        Height = 158.740260000000000000
+        Top = 359.055350000000000000
+        Width = 718.110700000000000000
+        object Memo8: TfrxMemoView
+          Left = 430.866420000000000000
+          Top = 8.236240000000000000
+          Width = 64.252010000000000000
+          Height = 18.897650000000000000
+          ShowHint = False
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = []
+          Memo.UTF8W = (
+            'Subtotal ')
+          ParentFont = False
+        end
+        object Line3: TfrxLineView
+          Top = 4.559060000000000000
+          Width = 865.512370000000000000
+          ShowHint = False
+          Frame.Typ = [ftTop]
+        end
+        object Memo12: TfrxMemoView
+          Left = 11.338590000000000000
+          Top = 53.811070000000000000
+          Width = 94.488250000000000000
+          Height = 18.897650000000000000
+          ShowHint = False
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = []
+          HAlign = haCenter
+          Memo.UTF8W = (
+            'Supplier')
+          ParentFont = False
+        end
+        object Memo13: TfrxMemoView
+          Left = 11.338590000000000000
+          Top = 106.724490000000000000
+          Width = 94.488250000000000000
+          Height = 18.897650000000000000
+          ShowHint = False
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = [fsBold]
+          HAlign = haCenter
+          Memo.UTF8W = (
+            '( .................... )')
+          ParentFont = False
+        end
+        object Memo18: TfrxMemoView
+          Left = 177.637910000000000000
+          Top = 53.811070000000000000
+          Width = 170.078850000000000000
+          Height = 18.897650000000000000
+          ShowHint = False
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = []
+          HAlign = haCenter
+          Memo.UTF8W = (
+            'Hormat Kami, ')
+          ParentFont = False
+        end
+        object Memo19: TfrxMemoView
+          Left = 211.653680000000000000
+          Top = 106.724490000000000000
+          Width = 94.488250000000000000
+          Height = 18.897650000000000000
+          ShowHint = False
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = [fsBold]
+          HAlign = haCenter
+          Memo.UTF8W = (
+            '( .................... )')
+          ParentFont = False
+        end
+        object Memo20: TfrxMemoView
+          Left = 177.637910000000000000
+          Top = 129.401670000000000000
+          Width = 170.078850000000000000
+          Height = 18.897650000000000000
+          ShowHint = False
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = [fsBold]
+          HAlign = haCenter
+          Memo.UTF8W = (
+            'Admin PT. DMP')
+          ParentFont = False
+        end
+        object SysMemo1: TfrxSysMemoView
+          Left = 529.134200000000000000
+          Top = 7.559060000000000000
+          Width = 151.181200000000000000
+          Height = 18.897650000000000000
+          ShowHint = False
+          DisplayFormat.FormatStr = '%2.2n'
+          DisplayFormat.Kind = fkNumeric
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = []
+          HAlign = haRight
+          Memo.UTF8W = (
+            
+              '[SUM(<fdbInvoicePembelian."qty">*<fdbInvoicePembelian."harga">,M' +
+              'asterData1)]')
+          ParentFont = False
+        end
+        object Memo14: TfrxMemoView
+          Left = 430.866420000000000000
+          Top = 26.456710000000000000
+          Width = 64.252010000000000000
+          Height = 18.897650000000000000
+          ShowHint = False
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = []
+          Memo.UTF8W = (
+            'Diskon')
+          ParentFont = False
+        end
+        object SysMemo2: TfrxSysMemoView
+          Left = 529.134200000000000000
+          Top = 26.456710000000000000
+          Width = 151.181200000000000000
+          Height = 18.897650000000000000
+          ShowHint = False
+          DisplayFormat.FormatStr = '%2.2n'
+          DisplayFormat.Kind = fkNumeric
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = []
+          HAlign = haRight
+          Memo.UTF8W = (
+            '[SUM(<tot_diskon>,MasterData1)]')
+          ParentFont = False
+        end
+        object Memo23: TfrxMemoView
+          Left = 430.866420000000000000
+          Top = 45.354360000000000000
+          Width = 64.252010000000000000
+          Height = 18.897650000000000000
+          ShowHint = False
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = []
+          Memo.UTF8W = (
+            'PPN')
+          ParentFont = False
+        end
+        object SysMemo3: TfrxSysMemoView
+          Left = 529.134200000000000000
+          Top = 45.354360000000000000
+          Width = 151.181200000000000000
+          Height = 18.897650000000000000
+          ShowHint = False
+          DisplayFormat.FormatStr = '%2.2n'
+          DisplayFormat.Kind = fkNumeric
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = []
+          HAlign = haRight
+          Memo.UTF8W = (
+            '[SUM(<fdbInvoicePembelian."harga_ppn">,MasterData1)]')
+          ParentFont = False
+        end
+        object Memo24: TfrxMemoView
+          Left = 430.866420000000000000
+          Top = 64.252010000000000000
+          Width = 64.252010000000000000
+          Height = 18.897650000000000000
+          ShowHint = False
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = []
+          Memo.UTF8W = (
+            'Total')
+          ParentFont = False
+        end
+        object Memo25: TfrxMemoView
+          Left = 495.118430000000000000
+          Top = 7.559060000000000000
+          Width = 30.236240000000000000
+          Height = 18.897650000000000000
+          ShowHint = False
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = []
+          HAlign = haRight
+          Memo.UTF8W = (
+            'Rp.')
+          ParentFont = False
+        end
+        object Memo26: TfrxMemoView
+          Left = 495.118430000000000000
+          Top = 26.456710000000000000
+          Width = 30.236240000000000000
+          Height = 18.897650000000000000
+          ShowHint = False
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = []
+          HAlign = haRight
+          Memo.UTF8W = (
+            'Rp.')
+          ParentFont = False
+        end
+        object Memo27: TfrxMemoView
+          Left = 495.118430000000000000
+          Top = 45.354360000000000000
+          Width = 30.236240000000000000
+          Height = 18.897650000000000000
+          ShowHint = False
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = []
+          HAlign = haRight
+          Memo.UTF8W = (
+            'Rp.')
+          ParentFont = False
+        end
+        object Memo28: TfrxMemoView
+          Left = 495.118430000000000000
+          Top = 64.252010000000000000
+          Width = 30.236240000000000000
+          Height = 18.897650000000000000
+          ShowHint = False
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = []
+          HAlign = haRight
+          Memo.UTF8W = (
+            'Rp.')
+          ParentFont = False
+        end
+        object Memo29: TfrxMemoView
+          Left = 529.134200000000000000
+          Top = 64.252010000000000000
+          Width = 151.181200000000000000
+          Height = 18.897650000000000000
+          ShowHint = False
+          DisplayFormat.FormatStr = '%2.2n'
+          DisplayFormat.Kind = fkNumeric
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = []
+          HAlign = haRight
+          Memo.UTF8W = (
+            
+              '[SUM(<fdbInvoicePembelian."qty">*<fdbInvoicePembelian."harga">,M' +
+              'asterData1)-'
+            ' SUM(<tot_diskon>,MasterData1)+'
+            ' SUM(<fdbInvoicePembelian."harga_ppn">,MasterData1)'
+            ']')
+          ParentFont = False
+        end
+      end
+    end
+  end
+  object zqrRptInvoicePembelian: TZReadOnlyQuery
+    Connection = DM.zConn
+    SQL.Strings = (
+      'SELECT a.no_bukti, '
+      'a.tanggal, '
+      'c.id_po, '
+      'b.nama, '
+      'b.alamat, b.alamat2, b.kota, '
+      'b.hp, '
+      'e.satuan,'
+      'd.kode kode_brg, '
+      'd.deskripsi, '
+      'c.qty, '
+      'c.harga, '
+      'c.ppn, '
+      'c.disc_persen,'
+      
+        'CASE WHEN c.ppn = '#39'PPN'#39' THEN c.qty * c.harga * 1.1 ELSE c.qty * ' +
+        'c.harga END AS total,'
+      'IF(c.ppn='#39'PPN'#39',c.qty*c.harga*0.1,0) harga_ppn,'
+      'f.no_bukti no_po'
+      'FROM tbl_invoicepembelian_head a'
+      'LEFT JOIN tbl_supplier b ON a.id_supp = b.id'
+      'LEFT JOIN tbl_invoicepembelian_det c ON a.id = c.id_ref'
+      'LEFT JOIN tbl_barang d ON c.id_brg = d.`id`'
+      'LEFT JOIN tbl_satuan e ON e.id = c.id_satuan'
+      'LEFT JOIN tbl_po_head f ON f.id = c.id_po'
+      'WHERE a.id = :id')
+    Params = <
+      item
+        DataType = ftUnknown
+        Name = 'id'
+        ParamType = ptUnknown
+      end>
+    Left = 169
+    Top = 17
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'id'
+        ParamType = ptUnknown
+      end>
+  end
+  object dsRptInvoicePembelian: TDataSource
+    DataSet = zqrRptInvoicePembelian
+    Left = 323
+    Top = 18
+  end
+  object fdbInvoicePembelian: TfrxDBDataset
+    UserName = 'fdbInvoicePembelian'
+    CloseDataSource = False
+    FieldAliases.Strings = (
+      'no_bukti=no_bukti'
+      'tanggal=tanggal'
+      'id_po=id_po'
+      'nama=nama'
+      'alamat=alamat'
+      'alamat2=alamat2'
+      'kota=kota'
+      'hp=hp'
+      'satuan=satuan'
+      'kode_brg=kode_brg'
+      'deskripsi=deskripsi'
+      'qty=qty'
+      'harga=harga'
+      'ppn=ppn'
+      'disc_persen=disc_persen'
+      'total=total'
+      'harga_ppn=harga_ppn'
+      'no_po=no_po')
+    DataSource = dsRptInvoicePembelian
+    BCDToCurrency = False
+    Left = 476
+    Top = 23
+  end
+end

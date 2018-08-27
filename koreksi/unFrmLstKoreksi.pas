@@ -213,11 +213,11 @@ begin
       qbrg.Post;
       qbrg.Close;
 
-      dm.zConn.ExecuteDirect(Format('UPDATE tbl_trskoreksi_head SET f_posting = 1 WHERE id = %s',
-        [zqrKoreksi.FieldByName('id').AsString]));
-
       qd.Next;
     end;
+
+    dm.zConn.ExecuteDirect(Format('UPDATE tbl_trskoreksi_head SET f_posting = 1 WHERE id = %s',
+      [zqrKoreksi.FieldByName('id').AsString]));
 
     dm.zConn.Commit;
 

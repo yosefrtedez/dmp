@@ -449,6 +449,10 @@ inherited frmInputBarangJasa: TfrmInputBarangJasa
     object cxTabSheet5: TcxTabSheet
       Caption = 'Harga Jual'
       ImageIndex = 4
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       object cxGrid2: TcxGrid
         Left = 16
         Top = 14

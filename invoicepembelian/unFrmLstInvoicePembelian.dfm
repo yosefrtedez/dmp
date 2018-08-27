@@ -34,9 +34,11 @@ inherited frmLstInvoicePembelian: TfrmLstInvoicePembelian
       OnClick = btnTambahClick
     end
     inherited btnEdit: TButton
+      Visible = False
       OnClick = btnEditClick
     end
     inherited btnHapus: TButton
+      Visible = False
       OnClick = btnHapusClick
     end
     inherited btnKeluar: TButton
@@ -187,7 +189,7 @@ inherited frmLstInvoicePembelian: TfrmLstInvoicePembelian
       OptionsView.Footer = True
       object cxtbInvPembDetColumn5: TcxGridDBColumn
         Caption = 'No. PO'
-        DataBinding.FieldName = 'no_po'
+        DataBinding.FieldName = 'no_po2'
         Width = 97
       end
       object cxtbInvPembDetkode_brg: TcxGridDBColumn
@@ -271,12 +273,12 @@ inherited frmLstInvoicePembelian: TfrmLstInvoicePembelian
       Caption = 'Detail Invoice Pembelian'
     end
     object btnCetakPO: TButton
-      Left = 1086
+      Left = 1024
       Top = 9
-      Width = 75
+      Width = 137
       Height = 25
       Anchors = [akTop, akRight]
-      Caption = 'Cetak PO'
+      Caption = 'Cetak Faktur Pembelian'
       TabOrder = 0
       OnClick = btnCetakPOClick
     end
@@ -305,13 +307,14 @@ inherited frmLstInvoicePembelian: TfrmLstInvoicePembelian
     SQL.Strings = (
       
         'SELECT a.*, b.kode kode_brg2,  b.deskripsi, a.qty, c.satuan, a.h' +
-        'arga, a.mata_uang, a.qty * a.harga subtotal, d.no_bukti no_po'
+        'arga, a.mata_uang, a.qty * a.harga subtotal, e.no_bukti no_po2'
       'FROM tbl_invoicepembelian_det a'
       'LEFT JOIN tbl_barang b ON a.id_brg = b.id '
       'LEFT JOIN tbl_satuan c ON c.id = a.id_satuan'
       
         'LEFT JOIN tbl_po_det d ON d.id_ref = a.id_po AND d.id_brg = a.id' +
         '_brg'
+      'LEFT JOIN tbl_po_head e ON e.id = d.id_ref '
       'WHERE a.id_ref = :id_ref')
     Params = <
       item

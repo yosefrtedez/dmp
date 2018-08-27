@@ -169,7 +169,6 @@ inherited frmInputInvoicePembelian: TfrmInputInvoicePembelian
         Visible = False
       end
       object cxColIdPO: TcxGridColumn
-        Visible = False
       end
     end
     object cxgrdlvl1Grid1Level1: TcxGridLevel

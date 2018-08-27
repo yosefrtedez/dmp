@@ -88,26 +88,23 @@ implementation
 
 uses
   unFrmUtama, unDM, unFrmInputPO, unTools, unAplikasi, unFrmInputPembayaranPembelian,
-  unFrmInputInvoicePembelian;
+  unFrmInputInvoicePembelian, unFrmLapInvoicePembelian;
 
 {$R *.dfm}
 
 procedure TfrmLstInvoicePembelian.btnCetakPOClick(Sender: TObject);
 var
-  q :TZQuery;
+  f: TfrmLapInvoicePembelian;
 begin
   inherited;
-  {
-  q := OpenRS('select * from tbl_po_head where f_app = 1 and no_bukti = ''%s''',[zqrpo.FieldByName('no_bukti').AsString]);
-  if q.Eof  then begin
-     MsgBox('PO ini tidak bisa dicetak karena belum di approve');
-     Abort;
+
+  f := TfrmLapInvoicePembelian.Create(Self);
+  with f do begin
+    zqrInvoicePembelian.ParamByName('id').AsInteger := Self.zqrInvoicePembelian.FieldByName('id').AsInteger;
+    zqrInvoicePembelian.Open;
+    rptInvoicePembelian.ShowReport(true);
   end;
-  zqrRptPO.Close;
-  zqrRptPO.ParamByName('no_bukti').AsString := zqrPO.FieldByName('no_bukti').AsString;
-  zqrRptPO.Open;
-  rptPO.ShowReport(True);
-  }
+  f.Free;
 end;
 
 procedure TfrmLstInvoicePembelian.btnCtkPOClick(Sender: TObject);

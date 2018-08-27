@@ -97,7 +97,8 @@ uses
   unFrmInputInvoicePenjualan in 'invoicepenjualan\unFrmInputInvoicePenjualan.pas' {frmInputInvoicePenjualan},
   unFrmLstInvoicePenjualan in 'invoicepenjualan\unFrmLstInvoicePenjualan.pas' {frmLstInvoicePenjualan},
   unFrmLapKasMasukKasKeluar in 'laporan\unFrmLapKasMasukKasKeluar.pas' {frmLapKasMasukKasKeluar},
-  unFrmLapInvoicePenjualan in 'laporan\unFrmLapInvoicePenjualan.pas' {frmLapInvoicePenjualan};
+  unFrmLapInvoicePenjualan in 'laporan\unFrmLapInvoicePenjualan.pas' {frmLapInvoicePenjualan},
+  unFrmLapInvoicePembelian in 'laporan\unFrmLapInvoicePembelian.pas' {frmLapInvoicePembelian};
 
 {$R *.res}
 
@@ -107,6 +108,7 @@ begin
   Application.CreateForm(TDM, DM);
   Application.CreateForm(TfrmUtama, frmUtama);
   Application.CreateForm(TfrmLogin, frmLogin);
+  Application.CreateForm(TfrmLapInvoicePembelian, frmLapInvoicePembelian);
   frmUtama.Show;
 
   frmLogin.ShowModal;

@@ -2,8 +2,8 @@ object frmLapInvoicePenjualan: TfrmLapInvoicePenjualan
   Left = 0
   Top = 0
   Caption = 'frmLapInvoicePenjualan'
-  ClientHeight = 574
-  ClientWidth = 921
+  ClientHeight = 152
+  ClientWidth = 566
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText

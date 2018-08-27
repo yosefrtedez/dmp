@@ -27,7 +27,7 @@ inherited frmInputKoreksi: TfrmInputKoreksi
   inherited Panel2: TPanel
     Top = 570
     Width = 973
-    TabOrder = 8
+    TabOrder = 9
     ExplicitTop = 570
     ExplicitWidth = 973
     inherited btnSimpan: TButton
@@ -204,6 +204,14 @@ inherited frmInputKoreksi: TfrmInputKoreksi
     object cxgrdlvl1Grid1Level1: TcxGridLevel
       GridView = cxtbKoreksi
     end
+  end
+  object Button1: TButton
+    Left = 890
+    Top = 361
+    Width = 75
+    Height = 25
+    Caption = 'Button1'
+    TabOrder = 8
   end
   object zqrBarang: TZReadOnlyQuery
     Connection = DM.zConn

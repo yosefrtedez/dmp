@@ -322,6 +322,9 @@
 			<DCCReference Include="laporan\unFrmLapInvoicePenjualan.pas">
 				<Form>frmLapInvoicePenjualan</Form>
 			</DCCReference>
+			<DCCReference Include="laporan\unFrmLapInvoicePembelian.pas">
+				<Form>frmLapInvoicePembelian</Form>
+			</DCCReference>
 			<BuildConfiguration Include="Base">
 				<Key>Base</Key>
 			</BuildConfiguration>

@@ -13,9 +13,9 @@ inherited frmLstPembayaranPembelian: TfrmLstPembayaranPembelian
     object Label1: TLabel
       Left = 10
       Top = 13
-      Width = 144
+      Width = 193
       Height = 19
-      Caption = 'Faktur Pembelian'
+      Caption = 'Pembayaran Pembelian'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -16
