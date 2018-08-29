@@ -78,6 +78,7 @@ type
     cxColSatuan2: TcxGridColumn;
     cxColIdSatuan2: TcxGridColumn;
     cxColKodeBrg3: TcxGridColumn;
+    cxColIsBOM2: TcxGridDBColumn;
     procedure btnProsesClick(Sender: TObject);
     procedure cxtbSPKFocusedRecordChanged(Sender: TcxCustomGridTableView;
       APrevFocusedRecord, AFocusedRecord: TcxCustomGridRecord;
@@ -277,7 +278,7 @@ var
 begin
   inherited;
 
-  if AItemIndex = cxColKodeBrg.Index then begin
+  if AItemIndex = cxColKodeBrg2.Index then begin
     try
       cxtbBomDet.BeginUpdate;
       q := OpenRS('SELECT a.*, b.satuan satuan2 FROM tbl_barang a LEFT JOIN tbl_satuan b ON a.id_satuan = b.id WHERE a.id = %s',
@@ -297,11 +298,11 @@ begin
     end;
   end;
 
-  if AItemIndex = cxColDeskripsi.Index then begin
+  if AItemIndex = cxColDeskripsi2.Index then begin
     try
       cxtbBOMDet.BeginUpdate;
       q := OpenRS('SELECT a.*, b.satuan satuan2 FROM tbl_barang a LEFT JOIN tbl_satuan b ON a.id_satuan = b.id WHERE a.id = %s',
-        [ADataController.Values[ARecordIndex, cxColDeskripsi.Index]]);
+        [ADataController.Values[ARecordIndex, cxColDeskripsi2.Index]]);
       ADataController.Values[ARecordIndex, cxColKodeBrg2.Index] := q.FieldByName('id').AsString;
       ADataController.Values[ARecordIndex, cxColSatuan2.Index] := q.FieldByName('satuan2').AsString;
       ADataController.Values[ARecordIndex, cxColIdSatuan2.Index] := q.FieldByname('id_satuan').AsInteger;
@@ -327,6 +328,7 @@ var
   j,i: integer;
 begin
   inherited;
+  {
   try
     j := cxtbBOM.DataController.GetFocusedRecordIndex;
     q := OpenRS('SELECT * FROM tbl_trspengambilanbb WHERE id_spk = %s',[zqrSPK.FieldByName('id').AsString]);
@@ -353,6 +355,7 @@ begin
     cxlbBahanBaku.Caption := cxtbBom.DataController.Values[j, cxColDeskripsi.Index];
   Except
   end;
+  }
 end;
 
 procedure TfrmPengambilanBahanBaku.cxtbSPKFocusedRecordChanged(
@@ -360,51 +363,80 @@ procedure TfrmPengambilanBahanBaku.cxtbSPKFocusedRecordChanged(
   AFocusedRecord: TcxCustomGridRecord; ANewItemRecordFocusingChanged: Boolean);
 var
   q: TZQuery;
-  i: integer;
+  i,j: integer;
 begin
   inherited;
   try
-  with cxtbBOM.DataController do begin
-    cxlbNoSPK.Caption := '-';
-    cxlbBahanBaku.Caption := '-';
+    with cxtbBOM.DataController do begin
+      cxlbNoSPK.Caption := '-';
+      cxlbBahanBaku.Caption := '-';
+
+      cxtbBomDet.DataController.RecordCount := 0;
+      RecordCount := 0;
+      {
+      q := OpenRS('SELECT a.*, b.kode, b.deskripsi, c.satuan satuan2, ' +
+        '(SELECT SUM(qty) FROM tbl_trspengambilanbb WHERE id_spk = a.id_spk AND id_brg = a.id_brg) qty_ambil ' +
+        'FROM tbl_bom a ' +
+        'LEFT JOIN tbl_barang b ON b.id = a.id_brg ' +
+        'LEFT JOIN tbl_satuan c ON c.id = a.id_satuan WHERE id_spk = %d',
+        [zqrSPK.FieldByName('id').AsInteger]);
+      }
+
+      q := OpenRS('select a.id_spk, a.id_brg, a.id_satuan, b.kode, b.deskripsi, c.satuan satuan2, ' +
+        'ifnull((select qty from tbl_bom where id_spk = a.id_spk and id_brg = a.id_brg),0) qty_bom, ' +
+        'sum(qty) qty_ambil from ' +
+        '( ' +
+        'select a.id_spk, a.id_brg, a.id_satuan, 0 qty from tbl_bom a where a.id_spk = %d ' +
+        'union all ' +
+        'select b.id_spk, b.id_brg, b.id_satuan, b.qty from tbl_trspengambilanbb b where b.id_spk = %d) a ' +
+        'left join tbl_barang b ON b.id = a.id_brg ' +
+        'left join tbl_satuan c ON c.id = a.id_satuan ' +
+        'group by a.id_spk, a.id_brg, a.id_satuan, b.kode, b.deskripsi, c.satuan',
+        [zqrSPK.FieldByName('id').AsInteger, zqrSPK.FieldByName('id').AsInteger]);
+
+      while not q.Eof do begin
+        i := AppendRecord;
+        Values[i, cxColKodeBrg.Index] := q.FieldByName('kode').AsString;
+        Values[i, cxColDeskripsi.Index] := q.FieldByName('deskripsi').AsString;
+        Values[i, cxColSatuan.Index] := q.FieldByName('satuan2').AsString;
+        Values[i, cxColQtySPK.Index] := q.FieldByName('qty_bom').AsFloat;
+        Values[i, cxColDiambil.Index] := q.FieldByName('qty_ambil').AsFloat;
+        Values[i, cxColIdBrg.Index] := q.FieldByName('id_brg').AsInteger;
+        Values[i, cxColIdSatuan.Index] := q.FieldByName('id_satuan').AsInteger;
+        if q.FieldByName('qty_bom').AsFloat > 0 then
+          Values[i, cxColIsBOM2.Index] := 1
+        else
+          Values[i, cxColIsBOM2.Index] := 0;
+        q.Next;
+      end;
+      q.Close;
+    end;
+    cxlbNoSPK.Caption := zqrSPK.FieldByName('no_spk').AsString;
+
+    q := OpenRS('SELECT * FROM tbl_trspengambilanbb WHERE id_spk = %s',[zqrSPK.FieldByName('id').AsString]);
 
     cxtbBomDet.DataController.RecordCount := 0;
-    RecordCount := 0;
-    {
-    q := OpenRS('SELECT a.*, b.kode, b.deskripsi, c.satuan satuan2, ' +
-      '(SELECT SUM(qty) FROM tbl_trspengambilanbb WHERE id_spk = a.id_spk AND id_brg = a.id_brg) qty_ambil ' +
-      'FROM tbl_bom a ' +
-      'LEFT JOIN tbl_barang b ON b.id = a.id_brg ' +
-      'LEFT JOIN tbl_satuan c ON c.id = a.id_satuan WHERE id_spk = %d',
-      [zqrSPK.FieldByName('id').AsInteger]);
-    }
-
-    q := OpenRS('select a.id_spk, a.id_brg, a.id_satuan, b.kode, b.deskripsi, c.satuan satuan2, sum(qty) qty from ' +
-      '( ' +
-      'select a.id_spk, a.id_brg, a.id_satuan, a.qty from tbl_bom a where a.id_spk = %d ' +
-      'union all ' +
-      'select b.id_spk, b.id_brg, b.id_satuan, b.qty from tbl_trspengambilanbb b where b.id_spk = %d) a ' +
-      'left join tbl_barang b ON b.id = a.id_brg ' +
-      'left join tbl_satuan c ON c.id = a.id_satuan ' +
-      'group by a.id_spk, a.id_brg, a.id_satuan, b.kode, b.deskripsi, c.satuan',
-      [zqrSPK.FieldByName('id').AsInteger, zqrSPK.FieldByName('id').AsInteger]);
-
+    cxtbBomDet.BeginUpdate;
     while not q.Eof do begin
-      i := AppendRecord;
-      Values[i, cxColKodeBrg.Index] := q.FieldByName('kode').AsString;
-      Values[i, cxColDeskripsi.Index] := q.FieldByName('deskripsi').AsString;
-      Values[i, cxColSatuan.Index] := q.FieldByName('satuan2').AsString;
-      Values[i, cxColQtySPK.Index] := q.FieldByName('qty').AsFloat;
-      Values[i, cxColDiambil.Index] := q.FieldByName('qty_ambil').AsFloat;
-      Values[i, cxColIdBrg.Index] := q.FieldByName('id_brg').AsInteger;
-      Values[i, cxColIdSatuan.Index] := q.FieldByName('id_satuan').AsInteger;
+      with cxtbBomDet.DataController do begin
+        i := AppendRecord;
+        Values[i, cxColKodeBrg2.Index] := q.FieldByname('id_brg').AsInteger;
+        Values[i, cxColDeskripsi2.Index] := q.FieldByName('id_brg').AsInteger;
+        Values[i, cxColTanggal.Index] := q.FieldByName('tanggal').AsDateTime;
+        Values[i, cxColJam.Index] := q.FieldByName('jam').AsDateTime;
+        Values[i, cxColQtyInput.Index] := q.FieldByname('qty').AsFloat;
+        Values[i, cxColOperator.Index] := q.FieldByName('operator').AsString;
+        Values[i, cxColGdg.Index] := q.FieldByName('id_gdg').AsInteger;
+        Values[i, cxColStatus.Index] := 1;
+      end;
       q.Next;
     end;
+    cxtbBomDet.EndUpdate;
     q.Close;
-  end;
-  cxlbNoSPK.Caption := zqrSPK.FieldByName('no_spk').AsString;
-  except
 
+    cxlbBahanBaku.Caption := cxtbBom.DataController.Values[j, cxColDeskripsi.Index];
+
+  except
   end;
 end;
 

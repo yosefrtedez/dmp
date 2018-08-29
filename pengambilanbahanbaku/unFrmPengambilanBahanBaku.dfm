@@ -1,14 +1,16 @@
 inherited frmPengambilanBahanBaku: TfrmPengambilanBahanBaku
   Caption = 'Pengambilan Bahan Baku'
-  ClientHeight = 720
+  ClientHeight = 782
   ClientWidth = 1044
   Position = poDesigned
+  ExplicitTop = -46
   ExplicitWidth = 1044
-  ExplicitHeight = 720
+  ExplicitHeight = 782
   PixelsPerInch = 96
   TextHeight = 13
   inherited Panel1: TPanel
     Width = 1044
+    ExplicitWidth = 1044
     object Label13: TLabel
       Left = 10
       Top = 13
@@ -24,10 +26,11 @@ inherited frmPengambilanBahanBaku: TfrmPengambilanBahanBaku
     end
   end
   inherited Panel2: TPanel
-    Top = 671
+    Top = 733
     Width = 1044
     TabOrder = 7
-    ExplicitTop = 571
+    ExplicitTop = 671
+    ExplicitWidth = 1044
     inherited btnSimpan: TButton
       Visible = False
     end
@@ -46,7 +49,6 @@ inherited frmPengambilanBahanBaku: TfrmPengambilanBahanBaku
     Height = 49
     Align = alTop
     TabOrder = 1
-    ExplicitWidth = 894
     object cxLabel1: TcxLabel
       Left = 10
       Top = 15
@@ -86,7 +88,6 @@ inherited frmPengambilanBahanBaku: TfrmPengambilanBahanBaku
     Height = 159
     Align = alTop
     TabOrder = 2
-    ExplicitWidth = 894
     object cxtbSPK: TcxGridDBTableView
       NavigatorButtons.ConfirmDelete = False
       OnFocusedRecordChanged = cxtbSPKFocusedRecordChanged
@@ -132,7 +133,6 @@ inherited frmPengambilanBahanBaku: TfrmPengambilanBahanBaku
     Height = 49
     Align = alTop
     TabOrder = 3
-    ExplicitWidth = 894
     object cxLabel3: TcxLabel
       Left = 10
       Top = 8
@@ -156,7 +156,6 @@ inherited frmPengambilanBahanBaku: TfrmPengambilanBahanBaku
     Height = 110
     Align = alTop
     TabOrder = 4
-    ExplicitWidth = 894
     object cxtbBOM: TcxGridDBTableView
       NavigatorButtons.ConfirmDelete = False
       OnFocusedRecordChanged = cxtbBOMFocusedRecordChanged
@@ -164,6 +163,14 @@ inherited frmPengambilanBahanBaku: TfrmPengambilanBahanBaku
       DataController.Summary.FooterSummaryItems = <>
       DataController.Summary.SummaryGroups = <>
       OptionsView.GroupByBox = False
+      object cxColIsBOM2: TcxGridDBColumn
+        Caption = 'BOM?'
+        DataBinding.ValueType = 'Integer'
+        PropertiesClassName = 'TcxCheckBoxProperties'
+        Properties.ValueChecked = 1
+        Properties.ValueUnchecked = 0
+        Width = 37
+      end
       object cxColKodeBrg: TcxGridDBColumn
         Caption = 'Kode Brg.'
         DataBinding.ValueType = 'String'
@@ -221,31 +228,31 @@ inherited frmPengambilanBahanBaku: TfrmPengambilanBahanBaku
     Height = 49
     Align = alTop
     TabOrder = 5
-    ExplicitWidth = 894
     object cxLabel4: TcxLabel
       Left = 10
-      Top = 8
+      Top = 15
       Caption = 'Input Pengambilan Bahan Baku :'
     end
     object cxLabel6: TcxLabel
-      Left = 10
-      Top = 26
+      Left = 298
+      Top = 6
       Caption = 'Bahan Baku : '
+      Visible = False
     end
     object cxlbBahanBaku: TcxLabel
-      Left = 79
-      Top = 26
+      Left = 367
+      Top = 6
       Caption = '-'
+      Visible = False
     end
   end
   object cxGrid3: TcxGrid
     Left = 0
     Top = 465
     Width = 1044
-    Height = 140
+    Height = 240
     Align = alTop
     TabOrder = 6
-    ExplicitWidth = 894
     object cxtbBomDet: TcxGridTableView
       NavigatorButtons.ConfirmDelete = False
       NavigatorButtons.PriorPage.Visible = False
@@ -312,6 +319,7 @@ inherited frmPengambilanBahanBaku: TfrmPengambilanBahanBaku
         Properties.ReadOnly = True
         Properties.ValueChecked = 1
         Properties.ValueUnchecked = 0
+        Visible = False
         Width = 41
       end
       object cxColTanggal: TcxGridColumn
