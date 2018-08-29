@@ -123,6 +123,14 @@ inherited frmLstSuratJalan: TfrmLstSuratJalan
         Options.Editing = False
         Width = 72
       end
+      object cxtbSJColumn4: TcxGridDBColumn
+        Caption = 'Tanpa SO'
+        DataBinding.FieldName = 'jenis_sj'
+        PropertiesClassName = 'TcxCheckBoxProperties'
+        Properties.ValueChecked = 1
+        Properties.ValueUnchecked = 0
+        Width = 60
+      end
     end
     object cxTblDet: TcxGridDBTableView
       NavigatorButtons.ConfirmDelete = False

@@ -3,7 +3,7 @@ inherited frmInputPO: TfrmInputPO
   ClientHeight = 690
   ClientWidth = 1063
   OnShow = FormShow
-  ExplicitTop = -126
+  ExplicitTop = -28
   ExplicitWidth = 1063
   ExplicitHeight = 690
   PixelsPerInch = 96
@@ -128,6 +128,7 @@ inherited frmInputPO: TfrmInputPO
         PropertiesClassName = 'TcxSpinEditProperties'
         Properties.Alignment.Horz = taRightJustify
         Properties.DisplayFormat = '#,##.00'
+        Properties.ValueType = vtFloat
         Width = 88
       end
       object cxColDiscPersen: TcxGridColumn

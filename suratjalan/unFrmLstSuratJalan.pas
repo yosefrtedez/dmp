@@ -61,6 +61,7 @@ type
     cxtbSJColumn3: TcxGridDBColumn;
     cxColQtySO: TcxGridDBColumn;
     cxtbSJDetColumn1: TcxGridDBColumn;
+    cxtbSJColumn4: TcxGridDBColumn;
     procedure btnTambahClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure btnRefreshClick(Sender: TObject);
@@ -262,12 +263,17 @@ begin
 end;
 
 procedure TfrmLstSuratJalan.btnRefreshClick(Sender: TObject);
+var
+  bm: Variant;
 begin
   inherited;
-
-  zqrSJ.Close;
-  zqrSJ.Open;
-
+  try
+    bm := zqrSJ.Bookmark;
+    zqrSJ.Close;
+    zqrSJ.Open;
+    zqrSJ.Bookmark := bm;
+  except
+  end;
 end;
 
 procedure TfrmLstSuratJalan.btnTambahClick(Sender: TObject);
@@ -349,22 +355,26 @@ var
   a,b: Extended;
   i: integer;
 begin
-  qsj := OpenRS('SELECT * FROM tbl_sj_det WHERE id_ref = %s',[zqrSJ.FieldByname('id').AsString]);
-  with qsj do begin
-    q := OpenRS('SELECT a.id_brg, a.qty, (SELECT SUM(qty) FROM tbl_sj_det WHERE id_so = a.id_ref AND id_brg = a.id_brg) qty_kirim ' +
-      'FROM tbl_so_det a WHERE a.id_ref = %s',[qsj.FieldByname('id_so').AsString]);
-    f := False;
-    while not q.Eof do begin
-      a := q.FieldByName('qty').AsFloat;
-      b := q.FIeldByName('qty_kirim').AsFloat;
-      if CompareValue(a, b) = 0 then
-        f := true
-      else
-        f := false;
-      q.Next;
+  if zqrSJ.FieldByname('jenis_sj').AsInteger = 1 then begin
+    qsj := OpenRS('SELECT * FROM tbl_sj_det WHERE id_ref = %s',[zqrSJ.FieldByname('id').AsString]);
+    with qsj do begin
+      q := OpenRS('SELECT a.id_brg, a.qty, (SELECT SUM(qty) FROM tbl_sj_det WHERE id_so = a.id_ref AND id_brg = a.id_brg) qty_kirim ' +
+        'FROM tbl_so_det a WHERE a.id_ref = %s',[qsj.FieldByname('id_so').AsString]);
+      f := False;
+      while not q.Eof do begin
+        a := q.FieldByName('qty').AsFloat;
+        b := q.FIeldByName('qty_kirim').AsFloat;
+        if CompareValue(a, b) = 0 then
+          f := true
+        else begin
+          f := false;
+          Break;
+        end;
+        q.Next;
+      end;
+      if f then
+        dm.zConn.ExecuteDirect(Format('UPDATE tbl_so_head SET f_completed = 1 WHERE id = %s',[qsj.FieldByname('id_so').AsString]));
     end;
-    if f then
-      dm.zConn.ExecuteDirect(Format('UPDATE tbl_so_head SET f_completed = 1 WHERE id = %s',[qsj.FieldByname('id_so').AsString]));
   end;
 end;
 

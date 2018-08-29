@@ -71,6 +71,7 @@ type
     cxtbPODetColumn3: TcxGridDBColumn;
     btnBatalApproval: TButton;
     btnTutupPO: TButton;
+    cxtbPOHeadColumn1: TcxGridDBColumn;
     procedure FormCreate(Sender: TObject);
     procedure btnRefreshClick(Sender: TObject);
     procedure btnTambahClick(Sender: TObject);

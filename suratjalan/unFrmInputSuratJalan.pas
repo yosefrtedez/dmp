@@ -81,6 +81,7 @@ type
     cxtAlamat: TcxTextEdit;
     cxColIdBrg: TcxGridColumn;
     cxChkSJTanpaSO: TcxCheckBox;
+    btnSimpan2: TButton;
     cxgSJTanpaSO: TcxGrid;
     cxtbSJTanpaSO: TcxGridTableView;
     cxGridColumn1: TcxGridColumn;
@@ -96,8 +97,8 @@ type
     cxColTotal2: TcxGridColumn;
     cxColIdSatuan2: TcxGridColumn;
     cxColIdBrg2: TcxGridColumn;
+    cxColKodeBrg3: TcxGridColumn;
     cxGridLevel1: TcxGridLevel;
-    btnSimpan2: TButton;
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure cxColNoGetDisplayText(Sender: TcxCustomGridTableItem;
@@ -130,6 +131,7 @@ type
       ADataController: TcxCustomDataController);
     procedure cxtbSJTanpaSODataControllerAfterPost(
       ADataController: TcxCustomDataController);
+    procedure Button1Click(Sender: TObject);
   private
     procedure HitungTotal;
     procedure Posting(IDSJ: Integer);
@@ -213,6 +215,7 @@ begin
       qh.FieldByName('nopol').AsString := Trim(cxtNopol.Text);
       qh.FieldByName('sopir').AsString := Trim(cxtSopir.Text);
       qh.FieldByName('tgl_edit').AsDateTime := Aplikasi.NowServer;
+      qh.FieldByName('jenis_sj').AsInteger := 1;
       qh.Post;
 
       if Self.Jenis = 'T' then  ID := LastInsertID;
@@ -228,19 +231,18 @@ begin
             qd.FieldByName('id_ref').AsString := qh.FieldByName('id').AsString;
           end;
           qd.FieldByName('no_bukti').AsString := sNoBukti;
-          qd.FieldByName('kode_brg').AsString := Values[i, cxColKodeBrg.Index];
-          qd.FieldByName('id_brg').AsInteger := Values[i, cxColIdBrg.Index];
-          qd.FieldByName('qty').AsFloat := Values[i, cxColQty.Index];
-          qd.FieldByName('id_satuan').AsString := Values[i, cxColIdSatuan.Index];
-          qd.FieldByName('id_gdg').AsString := Values[i, cxColGudang.Index];
-          qd.FieldbyName('harga').AsFloat := Values[i, cxColHarga.Index];
-          if not VarIsNull(Values[i, cxColHargaIkat.Index]) then
-            qd.FieldByName('hrgikat').AsFloat := Values[i, cxColHargaIkat.Index];
-          qd.FieldByName('id_so').AsInteger := Values[i, cxColIdSO.Index];
-          if VarIsNull(Values[i, cxColKeterangan.index]) = True then begin
+          qd.FieldByName('kode_brg').AsString := Values[i, cxColKodeBrg3.Index];
+          qd.FieldByName('id_brg').AsInteger := Values[i, cxColKodeBrg2.Index];
+          qd.FieldByName('qty').AsFloat := Values[i, cxColQty2.Index];
+          qd.FieldByName('id_satuan').AsString := Values[i, cxColIdSatuan2.Index];
+          qd.FieldByName('id_gdg').AsString := Values[i, cxColGudang2.Index];
+          qd.FieldbyName('harga').AsFloat := Values[i, cxColHarga2.Index];
+          if not VarIsNull(Values[i, cxColHargaIkat2.Index]) then
+            qd.FieldByName('hrgikat').AsFloat := Values[i, cxColHargaIkat2.Index];
+          if VarIsNull(Values[i, cxColKeterangan2.index]) = True then begin
             qd.FieldByName('keterangan').AsString := '';
           end else begin
-            qd.FieldByName('keterangan').AsString := Values[i, cxColKeterangan.Index];
+            qd.FieldByName('keterangan').AsString := Values[i, cxColKeterangan2.Index];
           end;
           qd.Post;
         end;
@@ -387,6 +389,12 @@ begin
     end;
   end;
 
+end;
+
+procedure TfrmInputSuratJalan.Button1Click(Sender: TObject);
+begin
+  inherited;
+  cxgSJTanpaSO.Visible := True;
 end;
 
 procedure TfrmInputSuratJalan.btnPilihSOClick(Sender: TObject);
@@ -801,7 +809,7 @@ begin
   inherited;
   i := ADataController.FocusedRowIndex;
   k := ADataController.GetEditingRecordIndex;
-  v := ADataController.Values[i, cxColKodeBrg.Index];
+  v := ADataController.Values[i, cxColKodeBrg2.Index];
 
   for j := 0 to ADataController.RecordCount - 1 do begin
     if j <> k then begin
@@ -822,6 +830,12 @@ begin
   if (VarIsNull(ADataController.Values[i, cxColGudang2.Index])) or
       (Trim(ADataController.Values[i, cxColGudang2.Index]) = '')  then begin
     MsgBox('Kode gudang harus diisi.');
+    Abort;
+  end;
+
+  if (VarIsNull(ADataController.Values[i, cxColQty2.Index])) or
+      (ADataController.Values[i, cxColQTy2.Index] = 0)  then begin
+    MsgBox('Qty. kirim harus di isi.');
     Abort;
   end;
 
@@ -849,6 +863,7 @@ begin
       ADataController.Values[ARecordIndex, cxColKodeBrg2.Index] :=  q.FieldByName('id').AsString;
       ADataController.Values[ARecordIndex, cxColSatuan2.Index] := q.FieldByName('satuan2').AsString;
       ADataController.Values[ARecordIndex, cxColIdSatuan2.Index] := q.FieldByName('id_satuan').AsInteger;
+      ADataController.Values[ARecordIndex, cxColKodeBrg3.Index] := q.FieldByName('kode').AsString;
       q.Close;
 
       q := OpenRS('SELECT * FROM tbl_barang_det_spek WHERE id_ref = %s',
@@ -868,6 +883,7 @@ begin
       ADataController.Values[ARecordIndex, cxColDeskripsi2.Index] :=  q.FieldByName('id').AsString;
       ADataController.Values[ARecordIndex, cxColSatuan2.Index] := q.FieldByName('satuan2').AsString;
       ADataController.Values[ARecordIndex, cxColIdSatuan2.Index] := q.FieldByName('id_satuan').AsInteger;
+      ADataController.Values[ARecordIndex, cxColKodeBrg3.Index] := q.FieldByName('kode').AsString;
       q.Close;
 
       q := OpenRS('SELECT * FROM tbl_barang_det_spek WHERE id_ref = %s',
@@ -921,7 +937,6 @@ begin
   cxgSJTanpaSO.Left := cxgSJ.Left;
 
   btnSimpan2.Left := btnSimpan.Left;
-
 end;
 
 procedure TfrmInputSuratJalan.FormShow(Sender: TObject);
@@ -935,59 +950,124 @@ begin
   if Self.Jenis = 'T' then begin
     sNoTrs := GetLastFak('sj');
     cxtNoBukti.Text := sNoTrs;
+    cxgSJ.Visible := True;
+    cxgSJTanpaSO.Visible := False;
+    btnSimpan2.Visible := False;
   end
   else if Self.Jenis = 'E' then begin
     q := OpenRS('SELECT * FROM tbl_sj_head WHERE id = %s',[Self.EditKey]);
-    cxtNoBukti.Text := q.FieldByName('no_bukti').AsString;
-    cxtKeterangan.Text := q.FieldByName('keterangan').AsString;
-    cxlCustomer.EditValue := q.FieldByName('id_cust').AsInteger;
-    cxdTglJthTempo.Date := q.FieldByname('jatuh_tempo').AsDateTime;
-    if q.FieldByName('f_ppn').AsInteger = 1 then
-      cxChkPPN.Checked := True;
-    cxsDiskon.Value := q.FieldByname('diskon').AsFloat;
-    cxtNoFaktur.Text := q.FieldByName('no_faktur').AsString;
-    cxtSopir.Text := q.FieldByName('sopir').AsString;
-    cxtNopol.Text := q.FieldByName('nopol').AsString;
-    cxtNoFaktur.Text := q.FieldByName('no_faktur').AsString;
-    q.Close;
 
-    z := OpenRS('SELECT a.*, b.deskripsi, c.satuan satuan2, d.jml_ikat_per_karung, e.no_bukti no_so2, e.qty qty_so2 ' +
-      'FROM tbl_sj_det a ' +
-      'left join tbl_barang b on a.id_brg = b.id ' +
-      'LEFT JOIN tbl_satuan c on c.id = a.id_satuan ' +
-      'LEFT JOIN tbl_barang_det_spek d on d.id_ref = a.id_brg ' +
-      'LEFT JOIN tbl_so_det e on e.id_ref = a.id_so and e.id_brg = a.id_brg ' +
-      'WHERE a.id_ref = %s',[Self.EditKey]);
-    nomer := 1;
+    if q.FieldByName('jenis_sj').AsInteger = 0 then begin
 
-    cxtbSJ.DataController.OnRecordChanged := nil;
-    while not z.Eof do begin
-      with cxtbSJ.DataController do begin
-        i := AppendRecord;
-        Values[i, cxColNo.Index] := nomer;
-        Values[i, cxColKodeBrg.Index] := z.FieldByName('kode_brg').AsString;
-        Values[i, cxColDeskripsi.Index] := z.FieldByName('deskripsi').AsString;
-        Values[i, cxColNoSO.Index] := z.FieldByName('no_so2').AsString;
-        Values[i, cxColQtySO.Index] := z.FieldByname('qty_so2').AsFloat;
-        Values[i, cxColQty.Index] := z.FieldByName('qty').AsFloat;
-        Values[i, cxColSatuan.Index] := z.FieldByName('satuan2').AsString;
-        Values[i, cxColIdSatuan.Index] := z.FieldByname('id_satuan').AsInteger;
-        Values[i, cxColKeterangan.Index] := z.FieldByName('keterangan').AsString;
-        Values[i, cxColHargaIkat.Index] := z.FieldByName('hrgikat').AsFloat;
-        Values[i, cxColHarga.Index] := z.FieldByname('harga').AsFloat;
-        Values[i, cxColTotal.Index] := z.FieldByname('harga').AsFloat * z.FieldByname('qty').AsFloat;
-        Values[i, cxColGudang.Index] := z.FieldByName('id_gdg').AsInteger;
-        Values[i, cxColJmlIkatPerBal.Index] := z.FieldByName('jml_ikat_per_karung').AsFloat;
-        Values[i, cxColIdSO.Index] := z.FieldByName('id_so').AsInteger;
-        Values[i, cxColIdBrg.Index] := z.FieldByName('id_brg').AsInteger;
-        nomer := nomer +1;
+      btnSimpan2.Visible := False;
+      cxgSJTanpaSO.Visible := False;
+      cxChkSJTanpaSO.Properties.ReadOnly := True;
+      cxtNoBukti.Text := q.FieldByName('no_bukti').AsString;
+      cxtKeterangan.Text := q.FieldByName('keterangan').AsString;
+      cxlCustomer.EditValue := q.FieldByName('id_cust').AsInteger;
+      cxdTglJthTempo.Date := q.FieldByname('jatuh_tempo').AsDateTime;
+      if q.FieldByName('f_ppn').AsInteger = 1 then
+        cxChkPPN.Checked := True;
+      cxsDiskon.Value := q.FieldByname('diskon').AsFloat;
+      cxtNoFaktur.Text := q.FieldByName('no_faktur').AsString;
+      cxtSopir.Text := q.FieldByName('sopir').AsString;
+      cxtNopol.Text := q.FieldByName('nopol').AsString;
+      cxtNoFaktur.Text := q.FieldByName('no_faktur').AsString;
+      q.Close;
+
+      z := OpenRS('SELECT a.*, b.deskripsi, c.satuan satuan2, d.jml_ikat_per_karung, e.no_bukti no_so2, e.qty qty_so2 ' +
+        'FROM tbl_sj_det a ' +
+        'left join tbl_barang b on a.id_brg = b.id ' +
+        'LEFT JOIN tbl_satuan c on c.id = a.id_satuan ' +
+        'LEFT JOIN tbl_barang_det_spek d on d.id_ref = a.id_brg ' +
+        'LEFT JOIN tbl_so_det e on e.id_ref = a.id_so and e.id_brg = a.id_brg ' +
+        'WHERE a.id_ref = %s',[Self.EditKey]);
+      nomer := 1;
+
+      cxtbSJ.DataController.OnRecordChanged := nil;
+      while not z.Eof do begin
+        with cxtbSJ.DataController do begin
+          i := AppendRecord;
+          Values[i, cxColNo.Index] := nomer;
+          Values[i, cxColKodeBrg.Index] := z.FieldByName('kode_brg').AsString;
+          Values[i, cxColDeskripsi.Index] := z.FieldByName('deskripsi').AsString;
+          Values[i, cxColNoSO.Index] := z.FieldByName('no_so2').AsString;
+          Values[i, cxColQtySO.Index] := z.FieldByname('qty_so2').AsFloat;
+          Values[i, cxColQty.Index] := z.FieldByName('qty').AsFloat;
+          Values[i, cxColSatuan.Index] := z.FieldByName('satuan2').AsString;
+          Values[i, cxColIdSatuan.Index] := z.FieldByname('id_satuan').AsInteger;
+          Values[i, cxColKeterangan.Index] := z.FieldByName('keterangan').AsString;
+          Values[i, cxColHargaIkat.Index] := z.FieldByName('hrgikat').AsFloat;
+          Values[i, cxColHarga.Index] := z.FieldByname('harga').AsFloat;
+          Values[i, cxColTotal.Index] := z.FieldByname('harga').AsFloat * z.FieldByname('qty').AsFloat;
+          Values[i, cxColGudang.Index] := z.FieldByName('id_gdg').AsInteger;
+          Values[i, cxColJmlIkatPerBal.Index] := z.FieldByName('jml_ikat_per_karung').AsFloat;
+          Values[i, cxColIdSO.Index] := z.FieldByName('id_so').AsInteger;
+          Values[i, cxColIdBrg.Index] := z.FieldByName('id_brg').AsInteger;
+          nomer := nomer +1;
+        end;
+        z.Next;
       end;
-      z.Next;
-    end;
-    z.Close;
-    cxtbSJ.DataController.OnRecordChanged := Self.cxtbSJDataControllerRecordChanged;
+      z.Close;
+      cxtbSJ.DataController.OnRecordChanged := Self.cxtbSJDataControllerRecordChanged;
 
-    HitungTotal;
+      HitungTotal;
+    end
+    else begin
+
+      cxChkSJTanpaSO.Checked := True;
+      cxChkSJTanpaSO.Properties.ReadOnly := True;
+      btnSimpan2.Visible := True;
+      btnSimpan.Visible := False;
+      cxtNoBukti.Text := q.FieldByName('no_bukti').AsString;
+      cxtKeterangan.Text := q.FieldByName('keterangan').AsString;
+      cxlCustomer.EditValue := q.FieldByName('id_cust').AsInteger;
+      cxdTglJthTempo.Date := q.FieldByname('jatuh_tempo').AsDateTime;
+      if q.FieldByName('f_ppn').AsInteger = 1 then
+        cxChkPPN.Checked := True;
+      cxsDiskon.Value := q.FieldByname('diskon').AsFloat;
+      cxtNoFaktur.Text := q.FieldByName('no_faktur').AsString;
+      cxtSopir.Text := q.FieldByName('sopir').AsString;
+      cxtNopol.Text := q.FieldByName('nopol').AsString;
+      cxtNoFaktur.Text := q.FieldByName('no_faktur').AsString;
+      q.Close;
+
+      z := OpenRS('SELECT a.*, b.deskripsi, c.satuan satuan2, d.jml_ikat_per_karung, e.no_bukti no_so2, e.qty qty_so2 ' +
+        'FROM tbl_sj_det a ' +
+        'left join tbl_barang b on a.id_brg = b.id ' +
+        'LEFT JOIN tbl_satuan c on c.id = a.id_satuan ' +
+        'LEFT JOIN tbl_barang_det_spek d on d.id_ref = a.id_brg ' +
+        'LEFT JOIN tbl_so_det e on e.id_ref = a.id_so and e.id_brg = a.id_brg ' +
+        'WHERE a.id_ref = %s',[Self.EditKey]);
+      nomer := 1;
+
+      cxtbSJTanpaSO.DataController.OnRecordChanged := nil;
+      while not z.Eof do begin
+        with cxtbSJTanpaSO.DataController do begin
+          i := AppendRecord;
+          Values[i, cxColKodeBrg2.Index] := z.FieldByName('id_brg').AsString;
+          Values[i, cxColDeskripsi2.Index] := z.FieldByName('id_brg').AsString;
+          Values[i, cxColQty2.Index] := z.FieldByName('qty').AsFloat;
+          Values[i, cxColSatuan2.Index] := z.FieldByName('satuan2').AsString;
+          Values[i, cxColIdSatuan2.Index] := z.FieldByname('id_satuan').AsInteger;
+          Values[i, cxColKeterangan2.Index] := z.FieldByName('keterangan').AsString;
+          Values[i, cxColHargaIkat2.Index] := z.FieldByName('hrgikat').AsFloat;
+          Values[i, cxColHarga2.Index] := z.FieldByname('harga').AsFloat;
+          Values[i, cxColTotal2.Index] := z.FieldByname('harga').AsFloat * z.FieldByname('qty').AsFloat;
+          Values[i, cxColGudang2.Index] := z.FieldByName('id_gdg').AsInteger;
+          Values[i, cxColJmlIkatPerBal2.Index] := z.FieldByName('jml_ikat_per_karung').AsFloat;
+          Values[i, cxColKodeBrg3.Index] := z.FieldByName('kode_brg').AsString;
+          nomer := nomer +1;
+        end;
+        z.Next;
+      end;
+      z.Close;
+      cxtbSJTanpaSO.DataController.OnRecordChanged := Self.cxtbSJTanpaSODataControllerRecordChanged;
+
+      HitungTotal;
+      cxgSJ.Visible := False;
+      cxgSJTanpaSO.Visible := True;
+    end;
   end;
 
 end;

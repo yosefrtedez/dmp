@@ -3,7 +3,7 @@ inherited frmInputSuratJalan: TfrmInputSuratJalan
   ClientHeight = 687
   ClientWidth = 1119
   OnShow = FormShow
-  ExplicitTop = -6
+  ExplicitTop = -124
   ExplicitWidth = 1119
   ExplicitHeight = 687
   PixelsPerInch = 96
@@ -44,9 +44,8 @@ inherited frmInputSuratJalan: TfrmInputSuratJalan
       Top = 11
       Width = 75
       Height = 25
-      Caption = 'Simpan'
+      Caption = 'Simpan.'
       TabOrder = 2
-      Visible = False
       OnClick = btnSimpan2Click
     end
   end
@@ -82,7 +81,7 @@ inherited frmInputSuratJalan: TfrmInputSuratJalan
     Left = 112
     Top = 224
     Properties.CharCase = ecUpperCase
-    TabOrder = 18
+    TabOrder = 17
     Width = 416
   end
   object cxgSJ: TcxGrid
@@ -91,7 +90,7 @@ inherited frmInputSuratJalan: TfrmInputSuratJalan
     Width = 1103
     Height = 211
     Anchors = [akLeft, akTop, akRight]
-    TabOrder = 22
+    TabOrder = 21
     object cxtbSJ: TcxGridTableView
       NavigatorButtons.ConfirmDelete = False
       NavigatorButtons.PriorPage.Visible = False
@@ -295,7 +294,7 @@ inherited frmInputSuratJalan: TfrmInputSuratJalan
     Left = 112
     Top = 197
     Properties.ReadOnly = False
-    TabOrder = 16
+    TabOrder = 15
     Width = 146
   end
   object cxLabel3: TcxLabel
@@ -402,7 +401,7 @@ inherited frmInputSuratJalan: TfrmInputSuratJalan
   object cxdTglJthTempo: TcxDateEdit
     Left = 112
     Top = 251
-    TabOrder = 20
+    TabOrder = 19
     Width = 146
   end
   object btnPilihSO: TButton
@@ -435,13 +434,12 @@ inherited frmInputSuratJalan: TfrmInputSuratJalan
     Width = 137
   end
   object cxgSJTanpaSO: TcxGrid
-    Left = 77
-    Top = 197
+    Left = 80
+    Top = 335
     Width = 1103
     Height = 211
     Anchors = [akLeft, akTop, akRight]
-    TabOrder = 15
-    Visible = False
+    TabOrder = 22
     object cxtbSJTanpaSO: TcxGridTableView
       NavigatorButtons.ConfirmDelete = False
       NavigatorButtons.PriorPage.Visible = False
@@ -600,6 +598,9 @@ inherited frmInputSuratJalan: TfrmInputSuratJalan
         Visible = False
       end
       object cxColIdBrg2: TcxGridColumn
+        Visible = False
+      end
+      object cxColKodeBrg3: TcxGridColumn
         Visible = False
       end
     end

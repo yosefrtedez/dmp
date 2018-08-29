@@ -1,11 +1,14 @@
 inherited frmPengambilanBahanBaku: TfrmPengambilanBahanBaku
   Caption = 'Pengambilan Bahan Baku'
-  ClientHeight = 620
-  ExplicitWidth = 894
-  ExplicitHeight = 620
+  ClientHeight = 720
+  ClientWidth = 1044
+  Position = poDesigned
+  ExplicitWidth = 1044
+  ExplicitHeight = 720
   PixelsPerInch = 96
   TextHeight = 13
   inherited Panel1: TPanel
+    Width = 1044
     object Label13: TLabel
       Left = 10
       Top = 13
@@ -21,7 +24,8 @@ inherited frmPengambilanBahanBaku: TfrmPengambilanBahanBaku
     end
   end
   inherited Panel2: TPanel
-    Top = 571
+    Top = 671
+    Width = 1044
     TabOrder = 7
     ExplicitTop = 571
     inherited btnSimpan: TButton
@@ -38,10 +42,11 @@ inherited frmPengambilanBahanBaku: TfrmPengambilanBahanBaku
   object Panel3: TPanel
     Left = 0
     Top = 49
-    Width = 894
+    Width = 1044
     Height = 49
     Align = alTop
     TabOrder = 1
+    ExplicitWidth = 894
     object cxLabel1: TcxLabel
       Left = 10
       Top = 15
@@ -77,10 +82,11 @@ inherited frmPengambilanBahanBaku: TfrmPengambilanBahanBaku
   object cxGrid1: TcxGrid
     Left = 0
     Top = 98
-    Width = 894
+    Width = 1044
     Height = 159
     Align = alTop
     TabOrder = 2
+    ExplicitWidth = 894
     object cxtbSPK: TcxGridDBTableView
       NavigatorButtons.ConfirmDelete = False
       OnFocusedRecordChanged = cxtbSPKFocusedRecordChanged
@@ -122,11 +128,11 @@ inherited frmPengambilanBahanBaku: TfrmPengambilanBahanBaku
   object Panel4: TPanel
     Left = 0
     Top = 257
-    Width = 894
+    Width = 1044
     Height = 49
     Align = alTop
     TabOrder = 3
-    ExplicitTop = 251
+    ExplicitWidth = 894
     object cxLabel3: TcxLabel
       Left = 10
       Top = 8
@@ -146,11 +152,11 @@ inherited frmPengambilanBahanBaku: TfrmPengambilanBahanBaku
   object cxGrid2: TcxGrid
     Left = 0
     Top = 306
-    Width = 894
+    Width = 1044
     Height = 110
     Align = alTop
     TabOrder = 4
-    ExplicitTop = 289
+    ExplicitWidth = 894
     object cxtbBOM: TcxGridDBTableView
       NavigatorButtons.ConfirmDelete = False
       OnFocusedRecordChanged = cxtbBOMFocusedRecordChanged
@@ -211,10 +217,11 @@ inherited frmPengambilanBahanBaku: TfrmPengambilanBahanBaku
   object Panel5: TPanel
     Left = 0
     Top = 416
-    Width = 894
+    Width = 1044
     Height = 49
     Align = alTop
     TabOrder = 5
+    ExplicitWidth = 894
     object cxLabel4: TcxLabel
       Left = 10
       Top = 8
@@ -234,11 +241,11 @@ inherited frmPengambilanBahanBaku: TfrmPengambilanBahanBaku
   object cxGrid3: TcxGrid
     Left = 0
     Top = 465
-    Width = 894
+    Width = 1044
     Height = 140
     Align = alTop
     TabOrder = 6
-    ExplicitTop = 431
+    ExplicitWidth = 894
     object cxtbBomDet: TcxGridTableView
       NavigatorButtons.ConfirmDelete = False
       NavigatorButtons.PriorPage.Visible = False
@@ -256,16 +263,62 @@ inherited frmPengambilanBahanBaku: TfrmPengambilanBahanBaku
       DataController.OnBeforeDelete = cxtbBomDetDataControllerBeforeDelete
       DataController.OnBeforePost = cxtbBomDetDataControllerBeforePost
       DataController.OnNewRecord = cxtbBomDetDataControllerNewRecord
+      DataController.OnRecordChanged = cxtbBomDetDataControllerRecordChanged
       OptionsBehavior.FocusCellOnTab = True
       OptionsData.Appending = True
       OptionsData.Inserting = False
       OptionsView.Navigator = True
       OptionsView.GroupByBox = False
+      object cxColKodeBrg2: TcxGridColumn
+        Caption = 'Kode Brg.'
+        DataBinding.ValueType = 'Integer'
+        PropertiesClassName = 'TcxLookupComboBoxProperties'
+        Properties.DropDownAutoSize = True
+        Properties.KeyFieldNames = 'id'
+        Properties.ListColumns = <
+          item
+            Caption = 'Kode'
+            FieldName = 'kode'
+          end
+          item
+            Caption = 'Deskripsi'
+            FieldName = 'deskripsi'
+          end>
+        Properties.ListSource = dsBrg
+        Width = 71
+      end
+      object cxColDeskripsi2: TcxGridColumn
+        Caption = 'Deskripsi'
+        DataBinding.ValueType = 'Integer'
+        PropertiesClassName = 'TcxLookupComboBoxProperties'
+        Properties.DropDownAutoSize = True
+        Properties.KeyFieldNames = 'id'
+        Properties.ListColumns = <
+          item
+            Caption = 'Deskripsi'
+            FieldName = 'deskripsi'
+          end
+          item
+            Caption = 'Kode'
+            FieldName = 'kode'
+          end>
+        Properties.ListSource = dsBrg
+        Width = 236
+      end
+      object cxColIsBom: TcxGridColumn
+        Caption = 'BOM?'
+        DataBinding.ValueType = 'Integer'
+        PropertiesClassName = 'TcxCheckBoxProperties'
+        Properties.ReadOnly = True
+        Properties.ValueChecked = 1
+        Properties.ValueUnchecked = 0
+        Width = 41
+      end
       object cxColTanggal: TcxGridColumn
         Caption = 'Tanggal'
         DataBinding.ValueType = 'DateTime'
         PropertiesClassName = 'TcxDateEditProperties'
-        Width = 73
+        Width = 63
       end
       object cxColJam: TcxGridColumn
         Caption = 'Jam'
@@ -274,12 +327,17 @@ inherited frmPengambilanBahanBaku: TfrmPengambilanBahanBaku
         Width = 81
       end
       object cxColQtyInput: TcxGridColumn
-        Caption = 'Qty'
+        Caption = 'Quantity'
         DataBinding.ValueType = 'Float'
         PropertiesClassName = 'TcxSpinEditProperties'
         Properties.DisplayFormat = '#,#0.00'
         Properties.ValueType = vtFloat
+        HeaderAlignmentHorz = taRightJustify
         Width = 84
+      end
+      object cxColSatuan2: TcxGridColumn
+        Caption = 'Satuan'
+        Width = 62
       end
       object cxColOperator: TcxGridColumn
         Caption = 'Personil Gdg.'
@@ -307,6 +365,13 @@ inherited frmPengambilanBahanBaku: TfrmPengambilanBahanBaku
         Properties.ValueUnchecked = 0
         Width = 82
       end
+      object cxColIdSatuan2: TcxGridColumn
+        DataBinding.ValueType = 'Integer'
+        Visible = False
+      end
+      object cxColKodeBrg3: TcxGridColumn
+        Visible = False
+      end
     end
     object cxGridLevel2: TcxGridLevel
       GridView = cxtbBomDet
@@ -333,8 +398,7 @@ inherited frmPengambilanBahanBaku: TfrmPengambilanBahanBaku
         Name = 'tgl2'
         ParamType = ptUnknown
       end>
-    Left = 664
-    Top = 8
+    Left = 656
     ParamData = <
       item
         DataType = ftUnknown
@@ -349,20 +413,33 @@ inherited frmPengambilanBahanBaku: TfrmPengambilanBahanBaku
   end
   object dsSPK: TDataSource
     DataSet = zqrSPK
-    Left = 616
-    Top = 8
+    Left = 600
   end
   object zqrGdg: TZReadOnlyQuery
     Connection = DM.zConn
     SQL.Strings = (
       'SELECT id, kode FROM tbl_gudang')
     Params = <>
-    Left = 800
-    Top = 8
+    Left = 792
   end
   object dsGdg: TDataSource
     DataSet = zqrGdg
-    Left = 752
-    Top = 8
+    Left = 744
+  end
+  object zqrBrg: TZReadOnlyQuery
+    Connection = DM.zConn
+    SQL.Strings = (
+      'SELECT id, kode, deskripsi'
+      'FROM tbl_barang '
+      'WHERE f_aktif = 1'
+      'ORDER BY deskripsi')
+    Params = <>
+    Left = 488
+    Top = 360
+  end
+  object dsBrg: TDataSource
+    DataSet = zqrBrg
+    Left = 552
+    Top = 360
   end
 end

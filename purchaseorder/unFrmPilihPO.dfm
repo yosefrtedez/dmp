@@ -163,7 +163,7 @@ object frmPilihPO: TfrmPilihPO
       'LEFT JOIN tbl_po_det b ON a.id = b.id_ref'
       
         'WHERE id_supplier = :id_supplier AND b.id_brg = :id_brg AND a.f_' +
-        'completed = 0'
+        'completed = 0 AND a.f_app = 1'
       'ORDER BY a.tanggal ')
     Params = <
       item

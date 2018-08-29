@@ -241,7 +241,7 @@ begin
             qd.FieldByname('keterangan').AsString := Values[i, cxColKeterangan.Index];
 
           qd.FieldByName('disc_persen').AsFloat := Values[i, cxColDiscPersen.Index];
-          qd.FieldByName('disc_rp').AsFloat := Values[i, cxColDiscRp.Index];
+          //qd.FieldByName('disc_rp').AsFloat := Values[i, cxColDiscRp.Index];
           qd.Post;
         end;
       end;

@@ -85,12 +85,19 @@ inherited frmLstPO: TfrmLstPO
       end
       object cxColTblHeadkontak: TcxGridDBColumn
         DataBinding.FieldName = 'kontak'
+        Visible = False
         Options.Editing = False
         Width = 120
+      end
+      object cxtbPOHeadColumn1: TcxGridDBColumn
+        Caption = 'Tanggal'
+        DataBinding.FieldName = 'tanggal'
+        Width = 78
       end
       object cxColTblHeadtgl_required: TcxGridDBColumn
         Caption = 'Tgl Kedatangan'
         DataBinding.FieldName = 'tgl_required'
+        Visible = False
         Options.Editing = False
         Width = 90
       end
@@ -316,8 +323,8 @@ inherited frmLstPO: TfrmLstPO
     Connection = DM.zConn
     SQL.Strings = (
       
-        'SELECT a.id, a.no_bukti, a.tgl_required, jenis_po, a.user, a.use' +
-        'r_dept, a.pembayaran, a.f_app, a.f_completed,'
+        'SELECT a.tanggal, a.id, a.no_bukti, a.tgl_required, jenis_po, a.' +
+        'user, a.user_dept, a.pembayaran, a.f_app, a.f_completed,'
       'b.nama, b.kontak, c.no_bukti no_pp, d.nama nama_supplier'
       'FROM tbl_po_head a '
       'LEFT JOIN tbl_supplier b ON a.kode_supp = b.kode'

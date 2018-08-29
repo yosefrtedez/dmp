@@ -129,7 +129,7 @@ begin
     'LEFT JOIN tbl_po_det b ON a.id = b.id_ref ' +
     'LEFT JOIN tbl_barang c ON c.id = b.id_brg ' +
     'LEFT JOIN tbl_satuan d ON d.id = b.id_satuan ' +
-    'WHERE a.id_supplier = %d AND a.f_completed = 0', [mIdSupp]);
+    'WHERE a.id_supplier = %d AND a.f_completed = 0 AND a.f_app = 1', [mIdSupp]);
 
   cxtbSO.BeginUpdate;
   while not q.Eof do begin

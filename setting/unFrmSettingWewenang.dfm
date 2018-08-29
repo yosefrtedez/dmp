@@ -177,6 +177,7 @@ inherited frmSettingWewenang: TfrmSettingWewenang
       PropertiesClassName = 'TcxCheckBoxProperties'
       Properties.ValueChecked = 1
       Properties.ValueUnchecked = 0
+      Visible = False
       Caption.AlignHorz = taCenter
       Caption.Text = 'Input'
       DataBinding.ValueType = 'Integer'
@@ -191,6 +192,7 @@ inherited frmSettingWewenang: TfrmSettingWewenang
       PropertiesClassName = 'TcxCheckBoxProperties'
       Properties.ValueChecked = 1
       Properties.ValueUnchecked = 0
+      Visible = False
       Caption.AlignHorz = taCenter
       Caption.Text = 'Edit'
       DataBinding.ValueType = 'Integer'
@@ -205,6 +207,7 @@ inherited frmSettingWewenang: TfrmSettingWewenang
       PropertiesClassName = 'TcxCheckBoxProperties'
       Properties.ValueChecked = 1
       Properties.ValueUnchecked = 0
+      Visible = False
       Caption.AlignHorz = taCenter
       Caption.Text = 'Hapus'
       DataBinding.ValueType = 'Integer'
