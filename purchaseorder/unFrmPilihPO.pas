@@ -102,6 +102,7 @@ begin
     ADataController.Values[ARecordIndex, cxColStok.Index] := sa;
   end;
 
+  {
   if AItemIndex = cxColJmlTerima.Index then begin
     if ADataController.Values[ARecordIndex, cxColQtyDiterima.Index] + ADataController.Values[ARecordIndex, AItemIndex] >
       ADataController.Values[ARecordIndex, cxColQtyPO.Index] then begin
@@ -110,6 +111,7 @@ begin
       Abort;
     end;
   end;
+  }
 
 end;
 
