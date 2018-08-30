@@ -66,6 +66,7 @@ type
     cxtbMOColumn3: TcxGridDBColumn;
     cxtbMOColumn4: TcxGridDBColumn;
     cxCmbJenisSO: TcxComboBox;
+    btnRefresh: TButton;
     procedure btnProsesClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure Button1Click(Sender: TObject);
@@ -74,6 +75,7 @@ type
     procedure cxtbMOFocusedRecordChanged(Sender: TcxCustomGridTableView;
       APrevFocusedRecord, AFocusedRecord: TcxCustomGridRecord;
       ANewItemRecordFocusingChanged: Boolean);
+    procedure btnRefreshClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -125,6 +127,20 @@ begin
     Open;
     cxtbMOno_mo.SortOrder := soAscending;
     Screen.Cursor := crDefault;
+  end;
+end;
+
+procedure TfrmMasterOrder.btnRefreshClick(Sender: TObject);
+var
+  bm: Variant;
+begin
+  inherited;
+  try
+    bm := zqrMO.Bookmark;
+    zqrMO.Close;
+    zqrMO.Open;
+    zqrMO.Bookmark := bm;
+  except
   end;
 end;
 

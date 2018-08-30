@@ -64,6 +64,8 @@ type
     cxColPengambilan: TcxGridDBColumn;
     cxtbMOColumn2: TcxGridDBColumn;
     cxtbMOColumn3: TcxGridDBColumn;
+    cxtbMOColumn4: TcxGridDBColumn;
+    cxCmbJenisSO: TcxComboBox;
     procedure btnProsesClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure Button1Click(Sender: TObject);
@@ -114,7 +116,14 @@ begin
     //SQL.Text := cxMemo2.Lines.Text;
     ParamByName('tgl1').AsDateTime := cxdTgl1.Date;
     ParamByName('tgl2').AsDateTime := cxdTgl2.Date;
+    if cxCmbJenisSO.Text = 'MTS' then
+      SQL.Strings[2] := 'AND LEFT(no_so,3) = ''MTS'''
+    else if cxCmbJenisSO.Text = 'SO CUSTOMER' then
+      SQL.Strings[2] := 'AND LEFT(no_so,3) = ''SO/'''
+    else
+      SQL.Strings[2] := '-- ';
     Open;
+    cxtbMOno_mo.SortOrder := soAscending;
     Screen.Cursor := crDefault;
   end;
 end;
@@ -131,6 +140,7 @@ begin
     ts.PageControl := frmUtama.pgMain;
 
     f := TfrmSPK.Create(nil);
+    f.TabSheet := (Self.Parent as TcxTabSheet);
     f.Jenis := 'T';
     if not zqrMO.FieldByName('id_spk').IsNull then begin
       f.IDSPK := zqrMO.FieldByName('id_spk').AsInteger;
@@ -181,6 +191,9 @@ begin
   inherited;
   cxdTgl1.Date := FDOM(Date);
   cxdTgl2.Date := LDOM(Date);
+
+  cxCmbJenisSO.Properties.Items.CommaText := 'SEMUA,MTS,"SO CUSTOMER"';
+  cxCmbJenisSO.ItemIndex := 1;
 end;
 
 end.

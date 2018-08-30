@@ -2,7 +2,6 @@ inherited frmMasterOrder: TfrmMasterOrder
   Caption = 'Master Order'
   ClientHeight = 667
   ClientWidth = 1076
-  OnCreate = FormCreate
   ExplicitWidth = 1076
   ExplicitHeight = 667
   PixelsPerInch = 96
@@ -59,13 +58,20 @@ inherited frmMasterOrder: TfrmMasterOrder
       Width = 121
     end
     object btnProses: TButton
-      Left = 338
+      Left = 466
       Top = 7
       Width = 75
       Height = 25
       Caption = 'Proses'
       TabOrder = 0
       OnClick = btnProsesClick
+    end
+    object cxCmbJenisSO: TcxComboBox
+      Left = 339
+      Top = 9
+      Properties.DropDownListStyle = lsEditFixedList
+      TabOrder = 3
+      Width = 121
     end
   end
   object cxGrid1: TcxGrid
@@ -113,16 +119,40 @@ inherited frmMasterOrder: TfrmMasterOrder
       object cxtbMOqty_so: TcxGridDBColumn
         Caption = 'Qty. SO'
         DataBinding.FieldName = 'qty_so'
+        PropertiesClassName = 'TcxSpinEditProperties'
+        Properties.DisplayFormat = '#,#0.00'
       end
       object cxtbMOqty_mo: TcxGridDBColumn
         Caption = 'Qty. SPK'
         DataBinding.FieldName = 'qty_spk'
+        PropertiesClassName = 'TcxSpinEditProperties'
+        Properties.DisplayFormat = '#,#0.00'
+      end
+      object cxtbMOColumn4: TcxGridDBColumn
+        Caption = 'Qty. SPK Prod'
+        DataBinding.FieldName = 'qty_kg'
+        PropertiesClassName = 'TcxSpinEditProperties'
+        Properties.Alignment.Horz = taRightJustify
+        Properties.DisplayFormat = '#,#0.00'
+        Properties.ValueType = vtFloat
+        Width = 80
       end
       object cxtbMOColumn1: TcxGridDBColumn
         Caption = 'Qty. Prod'
         DataBinding.FieldName = 'qty_prod'
         PropertiesClassName = 'TcxSpinEditProperties'
         Properties.DisplayFormat = '#,#0.00'
+      end
+      object cxtbMOColumn2: TcxGridDBColumn
+        Caption = 'Qty. SJ'
+        DataBinding.FieldName = 'qty_sj'
+        PropertiesClassName = 'TcxSpinEditProperties'
+        Properties.DisplayFormat = '#,#0.00'
+      end
+      object cxtbMOColumn3: TcxGridDBColumn
+        Caption = 'Sat'
+        DataBinding.FieldName = 'satuan'
+        Width = 38
       end
       object cxtbMOtanggal: TcxGridDBColumn
         Caption = 'Tgl.SO'
@@ -253,10 +283,10 @@ inherited frmMasterOrder: TfrmMasterOrder
   end
   object zqrMO: TZReadOnlyQuery
     Connection = DM.zConn
-    Active = True
     SQL.Strings = (
       'SELECT * FROM v_mo'
       'WHERE (tanggal BETWEEN :tgl1 AND :tgl2) AND (no_mo IS NOT NULL)'
+      '-- '
       'ORDER BY tanggal DESC')
     Params = <
       item
@@ -269,7 +299,7 @@ inherited frmMasterOrder: TfrmMasterOrder
         Name = 'tgl2'
         ParamType = ptUnknown
       end>
-    Left = 194
+    Left = 466
     Top = 9
     ParamData = <
       item
@@ -285,7 +315,7 @@ inherited frmMasterOrder: TfrmMasterOrder
   end
   object dsMO: TDataSource
     DataSet = zqrMO
-    Left = 232
+    Left = 520
     Top = 12
   end
   object dsBOM: TDataSource

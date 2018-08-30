@@ -24,7 +24,7 @@ inherited frmSPK: TfrmSPK
   inherited Panel2: TPanel
     Top = 619
     TabOrder = 29
-    ExplicitTop = 571
+    ExplicitTop = 619
   end
   object cxLabel1: TcxLabel
     Left = 8
@@ -116,8 +116,25 @@ inherited frmSPK: TfrmSPK
         Properties.ListSource = dsBrg
         Width = 304
       end
+      object cxColStok: TcxGridColumn
+        Caption = 'Stok'
+        DataBinding.ValueType = 'Float'
+        PropertiesClassName = 'TcxSpinEditProperties'
+        Properties.Alignment.Horz = taRightJustify
+        Properties.DisplayFormat = '#,#0.00'
+        Properties.ReadOnly = True
+        Properties.ValueType = vtFloat
+        HeaderAlignmentHorz = taRightJustify
+        Width = 74
+      end
       object cxColQty: TcxGridColumn
         Caption = 'Qty.'
+        DataBinding.ValueType = 'Float'
+        PropertiesClassName = 'TcxSpinEditProperties'
+        Properties.Alignment.Horz = taRightJustify
+        Properties.DisplayFormat = '#,#0.00'
+        Properties.ValueType = vtFloat
+        HeaderAlignmentHorz = taRightJustify
       end
       object cxColSatuan: TcxGridColumn
         Caption = 'Satuan'

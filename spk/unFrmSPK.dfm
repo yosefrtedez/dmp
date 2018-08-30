@@ -107,11 +107,16 @@ inherited frmSPK: TfrmSPK
       object cxColDeskripsi: TcxGridColumn
         Caption = 'Deskripsi'
         PropertiesClassName = 'TcxLookupComboBoxProperties'
+        Properties.DropDownAutoSize = True
         Properties.KeyFieldNames = 'id'
         Properties.ListColumns = <
           item
             Caption = 'Deskripsi'
             FieldName = 'deskripsi'
+          end
+          item
+            Caption = 'Kode'
+            FieldName = 'kode'
           end>
         Properties.ListSource = dsBrg
         Width = 304
@@ -146,7 +151,6 @@ inherited frmSPK: TfrmSPK
       end
       object cxColId: TcxGridColumn
         DataBinding.ValueType = 'Integer'
-        Visible = False
       end
       object cxColKodeBrg2: TcxGridColumn
         Visible = False

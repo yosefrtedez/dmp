@@ -80,6 +80,7 @@ type
     mIdBrg: Integer;
     mEditable: boolean;
     mIdSatBJ: Integer;
+    procedure CheckBrgSpk(id_brg: Integer);
   public
     property IDSO: integer read mIDSO write mIDSO;
     property IDMO: Integer read mIDMO write mIDMO;
@@ -189,8 +190,10 @@ begin
           if Self.Jenis = 'T' then
             qd.Insert
           else begin
-            qd.Locate('id',VarArrayOf([Values[i, cxColId.Index]]),[]);
-            qd.Edit;
+            if qd.Locate('id',VarArrayOf([Values[i, cxColId.Index]]),[]) then
+              qd.Edit
+            else
+              qd.Insert;
           end;
           qd.FieldByName('id_spk').AsInteger := ID;
           qd.FieldByName('kode_brg').AsString := Values[i, cxColKodeBrg2.Index];
@@ -220,6 +223,20 @@ begin
     end;
   end;
 
+end;
+
+procedure TfrmSPK.CheckBrgSpk(id_brg: Integer);
+var
+  q: TZQuery;
+begin
+  q := OpenRS('SELECT b.no_spk, a.qty FROM tbl_bom a ' +
+    'LEFT JOIN tbl_spk b ON a.id_spk = b.id ' +
+    'WHERE a.id_brg = %d AND b.f_completed = 0',[id_brg]);
+  if not q.IsEmpty then begin
+    MsgBox('Barang ini digunakan di SPK : ' + q.FieldByName('no_spk').AsString + Chr(10) + Chr(13) +
+      'Sejumlah : ' + FormatFloat('#,#0.00', q.FieldByName('qty').AsFloat));
+  end;
+  q.Close;
 end;
 
 procedure TfrmSPK.cxtbBomDataControllerBeforePost(
@@ -270,7 +287,7 @@ begin
   if AItemIndex = cxColKodeBrg.Index then begin
     try
       cxtbBom.BeginUpdate;
-      q := OpenRS('SELECT a.kode, b.satuan, b.id id_satuan FROM tbl_barang a ' +
+      q := OpenRS('SELECT a.id id_brg1, a.kode, b.satuan, b.id id_satuan FROM tbl_barang a ' +
         'LEFT JOIN tbl_satuan b ON a.id_satuan = b.id WHERE a.id = ''%s''',[ADataController.Values[ARecordIndex, AItemIndex]]);
       ADataController.Values[ARecordIndex, cxColDeskripsi.Index] := ADataController.Values[ARecordIndex, AItemIndex];
       ADataController.Values[ARecordIndex, cxColKodeBrg2.Index] := q.FieldByName('kode').AsString;
@@ -278,6 +295,7 @@ begin
       ADataController.Values[ARecordIndex, cxColIdSatuan.Index] := q.FieldByName('id_satuan').AsString;
       sa := GetStokAkhir(ADataController.Values[ARecordIndex, AItemIndex], Aplikasi.GdgBB);
       ADataController.Values[ARecordIndex, cxColStok.Index] := sa;
+      CheckBrgSpk(q.FieldByName('id_brg1').AsInteger);
       q.Close;
     finally
       cxtbBom.EndUpdate;
@@ -287,7 +305,7 @@ begin
   if AItemIndex = cxColDeskripsi.Index then begin
     try
       cxtbBom.BeginUpdate;
-      q := OpenRS('SELECT a.kode, b.satuan, b.id id_satuan FROM tbl_barang a ' +
+      q := OpenRS('SELECT b.id id_brg1, a.kode, b.satuan, b.id id_satuan FROM tbl_barang a ' +
         'LEFT JOIN tbl_satuan b ON a.id_satuan = b.id WHERE a.id = ''%s''',[ADataController.Values[ARecordIndex, AItemIndex]]);
       ADataController.Values[ARecordIndex, cxColKodeBrg.Index] := ADataController.Values[ARecordIndex, AItemIndex];
       ADataController.Values[ARecordIndex, cxColSatuan.Index] := q.FieldByName('satuan').AsString;
@@ -295,6 +313,7 @@ begin
       ADataController.Values[ARecordIndex, cxColKodeBrg2.Index] := q.FieldByName('kode').AsString;
       sa := GetStokAkhir(ADataController.Values[ARecordIndex, AItemIndex], Aplikasi.GdgBB);
       ADataController.Values[ARecordIndex, cxColStok.Index] := sa;
+      CheckBrgSpk(q.FieldByName('id_brg1').AsInteger);
       q.Close;
     finally
       cxtbBom.EndUpdate;
@@ -323,6 +342,7 @@ procedure TfrmSPK.FormShow(Sender: TObject);
 var
   q, qspk: TZQuery;
   i: integer;
+  sa: real;
 begin
   inherited;
 
@@ -363,6 +383,7 @@ begin
     q := OpenRS('SELECT a.*, b.satuan satuan2 FROM tbl_bom a ' +
       'LEFT JOIN tbl_satuan b on a.id_satuan = b.id ' +
       'WHERE a.id_spk = %d',[mIDSPK]);
+    cxtbBom.BeginUpdate;
     while not q.Eof do begin
       with cxtbBom.DataController do begin
         i := AppendRecord;
@@ -373,9 +394,13 @@ begin
         Values[i, cxColSatuan.Index] := q.FieldByName('satuan2').AsString;
         Values[i, cxColIdSatuan.Index] := q.FieldByName('id_satuan').AsInteger;
         Values[i, cxColId.Index] := q.FieldByName('id').AsInteger;
+
+        sa := GetStokAkhir(q.FieldByName('id_brg').AsInteger, Aplikasi.GdgBB);
+        Values[i, cxColStok.Index] := sa;
       end;
       q.Next;
     end;
+    cxtbBom.EndUpdate;
   end;
 
 end;

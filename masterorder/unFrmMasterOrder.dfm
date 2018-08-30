@@ -200,12 +200,12 @@ inherited frmMasterOrder: TfrmMasterOrder
       Visible = False
     end
     object Button3: TButton
-      Left = 10
+      Left = 91
       Top = 128
       Width = 75
       Height = 25
       Caption = 'Keluar'
-      TabOrder = 3
+      TabOrder = 4
       OnClick = Button3Click
     end
     object btnCetakSPK: TButton
@@ -216,6 +216,15 @@ inherited frmMasterOrder: TfrmMasterOrder
       Caption = 'Cetak SPK'
       TabOrder = 1
       OnClick = btnCetakSPKClick
+    end
+    object btnRefresh: TButton
+      Left = 10
+      Top = 128
+      Width = 75
+      Height = 25
+      Caption = 'Refresh'
+      TabOrder = 3
+      OnClick = btnRefreshClick
     end
   end
   object Panel5: TPanel
