@@ -3,6 +3,7 @@ inherited frmInputSO: TfrmInputSO
   ClientHeight = 726
   ClientWidth = 1048
   OnShow = FormShow
+  ExplicitTop = -52
   ExplicitWidth = 1048
   ExplicitHeight = 726
   PixelsPerInch = 96

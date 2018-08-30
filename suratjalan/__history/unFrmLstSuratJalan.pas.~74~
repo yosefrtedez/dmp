@@ -61,6 +61,7 @@ type
     cxtbSJColumn3: TcxGridDBColumn;
     cxColQtySO: TcxGridDBColumn;
     cxtbSJDetColumn1: TcxGridDBColumn;
+    cxtbSJColumn4: TcxGridDBColumn;
     procedure btnTambahClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure btnRefreshClick(Sender: TObject);
@@ -149,6 +150,7 @@ end;
 procedure TfrmLstSuratJalan.btnPostingClick(Sender: TObject);
 var
   qc, qd, q, qbrg: TZQuery;
+  sa: real;
 begin
   inherited;
 
@@ -161,9 +163,18 @@ begin
   end;
   q.Close;
 
+  q := OpenRS('SELECT no_bukti FROM tbl_history WHERE no_bukti = ''%s''',
+    [zqrSJ.FieldByName('no_bukti').AsString]);
+  if not q.IsEmpty then begin
+    MsgBox('Transaksi sudah di terposting.');
+    q.Close;
+    Abort;
+  end;
+  q.Close;
+
   try
     q := OpenRS('SELECT a.id_brg, a.id_gdg, a.qty, b.kode, b.deskripsi ' +
-      'FROM tbl_trskeluar_det a ' +
+      'FROM tbl_sj_det a ' +
       'LEFT JOIN tbl_barang b ON b.id = a.id_brg ' +
       'WHERE id_ref = %s',[zqrSJ.FieldByName('id').AsString]);
     while not q.Eof do begin
@@ -252,12 +263,17 @@ begin
 end;
 
 procedure TfrmLstSuratJalan.btnRefreshClick(Sender: TObject);
+var
+  bm: Variant;
 begin
   inherited;
-
-  zqrSJ.Close;
-  zqrSJ.Open;
-
+  try
+    bm := zqrSJ.Bookmark;
+    zqrSJ.Close;
+    zqrSJ.Open;
+    zqrSJ.Bookmark := bm;
+  except
+  end;
 end;
 
 procedure TfrmLstSuratJalan.btnTambahClick(Sender: TObject);
@@ -339,22 +355,26 @@ var
   a,b: Extended;
   i: integer;
 begin
-  qsj := OpenRS('SELECT * FROM tbl_sj_det WHERE id_ref = %s',[zqrSJ.FieldByname('id').AsString]);
-  with qsj do begin
-    q := OpenRS('SELECT a.id_brg, a.qty, (SELECT SUM(qty) FROM tbl_sj_det WHERE id_so = a.id_ref AND id_brg = a.id_brg) qty_kirim ' +
-      'FROM tbl_so_det a WHERE a.id_ref = %s',[qsj.FieldByname('id_so').AsString]);
-    f := False;
-    while not q.Eof do begin
-      a := q.FieldByName('qty').AsFloat;
-      b := q.FIeldByName('qty_kirim').AsFloat;
-      if CompareValue(a, b) = 0 then
-        f := true
-      else
-        f := false;
-      q.Next;
+  if zqrSJ.FieldByname('jenis_sj').AsInteger = 1 then begin
+    qsj := OpenRS('SELECT * FROM tbl_sj_det WHERE id_ref = %s',[zqrSJ.FieldByname('id').AsString]);
+    with qsj do begin
+      q := OpenRS('SELECT a.id_brg, a.qty, (SELECT SUM(qty) FROM tbl_sj_det WHERE id_so = a.id_ref AND id_brg = a.id_brg) qty_kirim ' +
+        'FROM tbl_so_det a WHERE a.id_ref = %s',[qsj.FieldByname('id_so').AsString]);
+      f := False;
+      while not q.Eof do begin
+        a := q.FieldByName('qty').AsFloat;
+        b := q.FIeldByName('qty_kirim').AsFloat;
+        if (CompareValue(a, b) = 0) or (CompareValue(a,b) = -1) then
+          f := true
+        else begin
+          f := false;
+          Break;
+        end;
+        q.Next;
+      end;
+      if f then
+        dm.zConn.ExecuteDirect(Format('UPDATE tbl_so_head SET f_completed = 1 WHERE id = %s',[qsj.FieldByname('id_so').AsString]));
     end;
-    if f then
-      dm.zConn.ExecuteDirect(Format('UPDATE tbl_so_head SET f_completed = 1 WHERE id = %s',[qsj.FieldByname('id_so').AsString]));
   end;
 end;
 

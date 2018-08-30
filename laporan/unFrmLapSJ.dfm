@@ -16,6 +16,7 @@ object frmLapSJ: TfrmLapSJ
   object rptSJ01: TfrxReport
     Version = '4.12.6'
     DotMatrixReport = False
+    EngineOptions.DoublePass = True
     IniFile = '\Software\Fast Reports'
     PreviewOptions.Buttons = [pbPrint, pbLoad, pbSave, pbExport, pbZoom, pbFind, pbOutline, pbPageSetup, pbTools, pbEdit, pbNavigator, pbExportQuick]
     PreviewOptions.Zoom = 1.000000000000000000
@@ -147,6 +148,35 @@ object frmLapSJ: TfrmLapSJ
           HAlign = haCenter
           Memo.UTF8W = (
             'Surat Jalan')
+          ParentFont = False
+        end
+        object Memo28: TfrxMemoView
+          Left = 600.945270000000000000
+          Width = 196.535560000000000000
+          Height = 18.897650000000000000
+          ShowHint = False
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -12
+          Font.Name = 'Arial'
+          Font.Style = []
+          HAlign = haRight
+          Memo.UTF8W = (
+            'Hal : [<Page#>] / [<TotalPages#>]')
+          ParentFont = False
+          VAlign = vaCenter
+        end
+        object Memo29: TfrxMemoView
+          Width = 253.228510000000000000
+          Height = 18.897650000000000000
+          ShowHint = False
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -12
+          Font.Name = 'Arial'
+          Font.Style = []
+          Memo.UTF8W = (
+            '[Date], [Time]')
           ParentFont = False
         end
       end
@@ -544,14 +574,18 @@ object frmLapSJ: TfrmLapSJ
     Connection = DM.zConn
     SQL.Strings = (
       'SELECT a.*, b.qty, b.harga, b.hrgikat,'
-      'c.nama, c.alamat, '
+      'c.nama, c.alamat, c.kota,'
       'd.deskripsi, b.keterangan ket_detail,'
-      'e.jml_ikat_per_karung'
+      'e.jml_ikat_per_karung,'
+      'f.hargaikat'
       'FROM tbl_sj_head a'
       'INNER JOIN tbl_sj_det b ON a.id = b.id_ref'
       'LEFT JOIN tbl_customer c ON c.id = a.id_cust'
       'LEFT JOIN tbl_barang d ON d.id = b.id_brg'
       'LEFT JOIN tbl_barang_det_spek e ON e.id_ref = d.id'
+      
+        'LEFT JOIN tbl_so_det f ON f.id_ref = b.id_so AND f.id_brg = b.id' +
+        '_brg'
       'WHERE a.id = :id')
     Params = <
       item
@@ -607,14 +641,17 @@ object frmLapSJ: TfrmLapSJ
       'nopol=nopol'
       'tgl_edit=tgl_edit'
       'f_inv=f_inv'
+      'jenis_sj=jenis_sj'
       'qty=qty'
       'harga=harga'
       'hrgikat=hrgikat'
       'nama=nama'
       'alamat=alamat'
+      'kota_1=kota_1'
       'deskripsi=deskripsi'
       'ket_detail=ket_detail'
-      'jml_ikat_per_karung=jml_ikat_per_karung')
+      'jml_ikat_per_karung=jml_ikat_per_karung'
+      'hargaikat=hargaikat')
     DataSet = zqrSJ01
     BCDToCurrency = True
     Left = 184
@@ -623,6 +660,7 @@ object frmLapSJ: TfrmLapSJ
   object rptFakturPenjualan: TfrxReport
     Version = '4.12.6'
     DotMatrixReport = False
+    EngineOptions.DoublePass = True
     IniFile = '\Software\Fast Reports'
     PreviewOptions.Buttons = [pbPrint, pbLoad, pbSave, pbExport, pbZoom, pbFind, pbOutline, pbPageSetup, pbTools, pbEdit, pbNavigator, pbExportQuick]
     PreviewOptions.Zoom = 1.000000000000000000
@@ -739,7 +777,7 @@ object frmLapSJ: TfrmLapSJ
           Width = 86.929190000000000000
           Height = 18.897650000000000000
           ShowHint = False
-          DataField = 'hrgikat'
+          DataField = 'hargaikat'
           DataSet = fdbSJ01
           DataSetName = 'fdbSJ01'
           DisplayFormat.FormatStr = '%2.2n'
@@ -751,7 +789,7 @@ object frmLapSJ: TfrmLapSJ
           Font.Style = []
           HAlign = haCenter
           Memo.UTF8W = (
-            '[fdbSJ01."hrgikat"]')
+            '[fdbSJ01."hargaikat"]')
           ParentFont = False
         end
         object Memo22: TfrxMemoView
@@ -792,6 +830,37 @@ object frmLapSJ: TfrmLapSJ
             'Faktur Penjualan')
           ParentFont = False
           VAlign = vaCenter
+        end
+        object Memo28: TfrxMemoView
+          Left = 555.590910000000000000
+          Top = 0.779530000000000000
+          Width = 196.535560000000000000
+          Height = 18.897650000000000000
+          ShowHint = False
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -12
+          Font.Name = 'Arial'
+          Font.Style = []
+          HAlign = haRight
+          Memo.UTF8W = (
+            'Hal : [<Page>] / [<TotalPages>]')
+          ParentFont = False
+          VAlign = vaCenter
+        end
+        object Memo29: TfrxMemoView
+          Top = 0.779530000000000000
+          Width = 264.567100000000000000
+          Height = 18.897650000000000000
+          ShowHint = False
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -12
+          Font.Name = 'Arial'
+          Font.Style = []
+          Memo.UTF8W = (
+            '[Date], [Time]')
+          ParentFont = False
         end
       end
       object GroupHeader1: TfrxGroupHeader
@@ -962,7 +1031,7 @@ object frmLapSJ: TfrmLapSJ
           Font.Style = []
           HAlign = haCenter
           Memo.UTF8W = (
-            'Harga / Ikat')
+            'Harga')
           ParentFont = False
         end
         object Line2: TfrxLineView
@@ -1024,6 +1093,30 @@ object frmLapSJ: TfrmLapSJ
           DataSetName = 'fdbSJ01'
           Memo.UTF8W = (
             '[fdbSJ01."nama"]')
+        end
+        object fdbSJ01alamat: TfrxMemoView
+          Left = 532.913730000000000000
+          Top = 37.795300000000000000
+          Width = 219.212740000000000000
+          Height = 41.574830000000000000
+          ShowHint = False
+          DataField = 'alamat'
+          DataSet = fdbSJ01
+          DataSetName = 'fdbSJ01'
+          Memo.UTF8W = (
+            '[fdbSJ01."alamat"]')
+        end
+        object fdbSJ01kota: TfrxMemoView
+          Left = 532.913730000000000000
+          Top = 79.370130000000000000
+          Width = 219.212740000000000000
+          Height = 18.897650000000000000
+          ShowHint = False
+          DataField = 'kota'
+          DataSet = fdbSJ01
+          DataSetName = 'fdbSJ01'
+          Memo.UTF8W = (
+            '[fdbSJ01."kota"]')
         end
       end
       object GroupFooter1: TfrxGroupFooter
@@ -1106,7 +1199,7 @@ object frmLapSJ: TfrmLapSJ
           Height = 18.897650000000000000
           ShowHint = False
           Memo.UTF8W = (
-            'Harga Total')
+            'Total')
         end
         object fdbSJ01diskon: TfrxMemoView
           Left = 631.181510000000000000
@@ -1401,7 +1494,7 @@ object frmLapSJ: TfrmLapSJ
           Width = 86.929190000000000000
           Height = 18.897650000000000000
           ShowHint = False
-          DataField = 'hrgikat'
+          DataField = 'hargaikat'
           DataSet = fdbSJ01
           DataSetName = 'fdbSJ01'
           DisplayFormat.FormatStr = '%2.2n'
@@ -1413,7 +1506,7 @@ object frmLapSJ: TfrmLapSJ
           Font.Style = []
           HAlign = haCenter
           Memo.UTF8W = (
-            '[fdbSJ01."hrgikat"]')
+            '[fdbSJ01."hargaikat"]')
           ParentFont = False
         end
         object Memo22: TfrxMemoView
@@ -1441,7 +1534,7 @@ object frmLapSJ: TfrmLapSJ
         Top = 18.897650000000000000
         Width = 869.291900000000000000
         object Memo1: TfrxMemoView
-          Width = 752.125984251969000000
+          Width = 752.125984250000000000
           Height = 30.236240000000000000
           ShowHint = False
           Font.Charset = DEFAULT_CHARSET
@@ -1454,6 +1547,35 @@ object frmLapSJ: TfrmLapSJ
             'Faktur Penjualan')
           ParentFont = False
           VAlign = vaCenter
+        end
+        object Memo28: TfrxMemoView
+          Left = 555.590910000000000000
+          Width = 196.535560000000000000
+          Height = 18.897650000000000000
+          ShowHint = False
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -12
+          Font.Name = 'Arial'
+          Font.Style = []
+          HAlign = haRight
+          Memo.UTF8W = (
+            'Hal : [<Page#>] / [<TotalPages#>]')
+          ParentFont = False
+          VAlign = vaCenter
+        end
+        object Memo29: TfrxMemoView
+          Width = 253.228510000000000000
+          Height = 18.897650000000000000
+          ShowHint = False
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -12
+          Font.Name = 'Arial'
+          Font.Style = []
+          Memo.UTF8W = (
+            '[Date], [Time]')
+          ParentFont = False
         end
       end
       object GroupHeader1: TfrxGroupHeader
@@ -1610,7 +1732,7 @@ object frmLapSJ: TfrmLapSJ
           Font.Style = []
           HAlign = haCenter
           Memo.UTF8W = (
-            'Harga / Ikat')
+            'Harga')
           ParentFont = False
         end
         object Line2: TfrxLineView
@@ -1666,6 +1788,30 @@ object frmLapSJ: TfrmLapSJ
           Memo.UTF8W = (
             '[fdbSJ01."no_bukti"]')
           ParentFont = False
+        end
+        object fdbSJ01alamat: TfrxMemoView
+          Left = 532.913730000000000000
+          Top = 41.574830000000000000
+          Width = 219.212740000000000000
+          Height = 41.574830000000000000
+          ShowHint = False
+          DataField = 'alamat'
+          DataSet = fdbSJ01
+          DataSetName = 'fdbSJ01'
+          Memo.UTF8W = (
+            '[fdbSJ01."alamat"]')
+        end
+        object fdbSJ01kota: TfrxMemoView
+          Left = 532.913730000000000000
+          Top = 83.149660000000000000
+          Width = 219.212740000000000000
+          Height = 18.897650000000000000
+          ShowHint = False
+          DataField = 'kota'
+          DataSet = fdbSJ01
+          DataSetName = 'fdbSJ01'
+          Memo.UTF8W = (
+            '[fdbSJ01."kota"]')
         end
       end
       object GroupFooter1: TfrxGroupFooter
@@ -1961,7 +2107,7 @@ object frmLapSJ: TfrmLapSJ
         Width = 869.291900000000000000
         object Memo1: TfrxMemoView
           Top = 3.779530000000000000
-          Width = 752.125984251969000000
+          Width = 752.125984250000000000
           Height = 18.897650000000000000
           ShowHint = False
           Font.Charset = DEFAULT_CHARSET
@@ -1972,6 +2118,35 @@ object frmLapSJ: TfrmLapSJ
           HAlign = haCenter
           Memo.UTF8W = (
             'Surat Jalan')
+          ParentFont = False
+        end
+        object Memo28: TfrxMemoView
+          Left = 555.590910000000000000
+          Width = 196.535560000000000000
+          Height = 18.897650000000000000
+          ShowHint = False
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -12
+          Font.Name = 'Arial'
+          Font.Style = []
+          HAlign = haRight
+          Memo.UTF8W = (
+            'Hal : [<Page#>] / [<TotalPages#>]')
+          ParentFont = False
+          VAlign = vaCenter
+        end
+        object Memo29: TfrxMemoView
+          Width = 230.551330000000000000
+          Height = 18.897650000000000000
+          ShowHint = False
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -12
+          Font.Name = 'Arial'
+          Font.Style = []
+          Memo.UTF8W = (
+            '[Date], [Time]')
           ParentFont = False
         end
       end

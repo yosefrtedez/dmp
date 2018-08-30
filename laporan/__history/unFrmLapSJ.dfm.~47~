@@ -543,15 +543,19 @@ object frmLapSJ: TfrmLapSJ
   object zqrSJ01: TZReadOnlyQuery
     Connection = DM.zConn
     SQL.Strings = (
-      'SELECT a.*, b.qty, b.harga, '
+      'SELECT a.*, b.qty, b.harga, b.hrgikat,'
       'c.nama, c.alamat, '
       'd.deskripsi, b.keterangan ket_detail,'
-      'e.jml_ikat_per_karung'
+      'e.jml_ikat_per_karung,'
+      'f.hargaikat'
       'FROM tbl_sj_head a'
       'INNER JOIN tbl_sj_det b ON a.id = b.id_ref'
       'LEFT JOIN tbl_customer c ON c.id = a.id_cust'
       'LEFT JOIN tbl_barang d ON d.id = b.id_brg'
       'LEFT JOIN tbl_barang_det_spek e ON e.id_ref = d.id'
+      
+        'LEFT JOIN tbl_so_det f ON f.id_ref = b.id_so AND f.id_brg = b.id' +
+        '_brg'
       'WHERE a.id = :id')
     Params = <
       item
@@ -605,13 +609,18 @@ object frmLapSJ: TfrmLapSJ
       'no_faktur=no_faktur'
       'sopir=sopir'
       'nopol=nopol'
+      'tgl_edit=tgl_edit'
+      'f_inv=f_inv'
+      'jenis_sj=jenis_sj'
       'qty=qty'
       'harga=harga'
+      'hrgikat=hrgikat'
       'nama=nama'
       'alamat=alamat'
       'deskripsi=deskripsi'
       'ket_detail=ket_detail'
-      'jml_ikat_per_karung=jml_ikat_per_karung')
+      'jml_ikat_per_karung=jml_ikat_per_karung'
+      'hargaikat=hargaikat')
     DataSet = zqrSJ01
     BCDToCurrency = True
     Left = 184
@@ -736,6 +745,7 @@ object frmLapSJ: TfrmLapSJ
           Width = 86.929190000000000000
           Height = 18.897650000000000000
           ShowHint = False
+          DataField = 'hargaikat'
           DataSet = fdbSJ01
           DataSetName = 'fdbSJ01'
           DisplayFormat.FormatStr = '%2.2n'
@@ -747,7 +757,7 @@ object frmLapSJ: TfrmLapSJ
           Font.Style = []
           HAlign = haCenter
           Memo.UTF8W = (
-            '[fdbSJ01."harga"]')
+            '[fdbSJ01."hargaikat"]')
           ParentFont = False
         end
         object Memo22: TfrxMemoView
@@ -786,6 +796,23 @@ object frmLapSJ: TfrmLapSJ
           HAlign = haCenter
           Memo.UTF8W = (
             'Faktur Penjualan')
+          ParentFont = False
+          VAlign = vaCenter
+        end
+        object Memo28: TfrxMemoView
+          Left = 555.590910000000000000
+          Top = 0.779530000000000000
+          Width = 196.535560000000000000
+          Height = 18.897650000000000000
+          ShowHint = False
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -12
+          Font.Name = 'Arial'
+          Font.Style = []
+          HAlign = haRight
+          Memo.UTF8W = (
+            'Hal : [<Page#>] / [<TotalPages#>]')
           ParentFont = False
           VAlign = vaCenter
         end
@@ -958,7 +985,7 @@ object frmLapSJ: TfrmLapSJ
           Font.Style = []
           HAlign = haCenter
           Memo.UTF8W = (
-            'Harga / Bal')
+            'Harga')
           ParentFont = False
         end
         object Line2: TfrxLineView
@@ -1102,7 +1129,7 @@ object frmLapSJ: TfrmLapSJ
           Height = 18.897650000000000000
           ShowHint = False
           Memo.UTF8W = (
-            'Harga Total')
+            'Total')
         end
         object fdbSJ01diskon: TfrxMemoView
           Left = 631.181510000000000000
@@ -1397,6 +1424,7 @@ object frmLapSJ: TfrmLapSJ
           Width = 86.929190000000000000
           Height = 18.897650000000000000
           ShowHint = False
+          DataField = 'hargaikat'
           DataSet = fdbSJ01
           DataSetName = 'fdbSJ01'
           DisplayFormat.FormatStr = '%2.2n'
@@ -1408,7 +1436,7 @@ object frmLapSJ: TfrmLapSJ
           Font.Style = []
           HAlign = haCenter
           Memo.UTF8W = (
-            '[fdbSJ01."harga"]')
+            '[fdbSJ01."hargaikat"]')
           ParentFont = False
         end
         object Memo22: TfrxMemoView
@@ -1436,7 +1464,7 @@ object frmLapSJ: TfrmLapSJ
         Top = 18.897650000000000000
         Width = 869.291900000000000000
         object Memo1: TfrxMemoView
-          Width = 752.125984251969000000
+          Width = 752.125984250000000000
           Height = 30.236240000000000000
           ShowHint = False
           Font.Charset = DEFAULT_CHARSET
@@ -1447,6 +1475,22 @@ object frmLapSJ: TfrmLapSJ
           HAlign = haCenter
           Memo.UTF8W = (
             'Faktur Penjualan')
+          ParentFont = False
+          VAlign = vaCenter
+        end
+        object Memo28: TfrxMemoView
+          Left = 555.252320000000000000
+          Width = 196.535560000000000000
+          Height = 18.897650000000000000
+          ShowHint = False
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -12
+          Font.Name = 'Arial'
+          Font.Style = []
+          HAlign = haRight
+          Memo.UTF8W = (
+            'Hal : [<Page#>] / [<TotalPages#>]')
           ParentFont = False
           VAlign = vaCenter
         end
@@ -1605,7 +1649,7 @@ object frmLapSJ: TfrmLapSJ
           Font.Style = []
           HAlign = haCenter
           Memo.UTF8W = (
-            'Harga / Bal')
+            'Harga')
           ParentFont = False
         end
         object Line2: TfrxLineView

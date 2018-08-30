@@ -575,7 +575,7 @@ begin
     while not q.Eof do begin
       a := q.FieldByName('qty').AsFloat;
       b := q.FIeldByName('qty_terima').AsFloat;
-      if CompareValue(a, b) = 0 then
+      if (CompareValue(a, b) = 0) or (CompareValue(a, b) = -1) then
         f := true
       else begin
         f := false;

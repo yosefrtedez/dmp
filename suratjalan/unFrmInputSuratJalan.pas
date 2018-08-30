@@ -321,7 +321,7 @@ begin
       end;
 
       qh.FieldByName('no_bukti').AsString := sNoBukti;
-      qh.FieldByName('tanggal').AsDateTime := Aplikasi.Tanggal;
+      qh.FieldByName('tanggal').AsDateTime := cxdTglDatang.Date;
       qh.FieldByName('id_cust').AsInteger := cxlCustomer.EditValue;
       qh.FieldByName('user').AsString := Aplikasi.NamaUser;
       qh.FieldByName('user_dept').AsString := Aplikasi.UserDept;

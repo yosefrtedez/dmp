@@ -2,7 +2,6 @@ inherited frmInputSO: TfrmInputSO
   Caption = 'Input Sales Order'
   ClientHeight = 726
   ClientWidth = 1048
-  OnCreate = FormCreate
   OnShow = FormShow
   ExplicitWidth = 1048
   ExplicitHeight = 726
@@ -31,9 +30,6 @@ inherited frmInputSO: TfrmInputSO
     TabOrder = 22
     ExplicitTop = 677
     ExplicitWidth = 1048
-    inherited btnSimpan: TButton
-      OnClick = btnSimpanClick
-    end
   end
   object cxtNoSO: TcxTextEdit
     Left = 101
@@ -59,7 +55,7 @@ inherited frmInputSO: TfrmInputSO
     Caption = 'No. PO Customer'
   end
   object cxlbl2: TcxLabel
-    Left = 10
+    Left = 8
     Top = 119
     Caption = 'Tanggal'
   end
@@ -113,12 +109,9 @@ inherited frmInputSO: TfrmInputSO
     Properties.KeyFieldNames = 'id'
     Properties.ListColumns = <
       item
+        Caption = 'Sales'
         Width = 100
         FieldName = 'nama'
-      end
-      item
-        Width = 60
-        FieldName = 'kode_sales'
       end>
     Properties.ListOptions.SyncMode = True
     Properties.ListSource = dsSales
@@ -209,7 +202,7 @@ inherited frmInputSO: TfrmInputSO
   end
   object cxGrid1: TcxGrid
     Left = 8
-    Top = 208
+    Top = 205
     Width = 1032
     Height = 200
     Anchors = [akLeft, akTop, akRight]
@@ -256,6 +249,7 @@ inherited frmInputSO: TfrmInputSO
       DataController.OnAfterDelete = cxTblSODataControllerAfterDelete
       DataController.OnBeforePost = cxTblSODataControllerBeforePost
       DataController.OnRecordChanged = cxTblSODataControllerRecordChanged
+      OptionsBehavior.FocusCellOnTab = True
       OptionsData.Appending = True
       OptionsView.Navigator = True
       OptionsView.GroupByBox = False
@@ -293,9 +287,11 @@ inherited frmInputSO: TfrmInputSO
         Properties.KeyFieldNames = 'id'
         Properties.ListColumns = <
           item
+            Caption = 'Deskripsi'
             FieldName = 'deskripsi'
           end
           item
+            Caption = 'Kode'
             FieldName = 'kode'
           end>
         Properties.ListSource = dsBarang
@@ -348,6 +344,7 @@ inherited frmInputSO: TfrmInputSO
         Properties.Alignment.Horz = taRightJustify
         Properties.DisplayFormat = '#,#0.00'
         Properties.ReadOnly = True
+        Visible = False
         HeaderAlignmentHorz = taRightJustify
         Width = 98
       end
@@ -400,11 +397,11 @@ inherited frmInputSO: TfrmInputSO
         DataBinding.ValueType = 'Float'
         PropertiesClassName = 'TcxSpinEditProperties'
         Properties.Alignment.Horz = taRightJustify
-        Properties.DisplayFormat = '#,###'
-        Properties.EditFormat = '#,###'
+        Properties.AssignedValues.EditFormat = True
+        Properties.DisplayFormat = '#,#0.00'
         Properties.ReadOnly = True
         Properties.ValueType = vtFloat
-        HeaderAlignmentHorz = taCenter
+        HeaderAlignmentHorz = taRightJustify
         Width = 133
       end
       object cxColKeterangan: TcxGridColumn
@@ -420,6 +417,9 @@ inherited frmInputSO: TfrmInputSO
         DataBinding.ValueType = 'Integer'
         Visible = False
       end
+      object cxColKode2: TcxGridColumn
+        Visible = False
+      end
     end
     object cxGrid1Level1: TcxGridLevel
       GridView = cxTblSO
@@ -433,104 +433,6 @@ inherited frmInputSO: TfrmInputSO
     OnClick = cxChkMTSClick
     Width = 121
   end
-  object cxGrid2: TcxGrid
-    Left = 770
-    Top = 689
-    Width = 1032
-    Height = 200
-    Anchors = [akLeft, akTop, akRight]
-    TabOrder = 23
-    object cxtbMTS: TcxGridTableView
-      NavigatorButtons.ConfirmDelete = False
-      NavigatorButtons.Insert.Visible = False
-      NavigatorButtons.Append.Visible = True
-      DataController.Summary.DefaultGroupSummaryItems = <
-        item
-          Kind = skSum
-          Position = spFooter
-        end
-        item
-          Kind = skSum
-        end>
-      DataController.Summary.FooterSummaryItems = <
-        item
-          Format = '#,###'
-          Kind = skSum
-        end
-        item
-          Format = '#,###'
-          Kind = skSum
-        end
-        item
-          Format = '#,###'
-          Kind = skSum
-        end
-        item
-          Format = '#,###'
-          Kind = skSum
-        end>
-      DataController.Summary.SummaryGroups = <>
-      DataController.OnRecordChanged = cxtbMTSDataControllerRecordChanged
-      OptionsData.Appending = True
-      OptionsView.Navigator = True
-      OptionsView.GroupByBox = False
-      object cxColNo2: TcxGridColumn
-        Caption = 'No'
-        PropertiesClassName = 'TcxSpinEditProperties'
-        Properties.ReadOnly = True
-        OnGetDisplayText = cxColNoGetDisplayText
-        HeaderAlignmentHorz = taCenter
-        Width = 42
-      end
-      object cxColKode2: TcxGridColumn
-        Caption = 'Kode Brg'
-        PropertiesClassName = 'TcxTextEditProperties'
-        Options.ShowEditButtons = isebAlways
-        Width = 108
-      end
-      object cxColDeskripsi2: TcxGridColumn
-        Caption = 'Deskripsi'
-        PropertiesClassName = 'TcxLookupComboBoxProperties'
-        Properties.DropDownAutoSize = True
-        Properties.KeyFieldNames = 'id'
-        Properties.ListColumns = <
-          item
-            FieldName = 'deskripsi'
-          end
-          item
-            FieldName = 'kode'
-          end>
-        Properties.ListSource = dsBarang
-        Width = 193
-      end
-      object cxColQty2: TcxGridColumn
-        Caption = 'Qty'
-        PropertiesClassName = 'TcxSpinEditProperties'
-        Properties.Alignment.Horz = taRightJustify
-        Properties.DisplayFormat = '#,###'
-        Properties.EditFormat = '#,###'
-        Properties.ValueType = vtFloat
-        HeaderAlignmentHorz = taRightJustify
-      end
-      object cxColSatuan2: TcxGridColumn
-        Caption = 'Satuan'
-        PropertiesClassName = 'TcxTextEditProperties'
-        Properties.ReadOnly = True
-        Width = 72
-      end
-      object cxColKeterangan2: TcxGridColumn
-        Caption = 'Keterangan'
-        PropertiesClassName = 'TcxTextEditProperties'
-        Properties.CharCase = ecUpperCase
-        Width = 281
-      end
-      object cxColIdSatuan2: TcxGridColumn
-      end
-    end
-    object cxGridLevel1: TcxGridLevel
-      GridView = cxtbMTS
-    end
-  end
   object cxsTax: TcxSpinEdit
     Left = 770
     Top = 418
@@ -540,6 +442,7 @@ inherited frmInputSO: TfrmInputSO
     Properties.ValueType = vtFloat
     Style.HotTrack = True
     TabOrder = 14
+    Visible = False
     Width = 161
   end
   object cxsNet: TcxSpinEdit
@@ -551,17 +454,20 @@ inherited frmInputSO: TfrmInputSO
     Properties.ValueType = vtFloat
     Style.HotTrack = True
     TabOrder = 20
+    Visible = False
     Width = 161
   end
   object cxLabel6: TcxLabel
     Left = 664
     Top = 500
     Caption = 'Net Amount'
+    Visible = False
   end
   object cxLabel5: TcxLabel
     Left = 663
     Top = 473
     Caption = 'Tax Amount'
+    Visible = False
   end
   object cxsDisc: TcxSpinEdit
     Left = 770
@@ -572,12 +478,14 @@ inherited frmInputSO: TfrmInputSO
     Properties.ValueType = vtFloat
     Style.HotTrack = True
     TabOrder = 16
+    Visible = False
     Width = 161
   end
   object cxLabel12: TcxLabel
     Left = 662
     Top = 446
     Caption = 'Disc Amount'
+    Visible = False
   end
   object cxsGross: TcxSpinEdit
     Left = 770
@@ -588,12 +496,14 @@ inherited frmInputSO: TfrmInputSO
     Properties.ValueType = vtFloat
     Style.HotTrack = True
     TabOrder = 18
+    Visible = False
     Width = 161
   end
   object cxLabel11: TcxLabel
     Left = 662
     Top = 419
     Caption = 'Harga Gross'
+    Visible = False
   end
   object zqrCust: TZReadOnlyQuery
     Tag = 12

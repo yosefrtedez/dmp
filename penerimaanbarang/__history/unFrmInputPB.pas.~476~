@@ -283,10 +283,10 @@ begin
         qd.FieldByName('id_ref').AsInteger := ID;
         qd.FieldByName('no_bukti').AsString := sNoTrs;
         qd.FieldByName('id_brg').AsInteger := Values[i, cxColKodeBrg2.Index];
-        qd.FieldByname('kode_brg').AsString := Values[i, cxColKodeBrg22.Index];
+        qd.FieldByname('kode_brg').AsString := Values[i, cxColKodeBrg2.Index];
         qd.FieldByname('qty').AsFloat := Values[i, cxColQtyDatang2.Index];
         qd.FieldByName('id_satuan').AsInteger := Values[i, cxColIdSatuan22.Index];
-        qd.FieldbyName('id_gdg').AsInteger := Values[i, cxColGdg.Index];
+        qd.FieldbyName('id_gdg').AsInteger := Values[i, cxColGdg2.Index];
         qd.Post;
       end;
     end;
@@ -300,7 +300,7 @@ begin
           hst.FieldByname('tanggal').AsDateTime := cxdTglDatang.Date;
           hst.FieldByName('id_brg').AsInteger := Values[i, cxColKodeBrg2.Index];
           hst.FieldByName('id_gdg').AsInteger := Values[i, cxColGdg2.Index];
-          hst.FieldByname('kode_brg').AsString := Values[i, cxColKodeBrg22.Index];
+          hst.FieldByname('kode_brg').AsString := Values[i, cxColKodeBrg2.Index];
           hst.FieldByname('qty').AsFloat := Values[i, cxColQtyDatang2.Index];
           hst.FieldByName('id_satuan').AsInteger := Values[i, cxColIdSatuan22.Index];
           hst.FieldByName('id_pb').AsInteger := ID;
@@ -327,14 +327,14 @@ begin
 
           // update detail barang
           qbrg := OpenRS('SELECT * FROM tbl_barang_det WHERE id_brg = %s AND id_gdg = %s',
-            [Values[i, cxColIdBrg.Index], Values[i, cxColGdg2.Index]]);
+            [Values[i, cxColKodeBrg2.Index], Values[i, cxColGdg2.Index]]);
           if qbrg.IsEmpty then
             qbrg.Insert
           else
             qbrg.Edit;
-          qbrg.FieldByName('id_brg').AsInteger := Values[i, cxColIdBrg.Index];
-          qbrg.FieldByName('id_gdg').AsInteger := Values[i, cxColGdg.Index];
-          qbrg.FieldByName('stok').AsFloat := qbrg.FieldByName('stok').AsFloat + Values[i, cxColQtyDatang.Index];
+          qbrg.FieldByName('id_brg').AsInteger := Values[i, cxColKodeBrg2.Index];
+          qbrg.FieldByName('id_gdg').AsInteger := Values[i, cxColGdg2.Index];
+          qbrg.FieldByName('stok').AsFloat := qbrg.FieldByName('stok').AsFloat + Values[i, cxColQtyDatang2.Index];
           qbrg.Post;
           qbrg.Close;
         end;
@@ -575,10 +575,12 @@ begin
     while not q.Eof do begin
       a := q.FieldByName('qty').AsFloat;
       b := q.FIeldByName('qty_terima').AsFloat;
-      if CompareValue(a, b) = 0 then
+      if (CompareValue(a, b) = 0) or (CompareValue(a, b) = 1) then
         f := true
-      else
+      else begin
         f := false;
+        Break;
+      end;
       q.Next;
     end;
     if f then begin

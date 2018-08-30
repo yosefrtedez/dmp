@@ -355,7 +355,7 @@ var
   a,b: Extended;
   i: integer;
 begin
-  if zqrSJ.FieldByname('jenis_sj').AsInteger = 1 then begin
+  if zqrSJ.FieldByname('jenis_sj').AsInteger = 0 then begin
     qsj := OpenRS('SELECT * FROM tbl_sj_det WHERE id_ref = %s',[zqrSJ.FieldByname('id').AsString]);
     with qsj do begin
       q := OpenRS('SELECT a.id_brg, a.qty, (SELECT SUM(qty) FROM tbl_sj_det WHERE id_so = a.id_ref AND id_brg = a.id_brg) qty_kirim ' +
@@ -364,7 +364,7 @@ begin
       while not q.Eof do begin
         a := q.FieldByName('qty').AsFloat;
         b := q.FIeldByName('qty_kirim').AsFloat;
-        if CompareValue(a, b) = 0 then
+        if (CompareValue(a, b) = 0) or (CompareValue(a,b) = -1) then
           f := true
         else begin
           f := false;

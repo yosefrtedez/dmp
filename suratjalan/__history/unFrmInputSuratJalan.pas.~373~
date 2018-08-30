@@ -99,7 +99,6 @@ type
     cxColIdBrg2: TcxGridColumn;
     cxColKodeBrg3: TcxGridColumn;
     cxGridLevel1: TcxGridLevel;
-    Button1: TButton;
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure cxColNoGetDisplayText(Sender: TcxCustomGridTableItem;
@@ -395,7 +394,7 @@ end;
 procedure TfrmInputSuratJalan.Button1Click(Sender: TObject);
 begin
   inherited;
-  cxgSJTanpaSO.Visible := Truel
+  cxgSJTanpaSO.Visible := True;
 end;
 
 procedure TfrmInputSuratJalan.btnPilihSOClick(Sender: TObject);
@@ -951,12 +950,17 @@ begin
   if Self.Jenis = 'T' then begin
     sNoTrs := GetLastFak('sj');
     cxtNoBukti.Text := sNoTrs;
+    cxgSJ.Visible := True;
+    cxgSJTanpaSO.Visible := False;
+    btnSimpan2.Visible := False;
   end
   else if Self.Jenis = 'E' then begin
     q := OpenRS('SELECT * FROM tbl_sj_head WHERE id = %s',[Self.EditKey]);
 
     if q.FieldByName('jenis_sj').AsInteger = 0 then begin
 
+      btnSimpan2.Visible := False;
+      cxgSJTanpaSO.Visible := False;
       cxChkSJTanpaSO.Properties.ReadOnly := True;
       cxtNoBukti.Text := q.FieldByName('no_bukti').AsString;
       cxtKeterangan.Text := q.FieldByName('keterangan').AsString;
@@ -1011,6 +1015,10 @@ begin
     end
     else begin
 
+      cxChkSJTanpaSO.Checked := True;
+      cxChkSJTanpaSO.Properties.ReadOnly := True;
+      btnSimpan2.Visible := True;
+      btnSimpan.Visible := False;
       cxtNoBukti.Text := q.FieldByName('no_bukti').AsString;
       cxtKeterangan.Text := q.FieldByName('keterangan').AsString;
       cxlCustomer.EditValue := q.FieldByName('id_cust').AsInteger;

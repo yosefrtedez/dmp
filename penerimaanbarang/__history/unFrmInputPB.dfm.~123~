@@ -3,6 +3,7 @@ inherited frmInputPB: TfrmInputPB
   ClientHeight = 739
   ClientWidth = 1172
   OnShow = FormShow
+  ExplicitTop = -91
   ExplicitWidth = 1172
   ExplicitHeight = 739
   PixelsPerInch = 96
@@ -33,6 +34,15 @@ inherited frmInputPB: TfrmInputPB
     inherited btnSimpan: TButton
       Left = 11
       ExplicitLeft = 11
+    end
+    object btnSimpan2: TButton
+      Left = 172
+      Top = 12
+      Width = 75
+      Height = 25
+      Caption = 'Simpan'
+      TabOrder = 2
+      OnClick = btnSimpan2Click
     end
   end
   object cxlbl1: TcxLabel
@@ -498,9 +508,9 @@ inherited frmInputPB: TfrmInputPB
           Column = cxColKodeBrg22
         end>
       DataController.Summary.SummaryGroups = <>
+      DataController.OnBeforePost = cxtbPB2DataControllerBeforePost
       DataController.OnRecordChanged = cxtbPB2DataControllerRecordChanged
       OptionsData.Appending = True
-      OptionsData.Inserting = False
       OptionsView.Navigator = True
       OptionsView.GroupByBox = False
       object cxColKodeBrg2: TcxGridColumn
@@ -545,10 +555,8 @@ inherited frmInputPB: TfrmInputPB
         PropertiesClassName = 'TcxSpinEditProperties'
         Properties.Alignment.Horz = taRightJustify
         Properties.DisplayFormat = '#,#0.00'
-        Properties.ReadOnly = False
         Properties.ValueType = vtFloat
-        Options.Editing = False
-        Width = 83
+        Width = 85
       end
       object cxColSatuan2: TcxGridColumn
         Caption = 'Satuan'
@@ -597,6 +605,7 @@ inherited frmInputPB: TfrmInputPB
         Visible = False
       end
       object cxColIdSatuan22: TcxGridColumn
+        Visible = False
       end
     end
     object cxGridLevel1: TcxGridLevel
