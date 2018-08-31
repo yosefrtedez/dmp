@@ -1378,6 +1378,7 @@ object frmLapSJ: TfrmLapSJ
   object rptFakturPenjualanNonPPN: TfrxReport
     Version = '4.12.6'
     DotMatrixReport = False
+    EngineOptions.DoublePass = True
     IniFile = '\Software\Fast Reports'
     PreviewOptions.Buttons = [pbPrint, pbLoad, pbSave, pbExport, pbZoom, pbFind, pbOutline, pbPageSetup, pbTools, pbEdit, pbNavigator, pbExportQuick]
     PreviewOptions.Zoom = 1.000000000000000000
@@ -1986,6 +1987,7 @@ object frmLapSJ: TfrmLapSJ
   object rptSJ01NonPPN: TfrxReport
     Version = '4.12.6'
     DotMatrixReport = False
+    EngineOptions.DoublePass = True
     IniFile = '\Software\Fast Reports'
     PreviewOptions.Buttons = [pbPrint, pbLoad, pbSave, pbExport, pbZoom, pbFind, pbOutline, pbPageSetup, pbTools, pbEdit, pbNavigator, pbExportQuick]
     PreviewOptions.Zoom = 1.000000000000000000
