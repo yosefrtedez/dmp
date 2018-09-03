@@ -9,6 +9,7 @@ inherited frmLstkaryawan: TfrmLstkaryawan
   TextHeight = 13
   inherited Panel2: TPanel
     Top = 463
+    TabOrder = 2
     ExplicitTop = 463
     inherited btnTambah: TButton
       OnClick = btnTambahClick
@@ -31,7 +32,7 @@ inherited frmLstkaryawan: TfrmLstkaryawan
     Width = 1016
     Height = 414
     Align = alClient
-    TabOrder = 2
+    TabOrder = 1
     object cxtbKaryawan: TcxGridDBTableView
       NavigatorButtons.ConfirmDelete = False
       DataController.DataSource = dsKaryawan
@@ -39,6 +40,7 @@ inherited frmLstkaryawan: TfrmLstkaryawan
       DataController.Summary.FooterSummaryItems = <>
       DataController.Summary.SummaryGroups = <>
       FilterRow.Visible = True
+      OptionsBehavior.FocusCellOnTab = True
       OptionsData.Editing = False
       OptionsData.Inserting = False
       object cxgrdbclmnCustomernik: TcxGridDBColumn

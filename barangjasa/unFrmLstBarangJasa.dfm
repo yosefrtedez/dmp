@@ -78,10 +78,13 @@ inherited frmLstBarangJasa: TfrmLstBarangJasa
       NavigatorButtons.ConfirmDelete = False
       OnFocusedRecordChanged = cxtbBarangFocusedRecordChanged
       DataController.DataSource = dsBarang
+      DataController.Filter.Options = [fcoCaseInsensitive]
       DataController.Summary.DefaultGroupSummaryItems = <>
       DataController.Summary.FooterSummaryItems = <>
       DataController.Summary.SummaryGroups = <>
       FilterRow.Visible = True
+      FilterRow.ApplyChanges = fracImmediately
+      OptionsBehavior.FocusCellOnTab = True
       OptionsData.Editing = False
       OptionsData.Inserting = False
       object cxtbBarangid: TcxGridDBColumn
@@ -535,6 +538,7 @@ inherited frmLstBarangJasa: TfrmLstBarangJasa
       DataController.Summary.DefaultGroupSummaryItems = <>
       DataController.Summary.FooterSummaryItems = <>
       DataController.Summary.SummaryGroups = <>
+      OptionsBehavior.FocusCellOnTab = True
       OptionsView.GroupByBox = False
       object cxtbStokGudangColumn1: TcxGridDBColumn
         Caption = 'Kode Gudang'

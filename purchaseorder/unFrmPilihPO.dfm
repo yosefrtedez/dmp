@@ -30,6 +30,7 @@ object frmPilihPO: TfrmPilihPO
       DataController.Summary.FooterSummaryItems = <>
       DataController.Summary.SummaryGroups = <>
       DataController.OnRecordChanged = cxtbSODataControllerRecordChanged
+      OptionsBehavior.FocusCellOnTab = True
       OptionsView.GroupByBox = False
       object cxColPilih: TcxGridColumn
         Caption = 'Pilih'

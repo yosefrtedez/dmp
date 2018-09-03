@@ -1,7 +1,6 @@
 inherited frmAppRetur: TfrmAppRetur
   Caption = 'Approval Retur Pembelian'
   ClientWidth = 1134
-  OnCreate = FormCreate
   OnShow = FormShow
   ExplicitWidth = 1134
   ExplicitHeight = 553
@@ -31,7 +30,6 @@ inherited frmAppRetur: TfrmAppRetur
     inherited btnSimpan: TButton
       Left = 9
       Top = 11
-      OnClick = btnSimpanClick
       ExplicitLeft = 9
       ExplicitTop = 11
     end
@@ -52,6 +50,7 @@ inherited frmAppRetur: TfrmAppRetur
       DataController.Summary.FooterSummaryItems = <>
       DataController.Summary.SummaryGroups = <>
       FilterRow.Visible = True
+      OptionsBehavior.FocusCellOnTab = True
       OptionsView.CellTextMaxLineCount = 10
       Preview.MaxLineCount = 10
       object cxColTblAppReturHeadno_bukti: TcxGridDBColumn
@@ -178,6 +177,7 @@ inherited frmAppRetur: TfrmAppRetur
           Kind = skSum
         end>
       DataController.Summary.SummaryGroups = <>
+      OptionsBehavior.FocusCellOnTab = True
       OptionsView.Footer = True
       object cxColTblAppReturDetno_bukti: TcxGridDBColumn
         Caption = 'No. Bukti'

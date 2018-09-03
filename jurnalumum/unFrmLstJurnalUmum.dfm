@@ -58,6 +58,7 @@ inherited frmLstJurnalUmum: TfrmLstJurnalUmum
       DataController.Summary.DefaultGroupSummaryItems = <>
       DataController.Summary.FooterSummaryItems = <>
       DataController.Summary.SummaryGroups = <>
+      OptionsBehavior.FocusCellOnTab = True
       OptionsData.Deleting = False
       OptionsData.Editing = False
       OptionsData.Inserting = False
@@ -139,6 +140,7 @@ inherited frmLstJurnalUmum: TfrmLstJurnalUmum
       DataController.Summary.DefaultGroupSummaryItems = <>
       DataController.Summary.FooterSummaryItems = <>
       DataController.Summary.SummaryGroups = <>
+      OptionsBehavior.FocusCellOnTab = True
       object cxtbJUDetnoakun: TcxGridDBColumn
         Caption = 'No. Akun'
         DataBinding.FieldName = 'noakun'

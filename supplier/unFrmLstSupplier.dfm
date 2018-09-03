@@ -8,6 +8,7 @@ inherited frmLstSupplier: TfrmLstSupplier
   PixelsPerInch = 96
   TextHeight = 13
   inherited Panel2: TPanel
+    TabOrder = 2
     inherited btnTambah: TButton
       OnClick = btnTambahClick
     end
@@ -27,7 +28,7 @@ inherited frmLstSupplier: TfrmLstSupplier
     Width = 1016
     Height = 410
     Align = alClient
-    TabOrder = 2
+    TabOrder = 1
     object cxtbSupplier: TcxGridDBTableView
       NavigatorButtons.ConfirmDelete = False
       DataController.DataSource = dsSupllier
@@ -35,6 +36,7 @@ inherited frmLstSupplier: TfrmLstSupplier
       DataController.Summary.FooterSummaryItems = <>
       DataController.Summary.SummaryGroups = <>
       FilterRow.Visible = True
+      OptionsBehavior.FocusCellOnTab = True
       OptionsData.Deleting = False
       OptionsData.Editing = False
       OptionsData.Inserting = False

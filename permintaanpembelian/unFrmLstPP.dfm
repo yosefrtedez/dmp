@@ -62,6 +62,7 @@ inherited frmLstPP: TfrmLstPP
       DataController.Summary.FooterSummaryItems = <>
       DataController.Summary.SummaryGroups = <>
       FilterRow.Visible = True
+      OptionsBehavior.FocusCellOnTab = True
       object cxColPPno_bukti: TcxGridDBColumn
         Caption = 'No Bukti'
         DataBinding.FieldName = 'no_bukti'
@@ -187,6 +188,7 @@ inherited frmLstPP: TfrmLstPP
       DataController.Summary.DefaultGroupSummaryItems = <>
       DataController.Summary.FooterSummaryItems = <>
       DataController.Summary.SummaryGroups = <>
+      OptionsBehavior.FocusCellOnTab = True
       object cxtbPPDetkode_brg: TcxGridDBColumn
         Caption = 'Kode Brg.'
         DataBinding.FieldName = 'kode_brg'

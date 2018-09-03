@@ -1,6 +1,8 @@
 inherited frmLstTransferBarang: TfrmLstTransferBarang
   Caption = 'Transfer Barang'
   OnCreate = FormCreate
+  ExplicitWidth = 1016
+  ExplicitHeight = 508
   PixelsPerInch = 96
   TextHeight = 13
   inherited Panel1: TPanel
@@ -63,6 +65,7 @@ inherited frmLstTransferBarang: TfrmLstTransferBarang
       DataController.Summary.FooterSummaryItems = <>
       DataController.Summary.SummaryGroups = <>
       FilterRow.Visible = True
+      OptionsBehavior.FocusCellOnTab = True
       OptionsData.Editing = False
       OptionsData.Inserting = False
       object cxTblTransBarangColumn1: TcxGridDBColumn
@@ -132,6 +135,7 @@ inherited frmLstTransferBarang: TfrmLstTransferBarang
       DataController.Summary.DefaultGroupSummaryItems = <>
       DataController.Summary.FooterSummaryItems = <>
       DataController.Summary.SummaryGroups = <>
+      OptionsBehavior.FocusCellOnTab = True
       object cxTblTransBarangDetkode: TcxGridDBColumn
         Caption = 'Kode Brg'
         DataBinding.FieldName = 'kode'

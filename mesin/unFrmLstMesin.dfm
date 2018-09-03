@@ -22,23 +22,31 @@ inherited frmLstMesin: TfrmLstMesin
     end
   end
   inherited Panel2: TPanel
+    TabOrder = 2
     inherited btnTambah: TButton
       Top = 14
+      TabOrder = 1
       OnClick = btnTambahClick
       ExplicitTop = 14
     end
     inherited btnEdit: TButton
       Top = 14
+      TabOrder = 2
       OnClick = btnEditClick
       ExplicitTop = 14
     end
     inherited btnHapus: TButton
       Top = 14
+      TabOrder = 3
       OnClick = btnHapusClick
       ExplicitTop = 14
     end
+    inherited btnKeluar: TButton
+      TabOrder = 0
+    end
     inherited btnRefresh: TButton
       Top = 14
+      TabOrder = 4
       OnClick = btnRefreshClick
       ExplicitTop = 14
     end
@@ -49,7 +57,7 @@ inherited frmLstMesin: TfrmLstMesin
     Width = 1016
     Height = 410
     Align = alClient
-    TabOrder = 2
+    TabOrder = 1
     object cxtbMesin: TcxGridDBTableView
       NavigatorButtons.ConfirmDelete = False
       DataController.DataSource = dsMesin
@@ -57,6 +65,7 @@ inherited frmLstMesin: TfrmLstMesin
       DataController.Summary.FooterSummaryItems = <>
       DataController.Summary.SummaryGroups = <>
       FilterRow.Visible = True
+      OptionsBehavior.FocusCellOnTab = True
       OptionsData.Appending = True
       OptionsData.Editing = False
       OptionsData.Inserting = False

@@ -46,6 +46,7 @@ inherited frmLstPenerimaanKas: TfrmLstPenerimaanKas
       DataController.Summary.DefaultGroupSummaryItems = <>
       DataController.Summary.FooterSummaryItems = <>
       DataController.Summary.SummaryGroups = <>
+      OptionsBehavior.FocusCellOnTab = True
       object cxtbPKno_bukti: TcxGridDBColumn
         Caption = 'No. Bukti'
         DataBinding.FieldName = 'no_bukti'
@@ -148,6 +149,7 @@ inherited frmLstPenerimaanKas: TfrmLstPenerimaanKas
       DataController.Summary.DefaultGroupSummaryItems = <>
       DataController.Summary.FooterSummaryItems = <>
       DataController.Summary.SummaryGroups = <>
+      OptionsBehavior.FocusCellOnTab = True
       object cxtbPKDetnoakun: TcxGridDBColumn
         Caption = 'No. Akun'
         DataBinding.FieldName = 'noakun'

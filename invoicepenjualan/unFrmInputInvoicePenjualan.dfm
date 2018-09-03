@@ -66,6 +66,7 @@ inherited frmInputInvoicePenjualan: TfrmInputInvoicePenjualan
       DataController.Summary.SummaryGroups = <>
       DataController.OnBeforePost = cxtbTblPODataControllerBeforePost
       DataController.OnRecordChanged = cxtbTblPODataControllerRecordChanged
+      OptionsBehavior.FocusCellOnTab = True
       OptionsData.Appending = True
       OptionsView.Navigator = True
       OptionsView.Footer = True

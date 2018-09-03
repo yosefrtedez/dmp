@@ -1,6 +1,5 @@
 inherited frmDefaultAkun: TfrmDefaultAkun
   Caption = 'Default Akun'
-  OnCreate = FormCreate
   OnShow = FormShow
   ExplicitWidth = 894
   ExplicitHeight = 553
@@ -22,9 +21,7 @@ inherited frmDefaultAkun: TfrmDefaultAkun
     end
   end
   inherited Panel2: TPanel
-    inherited btnSimpan: TButton
-      OnClick = btnSimpanClick
-    end
+    TabOrder = 2
   end
   object cxGrid1: TcxGrid
     Left = 0
@@ -32,14 +29,14 @@ inherited frmDefaultAkun: TfrmDefaultAkun
     Width = 894
     Height = 455
     Align = alClient
-    TabOrder = 2
-    ExplicitTop = 55
+    TabOrder = 1
     object cxtbDefaultAkun: TcxGridTableView
       NavigatorButtons.ConfirmDelete = False
       DataController.Summary.DefaultGroupSummaryItems = <>
       DataController.Summary.FooterSummaryItems = <>
       DataController.Summary.SummaryGroups = <>
       DataController.OnRecordChanged = cxtbDefaultAkunDataControllerRecordChanged
+      OptionsBehavior.FocusCellOnTab = True
       object cxColJenis: TcxGridColumn
         Caption = 'Jenis'
         Width = 380

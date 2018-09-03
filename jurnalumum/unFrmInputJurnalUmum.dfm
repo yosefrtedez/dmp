@@ -111,6 +111,7 @@ inherited frmInputJurnalUmum: TfrmInputJurnalUmum
       DataController.OnBeforePost = cxtbJurnalUmumDataControllerBeforePost
       DataController.OnNewRecord = cxtbJurnalUmumDataControllerNewRecord
       DataController.OnRecordChanged = cxtbJurnalUmumDataControllerRecordChanged
+      OptionsBehavior.FocusCellOnTab = True
       OptionsData.Appending = True
       OptionsView.Navigator = True
       OptionsView.Footer = True

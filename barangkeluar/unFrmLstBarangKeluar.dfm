@@ -65,6 +65,7 @@ inherited frmLstBarangKeluar: TfrmLstBarangKeluar
       DataController.Summary.FooterSummaryItems = <>
       DataController.Summary.SummaryGroups = <>
       FilterRow.Visible = True
+      OptionsBehavior.FocusCellOnTab = True
       OptionsView.Navigator = True
       OptionsView.CellTextMaxLineCount = 10
       Preview.MaxLineCount = 10
@@ -226,6 +227,7 @@ inherited frmLstBarangKeluar: TfrmLstBarangKeluar
       DataController.Summary.DefaultGroupSummaryItems = <>
       DataController.Summary.FooterSummaryItems = <>
       DataController.Summary.SummaryGroups = <>
+      OptionsBehavior.FocusCellOnTab = True
       object cxColPODetno_bukti: TcxGridDBColumn
         Caption = 'No. Bukti'
         DataBinding.FieldName = 'no_bukti'

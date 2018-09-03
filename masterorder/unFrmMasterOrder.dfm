@@ -89,6 +89,7 @@ inherited frmMasterOrder: TfrmMasterOrder
       DataController.Summary.FooterSummaryItems = <>
       DataController.Summary.SummaryGroups = <>
       FilterRow.Visible = True
+      OptionsBehavior.FocusCellOnTab = True
       object cxtbMOno_mo: TcxGridDBColumn
         Caption = 'No.MO'
         DataBinding.FieldName = 'no_mo'
@@ -253,6 +254,7 @@ inherited frmMasterOrder: TfrmMasterOrder
       DataController.Summary.DefaultGroupSummaryItems = <>
       DataController.Summary.FooterSummaryItems = <>
       DataController.Summary.SummaryGroups = <>
+      OptionsBehavior.FocusCellOnTab = True
       object cxtbBOMkode_brg: TcxGridDBColumn
         Caption = 'Kode Brg.'
         DataBinding.FieldName = 'kode_brg'

@@ -30,11 +30,13 @@ inherited frmInputHasilProduksi: TfrmInputHasilProduksi
     ExplicitTop = 604
     ExplicitWidth = 1011
     inherited btnSimpan: TButton
+      TabOrder = 1
       Visible = False
     end
     inherited btnBatal: TButton
       Left = 10
       Caption = 'Keluar'
+      TabOrder = 0
       ExplicitLeft = 10
     end
   end
@@ -91,6 +93,7 @@ inherited frmInputHasilProduksi: TfrmInputHasilProduksi
       DataController.Summary.DefaultGroupSummaryItems = <>
       DataController.Summary.FooterSummaryItems = <>
       DataController.Summary.SummaryGroups = <>
+      OptionsBehavior.FocusCellOnTab = True
       object cxtbSPKid: TcxGridDBColumn
         DataBinding.FieldName = 'id'
         Visible = False

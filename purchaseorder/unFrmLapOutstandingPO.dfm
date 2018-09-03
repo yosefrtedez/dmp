@@ -88,7 +88,6 @@ inherited frmLapOutstandingPO: TfrmLapOutstandingPO
     Height = 223
     Align = alClient
     TabOrder = 2
-    ExplicitHeight = 464
     object cxGrid1DBTableView1: TcxGridDBTableView
       NavigatorButtons.ConfirmDelete = False
       OnFocusedRecordChanged = cxGrid1DBTableView1FocusedRecordChanged
@@ -97,6 +96,7 @@ inherited frmLapOutstandingPO: TfrmLapOutstandingPO
       DataController.Summary.FooterSummaryItems = <>
       DataController.Summary.SummaryGroups = <>
       FilterRow.Visible = True
+      OptionsBehavior.FocusCellOnTab = True
       object cxGrid1DBTableView1no_bukti: TcxGridDBColumn
         Caption = 'No. Bukti'
         DataBinding.FieldName = 'no_bukti'
@@ -199,8 +199,6 @@ inherited frmLapOutstandingPO: TfrmLapOutstandingPO
     Height = 41
     Align = alBottom
     TabOrder = 3
-    ExplicitLeft = -8
-    ExplicitTop = 296
     object cxLabel3: TcxLabel
       Left = 10
       Top = 11
@@ -214,9 +212,6 @@ inherited frmLapOutstandingPO: TfrmLapOutstandingPO
     Height = 200
     Align = alBottom
     TabOrder = 4
-    ExplicitLeft = 168
-    ExplicitTop = 355
-    ExplicitWidth = 250
     object cxtbPBDet: TcxGridDBTableView
       NavigatorButtons.ConfirmDelete = False
       DataController.DataSource = dsPB
@@ -229,6 +224,7 @@ inherited frmLapOutstandingPO: TfrmLapOutstandingPO
           Column = cxtbPBDetqty
         end>
       DataController.Summary.SummaryGroups = <>
+      OptionsBehavior.FocusCellOnTab = True
       OptionsView.Footer = True
       object cxtbPBDetColumn1: TcxGridDBColumn
         Caption = 'No. Bukti'

@@ -112,7 +112,7 @@ inherited frmInputBarangJasa: TfrmInputBarangJasa
     Top = 264
     Width = 1042
     Height = 344
-    ActivePage = cxTabSheet1
+    ActivePage = cxTabSheet5
     Anchors = [akLeft, akTop, akRight, akBottom]
     Style = 7
     TabOrder = 17
@@ -449,10 +449,6 @@ inherited frmInputBarangJasa: TfrmInputBarangJasa
     object cxTabSheet5: TcxTabSheet
       Caption = 'Harga Jual'
       ImageIndex = 4
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
       object cxGrid2: TcxGrid
         Left = 16
         Top = 14
@@ -467,6 +463,7 @@ inherited frmInputBarangJasa: TfrmInputBarangJasa
           DataController.Summary.FooterSummaryItems = <>
           DataController.Summary.SummaryGroups = <>
           DataController.OnBeforePost = cxtbSatuanDataControllerBeforePost
+          OptionsBehavior.FocusCellOnTab = True
           OptionsData.Appending = True
           OptionsView.Navigator = True
           OptionsView.GroupByBox = False
@@ -511,6 +508,7 @@ inherited frmInputBarangJasa: TfrmInputBarangJasa
           DataController.Summary.SummaryGroups = <>
           DataController.OnBeforeDelete = cxtbSatuanDataControllerBeforeDelete
           DataController.OnBeforePost = cxtbSatuanDataControllerBeforePost
+          OptionsBehavior.FocusCellOnTab = True
           OptionsData.Appending = True
           OptionsView.Navigator = True
           OptionsView.GroupByBox = False

@@ -2,7 +2,6 @@ inherited frmInputReturPembelian: TfrmInputReturPembelian
   Caption = 'Input Retur Pembelian'
   ClientHeight = 656
   ClientWidth = 1142
-  OnCreate = FormCreate
   OnShow = FormShow
   ExplicitWidth = 1142
   ExplicitHeight = 656
@@ -31,9 +30,6 @@ inherited frmInputReturPembelian: TfrmInputReturPembelian
     TabOrder = 16
     ExplicitTop = 607
     ExplicitWidth = 1142
-    inherited btnSimpan: TButton
-      OnClick = btnSimpanClick
-    end
   end
   object cxlbl1: TcxLabel
     Left = 11
@@ -159,6 +155,7 @@ inherited frmInputReturPembelian: TfrmInputReturPembelian
       DataController.Summary.SummaryGroups = <>
       DataController.OnBeforePost = cxtbReturDataControllerBeforePost
       DataController.OnRecordChanged = cxtbReturDataControllerRecordChanged
+      OptionsBehavior.FocusCellOnTab = True
       OptionsData.Appending = True
       OptionsView.Navigator = True
       OptionsView.Footer = True

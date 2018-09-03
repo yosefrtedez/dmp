@@ -63,6 +63,7 @@ inherited frmLstPembayaranPembelian: TfrmLstPembayaranPembelian
       DataController.Summary.FooterSummaryItems = <>
       DataController.Summary.SummaryGroups = <>
       FilterRow.Visible = True
+      OptionsBehavior.FocusCellOnTab = True
       OptionsView.CellTextMaxLineCount = 10
       Preview.MaxLineCount = 10
       object cxColTblHeadno_bukti: TcxGridDBColumn
@@ -202,6 +203,7 @@ inherited frmLstPembayaranPembelian: TfrmLstPembayaranPembelian
           Column = cxtbPODetColumn2
         end>
       DataController.Summary.SummaryGroups = <>
+      OptionsBehavior.FocusCellOnTab = True
       OptionsView.Footer = True
       object cxtbPODetkode_brg: TcxGridDBColumn
         Caption = 'Kode Brg.'

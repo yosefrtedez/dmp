@@ -1,0 +1,88 @@
+inherited frmDefaultAkun: TfrmDefaultAkun
+  Caption = 'Default Akun'
+  OnCreate = FormCreate
+  OnShow = FormShow
+  ExplicitWidth = 894
+  ExplicitHeight = 553
+  PixelsPerInch = 96
+  TextHeight = 13
+  inherited Panel1: TPanel
+    object Label13: TLabel
+      Left = 10
+      Top = 16
+      Width = 107
+      Height = 19
+      Caption = 'Default Akun'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -16
+      Font.Name = 'Tahoma'
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+  end
+  inherited Panel2: TPanel
+    inherited btnSimpan: TButton
+      OnClick = btnSimpanClick
+    end
+  end
+  object cxGrid1: TcxGrid
+    Left = 0
+    Top = 49
+    Width = 894
+    Height = 455
+    Align = alClient
+    TabOrder = 2
+    ExplicitTop = 55
+    object cxtbDefaultAkun: TcxGridTableView
+      NavigatorButtons.ConfirmDelete = False
+      DataController.Summary.DefaultGroupSummaryItems = <>
+      DataController.Summary.FooterSummaryItems = <>
+      DataController.Summary.SummaryGroups = <>
+      DataController.OnRecordChanged = cxtbDefaultAkunDataControllerRecordChanged
+      object cxColJenis: TcxGridColumn
+        Caption = 'Jenis'
+        Width = 380
+      end
+      object cxColNamaAkun: TcxGridColumn
+        Caption = 'Nama Akun'
+        PropertiesClassName = 'TcxLookupComboBoxProperties'
+        Properties.KeyFieldNames = 'noakun'
+        Properties.ListColumns = <
+          item
+            Caption = 'Akun'
+            FieldName = 'nama'
+          end>
+        Properties.ListSource = dsDefaultAkun
+        Width = 246
+      end
+      object cxColNoAkun: TcxGridColumn
+        Caption = 'No. Akun'
+        PropertiesClassName = 'TcxTextEditProperties'
+        Properties.ReadOnly = True
+        Width = 164
+      end
+      object cxColID: TcxGridColumn
+        Visible = False
+      end
+    end
+    object cxGrid1Level1: TcxGridLevel
+      GridView = cxtbDefaultAkun
+    end
+  end
+  object zqrDefaultAkun: TZReadOnlyQuery
+    Connection = DM.zConn
+    SQL.Strings = (
+      'SELECT nama, noakun '
+      'FROM tbl_coa'
+      'ORDER BY nama')
+    Params = <>
+    Left = 648
+    Top = 216
+  end
+  object dsDefaultAkun: TDataSource
+    DataSet = zqrDefaultAkun
+    Left = 768
+    Top = 264
+  end
+end

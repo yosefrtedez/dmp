@@ -48,13 +48,13 @@ inherited frmLstUser: TfrmLstUser
     Height = 410
     Align = alClient
     TabOrder = 1
-    ExplicitHeight = 361
     object cxtbUser: TcxGridDBTableView
       NavigatorButtons.ConfirmDelete = False
       DataController.DataSource = dsUser
       DataController.Summary.DefaultGroupSummaryItems = <>
       DataController.Summary.FooterSummaryItems = <>
       DataController.Summary.SummaryGroups = <>
+      OptionsBehavior.FocusCellOnTab = True
       object cxtbUsernama_lengkap: TcxGridDBColumn
         Caption = 'Nama Lengkap'
         DataBinding.FieldName = 'nama_lengkap'

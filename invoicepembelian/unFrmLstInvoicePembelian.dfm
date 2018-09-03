@@ -63,6 +63,7 @@ inherited frmLstInvoicePembelian: TfrmLstInvoicePembelian
       DataController.Summary.FooterSummaryItems = <>
       DataController.Summary.SummaryGroups = <>
       FilterRow.Visible = True
+      OptionsBehavior.FocusCellOnTab = True
       OptionsView.CellTextMaxLineCount = 10
       Preview.MaxLineCount = 10
       object cxColNoBukti: TcxGridDBColumn
@@ -184,6 +185,7 @@ inherited frmLstInvoicePembelian: TfrmLstInvoicePembelian
           Column = cxtbInvPembDetColumn2
         end>
       DataController.Summary.SummaryGroups = <>
+      OptionsBehavior.FocusCellOnTab = True
       OptionsView.Footer = True
       object cxtbInvPembDetColumn5: TcxGridDBColumn
         Caption = 'No. PO'

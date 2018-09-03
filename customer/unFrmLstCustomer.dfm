@@ -22,6 +22,7 @@ inherited frmLstCustomer: TfrmLstCustomer
     end
   end
   inherited Panel2: TPanel
+    TabOrder = 2
     inherited btnTambah: TButton
       OnClick = btnTambahClick
     end
@@ -41,7 +42,7 @@ inherited frmLstCustomer: TfrmLstCustomer
     Width = 1016
     Height = 410
     Align = alClient
-    TabOrder = 2
+    TabOrder = 1
     object cxtbCustomer: TcxGridDBTableView
       NavigatorButtons.ConfirmDelete = False
       DataController.DataSource = dsCustomer
@@ -49,6 +50,7 @@ inherited frmLstCustomer: TfrmLstCustomer
       DataController.Summary.FooterSummaryItems = <>
       DataController.Summary.SummaryGroups = <>
       FilterRow.Visible = True
+      OptionsBehavior.FocusCellOnTab = True
       OptionsData.Appending = True
       OptionsData.Deleting = False
       OptionsData.Editing = False

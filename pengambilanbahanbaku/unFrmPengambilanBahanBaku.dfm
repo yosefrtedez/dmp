@@ -3,7 +3,6 @@ inherited frmPengambilanBahanBaku: TfrmPengambilanBahanBaku
   ClientHeight = 782
   ClientWidth = 1044
   Position = poDesigned
-  ExplicitTop = -46
   ExplicitWidth = 1044
   ExplicitHeight = 782
   PixelsPerInch = 96
@@ -29,7 +28,7 @@ inherited frmPengambilanBahanBaku: TfrmPengambilanBahanBaku
     Top = 733
     Width = 1044
     TabOrder = 7
-    ExplicitTop = 671
+    ExplicitTop = 733
     ExplicitWidth = 1044
     inherited btnSimpan: TButton
       Visible = False
@@ -95,6 +94,7 @@ inherited frmPengambilanBahanBaku: TfrmPengambilanBahanBaku
       DataController.Summary.DefaultGroupSummaryItems = <>
       DataController.Summary.FooterSummaryItems = <>
       DataController.Summary.SummaryGroups = <>
+      OptionsBehavior.FocusCellOnTab = True
       object cxtbSPKid: TcxGridDBColumn
         DataBinding.FieldName = 'id'
         Visible = False
@@ -162,6 +162,7 @@ inherited frmPengambilanBahanBaku: TfrmPengambilanBahanBaku
       DataController.Summary.DefaultGroupSummaryItems = <>
       DataController.Summary.FooterSummaryItems = <>
       DataController.Summary.SummaryGroups = <>
+      OptionsBehavior.FocusCellOnTab = True
       OptionsView.GroupByBox = False
       object cxColIsBOM2: TcxGridDBColumn
         Caption = 'BOM?'
@@ -225,12 +226,12 @@ inherited frmPengambilanBahanBaku: TfrmPengambilanBahanBaku
     Left = 0
     Top = 416
     Width = 1044
-    Height = 49
+    Height = 34
     Align = alTop
     TabOrder = 5
     object cxLabel4: TcxLabel
       Left = 10
-      Top = 15
+      Top = 8
       Caption = 'Input Pengambilan Bahan Baku :'
     end
     object cxLabel6: TcxLabel
@@ -248,9 +249,9 @@ inherited frmPengambilanBahanBaku: TfrmPengambilanBahanBaku
   end
   object cxGrid3: TcxGrid
     Left = 0
-    Top = 465
+    Top = 450
     Width = 1044
-    Height = 240
+    Height = 135
     Align = alTop
     TabOrder = 6
     object cxtbBomDet: TcxGridTableView

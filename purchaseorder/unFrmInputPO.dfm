@@ -3,7 +3,6 @@ inherited frmInputPO: TfrmInputPO
   ClientHeight = 690
   ClientWidth = 1063
   OnShow = FormShow
-  ExplicitTop = -28
   ExplicitWidth = 1063
   ExplicitHeight = 690
   PixelsPerInch = 96
@@ -64,6 +63,7 @@ inherited frmInputPO: TfrmInputPO
       DataController.OnBeforePost = cxtbTblPODataControllerBeforePost
       DataController.OnNewRecord = cxtbTblPODataControllerNewRecord
       DataController.OnRecordChanged = cxtbTblPODataControllerRecordChanged
+      OptionsBehavior.FocusCellOnTab = True
       OptionsData.Appending = True
       OptionsView.Navigator = True
       OptionsView.Footer = True

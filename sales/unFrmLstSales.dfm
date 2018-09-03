@@ -39,6 +39,7 @@ inherited frmLstSales: TfrmLstSales
       DataController.Summary.FooterSummaryItems = <>
       DataController.Summary.SummaryGroups = <>
       FilterRow.Visible = True
+      OptionsBehavior.FocusCellOnTab = True
       OptionsData.Deleting = False
       OptionsData.Editing = False
       OptionsData.Inserting = False

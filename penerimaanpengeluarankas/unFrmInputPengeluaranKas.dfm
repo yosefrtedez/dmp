@@ -67,6 +67,7 @@ inherited frmInputPengeluaranKas: TfrmInputPengeluaranKas
       DataController.OnAfterPost = cxtbPKDataControllerAfterPost
       DataController.OnBeforePost = cxtbPKDataControllerBeforePost
       DataController.OnRecordChanged = cxtbPKDataControllerRecordChanged
+      OptionsBehavior.FocusCellOnTab = True
       OptionsData.Appending = True
       OptionsView.Navigator = True
       OptionsView.Footer = True

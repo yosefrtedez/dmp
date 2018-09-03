@@ -3,7 +3,6 @@ inherited frmInputInvoicePembelian: TfrmInputInvoicePembelian
   ClientHeight = 690
   ClientWidth = 1065
   OnShow = FormShow
-  ExplicitTop = -49
   ExplicitWidth = 1065
   ExplicitHeight = 690
   PixelsPerInch = 96
@@ -63,6 +62,7 @@ inherited frmInputInvoicePembelian: TfrmInputInvoicePembelian
       DataController.Summary.SummaryGroups = <>
       DataController.OnBeforePost = cxtbTblPODataControllerBeforePost
       DataController.OnRecordChanged = cxtbTblPODataControllerRecordChanged
+      OptionsBehavior.FocusCellOnTab = True
       OptionsData.Appending = True
       OptionsView.Navigator = True
       OptionsView.Footer = True

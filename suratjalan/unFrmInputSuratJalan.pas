@@ -132,6 +132,10 @@ type
     procedure cxtbSJTanpaSODataControllerAfterPost(
       ADataController: TcxCustomDataController);
     procedure Button1Click(Sender: TObject);
+    procedure cxtbSJTanpaSODataControllerNewRecord(
+      ADataController: TcxCustomDataController; ARecordIndex: Integer);
+    procedure cxtbSJDataControllerNewRecord(
+      ADataController: TcxCustomDataController; ARecordIndex: Integer);
   private
     procedure HitungTotal;
     procedure Posting(IDSJ: Integer);
@@ -200,7 +204,7 @@ begin
       end;
 
       qh.FieldByName('no_bukti').AsString := sNoBukti;
-      qh.FieldByName('tanggal').AsDateTime := Aplikasi.Tanggal;
+      qh.FieldByName('tanggal').AsDateTime := cxdTglDatang.Date;
       qh.FieldByName('id_cust').AsInteger := cxlCustomer.EditValue;
       qh.FieldByName('user').AsString := Aplikasi.NamaUser;
       qh.FieldByName('user_dept').AsString := Aplikasi.UserDept;
@@ -254,8 +258,15 @@ begin
 
       MsgBox('Transaksi Surat Jalan barang sudah disimpan dengan No. Bukti : ' + sNoBukti);
 
-      if Assigned(Self.FormInduk) then
+      if Assigned(Self.FormInduk) then begin
         (Self.FormInduk as TfrmLstSuratJalan).btnRefreshClick(nil);
+        if Self.Jenis = 'T' then begin
+          try
+            (Self.FormInduk as TfrmLstSuratJalan).zqrSJ.Last;
+          except
+          end;
+        end;
+      end;
 
       btnBatalClick(nil);
 
@@ -727,6 +738,13 @@ begin
   }
 end;
 
+procedure TfrmInputSuratJalan.cxtbSJDataControllerNewRecord(
+  ADataController: TcxCustomDataController; ARecordIndex: Integer);
+begin
+  inherited;
+  ADataController.Values[ARecordIndex, cxColGudang.Index] := Aplikasi.GdgBJ;
+end;
+
 procedure TfrmInputSuratJalan.cxtbSJDataControllerRecordChanged(
   ADataController: TcxCustomDataController; ARecordIndex, AItemIndex: Integer);
 var
@@ -846,6 +864,13 @@ begin
   end;
 
 end;
+procedure TfrmInputSuratJalan.cxtbSJTanpaSODataControllerNewRecord(
+  ADataController: TcxCustomDataController; ARecordIndex: Integer);
+begin
+  inherited;
+  ADataController.Values[ARecordIndex, cxColGudang2.Index] := Aplikasi.GdgBJ;
+end;
+
 procedure TfrmInputSuratJalan.cxtbSJTanpaSODataControllerRecordChanged(
   ADataController: TcxCustomDataController; ARecordIndex, AItemIndex: Integer);
 var
@@ -973,6 +998,7 @@ begin
       cxtSopir.Text := q.FieldByName('sopir').AsString;
       cxtNopol.Text := q.FieldByName('nopol').AsString;
       cxtNoFaktur.Text := q.FieldByName('no_faktur').AsString;
+      cxdTglDatang.Date := q.FieldByName('tanggal').AsDateTime;
       q.Close;
 
       z := OpenRS('SELECT a.*, b.deskripsi, c.satuan satuan2, d.jml_ikat_per_karung, e.no_bukti no_so2, e.qty qty_so2 ' +
@@ -1030,6 +1056,7 @@ begin
       cxtSopir.Text := q.FieldByName('sopir').AsString;
       cxtNopol.Text := q.FieldByName('nopol').AsString;
       cxtNoFaktur.Text := q.FieldByName('no_faktur').AsString;
+      cxdTglDatang.Date := q.FieldByname('tanggal').AsDateTime;
       q.Close;
 
       z := OpenRS('SELECT a.*, b.deskripsi, c.satuan satuan2, d.jml_ikat_per_karung, e.no_bukti no_so2, e.qty qty_so2 ' +

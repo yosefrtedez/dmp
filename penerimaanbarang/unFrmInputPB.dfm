@@ -286,6 +286,7 @@ inherited frmInputPB: TfrmInputPB
       DataController.Summary.SummaryGroups = <>
       DataController.OnBeforePost = cxtbPBDataControllerBeforePost
       DataController.OnRecordChanged = cxtbPBDataControllerRecordChanged
+      OptionsBehavior.FocusCellOnTab = True
       OptionsData.Inserting = False
       OptionsView.Navigator = True
       OptionsView.GroupByBox = False
@@ -509,6 +510,7 @@ inherited frmInputPB: TfrmInputPB
       DataController.Summary.SummaryGroups = <>
       DataController.OnBeforePost = cxtbPB2DataControllerBeforePost
       DataController.OnRecordChanged = cxtbPB2DataControllerRecordChanged
+      OptionsBehavior.FocusCellOnTab = True
       OptionsData.Appending = True
       OptionsView.Navigator = True
       OptionsView.GroupByBox = False

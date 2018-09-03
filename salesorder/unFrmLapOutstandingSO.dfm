@@ -95,6 +95,7 @@ inherited frmLapOutstandingSO: TfrmLapOutstandingSO
       DataController.Summary.FooterSummaryItems = <>
       DataController.Summary.SummaryGroups = <>
       FilterRow.Visible = True
+      OptionsBehavior.FocusCellOnTab = True
       object cxGrid1DBTableView1no_bukti: TcxGridDBColumn
         Caption = 'No. Bukti'
         DataBinding.FieldName = 'no_bukti'

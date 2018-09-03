@@ -3,7 +3,6 @@ inherited frmInputBarangKeluar: TfrmInputBarangKeluar
   ClientHeight = 771
   ClientWidth = 1165
   OnShow = FormShow
-  ExplicitTop = -114
   ExplicitWidth = 1165
   ExplicitHeight = 771
   PixelsPerInch = 96
@@ -68,7 +67,7 @@ inherited frmInputBarangKeluar: TfrmInputBarangKeluar
   end
   object cxgrdPP: TcxGrid
     Left = 10
-    Top = 254
+    Top = 255
     Width = 1147
     Height = 195
     Anchors = [akLeft, akTop, akRight]

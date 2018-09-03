@@ -142,6 +142,7 @@ inherited frmInputPP: TfrmInputPP
       DataController.Summary.SummaryGroups = <>
       DataController.OnBeforePost = cxgrd1TableView1DataControllerBeforePost
       DataController.OnRecordChanged = cxgrd1TableView1DataControllerRecordChanged
+      OptionsBehavior.FocusCellOnTab = True
       OptionsData.Appending = True
       OptionsView.Navigator = True
       OptionsView.Footer = True

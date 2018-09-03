@@ -58,6 +58,7 @@ inherited frmInputPembayaranPembelian: TfrmInputPembayaranPembelian
         end>
       DataController.Summary.SummaryGroups = <>
       DataController.OnBeforePost = cxtbTblPODataControllerBeforePost
+      OptionsBehavior.FocusCellOnTab = True
       OptionsData.Appending = True
       OptionsView.Navigator = True
       OptionsView.Footer = True

@@ -107,6 +107,7 @@ begin
     end;
     f := TfrmInputSuratJalan.Create(Self);
     f.TabSheet := Self.Parent as TcxTabSheet;
+    f.FormInduk := Self;
     ts.Caption := 'Edit Surat Jalan';
     f.Jenis := 'E';
     f.EditKey := zqrSJ.FieldByName('id').AsString;

@@ -44,6 +44,7 @@ inherited frmLstCOA: TfrmLstCOA
     DataController.DataSource = dsCOA
     DataController.ParentField = 'induk'
     DataController.KeyField = 'noakun'
+    OptionsBehavior.GoToNextCellOnTab = True
     OptionsBehavior.IncSearch = True
     OptionsBehavior.IncSearchItem = cxDBTreeList1cxDBTreeListColumn2
     OptionsData.Editing = False

@@ -53,6 +53,7 @@ inherited frmLstSO: TfrmLstSO
       DataController.Summary.FooterSummaryItems = <>
       DataController.Summary.SummaryGroups = <>
       FilterRow.Visible = True
+      OptionsBehavior.FocusCellOnTab = True
       OptionsData.Appending = True
       OptionsData.Editing = False
       OptionsData.Inserting = False
@@ -145,6 +146,7 @@ inherited frmLstSO: TfrmLstSO
           Column = cxtbSODetColumn2
         end>
       DataController.Summary.SummaryGroups = <>
+      OptionsBehavior.FocusCellOnTab = True
       object cxtbSODetkode_brg: TcxGridDBColumn
         Caption = 'Kode Brg.'
         DataBinding.FieldName = 'kode_brg'

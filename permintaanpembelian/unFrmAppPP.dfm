@@ -1,7 +1,6 @@
 inherited frmAppPP: TfrmAppPP
   Caption = 'Approval Permintaan Pembelian'
   ClientWidth = 896
-  OnCreate = FormCreate
   OnShow = FormShow
   ExplicitWidth = 896
   ExplicitHeight = 553
@@ -28,9 +27,6 @@ inherited frmAppPP: TfrmAppPP
     Width = 896
     TabOrder = 4
     ExplicitWidth = 896
-    inherited btnSimpan: TButton
-      OnClick = btnSimpanClick
-    end
   end
   object cxgrd1PP: TcxGrid
     Left = 0
@@ -48,6 +44,7 @@ inherited frmAppPP: TfrmAppPP
       DataController.Summary.FooterSummaryItems = <>
       DataController.Summary.SummaryGroups = <>
       FilterRow.Visible = True
+      OptionsBehavior.FocusCellOnTab = True
       object cxColPPno_bukti: TcxGridDBColumn
         Caption = 'No Bukti'
         DataBinding.FieldName = 'no_bukti'
@@ -171,6 +168,7 @@ inherited frmAppPP: TfrmAppPP
       DataController.Summary.DefaultGroupSummaryItems = <>
       DataController.Summary.FooterSummaryItems = <>
       DataController.Summary.SummaryGroups = <>
+      OptionsBehavior.FocusCellOnTab = True
       object cxGrid1DBTableView1kode_brg: TcxGridDBColumn
         Caption = 'Kode Brg.'
         DataBinding.FieldName = 'kode_brg'

@@ -8,7 +8,7 @@ inherited frmAppPO: TfrmAppPO
   TextHeight = 13
   inherited Panel1: TPanel
     Width = 1004
-    ExplicitWidth = 939
+    ExplicitWidth = 1004
     object lbl1: TLabel
       Left = 10
       Top = 16
@@ -26,7 +26,7 @@ inherited frmAppPO: TfrmAppPO
   inherited Panel2: TPanel
     Width = 1004
     TabOrder = 4
-    ExplicitWidth = 939
+    ExplicitWidth = 1004
     object btnRefresh: TButton
       Left = 172
       Top = 12
@@ -44,8 +44,6 @@ inherited frmAppPO: TfrmAppPO
     Height = 214
     Align = alClient
     TabOrder = 1
-    ExplicitLeft = -40
-    ExplicitTop = 43
     object cxtbPOHead: TcxGridDBTableView
       NavigatorButtons.ConfirmDelete = False
       OnFocusedRecordChanged = cxtbPOHeadFocusedRecordChanged
@@ -55,6 +53,7 @@ inherited frmAppPO: TfrmAppPO
       DataController.Summary.FooterSummaryItems = <>
       DataController.Summary.SummaryGroups = <>
       FilterRow.Visible = True
+      OptionsBehavior.FocusCellOnTab = True
       OptionsView.CellTextMaxLineCount = 10
       Preview.MaxLineCount = 10
       object cxColTblHeadno_bukti: TcxGridDBColumn
@@ -176,7 +175,6 @@ inherited frmAppPO: TfrmAppPO
     Height = 41
     Align = alBottom
     TabOrder = 2
-    ExplicitWidth = 939
     object cxLabel1: TcxLabel
       Left = 10
       Top = 11
@@ -190,7 +188,6 @@ inherited frmAppPO: TfrmAppPO
     Height = 200
     Align = alBottom
     TabOrder = 3
-    ExplicitWidth = 939
     object cxtbPODet: TcxGridDBTableView
       NavigatorButtons.ConfirmDelete = False
       DataController.DataSource = dsPoDet
@@ -202,6 +199,7 @@ inherited frmAppPO: TfrmAppPO
           Column = cxtbPODetColumn1
         end>
       DataController.Summary.SummaryGroups = <>
+      OptionsBehavior.FocusCellOnTab = True
       OptionsView.Footer = True
       object cxtbPODetkode_brg: TcxGridDBColumn
         Caption = 'Kode Brg.'

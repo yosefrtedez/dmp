@@ -1,6 +1,8 @@
 inherited frmLstReturPembelian: TfrmLstReturPembelian
   Caption = 'Retur Pembelian'
   OnCreate = FormCreate
+  ExplicitWidth = 1016
+  ExplicitHeight = 508
   PixelsPerInch = 96
   TextHeight = 13
   inherited Panel1: TPanel
@@ -49,6 +51,7 @@ inherited frmLstReturPembelian: TfrmLstReturPembelian
       DataController.Summary.FooterSummaryItems = <>
       DataController.Summary.SummaryGroups = <>
       FilterRow.Visible = True
+      OptionsBehavior.FocusCellOnTab = True
       OptionsView.CellTextMaxLineCount = 10
       Preview.MaxLineCount = 10
       object cxColPOHeadno_bukti: TcxGridDBColumn
@@ -172,6 +175,7 @@ inherited frmLstReturPembelian: TfrmLstReturPembelian
       DataController.Summary.DefaultGroupSummaryItems = <>
       DataController.Summary.FooterSummaryItems = <>
       DataController.Summary.SummaryGroups = <>
+      OptionsBehavior.FocusCellOnTab = True
       object cxColPODetno_bukti: TcxGridDBColumn
         Caption = 'No. Bukti'
         DataBinding.FieldName = 'no_bukti'

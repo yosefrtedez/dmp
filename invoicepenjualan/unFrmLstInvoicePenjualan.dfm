@@ -9,7 +9,7 @@ inherited frmLstInvoicePenjualan: TfrmLstInvoicePenjualan
   TextHeight = 13
   inherited Panel1: TPanel
     Width = 1085
-    ExplicitWidth = 1169
+    ExplicitWidth = 1085
     object Label1: TLabel
       Left = 10
       Top = 16
@@ -29,7 +29,7 @@ inherited frmLstInvoicePenjualan: TfrmLstInvoicePenjualan
     Width = 1085
     TabOrder = 4
     ExplicitTop = 454
-    ExplicitWidth = 1169
+    ExplicitWidth = 1085
     inherited btnTambah: TButton
       OnClick = btnTambahClick
     end
@@ -47,7 +47,7 @@ inherited frmLstInvoicePenjualan: TfrmLstInvoicePenjualan
     end
     inherited btnKeluar: TButton
       Left = 1002
-      ExplicitLeft = 1086
+      ExplicitLeft = 1002
     end
     inherited btnRefresh: TButton
       Left = 91
@@ -63,7 +63,6 @@ inherited frmLstInvoicePenjualan: TfrmLstInvoicePenjualan
     Height = 164
     Align = alClient
     TabOrder = 1
-    ExplicitWidth = 1169
     object cxTblInvHead: TcxGridDBTableView
       NavigatorButtons.ConfirmDelete = False
       OnFocusedRecordChanged = cxTblInvHeadFocusedRecordChanged
@@ -73,6 +72,7 @@ inherited frmLstInvoicePenjualan: TfrmLstInvoicePenjualan
       DataController.Summary.FooterSummaryItems = <>
       DataController.Summary.SummaryGroups = <>
       FilterRow.Visible = True
+      OptionsBehavior.FocusCellOnTab = True
       OptionsView.CellTextMaxLineCount = 10
       Preview.MaxLineCount = 10
       object cxColNo_bukti: TcxGridDBColumn
@@ -161,7 +161,6 @@ inherited frmLstInvoicePenjualan: TfrmLstInvoicePenjualan
     Height = 200
     Align = alBottom
     TabOrder = 3
-    ExplicitWidth = 1169
     object cxTblInvDet: TcxGridDBTableView
       NavigatorButtons.ConfirmDelete = False
       DataController.DataSource = dsInvPenjualanDet
@@ -172,6 +171,7 @@ inherited frmLstInvoicePenjualan: TfrmLstInvoicePenjualan
           Kind = skSum
         end>
       DataController.Summary.SummaryGroups = <>
+      OptionsBehavior.FocusCellOnTab = True
       OptionsView.Footer = True
       object cxColNobukti: TcxGridDBColumn
         Caption = 'No Bukti'
@@ -222,7 +222,6 @@ inherited frmLstInvoicePenjualan: TfrmLstInvoicePenjualan
     Height = 41
     Align = alBottom
     TabOrder = 2
-    ExplicitWidth = 1169
     DesignSize = (
       1085
       41)
@@ -240,7 +239,6 @@ inherited frmLstInvoicePenjualan: TfrmLstInvoicePenjualan
       Caption = 'Cetak Invoice'
       TabOrder = 1
       OnClick = btnCetakPOClick
-      ExplicitLeft = 1064
     end
     object btnPosting: TButton
       Left = 899
@@ -250,7 +248,6 @@ inherited frmLstInvoicePenjualan: TfrmLstInvoicePenjualan
       Anchors = [akTop, akRight]
       Caption = 'Posting'
       TabOrder = 0
-      ExplicitLeft = 983
     end
   end
   object zqrInvPenjualan: TZReadOnlyQuery
