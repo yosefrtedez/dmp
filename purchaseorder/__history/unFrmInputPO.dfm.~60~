@@ -3,7 +3,6 @@ inherited frmInputPO: TfrmInputPO
   ClientHeight = 690
   ClientWidth = 1063
   OnShow = FormShow
-  ExplicitTop = -174
   ExplicitWidth = 1063
   ExplicitHeight = 690
   PixelsPerInch = 96
@@ -60,8 +59,11 @@ inherited frmInputPO: TfrmInputPO
           Column = cxColTotal
         end>
       DataController.Summary.SummaryGroups = <>
+      DataController.OnAfterPost = cxtbTblPODataControllerAfterPost
       DataController.OnBeforePost = cxtbTblPODataControllerBeforePost
+      DataController.OnNewRecord = cxtbTblPODataControllerNewRecord
       DataController.OnRecordChanged = cxtbTblPODataControllerRecordChanged
+      OptionsBehavior.FocusCellOnTab = True
       OptionsData.Appending = True
       OptionsView.Navigator = True
       OptionsView.Footer = True
@@ -109,6 +111,7 @@ inherited frmInputPO: TfrmInputPO
         Caption = 'Qty'
         DataBinding.ValueType = 'Float'
         PropertiesClassName = 'TcxSpinEditProperties'
+        Properties.Alignment.Horz = taRightJustify
         Properties.DisplayFormat = '#,##.00'
         Properties.ReadOnly = False
         Properties.ValueType = vtFloat
@@ -123,13 +126,16 @@ inherited frmInputPO: TfrmInputPO
         Caption = 'Harga'
         DataBinding.ValueType = 'Float'
         PropertiesClassName = 'TcxSpinEditProperties'
+        Properties.Alignment.Horz = taRightJustify
         Properties.DisplayFormat = '#,##.00'
+        Properties.ValueType = vtFloat
         Width = 88
       end
       object cxColDiscPersen: TcxGridColumn
         Caption = 'Disc (%)'
         DataBinding.ValueType = 'Float'
         PropertiesClassName = 'TcxSpinEditProperties'
+        Properties.Alignment.Horz = taRightJustify
         Properties.DisplayFormat = '#,#0.00'
         Properties.MaxValue = 100.000000000000000000
         Properties.ValueType = vtFloat
@@ -137,6 +143,11 @@ inherited frmInputPO: TfrmInputPO
       object cxColDiscRp: TcxGridColumn
         Caption = 'Disc'
         DataBinding.ValueType = 'Float'
+        PropertiesClassName = 'TcxSpinEditProperties'
+        Properties.Alignment.Horz = taRightJustify
+        Properties.DisplayFormat = '#,#0.00'
+        Properties.ValueType = vtFloat
+        Visible = False
       end
       object cxColPPn: TcxGridColumn
         Caption = 'PPn'
@@ -162,8 +173,10 @@ inherited frmInputPO: TfrmInputPO
         Caption = 'Total'
         DataBinding.ValueType = 'Float'
         PropertiesClassName = 'TcxSpinEditProperties'
+        Properties.Alignment.Horz = taRightJustify
         Properties.DisplayFormat = '#,##.00'
         Properties.ReadOnly = False
+        FooterAlignmentHorz = taRightJustify
         Width = 112
       end
       object cxColIdSatuan: TcxGridColumn

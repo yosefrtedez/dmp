@@ -149,6 +149,8 @@ end;
 procedure TfrmLstPB.FormCreate(Sender: TObject);
 begin
   inherited;
+  Self.NamaMenu := 'mnPur_PB';
+  Self.TerapkanWewenang(Self.NamaMenu);
   zqrPBHead.Open;
 end;
 

@@ -241,7 +241,7 @@ begin
             qd.FieldByname('keterangan').AsString := Values[i, cxColKeterangan.Index];
 
           qd.FieldByName('disc_persen').AsFloat := Values[i, cxColDiscPersen.Index];
-          qd.FieldByName('disc_rp').AsFloat := Values[i, cxColDiscRp.Index];
+          //qd.FieldByName('disc_rp').AsFloat := Values[i, cxColDiscRp.Index];
           qd.Post;
         end;
       end;
@@ -532,22 +532,6 @@ begin
     end;
   end;
 
-  if AItemIndex = cxColPPn.Index then begin
-    try
-      cxtbTblPO.BeginUpdate;
-      if cxColPPn.EditValue = 'PPN' then begin
-        cxColTotal.EditValue := cxColQty.EditValue * cxColHarga.EditValue * 110 /100;
-        cxtbTblPO.DataController.RefreshExternalData;
-      end
-      else begin
-        cxColtotal.EditValue := cxColQty.EditValue * cxColHarga.EditValue;
-        cxtbTblPO.DataController.RefreshExternalData;
-      end;
-    finally
-      cxtbTblPO.EndUpdate;
-    end;
-  end;
-
 end;
 
 procedure TfrmInputPO.FormCreate(Sender: TObject);
@@ -566,6 +550,7 @@ procedure TfrmInputPO.FormShow(Sender: TObject);
    q,z : TZQuery;
    i, nomer: integer;
    sNoTrs : string;
+   disc1: real;
 begin
   inherited;
   if Self.Jenis = 'T' then begin
@@ -610,11 +595,17 @@ begin
         Values[i, cxColValuta.Index] := z.FieldByName('mata_uang').AsString;
         Values[i, cxColHarga.Index] := z.FieldByName('harga').AsFloat;
         Values[i, cxColPPn.Index] := z.FieldByName('PPN').AsString;
-        if Values[i, cxColPPn.Index] = 'PPN' then begin
-          Values[i, cxColTotal.Index] := z.FieldByName('qty').AsFloat * z.FieldByName('harga').AsFloat * 110/100;
-        end else begin
-          Values[i, cxColTotal.Index] := z.FieldByName('qty').AsFloat * z.FieldByName('harga').AsFloat
-        end;
+        Values[i, cxColDiscPersen.Index] := z.FieldByName('disc_persen').AsFloat;
+
+        disc1 := 0;
+        if Values[i, cxColDiscPersen.Index] > 0 then
+          disc1 := (Values[i, cxColHarga.Index] * Values[i, cxColQty.Index] * Values[i, cxColDiscPersen.Index] / 100);
+
+        if Values[i, cxColPPn.Index] = 'PPN' then
+          Values[i, cxColTotal.Index] := ((Values[i, cxColHarga.Index] * 110/100) * Values[i, cxColQty.Index]) - disc1
+        else
+          Values[i, cxColTotal.Index] := (Values[i, cxColHarga.Index] * Values[i, cxColQty.Index]) - disc1;
+
         Values[i, cxColKeterangan.Index] := z.FieldByName('keterangan').AsString;
         nomer := nomer +1;
         Values[i, cxColKodeBrg2.Index] := z.FieldByName('kode').AsString;
@@ -648,7 +639,11 @@ begin
       if Values[i, cxColDiscRp.Index] > 0 then
         disc2 := (Values[i, cxColDiscRp.Index] * Values[i, cxColQty.Index]);
 
-      Values[i, cxColTotal.Index] := (Values[i, cxColHarga.Index] * Values[i, cxColQty.Index]) - disc1 - disc2;
+      if Values[i, cxColPPn.Index] = 'PPN' then
+        Values[i, cxColTotal.Index] := ((Values[i, cxColHarga.Index] * 110/100) * Values[i, cxColQty.Index]) - disc1 - disc2
+      else
+        Values[i, cxColTotal.Index] := (Values[i, cxColHarga.Index] * Values[i, cxColQty.Index]) - disc1 - disc2;
+
       EndUpdate;
     end;
   except

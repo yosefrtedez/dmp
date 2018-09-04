@@ -3,6 +3,7 @@ inherited frmInputPB: TfrmInputPB
   ClientHeight = 739
   ClientWidth = 1172
   OnShow = FormShow
+  ExplicitTop = -106
   ExplicitWidth = 1172
   ExplicitHeight = 739
   PixelsPerInch = 96
@@ -33,6 +34,15 @@ inherited frmInputPB: TfrmInputPB
     inherited btnSimpan: TButton
       Left = 11
       ExplicitLeft = 11
+    end
+    object btnSimpan2: TButton
+      Left = 172
+      Top = 12
+      Width = 75
+      Height = 25
+      Caption = 'Simpan'
+      TabOrder = 2
+      OnClick = btnSimpan2Click
     end
   end
   object cxlbl1: TcxLabel
@@ -277,6 +287,7 @@ inherited frmInputPB: TfrmInputPB
       DataController.Summary.SummaryGroups = <>
       DataController.OnBeforePost = cxtbPBDataControllerBeforePost
       DataController.OnRecordChanged = cxtbPBDataControllerRecordChanged
+      OptionsBehavior.FocusCellOnTab = True
       OptionsData.Inserting = False
       OptionsView.Navigator = True
       OptionsView.GroupByBox = False
@@ -498,7 +509,9 @@ inherited frmInputPB: TfrmInputPB
           Column = cxColKodeBrg22
         end>
       DataController.Summary.SummaryGroups = <>
+      DataController.OnBeforePost = cxtbPB2DataControllerBeforePost
       DataController.OnRecordChanged = cxtbPB2DataControllerRecordChanged
+      OptionsBehavior.FocusCellOnTab = True
       OptionsData.Appending = True
       OptionsView.Navigator = True
       OptionsView.GroupByBox = False
@@ -594,6 +607,7 @@ inherited frmInputPB: TfrmInputPB
         Visible = False
       end
       object cxColIdSatuan22: TcxGridColumn
+        Visible = False
       end
     end
     object cxGridLevel1: TcxGridLevel

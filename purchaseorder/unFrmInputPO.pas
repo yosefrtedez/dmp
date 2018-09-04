@@ -251,8 +251,13 @@ begin
       Self.Jenis := '';
       MsgBox('Transaksi Purchase Order sudah disimpan dengan No. Bukti : ' + sNoBukti);
 
-      if Assigned(Self.FormInduk) then
-        (Self.FormInduk as TfrmLstPO).btnRefreshClick(nil);
+      if Assigned(Self.FormInduk) then begin
+        try
+          (Self.FormInduk as TfrmLstPO).btnRefreshClick(nil);
+          (Self.FormInduk as TfrmLstPO).zqrPO.Last;
+        except
+        end;
+      end;
 
       btnBatalClick(nil);
       inherited;

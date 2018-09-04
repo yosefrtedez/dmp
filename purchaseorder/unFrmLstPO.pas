@@ -274,6 +274,8 @@ end;
 procedure TfrmLstPO.FormCreate(Sender: TObject);
 begin
   inherited;
+  Self.NamaMenu := 'mnPur_PO';
+  Self.TerapkanWewenang(Self.NamaMenu);
   zqrPO.Open;
 
   if CheckWewenang('pembatalan-po', Aplikasi.NamaUser) then
