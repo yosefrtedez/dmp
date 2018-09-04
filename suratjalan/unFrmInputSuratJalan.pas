@@ -139,7 +139,7 @@ type
   private
     procedure HitungTotal;
     procedure Posting(IDSJ: Integer);
-    function CheckSOComplete: boolean;
+    function CheckSOComplete(id: Integer): boolean;
   public
     { Public declarations }
   end;
@@ -155,7 +155,7 @@ uses unDM, unTools, unFrmPilihSO, unFrmLstSuratJalan;
 
 procedure TfrmInputSuratJalan.btnSimpan2Click(Sender: TObject);
 var
-  q, qh, qd, qSatuan, qGdg : TZQuery;
+  q, qh, qd, qSatuan, qGdg, qhs, qbrg : TZQuery;
   sNoBukti, sNoFaktur : string;
   i, id : integer;
   f0: Boolean;
@@ -225,6 +225,7 @@ begin
       if Self.Jenis = 'T' then  ID := LastInsertID;
 
       qd := OpenRS('SELECT * FROM tbl_sj_det WHERE no_bukti = ''%s''',[sNoBukti]);
+      qhs := OpenRS('SELECT * FROM tbl_history WHERE no_bukti = ''%s''',[sNoBukti]);
 
       with cxtbSJTanpaSO.DataController do begin
         for i := 0 to RecordCount - 1 do begin
@@ -249,22 +250,69 @@ begin
             qd.FieldByName('keterangan').AsString := Values[i, cxColKeterangan2.Index];
           end;
           qd.Post;
+
+          // insert history
+          with qhs do begin
+            Insert;
+            FieldByName('id_ref').AsInteger := ID;
+            FieldByName('no_bukti').AsString := sNoBukti;
+            FieldByName('tanggal').AsDateTime := cxdTglDatang.Date;
+            FieldByName('kode_brg').AsString := Values[i, cxColKodeBrg3.Index];
+            FieldByName('id_brg').AsInteger := Values[i, cxColKodeBrg2.Index];
+            FieldByName('qty').AsFloat := Values[i, cxColQty2.Index];
+            FieldByName('tipe').AsString := 'o';
+            FieldByName('id_satuan').AsInteger := Values[i, cxColIdSatuan2.Index];
+            FieldByname('id_gdg').AsInteger := Values[i, cxColGudang2.Index];
+            FieldByName('keterangan').AsString := '';
+            if VarIsNull(Values[i, cxColKeterangan2.index]) = True then begin
+              qd.FieldByName('keterangan').AsString := '';
+            end else begin
+              qd.FieldByName('keterangan').AsString := Values[i, cxColKeterangan2.Index];
+            end;
+            FieldByName('tgl_input').AsDateTime := Aplikasi.NowServer;
+            FieldByName('user').AsString := Aplikasi.NamaUser;
+            FieldByName('user_dept').AsString := Aplikasi.UserDept;
+            Post;
+          end;
+
+          qbrg := OpenRS('SELECT * FROM tbl_barang WHERE id = %s',[Values[i, cxColKodeBrg2.Index]]);
+          qbrg.Edit;
+          qbrg.FieldByName('stok').AsFloat := qbrg.FieldByName('stok').AsFloat - qd.FieldByName('qty').AsFloat;
+          qbrg.Post;
+          qbrg.Close;
+
+          qbrg := OpenRS('SELECT * FROM tbl_barang_det WHERE id_brg = %s AND id_gdg = %s',
+            [Values[i, cxColKodeBrg2.Index], Values[i, cxColGudang2.Index]]);
+          if qbrg.IsEmpty then begin
+            qbrg.Insert;
+            qbrg.FieldByName('id_brg').AsInteger := qd.FieldByName('id_brg').AsInteger;
+            qbrg.FieldByName('kode_brg').AsString := qd.FieldByName('kode_brg').AsString;
+            qbrg.FieldByName('id_gdg').AsInteger := qd.FieldByName('id_gdg').AsInteger;
+          end
+          else
+            qbrg.Edit;
+          qbrg.FieldByName('stok').AsFloat := qbrg.FieldByName('stok').AsFloat - qd.FieldByName('qty').AsFloat;
+          qbrg.Post;
+          qbrg.Close;
+
         end;
       end;
-      dm.zConn.Commit;
+
       qh.Close;
       qd.Close;
       Self.Jenis := '';
 
+      dm.zConn.ExecuteDirect(Format('UPDATE tbl_sj_head SET f_posting = 1 WHERE id = %d', [ID]));
+
+      dm.zConn.Commit;
+
       MsgBox('Transaksi Surat Jalan barang sudah disimpan dengan No. Bukti : ' + sNoBukti);
 
       if Assigned(Self.FormInduk) then begin
-        (Self.FormInduk as TfrmLstSuratJalan).btnRefreshClick(nil);
-        if Self.Jenis = 'T' then begin
-          try
-            (Self.FormInduk as TfrmLstSuratJalan).zqrSJ.Last;
-          except
-          end;
+        try
+          (Self.FormInduk as TfrmLstSuratJalan).btnRefreshClick(nil);
+          (Self.FormInduk as TfrmLstSuratJalan).zqrSJ.Last;
+        except
         end;
       end;
 
@@ -283,7 +331,7 @@ end;
 
 procedure TfrmInputSuratJalan.btnSimpanClick(Sender: TObject);
 var
-  q, qh, qd, qSatuan, qGdg : TZQuery;
+  q, qh, qd, qSatuan, qGdg, qhs, qbrg : TZQuery;
   sNoBukti, sNoFaktur : string;
   i, id : integer;
   f0: Boolean;
@@ -352,6 +400,7 @@ begin
       if Self.Jenis = 'T' then  ID := LastInsertID;
 
       qd := OpenRS('SELECT * FROM tbl_sj_det WHERE no_bukti = ''%s''',[sNoBukti]);
+      qhs := OpenRS('SELECT * FROM tbl_history WHERE no_bukti = ''%s''',[sNoBukti]);
 
       with cxtbSJ.DataController do begin
         for i := 0 to RecordCount - 1 do begin
@@ -377,17 +426,72 @@ begin
             qd.FieldByName('keterangan').AsString := Values[i, cxColKeterangan.Index];
           end;
           qd.Post;
+
+          // insert history
+          with qhs do begin
+            Insert;
+            FieldByName('id_ref').AsInteger := ID;
+            FieldByName('no_bukti').AsString := sNoBukti;
+            FieldByName('tanggal').AsDateTime := cxdTglDatang.Date;
+            FieldByName('kode_brg').AsString := Values[i, cxColKodeBrg.Index];
+            FieldByName('id_brg').AsInteger := Values[i, cxColIdBrg.Index];
+            FieldByName('qty').AsFloat := Values[i, cxColQty.Index];
+            FieldByName('tipe').AsString := 'o';
+            FieldByName('id_satuan').AsInteger := Values[i, cxColIdSatuan.Index];
+            FieldByname('id_gdg').AsInteger := Values[i, cxColGudang.Index];
+            FieldByName('keterangan').AsString := '';
+            if not VarIsNull(Values[i, cxColKeterangan.index]) then
+              FieldByName('keterangan').AsString := Values[i, cxColKeterangan.Index];
+            FieldByName('tgl_input').AsDateTime := Aplikasi.NowServer;
+            FieldByName('user').AsString := Aplikasi.NamaUser;
+            FieldByName('user_dept').AsString := Aplikasi.UserDept;
+            Post;
+          end;
+
+          qbrg := OpenRS('SELECT * FROM tbl_barang WHERE id = %s',[Values[i, cxColIdBrg.Index]]);
+          qbrg.Edit;
+          qbrg.FieldByName('stok').AsFloat := qbrg.FieldByName('stok').AsFloat - qd.FieldByName('qty').AsFloat;
+          qbrg.Post;
+          qbrg.Close;
+
+          qbrg := OpenRS('SELECT * FROM tbl_barang_det WHERE id_brg = %s AND id_gdg = %s',
+            [Values[i, cxColIdBrg.Index], Values[i, cxColGudang.Index]]);
+          if qbrg.IsEmpty then begin
+            qbrg.Insert;
+            qbrg.FieldByName('id_brg').AsInteger := qd.FieldByName('id_brg').AsInteger;
+            qbrg.FieldByName('kode_brg').AsString := qd.FieldByName('kode_brg').AsString;
+            qbrg.FieldByName('id_gdg').AsInteger := qd.FieldByName('id_gdg').AsInteger;
+          end
+          else
+            qbrg.Edit;
+          qbrg.FieldByName('stok').AsFloat := qbrg.FieldByName('stok').AsFloat - qd.FieldByName('qty').AsFloat;
+          qbrg.Post;
+          qbrg.Close;
+
         end;
       end;
-      dm.zConn.Commit;
+
+      dm.zConn.ExecuteDirect(Format('UPDATE tbl_sj_head SET f_posting = 1 WHERE id = %d', [ID]));
+
       qh.Close;
       qd.Close;
+      qhs.Close;
+
+      dm.zConn.Commit;
+
+      CheckSOComplete(ID);
+
       Self.Jenis := '';
 
       MsgBox('Transaksi Surat Jalan barang sudah disimpan dengan No. Bukti : ' + sNoBukti);
 
-      if Assigned(Self.FormInduk) then
-        (Self.FormInduk as TfrmLstSuratJalan).btnRefreshClick(nil);
+      if Assigned(Self.FormInduk) then begin
+        try
+          (Self.FormInduk as TfrmLstSuratJalan).btnRefreshClick(nil);
+          (Self.FormInduk as TfrmLstSuratJalan).zqrSJ.Last;
+        except
+        end;
+      end;
 
       btnBatalClick(nil);
 
@@ -868,7 +972,9 @@ procedure TfrmInputSuratJalan.cxtbSJTanpaSODataControllerNewRecord(
   ADataController: TcxCustomDataController; ARecordIndex: Integer);
 begin
   inherited;
+  //cxtbSJTanpaSO.BeginUpdate;
   ADataController.Values[ARecordIndex, cxColGudang2.Index] := Aplikasi.GdgBJ;
+  //cxtbSJTanpaSO.EndUpdate;
 end;
 
 procedure TfrmInputSuratJalan.cxtbSJTanpaSODataControllerRecordChanged(
@@ -934,19 +1040,19 @@ begin
     HitungTotal;
   end;
 
+  {
   if AItemIndex = cxColGudang2.Index then begin
     try
-
+      //cxtbSJTanpaSO.BeginUpdate;
       if VarIsNull(ADataController.Values[ARecordIndex, cxColDeskripsi2.Index]) then begin
-        ADataController.Values[ARecordIndex, cxColGudang.Index] := '';
+        ADataController.Values[ARecordIndex, cxColGudang2.Index] := '';
         Abort;
       end;
-    finally
-
+      //cxtbSJTanpaSO.EndUpdate;
+    except
     end;
   end;
-
-
+  }
 
 end;
 
@@ -1227,22 +1333,23 @@ begin
   end;
 end;
 
-function TfrmInputSuratJalan.CheckSOComplete: boolean;
+function TfrmInputSuratJalan.CheckSOComplete(id: integer): boolean;
 var
-  q: TZQuery;
+  qsj, q: TZQuery;
   f: Boolean;
   a,b: Extended;
   i: integer;
 begin
-  for i := 0 to cxtbSJ.DataController.RecordCount - 1 do begin
-    with cxtbSJ.DataController do begin
+  if not cxChkSJTanpaSO.Checked then begin
+    qsj := OpenRS('SELECT * FROM tbl_sj_det WHERE id_ref = %d',[id]);
+    with qsj do begin
       q := OpenRS('SELECT a.id_brg, a.qty, (SELECT SUM(qty) FROM tbl_sj_det WHERE id_so = a.id_ref AND id_brg = a.id_brg) qty_kirim ' +
-        'FROM tbl_so_det a WHERE a.id_ref = %s',[Values[i, cxColIdSO.Index]]);
+        'FROM tbl_so_det a WHERE a.id_ref = %s',[qsj.FieldByname('id_so').AsString]);
       f := False;
       while not q.Eof do begin
         a := q.FieldByName('qty').AsFloat;
         b := q.FIeldByName('qty_kirim').AsFloat;
-        if CompareValue(a, b) = 0 then
+        if (CompareValue(a, b) = 0) or (CompareValue(a,b) = -1) then
           f := true
         else begin
           f := false;
@@ -1250,10 +1357,10 @@ begin
         end;
         q.Next;
       end;
-
       if f then
-        dm.zConn.ExecuteDirect(Format('UPDATE tbl_so_head SET f_completed = 1 WHERE id = %s',[Values[i, cxColIdSO.Index]]));
+        dm.zConn.ExecuteDirect(Format('UPDATE tbl_so_head SET f_completed = 1 WHERE id = %s',[qsj.FieldByname('id_so').AsString]));
     end;
+    qsj.Close;
   end;
 end;
 

@@ -3815,7 +3815,7 @@ object frmLapSPK: TfrmLapSPK
           ShowHint = False
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clBlack
-          Font.Height = -13
+          Font.Height = -12
           Font.Name = 'Arial'
           Font.Style = []
           Memo.UTF8W = (
@@ -3830,7 +3830,7 @@ object frmLapSPK: TfrmLapSPK
           ShowHint = False
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clBlack
-          Font.Height = -13
+          Font.Height = -12
           Font.Name = 'Arial'
           Font.Style = []
           Memo.UTF8W = (
@@ -3845,7 +3845,7 @@ object frmLapSPK: TfrmLapSPK
           ShowHint = False
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clBlack
-          Font.Height = -13
+          Font.Height = -12
           Font.Name = 'Arial'
           Font.Style = []
           HAlign = haCenter
@@ -3861,7 +3861,7 @@ object frmLapSPK: TfrmLapSPK
           ShowHint = False
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clBlack
-          Font.Height = -13
+          Font.Height = -12
           Font.Name = 'Arial'
           Font.Style = []
           HAlign = haCenter
@@ -3883,7 +3883,7 @@ object frmLapSPK: TfrmLapSPK
           ShowHint = False
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clBlack
-          Font.Height = -13
+          Font.Height = -12
           Font.Name = 'Arial'
           Font.Style = []
           Memo.UTF8W = (
@@ -3898,7 +3898,7 @@ object frmLapSPK: TfrmLapSPK
           ShowHint = False
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clBlack
-          Font.Height = -13
+          Font.Height = -12
           Font.Name = 'Arial'
           Font.Style = []
           HAlign = haCenter
@@ -3907,13 +3907,13 @@ object frmLapSPK: TfrmLapSPK
           ParentFont = False
         end
         object Memo107: TfrxMemoView
-          Top = 47.031540000000000000
+          Top = 44.031540000000000000
           Width = 26.456710000000000000
           Height = 18.897650000000000000
           ShowHint = False
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clBlack
-          Font.Height = -13
+          Font.Height = -12
           Font.Name = 'Arial'
           Font.Style = []
           Memo.UTF8W = (
@@ -3922,13 +3922,13 @@ object frmLapSPK: TfrmLapSPK
         end
         object Memo108: TfrxMemoView
           Left = 30.236240000000000000
-          Top = 47.031540000000000000
+          Top = 44.031540000000000000
           Width = 60.472480000000000000
           Height = 18.897650000000000000
           ShowHint = False
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clBlack
-          Font.Height = -13
+          Font.Height = -12
           Font.Name = 'Arial'
           Font.Style = []
           Memo.UTF8W = (
@@ -3937,13 +3937,13 @@ object frmLapSPK: TfrmLapSPK
         end
         object Memo109: TfrxMemoView
           Left = 173.858380000000000000
-          Top = 47.031540000000000000
+          Top = 44.031540000000000000
           Width = 79.370130000000000000
           Height = 18.897650000000000000
           ShowHint = False
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clBlack
-          Font.Height = -13
+          Font.Height = -12
           Font.Name = 'Arial'
           Font.Style = []
           Memo.UTF8W = (
@@ -3952,13 +3952,13 @@ object frmLapSPK: TfrmLapSPK
         end
         object Memo110: TfrxMemoView
           Left = 257.008040000000000000
-          Top = 47.031540000000000000
+          Top = 44.031540000000000000
           Width = 79.370130000000000000
           Height = 18.897650000000000000
           ShowHint = False
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clBlack
-          Font.Height = -13
+          Font.Height = -12
           Font.Name = 'Arial'
           Font.Style = []
           Memo.UTF8W = (
@@ -3967,13 +3967,13 @@ object frmLapSPK: TfrmLapSPK
         end
         object Memo111: TfrxMemoView
           Left = 94.488250000000000000
-          Top = 47.031540000000000000
+          Top = 44.031540000000000000
           Width = 75.590600000000000000
           Height = 18.897650000000000000
           ShowHint = False
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clBlack
-          Font.Height = -13
+          Font.Height = -12
           Font.Name = 'Arial'
           Font.Style = []
           Memo.UTF8W = (
@@ -3982,13 +3982,13 @@ object frmLapSPK: TfrmLapSPK
         end
         object Memo112: TfrxMemoView
           Left = 585.047620000000000000
-          Top = 47.031540000000000000
+          Top = 44.031540000000000000
           Width = 98.267780000000000000
           Height = 18.897650000000000000
           ShowHint = False
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clBlack
-          Font.Height = -13
+          Font.Height = -12
           Font.Name = 'Arial'
           Font.Style = []
           Memo.UTF8W = (
@@ -3997,13 +3997,13 @@ object frmLapSPK: TfrmLapSPK
         end
         object Memo113: TfrxMemoView
           Left = 342.205010000000000000
-          Top = 47.031540000000000000
+          Top = 44.031540000000000000
           Width = 238.110390000000000000
           Height = 18.897650000000000000
           ShowHint = False
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clBlack
-          Font.Height = -13
+          Font.Height = -12
           Font.Name = 'Arial'
           Font.Style = []
           Memo.UTF8W = (
@@ -4013,13 +4013,13 @@ object frmLapSPK: TfrmLapSPK
           ParentFont = False
         end
         object Memo114: TfrxMemoView
-          Top = 74.047310000000000000
+          Top = 63.047310000000000000
           Width = 26.456710000000000000
           Height = 18.897650000000000000
           ShowHint = False
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clBlack
-          Font.Height = -13
+          Font.Height = -12
           Font.Name = 'Arial'
           Font.Style = []
           Memo.UTF8W = (
@@ -4028,13 +4028,13 @@ object frmLapSPK: TfrmLapSPK
         end
         object Memo115: TfrxMemoView
           Left = 30.236240000000000000
-          Top = 74.047310000000000000
+          Top = 63.047310000000000000
           Width = 60.472480000000000000
           Height = 18.897650000000000000
           ShowHint = False
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clBlack
-          Font.Height = -13
+          Font.Height = -12
           Font.Name = 'Arial'
           Font.Style = []
           Memo.UTF8W = (
@@ -4043,13 +4043,13 @@ object frmLapSPK: TfrmLapSPK
         end
         object Memo116: TfrxMemoView
           Left = 173.858380000000000000
-          Top = 74.047310000000000000
+          Top = 63.047310000000000000
           Width = 79.370130000000000000
           Height = 18.897650000000000000
           ShowHint = False
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clBlack
-          Font.Height = -13
+          Font.Height = -12
           Font.Name = 'Arial'
           Font.Style = []
           Memo.UTF8W = (
@@ -4058,13 +4058,13 @@ object frmLapSPK: TfrmLapSPK
         end
         object Memo117: TfrxMemoView
           Left = 257.008040000000000000
-          Top = 74.047310000000000000
+          Top = 63.047310000000000000
           Width = 79.370130000000000000
           Height = 18.897650000000000000
           ShowHint = False
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clBlack
-          Font.Height = -13
+          Font.Height = -12
           Font.Name = 'Arial'
           Font.Style = []
           Memo.UTF8W = (
@@ -4073,13 +4073,13 @@ object frmLapSPK: TfrmLapSPK
         end
         object Memo118: TfrxMemoView
           Left = 94.488250000000000000
-          Top = 74.047310000000000000
+          Top = 63.047310000000000000
           Width = 75.590600000000000000
           Height = 18.897650000000000000
           ShowHint = False
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clBlack
-          Font.Height = -13
+          Font.Height = -12
           Font.Name = 'Arial'
           Font.Style = []
           Memo.UTF8W = (
@@ -4088,13 +4088,13 @@ object frmLapSPK: TfrmLapSPK
         end
         object Memo119: TfrxMemoView
           Left = 585.047620000000000000
-          Top = 74.047310000000000000
+          Top = 63.047310000000000000
           Width = 98.267780000000000000
           Height = 18.897650000000000000
           ShowHint = False
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clBlack
-          Font.Height = -13
+          Font.Height = -12
           Font.Name = 'Arial'
           Font.Style = []
           Memo.UTF8W = (
@@ -4103,13 +4103,13 @@ object frmLapSPK: TfrmLapSPK
         end
         object Memo120: TfrxMemoView
           Left = 342.205010000000000000
-          Top = 74.047310000000000000
+          Top = 63.047310000000000000
           Width = 238.110390000000000000
           Height = 18.897650000000000000
           ShowHint = False
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clBlack
-          Font.Height = -13
+          Font.Height = -12
           Font.Name = 'Arial'
           Font.Style = []
           Memo.UTF8W = (
@@ -4119,13 +4119,13 @@ object frmLapSPK: TfrmLapSPK
           ParentFont = False
         end
         object Memo121: TfrxMemoView
-          Top = 100.504020000000000000
+          Top = 82.504020000000000000
           Width = 26.456710000000000000
           Height = 18.897650000000000000
           ShowHint = False
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clBlack
-          Font.Height = -13
+          Font.Height = -12
           Font.Name = 'Arial'
           Font.Style = []
           Memo.UTF8W = (
@@ -4134,13 +4134,13 @@ object frmLapSPK: TfrmLapSPK
         end
         object Memo122: TfrxMemoView
           Left = 30.236240000000000000
-          Top = 100.504020000000000000
+          Top = 82.504020000000000000
           Width = 60.472480000000000000
           Height = 18.897650000000000000
           ShowHint = False
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clBlack
-          Font.Height = -13
+          Font.Height = -12
           Font.Name = 'Arial'
           Font.Style = []
           Memo.UTF8W = (
@@ -4149,13 +4149,13 @@ object frmLapSPK: TfrmLapSPK
         end
         object Memo123: TfrxMemoView
           Left = 173.858380000000000000
-          Top = 100.504020000000000000
+          Top = 82.504020000000000000
           Width = 79.370130000000000000
           Height = 18.897650000000000000
           ShowHint = False
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clBlack
-          Font.Height = -13
+          Font.Height = -12
           Font.Name = 'Arial'
           Font.Style = []
           Memo.UTF8W = (
@@ -4164,13 +4164,13 @@ object frmLapSPK: TfrmLapSPK
         end
         object Memo124: TfrxMemoView
           Left = 257.008040000000000000
-          Top = 100.504020000000000000
+          Top = 82.504020000000000000
           Width = 79.370130000000000000
           Height = 18.897650000000000000
           ShowHint = False
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clBlack
-          Font.Height = -13
+          Font.Height = -12
           Font.Name = 'Arial'
           Font.Style = []
           Memo.UTF8W = (
@@ -4179,13 +4179,13 @@ object frmLapSPK: TfrmLapSPK
         end
         object Memo125: TfrxMemoView
           Left = 94.488250000000000000
-          Top = 100.504020000000000000
+          Top = 82.504020000000000000
           Width = 75.590600000000000000
           Height = 18.897650000000000000
           ShowHint = False
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clBlack
-          Font.Height = -13
+          Font.Height = -12
           Font.Name = 'Arial'
           Font.Style = []
           Memo.UTF8W = (
@@ -4194,13 +4194,13 @@ object frmLapSPK: TfrmLapSPK
         end
         object Memo126: TfrxMemoView
           Left = 585.047620000000000000
-          Top = 100.504020000000000000
+          Top = 82.504020000000000000
           Width = 98.267780000000000000
           Height = 18.897650000000000000
           ShowHint = False
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clBlack
-          Font.Height = -13
+          Font.Height = -12
           Font.Name = 'Arial'
           Font.Style = []
           Memo.UTF8W = (
@@ -4209,13 +4209,13 @@ object frmLapSPK: TfrmLapSPK
         end
         object Memo127: TfrxMemoView
           Left = 342.205010000000000000
-          Top = 100.504020000000000000
+          Top = 82.504020000000000000
           Width = 238.110390000000000000
           Height = 18.897650000000000000
           ShowHint = False
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clBlack
-          Font.Height = -13
+          Font.Height = -12
           Font.Name = 'Arial'
           Font.Style = []
           Memo.UTF8W = (
@@ -4225,13 +4225,13 @@ object frmLapSPK: TfrmLapSPK
           ParentFont = False
         end
         object Memo128: TfrxMemoView
-          Top = 127.519790000000000000
+          Top = 101.519790000000000000
           Width = 26.456710000000000000
           Height = 18.897650000000000000
           ShowHint = False
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clBlack
-          Font.Height = -13
+          Font.Height = -12
           Font.Name = 'Arial'
           Font.Style = []
           Memo.UTF8W = (
@@ -4240,13 +4240,13 @@ object frmLapSPK: TfrmLapSPK
         end
         object Memo129: TfrxMemoView
           Left = 30.236240000000000000
-          Top = 127.519790000000000000
+          Top = 101.519790000000000000
           Width = 60.472480000000000000
           Height = 18.897650000000000000
           ShowHint = False
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clBlack
-          Font.Height = -13
+          Font.Height = -12
           Font.Name = 'Arial'
           Font.Style = []
           Memo.UTF8W = (
@@ -4255,13 +4255,13 @@ object frmLapSPK: TfrmLapSPK
         end
         object Memo130: TfrxMemoView
           Left = 173.858380000000000000
-          Top = 127.519790000000000000
+          Top = 101.519790000000000000
           Width = 79.370130000000000000
           Height = 18.897650000000000000
           ShowHint = False
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clBlack
-          Font.Height = -13
+          Font.Height = -12
           Font.Name = 'Arial'
           Font.Style = []
           Memo.UTF8W = (
@@ -4270,13 +4270,13 @@ object frmLapSPK: TfrmLapSPK
         end
         object Memo131: TfrxMemoView
           Left = 257.008040000000000000
-          Top = 127.519790000000000000
+          Top = 101.519790000000000000
           Width = 79.370130000000000000
           Height = 18.897650000000000000
           ShowHint = False
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clBlack
-          Font.Height = -13
+          Font.Height = -12
           Font.Name = 'Arial'
           Font.Style = []
           Memo.UTF8W = (
@@ -4285,13 +4285,13 @@ object frmLapSPK: TfrmLapSPK
         end
         object Memo132: TfrxMemoView
           Left = 94.488250000000000000
-          Top = 127.519790000000000000
+          Top = 101.519790000000000000
           Width = 75.590600000000000000
           Height = 18.897650000000000000
           ShowHint = False
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clBlack
-          Font.Height = -13
+          Font.Height = -12
           Font.Name = 'Arial'
           Font.Style = []
           Memo.UTF8W = (
@@ -4300,13 +4300,13 @@ object frmLapSPK: TfrmLapSPK
         end
         object Memo133: TfrxMemoView
           Left = 585.047620000000000000
-          Top = 127.519790000000000000
+          Top = 101.519790000000000000
           Width = 98.267780000000000000
           Height = 18.897650000000000000
           ShowHint = False
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clBlack
-          Font.Height = -13
+          Font.Height = -12
           Font.Name = 'Arial'
           Font.Style = []
           Memo.UTF8W = (
@@ -4315,13 +4315,13 @@ object frmLapSPK: TfrmLapSPK
         end
         object Memo134: TfrxMemoView
           Left = 342.205010000000000000
-          Top = 127.519790000000000000
+          Top = 101.519790000000000000
           Width = 238.110390000000000000
           Height = 18.897650000000000000
           ShowHint = False
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clBlack
-          Font.Height = -13
+          Font.Height = -12
           Font.Name = 'Arial'
           Font.Style = []
           Memo.UTF8W = (
@@ -4331,13 +4331,13 @@ object frmLapSPK: TfrmLapSPK
           ParentFont = False
         end
         object Memo135: TfrxMemoView
-          Top = 153.417440000000000000
+          Top = 120.417440000000000000
           Width = 26.456710000000000000
           Height = 18.897650000000000000
           ShowHint = False
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clBlack
-          Font.Height = -13
+          Font.Height = -12
           Font.Name = 'Arial'
           Font.Style = []
           Memo.UTF8W = (
@@ -4346,13 +4346,13 @@ object frmLapSPK: TfrmLapSPK
         end
         object Memo136: TfrxMemoView
           Left = 30.236240000000000000
-          Top = 153.417440000000000000
+          Top = 120.417440000000000000
           Width = 60.472480000000000000
           Height = 18.897650000000000000
           ShowHint = False
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clBlack
-          Font.Height = -13
+          Font.Height = -12
           Font.Name = 'Arial'
           Font.Style = []
           Memo.UTF8W = (
@@ -4361,13 +4361,13 @@ object frmLapSPK: TfrmLapSPK
         end
         object Memo137: TfrxMemoView
           Left = 173.858380000000000000
-          Top = 153.417440000000000000
+          Top = 120.417440000000000000
           Width = 79.370130000000000000
           Height = 18.897650000000000000
           ShowHint = False
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clBlack
-          Font.Height = -13
+          Font.Height = -12
           Font.Name = 'Arial'
           Font.Style = []
           Memo.UTF8W = (
@@ -4376,13 +4376,13 @@ object frmLapSPK: TfrmLapSPK
         end
         object Memo138: TfrxMemoView
           Left = 257.008040000000000000
-          Top = 153.417440000000000000
+          Top = 120.417440000000000000
           Width = 79.370130000000000000
           Height = 18.897650000000000000
           ShowHint = False
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clBlack
-          Font.Height = -13
+          Font.Height = -12
           Font.Name = 'Arial'
           Font.Style = []
           Memo.UTF8W = (
@@ -4391,13 +4391,13 @@ object frmLapSPK: TfrmLapSPK
         end
         object Memo139: TfrxMemoView
           Left = 94.488250000000000000
-          Top = 153.417440000000000000
+          Top = 120.417440000000000000
           Width = 75.590600000000000000
           Height = 18.897650000000000000
           ShowHint = False
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clBlack
-          Font.Height = -13
+          Font.Height = -12
           Font.Name = 'Arial'
           Font.Style = []
           Memo.UTF8W = (
@@ -4406,13 +4406,13 @@ object frmLapSPK: TfrmLapSPK
         end
         object Memo140: TfrxMemoView
           Left = 585.047620000000000000
-          Top = 153.417440000000000000
+          Top = 120.417440000000000000
           Width = 98.267780000000000000
           Height = 18.897650000000000000
           ShowHint = False
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clBlack
-          Font.Height = -13
+          Font.Height = -12
           Font.Name = 'Arial'
           Font.Style = []
           Memo.UTF8W = (
@@ -4421,13 +4421,13 @@ object frmLapSPK: TfrmLapSPK
         end
         object Memo141: TfrxMemoView
           Left = 342.205010000000000000
-          Top = 153.417440000000000000
+          Top = 120.417440000000000000
           Width = 238.110390000000000000
           Height = 18.897650000000000000
           ShowHint = False
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clBlack
-          Font.Height = -13
+          Font.Height = -12
           Font.Name = 'Arial'
           Font.Style = []
           Memo.UTF8W = (
@@ -4444,7 +4444,7 @@ object frmLapSPK: TfrmLapSPK
           ShowHint = False
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clBlack
-          Font.Height = -13
+          Font.Height = -12
           Font.Name = 'Arial'
           Font.Style = []
           HAlign = haCenter
@@ -4459,7 +4459,7 @@ object frmLapSPK: TfrmLapSPK
           ShowHint = False
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clBlack
-          Font.Height = -13
+          Font.Height = -12
           Font.Name = 'Arial'
           Font.Style = [fsBold]
           Memo.UTF8W = (

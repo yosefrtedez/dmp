@@ -60,30 +60,38 @@ var
   lst, lst2: TStringList;
   btn: TButton;
 begin
-  q := OpenRS('SELECT * FROM tbl_wewenang WHERE nama = ''%s'' AND nm_comp = ''%s''',[Aplikasi.NamaUser, sNamaMenu]);
-  s := q.FieldByName('i').AsString + q.FieldByName('e').AsString + q.FieldByName('h').AsString;
-  lst := TStringList.Create;
-  lst.CommaText := ',btnTambah,btnEdit,btnHapus';
-  for i  := 1 to 3 do begin
-    btn := FindComponent(lst.Strings[i]) as TButton;
-    if Copy(s,i,1) = '0' then btn.Visible := False;
-  end;
+  if Pos(Aplikasi.NamaUser, 'ADMIN;HENDRA;FELGITO') > 0 then begin
+    btnTambah.Visible := True;
+    btnEdit.Visible := True;
+    btnHapus.Visible := True;
+  end
+  else begin
 
-  lst.CommaText := ',btnTambah,btnEdit,btnHapus,btnRefresh';
-
-  lst2 := TStringList.Create;
-  lst2.CommaText := ',10,91,172,253';
-  j := 1;
-  for i  := 1 to 4 do begin
-    btn := FindComponent(lst.Strings[i]) as TButton;
-    if not btn.Visible then
-      Continue
-    else begin
-      btn.Left := StrToInt(lst2.Strings[j]);
-      Inc(j);
+    q := OpenRS('SELECT * FROM tbl_wewenang WHERE nama = ''%s'' AND nm_comp = ''%s''',[Aplikasi.NamaUser, sNamaMenu]);
+    s := q.FieldByName('i').AsString + q.FieldByName('e').AsString + q.FieldByName('h').AsString;
+    lst := TStringList.Create;
+    lst.CommaText := ',btnTambah,btnEdit,btnHapus';
+    for i  := 1 to 3 do begin
+      btn := FindComponent(lst.Strings[i]) as TButton;
+      if Copy(s,i,1) = '0' then btn.Visible := False;
     end;
+
+    lst.CommaText := ',btnTambah,btnEdit,btnHapus,btnRefresh';
+
+    lst2 := TStringList.Create;
+    lst2.CommaText := ',10,91,172,253';
+    j := 1;
+    for i  := 1 to 4 do begin
+      btn := FindComponent(lst.Strings[i]) as TButton;
+      if not btn.Visible then
+        Continue
+      else begin
+        btn.Left := StrToInt(lst2.Strings[j]);
+        Inc(j);
+      end;
+    end;
+    q.Close;
   end;
-  q.Close;
 end;
 
 end.

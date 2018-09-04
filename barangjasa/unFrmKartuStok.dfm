@@ -36,8 +36,14 @@ object frmKartuStok: TfrmKartuStok
         Width = 87
       end
       object cxtbKStanggal: TcxGridDBColumn
-        Caption = 'Tanggal'
+        Caption = 'Tgl. Trans'
         DataBinding.FieldName = 'tanggal'
+        Width = 89
+      end
+      object cxtbKSColumn1: TcxGridDBColumn
+        Caption = 'Tgl. Input'
+        DataBinding.FieldName = 'tgl_input'
+        Width = 121
       end
       object cxtbKSmasuk: TcxGridDBColumn
         Caption = 'Masuk '

@@ -45,6 +45,7 @@ type
     cxlGdg: TcxLookupComboBox;
     cxLabel4: TcxLabel;
     cxsSA: TcxSpinEdit;
+    cxtbKSColumn1: TcxGridDBColumn;
     procedure btnProsesClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure btnKeluarClick(Sender: TObject);

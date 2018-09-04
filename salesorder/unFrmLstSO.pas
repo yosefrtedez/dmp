@@ -257,7 +257,7 @@ procedure TfrmLstSO.FormCreate(Sender: TObject);
 begin
   inherited;
   Self.NamaMenu := 'mnMkt_SalesOrder';
-  //TerapkanWewenang(Self.NamaMenu);
+  TerapkanWewenang(Self.NamaMenu);
   zqrSO.Open;
   cxtbSOno_bukti.SortOrder := soAscending;
 end;

@@ -123,28 +123,35 @@ end;
 procedure TfrmLstSuratJalan.btnHapusClick(Sender: TObject);
 var
   q : TZQuery;
+  i, id: Integer;
 begin
   inherited;
-  {q := OpenRS('select * from tbl_trsreturpemb_head where f_app = ''1'' and no_bukti = ''%s''',[zqrReturPembHead.FieldByName('no_bukti').AsString]);
-  if not q.Eof then begin
-    MsgBox('Maaf data tidak bisa dihapus, karena sudah di approve atasan');
-    Abort;
-  end else begin
+
+  if zqrSJ.IsEmpty then Abort;
+  
+  i := QBox(Self, 'Hapus Surat Jalan Nomor : ' + zqrSJ.FieldByName('no_bukti').AsString + ' ?','Hapus');
+  if i = IDYES then begin
     try
-      DM.zConn.StartTransaction;
-      DM.zConn.ExecuteDirect('delete  from tbl_trsreturpemb_head where no_bukti = ''' + zqrReturPembHead.FieldByName('no_bukti').AsString + '''');
-      DM.zConn.ExecuteDirect('delete  from tbl_trsreturpemb_det where no_bukti = ''' + zqrReturPembDet.FieldByName('no_bukti').AsString + '''');
-      DM.zConn.Commit;
-      MsgBox('Data berhasil dihapus');
-      btnRefreshClick(nil);
+      id := zqrSJ.FieldByName('id').AsInteger;
+      dm.zConn.StartTransaction;
+      dm.zConn.ExecuteDirect(Format('DELETE FROM tbl_sj_head WHERE id = %d',[id]));
+      dm.zConn.ExecuteDirect(Format('DELETE FROM tbl_sj_det WHERE id_ref = %d',[id]));
+      dm.zConn.ExecuteDirect(Format('DELETE FROM tbl_history WHERE no_bukti = ''%s''',
+        [zqrSJ.FieldByName('no_bukti').AsString]));
+      dm.zConn.Commit;
+
+      MsgBox('Surat jalan dengan Nomor : ' + zqrSJ.FieldByname('no_bukti').AsString + ' sudah berhasil dihapus.');
+      MsgBox('Lakukan kalkulasi ulang stok dari menu Setting - Kalkulasi Ulang.');
+
+      zqrSJ.Close;
+      zqrSJ.Open;
     except
-       on e : Exception do begin
-         MsgBox('Error: ' + E.Message);
-         DM.zConn.Rollback;
-         mjenis := '';
-       end;
+      on E: Exception do begin
+        dm.zConn.Rollback;
+        MsgBox('Error: ' + E.Message);
+      end;
     end;
-  end;}
+  end;
 end;
 
 
@@ -341,11 +348,8 @@ end;
 procedure TfrmLstSuratJalan.FormCreate(Sender: TObject);
 begin
   inherited;
+  Self.TerapkanWewenang('mnMkt_SuratJalan');
   zqrSJ.Open;
-
-  btnHapus.Visible := False;
-  //btnEdit.Visible := False;
-
   cxColTblTrsMasukHeadno_bukti.SortOrder := soAscending;
 end;
 
@@ -378,6 +382,5 @@ begin
     end;
   end;
 end;
-
 
 end.

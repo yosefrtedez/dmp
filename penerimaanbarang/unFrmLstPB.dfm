@@ -2,7 +2,6 @@ inherited frmLstPB: TfrmLstPB
   Caption = 'Penerimaan Barang'
   ClientHeight = 572
   OnCreate = FormCreate
-  ExplicitWidth = 1016
   ExplicitHeight = 572
   PixelsPerInch = 96
   TextHeight = 13
@@ -24,7 +23,7 @@ inherited frmLstPB: TfrmLstPB
   inherited Panel2: TPanel
     Top = 523
     TabOrder = 4
-    ExplicitTop = 564
+    ExplicitTop = 523
     inherited btnTambah: TButton
       OnClick = btnTambahClick
     end
@@ -42,7 +41,6 @@ inherited frmLstPB: TfrmLstPB
     Height = 233
     Align = alClient
     TabOrder = 1
-    ExplicitHeight = 274
     object cxtbPBHead: TcxGridDBTableView
       NavigatorButtons.ConfirmDelete = False
       OnFocusedRecordChanged = cxtbPBHeadFocusedRecordChanged
@@ -163,7 +161,6 @@ inherited frmLstPB: TfrmLstPB
     Height = 41
     Align = alBottom
     TabOrder = 2
-    ExplicitTop = 323
     object cxLabel1: TcxLabel
       Left = 10
       Top = 11
@@ -177,7 +174,6 @@ inherited frmLstPB: TfrmLstPB
     Height = 200
     Align = alBottom
     TabOrder = 3
-    ExplicitTop = 364
     object cxtbPBDet: TcxGridDBTableView
       NavigatorButtons.ConfirmDelete = False
       DataController.DataSource = dsPBDet
