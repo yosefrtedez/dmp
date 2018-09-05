@@ -1,8 +1,7 @@
-inherited frmInputKoreksi: TfrmInputKoreksi
+inherited frmInputBarangMasuk: TfrmInputBarangMasuk
   Caption = 'Input Barang Masuk'
   ClientHeight = 619
   ClientWidth = 973
-  OnCreate = FormCreate
   OnShow = FormShow
   ExplicitWidth = 973
   ExplicitHeight = 619
@@ -14,9 +13,9 @@ inherited frmInputKoreksi: TfrmInputKoreksi
     object Label13: TLabel
       Left = 10
       Top = 13
-      Width = 173
+      Width = 164
       Height = 19
-      Caption = 'Input Koreksi Barang'
+      Caption = 'Input Barang Masuk'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -16
@@ -28,12 +27,11 @@ inherited frmInputKoreksi: TfrmInputKoreksi
   inherited Panel2: TPanel
     Top = 570
     Width = 973
-    TabOrder = 8
+    TabOrder = 10
     ExplicitTop = 570
     ExplicitWidth = 973
     inherited btnSimpan: TButton
       Top = 11
-      OnClick = btnSimpanClick
       ExplicitTop = 11
     end
   end
@@ -74,12 +72,12 @@ inherited frmInputKoreksi: TfrmInputKoreksi
   end
   object cxgrdPP: TcxGrid
     Left = 8
-    Top = 144
+    Top = 177
     Width = 957
     Height = 211
     Anchors = [akLeft, akTop, akRight]
-    TabOrder = 7
-    object cxtbKoreksi: TcxGridTableView
+    TabOrder = 9
+    object cxtbBarangMasuk: TcxGridTableView
       NavigatorButtons.ConfirmDelete = False
       NavigatorButtons.Insert.Visible = False
       NavigatorButtons.Append.Visible = True
@@ -88,15 +86,16 @@ inherited frmInputKoreksi: TfrmInputKoreksi
         item
           Format = '#,##.00'
           Kind = skSum
-          Column = cxColStokLama
+          Column = cxColQty
         end
         item
           Format = '#,##.00'
           Kind = skSum
         end>
       DataController.Summary.SummaryGroups = <>
-      DataController.OnBeforePost = cxtbKoreksiDataControllerBeforePost
-      DataController.OnRecordChanged = cxtbKoreksiDataControllerRecordChanged
+      DataController.OnBeforePost = cxtbBarangMasukDataControllerBeforePost
+      DataController.OnRecordChanged = cxtbBarangMasukDataControllerRecordChanged
+      OptionsBehavior.FocusCellOnTab = True
       OptionsData.Appending = True
       OptionsView.Navigator = True
       OptionsView.Footer = True
@@ -141,10 +140,18 @@ inherited frmInputKoreksi: TfrmInputKoreksi
         Properties.ListSource = dsBarang
         Width = 237
       end
+      object cxColQty: TcxGridColumn
+        Caption = 'Qty. Masuk'
+        DataBinding.ValueType = 'Float'
+        PropertiesClassName = 'TcxSpinEditProperties'
+        Properties.DisplayFormat = '#,##.00'
+        Properties.ReadOnly = False
+        Properties.ValueType = vtFloat
+        Width = 73
+      end
       object cxColGudang: TcxGridColumn
         Caption = 'Gudang'
         PropertiesClassName = 'TcxLookupComboBoxProperties'
-        Properties.DropDownAutoSize = True
         Properties.KeyFieldNames = 'id'
         Properties.ListColumns = <
           item
@@ -154,32 +161,9 @@ inherited frmInputKoreksi: TfrmInputKoreksi
           item
             Caption = 'ID'
             FieldName = 'id'
-          end
-          item
-            Caption = 'Nama'
-            FieldName = 'nama'
           end>
         Properties.ListSource = dsGudang
         Width = 80
-      end
-      object cxColStokLama: TcxGridColumn
-        Caption = 'Stok Lama'
-        DataBinding.ValueType = 'Float'
-        PropertiesClassName = 'TcxSpinEditProperties'
-        Properties.Alignment.Horz = taRightJustify
-        Properties.DisplayFormat = '#,##.00'
-        Properties.ReadOnly = True
-        Properties.ValueType = vtFloat
-        Width = 73
-      end
-      object cxColStokBaru: TcxGridColumn
-        Caption = 'Stok Baru'
-        DataBinding.ValueType = 'Float'
-        PropertiesClassName = 'TcxSpinEditProperties'
-        Properties.Alignment.Horz = taRightJustify
-        Properties.DisplayFormat = '#,#0.00'
-        Properties.ValueType = vtFloat
-        Width = 76
       end
       object cxColSatuan: TcxGridColumn
         Caption = 'Satuan'
@@ -201,8 +185,20 @@ inherited frmInputKoreksi: TfrmInputKoreksi
       end
     end
     object cxgrdlvl1Grid1Level1: TcxGridLevel
-      GridView = cxtbKoreksi
+      GridView = cxtbBarangMasuk
     end
+  end
+  object cxLabel6: TcxLabel
+    Left = 11
+    Top = 144
+    Caption = 'Jenis Transaksi'
+  end
+  object cxCmbJenisTrs: TcxComboBox
+    Left = 112
+    Top = 143
+    Properties.DropDownListStyle = lsEditFixedList
+    TabOrder = 7
+    Width = 146
   end
   object zqrBarang: TZReadOnlyQuery
     Connection = DM.zConn
@@ -238,7 +234,7 @@ inherited frmInputKoreksi: TfrmInputKoreksi
   end
   object dsGudang: TDataSource
     DataSet = zqrGudang
-    Left = 784
+    Left = 752
     Top = 63
   end
 end

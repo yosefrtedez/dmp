@@ -212,6 +212,7 @@ inherited frmInputKoreksi: TfrmInputKoreksi
     Height = 25
     Caption = 'Button1'
     TabOrder = 8
+    Visible = False
   end
   object zqrBarang: TZReadOnlyQuery
     Connection = DM.zConn

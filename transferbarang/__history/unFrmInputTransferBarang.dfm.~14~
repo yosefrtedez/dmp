@@ -1,7 +1,6 @@
 inherited frmInputTransferBarang: TfrmInputTransferBarang
   Caption = 'Input Transfer Barang'
   ClientWidth = 971
-  OnCreate = FormCreate
   OnShow = FormShow
   ExplicitWidth = 971
   ExplicitHeight = 553
@@ -26,10 +25,8 @@ inherited frmInputTransferBarang: TfrmInputTransferBarang
   end
   inherited Panel2: TPanel
     Width = 971
+    TabOrder = 8
     ExplicitWidth = 971
-    inherited btnSimpan: TButton
-      OnClick = btnSimpanClick
-    end
   end
   object cxLabel1: TcxLabel
     Left = 8
@@ -41,7 +38,7 @@ inherited frmInputTransferBarang: TfrmInputTransferBarang
     Left = 91
     Top = 62
     Properties.ReadOnly = True
-    TabOrder = 3
+    TabOrder = 1
     Width = 121
   end
   object cxLabel6: TcxLabel
@@ -53,15 +50,15 @@ inherited frmInputTransferBarang: TfrmInputTransferBarang
     Left = 91
     Top = 89
     Properties.ReadOnly = False
-    TabOrder = 5
+    TabOrder = 3
     Width = 121
   end
   object cxGrid1: TcxGrid
     Left = 8
-    Top = 152
+    Top = 148
     Width = 952
     Height = 216
-    TabOrder = 6
+    TabOrder = 7
     object cxTblTransBarang: TcxGridTableView
       NavigatorButtons.ConfirmDelete = False
       NavigatorButtons.Insert.Visible = False
@@ -94,6 +91,7 @@ inherited frmInputTransferBarang: TfrmInputTransferBarang
       DataController.Summary.SummaryGroups = <>
       DataController.OnBeforePost = cxTblTransBarangDataControllerBeforePost
       DataController.OnRecordChanged = cxTblTransBarangDataControllerRecordChanged
+      OptionsBehavior.FocusCellOnTab = True
       OptionsData.Appending = True
       OptionsView.Navigator = True
       OptionsView.GroupByBox = False
@@ -101,16 +99,27 @@ inherited frmInputTransferBarang: TfrmInputTransferBarang
         Caption = 'No'
         PropertiesClassName = 'TcxSpinEditProperties'
         Properties.ReadOnly = True
+        Visible = False
         OnGetDisplayText = cxColNoGetDisplayText
         HeaderAlignmentHorz = taCenter
         Width = 42
       end
       object cxColKode: TcxGridColumn
         Caption = 'Kode Brg'
-        PropertiesClassName = 'TcxTextEditProperties'
-        Properties.ReadOnly = True
-        HeaderAlignmentHorz = taCenter
-        Width = 108
+        PropertiesClassName = 'TcxLookupComboBoxProperties'
+        Properties.DropDownAutoSize = True
+        Properties.KeyFieldNames = 'id'
+        Properties.ListColumns = <
+          item
+            Caption = 'Kode'
+            FieldName = 'kode'
+          end
+          item
+            Caption = 'Deskripsi'
+            FieldName = 'deskripsi'
+          end>
+        Properties.ListSource = dsBarang
+        Width = 86
       end
       object cxColDeskripsi: TcxGridColumn
         Caption = 'Deskripsi'
@@ -124,8 +133,7 @@ inherited frmInputTransferBarang: TfrmInputTransferBarang
             FieldName = 'kode'
           end>
         Properties.ListSource = dsBarang
-        HeaderAlignmentHorz = taCenter
-        Width = 193
+        Width = 250
       end
       object cxColGudangAsal: TcxGridColumn
         Caption = 'Gudang Asal'
@@ -140,8 +148,19 @@ inherited frmInputTransferBarang: TfrmInputTransferBarang
             FieldName = 'kode'
           end>
         Properties.ListSource = dsGudang
-        HeaderAlignmentHorz = taCenter
         Width = 123
+      end
+      object cxColStock: TcxGridColumn
+        Caption = 'Stock'
+        DataBinding.ValueType = 'Float'
+        PropertiesClassName = 'TcxSpinEditProperties'
+        Properties.Alignment.Horz = taRightJustify
+        Properties.DisplayFormat = '#,##0'
+        Properties.EditFormat = '#,##0'
+        Properties.ReadOnly = True
+        Properties.ValueType = vtFloat
+        HeaderAlignmentHorz = taCenter
+        Width = 94
       end
       object cxColGudangTujuan: TcxGridColumn
         Caption = 'Gudang Tujuan'
@@ -156,28 +175,14 @@ inherited frmInputTransferBarang: TfrmInputTransferBarang
             FieldName = 'kode'
           end>
         Properties.ListSource = dsGudang
-        HeaderAlignmentHorz = taCenter
-        Width = 151
+        Width = 110
       end
       object cxColIdSatuan: TcxGridColumn
         Visible = False
       end
       object cxColSatuan: TcxGridColumn
         Caption = 'Satuan'
-        HeaderAlignmentHorz = taCenter
         Width = 72
-      end
-      object cxColStock: TcxGridColumn
-        Caption = 'Stock'
-        DataBinding.ValueType = 'Float'
-        PropertiesClassName = 'TcxSpinEditProperties'
-        Properties.Alignment.Horz = taRightJustify
-        Properties.DisplayFormat = '#,##0'
-        Properties.EditFormat = '#,##0'
-        Properties.ReadOnly = True
-        Properties.ValueType = vtFloat
-        HeaderAlignmentHorz = taCenter
-        Width = 94
       end
       object cxColQty: TcxGridColumn
         Caption = 'Qty.Transfer'
@@ -189,6 +194,9 @@ inherited frmInputTransferBarang: TfrmInputTransferBarang
         HeaderAlignmentHorz = taCenter
         Width = 92
       end
+      object cxColKodeBrg2: TcxGridColumn
+        Visible = False
+      end
     end
     object cxGrid1Level1: TcxGridLevel
       GridView = cxTblTransBarang
@@ -196,15 +204,15 @@ inherited frmInputTransferBarang: TfrmInputTransferBarang
   end
   object cxLabel2: TcxLabel
     Left = 8
-    Top = 115
+    Top = 117
     Caption = 'Keterangan'
   end
   object cxtKeterangan: TcxTextEdit
     Tag = 1
     Left = 91
-    Top = 114
+    Top = 116
     Properties.ReadOnly = False
-    TabOrder = 8
+    TabOrder = 5
     Width = 462
   end
   object zqrBarang: TZReadOnlyQuery
@@ -217,7 +225,7 @@ inherited frmInputTransferBarang: TfrmInputTransferBarang
   end
   object dsBarang: TDataSource
     DataSet = zqrBarang
-    Left = 319
+    Left = 335
     Top = 7
   end
   object zqrGudang: TZReadOnlyQuery
@@ -225,12 +233,12 @@ inherited frmInputTransferBarang: TfrmInputTransferBarang
     SQL.Strings = (
       'SELECT * FROM tbl_gudang WHERE f_aktif=1')
     Params = <>
-    Left = 382
+    Left = 398
     Top = 6
   end
   object dsGudang: TDataSource
     DataSet = zqrGudang
-    Left = 431
+    Left = 455
     Top = 7
   end
 end

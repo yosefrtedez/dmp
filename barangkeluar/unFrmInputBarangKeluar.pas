@@ -181,7 +181,7 @@ begin
 
       qh.FieldByName('no_bukti').AsString := sNoBukti;
       qh.FieldByName('keterangan').AsString := cxtKeterangan.Text;
-      qh.FieldByName('tanggal').AsDateTime := Aplikasi.Tanggal;
+      qh.FieldByName('tanggal').AsDateTime := cxdTglDatang.Date;
       qh.FieldByName('user').AsString := Aplikasi.NamaUser;
       qh.FieldByName('user_dept').AsString := Aplikasi.UserDept;
       qh.FieldByName('tgl_input').AsDateTime := Aplikasi.Tanggal;

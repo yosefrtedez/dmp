@@ -120,6 +120,24 @@ var
 begin
   inherited;
 
+  q := OpenRS('SELECT f_posting FROM tbl_trskeluar_head WHERE id = %d',
+    [zqrBarangKeluar.FieldByName('id').AsInteger]);
+  if (not q.IsEmpty) and (q.FieldByName('f_posting').AsInteger = 1) then begin
+    MsgBox('Transaksi sudah di terposting.');
+    q.Close;
+    Abort;
+  end;
+  q.Close;
+
+  q := OpenRS('SELECT no_bukti FROM tbl_history WHERE no_bukti = ''%s''',
+    [zqrBarangKeluar.FieldByName('no_bukti').AsString]);
+  if not q.IsEmpty then begin
+    MsgBox('Transaksi sudah di terposting.');
+    q.Close;
+    Abort;
+  end;
+  q.Close;
+
   try
     q := OpenRS('SELECT a.id_brg, a.id_gdg, a.qty, b.kode, b.deskripsi ' +
       'FROM tbl_trskeluar_det a ' +
@@ -281,6 +299,8 @@ end;
 procedure TfrmLstBarangKeluar.FormCreate(Sender: TObject);
 begin
   inherited;
+  Self.NamaMenu := 'mnWhl_BarangKeluar';
+  Self.TerapkanWewenang(Self.NamaMenu);
   zqrBarangKeluar.Open;
 end;
 

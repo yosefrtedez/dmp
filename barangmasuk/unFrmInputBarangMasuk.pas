@@ -117,7 +117,7 @@ begin
 
       qh.FieldByName('no_bukti').AsString := sNoBukti;
       qh.FieldByName('keterangan').AsString := cxtKeterangan.Text;
-      qh.FieldByName('tanggal').AsDateTime := Aplikasi.Tanggal;
+      qh.FieldByName('tanggal').AsDateTime := cxdTglDatang.Date;
       qh.FieldByName('user').AsString := Aplikasi.NamaUser;
       qh.FieldByName('user_dept').AsString := Aplikasi.UserDept;
       qh.FieldByName('tgl_input').AsDateTime := Aplikasi.Tanggal;
@@ -155,7 +155,7 @@ begin
           with qhst do begin
             Insert;
             FieldByName('no_bukti').AsString := sNoBukti;
-            FieldByName('tanggal').AsDateTime := Aplikasi.TanggalServer;
+            FieldByName('tanggal').AsDateTime := cxdTglDatang.Date;
             FieldByName('kode_brg').AsString := Values[i, cxColKodeBrg.Index];
             FieldByName('id_brg').AsInteger := Values[i, cxColDeskripsi.Index];
             FieldByName('qty').AsFloat := Values[i, cxColQty.Index];

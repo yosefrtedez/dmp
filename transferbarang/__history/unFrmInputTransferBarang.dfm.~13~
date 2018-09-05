@@ -1,7 +1,6 @@
 inherited frmInputTransferBarang: TfrmInputTransferBarang
   Caption = 'Input Transfer Barang'
   ClientWidth = 971
-  OnCreate = FormCreate
   OnShow = FormShow
   ExplicitWidth = 971
   ExplicitHeight = 553
@@ -28,9 +27,6 @@ inherited frmInputTransferBarang: TfrmInputTransferBarang
     Width = 971
     TabOrder = 8
     ExplicitWidth = 971
-    inherited btnSimpan: TButton
-      OnClick = btnSimpanClick
-    end
   end
   object cxLabel1: TcxLabel
     Left = 8
@@ -95,6 +91,7 @@ inherited frmInputTransferBarang: TfrmInputTransferBarang
       DataController.Summary.SummaryGroups = <>
       DataController.OnBeforePost = cxTblTransBarangDataControllerBeforePost
       DataController.OnRecordChanged = cxTblTransBarangDataControllerRecordChanged
+      OptionsBehavior.FocusCellOnTab = True
       OptionsData.Appending = True
       OptionsView.Navigator = True
       OptionsView.GroupByBox = False
@@ -102,15 +99,27 @@ inherited frmInputTransferBarang: TfrmInputTransferBarang
         Caption = 'No'
         PropertiesClassName = 'TcxSpinEditProperties'
         Properties.ReadOnly = True
+        Visible = False
         OnGetDisplayText = cxColNoGetDisplayText
         HeaderAlignmentHorz = taCenter
         Width = 42
       end
       object cxColKode: TcxGridColumn
         Caption = 'Kode Brg'
-        PropertiesClassName = 'TcxTextEditProperties'
-        Properties.ReadOnly = True
-        Width = 78
+        PropertiesClassName = 'TcxLookupComboBoxProperties'
+        Properties.DropDownAutoSize = True
+        Properties.KeyFieldNames = 'id'
+        Properties.ListColumns = <
+          item
+            Caption = 'Kode'
+            FieldName = 'kode'
+          end
+          item
+            Caption = 'Deskripsi'
+            FieldName = 'deskripsi'
+          end>
+        Properties.ListSource = dsBarang
+        Width = 86
       end
       object cxColDeskripsi: TcxGridColumn
         Caption = 'Deskripsi'
@@ -141,6 +150,18 @@ inherited frmInputTransferBarang: TfrmInputTransferBarang
         Properties.ListSource = dsGudang
         Width = 123
       end
+      object cxColStock: TcxGridColumn
+        Caption = 'Stock'
+        DataBinding.ValueType = 'Float'
+        PropertiesClassName = 'TcxSpinEditProperties'
+        Properties.Alignment.Horz = taRightJustify
+        Properties.DisplayFormat = '#,##0'
+        Properties.EditFormat = '#,##0'
+        Properties.ReadOnly = True
+        Properties.ValueType = vtFloat
+        HeaderAlignmentHorz = taCenter
+        Width = 94
+      end
       object cxColGudangTujuan: TcxGridColumn
         Caption = 'Gudang Tujuan'
         PropertiesClassName = 'TcxLookupComboBoxProperties'
@@ -163,18 +184,6 @@ inherited frmInputTransferBarang: TfrmInputTransferBarang
         Caption = 'Satuan'
         Width = 72
       end
-      object cxColStock: TcxGridColumn
-        Caption = 'Stock'
-        DataBinding.ValueType = 'Float'
-        PropertiesClassName = 'TcxSpinEditProperties'
-        Properties.Alignment.Horz = taRightJustify
-        Properties.DisplayFormat = '#,##0'
-        Properties.EditFormat = '#,##0'
-        Properties.ReadOnly = True
-        Properties.ValueType = vtFloat
-        HeaderAlignmentHorz = taCenter
-        Width = 94
-      end
       object cxColQty: TcxGridColumn
         Caption = 'Qty.Transfer'
         PropertiesClassName = 'TcxSpinEditProperties'
@@ -185,6 +194,9 @@ inherited frmInputTransferBarang: TfrmInputTransferBarang
         HeaderAlignmentHorz = taCenter
         Width = 92
       end
+      object cxColKodeBrg2: TcxGridColumn
+        Visible = False
+      end
     end
     object cxGrid1Level1: TcxGridLevel
       GridView = cxTblTransBarang
@@ -192,13 +204,13 @@ inherited frmInputTransferBarang: TfrmInputTransferBarang
   end
   object cxLabel2: TcxLabel
     Left = 8
-    Top = 115
+    Top = 117
     Caption = 'Keterangan'
   end
   object cxtKeterangan: TcxTextEdit
     Tag = 1
     Left = 91
-    Top = 114
+    Top = 116
     Properties.ReadOnly = False
     TabOrder = 5
     Width = 462

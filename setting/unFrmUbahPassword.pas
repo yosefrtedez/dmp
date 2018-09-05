@@ -82,7 +82,7 @@ begin
 
   dm.zConn.ExecuteDirect(
     Format('UPDATE tbl_user SET password = password(''%s'') WHERE nama = ''%s''',
-    [sPassLama, Aplikasi.NamaUser])
+    [sPassBaru, Aplikasi.NamaUser])
   );
 
   MsgBox('Password sudah berhasil diubah.');

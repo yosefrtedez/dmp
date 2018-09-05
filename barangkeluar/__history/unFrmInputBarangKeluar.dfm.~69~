@@ -2,9 +2,7 @@ inherited frmInputBarangKeluar: TfrmInputBarangKeluar
   Caption = 'Input Barang Keluar'
   ClientHeight = 771
   ClientWidth = 1165
-  OnCreate = FormCreate
   OnShow = FormShow
-  ExplicitTop = -90
   ExplicitWidth = 1165
   ExplicitHeight = 771
   PixelsPerInch = 96
@@ -32,9 +30,6 @@ inherited frmInputBarangKeluar: TfrmInputBarangKeluar
     TabOrder = 29
     ExplicitTop = 722
     ExplicitWidth = 1165
-    inherited btnSimpan: TButton
-      OnClick = btnSimpanClick
-    end
   end
   object cxlbl1: TcxLabel
     Left = 11
@@ -72,7 +67,7 @@ inherited frmInputBarangKeluar: TfrmInputBarangKeluar
   end
   object cxgrdPP: TcxGrid
     Left = 10
-    Top = 254
+    Top = 255
     Width = 1147
     Height = 195
     Anchors = [akLeft, akTop, akRight]

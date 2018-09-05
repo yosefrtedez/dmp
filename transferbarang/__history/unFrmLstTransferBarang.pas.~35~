@@ -18,7 +18,7 @@ uses
   cxDBData, cxGridLevel, cxClasses, cxGridCustomView, cxGridCustomTableView,
   cxGridTableView, cxGridDBTableView, cxGrid, ZAbstractRODataset, ZDataset,cxPC,
   cxContainer, cxTextEdit, cxMaskEdit, cxDropDownEdit, cxCalendar, cxLabel,
-  cxCheckBox;
+  cxCheckBox, cxSpinEdit;
 
 type
   TfrmLstTransferBarang = class(TfrmTplGrid)
@@ -38,7 +38,6 @@ type
     zqrTransBarangDet: TZReadOnlyQuery;
     dsTransBarangDet: TDataSource;
     cxTblTransBarangDet: TcxGridDBTableView;
-    cxTblTransBarangDetno: TcxGridDBColumn;
     cxTblTransBarangDetkode: TcxGridDBColumn;
     cxTblTransBarangDetdeskripsi: TcxGridDBColumn;
     cxTblTransBarangDetasal: TcxGridDBColumn;
@@ -79,13 +78,16 @@ var
   ts: TcxTabSheet;
 begin
   inherited;
-   if not fu.CekTabOpen('Edit Transfer Barang') then begin
+  MsgBox('Mohon maaf, modul ini belum bisa digunakan.');
+
+  if not fu.CekTabOpen('Edit Transfer Barang') then begin
     ts := TcxTabSheet.Create(Self);
     ts.PageControl := frmUtama.pgMain;
     f := TfrmInputTransferBarang.Create(Self);
+    f.TabSheet := Self.Parent as TcxTabSheet;
     f.FormInduk := Self;
     f.Jenis := 'E';
-    f.EditKey := zqrTransBarang.FieldByName('no_bukti').AsString;
+    f.EditKey := zqrTransBarang.FieldByName('id').AsString;
     f.Parent := ts;
     f.Caption := 'Edit Transfer Barang';
     ts.Caption := f.Caption;
@@ -119,12 +121,22 @@ var
   qd, q, qbrg: TZQuery;
 begin
   inherited;
+
+  q := OpenRS('SELECT f_posting FROM tbl_trsmutasi_head WHERE id = %d',
+    [zqrTransBarang.FieldByName('id').AsInteger]);
+  if (not q.IsEmpty) and (q.FieldByName('f_posting').AsInteger = 1) then begin
+    MsgBox('Transaksi sudah di terposting.');
+    q.Close;
+    Abort;
+  end;
+  q.Close;
+
   try
     dm.zConn.StartTransaction;
 
     Screen.Cursor := crSQLWait;
     q := OpenRS('SELECT * FROM tbl_history WHERE no_bukti = ''%s''',[zqrTransBarang.FieldByName('no_bukti').AsString]);
-    qd := OpenRS('SELECT * FROM tbl_trskeluar_det WHERE id_ref = ''%s''',[zqrTransBarang.FieldByName('id').AsString]);
+    qd := OpenRS('SELECT * FROM tbl_trsmutasi_det WHERE id_ref = ''%s''',[zqrTransBarang.FieldByName('id').AsString]);
 
     while not qd.Eof do begin
       with q do begin
@@ -146,7 +158,7 @@ begin
         FieldByName('tanggal').AsDateTime    := zqrTransBarang.FieldByName('tanggal').AsDateTime;
         FieldByName('kode_brg').AsString      := qd.FieldByName('kode_brg').AsString;
         FieldByName('id_brg').AsInteger       := qd.FieldByName('id_brg').AsInteger;
-        FieldByName('tipe').AsString          := 'o';
+        FieldByName('tipe').AsString          := 'i';
         FieldByName('qty').AsFloat            := qd.FieldByName('qty').AsInteger;
         FieldByName('id_gdg').AsInteger       := qd.FieldByName('id_gdg_tujuan').AsInteger;
         FieldByName('id_satuan').AsInteger    := qd.FieldByName('id_satuan').AsInteger;
@@ -223,6 +235,7 @@ begin
     ts.PageControl := frmUtama.pgMain;
 
     f := TfrmInputTransferBarang.Create(Self);
+    f.TabSheet := Self.Parent as TcxTabSheet;
     f.FormInduk := Self;
     f.Jenis := 'T';
     f.Parent := ts;
@@ -249,6 +262,8 @@ end;
 procedure TfrmLstTransferBarang.FormCreate(Sender: TObject);
 begin
   inherited;
+  Self.NamaMenu := 'mnWhl_Koreksi';
+  Self.TerapkanWewenang(Self.NamaMenu);
   zqrTransBarang.Open;
 end;
 

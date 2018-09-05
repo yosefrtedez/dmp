@@ -126,23 +126,30 @@ var
   i, id: Integer;
 begin
   inherited;
-  i := QBox(Self, 'Hapus Surat Jalan ?','Hapus');
+
+  if zqrSJ.IsEmpty then Abort;
+  
+  i := QBox(Self, 'Hapus Surat Jalan Nomor : ' + zqrSJ.FieldByName('no_bukti').AsString + ' ?','Hapus');
   if i = IDYES then begin
     try
       id := zqrSJ.FieldByName('id').AsInteger;
       dm.zConn.StartTransaction;
       dm.zConn.ExecuteDirect(Format('DELETE FROM tbl_sj_head WHERE id = %d',[id]));
       dm.zConn.ExecuteDirect(Format('DELETE FROM tbl_sj_det WHERE id_ref = %d',[id]));
-      dm.zConn.ExecuteDirect(Format('DELETE FROM tbl_history WHERE no_bukti = ''%s'' AND id_ref = %d',
-        [zqrSJ.FieldByName('no_bukti').AsString, id]));
+      dm.zConn.ExecuteDirect(Format('DELETE FROM tbl_history WHERE no_bukti = ''%s''',
+        [zqrSJ.FieldByName('no_bukti').AsString]));
       dm.zConn.Commit;
 
       MsgBox('Surat jalan dengan Nomor : ' + zqrSJ.FieldByname('no_bukti').AsString + ' sudah berhasil dihapus.');
+      MsgBox('Lakukan kalkulasi ulang stok dari menu Setting - Kalkulasi Ulang.');
 
       zqrSJ.Close;
       zqrSJ.Open;
     except
-
+      on E: Exception do begin
+        dm.zConn.Rollback;
+        MsgBox('Error: ' + E.Message);
+      end;
     end;
   end;
 end;
@@ -343,10 +350,6 @@ begin
   inherited;
   Self.TerapkanWewenang('mnMkt_SuratJalan');
   zqrSJ.Open;
-
-  btnHapus.Visible := False;
-  //btnEdit.Visible := False;
-
   cxColTblTrsMasukHeadno_bukti.SortOrder := soAscending;
 end;
 

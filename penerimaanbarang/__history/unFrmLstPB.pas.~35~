@@ -58,6 +58,9 @@ type
     cxtbPBHeadnama_supplier: TcxGridDBColumn;
     cxtbPBHeadColumn1: TcxGridDBColumn;
     cxtbPBDetColumn1: TcxGridDBColumn;
+    cxtbPBHeadColumn2: TcxGridDBColumn;
+    cxtbPBDetColumn2: TcxGridDBColumn;
+    cxtbPBHeadColumn3: TcxGridDBColumn;
     procedure btnTambahClick(Sender: TObject);
     procedure cxtbPBHeadFocusedRecordChanged(Sender: TcxCustomGridTableView;
       APrevFocusedRecord, AFocusedRecord: TcxCustomGridRecord;
@@ -90,6 +93,7 @@ begin
     ts := TcxTabSheet.Create(Self);
     ts.PageControl := frmUtama.pgMain;
     f := TfrmInputPB.Create(Self);
+    f.TabSheet := Self.Parent as TcxTabSheet;
     f.FormInduk := Self;
     MsgBox('Transaksi tidak hanya bisa dilihat, karena sudah di posting.');
     f.Jenis := 'E';
@@ -119,6 +123,7 @@ begin
     ts := TcxTabSheet.Create(Self);
     ts.PageControl := frmUtama.pgMain;
     f := TfrmInputPB.Create(Self);
+    f.TabSheet := Self.Parent as TcxTabSheet;
     f.FormInduk := Self;
     f.Jenis := 'T';
     f.Parent := ts;
@@ -144,6 +149,8 @@ end;
 procedure TfrmLstPB.FormCreate(Sender: TObject);
 begin
   inherited;
+  Self.NamaMenu := 'mnPur_PB';
+  Self.TerapkanWewenang(Self.NamaMenu);
   zqrPBHead.Open;
 end;
 

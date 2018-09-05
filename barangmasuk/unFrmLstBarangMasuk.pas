@@ -93,6 +93,8 @@ var
  q: TZQuery;
 begin
   inherited;
+  MsgBox('Mohon maaf, modul ini belum bisa digunakan.');
+  Abort;
   if not fu.CekTabOpen('Edit Barang Masuk') then begin
     ts := TcxTabSheet.Create(Self);
     ts.PageControl := frmUtama.pgMain;

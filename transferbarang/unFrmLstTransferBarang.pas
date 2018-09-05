@@ -78,7 +78,11 @@ var
   ts: TcxTabSheet;
 begin
   inherited;
-   if not fu.CekTabOpen('Edit Transfer Barang') then begin
+
+  MsgBox('Mohon maaf, modul ini belum bisa digunakan.');
+  Abort;
+
+  if not fu.CekTabOpen('Edit Transfer Barang') then begin
     ts := TcxTabSheet.Create(Self);
     ts.PageControl := frmUtama.pgMain;
     f := TfrmInputTransferBarang.Create(Self);

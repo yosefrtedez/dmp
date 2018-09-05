@@ -55,7 +55,7 @@ inherited frmInputTransferBarang: TfrmInputTransferBarang
   end
   object cxGrid1: TcxGrid
     Left = 8
-    Top = 152
+    Top = 148
     Width = 952
     Height = 216
     TabOrder = 7
@@ -204,13 +204,13 @@ inherited frmInputTransferBarang: TfrmInputTransferBarang
   end
   object cxLabel2: TcxLabel
     Left = 8
-    Top = 115
+    Top = 117
     Caption = 'Keterangan'
   end
   object cxtKeterangan: TcxTextEdit
     Tag = 1
     Left = 91
-    Top = 114
+    Top = 116
     Properties.ReadOnly = False
     TabOrder = 5
     Width = 462
