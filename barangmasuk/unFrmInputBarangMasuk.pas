@@ -81,7 +81,6 @@ var
 
 begin
 
-
   if (cxtbBarangMasuk.DataController.EditState = [dceInsert, dceModified]) or
     (cxtbBarangMasuk.DataController.EditState = [dceEdit, dceModified]) then begin
     MsgBox('Mohon selesaikan pengeditan detail sebelum disimpan.' + Chr(10) + Chr(13) +
@@ -152,7 +151,7 @@ begin
           end;
           qd.Post;
 
-          { 01/08
+          { 01/08 }
           with qhst do begin
             Insert;
             FieldByName('no_bukti').AsString := sNoBukti;
@@ -166,6 +165,8 @@ begin
             if not VarIsNull(Values[i, cxColKeterangan.Index]) then
               FieldByName('keterangan').AsString := Values[i, cxColKeterangan.Index];
             FieldByName('tgl_input').AsDateTime := Aplikasi.NowServer;
+            FieldByName('user').AsString := Aplikasi.NamaUser;
+            FieldByName('user_dept').AsString := Aplikasi.UserDept;
             Post;
           end;
 
@@ -190,16 +191,25 @@ begin
           qbrg.FieldByName('stok').AsFloat := qbrg.FieldByName('stok').AsFloat + Values[i, cxColQty.Index];
           qbrg.Post;
           qbrg.Close;
-          }
+
         end;
       end;
+      dm.zConn.ExecuteDirect(
+        Format('UPDATE tbl_trsmasuk_head SET f_posting = 1 WHERE id = %d',[ID])
+      );
       dm.zConn.Commit;
       qh.Close;
       qd.Close;
       Self.Jenis := '';
       MsgBox('Transaksi barang masuk sudah disimpan dengan No. Bukti : ' + sNoBukti);
-      if Assigned(Self.FormInduk) then
-        (Self.FormInduk as TfrmLstBarangMasuk).btnRefreshClick(nil);
+
+      if Assigned(Self.FormInduk) then begin
+        try
+          (Self.FormInduk as TfrmLstBarangMasuk).btnRefreshClick(nil);
+          (Self.FormInduk as TfrmLstBarangmasuk).zqrBarangMasuk.Last;
+        except
+        end;
+      end;
       btnBatalClick(nil);
       inherited;
     except

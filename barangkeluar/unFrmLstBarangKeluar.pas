@@ -299,6 +299,8 @@ end;
 procedure TfrmLstBarangKeluar.FormCreate(Sender: TObject);
 begin
   inherited;
+  Self.NamaMenu := 'mnWhl_BarangKeluar';
+  Self.TerapkanWewenang(Self.NamaMenu);
   zqrBarangKeluar.Open;
 end;
 

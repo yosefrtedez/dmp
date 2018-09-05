@@ -73,7 +73,7 @@ uses
 
 procedure TfrmInputTransferBarang.btnSimpanClick(Sender: TObject);
 var
-  q,z,qh : TZQuery;
+  q,z,qh, qbrg : TZQuery;
   i,id : Integer;
   sNoTrs : string;
 begin
@@ -131,9 +131,12 @@ begin
       dm.zConn.ExecuteDirect(Format('DELETE FROM tbl_trsmutasi_det WHERE id_ref = %d',[id]));
     end;
 
+    z := OpenRS('SELECT * FROM tbl_trsmutasi_det where id_ref = %d',[id]);
+    qh := OpenRS('SELECT * FROM tbl_history WHERE no_bukti = ''%s''', [sNoTrs]);
+
     with cxTblTransBarang.DataController  do begin
       for i := 0 to RecordCount -1 do begin
-        z := OpenRS('SELECT * FROM tbl_trsmutasi_det where no_bukti =''%s''',[sNoTrs]) ;
+
         z.Insert;
         z.FieldByName('id_ref').AsInteger         := id;
         z.FieldByName('no_bukti').AsString        := sNoTrs;
@@ -144,15 +147,49 @@ begin
         z.FieldByName('qty').AsFloat              := Values[i, cxColQty.Index];
         z.FieldByName('id_satuan').AsString       := Values[i, cxColIdSatuan.Index];
         z.Post;
-        z.Close;
 
         //Simpan tbl_history
-        {
         if Self.Jenis = 'T' then begin
+          with qh do begin
+            Insert;
+            FieldByName('id_ref').AsInteger := ID;
+            FieldByName('no_bukti').AsString      := sNoTrs;
+            FieldByName('tanggal').AsDateTime       := cxdTglTrs.Date;
+            FieldByName('kode_brg').AsString      := Values[i, cxColKode.index];
+            FieldByName('id_brg').AsInteger       := Values[i, cxColDeskripsi.index];
+            FieldByName('tipe').AsString          := 'o';
+            FieldByName('qty').AsFloat            := Values[i, cxColQty.Index];
+            FieldByName('id_gdg').AsInteger       := Values[i, cxColGudangAsal.Index];
+            FieldByName('id_satuan').AsInteger    := Values[i, cxColIdSatuan.Index];
+            FieldByName('user').AsString          := aplikasi.NamaUser;
+            FieldByName('tgl_input').AsDateTime   := aplikasi.TanggalServer;
+            FieldByname('user').AsString := Aplikasi.NamaUser;
+            FieldByname('user_dept').AsString := Aplikasi.UserDept;
+            Post;
 
+            Insert;
+            FieldByName('id_ref').AsInteger := ID;
+            FieldByName('no_bukti').AsString      := sNoTrs;
+            FieldByName('tanggal').AsDateTime       := cxdTglTrs.EditValue;
+            FieldByName('kode_brg').AsString      := Values[i, cxColKode.index];
+            FieldByName('id_brg').AsInteger       := Values[i, cxColDeskripsi.index];
+            FieldByName('tipe').AsString          := 'i';
+            FieldByName('qty').AsFloat            := Values[i, cxColQty.Index];
+            FieldByName('id_gdg').AsInteger       := Values[i, cxColGudangTujuan.Index];
+            FieldByName('id_satuan').AsInteger    := Values[i, cxColIdSatuan.Index];
+            FieldByName('user').AsString          := aplikasi.NamaUser;
+            FieldByName('tgl_input').AsDateTime   := aplikasi.TanggalServer;
+            FieldByname('user').AsString := Aplikasi.NamaUser;
+            FieldByname('user_dept').AsString := Aplikasi.UserDept;
+            Post;
+          end;
+        end
+        else begin
+          {
           qh := OpenRS('SELECT * FROM tbl_history WHERE no_bukti = ''%s''', [sNoTrs]);
           with qh do begin
             Insert;
+            FieldByName('id_ref').AsInteger := ID;
             FieldByName('no_bukti').AsString      := sNoTrs;
             FieldByName('tanggal').AsString       := cxdTglTrs.EditValue;
             FieldByName('kode_brg').AsString      := Values[i, cxColKode.index];
@@ -163,9 +200,12 @@ begin
             FieldByName('id_satuan').AsInteger    := Values[i, cxColIdSatuan.Index];
             FieldByName('user').AsString          := aplikasi.NamaUser;
             FieldByName('tgl_input').AsDateTime   := aplikasi.TanggalServer;
+            FieldByname('user').AsString := Aplikasi.NamaUser;
+            FieldByname('user_dept').AsString := Aplikasi.UserDept;
             Post;
 
             Insert;
+            FieldByName('id_ref').AsInteger := ID;
             FieldByName('no_bukti').AsString      := sNoTrs;
             FieldByName('tanggal').AsString       := cxdTglTrs.EditValue;
             FieldByName('kode_brg').AsString      := Values[i, cxColKode.index];
@@ -176,53 +216,36 @@ begin
             FieldByName('id_satuan').AsInteger    := Values[i, cxColIdSatuan.Index];
             FieldByName('user').AsString          := aplikasi.NamaUser;
             FieldByName('tgl_input').AsDateTime   := aplikasi.TanggalServer;
+            FieldByname('user').AsString := Aplikasi.NamaUser;
+            FieldByname('user_dept').AsString := Aplikasi.UserDept;
             Post;
           end;
 
           qh.Close;
-        end
-        else begin
-           qh := OpenRS('SELECT * FROM tbl_history WHERE no_bukti = ''%s''', [sNoTrs]);
-          with qh do begin
-            Insert;
-            FieldByName('no_bukti').AsString      := sNoTrs;
-            FieldByName('tanggal').AsString       := cxdTglTrs.EditValue;
-            FieldByName('kode_brg').AsString      := Values[i, cxColKode.index];
-            FieldByName('id_brg').AsInteger       := Values[i, cxColDeskripsi.index];
-            FieldByName('tipe').AsString          := 'o';
-            FieldByName('qty').AsFloat            := Values[i, cxColQty.Index];
-            FieldByName('id_gdg').AsInteger       := Values[i, cxColGudangAsal.Index];
-            FieldByName('id_satuan').AsInteger    := Values[i, cxColIdSatuan.Index];
-            FieldByName('user').AsString          := aplikasi.NamaUser;
-            FieldByName('tgl_input').AsDateTime   := aplikasi.TanggalServer;
-            Post;
-
-            Insert;
-            FieldByName('no_bukti').AsString      := sNoTrs;
-            FieldByName('tanggal').AsString       := cxdTglTrs.EditValue;
-            FieldByName('kode_brg').AsString      := Values[i, cxColKode.index];
-            FieldByName('id_brg').AsInteger       := Values[i, cxColDeskripsi.index];
-            FieldByName('tipe').AsString          := 'i';
-            FieldByName('qty').AsFloat            := Values[i, cxColQty.Index];
-            FieldByName('id_gdg').AsInteger       := Values[i, cxColGudangTujuan.Index];
-            FieldByName('id_satuan').AsInteger    := Values[i, cxColIdSatuan.Index];
-            FieldByName('user').AsString          := aplikasi.NamaUser;
-            FieldByName('tgl_input').AsDateTime   := aplikasi.TanggalServer;
-            Post;
-          end;
-
-          qh.Close;
-
-          end;
           }
+          end;
         end;
       end;
+      q.Close;
+      z.Close;
+      qh.Close;
+
+      dm.zConn.ExecuteDirect(
+        Format('UPDATE tbl_trsmutasi_head SET f_posting = 1 WHERE id = %d',[ID])
+      );
+
       dm.zConn.Commit;
 
       MsgBox('Mutasi Barang sudah disimpan dengan nomor : ' + sNoTrs);
+
       cxTblTransBarang.DataController.RecordCount := 0;
-      if Assigned(Self.FormInduk) then
-        (Self.FormInduk as TfrmLstTransferBarang).btnRefreshClick(nil);
+      if Assigned(Self.FormInduk) then begin
+        try
+          (Self.FormInduk as TfrmLstTransferBarang).btnRefreshClick(nil);
+          (Self.FormInduk as TfrmLstTransferBarang).zqrTransBarang.Last;
+        except
+        end;
+      end;
       btnBatalClick(nil);
 
       inherited;

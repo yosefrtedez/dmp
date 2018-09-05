@@ -119,6 +119,7 @@ inherited frmLstTransferBarang: TfrmLstTransferBarang
       Anchors = [akTop, akRight]
       Caption = 'Posting'
       TabOrder = 0
+      Visible = False
       OnClick = btnPostingClick
     end
   end

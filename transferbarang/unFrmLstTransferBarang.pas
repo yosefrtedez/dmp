@@ -260,6 +260,8 @@ end;
 procedure TfrmLstTransferBarang.FormCreate(Sender: TObject);
 begin
   inherited;
+  Self.NamaMenu := 'mnWhl_Koreksi';
+  Self.TerapkanWewenang(Self.NamaMenu);
   zqrTransBarang.Open;
 end;
 

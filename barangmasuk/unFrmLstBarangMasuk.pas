@@ -277,6 +277,8 @@ end;
 procedure TfrmLstBarangMasuk.FormCreate(Sender: TObject);
 begin
   inherited;
+  Self.NamaMenu := 'mnWhl_BarangMasuk';
+  Self.TerapkanWewenang(Self.NamaMenu);
   zqrBarangMasuk.Open;
 end;
 
