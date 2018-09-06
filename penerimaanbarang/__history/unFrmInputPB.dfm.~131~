@@ -3,7 +3,6 @@ inherited frmInputPB: TfrmInputPB
   ClientHeight = 739
   ClientWidth = 1172
   OnShow = FormShow
-  ExplicitTop = -58
   ExplicitWidth = 1172
   ExplicitHeight = 739
   PixelsPerInch = 96
@@ -287,6 +286,7 @@ inherited frmInputPB: TfrmInputPB
       DataController.Summary.SummaryGroups = <>
       DataController.OnBeforePost = cxtbPBDataControllerBeforePost
       DataController.OnRecordChanged = cxtbPBDataControllerRecordChanged
+      OptionsBehavior.FocusCellOnTab = True
       OptionsData.Inserting = False
       OptionsView.Navigator = True
       OptionsView.GroupByBox = False
@@ -481,8 +481,8 @@ inherited frmInputPB: TfrmInputPB
     Width = 177
   end
   object cxGrdPB2: TcxGrid
-    Left = 22
-    Top = 269
+    Left = 42
+    Top = 262
     Width = 1150
     Height = 293
     Anchors = [akLeft, akTop, akRight]
@@ -510,6 +510,7 @@ inherited frmInputPB: TfrmInputPB
       DataController.Summary.SummaryGroups = <>
       DataController.OnBeforePost = cxtbPB2DataControllerBeforePost
       DataController.OnRecordChanged = cxtbPB2DataControllerRecordChanged
+      OptionsBehavior.FocusCellOnTab = True
       OptionsData.Appending = True
       OptionsView.Navigator = True
       OptionsView.GroupByBox = False
@@ -605,6 +606,7 @@ inherited frmInputPB: TfrmInputPB
         Visible = False
       end
       object cxColIdSatuan22: TcxGridColumn
+        Visible = False
       end
     end
     object cxGridLevel1: TcxGridLevel

@@ -83,6 +83,10 @@ function GetSatuan(id_brg: Integer; var satuan: string): Integer;
 
 function GetKonversiSat(id_brg: Integer; id_satuan: Integer): Real;
 
+function GetDefaultAkunBrg(id_brg: integer; sJenis: string): Integer;
+
+function GetDefaultAkun(jenis: string): integer;
+
 implementation
 
 function LastInsertID: integer;
@@ -1366,6 +1370,29 @@ begin
     Result := 0
   else
     Result := q.FieldByName('qty').AsFloat;
+  q.Close;
+end;
+
+function GetDefaultAkunBrg(id_brg: integer; sJenis: string): Integer;
+var
+  sSQL: string;
+  q: TZQuery;
+begin
+  sSQL := 'SELECT idakun_' + sJenis + ' FROM tbl_barang WHERE id_brg = ' + IntToStr(id_brg);
+  q := OpenRS(sSQL);
+  if not q.IsEmpty then
+    Result := q.FieldByName('idakun_' + sJenis).AsInteger
+  else
+    Result := 0;
+  q.Close;
+end;
+
+function GetDefaultAkun(jenis: string): integer;
+var
+  q: TZQuery;
+begin
+  q := OpenRS('SELECT id_akun FROM tbl_akundefault WHERE jenis = ''%s''',[jenis]);
+  Result := q.FieldByName('id_akun').AsInteger;
   q.Close;
 end;
 

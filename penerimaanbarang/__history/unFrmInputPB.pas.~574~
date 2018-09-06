@@ -367,11 +367,11 @@ begin
 end;
 procedure TfrmInputPB.btnSimpanClick(Sender: TObject);
 var
-  sNoTrs: string;
-  q, qh,qd, hst, qbrg: TZQuery;
-  i, ID: Integer;
-  sAkhir, hppAkhir, hpp: real;
-  f0: boolean;
+  sNoTrs, sNoJ: string;
+  q, qh,qd, hst, qbrg, q_sa, qhpp, qpo, qjd: TZQuery;
+  i, ID, id_akun: Integer;
+  sAkhir, hppAkhir, hpp, hrg, totHutang: real;
+  f0, f_ppn: boolean;
   lstPOClose: TStringList;
 begin
 
@@ -483,10 +483,37 @@ begin
       end;
     end;
 
+    if Aplikasi.FAcc then begin
+      sNoJ := GetLastFak('jurnal');
+      UpdateFaktur(Copy(sNoJ,1,6));
+    end;
+
     if cxChkPosting.Checked then begin
       hst := OpenRS('SELECT * FROM tbl_history WHERE no_bukti = ''%s''',[sNoTrs]);
       with cxtbPB.DataController do begin
         for i := 0 to RecordCount - 1 do begin
+
+          if Aplikasi.FAcc then begin
+            q_sa := OpenRS('SELECT sf_get_stokakhir_all(%s) sa',[Values[i, cxColIdBrg.Index]]);
+            sAkhir := q_sa.FieldByName('sa').AsFloat;
+            q_sa.Close;
+
+            q_sa := OpenRS('SELECT sf_get_hpp(%s) hpp',[Values[i, cxColIdBrg.Index]]);
+            hppAkhir := q_sa.FieldByName('hpp').AsFloat;
+            q_sa.Close;
+
+            qpo := OpenRS('SELECT IFNULL(harga,0), ppn harga FROM tbl_po_det WHERE id_ref = %s AND id_brg = %s',
+              [Values[i, cxColIdPO.Index], Values[i, cxColIdBrg.Index]]);
+            hrg := qpo.FieldByName('harga').AsFloat;
+            f_ppn := False;
+            if qpo.FieldByName('PPN').AsString = 'PPN' then f_ppn := True;
+            
+            qpo.Close;
+
+            hpp := ((hppAkhir * sAkhir) + (Values[i, cxColQtyDatang.Index] * hrg)) /
+              (sAkhir + Values[i, cxColQtyDatang.Index]);
+          end;
+
           hst.Insert;
           hst.FieldByName('no_bukti').AsString := sNoTrs;
           hst.FieldByname('tanggal').AsDateTime := cxdTglDatang.Date;
@@ -498,16 +525,22 @@ begin
           hst.FieldByName('id_po').AsInteger := Values[i, cxColIdPO.Index];
           hst.FieldByName('id_pb').AsInteger := ID;
           hst.FieldByName('tipe').AsString := 'i';
-
-          sAkhir := GetStokAkhir(Values[i, cxColIdBrg.Index], Values[i, cxColGdg.Index]);
-          hppAkhir := GetHpp(Values[i, cxColIdBrg.Index], Values[i, cxColGdg.Index]);
-          hpp := ((hppAkhir * sAkhir) + (Values[i, cxColQtyDatang.Index] * Values[i, cxColHarga.Index])) /
-            (sAkhir + Values[i, cxColQtyDatang.Index]);
-          hst.FieldByName('avgcost').AsFloat := hpp;
-
           hst.FieldByName('user').AsString := Aplikasi.NamaUser;
           hst.FieldByName('user_dept').AsString := Aplikasi.UserDept;
           hst.FieldByName('tgl_input').AsDateTime := Aplikasi.NowServer;
+
+          if Aplikasi.FAcc then begin
+            hst.FieldByName('avgcost').AsFloat := hpp;
+            qhpp := OpenRS('SELECT * FROM tbl_hpp WHERE id_brg = %s',[Values[i, cxColIdBrg.Index]]);
+            if not qhpp.IsEmpty then
+              qhpp.Edit
+            else
+              qhpp.Insert;
+            qhpp.FieldByName('id_brg').AsInteger := Values[i, cxColIdBrg.Index];
+            qhpp.FieldByName('avg').AsFloat := hpp;
+            qhpp.Post;
+            qhpp.Close;
+          end;
 
           hst.Post;
 
@@ -530,6 +563,38 @@ begin
           qbrg.FieldByName('stok').AsFloat := qbrg.FieldByName('stok').AsFloat + Values[i, cxColQtyDatang.Index];
           qbrg.Post;
           qbrg.Close;
+
+          if Aplikasi.FAcc then begin
+            id_akun := GetDefaultAkunBrg(Values[i, cxColIdBrg.Index], 'persediaan');
+            qjd := OpenRS('SELECT * FROM tbl_jurnal_det WHERE no_jurnal = ''%s''',[sNoJ]);
+            qjd.Insert;
+            qjd.FieldByName('id_ref').AsInteger := ID;
+            qjd.FieldbyName('tanggal').AsDateTime := Aplikasi.TanggalServer;
+            qjd.FieldByName('no_jurnal').AsString := sNoJ;
+            qjd.FieldByName('no_trans').AsString := sNoTrs;
+            qjd.FieldByName('id_akun').AsInteger := id_akun;
+            qjd.FieldByName('debet').AsFloat := hrg * Values[i, cxColQtyDatang.Index];
+            totHutang := totHutang + qjd.FieldByName('debet').AsFloat;
+            qjd.FieldByName('keterangan').AsString := 'Penerimaan Barang : ' + sNoTrs;
+            qjd.FieldByName('dc').AsString := 'D';
+            qjd.Post;
+
+            if q_sd.FieldByName('pajak').AsString = 'PPN' then begin
+              totPPN := totPPN + ((q_sd.FieldByName('harga').AsFloat * q_sd.FieldByName('qty').AsFloat) * (10/100));
+              sAkun := GetDefaultAkun('ppnmasukanblmfaktur');
+              qjd.Insert;
+              qjd.FieldByName('tanggal').AsDateTime := Aplikasi.TanggalServer;
+              qjd.FieldByName('no_jurnal').AsString := sNoJ;
+              qjd.FieldByName('no_trans').AsString := sNoPB;
+              qjd.FieldByName('akun').AsString := sAkun;
+              qjd.FieldByName('debet').AsFloat := (q_sd.FieldByName('harga').AsFloat * q_sd.FieldByName('qty').AsFloat) * (10/100);
+              qjd.FieldByName('keterangan').AsString := 'PPN Masukan Belum Difakturkan';
+              qjd.FieldByName('dc').AsString := 'D';
+              qjd.Post;
+            end;
+
+          end;
+
         end;
       end;
       dm.zConn.ExecuteDirect(Format('UPDATE tbl_pb_head SET f_posted = 1 WHERE id = %d',[ID]));
@@ -544,8 +609,13 @@ begin
       MsgBox('PO : ' + lstPOClose.CommaText + ' sudah selesai.');
     end;
 
-    if Assigned(Self.FormInduk) then
+    if Assigned(Self.FormInduk) then begin
+      try
         (Self.FormInduk as TFrmLstPB).btnRefreshClick(nil);
+        (Self.FormInduk as TfrmLstPB).zqrPBHead.Last;
+      except
+      end;
+    end;
 
     btnBatalClick(nil);
 
@@ -575,10 +645,12 @@ begin
     while not q.Eof do begin
       a := q.FieldByName('qty').AsFloat;
       b := q.FIeldByName('qty_terima').AsFloat;
-      if CompareValue(a, b) = 0 then
+      if (CompareValue(a, b) = 0) or (CompareValue(a, b) = -1) then
         f := true
       else begin
         f := false;
+        Break;
+      end;
       q.Next;
     end;
     if f then begin

@@ -457,11 +457,11 @@ object frmLapSJ: TfrmLapSJ
           Width = 162.519790000000000000
           Height = 18.897650000000000000
           ShowHint = False
-          DataField = 'nopol'
+          DataField = 'sopir'
           DataSet = fdbSJ01
           DataSetName = 'fdbSJ01'
           Memo.UTF8W = (
-            '[fdbSJ01."nopol"]')
+            '[fdbSJ01."sopir"]')
         end
       end
       object GroupFooter1: TfrxGroupFooter
@@ -2468,11 +2468,11 @@ object frmLapSJ: TfrmLapSJ
           Width = 162.519790000000000000
           Height = 18.897650000000000000
           ShowHint = False
-          DataField = 'nopol'
+          DataField = 'sopir'
           DataSet = fdbSJ01
           DataSetName = 'fdbSJ01'
           Memo.UTF8W = (
-            '[fdbSJ01."nopol"]')
+            '[fdbSJ01."sopir"]')
         end
       end
       object GroupFooter1: TfrxGroupFooter

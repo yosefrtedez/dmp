@@ -3,7 +3,8 @@ inherited frmInputPB: TfrmInputPB
   ClientHeight = 739
   ClientWidth = 1172
   OnShow = FormShow
-  ExplicitTop = -41
+  ExplicitLeft = -194
+  ExplicitTop = -58
   ExplicitWidth = 1172
   ExplicitHeight = 739
   PixelsPerInch = 96
@@ -116,14 +117,14 @@ inherited frmInputPB: TfrmInputPB
   object cxdTglPO: TcxDateEdit
     Left = 682
     Top = 188
-    TabOrder = 26
+    TabOrder = 27
     Visible = False
     Width = 146
   end
   object cxdTglDatang: TcxDateEdit
     Left = 112
     Top = 143
-    TabOrder = 14
+    TabOrder = 15
     Width = 146
   end
   object cxtAlamat: TcxTextEdit
@@ -144,14 +145,14 @@ inherited frmInputPB: TfrmInputPB
     Left = 112
     Top = 170
     Properties.CharCase = ecUpperCase
-    TabOrder = 22
+    TabOrder = 23
     Width = 113
   end
   object cxtSopir: TcxTextEdit
     Left = 268
     Top = 170
     Properties.CharCase = ecUpperCase
-    TabOrder = 23
+    TabOrder = 24
     Width = 198
   end
   object cxgrpbx1: TcxGroupBox
@@ -210,7 +211,7 @@ inherited frmInputPB: TfrmInputPB
       '14 Hari'
       '30 Hari'
       '45 Hari')
-    TabOrder = 16
+    TabOrder = 17
     Visible = False
     Width = 198
   end
@@ -227,7 +228,7 @@ inherited frmInputPB: TfrmInputPB
     Properties.Items.Strings = (
       'IDR'
       'USD')
-    TabOrder = 17
+    TabOrder = 18
     Visible = False
     Width = 63
   end
@@ -246,13 +247,13 @@ inherited frmInputPB: TfrmInputPB
     Left = 112
     Top = 198
     Properties.CharCase = ecUpperCase
-    TabOrder = 28
+    TabOrder = 29
     Width = 464
   end
   object cxtRate: TcxTextEdit
     Left = 1033
     Top = 161
-    TabOrder = 18
+    TabOrder = 19
     Visible = False
     Width = 113
   end
@@ -262,7 +263,7 @@ inherited frmInputPB: TfrmInputPB
     Width = 1150
     Height = 293
     Anchors = [akLeft, akTop, akRight]
-    TabOrder = 30
+    TabOrder = 31
     object cxtbPB: TcxGridTableView
       NavigatorButtons.ConfirmDelete = False
       NavigatorButtons.Insert.Visible = False
@@ -287,6 +288,7 @@ inherited frmInputPB: TfrmInputPB
       DataController.Summary.SummaryGroups = <>
       DataController.OnBeforePost = cxtbPBDataControllerBeforePost
       DataController.OnRecordChanged = cxtbPBDataControllerRecordChanged
+      OptionsBehavior.FocusCellOnTab = True
       OptionsData.Inserting = False
       OptionsView.Navigator = True
       OptionsView.GroupByBox = False
@@ -481,12 +483,12 @@ inherited frmInputPB: TfrmInputPB
     Width = 177
   end
   object cxGrdPB2: TcxGrid
-    Left = 22
-    Top = 269
+    Left = 322
+    Top = 142
     Width = 1150
     Height = 293
     Anchors = [akLeft, akTop, akRight]
-    TabOrder = 31
+    TabOrder = 14
     object cxtbPB2: TcxGridTableView
       NavigatorButtons.ConfirmDelete = False
       NavigatorButtons.Insert.Visible = False
@@ -510,6 +512,7 @@ inherited frmInputPB: TfrmInputPB
       DataController.Summary.SummaryGroups = <>
       DataController.OnBeforePost = cxtbPB2DataControllerBeforePost
       DataController.OnRecordChanged = cxtbPB2DataControllerRecordChanged
+      OptionsBehavior.FocusCellOnTab = True
       OptionsData.Appending = True
       OptionsView.Navigator = True
       OptionsView.GroupByBox = False
@@ -605,6 +608,7 @@ inherited frmInputPB: TfrmInputPB
         Visible = False
       end
       object cxColIdSatuan22: TcxGridColumn
+        Visible = False
       end
     end
     object cxGridLevel1: TcxGridLevel

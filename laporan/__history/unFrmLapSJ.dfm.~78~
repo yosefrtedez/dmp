@@ -43,7 +43,7 @@ object frmLapSJ: TfrmLapSJ
       Width = 1000.000000000000000000
     end
     object Page1: TfrxReportPage
-      PaperWidth = 240.000000000000000000
+      PaperWidth = 210.000000000000000000
       PaperHeight = 138.000000000000000000
       PaperSize = 256
       LeftMargin = 5.000000000000000000
@@ -53,7 +53,7 @@ object frmLapSJ: TfrmLapSJ
       object MasterData1: TfrxMasterData
         Height = 22.677180000000000000
         Top = 298.582870000000000000
-        Width = 869.291900000000000000
+        Width = 755.906000000000000000
         DataSet = fdbSJ01
         DataSetName = 'fdbSJ01'
         KeepFooter = True
@@ -122,7 +122,7 @@ object frmLapSJ: TfrmLapSJ
         end
         object fdbSJ01ket_detail: TfrxMemoView
           Left = 540.472790000000000000
-          Width = 275.905690000000000000
+          Width = 215.433210000000000000
           Height = 18.897650000000000000
           ShowHint = False
           DataField = 'ket_detail'
@@ -135,10 +135,10 @@ object frmLapSJ: TfrmLapSJ
       object PageHeader1: TfrxPageHeader
         Height = 30.236240000000000000
         Top = 18.897650000000000000
-        Width = 869.291900000000000000
+        Width = 755.906000000000000000
         object Memo1: TfrxMemoView
           Top = 6.000000000000000000
-          Width = 823.937540000000000000
+          Width = 755.905487400000000000
           Height = 18.897650000000000000
           ShowHint = False
           Font.Charset = DEFAULT_CHARSET
@@ -152,7 +152,7 @@ object frmLapSJ: TfrmLapSJ
           ParentFont = False
         end
         object Memo28: TfrxMemoView
-          Left = 600.945270000000000000
+          Left = 559.370440000000000000
           Width = 196.535560000000000000
           Height = 18.897650000000000000
           ShowHint = False
@@ -184,7 +184,7 @@ object frmLapSJ: TfrmLapSJ
       object GroupHeader1: TfrxGroupHeader
         Height = 166.299205280000000000
         Top = 109.606370000000000000
-        Width = 869.291900000000000000
+        Width = 755.906000000000000000
         Condition = 'fdbSJ01."id"'
         KeepTogether = True
         object Memo2: TfrxMemoView
@@ -221,9 +221,9 @@ object frmLapSJ: TfrmLapSJ
           ParentFont = False
         end
         object fdbSJ01nama: TfrxMemoView
-          Left = 600.079160000000000000
-          Top = 22.677180000000000000
-          Width = 219.212740000000000000
+          Left = 467.795610000000000000
+          Top = 18.897650000000000000
+          Width = 287.244280000000000000
           Height = 18.897650000000000000
           ShowHint = False
           DataField = 'nama'
@@ -239,8 +239,7 @@ object frmLapSJ: TfrmLapSJ
           ParentFont = False
         end
         object Memo4: TfrxMemoView
-          Left = 505.590910000000000000
-          Top = 3.779530000000000000
+          Left = 373.307360000000000000
           Width = 94.488250000000000000
           Height = 18.897650000000000000
           ShowHint = False
@@ -254,8 +253,8 @@ object frmLapSJ: TfrmLapSJ
           ParentFont = False
         end
         object Memo5: TfrxMemoView
-          Left = 505.590910000000000000
-          Top = 22.677180000000000000
+          Left = 373.307360000000000000
+          Top = 18.897650000000000000
           Width = 94.488250000000000000
           Height = 18.897650000000000000
           ShowHint = False
@@ -269,9 +268,8 @@ object frmLapSJ: TfrmLapSJ
           ParentFont = False
         end
         object fdbSJ01tanggal: TfrxMemoView
-          Left = 600.079160000000000000
-          Top = 3.779530000000000000
-          Width = 219.212740000000000000
+          Left = 467.795610000000000000
+          Width = 287.244280000000000000
           Height = 18.897650000000000000
           ShowHint = False
           DataField = 'tanggal'
@@ -360,7 +358,7 @@ object frmLapSJ: TfrmLapSJ
         object Memo10: TfrxMemoView
           Left = 540.472790000000000000
           Top = 139.519790000000000000
-          Width = 275.905690000000000000
+          Width = 215.433210000000000000
           Height = 18.897650000000000000
           ShowHint = False
           Font.Charset = DEFAULT_CHARSET
@@ -390,7 +388,7 @@ object frmLapSJ: TfrmLapSJ
         object fdbSJ01no_sj: TfrxMemoView
           Left = 109.606370000000000000
           Top = 112.283550000000000000
-          Width = 400.630180000000000000
+          Width = 147.401670000000000000
           Height = 18.897650000000000000
           ShowHint = False
           DataField = 'no_bukti'
@@ -400,9 +398,9 @@ object frmLapSJ: TfrmLapSJ
             '[fdbSJ01."no_bukti"]')
         end
         object fdbSJ01alamat: TfrxMemoView
-          Left = 600.079160000000000000
-          Top = 41.574830000000000000
-          Width = 219.212740000000000000
+          Left = 467.795610000000000000
+          Top = 37.795300000000000000
+          Width = 287.244280000000000000
           Height = 18.897650000000000000
           ShowHint = False
           DataField = 'alamat'
@@ -412,9 +410,9 @@ object frmLapSJ: TfrmLapSJ
             '[fdbSJ01."alamat"]')
         end
         object fdbSJ01kota_1: TfrxMemoView
-          Left = 600.079160000000000000
-          Top = 60.472480000000000000
-          Width = 219.212740000000000000
+          Left = 467.795610000000000000
+          Top = 56.692950000000000000
+          Width = 287.244280000000000000
           Height = 18.897650000000000000
           ShowHint = False
           DataField = 'kota_1'
@@ -423,11 +421,53 @@ object frmLapSJ: TfrmLapSJ
           Memo.UTF8W = (
             '[fdbSJ01."kota_1"]')
         end
+        object Memo22: TfrxMemoView
+          Left = 374.173470000000000000
+          Top = 112.283550000000000000
+          Width = 64.252010000000000000
+          Height = 18.897650000000000000
+          ShowHint = False
+          Memo.UTF8W = (
+            'NOPOL : ')
+        end
+        object fdbSJ01nopol: TfrxMemoView
+          Left = 439.984540000000000000
+          Top = 112.283550000000000000
+          Width = 98.267780000000000000
+          Height = 18.897650000000000000
+          ShowHint = False
+          DataField = 'nopol'
+          DataSet = fdbSJ01
+          DataSetName = 'fdbSJ01'
+          Memo.UTF8W = (
+            '[fdbSJ01."nopol"]')
+        end
+        object Memo23: TfrxMemoView
+          Left = 542.929500000000000000
+          Top = 112.283550000000000000
+          Width = 45.354360000000000000
+          Height = 18.897650000000000000
+          ShowHint = False
+          Memo.UTF8W = (
+            'Sopir : ')
+        end
+        object Memo24: TfrxMemoView
+          Left = 590.063390000000000000
+          Top = 112.283550000000000000
+          Width = 162.519790000000000000
+          Height = 18.897650000000000000
+          ShowHint = False
+          DataField = 'sopir'
+          DataSet = fdbSJ01
+          DataSetName = 'fdbSJ01'
+          Memo.UTF8W = (
+            '[fdbSJ01."sopir"]')
+        end
       end
       object GroupFooter1: TfrxGroupFooter
         Height = 143.622047240000000000
         Top = 343.937230000000000000
-        Width = 869.291900000000000000
+        Width = 755.906000000000000000
         object Line3: TfrxLineView
           Top = 1.559060000000000000
           Width = 865.512370000000000000
@@ -723,7 +763,7 @@ object frmLapSJ: TfrmLapSJ
       Width = 1000.000000000000000000
     end
     object Page1: TfrxReportPage
-      PaperWidth = 240.000000000000000000
+      PaperWidth = 210.000000000000000000
       PaperHeight = 138.000000000000000000
       PaperSize = 256
       LeftMargin = 5.000000000000000000
@@ -733,7 +773,7 @@ object frmLapSJ: TfrmLapSJ
       object MasterData1: TfrxMasterData
         Height = 18.897650000000000000
         Top = 309.921460000000000000
-        Width = 869.291900000000000000
+        Width = 755.906000000000000000
         DataSet = fdbSJ01
         DataSetName = 'fdbSJ01'
         RowCount = 0
@@ -841,9 +881,9 @@ object frmLapSJ: TfrmLapSJ
       object PageHeader1: TfrxPageHeader
         Height = 30.236240000000000000
         Top = 18.897650000000000000
-        Width = 869.291900000000000000
+        Width = 755.906000000000000000
         object Memo1: TfrxMemoView
-          Width = 752.126470000000000000
+          Width = 755.906000000000000000
           Height = 30.236240000000000000
           ShowHint = False
           Font.Charset = DEFAULT_CHARSET
@@ -858,7 +898,7 @@ object frmLapSJ: TfrmLapSJ
           VAlign = vaCenter
         end
         object Memo28: TfrxMemoView
-          Left = 555.590910000000000000
+          Left = 559.370440000000000000
           Top = 0.779530000000000000
           Width = 196.535560000000000000
           Height = 18.897650000000000000
@@ -892,7 +932,7 @@ object frmLapSJ: TfrmLapSJ
       object GroupHeader1: TfrxGroupHeader
         Height = 177.637910000000000000
         Top = 109.606370000000000000
-        Width = 869.291900000000000000
+        Width = 755.906000000000000000
         Condition = 'fdbSJ01."id"'
         KeepTogether = True
         object Memo2: TfrxMemoView
@@ -929,7 +969,7 @@ object frmLapSJ: TfrmLapSJ
           ParentFont = False
         end
         object Memo4: TfrxMemoView
-          Left = 438.425480000000000000
+          Left = 415.370078740000000000
           Width = 94.488250000000000000
           Height = 18.897650000000000000
           ShowHint = False
@@ -943,7 +983,7 @@ object frmLapSJ: TfrmLapSJ
           ParentFont = False
         end
         object Memo5: TfrxMemoView
-          Left = 438.425480000000000000
+          Left = 415.370078740000000000
           Top = 18.897650000000000000
           Width = 94.488250000000000000
           Height = 18.897650000000000000
@@ -958,8 +998,8 @@ object frmLapSJ: TfrmLapSJ
           ParentFont = False
         end
         object fdbSJ01tanggal: TfrxMemoView
-          Left = 532.913730000000000000
-          Width = 219.212740000000000000
+          Left = 509.913730000000000000
+          Width = 245.669450000000000000
           Height = 18.897650000000000000
           ShowHint = False
           DataField = 'tanggal'
@@ -1109,9 +1149,9 @@ object frmLapSJ: TfrmLapSJ
             '[fdbSJ01."no_faktur"]')
         end
         object fdbSJ01nama_cust: TfrxMemoView
-          Left = 532.913730000000000000
+          Left = 509.913730000000000000
           Top = 18.897650000000000000
-          Width = 219.212740000000000000
+          Width = 245.669450000000000000
           Height = 18.897650000000000000
           ShowHint = False
           DataField = 'nama'
@@ -1121,10 +1161,10 @@ object frmLapSJ: TfrmLapSJ
             '[fdbSJ01."nama"]')
         end
         object fdbSJ01alamat: TfrxMemoView
-          Left = 532.913730000000000000
+          Left = 509.913730000000000000
           Top = 37.795300000000000000
-          Width = 219.212740000000000000
-          Height = 41.574830000000000000
+          Width = 245.669450000000000000
+          Height = 18.897650000000000000
           ShowHint = False
           DataField = 'alamat'
           DataSet = fdbSJ01
@@ -1133,9 +1173,9 @@ object frmLapSJ: TfrmLapSJ
             '[fdbSJ01."alamat"]')
         end
         object fdbSJ01kota: TfrxMemoView
-          Left = 532.913730000000000000
-          Top = 79.370130000000000000
-          Width = 219.212740000000000000
+          Left = 509.913730000000000000
+          Top = 56.692950000000000000
+          Width = 245.669450000000000000
           Height = 18.897650000000000000
           ShowHint = False
           DataField = 'kota'
@@ -1148,7 +1188,7 @@ object frmLapSJ: TfrmLapSJ
       object GroupFooter1: TfrxGroupFooter
         Height = 143.622140000000000000
         Top = 351.496290000000000000
-        Width = 869.291900000000000000
+        Width = 755.906000000000000000
         object Line3: TfrxLineView
           Top = 1.559060000000000000
           Width = 865.512370000000000000
@@ -1441,7 +1481,7 @@ object frmLapSJ: TfrmLapSJ
       Width = 1000.000000000000000000
     end
     object Page1: TfrxReportPage
-      PaperWidth = 240.000000000000000000
+      PaperWidth = 210.000000000000000000
       PaperHeight = 138.000000000000000000
       PaperSize = 256
       LeftMargin = 5.000000000000000000
@@ -1451,7 +1491,7 @@ object frmLapSJ: TfrmLapSJ
       object MasterData1: TfrxMasterData
         Height = 22.677180000000000000
         Top = 264.567100000000000000
-        Width = 869.291900000000000000
+        Width = 755.906000000000000000
         DataSet = fdbSJ01
         DataSetName = 'fdbSJ01'
         RowCount = 0
@@ -1559,7 +1599,7 @@ object frmLapSJ: TfrmLapSJ
       object PageHeader1: TfrxPageHeader
         Height = 30.236240000000000000
         Top = 18.897650000000000000
-        Width = 869.291900000000000000
+        Width = 755.906000000000000000
         object Memo1: TfrxMemoView
           Width = 752.125984250000000000
           Height = 30.236240000000000000
@@ -1608,12 +1648,12 @@ object frmLapSJ: TfrmLapSJ
       object GroupHeader1: TfrxGroupHeader
         Height = 132.196970000000000000
         Top = 109.606370000000000000
-        Width = 869.291900000000000000
+        Width = 755.906000000000000000
         Condition = 'fdbSJ01."id"'
         object fdbSJ01nama: TfrxMemoView
-          Left = 532.913730000000000000
+          Left = 509.913730000000000000
           Top = 22.677180000000000000
-          Width = 219.212740000000000000
+          Width = 245.669450000000000000
           Height = 18.897650000000000000
           ShowHint = False
           DataField = 'nama'
@@ -1629,7 +1669,7 @@ object frmLapSJ: TfrmLapSJ
           ParentFont = False
         end
         object Memo4: TfrxMemoView
-          Left = 438.425480000000000000
+          Left = 415.425480000000000000
           Top = 3.779530000000000000
           Width = 94.488250000000000000
           Height = 18.897650000000000000
@@ -1644,7 +1684,7 @@ object frmLapSJ: TfrmLapSJ
           ParentFont = False
         end
         object Memo5: TfrxMemoView
-          Left = 438.425480000000000000
+          Left = 415.425480000000000000
           Top = 22.677180000000000000
           Width = 94.488250000000000000
           Height = 18.897650000000000000
@@ -1659,9 +1699,9 @@ object frmLapSJ: TfrmLapSJ
           ParentFont = False
         end
         object fdbSJ01tanggal: TfrxMemoView
-          Left = 532.913730000000000000
+          Left = 509.913730000000000000
           Top = 3.779530000000000000
-          Width = 219.212740000000000000
+          Width = 245.669450000000000000
           Height = 18.897650000000000000
           ShowHint = False
           DataField = 'tanggal'
@@ -1817,10 +1857,10 @@ object frmLapSJ: TfrmLapSJ
           ParentFont = False
         end
         object fdbSJ01alamat: TfrxMemoView
-          Left = 532.913730000000000000
+          Left = 509.913730000000000000
           Top = 41.574830000000000000
-          Width = 219.212740000000000000
-          Height = 41.574830000000000000
+          Width = 245.669450000000000000
+          Height = 18.897650000000000000
           ShowHint = False
           DataField = 'alamat'
           DataSet = fdbSJ01
@@ -1829,22 +1869,22 @@ object frmLapSJ: TfrmLapSJ
             '[fdbSJ01."alamat"]')
         end
         object fdbSJ01kota: TfrxMemoView
-          Left = 532.913730000000000000
-          Top = 83.149660000000000000
-          Width = 219.212740000000000000
+          Left = 510.236550000000000000
+          Top = 60.472480000000000000
+          Width = 245.669450000000000000
           Height = 18.897650000000000000
           ShowHint = False
-          DataField = 'kota'
+          DataField = 'kota_1'
           DataSet = fdbSJ01
           DataSetName = 'fdbSJ01'
           Memo.UTF8W = (
-            '[fdbSJ01."kota"]')
+            '[fdbSJ01."kota_1"]')
         end
       end
       object GroupFooter1: TfrxGroupFooter
         Height = 143.622047240000000000
         Top = 309.921460000000000000
-        Width = 869.291900000000000000
+        Width = 755.906000000000000000
         object Line3: TfrxLineView
           Top = 0.559060000000000000
           Width = 865.512370000000000000
@@ -2040,7 +2080,7 @@ object frmLapSJ: TfrmLapSJ
       Width = 1000.000000000000000000
     end
     object Page1: TfrxReportPage
-      PaperWidth = 240.000000000000000000
+      PaperWidth = 210.000000000000000000
       PaperHeight = 138.000000000000000000
       PaperSize = 256
       LeftMargin = 5.000000000000000000
@@ -2050,7 +2090,7 @@ object frmLapSJ: TfrmLapSJ
       object MasterData1: TfrxMasterData
         Height = 22.677180000000000000
         Top = 298.582870000000000000
-        Width = 869.291900000000000000
+        Width = 755.906000000000000000
         DataSet = fdbSJ01
         DataSetName = 'fdbSJ01'
         KeepFooter = True
@@ -2133,10 +2173,10 @@ object frmLapSJ: TfrmLapSJ
       object PageHeader1: TfrxPageHeader
         Height = 30.236240000000000000
         Top = 18.897650000000000000
-        Width = 869.291900000000000000
+        Width = 755.906000000000000000
         object Memo1: TfrxMemoView
           Top = 3.779530000000000000
-          Width = 752.125984250000000000
+          Width = 755.905514250000000000
           Height = 18.897650000000000000
           ShowHint = False
           Font.Charset = DEFAULT_CHARSET
@@ -2150,7 +2190,7 @@ object frmLapSJ: TfrmLapSJ
           ParentFont = False
         end
         object Memo28: TfrxMemoView
-          Left = 555.590910000000000000
+          Left = 559.370440000000000000
           Width = 196.535560000000000000
           Height = 18.897650000000000000
           ShowHint = False
@@ -2182,12 +2222,12 @@ object frmLapSJ: TfrmLapSJ
       object GroupHeader1: TfrxGroupHeader
         Height = 166.299212600000000000
         Top = 109.606370000000000000
-        Width = 869.291900000000000000
+        Width = 755.906000000000000000
         Condition = 'fdbSJ01."id"'
         object fdbSJ01nama: TfrxMemoView
           Left = 532.913730000000000000
           Top = 22.677180000000000000
-          Width = 219.212740000000000000
+          Width = 222.992270000000000000
           Height = 18.897650000000000000
           ShowHint = False
           DataField = 'nama'
@@ -2235,7 +2275,7 @@ object frmLapSJ: TfrmLapSJ
         object fdbSJ01tanggal: TfrxMemoView
           Left = 532.913730000000000000
           Top = 3.779530000000000000
-          Width = 219.212740000000000000
+          Width = 222.992270000000000000
           Height = 18.897650000000000000
           ShowHint = False
           DataField = 'tanggal'
@@ -2354,7 +2394,7 @@ object frmLapSJ: TfrmLapSJ
         object fdbSJ01no_sj: TfrxMemoView
           Left = 109.606370000000000000
           Top = 111.283550000000000000
-          Width = 400.630180000000000000
+          Width = 234.330860000000000000
           Height = 18.897650000000000000
           ShowHint = False
           DataSet = fdbSJ01
@@ -2371,7 +2411,7 @@ object frmLapSJ: TfrmLapSJ
         object fdbSJ01alamat: TfrxMemoView
           Left = 532.913730000000000000
           Top = 41.574830000000000000
-          Width = 219.212740000000000000
+          Width = 222.992270000000000000
           Height = 18.897650000000000000
           ShowHint = False
           DataField = 'alamat'
@@ -2383,7 +2423,7 @@ object frmLapSJ: TfrmLapSJ
         object fdbSJ01kota_1: TfrxMemoView
           Left = 532.913730000000000000
           Top = 60.472480000000000000
-          Width = 219.212740000000000000
+          Width = 222.992270000000000000
           Height = 18.897650000000000000
           ShowHint = False
           DataField = 'kota_1'
@@ -2392,11 +2432,53 @@ object frmLapSJ: TfrmLapSJ
           Memo.UTF8W = (
             '[fdbSJ01."kota_1"]')
         end
+        object Memo22: TfrxMemoView
+          Left = 374.173470000000000000
+          Top = 111.283550000000000000
+          Width = 64.252010000000000000
+          Height = 18.897650000000000000
+          ShowHint = False
+          Memo.UTF8W = (
+            'NOPOL : ')
+        end
+        object fdbSJ01nopol: TfrxMemoView
+          Left = 439.984540000000000000
+          Top = 111.283550000000000000
+          Width = 98.267780000000000000
+          Height = 18.897650000000000000
+          ShowHint = False
+          DataField = 'nopol'
+          DataSet = fdbSJ01
+          DataSetName = 'fdbSJ01'
+          Memo.UTF8W = (
+            '[fdbSJ01."nopol"]')
+        end
+        object Memo23: TfrxMemoView
+          Left = 542.929500000000000000
+          Top = 111.283550000000000000
+          Width = 45.354360000000000000
+          Height = 18.897650000000000000
+          ShowHint = False
+          Memo.UTF8W = (
+            'Sopir : ')
+        end
+        object Memo24: TfrxMemoView
+          Left = 590.063390000000000000
+          Top = 111.283550000000000000
+          Width = 162.519790000000000000
+          Height = 18.897650000000000000
+          ShowHint = False
+          DataField = 'nopol'
+          DataSet = fdbSJ01
+          DataSetName = 'fdbSJ01'
+          Memo.UTF8W = (
+            '[fdbSJ01."nopol"]')
+        end
       end
       object GroupFooter1: TfrxGroupFooter
         Height = 143.622047240000000000
         Top = 343.937230000000000000
-        Width = 869.291900000000000000
+        Width = 755.906000000000000000
         object Line3: TfrxLineView
           Top = 0.559060000000000000
           Width = 865.512370000000000000

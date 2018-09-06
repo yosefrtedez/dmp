@@ -3,6 +3,7 @@ inherited frmInputPB: TfrmInputPB
   ClientHeight = 739
   ClientWidth = 1172
   OnShow = FormShow
+  ExplicitTop = -65
   ExplicitWidth = 1172
   ExplicitHeight = 739
   PixelsPerInch = 96
@@ -286,6 +287,7 @@ inherited frmInputPB: TfrmInputPB
       DataController.Summary.SummaryGroups = <>
       DataController.OnBeforePost = cxtbPBDataControllerBeforePost
       DataController.OnRecordChanged = cxtbPBDataControllerRecordChanged
+      OptionsBehavior.FocusCellOnTab = True
       OptionsData.Inserting = False
       OptionsView.Navigator = True
       OptionsView.GroupByBox = False
@@ -509,6 +511,7 @@ inherited frmInputPB: TfrmInputPB
       DataController.Summary.SummaryGroups = <>
       DataController.OnBeforePost = cxtbPB2DataControllerBeforePost
       DataController.OnRecordChanged = cxtbPB2DataControllerRecordChanged
+      OptionsBehavior.FocusCellOnTab = True
       OptionsData.Appending = True
       OptionsView.Navigator = True
       OptionsView.GroupByBox = False
