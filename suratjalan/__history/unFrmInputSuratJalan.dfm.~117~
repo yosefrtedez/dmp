@@ -114,6 +114,7 @@ inherited frmInputSuratJalan: TfrmInputSuratJalan
       DataController.Summary.SummaryGroups = <>
       DataController.OnAfterDelete = cxtbSJDataControllerAfterDelete
       DataController.OnBeforePost = cxtbSJDataControllerBeforePost
+      DataController.OnNewRecord = cxtbSJDataControllerNewRecord
       DataController.OnRecordChanged = cxtbSJDataControllerRecordChanged
       OptionsBehavior.FocusCellOnTab = True
       OptionsData.Appending = True
@@ -433,8 +434,8 @@ inherited frmInputSuratJalan: TfrmInputSuratJalan
     Width = 137
   end
   object cxgSJTanpaSO: TcxGrid
-    Left = 80
-    Top = 335
+    Left = 28
+    Top = 309
     Width = 1103
     Height = 211
     Anchors = [akLeft, akTop, akRight]
@@ -463,6 +464,7 @@ inherited frmInputSuratJalan: TfrmInputSuratJalan
       DataController.Summary.SummaryGroups = <>
       DataController.OnAfterPost = cxtbSJTanpaSODataControllerAfterPost
       DataController.OnBeforePost = cxtbSJTanpaSODataControllerBeforePost
+      DataController.OnNewRecord = cxtbSJTanpaSODataControllerNewRecord
       DataController.OnRecordChanged = cxtbSJTanpaSODataControllerRecordChanged
       OptionsBehavior.FocusCellOnTab = True
       OptionsData.Appending = True

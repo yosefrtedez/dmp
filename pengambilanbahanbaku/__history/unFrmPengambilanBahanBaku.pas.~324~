@@ -136,9 +136,9 @@ end;
 procedure TfrmPengambilanBahanBaku.cxtbBomDetDataControllerAfterPost(
   ADataController: TcxCustomDataController);
 var
-  q, qh: TZQuery;
-  i, j: integer;
-  sNoBukti: string;
+  q, qh, qjd: TZQuery;
+  i, j, id_akun, id: integer;
+  sNoBukti, sNoJ: string;
 begin
   inherited;
   try
@@ -166,10 +166,12 @@ begin
     q.FieldByName('user_dept').AsString := Aplikasi.UserDept;
     ADataController.Values[i, cxColStatus.Index] := 1;
     q.Post;
+    id := LastInsertID;
     q.Close;
 
     qh := OpenRS('SELECT * FROM tbl_history WHERE no_bukti = ''%s''',[sNoBukti]);
     qh.Insert;
+    qh.FieldByName('id_ref').AsInteger := id;
     qh.FieldByName('no_bukti').AsString := sNobukti;
     qh.FieldByName('tanggal').AsString :=  ADataController.Values[i, cxColTanggal.Index];
     qh.FieldByName('kode_brg').AsString := ADataController.Values[i, cxColKodeBrg3.Index];
@@ -196,10 +198,39 @@ begin
       q.Edit
     else
       q.Insert;
-    q.FieldByName('id_brg').AsInteger := cxtbBOM.DataController.Values[j, cxColIdBrg.Index];
+    q.FieldByName('id_brg').AsInteger := ADataController.Values[i, cxColKodeBrg2.Index];
     q.FieldByName('id_gdg').AsInteger := ADataController.Values[i, cxColGdg.Index];
     q.FieldByName('stok').AsFloat := q.FieldByName('stok').AsFloat - ADataController.Values[i, cxColQtyInput.Index];
     q.Post;
+
+    if Aplikasi.FAcc then begin
+      sNoJ := GetLastFak('jurnal');
+      UpdateFaktur(Copy(sNoJ,1,6));
+
+      id_akun := GetDefaultAkun('persediaan_dalam_proses');
+      qjd.Insert;
+      qjd.FieldByName('id_ref').AsInteger := id;
+      qjd.FieldbyName('tanggal').AsDateTime := Aplikasi.TanggalServer;
+      qjd.FieldByName('no_jurnal').AsString := sNoJ;
+      qjd.FieldByName('no_trans').AsString := sNoBukti;
+      qjd.FieldByName('id_akun').AsInteger := id_akun;
+      qjd.FieldByName('debet').AsFloat := ADataController.Values[i, cxColQtyInput.Index] *
+        GetHPP(ADataController.Values[i, cxColKodeBrg2.Index]);
+      qjd.FieldByName('dc').AsString := 'D';
+      qjd.Post;
+
+      sAkun := GetDefaultAkunBrg(KodeBrg, 'persediaan');
+      qjd.Insert;
+      qjd.FieldByName('tanggal').AsDateTime := Aplikasi.TanggalServer;
+      qjd.FieldByName('no_jurnal').AsString := sNoJ;
+      qjd.FieldByName('no_trans').AsString := sNoTrs;
+      qjd.FieldByName('akun').AsString := sAkun;
+      qjd.FieldByName('kredit').AsFloat := q.FieldByName('qty').AsFloat * GetHPP(q.FieldByName('kode_brg').AsString);
+      qjd.FieldByName('dc').AsString := 'K';
+      qjd.FieldByName('kode_brg').AsString := KodeBrg;
+      qjd.FieldByName('unit').AsString := GetUnitKTG(q.FieldByName('kode_brg').AsString);
+      qjd.Post;
+    end;
 
     dm.zConn.Commit;
 
@@ -298,11 +329,11 @@ begin
     end;
   end;
 
-  if AItemIndex = cxColDeskripsi.Index then begin
+  if AItemIndex = cxColDeskripsi2.Index then begin
     try
       cxtbBOMDet.BeginUpdate;
       q := OpenRS('SELECT a.*, b.satuan satuan2 FROM tbl_barang a LEFT JOIN tbl_satuan b ON a.id_satuan = b.id WHERE a.id = %s',
-        [ADataController.Values[ARecordIndex, cxColDeskripsi.Index]]);
+        [ADataController.Values[ARecordIndex, AItemIndex]]);
       ADataController.Values[ARecordIndex, cxColKodeBrg2.Index] := q.FieldByName('id').AsString;
       ADataController.Values[ARecordIndex, cxColSatuan2.Index] := q.FieldByName('satuan2').AsString;
       ADataController.Values[ARecordIndex, cxColIdSatuan2.Index] := q.FieldByname('id_satuan').AsInteger;
@@ -413,7 +444,9 @@ begin
     end;
     cxlbNoSPK.Caption := zqrSPK.FieldByName('no_spk').AsString;
 
-    q := OpenRS('SELECT * FROM tbl_trspengambilanbb WHERE id_spk = %s',[zqrSPK.FieldByName('id').AsString]);
+    q := OpenRS('SELECT a.*, b.satuan satuan2 FROM tbl_trspengambilanbb a ' +
+      'LEFT JOIN tbl_satuan b ON b.id = a.id_satuan ' +
+      'WHERE id_spk = %s',[zqrSPK.FieldByName('id').AsString]);
 
     cxtbBomDet.DataController.RecordCount := 0;
     cxtbBomDet.BeginUpdate;
@@ -427,6 +460,8 @@ begin
         Values[i, cxColQtyInput.Index] := q.FieldByname('qty').AsFloat;
         Values[i, cxColOperator.Index] := q.FieldByName('operator').AsString;
         Values[i, cxColGdg.Index] := q.FieldByName('id_gdg').AsInteger;
+        Values[i, cxColSatuan2.Index] := q.FieldByName('satuan2').AsString;
+        Values[i, cxColIdSatuan2.Index] := q.FieldByName('id_satuan').AsInteger;
         Values[i, cxColStatus.Index] := 1;
       end;
       q.Next;

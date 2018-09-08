@@ -120,9 +120,9 @@ end;
 procedure TfrmInputHasilProduksi.cxtbHslProdDataControllerAfterPost(
   ADataController: TcxCustomDataController);
 var
-  q, qh: TZQuery;
-  i, j: integer;
-  sNoBukti: string;
+  q, qh, qjd: TZQuery;
+  i, j, id_akun: integer;
+  sNoBukti, sNoJ: string;
   dt: TDateTime;
   yy, mm, dd : Word;
 begin

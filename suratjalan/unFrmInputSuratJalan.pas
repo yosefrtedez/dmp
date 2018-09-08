@@ -155,9 +155,9 @@ uses unDM, unTools, unFrmPilihSO, unFrmLstSuratJalan;
 
 procedure TfrmInputSuratJalan.btnSimpan2Click(Sender: TObject);
 var
-  q, qh, qd, qSatuan, qGdg, qhs, qbrg : TZQuery;
-  sNoBukti, sNoFaktur : string;
-  i, id : integer;
+  q, qh, qd, qSatuan, qGdg, qhs, qbrg, qjd : TZQuery;
+  sNoBukti, sNoFaktur, sNoJ : string;
+  i, id, id_akun : integer;
   f0: Boolean;
 begin
 
@@ -277,7 +277,7 @@ begin
 
           qbrg := OpenRS('SELECT * FROM tbl_barang WHERE id = %s',[Values[i, cxColKodeBrg2.Index]]);
           qbrg.Edit;
-          qbrg.FieldByName('stok').AsFloat := qbrg.FieldByName('stok').AsFloat - qd.FieldByName('qty').AsFloat;
+          qbrg.FieldByName('stok').AsFloat := qbrg.FieldByName('stok').AsFloat - Values[i, cxColQty2.Index];
           qbrg.Post;
           qbrg.Close;
 
@@ -291,9 +291,37 @@ begin
           end
           else
             qbrg.Edit;
-          qbrg.FieldByName('stok').AsFloat := qbrg.FieldByName('stok').AsFloat - qd.FieldByName('qty').AsFloat;
+          qbrg.FieldByName('stok').AsFloat := qbrg.FieldByName('stok').AsFloat - Values[i, cxColQty2.Index];
           qbrg.Post;
           qbrg.Close;
+
+          if Aplikasi.FAcc then begin
+
+            id_akun := GetDefaultAkunBrg(Values[i, cxColKodeBrg2.Index], 'hpp');
+            qjd := OpenRS('SELECT * FROM tbl_jurnal WHERE no_jurnal = ''%s''',[sNoJ]);
+            qjd.Insert;
+            qjd.FieldByname('id_ref').AsInteger := ID;
+            qjd.FieldByName('tanggal').AsDateTime := cxdTglDatang.Date;
+            qjd.FieldByName('no_jurnal').AsDateTime := sNoJ;
+            qjd.FieldByname('id_akun').AsInteger := id_akun;
+            qjd.FieldbyName('debet').AsFloat := GetHpp(Values[i, cxColKodeBrg2.Index]) * Values[i, cxColQty2.Index];
+            qjd.FieldByName('keterangan').AsString := 'Pengiriman Barang No. : ' + Values[i, cxColKodeBrg3.Index];
+            qjd.Post;
+
+            id_akun := GetDefaultAkunBrg(Values[i, cxColKodeBrg2.Index], 'persediaan');
+            qjd := OpenRS('SELECT * FROM tbl_jurnal WHERE no_jurnal = ''%s''',[sNoJ]);
+            qjd.Insert;
+            qjd.FieldByname('id_ref').AsInteger := ID;
+            qjd.FieldByName('tanggal').AsDateTime := cxdTglDatang.Date;
+            qjd.FieldByName('no_jurnal').AsDateTime := sNoJ;
+            qjd.FieldByname('id_akun').AsInteger := id_akun;
+            qjd.FieldbyName('kredit').AsFloat := GetHpp(Values[i, cxColKodeBrg2.Index]) * Values[i, cxColQty2.Index];
+            qjd.FieldByName('keterangan').AsString := 'Pengiriman Barang No. : ' + Values[i, cxColKodeBrg3.Index];
+            qjd.Post;
+
+            qjd.Close;
+
+          end;
 
         end;
       end;
@@ -331,9 +359,9 @@ end;
 
 procedure TfrmInputSuratJalan.btnSimpanClick(Sender: TObject);
 var
-  q, qh, qd, qSatuan, qGdg, qhs, qbrg : TZQuery;
-  sNoBukti, sNoFaktur : string;
-  i, id : integer;
+  q, qh, qd, qSatuan, qGdg, qhs, qbrg, qjd : TZQuery;
+  sNoBukti, sNoFaktur, sNoJ : string;
+  i, id, id_akun : integer;
   f0: Boolean;
 begin
 
@@ -402,6 +430,11 @@ begin
       qd := OpenRS('SELECT * FROM tbl_sj_det WHERE no_bukti = ''%s''',[sNoBukti]);
       qhs := OpenRS('SELECT * FROM tbl_history WHERE no_bukti = ''%s''',[sNoBukti]);
 
+      if Aplikasi.FAcc then begin
+        sNoJ := GetLastFak('jurnal');
+        UpdateFaktur(Copy(sNoJ,1,6));
+      end;
+
       with cxtbSJ.DataController do begin
         for i := 0 to RecordCount - 1 do begin
           qd.Insert;
@@ -450,7 +483,7 @@ begin
 
           qbrg := OpenRS('SELECT * FROM tbl_barang WHERE id = %s',[Values[i, cxColIdBrg.Index]]);
           qbrg.Edit;
-          qbrg.FieldByName('stok').AsFloat := qbrg.FieldByName('stok').AsFloat - qd.FieldByName('qty').AsFloat;
+          qbrg.FieldByName('stok').AsFloat := qbrg.FieldByName('stok').AsFloat - Values[i, cxColQty.Index];
           qbrg.Post;
           qbrg.Close;
 
@@ -464,9 +497,37 @@ begin
           end
           else
             qbrg.Edit;
-          qbrg.FieldByName('stok').AsFloat := qbrg.FieldByName('stok').AsFloat - qd.FieldByName('qty').AsFloat;
+          qbrg.FieldByName('stok').AsFloat := qbrg.FieldByName('stok').AsFloat - Values[i, cxColQty.Index];
           qbrg.Post;
           qbrg.Close;
+
+          if Aplikasi.FAcc then begin
+
+            id_akun := GetDefaultAkunBrg(Values[i, cxColIdBrg.Index], 'hpp');
+            qjd := OpenRS('SELECT * FROM tbl_jurnal WHERE no_jurnal = ''%s''',[sNoJ]);
+            qjd.Insert;
+            qjd.FieldByname('id_ref').AsInteger := ID;
+            qjd.FieldByName('tanggal').AsDateTime := cxdTglDatang.Date;
+            qjd.FieldByName('no_jurnal').AsDateTime := sNoJ;
+            qjd.FieldByname('id_akun').AsInteger := id_akun;
+            qjd.FieldbyName('debet').AsFloat := GetHpp(Values[i, cxColIdBrg.Index]) * Values[i, cxColQty.Index];
+            qjd.FieldByName('keterangan').AsString := 'Pengiriman Barang No. : ' + Values[i, cxColKodeBrg.Index];
+            qjd.Post;
+
+            id_akun := GetDefaultAkunBrg(Values[i, cxColIdBrg.Index], 'persediaan');
+            qjd := OpenRS('SELECT * FROM tbl_jurnal WHERE no_jurnal = ''%s''',[sNoJ]);
+            qjd.Insert;
+            qjd.FieldByname('id_ref').AsInteger := ID;
+            qjd.FieldByName('tanggal').AsDateTime := cxdTglDatang.Date;
+            qjd.FieldByName('no_jurnal').AsDateTime := sNoJ;
+            qjd.FieldByname('id_akun').AsInteger := id_akun;
+            qjd.FieldbyName('kredit').AsFloat := GetHpp(Values[i, cxColIdBrg.Index]) * Values[i, cxColQty.Index];
+            qjd.FieldByName('keterangan').AsString := 'Pengiriman Barang No. : ' + Values[i, cxColKodeBrg.Index];
+            qjd.Post;
+
+            qjd.Close;
+
+          end;
 
         end;
       end;

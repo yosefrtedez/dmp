@@ -75,6 +75,9 @@ type
     cxColQtyProdKG: TcxGridColumn;
     cxColIdBrg: TcxGridDBColumn;
     cxColIdSatBJ: TcxGridColumn;
+    cxtbSPKColumn5: TcxGridDBColumn;
+    cxtbSPKColumn6: TcxGridDBColumn;
+    cxtbSPKColumn7: TcxGridDBColumn;
     procedure btnProsesClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure cxtbHslProdDataControllerAfterPost(
@@ -147,6 +150,7 @@ begin
     q.FieldByName('id_mesin').AsInteger := ADataController.Values[i, cxColMesin.Index];
     q.FieldByName('operator').AsString := ADataController.Values[i, cxColOperator.Index];
     q.FieldByName('qty_prod').AsFloat := ADataController.Values[i, cxColQtyProd.Index];
+    q.FieldByName('qty_prod_kg').AsFloat := ADataController.Values[i, cxColQtyProdKG.Index];
     q.FieldByName('id_satuan').AsInteger := zqrSPK.FieldByName('id_satuan').AsInteger;
     q.FieldByName('id_gdg').AsInteger := ADataController.Values[i, cxColGdgBJ.Index];
     q.FieldByName('user').AsString := Aplikasi.NamaUser;
@@ -165,7 +169,8 @@ begin
     qh.FieldByName('kode_brg').AsString := zqrSPK.FieldByName('kode_brg').AsString;
     qh.FieldByName('id_brg').AsInteger := zqrSPK.FieldByName('id_brg').AsInteger;
     qh.FieldByName('qty').AsFloat := ADataController.Values[i, cxColQtyProd.Index];
-    qh.FieldByName('id_satuan').AsInteger := zqrSPK.FieldByName('id_satuan').AsInteger; 
+    //qh.FieldByName('id_satuan').AsInteger := zqrSPK.FieldByName('id_satuan').AsInteger;
+    qh.FieldByName('id_satuan').AsInteger := zqrSPK.FieldByName('id_satuan_bj').AsInteger;
     qh.FieldByName('id_gdg').AsInteger := ADataController.Values[i, cxColGdgBJ.Index];
     qh.FieldByName('id_spk').AsInteger := zqrSPK.FieldByName('id').AsInteger;
     qh.FieldByName('id_so').AsInteger := zqrSPK.FieldByName('id_so').AsInteger;
@@ -173,6 +178,7 @@ begin
     qh.FieldByName('tgl_input').AsDateTime := Aplikasi.NowServer;
     qh.FieldbyName('user').AsString := Aplikasi.NamaUser;
     qh.FieldByName('user_dept').AsString := Aplikasi.UserDept;
+    qh.FieldByName('tgl_input').AsDateTime := Aplikasi.NowServer;
     qh.Post;
     qh.Close;
 
@@ -251,6 +257,8 @@ begin
   q := OpenRS('SELECT id_satuan FROM tbl_barang WHERE id = %d',[zqrSPK.FieldByName('id_brg').AsInteger]);
   ADataController.Values[ARecordIndex, cxColSatBJ.Index] := q.FieldByName('id_satuan').AsInteger;
   q.Close;
+
+  ADataController.Values[ARecordIndex, cxColStatus.Index] := 0;
 end;
 
 procedure TfrmInputHasilProduksi.cxtbSPKFocusedRecordChanged(
@@ -276,8 +284,9 @@ begin
         Values[i, cxColMesin.Index] := q.FieldByName('id_mesin').AsInteger;
         Values[i, cxColOperator.Index] := q.FieldByName('operator').AsString;
         Values[i, cxColQtyProd.Index] := q.FieldByName('qty_prod').AsFloat;
-        Values[i, cxColSatBJ.Index] := zqrSPK.FieldByName('id_satuan').AsInteger;
+        Values[i, cxColSatBJ.Index] := zqrSPK.FieldByName('id_satuan_bj').AsInteger;
         Values[i, cxColGdgBJ.Index] := q.FieldByName('id_gdg').AsInteger;
+        Values[i, cxColQtyProdKG.Index] := q.FieldByName('qty_prod_kg').AsFloat;
         Values[i, cxColStatus.Index] := 1;
         q.Next;
       end;

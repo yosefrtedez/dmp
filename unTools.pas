@@ -76,7 +76,7 @@ function LastInsertID: Integer;
 function Terbilang(sValue: string): string;
 
 function GetStokAkhir(id_brg: integer; id_gdg: Integer): real;
-function GetHpp(id_brg: integer; id_gdg: Integer): real;
+function GetHpp(id_brg: integer): real;
 function CheckWewenang(sNamaWewenang, sNamaUser: string): Boolean;
 
 function GetSatuan(id_brg: Integer; var satuan: string): Integer;
@@ -1323,11 +1323,11 @@ begin
   q.Close;
 end;
 
-function GetHpp(id_brg: integer; id_gdg: Integer): real;
+function GetHpp(id_brg: integer): real;
 var
   q: TZQuery;
 begin
-  q := OpenRS('SELECT sf_get_hpp(%d,%d) hpp',[id_brg, id_gdg]);
+  q := OpenRS('SELECT sf_get_hpp(%d) hpp',[id_brg]);
   Result := q.FieldByName('hpp').AsFloat;
   q.Close;
 end;
