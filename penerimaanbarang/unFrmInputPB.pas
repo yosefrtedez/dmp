@@ -600,6 +600,20 @@ begin
       dm.zConn.ExecuteDirect(Format('UPDATE tbl_pb_head SET f_posted = 1 WHERE id = %d',[ID]));
     end;
 
+    if Aplikasi.FAcc then begin
+      id_akun := GetDefaultAkun('hutangbelum');
+      qjd.Insert;
+      qjd.FieldByName('tanggal').AsDateTime := Aplikasi.TanggalServer;
+      qjd.FieldByName('no_jurnal').AsString := sNoJ;
+      qjd.FieldByName('no_trans').AsString := sNoTrs;
+      qjd.FieldByName('id_akun').AsInteger := id_akun;
+      qjd.FieldByName('kredit').AsFloat := totHutang + totPPN;
+      qjd.FieldByName('keterangan').AsString := '';
+      qjd.FieldByName('dc').AsString := 'K';
+      qjd.Post;
+      qjd.Close;
+    end;
+
     dm.zConn.Commit;
 
     MsgBox('Penerimaan barang sudah disimpan dengan nomor: ' + sNoTrs);

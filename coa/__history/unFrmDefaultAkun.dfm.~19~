@@ -43,7 +43,6 @@ inherited frmDefaultAkun: TfrmDefaultAkun
       end
       object cxColNamaAkun: TcxGridColumn
         Caption = 'Nama Akun'
-        DataBinding.ValueType = 'Integer'
         PropertiesClassName = 'TcxLookupComboBoxProperties'
         Properties.KeyFieldNames = 'id'
         Properties.ListColumns = <
@@ -56,7 +55,6 @@ inherited frmDefaultAkun: TfrmDefaultAkun
       end
       object cxColNoAkun: TcxGridColumn
         Caption = 'No. Akun'
-        DataBinding.ValueType = 'Integer'
         PropertiesClassName = 'TcxLookupComboBoxProperties'
         Properties.KeyFieldNames = 'id'
         Properties.ListColumns = <
@@ -65,7 +63,6 @@ inherited frmDefaultAkun: TfrmDefaultAkun
             FieldName = 'noakun'
           end>
         Properties.ListSource = dsDefaultAkun
-        Properties.ReadOnly = True
         Width = 129
       end
       object cxColID: TcxGridColumn

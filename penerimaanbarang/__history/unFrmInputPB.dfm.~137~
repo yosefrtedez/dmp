@@ -481,8 +481,8 @@ inherited frmInputPB: TfrmInputPB
     Width = 177
   end
   object cxGrdPB2: TcxGrid
-    Left = 22
-    Top = 269
+    Left = 50
+    Top = 270
     Width = 1150
     Height = 293
     Anchors = [akLeft, akTop, akRight]

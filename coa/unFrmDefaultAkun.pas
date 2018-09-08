@@ -56,12 +56,11 @@ var
   q: TZQuery;
   i: integer;
 begin
-  inherited;
   with cxtbDefaultAkun.DataController do begin
     for i := 0 to RecordCount - 1 do begin
-      q := OpenRS('SELECT * FROM tbl_default_akun WHERE id = %s', [VarToStr(Values[i, cxColID.Index])]);
+      q := OpenRS('SELECT * FROM tbl_akundefault WHERE id = %s', [VarToStr(Values[i, cxColID.Index])]);
       q.Edit;
-      q.FieldByName('noakun').AsString := Values[i, cxColNoAkun.Index];
+      q.FieldByName('id_akun').AsString := Values[i, cxColNamaAkun.Index];
       q.Post;
       q.Close;
       q.Free;
@@ -92,13 +91,13 @@ var
   i: integer;
 begin
   inherited;
-  q := OpenRS('SELECT * FROM tbl_default_akun');
+  q := OpenRS('SELECT a.*, b.nama nama_akun FROM tbl_akundefault a LEFT JOIN tbl_coa b on a.id_akun = b.id');
   while not q.Eof do begin
     with cxtbDefaultAkun.DataController do begin
       i := AppendRecord;
       Values[i, cxColJenis.Index] := q.FieldByName('nama').AsString;
-      Values[i, cxColNamaAkun.Index] := q.FieldByName('noakun').AsString;
-      Values[i, cxColNoAkun.Index] := q.FieldByName('noakun').AsString;
+      Values[i, cxColNamaAkun.Index] := q.FieldByName('id_akun').AsInteger;
+      Values[i, cxColNoAkun.Index] := q.FieldByName('id_akun').AsInteger;
       Values[i, cxColID.Index] := q.FieldByName('id').Value;
     end;
     q.Next;

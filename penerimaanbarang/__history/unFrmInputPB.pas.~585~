@@ -370,7 +370,7 @@ var
   sNoTrs, sNoJ: string;
   q, qh,qd, hst, qbrg, q_sa, qhpp, qpo, qjd: TZQuery;
   i, ID, id_akun: Integer;
-  sAkhir, hppAkhir, hpp, hrg, totHutang: real;
+  sAkhir, hppAkhir, hpp, hrg, totHutang, totPPN: real;
   f0, f_ppn: boolean;
   lstPOClose: TStringList;
 begin
@@ -505,8 +505,9 @@ begin
             qpo := OpenRS('SELECT IFNULL(harga,0), ppn harga FROM tbl_po_det WHERE id_ref = %s AND id_brg = %s',
               [Values[i, cxColIdPO.Index], Values[i, cxColIdBrg.Index]]);
             hrg := qpo.FieldByName('harga').AsFloat;
+
+            f_ppn := False;
             if qpo.FieldByName('PPN').AsString = 'PPN' then f_ppn := True;
-            
             qpo.Close;
 
             hpp := ((hppAkhir * sAkhir) + (Values[i, cxColQtyDatang.Index] * hrg)) /
@@ -578,15 +579,15 @@ begin
             qjd.FieldByName('dc').AsString := 'D';
             qjd.Post;
 
-            if q_sd.FieldByName('pajak').AsString = 'PPN' then begin
-              totPPN := totPPN + ((q_sd.FieldByName('harga').AsFloat * q_sd.FieldByName('qty').AsFloat) * (10/100));
-              sAkun := GetDefaultAkun('ppnmasukanblmfaktur');
+            if f_ppn then begin
+              totPPN := totPPN + ((hrg * Values[i, cxColQtyDatang.Index]) * (10/100));
+              id_akun := GetDefaultAkun('ppnmasukanblmfaktur');
               qjd.Insert;
               qjd.FieldByName('tanggal').AsDateTime := Aplikasi.TanggalServer;
               qjd.FieldByName('no_jurnal').AsString := sNoJ;
-              qjd.FieldByName('no_trans').AsString := sNoPB;
-              qjd.FieldByName('akun').AsString := sAkun;
-              qjd.FieldByName('debet').AsFloat := (q_sd.FieldByName('harga').AsFloat * q_sd.FieldByName('qty').AsFloat) * (10/100);
+              qjd.FieldByName('no_trans').AsString := sNoTrs;
+              qjd.FieldByName('id_akun').AsInteger := id_akun;
+              qjd.FieldByName('debet').AsFloat := (hrg * Values[i, cxColQtyDatang.Index]) * (10/100);
               qjd.FieldByName('keterangan').AsString := 'PPN Masukan Belum Difakturkan';
               qjd.FieldByName('dc').AsString := 'D';
               qjd.Post;
@@ -597,6 +598,10 @@ begin
         end;
       end;
       dm.zConn.ExecuteDirect(Format('UPDATE tbl_pb_head SET f_posted = 1 WHERE id = %d',[ID]));
+    end;
+
+    if Aplikasi.FAcc then begin
+
     end;
 
     dm.zConn.Commit;

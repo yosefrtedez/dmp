@@ -59,7 +59,7 @@ begin
   inherited;
   with cxtbDefaultAkun.DataController do begin
     for i := 0 to RecordCount - 1 do begin
-      q := OpenRS('SELECT * FROM tbl_default_akun WHERE id = %s', [i, cxColID.Index]);
+      q := OpenRS('SELECT * FROM tbl_default_akun WHERE id = %s', [VarToStr(Values[i, cxColID.Index])]);
       q.Edit;
       q.FieldByName('noakun').AsString := Values[i, cxColNoAkun.Index];
       q.Post;
@@ -67,6 +67,9 @@ begin
       q.Free;
     end;
   end;
+
+  MsgBox('Setting default akun sudah disimpan.');
+
 end;
 
 procedure TfrmDefaultAkun.cxtbDefaultAkunDataControllerRecordChanged(
