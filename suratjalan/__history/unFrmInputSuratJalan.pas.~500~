@@ -202,7 +202,7 @@ begin
         ID := qh.FieldByName('id').AsInteger;
         dm.zConn.ExecuteDirect(Format('DELETE FROM tbl_sj_det WHERE id_ref = %s',[Self.EditKey]));
         dm.zConn.ExecuteDirect(Format('DELETE FROM tbl_history WHERE id_ref = %s AND LEFT(no_bukti,2) = ''SJ''',
-          [Self.EditKey])
+          [])
         );
       end;
 
@@ -229,11 +229,6 @@ begin
 
       qd := OpenRS('SELECT * FROM tbl_sj_det WHERE no_bukti = ''%s''',[sNoBukti]);
       qhs := OpenRS('SELECT * FROM tbl_history WHERE no_bukti = ''%s''',[sNoBukti]);
-
-      if Aplikasi.FAcc then begin
-        sNoJ := GetLastFak('faktur');
-        UpdateFaktur(Copy(sNoJ,1,6));
-      end;
 
       with cxtbSJTanpaSO.DataController do begin
         for i := 0 to RecordCount - 1 do begin
@@ -310,7 +305,7 @@ begin
             qjd.Insert;
             qjd.FieldByname('id_ref').AsInteger := ID;
             qjd.FieldByName('tanggal').AsDateTime := cxdTglDatang.Date;
-            qjd.FieldByName('no_jurnal').AsString := sNoJ;
+            qjd.FieldByName('no_jurnal').AsDateTime := sNoJ;
             qjd.FieldByname('id_akun').AsInteger := id_akun;
             qjd.FieldbyName('debet').AsFloat := GetHpp(Values[i, cxColKodeBrg2.Index]) * Values[i, cxColQty2.Index];
             qjd.FieldByName('keterangan').AsString := 'Pengiriman Barang No. : ' + Values[i, cxColKodeBrg3.Index];
@@ -321,7 +316,7 @@ begin
             qjd.Insert;
             qjd.FieldByname('id_ref').AsInteger := ID;
             qjd.FieldByName('tanggal').AsDateTime := cxdTglDatang.Date;
-            qjd.FieldByName('no_jurnal').AsString := sNoJ;
+            qjd.FieldByName('no_jurnal').AsDateTime := sNoJ;
             qjd.FieldByname('id_akun').AsInteger := id_akun;
             qjd.FieldbyName('kredit').AsFloat := GetHpp(Values[i, cxColKodeBrg2.Index]) * Values[i, cxColQty2.Index];
             qjd.FieldByName('keterangan').AsString := 'Pengiriman Barang No. : ' + Values[i, cxColKodeBrg3.Index];
@@ -519,7 +514,7 @@ begin
             qjd.Insert;
             qjd.FieldByname('id_ref').AsInteger := ID;
             qjd.FieldByName('tanggal').AsDateTime := cxdTglDatang.Date;
-            qjd.FieldByName('no_jurnal').AsString := sNoJ;
+            qjd.FieldByName('no_jurnal').AsDateTime := sNoJ;
             qjd.FieldByname('id_akun').AsInteger := id_akun;
             qjd.FieldbyName('debet').AsFloat := GetHpp(Values[i, cxColIdBrg.Index]) * Values[i, cxColQty.Index];
             qjd.FieldByName('keterangan').AsString := 'Pengiriman Barang No. : ' + Values[i, cxColKodeBrg.Index];
@@ -530,7 +525,7 @@ begin
             qjd.Insert;
             qjd.FieldByname('id_ref').AsInteger := ID;
             qjd.FieldByName('tanggal').AsDateTime := cxdTglDatang.Date;
-            qjd.FieldByName('no_jurnal').AsString := sNoJ;
+            qjd.FieldByName('no_jurnal').AsDateTime := sNoJ;
             qjd.FieldByname('id_akun').AsInteger := id_akun;
             qjd.FieldbyName('kredit').AsFloat := GetHpp(Values[i, cxColIdBrg.Index]) * Values[i, cxColQty.Index];
             qjd.FieldByName('keterangan').AsString := 'Pengiriman Barang No. : ' + Values[i, cxColKodeBrg.Index];

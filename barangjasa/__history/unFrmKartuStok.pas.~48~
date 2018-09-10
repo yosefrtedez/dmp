@@ -86,8 +86,7 @@ begin
   if DecimalSeparator = '.' then
     s := StringReplace(s,',','.',[rfReplaceall])
   else if DecimalSeparator = ',' then begin
-    s := StringReplace(s,'.','',[rfReplaceAll]);
-    s := StringReplace(s,',','.',[rfReplaceAll]);
+    s := StringReplace(s,',','',[rfReplaceAll]);
   end;
   q.SQL.Text := Format('call sp_kartustok(%d, %s, %s, ''%s'', ''%s'')',
     [mIdBrg, cxlGdg.EditValue, s, FormatDateTime('yyyy-mm-dd', cxdTgl1.Date), FormatDateTime('yyyy-mm-dd', cxdTgl2.Date)]);

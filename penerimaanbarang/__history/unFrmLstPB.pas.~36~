@@ -89,15 +89,15 @@ var
   ts: TcxTabSheet;
 begin
   inherited;
-  //MsgBox('Mohon maaf, modul ini belum bisa digunakan.');
-  //Abort;
+  MsgBox('Mohon maaf, modul ini belum bisa digunakan.');
+  Abort;
   if not fu.CekTabOpen('Edit Penerimaan Barang') then begin
     ts := TcxTabSheet.Create(Self);
     ts.PageControl := frmUtama.pgMain;
     f := TfrmInputPB.Create(Self);
     f.TabSheet := Self.Parent as TcxTabSheet;
     f.FormInduk := Self;
-    //MsgBox('Transaksi tidak hanya bisa dilihat, karena sudah di posting.');
+    MsgBox('Transaksi tidak hanya bisa dilihat, karena sudah di posting.');
     f.Jenis := 'E';
     f.EditKey := zqrPBHead.FieldByName('id').AsString;
     f.Parent := ts;

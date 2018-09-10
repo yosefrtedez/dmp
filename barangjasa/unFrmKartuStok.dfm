@@ -158,7 +158,6 @@ object frmKartuStok: TfrmKartuStok
   end
   object zqrGdg: TZReadOnlyQuery
     Connection = DM.zConn
-    Active = True
     SQL.Strings = (
       'SELECT id, nama FROM tbl_gudang')
     Params = <>

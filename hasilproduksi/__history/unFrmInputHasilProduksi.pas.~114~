@@ -203,7 +203,7 @@ begin
       UpdateFaktur(Copy(sNoJ,1,6));
 
       qjd := OpenRS('SELECT * FROM tbl_jurnal WHERE no_jurnal = ''%s''',[sNoJ]);
-      id_akun := GetDefaultAkunBrg(zqrSPK.FieldByName('id_brg').AsInteger, 'persediaan');
+      id_akun := GetDefaultAkunBrg('persediaan');
       qjd.Insert;
       //qjd.FieldByName('id_ref').AsInteger := id;
       qjd.FieldbyName('tanggal').AsDateTime := Aplikasi.TanggalServer;
@@ -215,12 +215,12 @@ begin
       qjd.FieldByName('dc').AsString := 'D';
       qjd.Post;
 
-      id_akun := GetDefaultAkun('persediaan_dalam_proses');
+      id_akun := GetDefaultAkunBrg(ADataController.Values[i, cxColKodeBrg2.Index], 'persediaan');
       qjd.Insert;
       qjd.FieldByName('tanggal').AsDateTime := Aplikasi.TanggalServer;
       qjd.FieldByName('no_jurnal').AsString := sNoJ;
       qjd.FieldByName('no_trans').AsString := sNoBukti;
-      qjd.FieldByName('akun').AsInteger := id_akun;
+      qjd.FieldByName('akun').AsString := id_akun;
       qjd.FieldByName('kredit').AsFloat := ADataController.Values[i, cxColQtyProd.Index] *
         GetHPP(zqrSPK.FieldByName('id_brg').AsInteger);
       qjd.FieldByName('dc').AsString := 'K';

@@ -220,7 +220,7 @@ begin
       qjd.FieldByName('tanggal').AsDateTime := Aplikasi.TanggalServer;
       qjd.FieldByName('no_jurnal').AsString := sNoJ;
       qjd.FieldByName('no_trans').AsString := sNoBukti;
-      qjd.FieldByName('akun').AsInteger := id_akun;
+      qjd.FieldByName('akun').AsString := id_akun;
       qjd.FieldByName('kredit').AsFloat := ADataController.Values[i, cxColQtyProd.Index] *
         GetHPP(zqrSPK.FieldByName('id_brg').AsInteger);
       qjd.FieldByName('dc').AsString := 'K';

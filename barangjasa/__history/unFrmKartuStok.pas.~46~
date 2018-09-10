@@ -83,12 +83,7 @@ begin
 
   //q.Properties.Add('checkparam=false');
   s := FormatFloat('#,#0.00', sa);
-  if DecimalSeparator = '.' then
-    s := StringReplace(s,',','.',[rfReplaceall])
-  else if DecimalSeparator = ',' then begin
-    s := StringReplace(s,'.','',[rfReplaceAll]);
-    s := StringReplace(s,',','.',[rfReplaceAll]);
-  end;
+  s := StringReplace(s,',','.',[rfReplaceall]);
   q.SQL.Text := Format('call sp_kartustok(%d, %s, %s, ''%s'', ''%s'')',
     [mIdBrg, cxlGdg.EditValue, s, FormatDateTime('yyyy-mm-dd', cxdTgl1.Date), FormatDateTime('yyyy-mm-dd', cxdTgl2.Date)]);
   // MsgBox(q.SQL.Text);

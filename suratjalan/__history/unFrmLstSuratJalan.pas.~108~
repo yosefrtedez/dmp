@@ -97,15 +97,15 @@ var
  q: TZQuery;
 begin
   inherited;
-  //MsgBox('Mohon maaf, modul ini belum bisa digunakan.');
-  //Abort;
+  MsgBox('Mohon maaf, modul ini belum bisa digunakan.');
+  Abort;
   if not fu.CekTabOpen('Edit Surat Jalan') then begin
     ts := TcxTabSheet.Create(Self);
     ts.PageControl := frmUtama.pgMain;
-    //if zqrSJ.FieldByName('f_posting').AsString = '1' then begin
-    //  MsgBox('Mohon Maaf, surat jalan tidak bisa diedit, karena sudah di posting.');
-    //  Abort;
-    //end;
+    if zqrSJ.FieldByName('f_posting').AsString = '1' then begin
+      MsgBox('Mohon Maaf, surat jalan tidak bisa diedit, karena sudah di posting.');
+      Abort;
+    end;
     f := TfrmInputSuratJalan.Create(Self);
     f.TabSheet := Self.Parent as TcxTabSheet;
     f.FormInduk := Self;

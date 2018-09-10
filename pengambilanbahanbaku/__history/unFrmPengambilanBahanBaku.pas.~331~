@@ -222,11 +222,10 @@ begin
 
       id_akun := GetDefaultAkunBrg(ADataController.Values[i, cxColKodeBrg2.Index], 'persediaan');
       qjd.Insert;
-      qjd.FieldByName('id_ref').AsInteger := id;
       qjd.FieldByName('tanggal').AsDateTime := Aplikasi.TanggalServer;
       qjd.FieldByName('no_jurnal').AsString := sNoJ;
       qjd.FieldByName('no_trans').AsString := sNoBukti;
-      qjd.FieldByName('akun').AsInteger := id_akun;
+      qjd.FieldByName('akun').AsString := id_akun;
       qjd.FieldByName('kredit').AsFloat := ADataController.Values[i, cxColQtyInput.Index] *
         GetHPP(ADataController.Values[i, cxColKodeBrg2.Index]);
       qjd.FieldByName('dc').AsString := 'K';
