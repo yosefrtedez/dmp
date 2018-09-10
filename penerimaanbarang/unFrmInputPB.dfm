@@ -3,7 +3,7 @@ inherited frmInputPB: TfrmInputPB
   ClientHeight = 739
   ClientWidth = 1172
   OnShow = FormShow
-  ExplicitTop = -82
+  ExplicitTop = -58
   ExplicitWidth = 1172
   ExplicitHeight = 739
   PixelsPerInch = 96
@@ -40,7 +40,7 @@ inherited frmInputPB: TfrmInputPB
       Top = 12
       Width = 75
       Height = 25
-      Caption = 'Simpan'
+      Caption = 'Simpan.'
       TabOrder = 2
       OnClick = btnSimpan2Click
     end
@@ -63,7 +63,7 @@ inherited frmInputPB: TfrmInputPB
     Visible = False
   end
   object cxlbl4: TcxLabel
-    Left = 10
+    Left = 8
     Top = 144
     Caption = 'Tgl. Kedatangan'
   end
@@ -414,18 +414,14 @@ inherited frmInputPB: TfrmInputPB
       end
       object cxColIdSatuan: TcxGridColumn
         DataBinding.ValueType = 'Integer'
-        Visible = False
       end
       object cxColIdBrg: TcxGridColumn
-        Visible = False
       end
       object cxColIdGdg: TcxGridColumn
         DataBinding.ValueType = 'Integer'
         PropertiesClassName = 'TcxSpinEditProperties'
-        Visible = False
       end
       object cxColIdPO: TcxGridColumn
-        Visible = False
       end
     end
     object cxgrdlvl1Grid1Level1: TcxGridLevel
@@ -478,13 +474,12 @@ inherited frmInputPB: TfrmInputPB
     Top = 61
     Caption = 'Penerimaan Barang Tanpa PO'
     TabOrder = 3
-    Visible = False
     OnClick = cxChkPBTanpaPOClick
     Width = 177
   end
   object cxGrdPB2: TcxGrid
-    Left = 50
-    Top = 270
+    Left = 322
+    Top = 566
     Width = 1150
     Height = 293
     Anchors = [akLeft, akTop, akRight]

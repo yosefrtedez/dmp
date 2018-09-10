@@ -55,10 +55,12 @@ type
   private
     mIdBrg, mIdSupp: integer;
     mIdPO: integer;
+    mIsEdit: Boolean;
   public
     property IdBrg: integer read mIdBrg write mIdBrg;
     property IdSupp: Integer read mIdSupp write mIdSupp;
     property IdPO: Integer read mIdPO;
+    property IsEdit: boolean write mIsEdit;
   end;
 
 var
@@ -125,13 +127,24 @@ var
   q: TZQuery;
   i: integer;
 begin
-  q := OpenRS('SELECT a.id, a.tanggal, a.no_bukti, b.id_brg, c.kode, c.deskripsi, b.qty, b.id_satuan, d.satuan satuan2, ' +
-    '(SELECT SUM(qty) FROM tbl_pb_det WHERE id_po = a.id AND id_brg = b.id_brg) qty_terkirim ' +
-    'FROM tbl_po_head a ' +
-    'LEFT JOIN tbl_po_det b ON a.id = b.id_ref ' +
-    'LEFT JOIN tbl_barang c ON c.id = b.id_brg ' +
-    'LEFT JOIN tbl_satuan d ON d.id = b.id_satuan ' +
-    'WHERE a.id_supplier = %d AND a.f_completed = 0 AND a.f_app = 1', [mIdSupp]);
+  if not mIsEdit then begin
+    q := OpenRS('SELECT a.id, a.tanggal, a.no_bukti, b.id_brg, c.kode, c.deskripsi, b.qty, b.id_satuan, d.satuan satuan2, ' +
+      '(SELECT SUM(qty) FROM tbl_pb_det WHERE id_po = a.id AND id_brg = b.id_brg) qty_terkirim ' +
+      'FROM tbl_po_head a ' +
+      'LEFT JOIN tbl_po_det b ON a.id = b.id_ref ' +
+      'LEFT JOIN tbl_barang c ON c.id = b.id_brg ' +
+      'LEFT JOIN tbl_satuan d ON d.id = b.id_satuan ' +
+      'WHERE a.id_supplier = %d AND a.f_completed = 0 AND a.f_app = 1', [mIdSupp])
+  end
+  else begin
+    q := OpenRS('SELECT a.id, a.tanggal, a.no_bukti, b.id_brg, c.kode, c.deskripsi, b.qty, b.id_satuan, d.satuan satuan2, ' +
+      '(SELECT SUM(qty) FROM tbl_pb_det WHERE id_po = a.id AND id_brg = b.id_brg) qty_terkirim ' +
+      'FROM tbl_po_head a ' +
+      'LEFT JOIN tbl_po_det b ON a.id = b.id_ref ' +
+      'LEFT JOIN tbl_barang c ON c.id = b.id_brg ' +
+      'LEFT JOIN tbl_satuan d ON d.id = b.id_satuan ' +
+      'WHERE a.id_supplier = %d AND a.f_app = 1', [mIdSupp]);
+  end;
 
   cxtbSO.BeginUpdate;
   while not q.Eof do begin

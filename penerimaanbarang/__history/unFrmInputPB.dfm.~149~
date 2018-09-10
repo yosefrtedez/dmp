@@ -3,7 +3,6 @@ inherited frmInputPB: TfrmInputPB
   ClientHeight = 739
   ClientWidth = 1172
   OnShow = FormShow
-  ExplicitTop = -108
   ExplicitWidth = 1172
   ExplicitHeight = 739
   PixelsPerInch = 96
@@ -28,7 +27,7 @@ inherited frmInputPB: TfrmInputPB
   inherited Panel2: TPanel
     Top = 690
     Width = 1172
-    TabOrder = 32
+    TabOrder = 33
     ExplicitTop = 690
     ExplicitWidth = 1172
     inherited btnSimpan: TButton
@@ -63,7 +62,7 @@ inherited frmInputPB: TfrmInputPB
     Visible = False
   end
   object cxlbl4: TcxLabel
-    Left = 10
+    Left = 8
     Top = 144
     Caption = 'Tgl. Kedatangan'
   end
@@ -425,6 +424,7 @@ inherited frmInputPB: TfrmInputPB
         Visible = False
       end
       object cxColIdPO: TcxGridColumn
+        Visible = False
       end
     end
     object cxgrdlvl1Grid1Level1: TcxGridLevel
@@ -477,17 +477,17 @@ inherited frmInputPB: TfrmInputPB
     Top = 61
     Caption = 'Penerimaan Barang Tanpa PO'
     TabOrder = 3
-    Visible = False
     OnClick = cxChkPBTanpaPOClick
     Width = 177
   end
   object cxGrdPB2: TcxGrid
-    Left = 42
-    Top = 262
+    Left = 50
+    Top = 270
     Width = 1150
     Height = 293
     Anchors = [akLeft, akTop, akRight]
     TabOrder = 31
+    Visible = False
     object cxtbPB2: TcxGridTableView
       NavigatorButtons.ConfirmDelete = False
       NavigatorButtons.Insert.Visible = False
@@ -613,6 +613,14 @@ inherited frmInputPB: TfrmInputPB
     object cxGridLevel1: TcxGridLevel
       GridView = cxtbPB2
     end
+  end
+  object Button1: TButton
+    Left = 50
+    Top = 569
+    Width = 75
+    Height = 25
+    Caption = 'Button1'
+    TabOrder = 32
   end
   object zqrPO: TZReadOnlyQuery
     Connection = DM.zConn

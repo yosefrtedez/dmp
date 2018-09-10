@@ -147,6 +147,7 @@ begin
   if cxlSupp.Text = '' then Abort;
 
   f := TfrmPilihPO.Create(Self);
+  if Self.Jenis = 'E' then f.IsEdit := true;
   f.IdSupp := cxlSupp.EditValue;
   if f.ShowModal = mrOk then begin
     cx := f.cxtbSO;
@@ -428,10 +429,11 @@ begin
 
   try
 
-    if Self.Jenis = 'E' then begin
-      MsgBox('Transaksi tidak bisa di simpan karena sudah di posting.');
-      Abort;
-    end;
+    // 10/09
+    //if Self.Jenis = 'E' then begin
+    //  MsgBox('Transaksi tidak bisa di simpan karena sudah di posting.');
+    //  Abort;
+    //end;
 
     dm.zConn.StartTransaction;
 
@@ -440,7 +442,7 @@ begin
       UpdateFaktur(Copy(sNoTrs,1,7));
     end
     else begin
-
+      sNoTrs := cxtNoBukti;
     end;
 
     qh := OpenRS('SELECT * FROM tbl_pb_head WHERE no_bukti = ''%s''',[sNoTrs]);
@@ -448,11 +450,11 @@ begin
       qh.Insert
     else begin
       qh.Edit;
+      sNoTrs := cxtNoBukti;
       ID := qh.FieldByName('id').AsInteger;
     end;
 
     qh.FieldByName('no_bukti').AsString := sNoTrs;
-    //qh.FieldByName('id_po').AsInteger := cxlNoPO.EditValue;
     qh.FieldByName('tanggal').AsDateTime := cxdTglDatang.Date;
     qh.FieldByName('user').AsString := Aplikasi.NamaUser;
     qh.FieldByName('user_dept').AsString := Aplikasi.UserDept;
@@ -465,9 +467,10 @@ begin
 
     if Self.Jenis = 'E' then begin
       dm.zConn.ExecuteDirect(Format('DELETE FROM tbl_pb_det WHERE id_ref = %d',[ID]));
-      dm.zConn.ExecuteDirect(Format('DELETE FROM tbl_history WHERE id_ref = %d AND LEFT(no_bukti) = ''PB''',
-        [ID])
-      );
+      //dm.zConn.ExecuteDirect(Format('DELETE FROM tbl_history WHERE id_ref = %d AND LEFT(no_bukti) = ''PB''',
+      //  [ID])
+      //);
+      dm.zConn.ExecuteDirect(Format('DELETE FROM tbl_history WHERE no_bukti = ''%s''',[sNoTrs]));
     end
     else begin
       ID := LastInsertID;
@@ -948,10 +951,10 @@ begin
 
   cxGrdPB2.Top := cxgrdPP.Top;
   cxGrdPB2.Left := cxgrdPP.Left;
-  cxGrdPB2.Visible := False;
-  cxChkPBTanpaPO.Visible := True;
+  //cxGrdPB2.Visible := False;
+  //cxChkPBTanpaPO.Visible := True;
 
-  btnSimpan2.Visible := False;
+  //btnSimpan2.Visible := False;
   btnSimpan2.Left := btnSimpan.Left;
 end;
 
@@ -962,109 +965,180 @@ var
 begin
   inherited;
 
-  if Self.Jenis = 'E' then begin
+  if Self.Jenis = 'T' then begin
+    cxGrdPB2.Visible := False;
+    btnSimpan2.Visible := False;
+  end
+  else if Self.Jenis = 'E' then begin
 
-    cxlNoPO.Properties.OnChange := nil;
+    q := OpenRS('SELECT a.*, b.nama nama_supplier, b.alamat, b.alamat2, b.kota, b.provinsi FROM tbl_pb_head a ' +
+      'LEFT JOIN tbl_supplier b ON a.id_supplier = b.id WHERE a.id = %s',[Self.EditKey]);
 
-    q := OpenRS('SELECT a.*, b.tanggal as tglpo, b.`pembayaran`, b.`currency`  FROM tbl_pb_head a ' +
-      'LEFT JOIN tbl_po_head b ON a.id_po = b.id ' +
-      'WHERE a.id = %s',[Self.EditKey]);
+    if q.FieldByName('jenis_pb').AsInteger = 1 then begin
 
-    cxlSupp.EditValue := q.FieldByName('id_supplier').AsInteger;
-    cxlSupp.Properties.ReadOnly := True;
+      cxChkPBTanpaPO.Checked := True;
+      cxChkPBTanpaPO.Properties.EndUpdate;
 
-    cxtNoBukti.Text := q.FieldByName('no_bukti').AsString;
+      btnSimpan2.Visible := True;
 
-    cxlNoPO.EditValue := q.FieldByName('id_po').AsInteger;
-    cxlSupp.Properties.ReadOnly := True;
+      cxlSupp.Properties.BeginUpdate;
+      cxlSupp.EditValue := q.FieldByName('id_supplier').AsInteger;
+      cxlSupp.Properties.ReadOnly := True;
+      cxlSupp.Properties.EndUpdate;
 
-    cxdTglDatang.Date := q.FieldByName('tanggal').AsDateTime;
-    cxdTglPO.Date := q.fieldbyname('tglpo').AsDateTime;
-    cxCboPembayaran.Properties.Items.Text := q.FieldByName('pembayaran').AsString;
-    cxCboPembayaran.ItemIndex := 0;
-    cxCboPembayaran.Properties.ReadOnly := True;
+      cxtNoBukti.Text := q.FieldByName('no_bukti').AsString;
+      cxlSupp.Properties.ReadOnly := True;
 
-    cxtNopol.Text := q.FieldByname('nopol').AsString;
-    cxtSopir.Text := q.FieldByName('sopir').AsString;
-    cxtKeterangan.Text := q.FieldByName('keterangan').Text;
+      cxtAlamat.Text := q.FieldByName('alamat').AsString + ', ' + q.FieldByName('alamat2').AsString +
+        ', ' + q.FieldByname('kota').AsString + ', ' + q.FieldByName('provinsi').AsString;
 
-    if q.FieldByName('Currency').AsInteger = 1 then begin
-      cxCboRate.Properties.Items.Text := 'IDR';
-      cxCboRate.Properties.ReadOnly := True;
-      cxCboRate.ItemIndex := 0;
-      cxtRate.Properties.ReadOnly := True;
-    end else begin
-      cxCboRate.Properties.Items.Text := 'USD';
-      cxCboRate.Properties.ReadOnly := True;
-      cxCboRate.ItemIndex := 0;
-      cxtRate.Properties.ReadOnly := False;
-    end;
+      cxdTglDatang.Date := q.FieldByName('tanggal').AsDateTime;
 
-    if q.FieldByName('f_posted').AsInteger = 1 then begin
-      cxChkPosting.Checked := True;
-      cxChkPosting.Properties.ReadOnly := True;
-      f_posted := true;
-    end;
-    ID := q.FieldByname('id').AsInteger;
-    id_po := q.FieldByName('id_po').AsInteger;
-    q.Close;
+      cxtNopol.Text := q.FieldByname('nopol').AsString;
+      cxtSopir.Text := q.FieldByName('sopir').AsString;
+      cxtKeterangan.Text := q.FieldByName('keterangan').Text;
 
-    q := OpenRS('SELECT a.*, b.nama nama_supplier, b.alamat FROM tbl_po_head a ' +
-      'LEFT JOIN tbl_supplier b ON b.id = a.id_supplier ' +
-      'WHERE a.id = %d',[id_po]);
-      id_supplier := q.FieldByname('id_supplier').AsInteger;
-      //cxtNamaSupp.Text := q.FieldByname('nama_supplier').AsString;
-      cxtAlamat.Text := q.FieldByName('alamat').AsString;
-      q.Close;
-    //cxgrdPP.DataController.OnRecordChanged := nil;
-    cxtbPB.DataController.OnRecordChanged := nil;
-    q := OpenRS('SELECT a.*, b.deskripsi, c.satuan satuan2, f.qty AS qty_po, ' +
-            'IFNULL((SELECT SUM(e.`qty`) FROM tbl_pb_det e WHERE a.`id_brg` = e.`id_brg` AND e.`id_ref` <> d.`id`),0) AS qty_datang ' +
-            'FROM tbl_pb_det a ' +
-            'LEFT JOIN tbl_pb_head d ON a.`id_ref` = d.`id` ' +
-            'LEFT JOIN tbl_po_head e ON e.id = d.`id_po` ' +
-            'LEFT JOIN tbl_po_det f ON f.id_ref = e.`id` AND f.`id_brg` = a.`id_brg` ' +
-            'LEFT JOIN tbl_barang b ON a.id_brg = b.id ' +
-            'LEFT JOIN tbl_satuan c ON a.id_satuan = c.id ' +
-            'WHERE a.id_ref = %s',[Self.EditKey]);
-    nomer := 0;
-    while not q.Eof do begin
-      with cxtbPB.DataController do begin
-        i := AppendRecord;
-        {Values[i, cxColKodeBrg.Index] := q.FieldByName('kode_brg').AsString;
-        Values[i, cxColDeskripsi.Index] := q.FieldByName('id_brg').AsString;
-        Values[i, cxColSatuan.Index] := q.FieldByName('satuan2').AsString;
-        Values[i, cxColIdSatuan.Index] := q.FieldByName('id_satuan').AsInteger;
-        //Values[i, cxColHarga.Index] := q.FieldByName('harga').AsFloat;
-        Values[i, cxColIdBrg.Index] := q.FieldByName('id_brg').AsInteger;
-        Values[i, cxColQtyTerima.Index] := q.FieldByName('qty').AsFloat;
-        Values[i, cxColGdg.Index] := q.FieldByName('id_gdg').AsInteger;
-        //Values[i, cxColQtyPO.Index] := q.FieldByName('qty').AsFloat;
-        }
-        Values[i, cxColNo.Index] := nomer + 1;
-        Values[i, cxColKodeBrg.Index] := q.FieldByName('kode_brg').AsString;
-        Values[i, cxColDeskripsi.Index] := q.FieldByName('deskripsi').AsString;
-        Values[i, cxColQtyPO.Index] := q.FieldByName('qty_po').AsFloat;
-        Values[i, cxColQtyTerima.Index] := q.FieldByName('qty').AsFloat;
-        Values[i, cxColQtyDatang.Index] := q.FieldByName('qty_datang').AsFloat;
-        Values[i, cxColSatuan.Index] := q.FieldByName('satuan2').AsString;
-        Values[i, cxColIdSatuan.Index] := q.FieldByName('id_satuan').AsInteger;
-        Values[i, cxColHarga.Index] := q.FieldByName('harga').AsInteger;
-        Values[i, cxColIdBrg.Index] := q.FieldByName('id_brg').AsInteger;
-        Values[i, cxColGdg.Index] := Aplikasi.GdgPB;
-        //Values[i, cxColPPn.Index] := q.FieldByName('ppn').AsString;
-        Values[i, cxColKeterangan.Index] := q.FieldByName('keterangan').AsString;
-        Values[i, cxColTotal.Index] := q.FieldByName('qty').AsFloat * q.FieldByName('harga').AsFloat;
+      {
+      if q.FieldByName('Currency').AsInteger = 1 then begin
+        cxCboRate.Properties.Items.Text := 'IDR';
+        cxCboRate.Properties.ReadOnly := True;
+        cxCboRate.ItemIndex := 0;
+        cxtRate.Properties.ReadOnly := True;
+      end else begin
+        cxCboRate.Properties.Items.Text := 'USD';
+        cxCboRate.Properties.ReadOnly := True;
+        cxCboRate.ItemIndex := 0;
+        cxtRate.Properties.ReadOnly := False;
+      end; }
+
+      if q.FieldByName('f_posted').AsInteger = 1 then begin
+        cxChkPosting.Checked := True;
+        cxChkPosting.Properties.ReadOnly := True;
+        f_posted := true;
       end;
-      q.Next;
+      ID := q.FieldByname('id').AsInteger;
+      id_po := q.FieldByName('id_po').AsInteger;
+      q.Close;
 
+      q := OpenRS('SELECT a.*, d.tanggal tgl_po, e.no_bukti no_po, b.deskripsi, c.satuan satuan2, f.qty AS qty_po, ' +
+        'IFNULL((SELECT SUM(e.`qty`) FROM tbl_pb_det e WHERE a.`id_brg` = e.`id_brg` AND e.`id_ref` <> d.`id`),0) AS qty_datang ' +
+        'FROM tbl_pb_det a ' +
+        'LEFT JOIN tbl_pb_head d ON a.`id_ref` = d.`id` ' +
+        'LEFT JOIN tbl_po_head e ON e.id = d.`id_po` ' +
+        'LEFT JOIN tbl_po_det f ON f.id_ref = e.`id` AND f.`id_brg` = a.`id_brg` ' +
+        'LEFT JOIN tbl_barang b ON a.id_brg = b.id ' +
+        'LEFT JOIN tbl_satuan c ON a.id_satuan = c.id ' +
+        'WHERE a.id_ref = %s',[Self.EditKey]);
+
+      nomer := 0;
+      cxtbPB2.BeginUpdate;
+      while not q.Eof do begin
+
+        with cxtbPB2.DataController do begin
+          i := AppendRecord;
+          Values[i, cxColKodeBrg2.Index] := q.FieldByName('id_brg').AsString;
+          Values[i, cxColDeskripsi2.Index] := q.FieldByName('id_brg').AsString;
+          Values[i, cxColQtyDatang2.Index] := q.FieldByName('qty').AsFloat;
+          Values[i, cxColSatuan2.Index] := q.FieldByName('satuan2').AsString;
+          Values[i, cxColGdg2.Index] := q.FieldByName('id_gdg').AsInteger;
+          Values[i, cxColKeterangan2.Index] := q.FieldByName('keterangan').AsString;
+          Values[i, cxColKodeBrg22.Index] := q.FieldByName('kode_brg').AsString;
+          Values[i, cxColIdGdg22.Index] := q.FieldByname('id_gdg').AsInteger;
+          Values[i, cxColIdSatuan22.Index] := q.FieldByName('id_satuan').AsInteger;
+        end;
+        q.Next;
+
+      end;
+      cxtbPB2.EndUpdate;
+
+      q.Close;
+    end
+    else begin
+      cxGrdPP.Visible := True;
+      cxGrdPB2.Visible := False;
+      btnSimpan.Visible := True;
+      btnSimpan2.Visible := False;
+
+      cxlSupp.EditValue := q.FieldByName('id_supplier').AsInteger;
+      cxlSupp.Properties.ReadOnly := True;
+      cxChkPBTanpaPO.Properties.ReadOnly := True;
+
+      cxtNoBukti.Text := q.FieldByName('no_bukti').AsString;
+
+      cxlNoPO.EditValue := q.FieldByName('id_po').AsInteger;
+      cxlSupp.Properties.ReadOnly := True;
+
+      cxdTglDatang.Date := q.FieldByName('tanggal').AsDateTime;
+      cxCboPembayaran.ItemIndex := 0;
+      cxCboPembayaran.Properties.ReadOnly := True;
+
+      cxtNopol.Text := q.FieldByname('nopol').AsString;
+      cxtSopir.Text := q.FieldByName('sopir').AsString;
+      cxtKeterangan.Text := q.FieldByName('keterangan').Text;
+
+      cxtAlamat.Text := q.FieldByName('alamat').AsString + ', ' + q.FieldByName('alamat2').AsString +
+        ', ' + q.FieldByname('kota').AsString + ', ' + q.FieldByName('provinsi').AsString;
+
+      {
+      if q.FieldByName('Currency').AsInteger = 1 then begin
+        cxCboRate.Properties.Items.Text := 'IDR';
+        cxCboRate.Properties.ReadOnly := True;
+        cxCboRate.ItemIndex := 0;
+        cxtRate.Properties.ReadOnly := True;
+      end else begin
+        cxCboRate.Properties.Items.Text := 'USD';
+        cxCboRate.Properties.ReadOnly := True;
+        cxCboRate.ItemIndex := 0;
+        cxtRate.Properties.ReadOnly := False;
+      end;}
+
+      if q.FieldByName('f_posted').AsInteger = 1 then begin
+        cxChkPosting.Checked := True;
+        cxChkPosting.Properties.ReadOnly := True;
+        f_posted := true;
+      end;
+      ID := q.FieldByname('id').AsInteger;
+      id_po := q.FieldByName('id_po').AsInteger;
+      q.Close;
+
+      q := OpenRS('SELECT a.*, e.no_bukti no_po2, e.tanggal tgl_po2, b.deskripsi, c.satuan satuan2, f.qty AS qty_po, ' +
+        'IFNULL((SELECT SUM(e.`qty`) FROM tbl_pb_det e WHERE a.`id_brg` = e.`id_brg` AND e.`id_ref` <> d.`id`),0) AS qty_datang ' +
+        'FROM tbl_pb_det a ' +
+        'LEFT JOIN tbl_pb_head d ON a.`id_ref` = d.`id` ' +
+        'LEFT JOIN tbl_po_head e ON e.id = d.`id_po` ' +
+        'LEFT JOIN tbl_po_det f ON f.id_ref = e.`id` AND f.`id_brg` = a.`id_brg` ' +
+        'LEFT JOIN tbl_barang b ON a.id_brg = b.id ' +
+        'LEFT JOIN tbl_satuan c ON a.id_satuan = c.id ' +
+        'WHERE a.id_ref = %s',[Self.EditKey]);
+      nomer := 0;
+      cxtbPB.BeginUpdate;
+      while not q.Eof do begin
+        with cxtbPB.DataController do begin
+          i := AppendRecord;
+          Values[i, cxColNo.Index] := nomer + 1;
+          Values[i, cxColKodeBrg.Index] := q.FieldByName('kode_brg').AsString;
+          Values[i, cxColDeskripsi.Index] := q.FieldByName('deskripsi').AsString;
+          Values[i, cxColQtyPO.Index] := q.FieldByName('qty_po').AsFloat;
+          Values[i, cxColQtyTerima.Index] := q.FieldByName('qty').AsFloat;
+          Values[i, cxColQtyDatang.Index] := q.FieldByName('qty_datang').AsFloat;
+          Values[i, cxColSatuan.Index] := q.FieldByName('satuan2').AsString;
+          Values[i, cxColIdSatuan.Index] := q.FieldByName('id_satuan').AsInteger;
+          Values[i, cxColHarga.Index] := q.FieldByName('harga').AsInteger;
+          Values[i, cxColIdBrg.Index] := q.FieldByName('id_brg').AsInteger;
+          Values[i, cxColGdg.Index] := q.FieldByName('id_gdg').AsInteger;
+          Values[i, cxColKeterangan.Index] := q.FieldByName('keterangan').AsString;
+          Values[i, cxColTotal.Index] := q.FieldByName('qty').AsFloat * q.FieldByName('harga').AsFloat;
+          Values[i, cxColNoPO.Index] := q.FieldByName('no_po2').AsString;
+          Values[i, cxColIdPO.Index] := q.FieldByName('id_po').AsInteger;
+          Values[i, cxColTglPO.Index] := q.FieldByName('tgl_po2').AsDateTime;
+        end;
+        q.Next;
+      end;
+      cxtbPB.EndUpdate;
+
+      q.Close;
+      cxlNoPO.Properties.OnChange := Self.cxlNoPPPropertiesChange;
     end;
-
-    q.Close;
-    cxlNoPO.Properties.OnChange := Self.cxlNoPPPropertiesChange;
-    //cxtbBarangMasuk.DataController.OnRecordChanged := Self.cxtbBarangMasukDataControllerRecordChanged;
-    cxtbPB.DataController.OnRecordChanged := Self.cxtbPBDataControllerRecordChanged;
-
   end;
 
 end;

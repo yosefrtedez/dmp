@@ -16,7 +16,8 @@ uses
   dxSkinXmas2008Blue, dxSkinscxPCPainter, cxCustomData, cxFilter, cxData,
   cxDataStorage, cxEdit, DB, cxDBData, cxGridLevel, cxClasses, cxGridCustomView,
   cxGridCustomTableView, cxGridTableView, cxGridDBTableView, cxGrid, StdCtrls,
-  ZAbstractRODataset, ZDataset, cxSpinEdit, cxCheckBox, cxDBLookupComboBox;
+  ZAbstractRODataset, ZDataset, cxSpinEdit, cxCheckBox, cxDBLookupComboBox,
+  cxContainer, cxLabel;
 
 type
   TfrmPilihPO = class(TForm)
@@ -43,6 +44,7 @@ type
     cxColQtyDiterima: TcxGridColumn;
     cxColSatuan: TcxGridColumn;
     cxColIdSatuan: TcxGridColumn;
+    cxLabel1: TcxLabel;
     procedure Button2Click(Sender: TObject);
     procedure Button1Click(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -88,7 +90,7 @@ begin
     if ADataController.Values[ARecordIndex, AItemIndex] = 1 then begin
       if (ADataController.Values[ARecordIndex, cxColJmlTerima.Index] = 0) or
         VarIsNull(ADataController.Values[ARecordIndex, cxColJmlTerima.Index]) then begin
-        MsgBox('Masukkan Jumlah pengiriman terlebih dahulu.');
+        MsgBox('Masukkan Jumlah penerimaan terlebih dahulu.');
         ADataController.Values[ARecordIndex, AItemIndex] := 0;
         Abort;
       end;
@@ -100,21 +102,16 @@ begin
     ADataController.Values[ARecordIndex, cxColStok.Index] := sa;
   end;
 
+  {
   if AItemIndex = cxColJmlTerima.Index then begin
-    sa := GetStokAkhir(ADataController.Values[ARecordIndex, cxColIdBrg.Index], ADataController.Values[ARecordIndex, cxColGdg.Index]);
-    if sa < ADataController.Values[ARecordIndex, cxColJmlTerima.Index] then begin
-      MsgBox('Stok barang tidak mencukupi.');
-      ADataController.Values[ARecordIndex, cxColJmlTerima.Index] := 0;
-      Abort;
-    end;
-
-    if ADataController.Values[ARecordIndex, cxColJmlTerima.Index] + ADataController.Values[ARecordIndex, AItemIndex] >
+    if ADataController.Values[ARecordIndex, cxColQtyDiterima.Index] + ADataController.Values[ARecordIndex, AItemIndex] >
       ADataController.Values[ARecordIndex, cxColQtyPO.Index] then begin
-      MsgBox('Jumlah pengiriman melebihi jumlah SO.');
+      MsgBox('Jumlah penerimaan melebihi jumlah PO.');
       ADataController.Values[ARecordIndex, AItemIndex] := 0;
       Abort;
     end;
   end;
+  }
 
 end;
 
@@ -134,7 +131,7 @@ begin
     'LEFT JOIN tbl_po_det b ON a.id = b.id_ref ' +
     'LEFT JOIN tbl_barang c ON c.id = b.id_brg ' +
     'LEFT JOIN tbl_satuan d ON d.id = b.id_satuan ' +
-    'WHERE a.id_supplier = %d', [mIdSupp]);
+    'WHERE a.id_supplier = %d AND a.f_completed = 0 AND a.f_app = 1', [mIdSupp]);
 
   cxtbSO.BeginUpdate;
   while not q.Eof do begin
