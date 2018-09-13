@@ -26,8 +26,8 @@ type
     cxtbPOHead: TcxGridDBTableView;
     cxgrdlvl1Grid1Level1: TcxGridLevel;
     cxgrd1: TcxGrid;
-    zqrPembayaranPembelian: TZReadOnlyQuery;
-    dsPembayaranPembelian: TDataSource;
+    zqrPembayaranPenjualan: TZReadOnlyQuery;
+    dsPembayaranPenjualan: TDataSource;
     cxTblDet: TcxGridDBTableView;
     zqrPembayaranPembelianDet: TZReadOnlyQuery;
     dsPembayaranPembelianDet: TDataSource;
@@ -40,16 +40,6 @@ type
     cxColTblDetsatuan: TcxGridDBColumn;
     cxColTblDetharga: TcxGridDBColumn;
     cxColTblDetmata_uang: TcxGridDBColumn;
-    cxColTblHeadno_bukti: TcxGridDBColumn;
-    cxColTblHeadno_fobj: TcxGridDBColumn;
-    cxColTblHeadtgl_required: TcxGridDBColumn;
-    cxColTblHeaduser: TcxGridDBColumn;
-    cxColTblHeaduser_dept: TcxGridDBColumn;
-    cxColTblHeadpembayaran: TcxGridDBColumn;
-    cxColTblHeadf_approval: TcxGridDBColumn;
-    cxColTblHeadnama: TcxGridDBColumn;
-    cxColTblHeadkontak: TcxGridDBColumn;
-    cxColTblHeadf_completed: TcxGridDBColumn;
     cxGrid1: TcxGrid;
     cxtbPODet: TcxGridDBTableView;
     cxGrid1Level1: TcxGridLevel;
@@ -63,12 +53,19 @@ type
     cxtbPODetmata_uang: TcxGridDBColumn;
     cxtbPODetColumn1: TcxGridDBColumn;
     cxtbPODetColumn2: TcxGridDBColumn;
-    btnCetakPO: TButton;
     zqrRptPO: TZReadOnlyQuery;
     dsRptPO: TDataSource;
     fdbPO: TfrxDBDataset;
     rptPO: TfrxReport;
     cxtbPODetColumn3: TcxGridDBColumn;
+    cxtbPOHeadid: TcxGridDBColumn;
+    cxtbPOHeadno_bukti: TcxGridDBColumn;
+    cxtbPOHeadtanggal: TcxGridDBColumn;
+    cxtbPOHeadid_cust: TcxGridDBColumn;
+    cxtbPOHeadid_akun: TcxGridDBColumn;
+    cxtbPOHeaduser: TcxGridDBColumn;
+    cxtbPOHeaduser_dept: TcxGridDBColumn;
+    cxtbPOHeadnama_customer: TcxGridDBColumn;
     procedure FormCreate(Sender: TObject);
     procedure btnRefreshClick(Sender: TObject);
     procedure btnTambahClick(Sender: TObject);
@@ -92,8 +89,7 @@ var
 implementation
 
 uses
-  unFrmUtama, unDM, unFrmInputPO, unTools, unAplikasi,
-  unFrmInputPembayaranPenjualan;
+  unFrmUtama, unDM, unTools, unAplikasi, unFrmInputPembayaranPenjualan;
 
 {$R *.dfm}
 
@@ -128,9 +124,8 @@ end;
 
 procedure TfrmLstPembayaranPenjualan.btnEditClick(Sender: TObject);
 var
- f: TfrmInputPO;
- ts: TcxTabSheet;
- q: TZQuery;
+  ts: TcxTabSheet;
+  q: TZQuery;
 begin
   inherited;
   {
@@ -201,10 +196,11 @@ var
   ts: TcxTabSheet;
 begin
   inherited;
-   if not fu.CekTabOpen('Input Purchase Order') then begin
+  if not fu.CekTabOpen('Input Pembayaran Penjualan') then begin
     ts := TcxTabSheet.Create(Self);
     ts.PageControl := frmUtama.pgMain;
-    f := TfrmInputPO.Create(Self);
+    f := TfrmInputPembayaranPenjualan.Create(Self);
+    f.TabSheet := Parent as TcxTabSheet;
     f.FormInduk := Self;
     f.Jenis := 'T';
     f.Parent := ts;

@@ -175,24 +175,14 @@ inherited frmLstPembayaranPenjualan: TfrmLstPembayaranPenjualan
       DataController.Summary.SummaryGroups = <>
       OptionsBehavior.FocusCellOnTab = True
       OptionsView.Footer = True
-      object cxtbPPDetno_bukti: TcxGridDBColumn
-        DataBinding.FieldName = 'no_bukti'
-      end
       object cxtbPPDetid: TcxGridDBColumn
         DataBinding.FieldName = 'id'
-        Visible = False
       end
       object cxtbPPDetid_ref: TcxGridDBColumn
         DataBinding.FieldName = 'id_ref'
-        Visible = False
       end
       object cxtbPPDetid_invoice: TcxGridDBColumn
         DataBinding.FieldName = 'id_invoice'
-        Visible = False
-      end
-      object cxtbPPDetno_invoice: TcxGridDBColumn
-        DataBinding.FieldName = 'no_invoice'
-        Width = 93
       end
       object cxtbPPDetjml_pembayaran: TcxGridDBColumn
         DataBinding.FieldName = 'jml_pembayaran'
@@ -237,10 +227,8 @@ inherited frmLstPembayaranPenjualan: TfrmLstPembayaranPenjualan
     AutoCalcFields = False
     Active = True
     SQL.Strings = (
-      'SELECT a.*, c.no_bukti no_invoice, c.no_bukti'
+      'SELECT a.* '
       'FROM tbl_pembayaranpenjualan_det a'
-      'INNER JOIN tbl_pembayaranpenjualan_head b ON a.id_ref = b.id'
-      'LEFT JOIN tbl_invoicepenjualan_head c ON c.id = a.id_invoice'
       'WHERE a.id_ref = :id_ref')
     Params = <
       item

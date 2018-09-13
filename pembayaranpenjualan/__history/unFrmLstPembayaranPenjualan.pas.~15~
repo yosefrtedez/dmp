@@ -213,9 +213,9 @@ procedure TfrmLstPembayaranPenjualan.cxtbPPFocusedRecordChanged(
 begin
   inherited;
   try
-    zqrPembayaranPenjualanDet.Close;
-    zqrPembayaranPenjualanDet.ParamByName('id_ref').AsInteger := zqrPembayaranPenjualan.FieldByName('id').AsInteger;
-    zqrPembayaranPenjualanDet.Open;
+    zqrPoDet.Close;
+    zqrPoDet.ParamByName('id_ref').AsInteger := zqrPO.FieldByName('id').AsInteger;
+    zqrPoDet.Open;
   except
   end;
 end;
