@@ -57,7 +57,9 @@ inherited frmInputPembayaranPenjualan: TfrmInputPembayaranPenjualan
           Kind = skSum
         end>
       DataController.Summary.SummaryGroups = <>
+      DataController.OnAfterPost = cxtbInvDataControllerAfterPost
       DataController.OnBeforePost = cxtbTblPODataControllerBeforePost
+      DataController.OnRecordChanged = cxtbInvDataControllerRecordChanged
       OptionsBehavior.FocusCellOnTab = True
       OptionsData.Appending = True
       OptionsView.Navigator = True
@@ -204,7 +206,9 @@ inherited frmInputPembayaranPenjualan: TfrmInputPembayaranPenjualan
         Caption = 'No. Akun'
         FieldName = 'noakun'
       end>
+    Properties.ListOptions.SyncMode = True
     Properties.ListSource = dsAkun
+    Properties.OnEditValueChanged = cxlAkunPropertiesEditValueChanged
     TabOrder = 9
     Width = 351
   end
@@ -213,13 +217,6 @@ inherited frmInputPembayaranPenjualan: TfrmInputPembayaranPenjualan
     Top = 197
     Caption = 'Sebesar'
   end
-  object cxTextEdit1: TcxTextEdit
-    Left = 122
-    Top = 196
-    Properties.CharCase = ecUpperCase
-    TabOrder = 12
-    Width = 416
-  end
   object cxtAkun: TcxTextEdit
     Left = 479
     Top = 169
@@ -227,6 +224,13 @@ inherited frmInputPembayaranPenjualan: TfrmInputPembayaranPenjualan
     Properties.ReadOnly = True
     TabOrder = 10
     Width = 103
+  end
+  object cxmSebesar: TcxMemo
+    Left = 122
+    Top = 196
+    TabOrder = 12
+    Height = 51
+    Width = 351
   end
   object zqrInv: TZReadOnlyQuery
     Connection = DM.zConn

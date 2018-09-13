@@ -202,8 +202,7 @@ inherited frmLstPembayaranPenjualan: TfrmLstPembayaranPenjualan
         PropertiesClassName = 'TcxSpinEditProperties'
         Properties.DisplayFormat = '#,#0.00'
         Properties.ReadOnly = True
-        HeaderAlignmentHorz = taRightJustify
-        Width = 139
+        Width = 232
       end
     end
     object cxGrid1Level1: TcxGridLevel

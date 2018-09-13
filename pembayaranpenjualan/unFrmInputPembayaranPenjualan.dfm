@@ -9,7 +9,7 @@ inherited frmInputPembayaranPenjualan: TfrmInputPembayaranPenjualan
   TextHeight = 13
   inherited Panel1: TPanel
     Width = 1061
-    ExplicitWidth = 1063
+    ExplicitWidth = 1061
     object Label1: TLabel
       Left = 10
       Top = 13
@@ -29,7 +29,7 @@ inherited frmInputPembayaranPenjualan: TfrmInputPembayaranPenjualan
     Width = 1061
     TabOrder = 17
     ExplicitTop = 641
-    ExplicitWidth = 1063
+    ExplicitWidth = 1061
   end
   object cxgrdPP: TcxGrid
     Left = 11
@@ -55,8 +55,14 @@ inherited frmInputPembayaranPenjualan: TfrmInputPembayaranPenjualan
         item
           Format = '#,##.00'
           Kind = skSum
+        end
+        item
+          Format = '#,#0.00'
+          Kind = skSum
+          Column = cxColJmlDibayar
         end>
       DataController.Summary.SummaryGroups = <>
+      DataController.OnAfterPost = cxtbInvDataControllerAfterPost
       DataController.OnBeforePost = cxtbTblPODataControllerBeforePost
       DataController.OnRecordChanged = cxtbInvDataControllerRecordChanged
       OptionsBehavior.FocusCellOnTab = True
@@ -98,6 +104,7 @@ inherited frmInputPembayaranPenjualan: TfrmInputPembayaranPenjualan
         Caption = 'Saldo'
         DataBinding.ValueType = 'Float'
         PropertiesClassName = 'TcxSpinEditProperties'
+        Properties.Alignment.Horz = taRightJustify
         Properties.DisplayFormat = '#,#0.00'
         HeaderAlignmentHorz = taRightJustify
         Width = 122
@@ -106,6 +113,9 @@ inherited frmInputPembayaranPenjualan: TfrmInputPembayaranPenjualan
         Caption = 'Jumlah Dibayar'
         DataBinding.ValueType = 'Float'
         PropertiesClassName = 'TcxSpinEditProperties'
+        Properties.Alignment.Horz = taRightJustify
+        Properties.DisplayFormat = '#,#0.00'
+        FooterAlignmentHorz = taRightJustify
         HeaderAlignmentHorz = taRightJustify
         Width = 128
       end
@@ -205,21 +215,16 @@ inherited frmInputPembayaranPenjualan: TfrmInputPembayaranPenjualan
         Caption = 'No. Akun'
         FieldName = 'noakun'
       end>
+    Properties.ListOptions.SyncMode = True
     Properties.ListSource = dsAkun
+    Properties.OnEditValueChanged = cxlAkunPropertiesEditValueChanged
     TabOrder = 9
     Width = 351
   end
   object cxLabel2: TcxLabel
     Left = 10
     Top = 197
-    Caption = 'Sebesar'
-  end
-  object cxTextEdit1: TcxTextEdit
-    Left = 122
-    Top = 196
-    Properties.CharCase = ecUpperCase
-    TabOrder = 12
-    Width = 416
+    Caption = 'Terbilang'
   end
   object cxtAkun: TcxTextEdit
     Left = 479
@@ -228,6 +233,14 @@ inherited frmInputPembayaranPenjualan: TfrmInputPembayaranPenjualan
     Properties.ReadOnly = True
     TabOrder = 10
     Width = 103
+  end
+  object cxmTerbilang: TcxMemo
+    Left = 122
+    Top = 196
+    Properties.ReadOnly = True
+    TabOrder = 12
+    Height = 51
+    Width = 351
   end
   object zqrInv: TZReadOnlyQuery
     Connection = DM.zConn
@@ -276,7 +289,6 @@ inherited frmInputPembayaranPenjualan: TfrmInputPembayaranPenjualan
   object zqrAkun: TZReadOnlyQuery
     Connection = DM.zConn
     AutoCalcFields = False
-    Active = True
     SQL.Strings = (
       'select id, noakun, nama '
       'from tbl_coa where ifnull(induk,'#39#39') <> '#39#39' and tipe = 1;')

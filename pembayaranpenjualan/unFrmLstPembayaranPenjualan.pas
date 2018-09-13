@@ -177,14 +177,17 @@ begin
 end;
 
 procedure TfrmLstPembayaranPenjualan.btnRefreshClick(Sender: TObject);
+var
+  bm: Variant;
 begin
   inherited;
-  {
-  zqrPo.Close;
-  zqrPO.Open;
-  zqrPoDet.Close;
-  zqrPoDet.Open;
-  }
+  try
+    bm := zqrPembayaranPenjualan.Bookmark;
+    zqrPembayaranPenjualan.Close;
+    zqrPembayaranPenjualan.Open;
+    zqrPembayaranPenjualan.Bookmark := bm;
+  except
+  end;
 end;
 
 procedure TfrmLstPembayaranPenjualan.btnTambahClick(Sender: TObject);

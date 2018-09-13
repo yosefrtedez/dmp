@@ -18,7 +18,7 @@ uses
   cxTextEdit, cxDBLookupComboBox, cxSpinEdit, cxDropDownEdit, cxGridLevel,
   cxGridCustomTableView, cxGridTableView, cxClasses, cxGridCustomView, cxGrid,
   cxContainer, cxGroupBox, cxCheckBox, cxCalendar, cxMaskEdit, cxLookupEdit,
-  cxDBLookupEdit, cxLabel, DB, ZAbstractRODataset, ZDataset;
+  cxDBLookupEdit, cxLabel, DB, ZAbstractRODataset, ZDataset, cxMemo, Math;
 
 type
   TfrmInputPembayaranPenjualan = class(TfrmTplInput)
@@ -47,11 +47,11 @@ type
     cxColSaldo: TcxGridColumn;
     cxColJmlDibayar: TcxGridColumn;
     cxLabel2: TcxLabel;
-    cxTextEdit1: TcxTextEdit;
     zqrAkun: TZReadOnlyQuery;
     dsAkun: TDataSource;
     cxtAkun: TcxTextEdit;
     cxtbInvColumn1: TcxGridColumn;
+    cxmTerbilang: TcxMemo;
     procedure cxLuSupplierPropertiesChange(Sender: TObject);
     procedure btnSimpanClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -61,8 +61,13 @@ type
     procedure cxtbInvDataControllerRecordChanged(
       ADataController: TcxCustomDataController; ARecordIndex,
       AItemIndex: Integer);
+    procedure cxlAkunPropertiesEditValueChanged(Sender: TObject);
+    procedure cxtbInvDataControllerAfterPost(
+      ADataController: TcxCustomDataController);
   private
     mStatus: string;
+    procedure HitungTotal;
+    procedure CekLunas;
   public
     { Public declarations }
   end;
@@ -73,7 +78,7 @@ var
 implementation
 
 uses
-  unFrmUtama, unDM, unAplikasi, unTools, unFrmLstPO;
+  unFrmUtama, unDM, unAplikasi, unTools, unFrmLstPembayaranPenjualan;
 
 {$R *.dfm}
 
@@ -85,7 +90,6 @@ var
   f0: Boolean;
 
 begin
-  inherited;
 
   if (cxtbInv.DataController.EditState = [dceInsert, dceModified]) or
     (cxtbInv.DataController.EditState = [dceEdit, dceModified]) then begin
@@ -160,15 +164,55 @@ begin
       MsgBox('Transaksi Pembayaran Penjualan sudah disimpan dengan No. Bukti : ' + sNoBukti);
 
       if Assigned(Self.FormInduk) then
-        (Self.FormInduk as TfrmLstPO).btnRefreshClick(nil);
+        (Self.FormInduk as TfrmLstPembayaranPenjualan).btnRefreshClick(nil);
 
       btnBatalClick(nil);
+
+      inherited;
     except
       on E: Exception do begin
         dm.zConn.Rollback;
         MsgBox('Error: ' + E.Message);
       end;
     end;
+  end;
+end;
+
+procedure TfrmInputPembayaranPenjualan.CekLunas;
+var
+  i: Integer;
+  q: TZQuery;
+  a,b: real;
+begin
+  for i := 0 to cxtbInv.DataController.RecordCount - 1 do begin
+    q := OpenRS('SELECT SUM(qty * harga) subtotal, ' +
+      '(SELECT SUM(jml_pembayaran) FROM tbl_pembayaranpenjualan_det WHERE id_invoice = a.id_ref) jml_pembayaran ' +
+      'FROM tbl_invoicepenjualan_det a ' +
+      'WHERE a.id_ref = %s', [cxtbInv.DataController.Values[i, cxColNoInvoice.Index]]);
+    a := q.FieldByName('subtotal').AsFloat;
+    b := q.FieldByName('jml_pembayaran').AsFloat;
+
+    if CompareValue(a,b) = 0 then begin
+      try
+        dm.zConn.StartTransaction;
+        dm.zConn.ExecuteDirect(
+          Format('UPDATE tbl_invoicepenjualan_head SET f_completed = 1 WHERE id = %d',
+            [cxtbInv.DataController.Values[i, cxColNoInvoice.Index]])
+        );
+      finally
+
+      end;
+    end;
+  end;
+end;
+
+procedure TfrmInputPembayaranPenjualan.cxlAkunPropertiesEditValueChanged(
+  Sender: TObject);
+begin
+  inherited;
+  try
+    cxtAkun.Text := zqrAkun.FieldByName('noakun').AsString;
+  except
   end;
 end;
 
@@ -185,6 +229,16 @@ begin
   end;
 end;
 
+procedure TfrmInputPembayaranPenjualan.cxtbInvDataControllerAfterPost(
+  ADataController: TcxCustomDataController);
+begin
+  inherited;
+  try
+    HitungTotal;
+  except
+  end;
+end;
+
 procedure TfrmInputPembayaranPenjualan.cxtbInvDataControllerRecordChanged(
   ADataController: TcxCustomDataController; ARecordIndex, AItemIndex: Integer);
 var
@@ -196,7 +250,8 @@ begin
       '(SELECT SUM(jml_pembayaran) FROM tbl_pembayaranpenjualan_det WHERE id_invoice = a.id_ref) jml_pembayaran ' +
       'FROM tbl_invoicepenjualan_det a ' +
       'WHERE a.id_ref = %s', [ADataController.Values[ARecordIndex, AItemIndex]]);
-    ADataController.Values[ARecordIndex, cxColSaldo.Index] := q.FieldByName('subtotal').AsFloat - q.FieldByName('jml_pembayaran').AsFloat;
+    ADataController.Values[ARecordIndex, cxColSaldo.Index] :=
+      q.FieldByName('subtotal').AsFloat - q.FieldByName('jml_pembayaran').AsFloat;
     q.Close;
   end;
 end;
@@ -206,6 +261,7 @@ procedure TfrmInputPembayaranPenjualan.cxtbTblPODataControllerBeforePost(
 var
   i,j,k: integer;
   v: variant;
+  q: TZQuery;
 begin
   inherited;
 
@@ -223,28 +279,31 @@ begin
     end;
   end;
 
-  {
-  if (VarIsNull(ADataController.Values[i, cxColKodeBrg.Index])) or
-      (Trim(ADataController.Values[i, cxColKodeBrg.Index]) = '')  then begin
-      MsgBox('Kode barang harus di isi.');
+  if (VarIsNull(ADataController.Values[i, cxColNoInvoice.Index])) or
+      (Trim(ADataController.Values[i, cxColNoInvoice.Index]) = '')  then begin
+    MsgBox('Mohon pilih Nomor Invoice.');
+    Abort;
+  end;
+
+  if (VarIsNull(ADataController.Values[i, cxColJmlDibayar.Index])) or
+      (ADataController.Values[i, cxColJmlDibayar.Index] = 0)  then begin
+    MsgBox('Jml. Pembayaran harus di isi.');
+    Abort;
+  end
+  else begin
+    q := OpenRS('SELECT SUM(qty * harga) subtotal, ' +
+      '(SELECT SUM(jml_pembayaran) FROM tbl_pembayaranpenjualan_det WHERE id_invoice = a.id_ref) jml_pembayaran ' +
+      'FROM tbl_invoicepenjualan_det a ' +
+      'WHERE a.id_ref = %s', [ADataController.Values[i, cxColNoInvoice.Index]]);
+    if q.FieldByName('subtotal').AsFloat - q.FieldByName('jml_pembayaran').AsFloat <
+      ADataController.Values[i, cxColJmlDibayar.Index] then begin
+      MsgBox('Jml. Pembayaran melebihi saldo.');
+      q.Close;
       Abort;
+    end;
+    q.Close;
   end;
 
-  if ADataController.Values[i, cxColQty.Index] <= 0 then begin
-    MsgBox('Qty tidak boleh minus');
-    Abort;
-  end;
-
-  if (VarIsNull(ADataController.Values[i, cxColHarga.Index]))  then begin
-    MsgBox('harga masih kosong');
-    Abort;
-  end;
-
-  if ADataController.Values[i, cxColHarga.Index] <= 0 then begin
-    MsgBox('harga tidak boleh minus');
-    abort
-  end;
-  }
 end;
 
 
@@ -317,6 +376,18 @@ begin
 
   end;
   }
+end;
+
+procedure TfrmInputPembayaranPenjualan.HitungTotal;
+var
+  total: real;
+  i: integer;
+begin
+  total := 0;
+  for i := 0 to cxtbInv.DataController.RecordCount - 1 do begin
+    total := total + cxtbInv.DataController.Values[i, cxColJmlDibayar.Index];
+  end;
+  cxmTerbilang.Text := Terbilang(FloatToStr(total));
 end;
 
 end.

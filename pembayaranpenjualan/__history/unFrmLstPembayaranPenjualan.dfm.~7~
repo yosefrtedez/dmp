@@ -176,7 +176,6 @@ inherited frmLstPembayaranPenjualan: TfrmLstPembayaranPenjualan
       OptionsBehavior.FocusCellOnTab = True
       OptionsView.Footer = True
       object cxtbPPDetno_bukti: TcxGridDBColumn
-        Caption = 'No. Bukti'
         DataBinding.FieldName = 'no_bukti'
       end
       object cxtbPPDetid: TcxGridDBColumn
@@ -192,18 +191,12 @@ inherited frmLstPembayaranPenjualan: TfrmLstPembayaranPenjualan
         Visible = False
       end
       object cxtbPPDetno_invoice: TcxGridDBColumn
-        Caption = 'No. Invoice'
         DataBinding.FieldName = 'no_invoice'
-        Width = 117
+        Width = 93
       end
       object cxtbPPDetjml_pembayaran: TcxGridDBColumn
-        Caption = 'Jumlah Pembayaran'
         DataBinding.FieldName = 'jml_pembayaran'
-        PropertiesClassName = 'TcxSpinEditProperties'
-        Properties.DisplayFormat = '#,#0.00'
-        Properties.ReadOnly = True
-        HeaderAlignmentHorz = taRightJustify
-        Width = 139
+        Width = 232
       end
     end
     object cxGrid1Level1: TcxGridLevel
@@ -225,6 +218,7 @@ inherited frmLstPembayaranPenjualan: TfrmLstPembayaranPenjualan
   end
   object zqrPembayaranPenjualan: TZReadOnlyQuery
     Connection = DM.zConn
+    Active = True
     SQL.Strings = (
       'SELECT a.*, b.nama nama_customer'
       'FROM tbl_pembayaranpenjualan_head a'

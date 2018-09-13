@@ -23,14 +23,14 @@ uses
 type
   TfrmLstPembayaranPenjualan = class(TfrmTplGrid)
     Label1: TLabel;
-    cxtbPOHead: TcxGridDBTableView;
+    cxtbPP: TcxGridDBTableView;
     cxgrdlvl1Grid1Level1: TcxGridLevel;
     cxgrd1: TcxGrid;
-    zqrPembayaranPembelian: TZReadOnlyQuery;
-    dsPembayaranPembelian: TDataSource;
+    zqrPembayaranPenjualan: TZReadOnlyQuery;
+    dsPembayaranPenjualan: TDataSource;
     cxTblDet: TcxGridDBTableView;
-    zqrPembayaranPembelianDet: TZReadOnlyQuery;
-    dsPembayaranPembelianDet: TDataSource;
+    zqrPembayaranPenjualanDet: TZReadOnlyQuery;
+    dsPembayaranPenjualanDet: TDataSource;
     cxColTblDetid: TcxGridDBColumn;
     cxColTblDetid_ref: TcxGridDBColumn;
     cxColTblDetno_bukti: TcxGridDBColumn;
@@ -40,41 +40,35 @@ type
     cxColTblDetsatuan: TcxGridDBColumn;
     cxColTblDetharga: TcxGridDBColumn;
     cxColTblDetmata_uang: TcxGridDBColumn;
-    cxColTblHeadno_bukti: TcxGridDBColumn;
-    cxColTblHeadno_fobj: TcxGridDBColumn;
-    cxColTblHeadtgl_required: TcxGridDBColumn;
-    cxColTblHeaduser: TcxGridDBColumn;
-    cxColTblHeaduser_dept: TcxGridDBColumn;
-    cxColTblHeadpembayaran: TcxGridDBColumn;
-    cxColTblHeadf_approval: TcxGridDBColumn;
-    cxColTblHeadnama: TcxGridDBColumn;
-    cxColTblHeadkontak: TcxGridDBColumn;
-    cxColTblHeadf_completed: TcxGridDBColumn;
     cxGrid1: TcxGrid;
-    cxtbPODet: TcxGridDBTableView;
+    cxtbPPDet: TcxGridDBTableView;
     cxGrid1Level1: TcxGridLevel;
     Panel3: TPanel;
     cxLabel1: TcxLabel;
-    cxtbPODetkode_brg: TcxGridDBColumn;
-    cxtbPODetdeskripsi: TcxGridDBColumn;
-    cxtbPODetqty: TcxGridDBColumn;
-    cxtbPODetsatuan: TcxGridDBColumn;
-    cxtbPODetharga: TcxGridDBColumn;
-    cxtbPODetmata_uang: TcxGridDBColumn;
-    cxtbPODetColumn1: TcxGridDBColumn;
-    cxtbPODetColumn2: TcxGridDBColumn;
-    btnCetakPO: TButton;
     zqrRptPO: TZReadOnlyQuery;
     dsRptPO: TDataSource;
     fdbPO: TfrxDBDataset;
     rptPO: TfrxReport;
-    cxtbPODetColumn3: TcxGridDBColumn;
+    cxtbPPid: TcxGridDBColumn;
+    cxtbPPno_bukti: TcxGridDBColumn;
+    cxtbPPtanggal: TcxGridDBColumn;
+    cxtbPPid_cust: TcxGridDBColumn;
+    cxtbPPid_akun: TcxGridDBColumn;
+    cxtbPPuser: TcxGridDBColumn;
+    cxtbPPuser_dept: TcxGridDBColumn;
+    cxtbPPnama_customer: TcxGridDBColumn;
+    cxtbPPDetid: TcxGridDBColumn;
+    cxtbPPDetid_ref: TcxGridDBColumn;
+    cxtbPPDetid_invoice: TcxGridDBColumn;
+    cxtbPPDetjml_pembayaran: TcxGridDBColumn;
+    cxtbPPDetno_invoice: TcxGridDBColumn;
+    cxtbPPDetno_bukti: TcxGridDBColumn;
     procedure FormCreate(Sender: TObject);
     procedure btnRefreshClick(Sender: TObject);
     procedure btnTambahClick(Sender: TObject);
     procedure btnEditClick(Sender: TObject);
     procedure btnHapusClick(Sender: TObject);
-    procedure cxtbPOHeadFocusedRecordChanged(Sender: TcxCustomGridTableView;
+    procedure cxtbPPFocusedRecordChanged(Sender: TcxCustomGridTableView;
       APrevFocusedRecord, AFocusedRecord: TcxCustomGridRecord;
       ANewItemRecordFocusingChanged: Boolean);
     procedure btnCtkPOClick(Sender: TObject);
@@ -127,9 +121,8 @@ end;
 
 procedure TfrmLstPembayaranPenjualan.btnEditClick(Sender: TObject);
 var
- f: TfrmInputPO;
- ts: TcxTabSheet;
- q: TZQuery;
+  ts: TcxTabSheet;
+  q: TZQuery;
 begin
   inherited;
   {
@@ -184,14 +177,18 @@ begin
 end;
 
 procedure TfrmLstPembayaranPenjualan.btnRefreshClick(Sender: TObject);
+var
+  bm: Variant;
 begin
   inherited;
-  {
-  zqrPo.Close;
-  zqrPO.Open;
-  zqrPoDet.Close;
-  zqrPoDet.Open;
-  }
+  try
+    bm := zqrPembayaranPenjualan.Bookmark;
+    zqrPembayaranPenjualan.Close;
+    zqrPembayaranPenjualan.Open;
+    zqrPembayaranPenjualan.Bookmark := bm;
+  except
+  end;
+
 end;
 
 procedure TfrmLstPembayaranPenjualan.btnTambahClick(Sender: TObject);
@@ -214,27 +211,23 @@ begin
   end;
 end;
 
-procedure TfrmLstPembayaranPenjualan.cxtbPOHeadFocusedRecordChanged(
+procedure TfrmLstPembayaranPenjualan.cxtbPPFocusedRecordChanged(
   Sender: TcxCustomGridTableView; APrevFocusedRecord,
   AFocusedRecord: TcxCustomGridRecord; ANewItemRecordFocusingChanged: Boolean);
 begin
   inherited;
-  {
   try
-    zqrPoDet.Close;
-    zqrPoDet.ParamByName('id_ref').AsInteger := zqrPO.FieldByName('id').AsInteger;
-    zqrPoDet.Open;
+    zqrPembayaranPenjualanDet.Close;
+    zqrPembayaranPenjualanDet.ParamByName('id_ref').AsInteger := zqrPembayaranPenjualan.FieldByName('id').AsInteger;
+    zqrPembayaranPenjualanDet.Open;
   except
   end;
-  }
 end;
 
 procedure TfrmLstPembayaranPenjualan.FormCreate(Sender: TObject);
 begin
   inherited;
-  {
-  zqrPO.Open;
-  }
+  zqrPembayaranPenjualan.Open;
 end;
 
 end.

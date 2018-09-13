@@ -55,9 +55,15 @@ inherited frmInputPembayaranPenjualan: TfrmInputPembayaranPenjualan
         item
           Format = '#,##.00'
           Kind = skSum
+        end
+        item
+          Kind = skSum
+          Column = cxColJmlDibayar
         end>
       DataController.Summary.SummaryGroups = <>
+      DataController.OnAfterPost = cxtbInvDataControllerAfterPost
       DataController.OnBeforePost = cxtbTblPODataControllerBeforePost
+      DataController.OnRecordChanged = cxtbInvDataControllerRecordChanged
       OptionsBehavior.FocusCellOnTab = True
       OptionsData.Appending = True
       OptionsView.Navigator = True
@@ -67,6 +73,7 @@ inherited frmInputPembayaranPenjualan: TfrmInputPembayaranPenjualan
         Caption = 'No. Invoice'
         PropertiesClassName = 'TcxLookupComboBoxProperties'
         Properties.DropDownAutoSize = True
+        Properties.KeyFieldNames = 'id'
         Properties.ListColumns = <
           item
             Caption = 'No. Invoice'
@@ -82,16 +89,31 @@ inherited frmInputPembayaranPenjualan: TfrmInputPembayaranPenjualan
       object cxColTglInvoice: TcxGridColumn
         Caption = 'Tgl. Invoice'
         DataBinding.ValueType = 'DateTime'
+        PropertiesClassName = 'TcxDateEditProperties'
+        Properties.ReadOnly = True
         Width = 107
+      end
+      object cxtbInvColumn1: TcxGridColumn
+        Caption = 'Tgl. Jatuh Tempo'
+        PropertiesClassName = 'TcxDateEditProperties'
+        Properties.ReadOnly = True
+        Width = 103
       end
       object cxColSaldo: TcxGridColumn
         Caption = 'Saldo'
         DataBinding.ValueType = 'Float'
+        PropertiesClassName = 'TcxSpinEditProperties'
+        Properties.Alignment.Horz = taRightJustify
+        Properties.DisplayFormat = '#,#0.00'
+        HeaderAlignmentHorz = taRightJustify
         Width = 122
       end
       object cxColJmlDibayar: TcxGridColumn
         Caption = 'Jumlah Dibayar'
         DataBinding.ValueType = 'Float'
+        PropertiesClassName = 'TcxSpinEditProperties'
+        Properties.Alignment.Horz = taRightJustify
+        HeaderAlignmentHorz = taRightJustify
         Width = 128
       end
     end
@@ -190,7 +212,9 @@ inherited frmInputPembayaranPenjualan: TfrmInputPembayaranPenjualan
         Caption = 'No. Akun'
         FieldName = 'noakun'
       end>
+    Properties.ListOptions.SyncMode = True
     Properties.ListSource = dsAkun
+    Properties.OnEditValueChanged = cxlAkunPropertiesEditValueChanged
     TabOrder = 9
     Width = 351
   end
@@ -198,13 +222,6 @@ inherited frmInputPembayaranPenjualan: TfrmInputPembayaranPenjualan
     Left = 10
     Top = 197
     Caption = 'Sebesar'
-  end
-  object cxTextEdit1: TcxTextEdit
-    Left = 122
-    Top = 196
-    Properties.CharCase = ecUpperCase
-    TabOrder = 12
-    Width = 416
   end
   object cxtAkun: TcxTextEdit
     Left = 479
@@ -214,14 +231,23 @@ inherited frmInputPembayaranPenjualan: TfrmInputPembayaranPenjualan
     TabOrder = 10
     Width = 103
   end
+  object cxmSebesar: TcxMemo
+    Left = 122
+    Top = 196
+    Properties.ReadOnly = True
+    TabOrder = 12
+    Height = 51
+    Width = 351
+  end
   object zqrInv: TZReadOnlyQuery
     Connection = DM.zConn
     AutoCalcFields = False
     SQL.Strings = (
-      'SELECT a.no_bukti, SUM(a.qty * a.harga) subtotal'
+      'SELECT b.id, b.no_bukti, SUM(a.qty * a.harga) subtotal'
       'FROM tbl_invoicepenjualan_det a '
       'LEFT JOIN tbl_invoicepenjualan_head b ON a.no_bukti = a.no_bukti'
-      'WHERE b.id_cust = :id_cust')
+      'WHERE b.id_cust = :id_cust'
+      'GROUP BY b.id, b.no_bukti')
     Params = <
       item
         DataType = ftUnknown
