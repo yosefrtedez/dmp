@@ -3,7 +3,6 @@ inherited frmInputInvoicePenjualan: TfrmInputInvoicePenjualan
   ClientHeight = 690
   ClientWidth = 1063
   OnShow = FormShow
-  ExplicitTop = -12
   ExplicitWidth = 1063
   ExplicitHeight = 690
   PixelsPerInch = 96
@@ -120,6 +119,7 @@ inherited frmInputInvoicePenjualan: TfrmInputInvoicePenjualan
         Properties.DisplayFormat = '#,##.00'
         Properties.ReadOnly = False
         Properties.ValueType = vtFloat
+        HeaderAlignmentHorz = taRightJustify
         Options.Editing = False
       end
       object cxColSatuan: TcxGridColumn
@@ -134,6 +134,7 @@ inherited frmInputInvoicePenjualan: TfrmInputInvoicePenjualan
         DataBinding.ValueType = 'Float'
         PropertiesClassName = 'TcxSpinEditProperties'
         Properties.DisplayFormat = '#,##.00'
+        HeaderAlignmentHorz = taRightJustify
         Options.Editing = False
         Width = 88
       end
@@ -153,11 +154,12 @@ inherited frmInputInvoicePenjualan: TfrmInputInvoicePenjualan
         Properties.Items.Strings = (
           'IDR'
           'USD')
+        Visible = False
         Options.Editing = False
         Width = 61
       end
       object cxColDiscount: TcxGridColumn
-        Caption = 'Discount'
+        Caption = 'Diskon'
         PropertiesClassName = 'TcxSpinEditProperties'
         Properties.DisplayFormat = '#,#0.00'
         Properties.ReadOnly = True

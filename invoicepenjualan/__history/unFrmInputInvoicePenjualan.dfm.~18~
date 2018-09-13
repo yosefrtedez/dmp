@@ -3,6 +3,7 @@ inherited frmInputInvoicePenjualan: TfrmInputInvoicePenjualan
   ClientHeight = 690
   ClientWidth = 1063
   OnShow = FormShow
+  ExplicitTop = -12
   ExplicitWidth = 1063
   ExplicitHeight = 690
   PixelsPerInch = 96
@@ -66,6 +67,7 @@ inherited frmInputInvoicePenjualan: TfrmInputInvoicePenjualan
       DataController.Summary.SummaryGroups = <>
       DataController.OnBeforePost = cxtbTblPODataControllerBeforePost
       DataController.OnRecordChanged = cxtbTblPODataControllerRecordChanged
+      OptionsBehavior.FocusCellOnTab = True
       OptionsData.Appending = True
       OptionsView.Navigator = True
       OptionsView.Footer = True
@@ -156,6 +158,9 @@ inherited frmInputInvoicePenjualan: TfrmInputInvoicePenjualan
       end
       object cxColDiscount: TcxGridColumn
         Caption = 'Discount'
+        PropertiesClassName = 'TcxSpinEditProperties'
+        Properties.DisplayFormat = '#,#0.00'
+        Properties.ReadOnly = True
       end
       object cxColKeterangan: TcxGridColumn
         Caption = 'Keterangan'
@@ -269,7 +274,7 @@ inherited frmInputInvoicePenjualan: TfrmInputInvoicePenjualan
   object cxLuSj: TcxLookupComboBox
     Left = 122
     Top = 197
-    Properties.KeyFieldNames = 'no_bukti'
+    Properties.KeyFieldNames = 'id'
     Properties.ListColumns = <
       item
         Caption = 'No Bukti'
