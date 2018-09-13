@@ -329,7 +329,7 @@ begin
     self.demo := false;
     self.version := self.version + ' - ( DEMO VERSION )';
     {$ELSE}
-    mJudulAplikasi := 'PT. DMP - 100918.0910';
+    mJudulAplikasi := 'PT. DMP - 120918.0910';
     Self.version := '';
     Self.Ver := '17112015_0902';
     self.demo := false;
