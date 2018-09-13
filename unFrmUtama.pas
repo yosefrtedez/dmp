@@ -137,6 +137,8 @@ type
     procedure mnSet_UbahPasswordClick(Sender: TObject);
     procedure InvoicePenjualan1Click(Sender: TObject);
     procedure mnAkt_InvoicePembelianClick(Sender: TObject);
+    procedure PembayaranPembelian1Click(Sender: TObject);
+    procedure PembayaranPenjualan1Click(Sender: TObject);
   private
     procedure PGChange(Sender: TObject);
   public
@@ -168,7 +170,8 @@ uses
   unFrmPengambilanBahanBaku, unFrmInputHasilProduksi, unFrmLstSuratJalan,
   unFrmLapHasilProduksi, unFrmLapPengambilanBB, unFrmLapOutstandingPO,
   unFrmLapOutstandingSO, unFrmUbahPassword, unFrmLstInvoicePenjualan,
-  unFrmLstInvoicePembelian;
+  unFrmLstInvoicePembelian, unFrmLstPembayaranPembelian,
+  unFrmInputPembayaranPenjualan, unFrmLstPembayaranPenjualan;
 
 {$R *.dfm}
 
@@ -1114,6 +1117,25 @@ end;
 
 procedure TfrmUtama.mnWhl_TransferBarangClick(Sender: TObject);
 var
+  f: TfrmLstPembayaranPembelian;
+  ts: TcxTabSheet;
+begin
+  if not CekTabOpen('Pembayaran Pembelian') then begin
+    ToggleMainPage;
+    ts := TcxTabSheet.Create(Self);
+    ts.PageControl := pgMain;
+
+    f := TfrmLstPembayaranPembelian.Create(Self);
+    f.Parent := ts;
+    ts.Caption := f.Caption;
+    f.Show;
+
+    pgMain.ActivePage := ts;
+  end;
+end;
+
+procedure TfrmUtama.PembayaranPembelian1Click(Sender: TObject);
+var
   f: TfrmLstTransferBarang;
   ts: TcxTabSheet;
 begin
@@ -1123,6 +1145,25 @@ begin
     ts.PageControl := pgMain;
 
     f := TfrmLstTransferBarang.Create(Self);
+    f.Parent := ts;
+    ts.Caption := f.Caption;
+    f.Show;
+
+    pgMain.ActivePage := ts;
+  end;
+end;
+
+procedure TfrmUtama.PembayaranPenjualan1Click(Sender: TObject);
+var
+  f: TfrmLstPembayaranPenjualan;
+  ts: TcxTabSheet;
+begin
+  if not CekTabOpen('Pembayaran Penjualan') then begin
+    ToggleMainPage;
+    ts := TcxTabSheet.Create(Self);
+    ts.PageControl := pgMain;
+
+    f := TfrmLstPembayaranPenjualan.Create(Self);
     f.Parent := ts;
     ts.Caption := f.Caption;
     f.Show;

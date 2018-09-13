@@ -120,6 +120,7 @@ begin
         dm.zConn.ExecuteDirect(
           Format('UPDATE tbl_po_head SET f_app = 1, user_app = ''%s'', tgl_app = NOW() WHERE no_bukti = ''%s''',
           [Aplikasi.NamaUser, lst.Strings[i]]));
+        MsgBox(lst.Strings[i]);
       end;
       dm.zConn.Commit;
       MsgBox('Purchase Order sudah di Approval.');

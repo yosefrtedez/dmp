@@ -2,6 +2,7 @@ inherited frmLstPB: TfrmLstPB
   Caption = 'Penerimaan Barang'
   ClientHeight = 572
   OnCreate = FormCreate
+  ExplicitWidth = 1016
   ExplicitHeight = 572
   PixelsPerInch = 96
   TextHeight = 13
@@ -29,6 +30,9 @@ inherited frmLstPB: TfrmLstPB
     end
     inherited btnEdit: TButton
       OnClick = btnEditClick
+    end
+    inherited btnHapus: TButton
+      OnClick = btnHapusClick
     end
     inherited btnRefresh: TButton
       OnClick = btnRefreshClick

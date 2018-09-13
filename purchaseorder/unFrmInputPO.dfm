@@ -96,6 +96,7 @@ inherited frmInputPO: TfrmInputPO
       object cxColDeskripsi: TcxGridColumn
         Caption = 'Deskripsi'
         PropertiesClassName = 'TcxLookupComboBoxProperties'
+        Properties.DropDownAutoSize = True
         Properties.KeyFieldNames = 'id'
         Properties.ListColumns = <
           item

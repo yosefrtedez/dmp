@@ -980,11 +980,9 @@ begin
 
       cxlSupp.Properties.BeginUpdate;
       cxlSupp.EditValue := q.FieldByName('id_supplier').AsInteger;
-      cxlSupp.Properties.ReadOnly := True;
       cxlSupp.Properties.EndUpdate;
 
       cxtNoBukti.Text := q.FieldByName('no_bukti').AsString;
-      cxlSupp.Properties.ReadOnly := True;
 
       cxtAlamat.Text := q.FieldByName('alamat').AsString + ', ' + q.FieldByName('alamat2').AsString +
         ', ' + q.FieldByname('kota').AsString + ', ' + q.FieldByName('provinsi').AsString;

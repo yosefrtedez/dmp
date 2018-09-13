@@ -3,6 +3,7 @@ inherited frmInputInvoicePenjualan: TfrmInputInvoicePenjualan
   ClientHeight = 690
   ClientWidth = 1063
   OnShow = FormShow
+  ExplicitTop = -12
   ExplicitWidth = 1063
   ExplicitHeight = 690
   PixelsPerInch = 96
@@ -157,6 +158,9 @@ inherited frmInputInvoicePenjualan: TfrmInputInvoicePenjualan
       end
       object cxColDiscount: TcxGridColumn
         Caption = 'Discount'
+        PropertiesClassName = 'TcxSpinEditProperties'
+        Properties.DisplayFormat = '#,#0.00'
+        Properties.ReadOnly = True
       end
       object cxColKeterangan: TcxGridColumn
         Caption = 'Keterangan'

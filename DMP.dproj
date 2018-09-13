@@ -325,6 +325,12 @@
 			<DCCReference Include="laporan\unFrmLapInvoicePembelian.pas">
 				<Form>frmLapInvoicePembelian</Form>
 			</DCCReference>
+			<DCCReference Include="pembayaranpenjualan\unFrmInputPembayaranPenjualan.pas">
+				<Form>frmInputPembayaranPenjualan</Form>
+			</DCCReference>
+			<DCCReference Include="pembayaranpenjualan\unFrmLstPembayaranPenjualan.pas">
+				<Form>frmLstPembayaranPenjualan</Form>
+			</DCCReference>
 			<BuildConfiguration Include="Base">
 				<Key>Base</Key>
 			</BuildConfiguration>
@@ -350,7 +356,7 @@
 						<Parameters Name="UseLauncher">False</Parameters>
 						<Parameters Name="LoadAllSymbols">True</Parameters>
 						<Parameters Name="LoadUnspecifiedSymbols">False</Parameters>
-						<Parameters Name="RunParams">/noupdate0 /debug /acc1</Parameters>
+						<Parameters Name="RunParams">/noupdate0 /debug /acc</Parameters>
 					</Parameters>
 					<VersionInfo>
 						<VersionInfo Name="IncludeVerInfo">True</VersionInfo>

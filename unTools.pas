@@ -394,7 +394,11 @@ begin
   else if sTipe = 'invoice-penjualan' then
     depan := 'INV/'
   else if sTipe = 'invoice-pembelian' then
-    depan := 'INP/';
+    depan := 'INP/'
+  else if sTipe = 'pembayaran-pembelian' then
+    depan := 'PPB/'
+  else if sTipe = 'pembayaran-penjualan' then
+    depan := 'PPJ/';
 
   head := depan + GetFaktur;
 

@@ -103,8 +103,6 @@ var
 
 begin
 
-  inherited;
-
   {if (cxtbTblPO.DataController.EditState = [dceInsert, dceModified]) or (cxtbTblPO.DataController.EditState = [dceEdit, dceModified]) then begin
     MsgBox('Mohon selesaikan pengeditan detail sebelum disimpan.');
     Abort;
@@ -122,7 +120,7 @@ begin
     end;
 
     if Self.Jenis = 'T' then begin
-      sNoBukti := GetLastFak('invoice_penjualan');
+      sNoBukti := GetLastFak('invoice-penjualan');
       UpdateFaktur(Copy(sNoBukti,1,8));
     end
     else begin
@@ -150,14 +148,6 @@ begin
       qh.FieldByName('tgl_edit').AsDateTime := Aplikasi.NowServer;
       qh.FieldByName('keterangan').AsString := Trim(cxtKeterangan.Text);
       qh.FieldByName('id_sj').AsInteger := cxLuSj.EditValue;
-      {if self.Jenis = 'E' then
-        qh.FieldByName('f_revisi').AsInteger := 1
-      else
-        qh.FieldByName('f_revisi').AsInteger := 0;
-      if Self.Jenis = 'E' then begin
-        qh.FieldByName('user_edit').AsString := aplikasi.NamaUser;
-        qh.FieldByName('tgl_edit').AsDateTime := Aplikasi.NowServer;
-      end;}
       qh.Post;
 
       if Self.Jenis = 'T' then  ID := LastInsertID;
@@ -195,6 +185,8 @@ begin
         (Self.FormInduk as TfrmLstInvoicePenjualan).btnRefreshClick(nil);
 
       btnBatalClick(nil);
+
+      inherited;
     except
       on E: Exception do begin
         dm.zConn.Rollback;

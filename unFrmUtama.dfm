@@ -291,6 +291,7 @@ object frmUtama: TfrmUtama
         end
         object PembayaranPembelian1: TMenuItem
           Caption = 'Pembayaran Pembelian'
+          OnClick = PembayaranPembelian1Click
         end
       end
       object Penjualan1: TMenuItem
@@ -301,6 +302,7 @@ object frmUtama: TfrmUtama
         end
         object PembayaranPenjualan1: TMenuItem
           Caption = 'Pembayaran Penjualan'
+          OnClick = PembayaranPenjualan1Click
         end
       end
     end

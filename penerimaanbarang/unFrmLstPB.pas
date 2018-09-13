@@ -68,6 +68,7 @@ type
     procedure btnRefreshClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure btnEditClick(Sender: TObject);
+    procedure btnHapusClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -91,6 +92,13 @@ begin
   inherited;
   //MsgBox('Mohon maaf, modul ini belum bisa digunakan.');
   //Abort;
+
+  //cek jenis PB, jika tanpa PO, bisa di edit
+  if zqrPBHead.FieldByName('jenis_pb').AsInteger = 0 then begin
+    MsgBox('Transaksi Penerimaan Barang menggunakan PO tidak bisa di edit.');
+    Abort;
+  end;
+
   if not fu.CekTabOpen('Edit Penerimaan Barang') then begin
     ts := TcxTabSheet.Create(Self);
     ts.PageControl := frmUtama.pgMain;
@@ -105,6 +113,40 @@ begin
     ts.Caption := f.Caption;
     f.Show;
     fu.pgMain.ActivePage := ts;
+  end;
+end;
+
+procedure TfrmLstPB.btnHapusClick(Sender: TObject);
+var
+  q : TZQuery;
+  i, id: Integer;
+begin
+  inherited;
+
+  if zqrPBHead.IsEmpty then Abort;
+
+  i := QBox(Self, 'Hapus Penerimaan Barang Nomor : ' + zqrPBHead.FieldByName('no_bukti').AsString + ' ?','Hapus');
+  if i = IDYES then begin
+    try
+      id := zqrPBHead.FieldByName('id').AsInteger;
+      dm.zConn.StartTransaction;
+      dm.zConn.ExecuteDirect(Format('DELETE FROM tbl_pb_head WHERE id = %d',[id]));
+      dm.zConn.ExecuteDirect(Format('DELETE FROM tbl_pb_det WHERE id_ref = %d',[id]));
+      dm.zConn.ExecuteDirect(Format('DELETE FROM tbl_history WHERE no_bukti = ''%s''',
+        [zqrPBHead.FieldByName('no_bukti').AsString]));
+      dm.zConn.Commit;
+
+      MsgBox('Penerimaan Barang dengan Nomor : ' + zqrPBHead.FieldByname('no_bukti').AsString + ' sudah berhasil dihapus.');
+      MsgBox('Lakukan kalkulasi ulang stok dari menu Setting - Kalkulasi Ulang.');
+
+      zqrPBHead.Close;
+      zqrPBHead.Open;
+    except
+      on E: Exception do begin
+        dm.zConn.Rollback;
+        MsgBox('Error: ' + E.Message);
+      end;
+    end;
   end;
 end;
 
