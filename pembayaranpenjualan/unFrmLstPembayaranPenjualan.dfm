@@ -1,5 +1,5 @@
 inherited frmLstPembayaranPenjualan: TfrmLstPembayaranPenjualan
-  Caption = 'Purchase Order'
+  Caption = 'Pembayaran Penjualan'
   ClientHeight = 507
   ClientWidth = 1169
   OnCreate = FormCreate

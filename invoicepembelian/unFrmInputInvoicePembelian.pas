@@ -271,7 +271,9 @@ var
 begin
   inherited;
   try
-    q := OpenRS('SELECT a.*, b.kode kode_brg2,  b.deskripsi, c.no_bukti no_po2, d.satuan satuan2, e.ppn, e.disc_persen FROM tbl_pb_det a ' +
+    q := OpenRS('SELECT a.*, b.kode kode_brg2,  b.deskripsi, c.no_bukti no_po2, d.satuan satuan2, e.ppn, e.disc_persen, ' +
+      'e.harga harga_po ' +
+      'FROM tbl_pb_det a ' +
       'LEFT JOIN tbl_barang b ON b.id = a.id_brg ' +
       'LEFT JOIN tbl_po_head c ON c.id = a.id_po ' +
       'LEFT JOIN tbl_satuan d ON d.id = a.id_satuan ' +
@@ -303,7 +305,7 @@ begin
 
         Values[i, cxColQty.Index] := q.FieldByName('qty').AsFloat;
         Values[i, cxColSatuan.Index] := q.FieldByName('satuan2').AsString;
-        Values[i, cxColHarga.Index] := q.FieldByName('harga').AsFloat;
+        Values[i, cxColHarga.Index] := q.FieldByName('harga_po').AsFloat;
         Values[i, cxColPPn.Index] := q.FieldbyName('ppn').AsString;
         Values[i, cxColDiscPersen.Index] := q.FieldByName('disc_persen').AsFloat;
         if not q.FieldByName('id_po').IsNull then
@@ -513,7 +515,7 @@ end;
 
 procedure TfrmInputInvoicePembelian.FormCreate(Sender: TObject);
 begin
-inherited;
+  inherited;
   zqrSupplier.Open;
   zqrBarang.Open;
 end;

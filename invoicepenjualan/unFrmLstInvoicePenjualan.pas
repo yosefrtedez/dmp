@@ -57,6 +57,7 @@ type
     cxColHarga: TcxGridDBColumn;
     cxColSuratJalan: TcxGridDBColumn;
     btnPosting: TButton;
+    cxTblInvHeadColumn1: TcxGridDBColumn;
     procedure FormCreate(Sender: TObject);
     procedure btnRefreshClick(Sender: TObject);
     procedure btnTambahClick(Sender: TObject);

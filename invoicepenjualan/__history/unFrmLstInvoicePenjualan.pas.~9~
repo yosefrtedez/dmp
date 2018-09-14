@@ -1,4 +1,4 @@
-unit unFrmLstPembayaranPembelian;
+unit unFrmLstInvoicePenjualan;
 
 interface
 
@@ -21,16 +21,16 @@ uses
   cxButtons;
 
 type
-  TfrmLstPembayaranPembelian = class(TfrmTplGrid)
+  TfrmLstInvoicePenjualan = class(TfrmTplGrid)
     Label1: TLabel;
-    cxtbPP: TcxGridDBTableView;
+    cxTblInvHead: TcxGridDBTableView;
     cxgrdlvl1Grid1Level1: TcxGridLevel;
     cxgrd1: TcxGrid;
-    zqrPembayaranPenjualan: TZReadOnlyQuery;
-    dsPembayaranPenjualan: TDataSource;
+    zqrInvPenjualan: TZReadOnlyQuery;
+    dsInvPenjualan: TDataSource;
     cxTblDet: TcxGridDBTableView;
-    zqrPembayaranPenjualanDet: TZReadOnlyQuery;
-    dsPembayaranPenjualanDet: TDataSource;
+    zqrInvPenjualanDet: TZReadOnlyQuery;
+    dsInvPenjualanDet: TDataSource;
     cxColTblDetid: TcxGridDBColumn;
     cxColTblDetid_ref: TcxGridDBColumn;
     cxColTblDetno_bukti: TcxGridDBColumn;
@@ -41,34 +41,28 @@ type
     cxColTblDetharga: TcxGridDBColumn;
     cxColTblDetmata_uang: TcxGridDBColumn;
     cxGrid1: TcxGrid;
-    cxtbPPDet: TcxGridDBTableView;
+    cxTblInvDet: TcxGridDBTableView;
     cxGrid1Level1: TcxGridLevel;
     Panel3: TPanel;
     cxLabel1: TcxLabel;
-    zqrRptPO: TZReadOnlyQuery;
-    dsRptPO: TDataSource;
-    fdbPO: TfrxDBDataset;
-    rptPO: TfrxReport;
-    cxtbPPid: TcxGridDBColumn;
-    cxtbPPno_bukti: TcxGridDBColumn;
-    cxtbPPtanggal: TcxGridDBColumn;
-    cxtbPPid_cust: TcxGridDBColumn;
-    cxtbPPid_akun: TcxGridDBColumn;
-    cxtbPPuser: TcxGridDBColumn;
-    cxtbPPuser_dept: TcxGridDBColumn;
-    cxtbPPnama_customer: TcxGridDBColumn;
-    cxtbPPDetid: TcxGridDBColumn;
-    cxtbPPDetid_ref: TcxGridDBColumn;
-    cxtbPPDetid_invoice: TcxGridDBColumn;
-    cxtbPPDetjml_pembayaran: TcxGridDBColumn;
-    cxtbPPDetno_invoice: TcxGridDBColumn;
-    cxtbPPDetno_bukti: TcxGridDBColumn;
+    btnCetakPO: TButton;
+    cxColNo_bukti: TcxGridDBColumn;
+    cxColTanggal: TcxGridDBColumn;
+    cxColCustomer: TcxGridDBColumn;
+    cxColNobukti: TcxGridDBColumn;
+    cxColKodeBrg: TcxGridDBColumn;
+    cxColNama: TcxGridDBColumn;
+    cxColQty: TcxGridDBColumn;
+    cxColSatuan: TcxGridDBColumn;
+    cxColHarga: TcxGridDBColumn;
+    cxColSuratJalan: TcxGridDBColumn;
+    btnPosting: TButton;
     procedure FormCreate(Sender: TObject);
     procedure btnRefreshClick(Sender: TObject);
     procedure btnTambahClick(Sender: TObject);
     procedure btnEditClick(Sender: TObject);
     procedure btnHapusClick(Sender: TObject);
-    procedure cxtbPPFocusedRecordChanged(Sender: TcxCustomGridTableView;
+    procedure cxTblInvHeadFocusedRecordChanged(Sender: TcxCustomGridTableView;
       APrevFocusedRecord, AFocusedRecord: TcxCustomGridRecord;
       ANewItemRecordFocusingChanged: Boolean);
     procedure btnCtkPOClick(Sender: TObject);
@@ -81,34 +75,41 @@ type
   end;
 
 var
-  frmLstPembayaranPenjualan: TfrmLstPembayaranPembelian;
+  frmLstInvoicePembelian: TfrmLstInvoicePenjualan;
 
 implementation
 
 uses
-  unFrmUtama, unDM, unTools, unAplikasi, unFrmInputPembayaranPenjualan;
+  unFrmUtama, unDM,  unTools, unAplikasi, unFrmInputInvoicePenjualan,
+  unFrmLapInvoicePenjualan;
 
 {$R *.dfm}
 
-procedure TfrmLstPembayaranPembelian.btnCetakPOClick(Sender: TObject);
+procedure TfrmLstInvoicePenjualan.btnCetakPOClick(Sender: TObject);
 var
   q :TZQuery;
+  f: TfrmLapInvoicePenjualan;
 begin
   inherited;
-  {
-  q := OpenRS('select * from tbl_po_head where f_app = 1 and no_bukti = ''%s''',[zqrpo.FieldByName('no_bukti').AsString]);
+
+  q := OpenRS('select * from tbl_invoicepenjualan_head where no_bukti = ''%s''',[zqrInvPenjualan.FieldByName('no_bukti').AsString]);
   if q.Eof  then begin
-     MsgBox('PO ini tidak bisa dicetak karena belum di approve');
+     MsgBox('Faktur dengna nomer ini tidak ada');
      Abort;
   end;
-  zqrRptPO.Close;
-  zqrRptPO.ParamByName('no_bukti').AsString := zqrPO.FieldByName('no_bukti').AsString;
-  zqrRptPO.Open;
-  rptPO.ShowReport(True);
-  }
+
+  f := TfrmLapInvoicePenjualan.Create(Self);
+  with f do begin
+    zqrRptInvoicePenjualan.Close;
+    zqrRptInvoicePenjualan.ParamByName('id').AsInteger := zqrInvPenjualan.FieldByName('id').AsInteger;
+    zqrRptInvoicePenjualan.Open;
+    rptInvoicePenjualan.ShowReport(True);
+  end;
+  f.Free;
+
 end;
 
-procedure TfrmLstPembayaranPembelian.btnCtkPOClick(Sender: TObject);
+procedure TfrmLstInvoicePenjualan.btnCtkPOClick(Sender: TObject);
 begin
   inherited;
   {
@@ -119,10 +120,11 @@ begin
   }
 end;
 
-procedure TfrmLstPembayaranPembelian.btnEditClick(Sender: TObject);
+procedure TfrmLstInvoicePenjualan.btnEditClick(Sender: TObject);
 var
-  ts: TcxTabSheet;
-  q: TZQuery;
+
+ ts: TcxTabSheet;
+ q: TZQuery;
 begin
   inherited;
   {
@@ -134,6 +136,7 @@ begin
       Abort;
     end;
     f := TfrmInputPO.Create(Self);
+    f.TabSheet := Self.Parent as TcxTabSheet;
     f.FormInduk := Self;
     ts.Caption := 'Edit Purchase Order';
     f.Jenis := 'E';
@@ -146,7 +149,7 @@ begin
   }
 end;
 
-procedure TfrmLstPembayaranPembelian.btnHapusClick(Sender: TObject);
+procedure TfrmLstInvoicePenjualan.btnHapusClick(Sender: TObject);
 var
   q : TZQuery;
 begin
@@ -173,34 +176,30 @@ begin
     end;
   end;
   }
-
 end;
 
-procedure TfrmLstPembayaranPembelian.btnRefreshClick(Sender: TObject);
-var
-  bm: Variant;
+procedure TfrmLstInvoicePenjualan.btnRefreshClick(Sender: TObject);
 begin
   inherited;
-  try
-    bm := zqrPembayaranPenjualan.Bookmark;
-    zqrPembayaranPenjualan.Close;
-    zqrPembayaranPenjualan.Open;
-    zqrPembayaranPenjualan.Bookmark := bm;
-  except
-  end;
+
+  zqrInvPenjualan.Close;
+  zqrInvPenjualan.Open;
+  zqrInvPenjualanDet.Close;
+  zqrInvPenjualanDet.Open;
+
 end;
 
-procedure TfrmLstPembayaranPembelian.btnTambahClick(Sender: TObject);
+procedure TfrmLstInvoicePenjualan.btnTambahClick(Sender: TObject);
 var
-  f: TfrmInputPembayaranPenjualan;
+  f: TfrmInputInvoicePenjualan;
   ts: TcxTabSheet;
 begin
   inherited;
-  if not fu.CekTabOpen('Input Pembayaran Penjualan') then begin
+  if not fu.CekTabOpen('Input Invoice Penjualan') then begin
     ts := TcxTabSheet.Create(Self);
     ts.PageControl := frmUtama.pgMain;
-    f := TfrmInputPembayaranPenjualan.Create(Self);
-    f.TabSheet := Parent as TcxTabSheet;
+    f := TfrmInputInvoicePenjualan.Create(Self);
+    f.TabSheet := Self.Parent as TcxTabSheet;
     f.FormInduk := Self;
     f.Jenis := 'T';
     f.Parent := ts;
@@ -210,23 +209,24 @@ begin
   end;
 end;
 
-procedure TfrmLstPembayaranPembelian.cxtbPPFocusedRecordChanged(
+procedure TfrmLstInvoicePenjualan.cxTblInvHeadFocusedRecordChanged(
   Sender: TcxCustomGridTableView; APrevFocusedRecord,
   AFocusedRecord: TcxCustomGridRecord; ANewItemRecordFocusingChanged: Boolean);
 begin
   inherited;
   try
-    zqrPembayaranPenjualanDet.Close;
-    zqrPembayaranPenjualanDet.ParamByName('id_ref').AsInteger := zqrPembayaranPenjualan.FieldByName('id').AsInteger;
-    zqrPembayaranPenjualanDet.Open;
+    zqrInvPenjualanDet.Close;
+    zqrInvPenjualanDet.ParamByName('id_ref').AsInteger := zqrInvPenjualan.FieldByName('id').AsInteger;
+    zqrInvPenjualanDet.Open;
   except
   end;
 end;
 
-procedure TfrmLstPembayaranPembelian.FormCreate(Sender: TObject);
+procedure TfrmLstInvoicePenjualan.FormCreate(Sender: TObject);
 begin
   inherited;
-  zqrPembayaranPenjualan.Open;
+  zqrInvPenjualan.Open;
+
 end;
 
 end.

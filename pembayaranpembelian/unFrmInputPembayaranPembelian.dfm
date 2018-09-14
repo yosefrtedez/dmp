@@ -1,21 +1,21 @@
 inherited frmInputPembayaranPembelian: TfrmInputPembayaranPembelian
   Caption = 'Input Purchase Order'
   ClientHeight = 690
-  ClientWidth = 1063
+  ClientWidth = 1061
   OnShow = FormShow
-  ExplicitWidth = 1063
+  ExplicitWidth = 1061
   ExplicitHeight = 690
   PixelsPerInch = 96
   TextHeight = 13
   inherited Panel1: TPanel
-    Width = 1063
-    ExplicitWidth = 1063
+    Width = 1061
+    ExplicitWidth = 1061
     object Label1: TLabel
       Left = 10
       Top = 13
-      Width = 242
+      Width = 238
       Height = 19
-      Caption = 'Input Pembayaran Pembelian'
+      Caption = 'Input Pembayaran Penjualan'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -16
@@ -26,18 +26,18 @@ inherited frmInputPembayaranPembelian: TfrmInputPembayaranPembelian
   end
   inherited Panel2: TPanel
     Top = 641
-    Width = 1063
-    TabOrder = 14
+    Width = 1061
+    TabOrder = 17
     ExplicitTop = 641
-    ExplicitWidth = 1063
+    ExplicitWidth = 1061
   end
   object cxgrdPP: TcxGrid
     Left = 11
-    Top = 290
-    Width = 1045
+    Top = 288
+    Width = 1037
     Height = 293
     Anchors = [akLeft, akTop, akRight]
-    TabOrder = 13
+    TabOrder = 16
     object cxtbInv: TcxGridTableView
       NavigatorButtons.ConfirmDelete = False
       NavigatorButtons.Insert.Visible = False
@@ -55,9 +55,16 @@ inherited frmInputPembayaranPembelian: TfrmInputPembayaranPembelian
         item
           Format = '#,##.00'
           Kind = skSum
+        end
+        item
+          Format = '#,#0.00'
+          Kind = skSum
+          Column = cxColJmlDibayar
         end>
       DataController.Summary.SummaryGroups = <>
+      DataController.OnAfterPost = cxtbInvDataControllerAfterPost
       DataController.OnBeforePost = cxtbTblPODataControllerBeforePost
+      DataController.OnRecordChanged = cxtbInvDataControllerRecordChanged
       OptionsBehavior.FocusCellOnTab = True
       OptionsData.Appending = True
       OptionsView.Navigator = True
@@ -65,21 +72,51 @@ inherited frmInputPembayaranPembelian: TfrmInputPembayaranPembelian
       OptionsView.GroupByBox = False
       object cxColNoInvoice: TcxGridColumn
         Caption = 'No. Invoice'
-        Width = 121
+        PropertiesClassName = 'TcxLookupComboBoxProperties'
+        Properties.DropDownAutoSize = True
+        Properties.KeyFieldNames = 'id'
+        Properties.ListColumns = <
+          item
+            Caption = 'No. Invoice'
+            FieldName = 'no_bukti'
+          end
+          item
+            Caption = 'Subtotal'
+            FieldName = 'subtotal'
+          end>
+        Properties.ListSource = dsInv
+        Width = 124
       end
       object cxColTglInvoice: TcxGridColumn
         Caption = 'Tgl. Invoice'
         DataBinding.ValueType = 'DateTime'
-        Width = 101
+        PropertiesClassName = 'TcxDateEditProperties'
+        Properties.ReadOnly = True
+        Width = 107
+      end
+      object cxtbInvColumn1: TcxGridColumn
+        Caption = 'Tgl. Jatuh Tempo'
+        PropertiesClassName = 'TcxDateEditProperties'
+        Properties.ReadOnly = True
+        Width = 103
       end
       object cxColSaldo: TcxGridColumn
         Caption = 'Saldo'
         DataBinding.ValueType = 'Float'
+        PropertiesClassName = 'TcxSpinEditProperties'
+        Properties.Alignment.Horz = taRightJustify
+        Properties.DisplayFormat = '#,#0.00'
+        HeaderAlignmentHorz = taRightJustify
         Width = 122
       end
       object cxColJmlDibayar: TcxGridColumn
         Caption = 'Jumlah Dibayar'
         DataBinding.ValueType = 'Float'
+        PropertiesClassName = 'TcxSpinEditProperties'
+        Properties.Alignment.Horz = taRightJustify
+        Properties.DisplayFormat = '#,#0.00'
+        FooterAlignmentHorz = taRightJustify
+        HeaderAlignmentHorz = taRightJustify
         Width = 128
       end
     end
@@ -100,7 +137,7 @@ inherited frmInputPembayaranPembelian: TfrmInputPembayaranPembelian
   object cxlbl5: TcxLabel
     Left = 10
     Top = 116
-    Caption = 'Nama Supplier'
+    Caption = 'Nama Customer'
   end
   object cxlbl6: TcxLabel
     Left = 10
@@ -114,21 +151,21 @@ inherited frmInputPembayaranPembelian: TfrmInputPembayaranPembelian
     TabOrder = 3
     Width = 146
   end
-  object cxlSupplier: TcxLookupComboBox
+  object cxlCustomer: TcxLookupComboBox
     Left = 122
     Top = 115
     Properties.DropDownAutoSize = True
     Properties.KeyFieldNames = 'id'
     Properties.ListColumns = <
       item
-        Caption = 'Nama Supplier'
+        Caption = 'Nama Customer'
         FieldName = 'nama'
       end
       item
         Caption = 'Kode Supplier'
         FieldName = 'kode'
       end>
-    Properties.ListSource = dsSupplier
+    Properties.ListSource = dsCustomer
     Properties.OnChange = cxLuSupplierPropertiesChange
     TabOrder = 5
     Width = 351
@@ -156,7 +193,7 @@ inherited frmInputPembayaranPembelian: TfrmInputPembayaranPembelian
     Left = 122
     Top = 253
     Properties.CharCase = ecUpperCase
-    TabOrder = 11
+    TabOrder = 14
     Width = 416
   end
   object cxLabel1: TcxLabel
@@ -164,53 +201,104 @@ inherited frmInputPembayaranPembelian: TfrmInputPembayaranPembelian
     Top = 170
     Caption = 'Akun Kas'
   end
-  object cxLookupComboBox1: TcxLookupComboBox
+  object cxlAkun: TcxLookupComboBox
     Left = 122
     Top = 169
     Properties.DropDownAutoSize = True
     Properties.KeyFieldNames = 'id'
     Properties.ListColumns = <
       item
-        Caption = 'Nama Supplier'
+        Caption = 'Akun'
         FieldName = 'nama'
       end
       item
-        Caption = 'Kode Supplier'
-        FieldName = 'kode'
+        Caption = 'No. Akun'
+        FieldName = 'noakun'
       end>
-    Properties.ListSource = dsSupplier
-    Properties.OnChange = cxLuSupplierPropertiesChange
+    Properties.ListOptions.SyncMode = True
+    Properties.ListSource = dsAkun
+    Properties.OnEditValueChanged = cxlAkunPropertiesEditValueChanged
     TabOrder = 9
     Width = 351
   end
-  object zqrPPHead: TZReadOnlyQuery
+  object cxLabel2: TcxLabel
+    Left = 10
+    Top = 197
+    Caption = 'Terbilang'
+  end
+  object cxtAkun: TcxTextEdit
+    Left = 479
+    Top = 169
+    Properties.CharCase = ecUpperCase
+    Properties.ReadOnly = True
+    TabOrder = 10
+    Width = 103
+  end
+  object cxmTerbilang: TcxMemo
+    Left = 122
+    Top = 196
+    Properties.ReadOnly = True
+    TabOrder = 12
+    Height = 51
+    Width = 351
+  end
+  object zqrInv: TZReadOnlyQuery
     Connection = DM.zConn
     AutoCalcFields = False
     SQL.Strings = (
-      'SELECT id, no_bukti, user, user_dept'
-      'FROM tbl_pp_head WHERE f_app = 1;')
-    Params = <>
+      'SELECT b.id, b.no_bukti, SUM(a.qty * a.harga) subtotal'
+      'FROM tbl_invoicepenjualan_det a '
+      'LEFT JOIN tbl_invoicepenjualan_head b ON a.no_bukti = a.no_bukti'
+      'WHERE b.id_cust = :id_cust'
+      'GROUP BY b.id, b.no_bukti')
+    Params = <
+      item
+        DataType = ftUnknown
+        Name = 'id_cust'
+        ParamType = ptUnknown
+      end>
     Left = 692
     Top = 82
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'id_cust'
+        ParamType = ptUnknown
+      end>
   end
-  object dsPPHead: TDataSource
-    DataSet = zqrPPHead
-    Left = 769
-    Top = 67
+  object dsInv: TDataSource
+    DataSet = zqrInv
+    Left = 761
+    Top = 83
   end
-  object zqrSupplier: TZReadOnlyQuery
+  object zqrCustomer: TZReadOnlyQuery
     Connection = DM.zConn
     AutoCalcFields = False
     SQL.Strings = (
       'select id, kode, nama '
-      'from tbl_supplier order by nama')
+      'from tbl_customer order by nama')
     Params = <>
     Left = 707
     Top = 182
   end
-  object dsSupplier: TDataSource
-    DataSet = zqrSupplier
-    Left = 768
+  object dsCustomer: TDataSource
+    DataSet = zqrCustomer
+    Left = 776
     Top = 181
+  end
+  object zqrAkun: TZReadOnlyQuery
+    Connection = DM.zConn
+    AutoCalcFields = False
+    SQL.Strings = (
+      'select id, noakun, nama '
+      'from tbl_coa where ifnull(induk,'#39#39') <> '#39#39' and tipe = 1;')
+    Params = <>
+    Left = 844
+    Top = 146
+  end
+  object dsAkun: TDataSource
+    DataSet = zqrAkun
+    Left = 913
+    Top = 147
   end
 end

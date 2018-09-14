@@ -1,5 +1,5 @@
 inherited frmLstPembayaranPembelian: TfrmLstPembayaranPembelian
-  Caption = 'Purchase Order'
+  Caption = 'Pembayaran Penjualan'
   ClientHeight = 507
   ClientWidth = 1169
   OnCreate = FormCreate
@@ -13,9 +13,9 @@ inherited frmLstPembayaranPembelian: TfrmLstPembayaranPembelian
     object Label1: TLabel
       Left = 10
       Top = 13
-      Width = 193
+      Width = 189
       Height = 19
-      Caption = 'Pembayaran Pembelian'
+      Caption = 'Pembayaran Penjualan'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -16
@@ -54,10 +54,10 @@ inherited frmLstPembayaranPembelian: TfrmLstPembayaranPembelian
     Height = 168
     Align = alClient
     TabOrder = 1
-    object cxtbPOHead: TcxGridDBTableView
+    object cxtbPP: TcxGridDBTableView
       NavigatorButtons.ConfirmDelete = False
-      OnFocusedRecordChanged = cxtbPOHeadFocusedRecordChanged
-      DataController.DataSource = dsPembayaranPembelian
+      OnFocusedRecordChanged = cxtbPPFocusedRecordChanged
+      DataController.DataSource = dsPembayaranPenjualan
       DataController.KeyFieldNames = 'id'
       DataController.Summary.DefaultGroupSummaryItems = <>
       DataController.Summary.FooterSummaryItems = <>
@@ -66,74 +66,45 @@ inherited frmLstPembayaranPembelian: TfrmLstPembayaranPembelian
       OptionsBehavior.FocusCellOnTab = True
       OptionsView.CellTextMaxLineCount = 10
       Preview.MaxLineCount = 10
-      object cxColTblHeadno_bukti: TcxGridDBColumn
+      object cxtbPPid: TcxGridDBColumn
+        DataBinding.FieldName = 'id'
+        Visible = False
+      end
+      object cxtbPPno_bukti: TcxGridDBColumn
         Caption = 'No. Bukti'
         DataBinding.FieldName = 'no_bukti'
-        Options.Editing = False
-        Width = 90
+        Width = 88
       end
-      object cxColTblHeadno_fobj: TcxGridDBColumn
-        Caption = 'No PP'
-        DataBinding.FieldName = 'no_pp'
-        Options.Filtering = False
-        Width = 90
+      object cxtbPPtanggal: TcxGridDBColumn
+        Caption = 'Tanggal'
+        DataBinding.FieldName = 'tanggal'
       end
-      object cxColTblHeadnama: TcxGridDBColumn
-        Caption = 'Nama'
-        DataBinding.FieldName = 'nama_supplier'
-        Options.Editing = False
-        Width = 150
+      object cxtbPPnama_customer: TcxGridDBColumn
+        Caption = 'Nama Customer'
+        DataBinding.FieldName = 'nama_customer'
+        Width = 171
       end
-      object cxColTblHeadkontak: TcxGridDBColumn
-        DataBinding.FieldName = 'kontak'
-        Options.Editing = False
-        Width = 120
+      object cxtbPPid_cust: TcxGridDBColumn
+        DataBinding.FieldName = 'id_cust'
+        Visible = False
       end
-      object cxColTblHeadtgl_required: TcxGridDBColumn
-        Caption = 'Tgl Kedatangan'
-        DataBinding.FieldName = 'tgl_required'
-        Options.Editing = False
-        Width = 90
+      object cxtbPPid_akun: TcxGridDBColumn
+        DataBinding.FieldName = 'id_akun'
+        Visible = False
       end
-      object cxColTblHeaduser: TcxGridDBColumn
+      object cxtbPPuser: TcxGridDBColumn
         Caption = 'User'
         DataBinding.FieldName = 'user'
-        Options.Editing = False
-        Width = 100
       end
-      object cxColTblHeaduser_dept: TcxGridDBColumn
-        Caption = 'Departemen'
+      object cxtbPPuser_dept: TcxGridDBColumn
+        Caption = 'Dept'
         DataBinding.FieldName = 'user_dept'
-        Options.Editing = False
-        Width = 100
-      end
-      object cxColTblHeadpembayaran: TcxGridDBColumn
-        Caption = 'Pembayaran'
-        DataBinding.FieldName = 'pembayaran'
-        Options.Editing = False
-        Width = 100
-      end
-      object cxColTblHeadf_approval: TcxGridDBColumn
-        Caption = 'Approval'
-        DataBinding.FieldName = 'f_app'
-        PropertiesClassName = 'TcxCheckBoxProperties'
-        Properties.ValueChecked = 1
-        Properties.ValueUnchecked = 0
-        Options.Editing = False
-        Width = 50
-      end
-      object cxColTblHeadf_completed: TcxGridDBColumn
-        Caption = 'Komplit'
-        DataBinding.FieldName = 'f_completed'
-        PropertiesClassName = 'TcxCheckBoxProperties'
-        Properties.ValueChecked = 1
-        Properties.ValueUnchecked = 0
-        Options.Editing = False
+        Width = 115
       end
     end
     object cxTblDet: TcxGridDBTableView
       NavigatorButtons.ConfirmDelete = False
-      DataController.DataSource = dsPembayaranPembelianDet
+      DataController.DataSource = dsPembayaranPenjualanDet
       DataController.DetailKeyFieldNames = 'id_ref'
       DataController.MasterKeyFieldNames = 'id'
       DataController.Summary.DefaultGroupSummaryItems = <>
@@ -182,7 +153,7 @@ inherited frmLstPembayaranPembelian: TfrmLstPembayaranPembelian
       end
     end
     object cxgrdlvl1Grid1Level1: TcxGridLevel
-      GridView = cxtbPOHead
+      GridView = cxtbPP
     end
   end
   object cxGrid1: TcxGrid
@@ -192,80 +163,51 @@ inherited frmLstPembayaranPembelian: TfrmLstPembayaranPembelian
     Height = 200
     Align = alBottom
     TabOrder = 3
-    object cxtbPODet: TcxGridDBTableView
+    object cxtbPPDet: TcxGridDBTableView
       NavigatorButtons.ConfirmDelete = False
-      DataController.DataSource = dsPembayaranPembelianDet
+      DataController.DataSource = dsPembayaranPenjualanDet
       DataController.Summary.DefaultGroupSummaryItems = <>
       DataController.Summary.FooterSummaryItems = <
         item
           Format = '#,#0.00'
           Kind = skSum
-          Column = cxtbPODetColumn2
         end>
       DataController.Summary.SummaryGroups = <>
       OptionsBehavior.FocusCellOnTab = True
       OptionsView.Footer = True
-      object cxtbPODetkode_brg: TcxGridDBColumn
-        Caption = 'Kode Brg.'
-        DataBinding.FieldName = 'kode_brg'
-        Width = 103
+      object cxtbPPDetno_bukti: TcxGridDBColumn
+        Caption = 'No. Bukti'
+        DataBinding.FieldName = 'no_bukti'
       end
-      object cxtbPODetdeskripsi: TcxGridDBColumn
-        Caption = 'Deskripsi'
-        DataBinding.FieldName = 'deskripsi'
-        Width = 374
-      end
-      object cxtbPODetqty: TcxGridDBColumn
-        Caption = 'Qty.'
-        DataBinding.FieldName = 'qty'
-        PropertiesClassName = 'TcxSpinEditProperties'
-        Properties.Alignment.Horz = taRightJustify
-        Properties.DisplayFormat = '#,#0.00'
-        HeaderAlignmentHorz = taRightJustify
-      end
-      object cxtbPODetColumn3: TcxGridDBColumn
-        Caption = 'Qty. Terima'
-        DataBinding.FieldName = 'qty_terima'
-        PropertiesClassName = 'TcxSpinEditProperties'
-        Properties.DisplayFormat = '#,#0.00'
-        HeaderAlignmentHorz = taRightJustify
-        Width = 71
-      end
-      object cxtbPODetsatuan: TcxGridDBColumn
-        Caption = 'Satuan'
-        DataBinding.FieldName = 'satuan'
-        Width = 54
-      end
-      object cxtbPODetharga: TcxGridDBColumn
-        Caption = 'Harga'
-        DataBinding.FieldName = 'harga'
-        PropertiesClassName = 'TcxSpinEditProperties'
-        Properties.Alignment.Horz = taRightJustify
-        Properties.DisplayFormat = '#,#0.00'
-        HeaderAlignmentHorz = taRightJustify
-      end
-      object cxtbPODetmata_uang: TcxGridDBColumn
-        DataBinding.FieldName = 'mata_uang'
+      object cxtbPPDetid: TcxGridDBColumn
+        DataBinding.FieldName = 'id'
         Visible = False
       end
-      object cxtbPODetColumn1: TcxGridDBColumn
-        Caption = 'Keterangan'
-        DataBinding.FieldName = 'keterangan'
-        Width = 370
+      object cxtbPPDetid_ref: TcxGridDBColumn
+        DataBinding.FieldName = 'id_ref'
+        Visible = False
       end
-      object cxtbPODetColumn2: TcxGridDBColumn
-        Caption = 'Subtotal'
-        DataBinding.FieldName = 'subtotal'
+      object cxtbPPDetid_invoice: TcxGridDBColumn
+        DataBinding.FieldName = 'id_invoice'
+        Visible = False
+      end
+      object cxtbPPDetno_invoice: TcxGridDBColumn
+        Caption = 'No. Invoice'
+        DataBinding.FieldName = 'no_invoice'
+        Width = 117
+      end
+      object cxtbPPDetjml_pembayaran: TcxGridDBColumn
+        Caption = 'Jumlah Pembayaran'
+        DataBinding.FieldName = 'jml_pembayaran'
         PropertiesClassName = 'TcxSpinEditProperties'
-        Properties.Alignment.Horz = taRightJustify
         Properties.DisplayFormat = '#,#0.00'
-        FooterAlignmentHorz = taRightJustify
+        Properties.ReadOnly = True
         HeaderAlignmentHorz = taRightJustify
-        Width = 97
+        Width = 139
       end
     end
     object cxGrid1Level1: TcxGridLevel
-      GridView = cxtbPODet
+      GridView = cxtbPPDet
     end
   end
   object Panel3: TPanel
@@ -275,58 +217,36 @@ inherited frmLstPembayaranPembelian: TfrmLstPembayaranPembelian
     Height = 41
     Align = alBottom
     TabOrder = 2
-    DesignSize = (
-      1169
-      41)
     object cxLabel1: TcxLabel
       Left = 10
       Top = 11
       Caption = 'Detail Purchase Order'
     end
-    object btnCetakPO: TButton
-      Left = 1086
-      Top = 9
-      Width = 75
-      Height = 25
-      Anchors = [akTop, akRight]
-      Caption = 'Cetak PO'
-      TabOrder = 0
-      OnClick = btnCetakPOClick
-    end
   end
-  object zqrPembayaranPembelian: TZReadOnlyQuery
+  object zqrPembayaranPenjualan: TZReadOnlyQuery
     Connection = DM.zConn
     SQL.Strings = (
-      
-        'SELECT a.id, a.no_bukti, a.tgl_required, jenis_po, a.user, a.use' +
-        'r_dept, a.pembayaran, a.f_app, a.f_completed,'
-      'b.nama, b.kontak, c.no_bukti no_pp, d.nama nama_supplier'
-      'FROM tbl_po_head a '
-      'LEFT JOIN tbl_supplier b ON a.kode_supp = b.kode'
-      'LEFT JOIN tbl_pp_head c ON c.id = a.id_pp'
-      'LEFT JOIN tbl_supplier d ON d.id = a.id_supplier')
+      'SELECT a.*, b.nama nama_customer'
+      'FROM tbl_pembayaranpenjualan_head a'
+      'LEFT JOIN tbl_customer b ON a.id_cust = b.id')
     Params = <>
     Left = 647
     Top = 156
   end
-  object dsPembayaranPembelian: TDataSource
-    DataSet = zqrPembayaranPembelian
+  object dsPembayaranPenjualan: TDataSource
+    DataSet = zqrPembayaranPenjualan
     Left = 811
     Top = 157
   end
-  object zqrPembayaranPembelianDet: TZReadOnlyQuery
+  object zqrPembayaranPenjualanDet: TZReadOnlyQuery
     Connection = DM.zConn
     AutoCalcFields = False
+    Active = True
     SQL.Strings = (
-      
-        'SELECT a.*, b.deskripsi, a.qty, c.satuan, a.harga, a.mata_uang, ' +
-        'a.qty * a.harga subtotal,'
-      
-        '(SELECT SUM(qty) FROM tbl_pb_det WHERE id_brg = a.id_brg AND id_' +
-        'po = a.id_ref) qty_terima'
-      'FROM tbl_po_det a'
-      'LEFT JOIN tbl_barang b ON a.kode_brg = b.kode '
-      'LEFT JOIN tbl_satuan c ON c.id = a.id_satuan'
+      'SELECT a.*, c.no_bukti no_invoice, c.no_bukti'
+      'FROM tbl_pembayaranpenjualan_det a'
+      'INNER JOIN tbl_pembayaranpenjualan_head b ON a.id_ref = b.id'
+      'LEFT JOIN tbl_invoicepenjualan_head c ON c.id = a.id_invoice'
       'WHERE a.id_ref = :id_ref')
     Params = <
       item
@@ -343,8 +263,8 @@ inherited frmLstPembayaranPembelian: TfrmLstPembayaranPembelian
         ParamType = ptUnknown
       end>
   end
-  object dsPembayaranPembelianDet: TDataSource
-    DataSet = zqrPembayaranPembelianDet
+  object dsPembayaranPenjualanDet: TDataSource
+    DataSet = zqrPembayaranPenjualanDet
     Left = 577
     Top = 356
   end

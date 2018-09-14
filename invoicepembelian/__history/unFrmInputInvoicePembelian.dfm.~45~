@@ -3,7 +3,6 @@ inherited frmInputInvoicePembelian: TfrmInputInvoicePembelian
   ClientHeight = 690
   ClientWidth = 1065
   OnShow = FormShow
-  ExplicitTop = -25
   ExplicitWidth = 1065
   ExplicitHeight = 690
   PixelsPerInch = 96
@@ -63,6 +62,7 @@ inherited frmInputInvoicePembelian: TfrmInputInvoicePembelian
       DataController.Summary.SummaryGroups = <>
       DataController.OnBeforePost = cxtbTblPODataControllerBeforePost
       DataController.OnRecordChanged = cxtbTblPODataControllerRecordChanged
+      OptionsBehavior.FocusCellOnTab = True
       OptionsData.Appending = True
       OptionsView.Navigator = True
       OptionsView.Footer = True
@@ -168,6 +168,9 @@ inherited frmInputInvoicePembelian: TfrmInputInvoicePembelian
       object cxColIdBrg: TcxGridColumn
         Visible = False
       end
+      object cxColIdPO: TcxGridColumn
+        Visible = False
+      end
     end
     object cxgrdlvl1Grid1Level1: TcxGridLevel
       GridView = cxtbInvPemb
@@ -238,7 +241,6 @@ inherited frmInputInvoicePembelian: TfrmInputInvoicePembelian
     Left = 8
     Top = 170
     Caption = 'No. Penerimaan '
-    Visible = False
   end
   object cxlNoPenerimaan: TcxLookupComboBox
     Left = 122
@@ -307,7 +309,7 @@ inherited frmInputInvoicePembelian: TfrmInputInvoicePembelian
       'on a.id=b.id_ref left join tbl_barang c '
       'on b.id_brg=c.id left join tbl_satuan d'
       'on b.id_satuan=d.id '
-      'WHERE a.f_app=1 and a.id_supplier= :supplier;')
+      'WHERE a.f_app=1 and a.id_supplier= :supplier ')
     Params = <
       item
         DataType = ftUnknown
@@ -331,10 +333,12 @@ inherited frmInputInvoicePembelian: TfrmInputInvoicePembelian
   object zqrSupplier: TZReadOnlyQuery
     Connection = DM.zConn
     AutoCalcFields = False
+    Active = True
     SQL.Strings = (
-      'select distinct a.id_supplier,b.kode,b.nama'
-      'from tbl_po_head a left join tbl_supplier b'
-      'on a.id_supplier=b.id WHERE f_app=1')
+      'SELECT id, kode, nama '
+      'FROM tbl_supplier'
+      'WHERE f_aktif = 1'
+      'ORDER BY nama')
     Params = <>
     Left = 635
     Top = 62
@@ -370,7 +374,7 @@ inherited frmInputInvoicePembelian: TfrmInputInvoicePembelian
     SQL.Strings = (
       'SELECT id, no_bukti'
       'FROM tbl_pb_head '
-      'WHERE id_supplier = :id_supplier'
+      'WHERE id_supplier = :id_supplier AND f_inv = 0'
       '')
     Params = <
       item

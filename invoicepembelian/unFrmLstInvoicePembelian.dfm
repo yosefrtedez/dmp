@@ -189,7 +189,7 @@ inherited frmLstInvoicePembelian: TfrmLstInvoicePembelian
       OptionsView.Footer = True
       object cxtbInvPembDetColumn5: TcxGridDBColumn
         Caption = 'No. PO'
-        DataBinding.FieldName = 'no_po2'
+        DataBinding.FieldName = 'nomor_po'
         Width = 97
       end
       object cxtbInvPembDetkode_brg: TcxGridDBColumn
@@ -307,14 +307,18 @@ inherited frmLstInvoicePembelian: TfrmLstInvoicePembelian
     SQL.Strings = (
       
         'SELECT a.*, b.kode kode_brg2,  b.deskripsi, a.qty, c.satuan, a.h' +
-        'arga, a.mata_uang, a.qty * a.harga subtotal, e.no_bukti no_po2'
+        'arga, a.mata_uang, e.no_bukti nomor_po,'
+      
+        '(a.qty * a.harga) - ((a.qty * a.harga) * a.disc_persen / 100)  +' +
+        ' if(a.ppn = '#39'PPN'#39',((a.qty * a.harga) - ((a.qty * a.harga) * a.di' +
+        'sc_persen / 100)) * 0.1,0) subtotal'
       'FROM tbl_invoicepembelian_det a'
       'LEFT JOIN tbl_barang b ON a.id_brg = b.id '
       'LEFT JOIN tbl_satuan c ON c.id = a.id_satuan'
       
         'LEFT JOIN tbl_po_det d ON d.id_ref = a.id_po AND d.id_brg = a.id' +
         '_brg'
-      'LEFT JOIN tbl_po_head e ON e.id = d.id_ref '
+      'LEFT JOIN tbl_po_head e ON e.id = d.id_ref'
       'WHERE a.id_ref = :id_ref')
     Params = <
       item

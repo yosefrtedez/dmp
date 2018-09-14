@@ -185,7 +185,11 @@ begin
       dm.zConn.Commit;
       qh.Close;
       qd.Close;
-      Self.Jenis := '';
+
+      dm.zConn.ExecuteDirect(
+        Format('UPDATE tbl_pb_head SET f_inv = 1 WHERE no_bukti = ''%s''',[cxlNoPenerimaan.Text])
+      );
+
       MsgBox('Transaksi Invoice Pembelian sudah disimpan dengan No. Bukti : ' + sNoBukti);
 
       if Assigned(Self.FormInduk) then
@@ -267,7 +271,9 @@ var
 begin
   inherited;
   try
-    q := OpenRS('SELECT a.*, b.kode kode_brg2,  b.deskripsi, c.no_bukti no_po2, d.satuan satuan2, e.ppn, e.disc_persen FROM tbl_pb_det a ' +
+    q := OpenRS('SELECT a.*, b.kode kode_brg2,  b.deskripsi, c.no_bukti no_po2, d.satuan satuan2, e.ppn, e.disc_persen, ' +
+      'e.harga harga_po ' +
+      'FROM tbl_pb_det a ' +
       'LEFT JOIN tbl_barang b ON b.id = a.id_brg ' +
       'LEFT JOIN tbl_po_head c ON c.id = a.id_po ' +
       'LEFT JOIN tbl_satuan d ON d.id = a.id_satuan ' +
@@ -278,7 +284,7 @@ begin
     while not q.Eof do begin
       with cxtbInvPemb.DataController do begin
         i := AppendRecord;
-        Values[i, cxColKodeBrg.Index] := q.FieldByName('kode_brg').AsString;
+        Values[i, cxColKodeBrg.Index] := q.FieldByName('kode_brg2').AsString;
         Values[i, cxColDeskripsi.Index] := q.FieldByName('deskripsi').AsString;
 
         Values[i, cxColIdBrg.Index] := q.FieldByName('id_brg').AsInteger;
@@ -288,12 +294,12 @@ begin
 
         if Values[i, cxColNoPO.Index] <> '' then begin
           cxColHarga.Properties.ReadOnly := True;
-          cxColHarga.Properties.ReadOnly := True;
+          cxColDiscPersen.Properties.ReadOnly := True;
           cxColPPn.Properties.ReadOnly := True;
         end
         else begin
           cxColHarga.Properties.ReadOnly := False;
-          cxColHarga.Properties.ReadOnly := False;
+          cxColDiscPersen.Properties.ReadOnly := False;
           cxColPPn.Properties.ReadOnly := False;
         end;
 
@@ -486,6 +492,7 @@ var
   t, t1, t2, t3, disc1 : Real;
   i: Integer ;
 begin
+  i := ARecordIndex;
   if (AItemIndex = cxColHarga.Index) or (AItemIndex = cxColDiscPersen.Index) or (AItemINdex = cxColPPn.Index) then begin
     try
       cxtbInvPemb.BeginUpdate;
@@ -509,10 +516,6 @@ end;
 procedure TfrmInputInvoicePembelian.FormCreate(Sender: TObject);
 begin
 inherited;
-  {
-  cxdTgl.Date := Aplikasi.Tanggal;
-  cxCboRate.ItemIndex := 0;
-  }
   zqrSupplier.Open;
   zqrBarang.Open;
 end;

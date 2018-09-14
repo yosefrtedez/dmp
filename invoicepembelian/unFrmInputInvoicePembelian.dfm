@@ -169,6 +169,7 @@ inherited frmInputInvoicePembelian: TfrmInputInvoicePembelian
         Visible = False
       end
       object cxColIdPO: TcxGridColumn
+        Visible = False
       end
     end
     object cxgrdlvl1Grid1Level1: TcxGridLevel
@@ -206,7 +207,7 @@ inherited frmInputInvoicePembelian: TfrmInputInvoicePembelian
     Left = 122
     Top = 115
     Properties.DropDownAutoSize = True
-    Properties.KeyFieldNames = 'id_supplier'
+    Properties.KeyFieldNames = 'id'
     Properties.ListColumns = <
       item
         Caption = 'Nama Supplier'
@@ -333,9 +334,10 @@ inherited frmInputInvoicePembelian: TfrmInputInvoicePembelian
     Connection = DM.zConn
     AutoCalcFields = False
     SQL.Strings = (
-      'select distinct a.id_supplier,b.kode,b.nama'
-      'from tbl_po_head a left join tbl_supplier b'
-      'on a.id_supplier=b.id WHERE f_app=1')
+      'SELECT id, kode, nama '
+      'FROM tbl_supplier'
+      'WHERE f_aktif = 1'
+      'ORDER BY nama')
     Params = <>
     Left = 635
     Top = 62

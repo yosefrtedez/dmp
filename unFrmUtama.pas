@@ -1162,6 +1162,7 @@ begin
     ToggleMainPage;
     ts := TcxTabSheet.Create(Self);
     ts.PageControl := pgMain;
+    ts.Caption := 'Pembayaran Penjualan';
 
     f := TfrmLstPembayaranPenjualan.Create(Self);
     f.Parent := ts;

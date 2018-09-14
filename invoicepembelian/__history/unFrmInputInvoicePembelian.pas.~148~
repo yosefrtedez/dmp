@@ -185,7 +185,11 @@ begin
       dm.zConn.Commit;
       qh.Close;
       qd.Close;
-      Self.Jenis := '';
+
+      dm.zConn.ExecuteDirect(
+        Format('UPDATE tbl_pb_head SET f_inv = 1 WHERE no_bukti = ''%s''',[cxlNoPenerimaan.Text])
+      );
+
       MsgBox('Transaksi Invoice Pembelian sudah disimpan dengan No. Bukti : ' + sNoBukti);
 
       if Assigned(Self.FormInduk) then
@@ -288,12 +292,12 @@ begin
 
         if Values[i, cxColNoPO.Index] <> '' then begin
           cxColHarga.Properties.ReadOnly := True;
-          cxColHarga.Properties.ReadOnly := True;
+          cxColDiscPersen.Properties.ReadOnly := True;
           cxColPPn.Properties.ReadOnly := True;
         end
         else begin
           cxColHarga.Properties.ReadOnly := False;
-          cxColHarga.Properties.ReadOnly := False;
+          cxColDiscPersen.Properties.ReadOnly := False;
           cxColPPn.Properties.ReadOnly := False;
         end;
 
@@ -486,6 +490,7 @@ var
   t, t1, t2, t3, disc1 : Real;
   i: Integer ;
 begin
+  i := ARecordIndex;
   if (AItemIndex = cxColHarga.Index) or (AItemIndex = cxColDiscPersen.Index) or (AItemINdex = cxColPPn.Index) then begin
     try
       cxtbInvPemb.BeginUpdate;
@@ -509,10 +514,6 @@ end;
 procedure TfrmInputInvoicePembelian.FormCreate(Sender: TObject);
 begin
 inherited;
-  {
-  cxdTgl.Date := Aplikasi.Tanggal;
-  cxCboRate.ItemIndex := 0;
-  }
   zqrSupplier.Open;
   zqrBarang.Open;
 end;

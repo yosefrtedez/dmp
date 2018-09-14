@@ -97,17 +97,7 @@ inherited frmLstInvoicePenjualan: TfrmLstInvoicePenjualan
         Caption = 'No. Surat Jalan'
         DataBinding.FieldName = 'suratjalan'
         Options.Editing = False
-        Width = 94
-      end
-      object cxTblInvHeadColumn1: TcxGridDBColumn
-        Caption = 'Komplit'
-        DataBinding.FieldName = 'f_completed'
-        PropertiesClassName = 'TcxCheckBoxProperties'
-        Properties.Alignment = taCenter
-        Properties.ValueChecked = 1
-        Properties.ValueUnchecked = 0
-        HeaderAlignmentHorz = taCenter
-        Width = 63
+        Width = 80
       end
     end
     object cxTblDet: TcxGridDBTableView
@@ -265,7 +255,7 @@ inherited frmLstInvoicePenjualan: TfrmLstInvoicePenjualan
     SQL.Strings = (
       
         'SELECT a.id, a.no_bukti, a.tanggal, b.nama, c.no_bukti AS suratj' +
-        'alan, a.f_completed'
+        'alan '
       'FROM tbl_invoicepenjualan_head a'
       'LEFT JOIN tbl_customer b ON a.id_cust = b.id'
       'LEFT JOIN tbl_sj_head c ON c.id = a.id_sj')

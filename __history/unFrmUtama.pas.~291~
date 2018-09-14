@@ -76,9 +76,9 @@ type
     mnWhl_Koreksi: TMenuItem;
     mnPrd_LapPengambilanBB: TMenuItem;
     mnPrd_LapInputHP: TMenuItem;
-    Pembelian1: TMenuItem;
+    mnAkt_Pembelian: TMenuItem;
     Penjualan1: TMenuItem;
-    InvoicePembelian1: TMenuItem;
+    mnAkt_InvoicePembelian: TMenuItem;
     PembayaranPembelian1: TMenuItem;
     InvoicePenjualan1: TMenuItem;
     PembayaranPenjualan1: TMenuItem;
@@ -136,6 +136,9 @@ type
     procedure mnMkt_LapOustandingSOClick(Sender: TObject);
     procedure mnSet_UbahPasswordClick(Sender: TObject);
     procedure InvoicePenjualan1Click(Sender: TObject);
+    procedure mnAkt_InvoicePembelianClick(Sender: TObject);
+    procedure PembayaranPembelian1Click(Sender: TObject);
+    procedure PembayaranPenjualan1Click(Sender: TObject);
   private
     procedure PGChange(Sender: TObject);
   public
@@ -166,7 +169,9 @@ uses
   unFrmKalkulasiStok, unFrmLstKoreksi, unFrmMenuLaporan,
   unFrmPengambilanBahanBaku, unFrmInputHasilProduksi, unFrmLstSuratJalan,
   unFrmLapHasilProduksi, unFrmLapPengambilanBB, unFrmLapOutstandingPO,
-  unFrmLapOutstandingSO, unFrmUbahPassword, unFrmLstInvoicePenjualan;
+  unFrmLapOutstandingSO, unFrmUbahPassword, unFrmLstInvoicePenjualan,
+  unFrmLstInvoicePembelian, unFrmLstPembayaranPembelian,
+  unFrmInputPembayaranPenjualan, unFrmLstPembayaranPenjualan;
 
 {$R *.dfm}
 
@@ -241,6 +246,25 @@ begin
       else
         (Components[i] as TToolButton).Visible := Not Flag;
     }
+  end;
+end;
+
+procedure TfrmUtama.mnAkt_InvoicePembelianClick(Sender: TObject);
+var
+  f: TfrmLstInvoicePembelian;
+  ts: TcxTabSheet;
+begin
+  if not CekTabOpen('Invoice Pembelian') then begin
+    ToggleMainPage;
+    ts := TcxTabSheet.Create(Self);
+    ts.PageControl := pgMain;
+
+    f := TfrmLstInvoicePembelian.Create(Self);
+    f.Parent := ts;
+    ts.Caption := f.Caption;
+    f.Show;
+
+    pgMain.ActivePage := ts;
   end;
 end;
 
@@ -1093,6 +1117,25 @@ end;
 
 procedure TfrmUtama.mnWhl_TransferBarangClick(Sender: TObject);
 var
+  f: TfrmLstPembayaranPembelian;
+  ts: TcxTabSheet;
+begin
+  if not CekTabOpen('Pembayaran Pembelian') then begin
+    ToggleMainPage;
+    ts := TcxTabSheet.Create(Self);
+    ts.PageControl := pgMain;
+
+    f := TfrmLstPembayaranPembelian.Create(Self);
+    f.Parent := ts;
+    ts.Caption := f.Caption;
+    f.Show;
+
+    pgMain.ActivePage := ts;
+  end;
+end;
+
+procedure TfrmUtama.PembayaranPembelian1Click(Sender: TObject);
+var
   f: TfrmLstTransferBarang;
   ts: TcxTabSheet;
 begin
@@ -1102,6 +1145,25 @@ begin
     ts.PageControl := pgMain;
 
     f := TfrmLstTransferBarang.Create(Self);
+    f.Parent := ts;
+    ts.Caption := f.Caption;
+    f.Show;
+
+    pgMain.ActivePage := ts;
+  end;
+end;
+
+procedure TfrmUtama.PembayaranPenjualan1Click(Sender: TObject);
+var
+  f: TfrmLstPembayaranPenjualan;
+  ts: TcxTabSheet;
+begin
+  if not CekTabOpen('Pembayaran Penjualan') then begin
+    ToggleMainPage;
+    ts := TcxTabSheet.Create(Self);
+    ts.PageControl := pgMain;
+
+    f := TfrmLstPembayaranPenjualan.Create(Self);
     f.Parent := ts;
     ts.Caption := f.Caption;
     f.Show;
@@ -1198,7 +1260,10 @@ begin
   mnPpic_MasterSchedule.Visible := False;
   mnPur_ReturPembelian.Visible := False;
   mnPur_AppReturPembelian.Visible := False;
-  mnAKT.Visible := True;
+  if Aplikasi.FAcc then
+    mnAKT.Visible := True
+  else
+    mnAKT.Visible := False;
 end;
 
 procedure TfrmUtama.ToggleMainPage;
