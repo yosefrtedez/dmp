@@ -241,11 +241,12 @@ inherited frmLstPembayaranPembelian: TfrmLstPembayaranPembelian
   object zqrPembayaranPembelianDet: TZReadOnlyQuery
     Connection = DM.zConn
     AutoCalcFields = False
+    Active = True
     SQL.Strings = (
       'SELECT a.*, c.no_bukti no_invoice, c.no_bukti'
-      'FROM tbl_pembayaranpembelian_det a'
-      'INNER JOIN tbl_pembayaranpembelian_head b ON a.id_ref = b.id'
-      'LEFT JOIN tbl_invoicepembelian_head c ON c.id = a.id_invoice'
+      'FROM tbl_pembayaranpenjualan_det a'
+      'INNER JOIN tbl_pembayaranpenjualan_head b ON a.id_ref = b.id'
+      'LEFT JOIN tbl_invoicepenjualan_head c ON c.id = a.id_invoice'
       'WHERE a.id_ref = :id_ref')
     Params = <
       item

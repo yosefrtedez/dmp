@@ -325,8 +325,7 @@ begin
     Abort;
   end
   else begin
-    q := OpenRS('SELECT ' +
-      'SUM((a.qty * a.harga) - ((a.qty * a.harga) * a.disc_persen / 100)  + if(a.ppn = ''PPN'',((a.qty * a.harga) - ((a.qty * a.harga) * a.disc_persen / 100)) * 0.1,0)) subtotal, ' +
+    q := OpenRS('SELECT SUM(qty * harga) subtotal, ' +
       '(SELECT SUM(jml_pembayaran) FROM tbl_pembayaranpembelian_det WHERE id_invoice = a.id_ref) jml_pembayaran ' +
       'FROM tbl_invoicepembelian_det a ' +
       'WHERE a.id_ref = %s', [ADataController.Values[i, cxColNoInvoice.Index]]);

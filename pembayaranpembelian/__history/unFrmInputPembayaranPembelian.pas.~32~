@@ -64,7 +64,6 @@ type
     procedure cxlAkunPropertiesEditValueChanged(Sender: TObject);
     procedure cxtbInvDataControllerAfterPost(
       ADataController: TcxCustomDataController);
-    procedure cxlSupplierPropertiesEditValueChanged(Sender: TObject);
   private
     mStatus: string;
     procedure HitungTotal;
@@ -165,7 +164,7 @@ begin
       qh.Close;
       qd.Close;
       Self.Jenis := '';
-      MsgBox('Transaksi Pembayaran Pembelian sudah disimpan dengan No. Bukti : ' + sNoBukti);
+      MsgBox('Transaksi Pembayaran Penjualan sudah disimpan dengan No. Bukti : ' + sNoBukti);
 
       if Assigned(Self.FormInduk) then
         (Self.FormInduk as TfrmLstPembayaranPembelian).btnRefreshClick(nil);
@@ -189,10 +188,9 @@ var
   a,b: real;
 begin
   for i := 0 to cxtbInv.DataController.RecordCount - 1 do begin
-    q := OpenRS('SELECT ' +
-      'SUM((a.qty * a.harga) - ((a.qty * a.harga) * a.disc_persen / 100)  + if(a.ppn = ''PPN'',((a.qty * a.harga) - ((a.qty * a.harga) * a.disc_persen / 100)) * 0.1,0)) subtotal, ' +
-      '(SELECT SUM(jml_pembayaran) FROM tbl_pembayaranpembelian_det WHERE id_invoice = a.id_ref) jml_pembayaran ' +
-      'FROM tbl_invoicepembelian_det a ' +
+    q := OpenRS('SELECT SUM(qty * harga) subtotal, ' +
+      '(SELECT SUM(jml_pembayaran) FROM tbl_pembayaranpenjualan_det WHERE id_invoice = a.id_ref) jml_pembayaran ' +
+      'FROM tbl_invoicepenjualan_det a ' +
       'WHERE a.id_ref = %s', [cxtbInv.DataController.Values[i, cxColNoInvoice.Index]]);
     a := q.FieldByName('subtotal').AsFloat;
     b := q.FieldByName('jml_pembayaran').AsFloat;
@@ -201,7 +199,7 @@ begin
       try
         dm.zConn.StartTransaction;
         dm.zConn.ExecuteDirect(
-          Format('UPDATE tbl_invoicepembelian_head SET f_completed = 1 WHERE id = %s',
+          Format('UPDATE tbl_invoicepenjualan_head SET f_completed = 1 WHERE id = %s',
             [cxtbInv.DataController.Values[i, cxColNoInvoice.Index]])
         );
         dm.zConn.Commit;
@@ -225,25 +223,6 @@ begin
   end;
 end;
 
-procedure TfrmInputPembayaranPembelian.cxlSupplierPropertiesEditValueChanged(
-  Sender: TObject);
-var
-  q: TZQuery;
-begin
-  inherited;
-  try
-    zqrInv.Close;
-    zqrInv.ParamByName('id_supp').AsInteger := cxlSupplier.EditValue;
-    zqrInv.Open;
-
-    q := OpenRS('SELECT alamat, alamat2, kota, provinsi, negara FROM tbl_supplier WHERE id = %s',[cxlSupplier.EditValue]);
-      cxtAlamat.Text := q.FieldByName('alamat').AsString + ', ' + q.FieldByName('alamat2').AsString +
-      ', ' + q.FieldByname('kota').AsString + ', ' + q.FieldByName('provinsi').AsString;
-    q.Close;
-  except
-  end;
-end;
-
 procedure TfrmInputPembayaranPembelian.cxLuSupplierPropertiesChange(Sender: TObject);
 var
   q: TZQuery;
@@ -253,12 +232,7 @@ begin
     zqrInv.Close;
     zqrInv.ParamByName('id_supp').AsInteger := cxlSupplier.EditValue;
     zqrInv.Open;
-
-    q := OpenRS('SELECT alamat, alamat2, kota, provinsi, negara FROM tbl_supplier WHERE id = %s',[cxlSupplier.EditValue]);
-      cxtAlamat.Text := q.FieldByName('alamat').AsString + ', ' + q.FieldByName('alamat2').AsString +
-      ', ' + q.FieldByname('kota').AsString + ', ' + q.FieldByName('provinsi').AsString;
-    q.Close;
-  except
+  finally
   end;
 end;
 
@@ -325,8 +299,7 @@ begin
     Abort;
   end
   else begin
-    q := OpenRS('SELECT ' +
-      'SUM((a.qty * a.harga) - ((a.qty * a.harga) * a.disc_persen / 100)  + if(a.ppn = ''PPN'',((a.qty * a.harga) - ((a.qty * a.harga) * a.disc_persen / 100)) * 0.1,0)) subtotal, ' +
+    q := OpenRS('SELECT SUM(qty * harga) subtotal, ' +
       '(SELECT SUM(jml_pembayaran) FROM tbl_pembayaranpembelian_det WHERE id_invoice = a.id_ref) jml_pembayaran ' +
       'FROM tbl_invoicepembelian_det a ' +
       'WHERE a.id_ref = %s', [ADataController.Values[i, cxColNoInvoice.Index]]);

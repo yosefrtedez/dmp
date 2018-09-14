@@ -1,5 +1,5 @@
 inherited frmInputPembayaranPenjualan: TfrmInputPembayaranPenjualan
-  Caption = 'Input Pembayaran Penjualan'
+  Caption = 'Input Purchase Order'
   ClientHeight = 690
   ClientWidth = 1061
   OnShow = FormShow
@@ -167,7 +167,6 @@ inherited frmInputPembayaranPenjualan: TfrmInputPembayaranPenjualan
       end>
     Properties.ListSource = dsCustomer
     Properties.OnChange = cxLuSupplierPropertiesChange
-    Properties.OnEditValueChanged = cxlCustomerPropertiesEditValueChanged
     TabOrder = 5
     Width = 351
   end
@@ -176,7 +175,7 @@ inherited frmInputPembayaranPenjualan: TfrmInputPembayaranPenjualan
     Top = 142
     Properties.ReadOnly = True
     TabOrder = 7
-    Width = 460
+    Width = 351
   end
   object cxtNoBukti: TcxTextEdit
     Left = 122

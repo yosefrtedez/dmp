@@ -86,8 +86,7 @@ var
 implementation
 
 uses
-  unFrmUtama, unDM, unTools, unAplikasi, unFrmInputPembayaranPenjualan,
-  unFrmInputPembayaranPembelian;
+  unFrmUtama, unDM, unTools, unAplikasi, unFrmInputPembayaranPenjualan;
 
 {$R *.dfm}
 
@@ -193,14 +192,14 @@ end;
 
 procedure TfrmLstPembayaranPembelian.btnTambahClick(Sender: TObject);
 var
-  f: TfrmInputPembayaranPembelian;
+  f: TfrmInputPembayaranPenjualan;
   ts: TcxTabSheet;
 begin
   inherited;
-  if not fu.CekTabOpen('Input Pembayaran Pembelian') then begin
+  if not fu.CekTabOpen('Input Pembayaran Penjualan') then begin
     ts := TcxTabSheet.Create(Self);
     ts.PageControl := frmUtama.pgMain;
-    f := TfrmInputPembayaranPembelian.Create(Self);
+    f := TfrmInputPembayaranPenjualan.Create(Self);
     f.TabSheet := Parent as TcxTabSheet;
     f.FormInduk := Self;
     f.Jenis := 'T';

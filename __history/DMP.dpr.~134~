@@ -110,6 +110,8 @@ begin
   Application.CreateForm(TDM, DM);
   Application.CreateForm(TfrmUtama, frmUtama);
   Application.CreateForm(TfrmLogin, frmLogin);
+  Application.CreateForm(TfrmLapInvoicePembelian, frmLapInvoicePembelian);
+  Application.CreateForm(TfrmLstPembayaranPenjualan, frmLstPembayaranPenjualan);
   frmUtama.Show;
 
   frmLogin.ShowModal;

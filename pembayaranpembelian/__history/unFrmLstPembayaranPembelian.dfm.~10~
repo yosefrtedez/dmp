@@ -104,7 +104,7 @@ inherited frmLstPembayaranPembelian: TfrmLstPembayaranPembelian
     end
     object cxTblDet: TcxGridDBTableView
       NavigatorButtons.ConfirmDelete = False
-      DataController.DataSource = dsPembayaranPembelianDet
+      DataController.DataSource = dsPembayaranPenjualanDet
       DataController.DetailKeyFieldNames = 'id_ref'
       DataController.MasterKeyFieldNames = 'id'
       DataController.Summary.DefaultGroupSummaryItems = <>
@@ -165,7 +165,7 @@ inherited frmLstPembayaranPembelian: TfrmLstPembayaranPembelian
     TabOrder = 3
     object cxtbPPDet: TcxGridDBTableView
       NavigatorButtons.ConfirmDelete = False
-      DataController.DataSource = dsPembayaranPembelianDet
+      DataController.DataSource = dsPembayaranPenjualanDet
       DataController.Summary.DefaultGroupSummaryItems = <>
       DataController.Summary.FooterSummaryItems = <
         item
@@ -238,14 +238,15 @@ inherited frmLstPembayaranPembelian: TfrmLstPembayaranPembelian
     Left = 811
     Top = 157
   end
-  object zqrPembayaranPembelianDet: TZReadOnlyQuery
+  object zqrPembayaranPenjualanDet: TZReadOnlyQuery
     Connection = DM.zConn
     AutoCalcFields = False
+    Active = True
     SQL.Strings = (
       'SELECT a.*, c.no_bukti no_invoice, c.no_bukti'
-      'FROM tbl_pembayaranpembelian_det a'
-      'INNER JOIN tbl_pembayaranpembelian_head b ON a.id_ref = b.id'
-      'LEFT JOIN tbl_invoicepembelian_head c ON c.id = a.id_invoice'
+      'FROM tbl_pembayaranpenjualan_det a'
+      'INNER JOIN tbl_pembayaranpenjualan_head b ON a.id_ref = b.id'
+      'LEFT JOIN tbl_invoicepenjualan_head c ON c.id = a.id_invoice'
       'WHERE a.id_ref = :id_ref')
     Params = <
       item
@@ -262,8 +263,8 @@ inherited frmLstPembayaranPembelian: TfrmLstPembayaranPembelian
         ParamType = ptUnknown
       end>
   end
-  object dsPembayaranPembelianDet: TDataSource
-    DataSet = zqrPembayaranPembelianDet
+  object dsPembayaranPenjualanDet: TDataSource
+    DataSet = zqrPembayaranPenjualanDet
     Left = 577
     Top = 356
   end

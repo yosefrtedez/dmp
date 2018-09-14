@@ -1144,7 +1144,7 @@ begin
     ts := TcxTabSheet.Create(Self);
     ts.PageControl := pgMain;
 
-    f := TfrmLstPembayaranPembelian.Create(Self);
+    f := TfrmLstTransferBarang.Create(Self);
     f.Parent := ts;
     ts.Caption := f.Caption;
     f.Show;

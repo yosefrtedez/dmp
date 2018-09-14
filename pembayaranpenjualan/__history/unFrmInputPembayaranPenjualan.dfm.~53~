@@ -1,5 +1,5 @@
 inherited frmInputPembayaranPenjualan: TfrmInputPembayaranPenjualan
-  Caption = 'Input Pembayaran Penjualan'
+  Caption = 'Input Purchase Order'
   ClientHeight = 690
   ClientWidth = 1061
   OnShow = FormShow
