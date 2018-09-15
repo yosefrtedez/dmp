@@ -277,7 +277,7 @@ begin
           FieldByName('tgl_edit').AsDateTime    := aplikasi.TanggalServer;
           FieldByName('f_revisi').AsInteger     := 1;
         end;
-        Post ;
+        Post;
       end;
     end;
 
@@ -310,8 +310,8 @@ begin
           if not VarIsNull(Values[i, cxColHargaIkat.Index]) then
             z.FieldByName('hargaikat').AsFloat := Values[i, cxColHargaIkat.Index];
           //z.FieldByName('harga_gross').asFloat    := Values[i, cxColGross.Index];
-          //if Values[i, cxColDisc.Index]<> null then
-          //  z.FieldByName('disc').AsInteger         := Values[i, cxColDisc.Index];
+          if not VarIsNull(Values[i, cxColDisc.Index]) then
+            z.FieldByName('disc').AsFloat := Values[i, cxColDisc.Index];
           //z.FieldByName('invoice_disc').AsFloat   := Values[i, cxColDiscAmount.Index] ;
           //z.FieldByName('taxable').AsFloat        := Values[i, cxColTaxable.Index];
           //z.FieldByName('taxamount').AsFloat      := Values[i, cxColTaxAmount.Index];
@@ -566,6 +566,18 @@ begin
     end;
   end;
 
+  if AItemIndex = cxColDisc.Index then begin
+    try
+      cxTblSO.BeginUpdate;
+      ADataController.Values[ARecordIndex, cxColNetAmount.Index] :=
+        (ADataController.Values[ARecordIndex, cxColHarga.Index] * ADataController.Values[ARecordIndex, cxColQty.Index]) -
+        (ADataController.Values[ARecordIndex, cxColHarga.Index] * ADataController.Values[ARecordIndex, cxColQty.Index] *
+         ADataController.Values[ARecordIndex, cxColDisc.Index] / 100);
+    finally
+      cxTblSO.EndUpdate;
+    end;
+  end;
+
 
   {
   else if (AItemIndex = cxColHarga.Index) or (AItemIndex = cxColQty.Index) then begin
@@ -730,13 +742,14 @@ begin
           Values[i, cxColHargaIkat.Index] := z.FieldByname('hargaikat').AsFloat;
           Values[i, cxColJmlIkat.Index] := z.FieldByName('jml_ikat_per_karung').AsFloat;
           //Values[i, cxColGross.Index]       := z.FieldByName('harga_gross').asstring;
-          //Values[i, cxColDisc.Index]        := z.FieldByName('disc').AsFloat ;
+          Values[i, cxColDisc.Index]        := z.FieldByName('disc').AsFloat;
           //Values[i, cxColDiscAmount.Index]  := z.FieldByName('invoice_disc').AsFloat ;
           //Values[i, cxColTaxable.Index]     := z.FieldByName('taxable').AsFloat ;
           //Values[i, cxColTaxAmount.Index]   := z.FieldByName('taxamount').AsFloat ;
           //Values[i, cxColNetAmount.Index]   := z.FieldByName('net_amount').AsFloat ;
           Values[i, cxColKeterangan.Index] := z.FieldByname('keterangan').AsString;
-          Values[i, cxColNetAmount.Index] := Values[i, cxColHarga.Index] * Values[i, cxColQty.Index];
+          Values[i, cxColNetAmount.Index] := (Values[i, cxColHarga.Index] * Values[i, cxColQty.Index]) -
+            (Values[i, cxColHarga.Index] * Values[i, cxColQty.Index] * Values[i, cxColDisc.Index] / 100);
         end;
         cxGrid1.EndUpdate;
         z.Next;

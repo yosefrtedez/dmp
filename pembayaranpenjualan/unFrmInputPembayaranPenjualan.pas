@@ -280,12 +280,13 @@ var
 begin
   inherited;
   if AItemIndex = cxColNoInvoice.Index then begin
-    q := OpenRS('SELECT SUM(qty * harga) subtotal, ' +
-      '(SELECT SUM(jml_pembayaran) FROM tbl_pembayaranpenjualan_det WHERE id_invoice = a.id_ref) jml_pembayaran ' +
-      'FROM tbl_invoicepenjualan_det a ' +
-      'WHERE a.id_ref = %s', [ADataController.Values[ARecordIndex, AItemIndex]]);
+    q := OpenRS('SELECT a.total, a.tanggal, ' +
+      '(SELECT SUM(jml_pembayaran) FROM tbl_pembayaranpenjualan_det WHERE id_invoice = a.id) jml_pembayaran ' +
+      'FROM tbl_invoicepenjualan_head a ' +
+      'WHERE a.id = %s', [ADataController.Values[ARecordIndex, AItemIndex]]);
     ADataController.Values[ARecordIndex, cxColSaldo.Index] :=
-      q.FieldByName('subtotal').AsFloat - q.FieldByName('jml_pembayaran').AsFloat;
+      q.FieldByName('total').AsFloat - q.FieldByName('jml_pembayaran').AsFloat;
+    ADataController.Values[ARecordIndex, cxColTglInvoice.Index] := q.FieldByName('tanggal').AsDateTime;
     q.Close;
   end;
 end;

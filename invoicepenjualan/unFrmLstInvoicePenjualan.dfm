@@ -99,6 +99,35 @@ inherited frmLstInvoicePenjualan: TfrmLstInvoicePenjualan
         Options.Editing = False
         Width = 94
       end
+      object cxTblInvHeadColumn3: TcxGridDBColumn
+        Caption = 'Total'
+        DataBinding.FieldName = 'total'
+        PropertiesClassName = 'TcxSpinEditProperties'
+        Properties.Alignment.Horz = taRightJustify
+        Properties.DisplayFormat = '#,#0.00'
+        Properties.ValueType = vtFloat
+        HeaderAlignmentHorz = taRightJustify
+        Width = 92
+      end
+      object cxTblInvHeadColumn4: TcxGridDBColumn
+        Caption = 'Jml. Pembayaran'
+        DataBinding.FieldName = 'jml_pembayaran'
+        PropertiesClassName = 'TcxSpinEditProperties'
+        Properties.Alignment.Horz = taRightJustify
+        Properties.DisplayFormat = '#,#0.00'
+        HeaderAlignmentHorz = taRightJustify
+        HeaderGlyphAlignmentHorz = taRightJustify
+        Width = 116
+      end
+      object cxTblInvHeadColumn2: TcxGridDBColumn
+        Caption = 'PPN'
+        DataBinding.FieldName = 'f_ppn'
+        PropertiesClassName = 'TcxCheckBoxProperties'
+        Properties.Alignment = taCenter
+        Properties.ValueChecked = 1
+        Properties.ValueUnchecked = 0
+        Width = 41
+      end
       object cxTblInvHeadColumn1: TcxGridDBColumn
         Caption = 'Komplit'
         DataBinding.FieldName = 'f_completed'
@@ -203,6 +232,10 @@ inherited frmLstInvoicePenjualan: TfrmLstInvoicePenjualan
       object cxColQty: TcxGridDBColumn
         Caption = 'Qty'
         DataBinding.FieldName = 'qty'
+        PropertiesClassName = 'TcxSpinEditProperties'
+        Properties.DisplayFormat = '#,#0.00'
+        Properties.ValueType = vtFloat
+        HeaderAlignmentHorz = taRightJustify
         Options.Editing = False
         Width = 80
       end
@@ -238,7 +271,7 @@ inherited frmLstInvoicePenjualan: TfrmLstInvoicePenjualan
     object cxLabel1: TcxLabel
       Left = 10
       Top = 11
-      Caption = 'Detail Purchase Order'
+      Caption = 'Detail Invoice Penjualan'
     end
     object btnCetakPO: TButton
       Left = 980
@@ -258,6 +291,7 @@ inherited frmLstInvoicePenjualan: TfrmLstInvoicePenjualan
       Anchors = [akTop, akRight]
       Caption = 'Posting'
       TabOrder = 0
+      Visible = False
     end
   end
   object zqrInvPenjualan: TZReadOnlyQuery
@@ -265,7 +299,10 @@ inherited frmLstInvoicePenjualan: TfrmLstInvoicePenjualan
     SQL.Strings = (
       
         'SELECT a.id, a.no_bukti, a.tanggal, b.nama, c.no_bukti AS suratj' +
-        'alan, a.f_completed'
+        'alan, a.f_completed, a.f_ppn, a.total,'
+      
+        'IFNULL((SELECT SUM(jml_pembayaran) FROM tbl_pembayaranpenjualan_' +
+        'det WHERE id_invoice = a.id),0) jml_pembayaran'
       'FROM tbl_invoicepenjualan_head a'
       'LEFT JOIN tbl_customer b ON a.id_cust = b.id'
       'LEFT JOIN tbl_sj_head c ON c.id = a.id_sj')

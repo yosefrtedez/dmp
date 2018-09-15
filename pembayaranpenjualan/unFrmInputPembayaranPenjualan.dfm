@@ -247,11 +247,9 @@ inherited frmInputPembayaranPenjualan: TfrmInputPembayaranPenjualan
     Connection = DM.zConn
     AutoCalcFields = False
     SQL.Strings = (
-      'SELECT b.id, b.no_bukti, SUM(a.qty * a.harga) subtotal'
-      'FROM tbl_invoicepenjualan_det a '
-      'LEFT JOIN tbl_invoicepenjualan_head b ON a.no_bukti = a.no_bukti'
-      'WHERE b.id_cust = :id_cust'
-      'GROUP BY b.id, b.no_bukti')
+      'SELECT b.id, b.no_bukti, b.total'
+      'FROM  tbl_invoicepenjualan_head b '
+      'WHERE b.id_cust = :id_cust')
     Params = <
       item
         DataType = ftUnknown

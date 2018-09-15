@@ -99,6 +99,7 @@ type
     cxColIdBrg2: TcxGridColumn;
     cxColKodeBrg3: TcxGridColumn;
     cxGridLevel1: TcxGridLevel;
+    cxColDisc: TcxGridColumn;
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure cxColNoGetDisplayText(Sender: TcxCustomGridTableItem;
@@ -469,6 +470,13 @@ begin
           end else begin
             qd.FieldByName('keterangan').AsString := Values[i, cxColKeterangan.Index];
           end;
+          if cxChkPPN.Checked then
+            qd.FieldByName('f_ppn').AsInteger := 1
+          else
+            qd.FieldByName('f_ppn').AsInteger := 0;
+          if not VarIsNull(Values[i, cxColDisc.Index]) and Values[i, cxColDisc.Index] > 0 then
+            qd.FieldByName('disc').AsFloat := Values[i, cxColDisc.Index];
+
           qd.Post;
 
           // insert history
@@ -512,6 +520,7 @@ begin
           qbrg.Post;
           qbrg.Close;
 
+          {
           if Aplikasi.FAcc then begin
 
             id_akun := GetDefaultAkunBrg(Values[i, cxColIdBrg.Index], 'hpp');
@@ -537,8 +546,8 @@ begin
             qjd.Post;
 
             qjd.Close;
-
           end;
+          }
 
         end;
       end;
@@ -636,9 +645,10 @@ begin
             cxtbSJ.DataController.Values[row, cxColSatuan.Index] := Values[i, f.cxColSatuan.Index];
             cxtbSJ.DataController.Values[row, cxColIdSatuan.Index] := Values[i, f.cxColIdSatuan.Index];
 
-            qhrg := OpenRS('SELECT harga FROM tbl_so_det WHERE id_ref = %s AND id_brg = %s',
+            qhrg := OpenRS('SELECT harga, IFNULL(disc,0) disc FROM tbl_so_det WHERE id_ref = %s AND id_brg = %s',
               [Values[i, f.cxColIdSO.Index], Values[i, f.cxColIdBrg.Index]]);
             cxtbSJ.DataController.Values[row, cxColHarga.Index] := qhrg.FieldByname('harga').AsFloat;
+            cxtbSJ.DataController.Values[row, cxColDisc.Index] := qhrg.FieldByName('disc').AsFloat;
             qhrg.Close;
 
             qbrg := OpenRS('SELECT jml_ikat_per_karung FROM tbl_barang_det_spek WHERE id_ref = %s',
@@ -646,8 +656,13 @@ begin
             cxtbSJ.DataController.Values[row, cxColJmlIkatPerBal.Index] := qbrg.FieldbyName('jml_ikat_per_karung').AsInteger;
             qbrg.Close;
 
-            cxtbSJ.DataController.Values[row, cxColTotal.Index] :=
-              cxtbSJ.DataController.Values[row, cxColHarga.Index] * cxtbSJ.DataController.Values[row, cxColQty.Index];
+            if cxtbSJ.DataController.Values[row, cxColDisc.Index] > 0 then
+              cxtbSJ.DataController.Values[row, cxColTotal.Index] :=
+                (cxtbSJ.DataController.Values[row, cxColHarga.Index] * cxtbSJ.DataController.Values[row, cxColQty.Index]) -
+                (cxtbSJ.DataController.Values[row, cxColHarga.Index] * cxtbSJ.DataController.Values[row, cxColQty.Index] * cxtbSJ.DataController.Values[row, cxColDisc.Index] / 100)
+            else
+              cxtbSJ.DataController.Values[row, cxColTotal.Index] :=
+                (cxtbSJ.DataController.Values[row, cxColHarga.Index] * cxtbSJ.DataController.Values[row, cxColQty.Index]);
           end
           else begin
 
@@ -665,9 +680,10 @@ begin
             cxtbSJ.DataController.Values[j, cxColSatuan.Index] := Values[i, f.cxColSatuan.Index];
             cxtbSJ.DataController.Values[j, cxColIdSatuan.Index] := Values[i, f.cxColIdSatuan.Index];
 
-            qhrg := OpenRS('SELECT harga FROM tbl_so_det WHERE id_ref = %s AND id_brg = %s',
+            qhrg := OpenRS('SELECT harga, IFNULL(disc,0) disc FROM tbl_so_det WHERE id_ref = %s AND id_brg = %s',
               [Values[i, f.cxColIdSO.Index], Values[i, f.cxColIdBrg.Index]]);
             cxtbSJ.DataController.Values[j, cxColHarga.Index] := qhrg.FieldByname('harga').AsFloat;
+            cxtbSJ.DataController.Values[j, cxColDisc.Index] := qhrg.FieldByName('disc').AsFloat;
             qhrg.Close;
 
             qbrg := OpenRS('SELECT jml_ikat_per_karung FROM tbl_barang_det_spek WHERE id_ref = %s',
@@ -675,8 +691,14 @@ begin
             cxtbSJ.DataController.Values[j, cxColJmlIkatPerBal.Index] := qbrg.FieldbyName('jml_ikat_per_karung').AsInteger;
             qbrg.Close;
 
-            cxtbSJ.DataController.Values[j, cxColTotal.Index] :=
-              cxtbSJ.DataController.Values[j, cxColHarga.Index] * cxtbSJ.DataController.Values[j, cxColQty.Index];
+            if cxtbSJ.DataController.Values[j, cxColDisc.Index] > 0 then
+              cxtbSJ.DataController.Values[j, cxColTotal.Index] :=
+                (cxtbSJ.DataController.Values[j, cxColHarga.Index] * cxtbSJ.DataController.Values[j, cxColQty.Index]) -
+                (cxtbSJ.DataController.Values[j, cxColHarga.Index] * cxtbSJ.DataController.Values[j, cxColQty.Index] * cxtbSJ.DataController.Values[j, cxColDisc.Index] / 100)
+            else
+              cxtbSJ.DataController.Values[j, cxColTotal.Index] :=
+                (cxtbSJ.DataController.Values[j, cxColHarga.Index] * cxtbSJ.DataController.Values[j, cxColQty.Index]);
+
           end;
         end;
       end;
@@ -1280,16 +1302,17 @@ end;
 procedure TfrmInputSuratJalan.HitungTotal;
 var
   i: integer;
-  tot, diskon, ppn: real;
+  tot, diskon, ppn, disc: real;
 begin
   try
     if cxChkSJTanpaSO.Checked then begin
       tot := 0;
       for i := 0 to cxtbSJTanpaSO.DataController.RecordCount - 1 do begin
-        tot := tot +cxtbSJTanpaSO.DataController.Values[i, cxColTotal2.Index];
+        tot := tot + cxtbSJTanpaSO.DataController.Values[i, cxColTotal2.Index];
       end;
 
       diskon := 0;
+
       if cxsDiskon.Value > 0 then
         diskon := (cxsDiskon.Value /100) * tot;
 
@@ -1308,13 +1331,21 @@ begin
     end
     else begin
       tot := 0;
+      disc := 0;
+
       for i := 0 to cxtbSJ.DataController.RecordCount - 1 do begin
         tot := tot + cxtbSJ.DataController.Values[i, cxColTotal.Index];
+        if cxtbSJ.DataController.Values[i, cxColDisc.Index] > 0 then
+          disc := disc + ((cxtbSJ.DataController.Values[i, cxColQty.Index] * cxtbSJ.DataController.Values[i, cxColHarga.Index]) *
+            (cxtbSJ.DataController.Values[i, cxColDisc.Index] / 100));
       end;
 
       diskon := 0;
       if cxsDiskon.Value > 0 then
-        diskon := (cxsDiskon.Value /100) * tot;
+        diskon := (cxsDiskon.Value / 100) * tot;
+
+      //if disc > 0 then
+      //  cxsDiskon.Value := disc;
 
       cxsStlhDiskon.Value := tot - diskon;
 

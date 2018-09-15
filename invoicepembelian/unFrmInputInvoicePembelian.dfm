@@ -3,6 +3,7 @@ inherited frmInputInvoicePembelian: TfrmInputInvoicePembelian
   ClientHeight = 690
   ClientWidth = 1065
   OnShow = FormShow
+  ExplicitTop = -16
   ExplicitWidth = 1065
   ExplicitHeight = 690
   PixelsPerInch = 96
