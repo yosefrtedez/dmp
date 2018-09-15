@@ -315,6 +315,8 @@ type
     property ExeName: string read mExeName write mExeName;
 
     property FAcc: boolean read mFAcc write mFAcc;
+
+    procedure AddHistAvg(id_ref: Integer; no_bukti: string; avg: Real);
   end;
 
 implementation
@@ -729,6 +731,24 @@ begin
   Result := q.FieldByName('tanggal').AsString;
   q.Close;
   q := nil;
+end;
+
+procedure TAplikasi.AddHistAvg(id_ref: Integer; no_bukti: string; avg: Real);
+var
+  q: TZQuery;
+begin
+  try
+    dm.zConn.StartTransaction;
+    q := OpenRS('SELECT * FROM tbl_history_hpp WHERE id_ref = %d', [id_ref]);
+    q.Insert;
+    q.FieldByName('id_ref').AsInteger := id_ref;
+    q.FieldByName('tanggal').AsDateTime := Aplikasi.TanggalServer;
+    q.FieldByName('no_bukti').AsString := no_bukti;
+    q.FieldByName('avg').AsFloat := avg;
+    q.Post;
+    dm.zConn.Commit
+  except;
+  end;
 end;
 
 function TAplikasi.CheckEod : boolean;

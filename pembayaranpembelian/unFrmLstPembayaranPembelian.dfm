@@ -178,6 +178,7 @@ inherited frmLstPembayaranPembelian: TfrmLstPembayaranPembelian
       object cxtbPPDetno_bukti: TcxGridDBColumn
         Caption = 'No. Bukti'
         DataBinding.FieldName = 'no_bukti'
+        Width = 104
       end
       object cxtbPPDetid: TcxGridDBColumn
         DataBinding.FieldName = 'id'
@@ -193,7 +194,7 @@ inherited frmLstPembayaranPembelian: TfrmLstPembayaranPembelian
       end
       object cxtbPPDetno_invoice: TcxGridDBColumn
         Caption = 'No. Invoice'
-        DataBinding.FieldName = 'no_invoice'
+        DataBinding.FieldName = 'no_invoice2'
         Width = 117
       end
       object cxtbPPDetjml_pembayaran: TcxGridDBColumn
@@ -242,7 +243,7 @@ inherited frmLstPembayaranPembelian: TfrmLstPembayaranPembelian
     Connection = DM.zConn
     AutoCalcFields = False
     SQL.Strings = (
-      'SELECT a.*, c.no_bukti no_invoice, c.no_bukti'
+      'SELECT a.*, c.no_bukti no_invoice2, b.no_bukti'
       'FROM tbl_pembayaranpembelian_det a'
       'INNER JOIN tbl_pembayaranpembelian_head b ON a.id_ref = b.id'
       'LEFT JOIN tbl_invoicepembelian_head c ON c.id = a.id_invoice'

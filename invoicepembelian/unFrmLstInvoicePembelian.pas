@@ -64,6 +64,8 @@ type
     cxtbInvPembDetColumn3: TcxGridDBColumn;
     cxtbInvPembDetColumn4: TcxGridDBColumn;
     cxtbInvPembDetColumn5: TcxGridDBColumn;
+    cxtbInvPembColumn1: TcxGridDBColumn;
+    cxtbInvPembColumn2: TcxGridDBColumn;
     procedure FormCreate(Sender: TObject);
     procedure btnRefreshClick(Sender: TObject);
     procedure btnTambahClick(Sender: TObject);

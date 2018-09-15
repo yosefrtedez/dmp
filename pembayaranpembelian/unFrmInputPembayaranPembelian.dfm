@@ -92,13 +92,13 @@ inherited frmInputPembayaranPembelian: TfrmInputPembayaranPembelian
         DataBinding.ValueType = 'DateTime'
         PropertiesClassName = 'TcxDateEditProperties'
         Properties.ReadOnly = True
-        Width = 107
+        Width = 111
       end
-      object cxtbInvColumn1: TcxGridColumn
+      object cxColTglJatuhTempo: TcxGridColumn
         Caption = 'Tgl. Jatuh Tempo'
         PropertiesClassName = 'TcxDateEditProperties'
         Properties.ReadOnly = True
-        Width = 103
+        Width = 108
       end
       object cxColSaldo: TcxGridColumn
         Caption = 'Saldo'

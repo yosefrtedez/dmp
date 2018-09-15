@@ -18,7 +18,7 @@ uses
   cxTextEdit, cxDBLookupComboBox, cxSpinEdit, cxDropDownEdit, cxGridLevel,
   cxGridCustomTableView, cxGridTableView, cxClasses, cxGridCustomView, cxGrid,
   cxContainer, cxGroupBox, cxCheckBox, cxCalendar, cxMaskEdit, cxLookupEdit,
-  cxDBLookupEdit, cxLabel, DB, ZAbstractRODataset, ZDataset;
+  cxDBLookupEdit, cxLabel, DB, ZAbstractRODataset, ZDataset, DateUtils;
 
 type
   TfrmInputInvoicePembelian = class(TfrmTplInput)
@@ -66,6 +66,10 @@ type
     cxColDiscPersen: TcxGridColumn;
     cxColIdBrg: TcxGridColumn;
     cxColIdPO: TcxGridColumn;
+    cxLabel4: TcxLabel;
+    cxdTglJatuhTempo: TcxDateEdit;
+    cxLabel5: TcxLabel;
+    cxCmbPembayaran: TcxComboBox;
     procedure cxLuNoPPPropertiesChange(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure cxLuSupplierPropertiesChange(Sender: TObject);
@@ -83,6 +87,7 @@ type
     procedure cxlSupplierPropertiesEditValueChanged(Sender: TObject);
     procedure cxChkTanpaPOClick(Sender: TObject);
     procedure cxlNoPenerimaanPropertiesChange(Sender: TObject);
+    procedure cxCmbPembayaranPropertiesEditValueChanged(Sender: TObject);
   private
     mStatus: string;
     procedure HitungTotal;
@@ -111,11 +116,25 @@ begin
 
   if cxlSupplier.Text = '' then begin
     MsgBox('Nama supllier masih kosong.');
+    cxlSupplier.SetFocus;
     Abort;
   end;
 
   if cxlNoPenerimaan.Text = '' then begin
     MsgBox('Pilih No. Penerimaan.');
+    cxlNoPenerimaan.SetFocus;
+    Abort;
+  end;
+
+  if cxCmbPembayaran.Text = '' then begin
+    MsgBox('Mohon pilih cara pembayaran.');
+    cxCmbPembayaran.SetFocus;
+    Abort;
+  end;
+
+  if Trim(cxdTglJatuhTempo.Text) = '' then begin
+    MsgBox('Mohon input tanggal jatuh tempo.');
+    cxdTglJatuhTempo.SetFocus;
     Abort;
   end;
 
@@ -158,6 +177,8 @@ begin
         qh.FieldByName('user_edit').AsString := aplikasi.NamaUser;
         qh.FieldByName('tgl_edit').AsDateTime := Aplikasi.NowServer;
       end;
+      qh.FieldByname('tgl_jatuhtempo').AsDateTime := cxdTglJatuhTempo.Date;
+      qh.FieldByName('total').AsFloat := cxsTotal.Value;
       qh.Post;
 
       if Self.Jenis = 'T' then  ID := LastInsertID;
@@ -250,6 +271,25 @@ begin
     cxtColNoPO.Visible := True ;
   end;
   }
+end;
+
+procedure TfrmInputInvoicePembelian.cxCmbPembayaranPropertiesEditValueChanged(
+  Sender: TObject);
+var
+  s: string;
+  d: integer;
+begin
+  inherited;
+  s := cxCmbPembayaran.Text;
+  if s = '7 Hari' then
+    d := 7
+  else if s = '14 Hari' then
+    d := 14
+  else if s = '30 Hari' then
+    d := 30
+  else if s = '45 Hari' then
+    d := 45;
+  cxdTglJatuhTempo.Date := IncDay(cxdTgl.Date, d);
 end;
 
 procedure TfrmInputInvoicePembelian.cxColNoGetDisplayText(Sender: TcxCustomGridTableItem;
@@ -596,7 +636,7 @@ begin
       if Values[i, cxColPPn.Index] = 'PPN' then
         ppn := ppn + (Values[i, cxColQty.Index] * Values[i, cxColHarga.Index] * (10/100));
       if Values[i, cxColDiscPersen.Index] > 0 then begin
-        disc := disc + (tot * Values[i, cxColDiscPersen.Index] / 100);
+        disc := disc + ((Values[i, cxColQty.Index] * Values[i, cxColHarga.Index]) * (Values[i, cxColDiscPersen.Index] / 100));
       end;
     end;
   end;

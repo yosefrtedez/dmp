@@ -248,6 +248,10 @@ inherited frmLstInvoicePenjualan: TfrmLstInvoicePenjualan
       object cxColHarga: TcxGridDBColumn
         Caption = 'Harga'
         DataBinding.FieldName = 'harga'
+        PropertiesClassName = 'TcxSpinEditProperties'
+        Properties.Alignment.Horz = taRightJustify
+        Properties.DisplayFormat = '#,#0.00'
+        Properties.ValueType = vtFloat
         GroupSummaryAlignment = taRightJustify
         HeaderAlignmentHorz = taRightJustify
         Options.Editing = False

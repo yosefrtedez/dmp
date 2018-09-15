@@ -50,7 +50,7 @@ type
     zqrAkun: TZReadOnlyQuery;
     dsAkun: TDataSource;
     cxtAkun: TcxTextEdit;
-    cxtbInvColumn1: TcxGridColumn;
+    cxColTglJatuhTempo: TcxGridColumn;
     cxmTerbilang: TcxMemo;
     procedure cxLuSupplierPropertiesChange(Sender: TObject);
     procedure btnSimpanClick(Sender: TObject);
@@ -280,13 +280,14 @@ var
 begin
   inherited;
   if AItemIndex = cxColNoInvoice.Index then begin
-    q := OpenRS('SELECT a.total, a.tanggal, ' +
+    q := OpenRS('SELECT a.total, a.tanggal, a.tgl_jatuhtempo, ' +
       '(SELECT SUM(jml_pembayaran) FROM tbl_pembayaranpenjualan_det WHERE id_invoice = a.id) jml_pembayaran ' +
       'FROM tbl_invoicepenjualan_head a ' +
       'WHERE a.id = %s', [ADataController.Values[ARecordIndex, AItemIndex]]);
     ADataController.Values[ARecordIndex, cxColSaldo.Index] :=
       q.FieldByName('total').AsFloat - q.FieldByName('jml_pembayaran').AsFloat;
     ADataController.Values[ARecordIndex, cxColTglInvoice.Index] := q.FieldByName('tanggal').AsDateTime;
+    ADataController.Values[ARecordIndex, cxColTglJatuhTempo.Index] := q.FieldByName('tgl_jatuhtempo').AsDateTime;
     q.Close;
   end;
 end;

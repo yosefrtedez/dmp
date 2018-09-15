@@ -94,7 +94,7 @@ inherited frmInputPembayaranPenjualan: TfrmInputPembayaranPenjualan
         Properties.ReadOnly = True
         Width = 107
       end
-      object cxtbInvColumn1: TcxGridColumn
+      object cxColTglJatuhTempo: TcxGridColumn
         Caption = 'Tgl. Jatuh Tempo'
         PropertiesClassName = 'TcxDateEditProperties'
         Properties.ReadOnly = True

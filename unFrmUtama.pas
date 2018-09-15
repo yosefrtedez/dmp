@@ -1265,6 +1265,8 @@ begin
     mnAKT.Visible := True
   else
     mnAKT.Visible := False;
+
+  mnAKT.Visible := True;
 end;
 
 procedure TfrmUtama.ToggleMainPage;

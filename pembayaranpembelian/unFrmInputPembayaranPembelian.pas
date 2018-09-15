@@ -50,7 +50,7 @@ type
     zqrAkun: TZReadOnlyQuery;
     dsAkun: TDataSource;
     cxtAkun: TcxTextEdit;
-    cxtbInvColumn1: TcxGridColumn;
+    cxColTglJatuhTempo: TcxGridColumn;
     cxmTerbilang: TcxMemo;
     procedure cxLuSupplierPropertiesChange(Sender: TObject);
     procedure btnSimpanClick(Sender: TObject);
@@ -281,11 +281,15 @@ begin
   if AItemIndex = cxColNoInvoice.Index then begin
     q := OpenRS('SELECT ' +
       'SUM((a.qty * a.harga) - ((a.qty * a.harga) * a.disc_persen / 100)  + if(a.ppn = ''PPN'',((a.qty * a.harga) - ((a.qty * a.harga) * a.disc_persen / 100)) * 0.1,0)) subtotal, ' +
-      '(SELECT SUM(jml_pembayaran) FROM tbl_pembayaranpembelian_det WHERE id_invoice = a.id_ref) jml_pembayaran ' +
+      '(SELECT SUM(jml_pembayaran) FROM tbl_pembayaranpembelian_det WHERE id_invoice = a.id_ref) jml_pembayaran, ' +
+      'b.tgl_jatuhtempo, b.tanggal ' +
       'FROM tbl_invoicepembelian_det a ' +
+      'LEFT JOIN tbl_invoicepembelian_head b ON a.id_ref = b.id ' +
       'WHERE a.id_ref = %s', [ADataController.Values[ARecordIndex, AItemIndex]]);
     ADataController.Values[ARecordIndex, cxColSaldo.Index] :=
       q.FieldByName('subtotal').AsFloat - q.FieldByName('jml_pembayaran').AsFloat;
+    ADataController.Values[ARecordIndex, cxColTglInvoice.Index] := q.FieldByName('tanggal').AsDateTime;
+    ADataController.Values[ARecordIndex, cxColTglJatuhTempo.Index] := q.FieldByname('tgl_jatuhtempo').AsDateTime;
     q.Close;
   end;
 end;

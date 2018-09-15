@@ -516,6 +516,7 @@ begin
     (AItemIndex = cxColDiscRp.Index) or
     (AItemIndex = cxColPPn.Index) then begin
     try
+      i := ARecordIndex;
       cxtbTblPO.BeginUpdate;
       with ADataController do begin
         disc1 := 0;

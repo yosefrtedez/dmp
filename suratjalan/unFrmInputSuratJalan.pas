@@ -304,6 +304,7 @@ begin
           qbrg.Post;
           qbrg.Close;
 
+          {
           if Aplikasi.FAcc then begin
 
             id_akun := GetDefaultAkunBrg(Values[i, cxColKodeBrg2.Index], 'hpp');
@@ -331,7 +332,7 @@ begin
             qjd.Close;
 
           end;
-
+          }
         end;
       end;
 

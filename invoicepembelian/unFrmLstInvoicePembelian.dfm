@@ -76,7 +76,7 @@ inherited frmLstInvoicePembelian: TfrmLstInvoicePembelian
         Caption = 'Supplier'
         DataBinding.FieldName = 'nama_supplier'
         Options.Editing = False
-        Width = 150
+        Width = 209
       end
       object cxColTblHeadkontak: TcxGridDBColumn
         DataBinding.FieldName = 'kontak'
@@ -89,6 +89,25 @@ inherited frmLstInvoicePembelian: TfrmLstInvoicePembelian
         DataBinding.FieldName = 'tanggal'
         Options.Editing = False
         Width = 90
+      end
+      object cxtbInvPembColumn2: TcxGridDBColumn
+        Caption = 'Total'
+        DataBinding.FieldName = 'total'
+        PropertiesClassName = 'TcxSpinEditProperties'
+        Properties.Alignment.Horz = taRightJustify
+        Properties.DisplayFormat = '#,#0.00'
+        Properties.ValueType = vtFloat
+        HeaderAlignmentHorz = taRightJustify
+        Width = 103
+      end
+      object cxtbInvPembColumn1: TcxGridDBColumn
+        Caption = 'Jml. Pembayaran'
+        DataBinding.FieldName = 'jml_pembayaran'
+        PropertiesClassName = 'TcxSpinEditProperties'
+        Properties.Alignment.Horz = taRightJustify
+        Properties.DisplayFormat = '#,#0.00'
+        HeaderAlignmentHorz = taRightJustify
+        Width = 110
       end
       object cxColTblHeaduser: TcxGridDBColumn
         Caption = 'User'
@@ -289,7 +308,10 @@ inherited frmLstInvoicePembelian: TfrmLstInvoicePembelian
       
         'SELECT a.id, a.no_bukti, a.tanggal, a.user, a.user_dept, a.f_app' +
         ','
-      'b.nama, b.kontak, b.nama nama_supplier'
+      'b.nama, b.kontak, b.nama nama_supplier, a.total,'
+      
+        'IFNULL((SELECT SUM(jml_pembayaran) FROM tbl_pembayaranpembelian_' +
+        'det WHERE id_invoice = a.id),0) jml_pembayaran'
       'FROM tbl_invoicepembelian_head a '
       'LEFT JOIN tbl_supplier b ON a.id_supp = b.id')
     Params = <>

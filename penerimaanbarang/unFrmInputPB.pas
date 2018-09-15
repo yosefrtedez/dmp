@@ -440,9 +440,11 @@ begin
     if Self.Jenis = 'T' then begin
       sNoTrs := GetLastFak('penerimaan');
       UpdateFaktur(Copy(sNoTrs,1,7));
-    end;
+      qh := OpenRS('SELECT * FROM tbl_pb_head WHERE no_bukti = ''%s''',[sNoTrs]);
+    end
+    else
+      qh := OpenRS('SELECT * FROM tbl_pb_head WHERE id = %s',[Self.EditKey]);
 
-    qh := OpenRS('SELECT * FROM tbl_pb_head WHERE id = %s',[Self.EditKey]);
     if Self.Jenis = 'T' then
       qh.Insert
     else begin
@@ -519,6 +521,8 @@ begin
 
             hpp := ((hppAkhir * sAkhir) + (Values[i, cxColQtyDatang.Index] * hrg)) /
               (sAkhir + Values[i, cxColQtyDatang.Index]);
+
+            Aplikasi.AddHistAvg(ID, sNoTrs, hpp);
           end;
 
           hst.Insert;
@@ -572,6 +576,7 @@ begin
           qbrg.Post;
           qbrg.Close;
 
+          {
           if Aplikasi.FAcc then begin
             id_akun := GetDefaultAkunBrg(Values[i, cxColIdBrg.Index], 'persediaan');
             qjd := OpenRS('SELECT * FROM tbl_jurnal_det WHERE no_jurnal = ''%s''',[sNoJ]);
@@ -600,8 +605,8 @@ begin
               qjd.FieldByName('dc').AsString := 'D';
               qjd.Post;
             end;
-
           end;
+          }
 
         end;
       end;

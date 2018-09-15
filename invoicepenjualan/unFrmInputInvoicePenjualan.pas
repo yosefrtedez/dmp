@@ -67,6 +67,8 @@ type
     cxsDPP: TcxSpinEdit;
     cxLabel6: TcxLabel;
     cxsHargaTotal: TcxSpinEdit;
+    cxLabel2: TcxLabel;
+    cxdTglJatuhTempo: TcxDateEdit;
     procedure FormCreate(Sender: TObject);
     procedure cxLuSupplierPropertiesChange(Sender: TObject);
     procedure btnSimpanClick(Sender: TObject);
@@ -157,6 +159,7 @@ begin
         qh.FieldByName('diskon').AsFloat := (cxsHargaTotal.Value * cxsDiskon.Value / 100);
       if cxChkPPN.Checked then
         qh.FieldByName('f_ppn').AsInteger := 1;
+      qh.FieldByName('tgl_jatuhtempo').AsDateTime := cxdTglJatuhTempo.Date;
       qh.Post;
 
       if Self.Jenis = 'T' then  ID := LastInsertID;
@@ -244,7 +247,7 @@ begin
   inherited;
   try
     q := OpenRS('select a.kode_brg, a.id_brg, b.deskripsi, a.qty, d.f_ppn, d.diskon, c.satuan, a.id_satuan, a.harga, a.qty * a.harga as total, IFNULL(a.disc,0) disc, ' +
-      'd.diskon, ' +
+      'd.diskon, d.jatuh_tempo, ' +
       '(a.qty * a.harga) - ((a.qty * a.harga) * a.disc / 100) subtotal ' +
       'from tbl_sj_det a left join tbl_barang b on a.kode_brg = b.kode ' +
       'left join tbl_sj_head d on a.id_ref = d.id ' +
@@ -252,6 +255,8 @@ begin
       'where a.id_ref = %s',[cxluSj.EditValue]);
 
     cxsDiskon.Value := q.FieldByName('diskon').AsFloat;
+    cxdTglJatuhTempo.Date := q.FieldByname('jatuh_tempo').AsDateTime;
+
     cxChkPPN.Properties.ReadOnly := True;
     if q.FieldByName('f_ppn').AsInteger = 1 then
       cxChkPPN.Checked := True
