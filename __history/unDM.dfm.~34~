@@ -1,8 +1,8 @@
 object DM: TDM
   OldCreateOrder = False
   OnCreate = DataModuleCreate
-  Height = 233
-  Width = 364
+  Height = 90
+  Width = 185
   object zConn: TZConnection
     ControlsCodePage = cCP_UTF16
     Connected = True

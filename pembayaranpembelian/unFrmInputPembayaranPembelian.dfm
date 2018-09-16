@@ -249,9 +249,9 @@ inherited frmInputPembayaranPembelian: TfrmInputPembayaranPembelian
     SQL.Strings = (
       'SELECT b.id, b.no_bukti, '
       
-        'SUM((a.qty * a.harga) - ((a.qty * a.harga) * a.disc_persen / 100' +
-        ')  + if(a.ppn = '#39'PPN'#39',((a.qty * a.harga) - ((a.qty * a.harga) * ' +
-        'a.disc_persen / 100)) * 0.1,0)) subtotal'
+        'FORMAT(SUM((a.qty * a.harga) - ((a.qty * a.harga) * a.disc_perse' +
+        'n / 100)  + if(a.ppn = '#39'PPN'#39',((a.qty * a.harga) - ((a.qty * a.ha' +
+        'rga) * a.disc_persen / 100)) * 0.1,0)),2) subtotal'
       'FROM tbl_invoicepembelian_det a '
       'LEFT JOIN tbl_invoicepembelian_head b ON a.no_bukti = a.no_bukti'
       'WHERE b.id_supp = :id_supp'

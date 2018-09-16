@@ -82,7 +82,7 @@ inherited frmInputPembayaranPenjualan: TfrmInputPembayaranPenjualan
           end
           item
             Caption = 'Subtotal'
-            FieldName = 'subtotal'
+            FieldName = 'total'
           end>
         Properties.ListSource = dsInv
         Width = 124
@@ -247,7 +247,7 @@ inherited frmInputPembayaranPenjualan: TfrmInputPembayaranPenjualan
     Connection = DM.zConn
     AutoCalcFields = False
     SQL.Strings = (
-      'SELECT b.id, b.no_bukti, b.total'
+      'SELECT b.id, b.no_bukti, format(b.total,2) total'
       'FROM  tbl_invoicepenjualan_head b '
       'WHERE b.id_cust = :id_cust')
     Params = <

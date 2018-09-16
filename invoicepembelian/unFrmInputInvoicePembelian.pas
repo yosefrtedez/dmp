@@ -549,6 +549,11 @@ begin
     finally
       cxtbInvPemb.EndUpdate;
     end;
+
+    try
+      HitungTotal;
+    except
+    end;
   end;
 
 end;

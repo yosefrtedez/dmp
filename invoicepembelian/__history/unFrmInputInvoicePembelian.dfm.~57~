@@ -3,7 +3,6 @@ inherited frmInputInvoicePembelian: TfrmInputInvoicePembelian
   ClientHeight = 690
   ClientWidth = 1065
   OnShow = FormShow
-  ExplicitTop = -16
   ExplicitWidth = 1065
   ExplicitHeight = 690
   PixelsPerInch = 96
@@ -28,17 +27,17 @@ inherited frmInputInvoicePembelian: TfrmInputInvoicePembelian
   inherited Panel2: TPanel
     Top = 641
     Width = 1065
-    TabOrder = 18
+    TabOrder = 22
     ExplicitTop = 641
     ExplicitWidth = 1065
   end
   object cxgrdPP: TcxGrid
     Left = 10
-    Top = 199
+    Top = 226
     Width = 1047
     Height = 293
     Anchors = [akLeft, akTop, akRight]
-    TabOrder = 11
+    TabOrder = 15
     object cxtbInvPemb: TcxGridTableView
       NavigatorButtons.ConfirmDelete = False
       NavigatorButtons.Insert.Visible = False
@@ -128,7 +127,7 @@ inherited frmInputInvoicePembelian: TfrmInputInvoicePembelian
         Properties.ValueType = vtFloat
       end
       object cxColPPn: TcxGridColumn
-        Caption = 'PPn'
+        Caption = 'PPN'
         PropertiesClassName = 'TcxComboBoxProperties'
         Properties.Items.Strings = (
           'NON PPN'
@@ -259,45 +258,77 @@ inherited frmInputInvoicePembelian: TfrmInputInvoicePembelian
   end
   object cxsSubtotal: TcxSpinEdit
     Left = 888
-    Top = 502
-    Properties.Alignment.Horz = taRightJustify
-    Properties.DisplayFormat = '#,#0.00'
-    Properties.ReadOnly = True
-    TabOrder = 12
-    Width = 151
-  end
-  object cxLabel1: TcxLabel
-    Left = 796
-    Top = 503
-    Caption = 'Subtotal'
-  end
-  object cxLabel2: TcxLabel
-    Left = 796
-    Top = 530
-    Caption = 'PPN'
-  end
-  object cxsPPN: TcxSpinEdit
-    Left = 888
     Top = 529
-    Properties.Alignment.Horz = taRightJustify
-    Properties.DisplayFormat = '#,#0.00'
-    Properties.ReadOnly = True
-    TabOrder = 14
-    Width = 151
-  end
-  object cxLabel3: TcxLabel
-    Left = 796
-    Top = 557
-    Caption = 'Total'
-  end
-  object cxsTotal: TcxSpinEdit
-    Left = 888
-    Top = 556
     Properties.Alignment.Horz = taRightJustify
     Properties.DisplayFormat = '#,#0.00'
     Properties.ReadOnly = True
     TabOrder = 16
     Width = 151
+  end
+  object cxLabel1: TcxLabel
+    Left = 796
+    Top = 530
+    Caption = 'Subtotal'
+  end
+  object cxLabel2: TcxLabel
+    Left = 796
+    Top = 557
+    Caption = 'PPN'
+  end
+  object cxsPPN: TcxSpinEdit
+    Left = 888
+    Top = 556
+    Properties.Alignment.Horz = taRightJustify
+    Properties.DisplayFormat = '#,#0.00'
+    Properties.ReadOnly = True
+    TabOrder = 18
+    Width = 151
+  end
+  object cxLabel3: TcxLabel
+    Left = 796
+    Top = 584
+    Caption = 'Total'
+  end
+  object cxsTotal: TcxSpinEdit
+    Left = 888
+    Top = 583
+    Properties.Alignment.Horz = taRightJustify
+    Properties.DisplayFormat = '#,#0.00'
+    Properties.ReadOnly = True
+    TabOrder = 20
+    Width = 151
+  end
+  object cxLabel4: TcxLabel
+    Left = 314
+    Top = 199
+    Caption = 'Tgl. Jatuh Tempo'
+  end
+  object cxdTglJatuhTempo: TcxDateEdit
+    Left = 407
+    Top = 196
+    Properties.ReadOnly = True
+    TabOrder = 12
+    Width = 121
+  end
+  object cxLabel5: TcxLabel
+    Left = 8
+    Top = 197
+    Caption = 'Pembayaran'
+  end
+  object cxCmbPembayaran: TcxComboBox
+    Left = 122
+    Top = 196
+    Properties.DropDownListStyle = lsEditFixedList
+    Properties.Items.Strings = (
+      'Cash On Delivery (COD)'
+      'Cash Before Delivery (CBD)'
+      '7 Hari'
+      '14 Hari'
+      '30 Hari'
+      '45 Hari')
+    Properties.OnEditValueChanged = cxCmbPembayaranPropertiesEditValueChanged
+    TabOrder = 11
+    Width = 183
   end
   object zqrPOHead: TZReadOnlyQuery
     Connection = DM.zConn

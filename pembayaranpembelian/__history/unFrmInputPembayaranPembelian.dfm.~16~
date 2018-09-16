@@ -1,22 +1,21 @@
-inherited frmInputPembayaranPenjualan: TfrmInputPembayaranPenjualan
-  Caption = 'Input Purchase Order'
+inherited frmInputPembayaranPembelian: TfrmInputPembayaranPembelian
+  Caption = 'Input Pembayaran Pembelian'
   ClientHeight = 690
   ClientWidth = 1061
   OnShow = FormShow
-  ExplicitTop = -16
   ExplicitWidth = 1061
   ExplicitHeight = 690
   PixelsPerInch = 96
   TextHeight = 13
   inherited Panel1: TPanel
     Width = 1061
-    ExplicitWidth = 1063
+    ExplicitWidth = 1061
     object Label1: TLabel
       Left = 10
       Top = 13
-      Width = 238
+      Width = 242
       Height = 19
-      Caption = 'Input Pembayaran Penjualan'
+      Caption = 'Input Pembayaran Pembelian'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -16
@@ -30,7 +29,7 @@ inherited frmInputPembayaranPenjualan: TfrmInputPembayaranPenjualan
     Width = 1061
     TabOrder = 17
     ExplicitTop = 641
-    ExplicitWidth = 1063
+    ExplicitWidth = 1061
   end
   object cxgrdPP: TcxGrid
     Left = 11
@@ -93,13 +92,13 @@ inherited frmInputPembayaranPenjualan: TfrmInputPembayaranPenjualan
         DataBinding.ValueType = 'DateTime'
         PropertiesClassName = 'TcxDateEditProperties'
         Properties.ReadOnly = True
-        Width = 107
+        Width = 111
       end
-      object cxtbInvColumn1: TcxGridColumn
+      object cxColTglJatuhTempo: TcxGridColumn
         Caption = 'Tgl. Jatuh Tempo'
         PropertiesClassName = 'TcxDateEditProperties'
         Properties.ReadOnly = True
-        Width = 103
+        Width = 108
       end
       object cxColSaldo: TcxGridColumn
         Caption = 'Saldo'
@@ -115,6 +114,7 @@ inherited frmInputPembayaranPenjualan: TfrmInputPembayaranPenjualan
         DataBinding.ValueType = 'Float'
         PropertiesClassName = 'TcxSpinEditProperties'
         Properties.Alignment.Horz = taRightJustify
+        Properties.DisplayFormat = '#,#0.00'
         FooterAlignmentHorz = taRightJustify
         HeaderAlignmentHorz = taRightJustify
         Width = 128
@@ -137,7 +137,7 @@ inherited frmInputPembayaranPenjualan: TfrmInputPembayaranPenjualan
   object cxlbl5: TcxLabel
     Left = 10
     Top = 116
-    Caption = 'Nama Customer'
+    Caption = 'Nama Supplier'
   end
   object cxlbl6: TcxLabel
     Left = 10
@@ -151,7 +151,7 @@ inherited frmInputPembayaranPenjualan: TfrmInputPembayaranPenjualan
     TabOrder = 3
     Width = 146
   end
-  object cxlCustomer: TcxLookupComboBox
+  object cxlSupplier: TcxLookupComboBox
     Left = 122
     Top = 115
     Properties.DropDownAutoSize = True
@@ -165,8 +165,9 @@ inherited frmInputPembayaranPenjualan: TfrmInputPembayaranPenjualan
         Caption = 'Kode Supplier'
         FieldName = 'kode'
       end>
-    Properties.ListSource = dsCustomer
+    Properties.ListSource = dsSupplier
     Properties.OnChange = cxLuSupplierPropertiesChange
+    Properties.OnEditValueChanged = cxlSupplierPropertiesEditValueChanged
     TabOrder = 5
     Width = 351
   end
@@ -175,7 +176,7 @@ inherited frmInputPembayaranPenjualan: TfrmInputPembayaranPenjualan
     Top = 142
     Properties.ReadOnly = True
     TabOrder = 7
-    Width = 351
+    Width = 460
   end
   object cxtNoBukti: TcxTextEdit
     Left = 122
@@ -246,15 +247,19 @@ inherited frmInputPembayaranPenjualan: TfrmInputPembayaranPenjualan
     Connection = DM.zConn
     AutoCalcFields = False
     SQL.Strings = (
-      'SELECT b.id, b.no_bukti, SUM(a.qty * a.harga) subtotal'
-      'FROM tbl_invoicepenjualan_det a '
-      'LEFT JOIN tbl_invoicepenjualan_head b ON a.no_bukti = a.no_bukti'
-      'WHERE b.id_cust = :id_cust'
+      'SELECT b.id, b.no_bukti, '
+      
+        'SUM((a.qty * a.harga) - ((a.qty * a.harga) * a.disc_persen / 100' +
+        ')  + if(a.ppn = '#39'PPN'#39',((a.qty * a.harga) - ((a.qty * a.harga) * ' +
+        'a.disc_persen / 100)) * 0.1,0)) subtotal'
+      'FROM tbl_invoicepembelian_det a '
+      'LEFT JOIN tbl_invoicepembelian_head b ON a.no_bukti = a.no_bukti'
+      'WHERE b.id_supp = :id_supp'
       'GROUP BY b.id, b.no_bukti')
     Params = <
       item
         DataType = ftUnknown
-        Name = 'id_cust'
+        Name = 'id_supp'
         ParamType = ptUnknown
       end>
     Left = 692
@@ -262,7 +267,7 @@ inherited frmInputPembayaranPenjualan: TfrmInputPembayaranPenjualan
     ParamData = <
       item
         DataType = ftUnknown
-        Name = 'id_cust'
+        Name = 'id_supp'
         ParamType = ptUnknown
       end>
   end
@@ -271,25 +276,24 @@ inherited frmInputPembayaranPenjualan: TfrmInputPembayaranPenjualan
     Left = 761
     Top = 83
   end
-  object zqrCustomer: TZReadOnlyQuery
+  object zqrSupplier: TZReadOnlyQuery
     Connection = DM.zConn
     AutoCalcFields = False
     SQL.Strings = (
       'select id, kode, nama '
-      'from tbl_customer order by nama')
+      'from tbl_supplier order by nama')
     Params = <>
     Left = 707
     Top = 182
   end
-  object dsCustomer: TDataSource
-    DataSet = zqrCustomer
+  object dsSupplier: TDataSource
+    DataSet = zqrSupplier
     Left = 776
     Top = 181
   end
   object zqrAkun: TZReadOnlyQuery
     Connection = DM.zConn
     AutoCalcFields = False
-    Active = True
     SQL.Strings = (
       'select id, noakun, nama '
       'from tbl_coa where ifnull(induk,'#39#39') <> '#39#39' and tipe = 1;')

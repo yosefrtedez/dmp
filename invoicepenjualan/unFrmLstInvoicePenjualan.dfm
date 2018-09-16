@@ -1,5 +1,5 @@
 inherited frmLstInvoicePenjualan: TfrmLstInvoicePenjualan
-  Caption = 'Invoice Pembelian'
+  Caption = 'Invoice Penjualan'
   ClientHeight = 503
   ClientWidth = 1085
   OnCreate = FormCreate

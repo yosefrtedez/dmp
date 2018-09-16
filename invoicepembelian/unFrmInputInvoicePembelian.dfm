@@ -141,6 +141,7 @@ inherited frmInputInvoicePembelian: TfrmInputInvoicePembelian
           'IDR'
           'USD')
         Properties.ReadOnly = True
+        Visible = False
         Width = 61
       end
       object cxColKeterangan: TcxGridColumn

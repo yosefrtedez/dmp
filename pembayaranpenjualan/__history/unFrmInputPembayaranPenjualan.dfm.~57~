@@ -1,5 +1,5 @@
 inherited frmInputPembayaranPenjualan: TfrmInputPembayaranPenjualan
-  Caption = 'Input Purchase Order'
+  Caption = 'Input Pembayaran Penjualan'
   ClientHeight = 690
   ClientWidth = 1061
   OnShow = FormShow
@@ -94,7 +94,7 @@ inherited frmInputPembayaranPenjualan: TfrmInputPembayaranPenjualan
         Properties.ReadOnly = True
         Width = 107
       end
-      object cxtbInvColumn1: TcxGridColumn
+      object cxColTglJatuhTempo: TcxGridColumn
         Caption = 'Tgl. Jatuh Tempo'
         PropertiesClassName = 'TcxDateEditProperties'
         Properties.ReadOnly = True
@@ -167,6 +167,7 @@ inherited frmInputPembayaranPenjualan: TfrmInputPembayaranPenjualan
       end>
     Properties.ListSource = dsCustomer
     Properties.OnChange = cxLuSupplierPropertiesChange
+    Properties.OnEditValueChanged = cxlCustomerPropertiesEditValueChanged
     TabOrder = 5
     Width = 351
   end
@@ -175,7 +176,7 @@ inherited frmInputPembayaranPenjualan: TfrmInputPembayaranPenjualan
     Top = 142
     Properties.ReadOnly = True
     TabOrder = 7
-    Width = 351
+    Width = 460
   end
   object cxtNoBukti: TcxTextEdit
     Left = 122
@@ -246,11 +247,9 @@ inherited frmInputPembayaranPenjualan: TfrmInputPembayaranPenjualan
     Connection = DM.zConn
     AutoCalcFields = False
     SQL.Strings = (
-      'SELECT b.id, b.no_bukti, SUM(a.qty * a.harga) subtotal'
-      'FROM tbl_invoicepenjualan_det a '
-      'LEFT JOIN tbl_invoicepenjualan_head b ON a.no_bukti = a.no_bukti'
-      'WHERE b.id_cust = :id_cust'
-      'GROUP BY b.id, b.no_bukti')
+      'SELECT b.id, b.no_bukti, b.total'
+      'FROM  tbl_invoicepenjualan_head b '
+      'WHERE b.id_cust = :id_cust')
     Params = <
       item
         DataType = ftUnknown
