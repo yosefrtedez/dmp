@@ -99,6 +99,13 @@ begin
   inherited;
   //MsgBox('Mohon maaf, modul ini belum bisa digunakan.');
   //Abort;
+
+  //cek jenis SJ, jika tanpa SO, bisa di edit
+  if zqrSJ.FieldByName('jenis_sj').AsInteger = 0 then begin
+    MsgBox('Transaksi Surat Jalan menggunakan SO tidak bisa di edit.');
+    Abort;
+  end;
+
   if not fu.CekTabOpen('Edit Surat Jalan') then begin
     ts := TcxTabSheet.Create(Self);
     ts.PageControl := frmUtama.pgMain;
