@@ -1,16 +1,15 @@
 inherited frmInputSO: TfrmInputSO
   Caption = 'Input Sales Order'
   ClientHeight = 726
-  ClientWidth = 1048
+  ClientWidth = 1055
   OnShow = FormShow
-  ExplicitTop = -52
-  ExplicitWidth = 1048
+  ExplicitWidth = 1055
   ExplicitHeight = 726
   PixelsPerInch = 96
   TextHeight = 13
   inherited Panel1: TPanel
-    Width = 1048
-    ExplicitWidth = 1048
+    Width = 1055
+    ExplicitWidth = 1055
     object Label1: TLabel
       Left = 10
       Top = 13
@@ -27,10 +26,10 @@ inherited frmInputSO: TfrmInputSO
   end
   inherited Panel2: TPanel
     Top = 677
-    Width = 1048
+    Width = 1055
     TabOrder = 22
     ExplicitTop = 677
-    ExplicitWidth = 1048
+    ExplicitWidth = 1055
   end
   object cxtNoSO: TcxTextEdit
     Left = 101
@@ -123,7 +122,7 @@ inherited frmInputSO: TfrmInputSO
     Left = 690
     Top = 64
     Width = 279
-    Height = 127
+    Height = 129
     Color = clBtnFace
     ParentBackground = False
     ParentColor = False
@@ -204,7 +203,7 @@ inherited frmInputSO: TfrmInputSO
   object cxGrid1: TcxGrid
     Left = 8
     Top = 205
-    Width = 1032
+    Width = 1039
     Height = 200
     Anchors = [akLeft, akTop, akRight]
     TabOrder = 13
@@ -353,8 +352,10 @@ inherited frmInputSO: TfrmInputSO
         Caption = 'Disc(%)'
         PropertiesClassName = 'TcxSpinEditProperties'
         Properties.Alignment.Horz = taRightJustify
+        Properties.DisplayFormat = '#,#0.00'
+        Properties.ValueType = vtFloat
         Visible = False
-        HeaderAlignmentHorz = taCenter
+        HeaderAlignmentHorz = taRightJustify
       end
       object cxColDiscAmount: TcxGridColumn
         Caption = 'Disc Amount'
@@ -551,7 +552,7 @@ inherited frmInputSO: TfrmInputSO
   end
   object dsBarang: TDataSource
     DataSet = zqrBarang
-    Left = 463
+    Left = 487
     Top = 15
   end
 end

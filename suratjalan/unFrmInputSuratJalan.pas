@@ -304,6 +304,8 @@ begin
           qbrg.Post;
           qbrg.Close;
 
+          UpdateHargaCust(cxlCustomer.EditValue, Values[i, cxColKodeBrg2.Index], Values[i, cxColHargaIkat2.Index]);
+
           {
           if Aplikasi.FAcc then begin
 
@@ -521,6 +523,8 @@ begin
           qbrg.Post;
           qbrg.Close;
 
+          UpdateHargaCust(cxlCustomer.EditValue, Values[i, cxColIdBrg.Index], Values[i, cxColHargaIkat.Index]);
+
           {
           if Aplikasi.FAcc then begin
 
@@ -664,6 +668,9 @@ begin
             else
               cxtbSJ.DataController.Values[row, cxColTotal.Index] :=
                 (cxtbSJ.DataController.Values[row, cxColHarga.Index] * cxtbSJ.DataController.Values[row, cxColQty.Index]);
+
+            cxtbSJ.DataController.Values[row, cxColHargaIkat.Index] := GetHargaCust(cxlCustomer.EditValue,
+              Values[i, f.cxColIdBrg.Index]);
           end
           else begin
 
@@ -700,6 +707,8 @@ begin
               cxtbSJ.DataController.Values[j, cxColTotal.Index] :=
                 (cxtbSJ.DataController.Values[j, cxColHarga.Index] * cxtbSJ.DataController.Values[j, cxColQty.Index]);
 
+            cxtbSJ.DataController.Values[j, cxColHargaIkat.Index] := GetHargaCust(cxlCustomer.EditValue,
+              Values[i, f.cxColIdBrg.Index]);
           end;
         end;
       end;
@@ -1095,6 +1104,8 @@ begin
       q := OpenRS('SELECT * FROM tbl_barang_det_spek WHERE id_ref = %s',
         [ADataController.Values[ARecordIndex, cxColDeskripsi2.Index]]);
       ADataController.Values[ARecordIndex, cxColJmlIkatPerBal2.Index] := q.FieldByName('jml_ikat_per_karung').AsFloat;
+      ADataController.Values[ARecordIndex, cxColHargaIkat2.Index] := GetHargaCust(cxlCustomer.EditValue,
+        StrToInt(ADataController.Values[ARecordIndex, cxColDeskripsi2.Index]));
       q.Close;
     finally
       cxtbSJTanpaSO.EndUpdate
@@ -1115,6 +1126,8 @@ begin
       q := OpenRS('SELECT * FROM tbl_barang_det_spek WHERE id_ref = %s',
         [ADataController.Values[ARecordIndex, cxColDeskripsi2.Index]]);
       ADataController.Values[ARecordIndex, cxColJmlIkatPerBal2.Index] := q.FieldByName('jml_ikat_per_karung').AsFloat;
+      ADataController.Values[ARecordIndex, cxColHargaIkat2.Index] := GetHargaCust(cxlCustomer.EditValue,
+        StrToInt(ADataController.Values[ARecordIndex, cxColKodeBrg2.Index]));
       q.Close;
     finally
       cxtbSJTanpaSO.EndUpdate

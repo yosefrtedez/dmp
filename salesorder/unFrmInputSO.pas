@@ -121,7 +121,6 @@ var
   tbl_tmp: TZTable;
 begin
 
-
   if cxChkMTS.Checked then
   else
   if (cxTblSO.DataController.EditState = [dceInsert, dceModified]) or
@@ -320,6 +319,8 @@ begin
           z.Post;
           z.Close;
 
+          UpdateHargaCust(cxlCust.EditValue, Values[i, cxColDeskripsi.Index], Values[i, cxColHargaIkat.Index]);
+
           sNoMO := GetLastFak('master_order');
           UpdateFaktur(Copy(sNoMO,1,7));
 
@@ -508,6 +509,8 @@ begin
       ADataController.Values[ARecordIndex, cxColSatuan.Index] := q.FieldByName('satuan').AsString;
       ADataController.Values[ARecordIndex, cxColIdSatuan.Index] := q.FieldByName('id_satuan').AsInteger;
       ADataController.Values[ARecordIndex, cxColQty.Index] := 1;
+      ADataController.Values[ARecordIndex, cxColHargaIkat.Index] := GetHargaCust(cxlCust.EditValue,
+        StrToInt(ADataController.Values[ARecordIndex, AItemIndex]));
       q.Close;
     finally
       cxTblSO.EndUpdate;
@@ -528,6 +531,8 @@ begin
       ADataController.Values[ARecordIndex, cxColSatuan.Index] := q.FieldByName('satuan').AsString;
       ADataController.Values[ARecordIndex, cxColIdSatuan.Index] := q.FieldByName('id_satuan').AsInteger;
       ADataController.Values[ARecordIndex, cxColQty.Index] := 1;
+      ADataController.Values[ARecordIndex, cxColHargaIkat.Index] := GetHargaCust(cxlCust.EditValue,
+        StrToInt(ADataController.Values[ARecordIndex, AItemIndex]));
       q.Close;
     finally
       cxTblSO.EndUpdate;

@@ -87,6 +87,9 @@ function GetDefaultAkunBrg(id_brg: integer; sJenis: string): Integer;
 
 function GetDefaultAkun(jenis: string): integer;
 
+function GetHargaCust(id_cust, id_brg: Integer): real;
+procedure UpdateHargaCust(id_cust, id_brg: Integer; harga: real);
+
 implementation
 
 function LastInsertID: integer;
@@ -1397,6 +1400,34 @@ var
 begin
   q := OpenRS('SELECT id_akun FROM tbl_akundefault WHERE jenis = ''%s''',[jenis]);
   Result := q.FieldByName('id_akun').AsInteger;
+  q.Close;
+end;
+
+function GetHargaCust(id_cust, id_brg: Integer): real;
+var
+  q: TZQuery;
+begin
+  q := OpenRS('SELECT harga FROM tbl_historyhargajual WHERE id_cust = %d AND id_brg = %d', [id_cust, id_brg]);
+  if not q.IsEmpty then
+    Result := q.FieldByName('harga').AsFloat
+  else
+    Result := 0;
+  q.Close;
+end;
+
+procedure UpdateHargaCust(id_cust, id_brg: Integer; harga: real);
+var
+  q: TZQuery;
+begin
+  q := OpenRS('SELECT * FROM tbl_historyhargajual WHERE id_cust = %d AND id_brg = %d', [id_cust, id_brg]);
+  if q.IsEmpty then
+    q.Insert
+  else
+    q.Edit;
+  q.FieldByName('id_cust').AsInteger := id_cust;
+  q.FieldByName('id_brg').AsInteger := id_brg;
+  q.FieldByName('harga').AsFloat := harga;
+  q.Post;
   q.Close;
 end;
 

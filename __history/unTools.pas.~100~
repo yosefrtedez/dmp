@@ -76,7 +76,7 @@ function LastInsertID: Integer;
 function Terbilang(sValue: string): string;
 
 function GetStokAkhir(id_brg: integer; id_gdg: Integer): real;
-function GetHpp(id_brg: integer; id_gdg: Integer): real;
+function GetHpp(id_brg: integer): real;
 function CheckWewenang(sNamaWewenang, sNamaUser: string): Boolean;
 
 function GetSatuan(id_brg: Integer; var satuan: string): Integer;
@@ -84,6 +84,10 @@ function GetSatuan(id_brg: Integer; var satuan: string): Integer;
 function GetKonversiSat(id_brg: Integer; id_satuan: Integer): Real;
 
 function GetDefaultAkunBrg(id_brg: integer; sJenis: string): Integer;
+
+function GetDefaultAkun(jenis: string): integer;
+
+function GetHargaCust(id_cust, id_brg: Integer): real;
 
 implementation
 
@@ -392,7 +396,11 @@ begin
   else if sTipe = 'invoice-penjualan' then
     depan := 'INV/'
   else if sTipe = 'invoice-pembelian' then
-    depan := 'INP/';
+    depan := 'INP/'
+  else if sTipe = 'pembayaran-pembelian' then
+    depan := 'PPB/'
+  else if sTipe = 'pembayaran-penjualan' then
+    depan := 'PPJ/';
 
   head := depan + GetFaktur;
 
@@ -1321,11 +1329,11 @@ begin
   q.Close;
 end;
 
-function GetHpp(id_brg: integer; id_gdg: Integer): real;
+function GetHpp(id_brg: integer): real;
 var
   q: TZQuery;
 begin
-  q := OpenRS('SELECT sf_get_hpp(%d,%d) hpp',[id_brg, id_gdg]);
+  q := OpenRS('SELECT sf_get_hpp(%d) hpp',[id_brg]);
   Result := q.FieldByName('hpp').AsFloat;
   q.Close;
 end;
@@ -1390,7 +1398,19 @@ var
   q: TZQuery;
 begin
   q := OpenRS('SELECT id_akun FROM tbl_akundefault WHERE jenis = ''%s''',[jenis]);
-  Result := q.FieldByName('noakun').AsInteger;
+  Result := q.FieldByName('id_akun').AsInteger;
+  q.Close;
+end;
+
+function GetHargaCust(id_cust, id_brg: Integer): real;
+var
+  q: TZQuery;
+begin
+  q := OpenRS('SELECT harga FROM tbl_historyhargajual WHERE id_cust = %d AND id_brg = %d', [id_cust, id_brg]);
+  if not q.IsEmpty then
+    Result := q.FieldByName('harga').AsFloat
+  else
+    Result := 0;
   q.Close;
 end;
 

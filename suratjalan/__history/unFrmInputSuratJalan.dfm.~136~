@@ -89,7 +89,7 @@ inherited frmInputSuratJalan: TfrmInputSuratJalan
     Width = 1103
     Height = 211
     Anchors = [akLeft, akTop, akRight]
-    TabOrder = 21
+    TabOrder = 22
     object cxtbSJ: TcxGridTableView
       NavigatorButtons.ConfirmDelete = False
       NavigatorButtons.PriorPage.Visible = False
@@ -173,6 +173,7 @@ inherited frmInputSuratJalan: TfrmInputSuratJalan
         Properties.Alignment.Horz = taRightJustify
         Properties.DisplayFormat = '#,#0.00'
         Properties.ReadOnly = True
+        HeaderAlignmentHorz = taRightJustify
         Width = 89
       end
       object cxColJmlIkatPerBal: TcxGridColumn
@@ -181,6 +182,7 @@ inherited frmInputSuratJalan: TfrmInputSuratJalan
         PropertiesClassName = 'TcxSpinEditProperties'
         Properties.Alignment.Horz = taRightJustify
         Properties.ReadOnly = True
+        HeaderAlignmentHorz = taRightJustify
         Width = 85
       end
       object cxColHargaIkat: TcxGridColumn
@@ -190,6 +192,7 @@ inherited frmInputSuratJalan: TfrmInputSuratJalan
         Properties.Alignment.Horz = taRightJustify
         Properties.DisplayFormat = '#,#0.00'
         Properties.ValueType = vtFloat
+        HeaderAlignmentHorz = taRightJustify
         Width = 75
       end
       object cxColHarga: TcxGridColumn
@@ -199,7 +202,18 @@ inherited frmInputSuratJalan: TfrmInputSuratJalan
         Properties.Alignment.Horz = taRightJustify
         Properties.DisplayFormat = '#,#0.00'
         Properties.ReadOnly = True
+        HeaderAlignmentHorz = taRightJustify
         Width = 76
+      end
+      object cxColDisc: TcxGridColumn
+        Caption = 'Diskon'
+        DataBinding.ValueType = 'Float'
+        PropertiesClassName = 'TcxSpinEditProperties'
+        Properties.Alignment.Horz = taRightJustify
+        Properties.DisplayFormat = '#,#0.00'
+        Properties.ValueType = vtFloat
+        Visible = False
+        HeaderAlignmentHorz = taRightJustify
       end
       object cxColGudang: TcxGridColumn
         Caption = 'Gudang'
@@ -305,7 +319,7 @@ inherited frmInputSuratJalan: TfrmInputSuratJalan
   object cxLabel4: TcxLabel
     Left = 888
     Top = 499
-    Caption = 'Diskon (%)'
+    Caption = 'Disc (%)'
   end
   object cxsDiskon: TcxSpinEdit
     Left = 976
@@ -313,6 +327,7 @@ inherited frmInputSuratJalan: TfrmInputSuratJalan
     Properties.Alignment.Horz = taRightJustify
     Properties.DisplayFormat = '#,#0.00'
     Properties.MaxValue = 100.000000000000000000
+    Properties.ReadOnly = False
     Properties.ValueType = vtFloat
     Properties.OnChange = cxsDiskonPropertiesChange
     TabOrder = 23
@@ -401,7 +416,7 @@ inherited frmInputSuratJalan: TfrmInputSuratJalan
   object cxdTglJthTempo: TcxDateEdit
     Left = 112
     Top = 251
-    TabOrder = 19
+    TabOrder = 20
     Width = 146
   end
   object btnPilihSO: TButton
@@ -434,12 +449,12 @@ inherited frmInputSuratJalan: TfrmInputSuratJalan
     Width = 137
   end
   object cxgSJTanpaSO: TcxGrid
-    Left = 28
-    Top = 309
+    Left = 56
+    Top = 249
     Width = 1103
     Height = 211
     Anchors = [akLeft, akTop, akRight]
-    TabOrder = 22
+    TabOrder = 19
     object cxtbSJTanpaSO: TcxGridTableView
       NavigatorButtons.ConfirmDelete = False
       NavigatorButtons.PriorPage.Visible = False

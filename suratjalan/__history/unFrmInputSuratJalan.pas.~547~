@@ -304,6 +304,7 @@ begin
           qbrg.Post;
           qbrg.Close;
 
+          {
           if Aplikasi.FAcc then begin
 
             id_akun := GetDefaultAkunBrg(Values[i, cxColKodeBrg2.Index], 'hpp');
@@ -331,7 +332,7 @@ begin
             qjd.Close;
 
           end;
-
+          }
         end;
       end;
 
@@ -520,6 +521,7 @@ begin
           qbrg.Post;
           qbrg.Close;
 
+          {
           if Aplikasi.FAcc then begin
 
             id_akun := GetDefaultAkunBrg(Values[i, cxColIdBrg.Index], 'hpp');
@@ -545,8 +547,8 @@ begin
             qjd.Post;
 
             qjd.Close;
-
           end;
+          }
 
         end;
       end;
@@ -1093,6 +1095,8 @@ begin
       q := OpenRS('SELECT * FROM tbl_barang_det_spek WHERE id_ref = %s',
         [ADataController.Values[ARecordIndex, cxColDeskripsi2.Index]]);
       ADataController.Values[ARecordIndex, cxColJmlIkatPerBal2.Index] := q.FieldByName('jml_ikat_per_karung').AsFloat;
+      ADataController.Values[ARecordIndex, cxColHargaIkat2.Index] := GetHargaCust(cxlCustomer.EditValue,
+        StrToInt(ADataController.Values[ARecordIndex, cxColDeskripsi2.Index]));
       q.Close;
     finally
       cxtbSJTanpaSO.EndUpdate
@@ -1113,6 +1117,8 @@ begin
       q := OpenRS('SELECT * FROM tbl_barang_det_spek WHERE id_ref = %s',
         [ADataController.Values[ARecordIndex, cxColDeskripsi2.Index]]);
       ADataController.Values[ARecordIndex, cxColJmlIkatPerBal2.Index] := q.FieldByName('jml_ikat_per_karung').AsFloat;
+      ADataController.Values[ARecordIndex, cxColHargaIkat2.Index] := GetHargaCust(cxlCustomer.EditValue,
+        StrToInt(ADataController.Values[ARecordIndex, cxColKodeBrg2.Index]));
       q.Close;
     finally
       cxtbSJTanpaSO.EndUpdate
@@ -1339,14 +1345,14 @@ begin
             (cxtbSJ.DataController.Values[i, cxColDisc.Index] / 100));
       end;
 
-      //diskon := 0;
+      diskon := 0;
       if cxsDiskon.Value > 0 then
         diskon := (cxsDiskon.Value / 100) * tot;
 
       //if disc > 0 then
       //  cxsDiskon.Value := disc;
 
-      cxsStlhDiskon.Value := tot;
+      cxsStlhDiskon.Value := tot - diskon;
 
       if cxChkPPN.Checked then
         cxsDPP.Value := cxsStlhDiskon.Value / 1.1
