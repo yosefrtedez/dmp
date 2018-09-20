@@ -454,7 +454,7 @@ procedure TfrmInputPO.cxtbTblPODataControllerRecordChanged(
   ADataController: TcxCustomDataController; ARecordIndex, AItemIndex: Integer);
 var
   q: TZQuery;
-  t, t1, t2, t3, disc1, disc2 : Real;
+  t, t1, t2, t3, disc1, disc2, val : Real;
   i: Integer ;
 begin
   inherited;
@@ -527,8 +527,11 @@ begin
         if Values[i, cxColDiscRp.Index] > 0 then
           disc2 := (Values[i, cxColDiscRp.Index] * Values[i, cxColQty.Index]);
 
-        if cxColPPn.EditValue = 'PPN' then
-          Values[i, cxColTotal.Index] := ((Values[i, cxColHarga.Index] * 110/100) * Values[i, cxColQty.Index]) - disc1 - disc2
+        if cxColPPn.EditValue = 'PPN' then begin
+          val := ((Values[i, cxColHarga.Index] * Values[i, cxColQty.Index]) - disc1 - disc2);
+          val := val + (val * 10 / 100);
+          Values[i, cxColTotal.Index] := val;
+        end
         else
           Values[i, cxColTotal.Index] := (Values[i, cxColHarga.Index] * Values[i, cxColQty.Index]) - disc1 - disc2
 
@@ -628,7 +631,7 @@ end;
 procedure TfrmInputPO.HitungSubTotal;
 var
   i: integer;
-  disc1, disc2: real;
+  disc1, disc2, val: real;
 begin
   i := cxtbTblPO.DataController.GetFocusedRowIndex;
   try
@@ -645,8 +648,12 @@ begin
       if Values[i, cxColDiscRp.Index] > 0 then
         disc2 := (Values[i, cxColDiscRp.Index] * Values[i, cxColQty.Index]);
 
-      if Values[i, cxColPPn.Index] = 'PPN' then
-        Values[i, cxColTotal.Index] := ((Values[i, cxColHarga.Index] * 110/100) * Values[i, cxColQty.Index]) - disc1 - disc2
+      if Values[i, cxColPPn.Index] = 'PPN' then begin
+        //Values[i, cxColTotal.Index] := ((Values[i, cxColHarga.Index] * 110/100) * Values[i, cxColQty.Index]) - disc1 - disc2;
+        val := ((Values[i, cxColHarga.Index] * Values[i, cxColQty.Index]) - disc1 - disc2);
+        val := val + (val * 10 / 100);
+        Values[i, cxColTotal.Index] := val;
+      end
       else
         Values[i, cxColTotal.Index] := (Values[i, cxColHarga.Index] * Values[i, cxColQty.Index]) - disc1 - disc2;
 

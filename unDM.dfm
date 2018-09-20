@@ -5,6 +5,7 @@ object DM: TDM
   Width = 185
   object zConn: TZConnection
     ControlsCodePage = cCP_UTF16
+    TransactIsolationLevel = tiReadCommitted
     Connected = True
     DesignConnection = True
     HostName = 'localhost'
