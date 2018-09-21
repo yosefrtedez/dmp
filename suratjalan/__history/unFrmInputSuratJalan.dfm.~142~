@@ -80,7 +80,7 @@ inherited frmInputSuratJalan: TfrmInputSuratJalan
     Left = 112
     Top = 224
     Properties.CharCase = ecUpperCase
-    TabOrder = 17
+    TabOrder = 18
     Width = 416
   end
   object cxgSJ: TcxGrid
@@ -89,7 +89,7 @@ inherited frmInputSuratJalan: TfrmInputSuratJalan
     Width = 1103
     Height = 211
     Anchors = [akLeft, akTop, akRight]
-    TabOrder = 21
+    TabOrder = 22
     object cxtbSJ: TcxGridTableView
       NavigatorButtons.ConfirmDelete = False
       NavigatorButtons.PriorPage.Visible = False
@@ -416,7 +416,7 @@ inherited frmInputSuratJalan: TfrmInputSuratJalan
   object cxdTglJthTempo: TcxDateEdit
     Left = 112
     Top = 251
-    TabOrder = 19
+    TabOrder = 20
     Width = 146
   end
   object btnPilihSO: TButton
@@ -449,12 +449,12 @@ inherited frmInputSuratJalan: TfrmInputSuratJalan
     Width = 137
   end
   object cxgSJTanpaSO: TcxGrid
-    Left = 328
-    Top = 281
+    Left = 155
+    Top = 197
     Width = 1103
     Height = 211
     Anchors = [akLeft, akTop, akRight]
-    TabOrder = 22
+    TabOrder = 16
     object cxtbSJTanpaSO: TcxGridTableView
       NavigatorButtons.ConfirmDelete = False
       NavigatorButtons.PriorPage.Visible = False

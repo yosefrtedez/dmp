@@ -3,6 +3,7 @@ inherited frmInputPembayaranPenjualan: TfrmInputPembayaranPenjualan
   ClientHeight = 690
   ClientWidth = 1061
   OnShow = FormShow
+  ExplicitTop = -16
   ExplicitWidth = 1061
   ExplicitHeight = 690
   PixelsPerInch = 96

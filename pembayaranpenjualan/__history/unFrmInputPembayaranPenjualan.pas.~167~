@@ -50,7 +50,7 @@ type
     zqrAkun: TZReadOnlyQuery;
     dsAkun: TDataSource;
     cxtAkun: TcxTextEdit;
-    cxtbInvColumn1: TcxGridColumn;
+    cxColTglJatuhTempo: TcxGridColumn;
     cxmTerbilang: TcxMemo;
     procedure cxLuSupplierPropertiesChange(Sender: TObject);
     procedure btnSimpanClick(Sender: TObject);
@@ -64,6 +64,7 @@ type
     procedure cxlAkunPropertiesEditValueChanged(Sender: TObject);
     procedure cxtbInvDataControllerAfterPost(
       ADataController: TcxCustomDataController);
+    procedure cxlCustomerPropertiesEditValueChanged(Sender: TObject);
   private
     mStatus: string;
     procedure HitungTotal;
@@ -84,9 +85,9 @@ uses
 
 procedure TfrmInputPembayaranPenjualan.btnSimpanClick(Sender: TObject);
 var
-  q, qh, qd, rs_fobj: TZQuery;
-  sNoBukti : string;
-  i, id : integer;
+  q, qh, qd, rs_fobj, qjd: TZQuery;
+  sNoBukti, sNoJ : string;
+  i, id, id_akun : integer;
   f0: Boolean;
 
 begin
@@ -147,6 +148,12 @@ begin
 
       if Self.Jenis = 'T' then  ID := LastInsertID;
 
+      if Aplikasi.FAcc then begin
+        sNoJ := GetLastFak('jurnal');
+        UpdateFaktur(Copy(sNoJ,1,6));
+        qjd := OpenRS('SELECT * FROM tbl_jurnal WHERE no_jurnal = ''%s''',[sNoJ]);
+      end;
+
       qd := OpenRS('SELECT * FROM tbl_pembayaranpenjualan_det WHERE id_ref = %d',[ID]);
       with cxtbInv.DataController do begin
         for i := 0 to RecordCount - 1 do begin
@@ -155,6 +162,39 @@ begin
           qd.FieldByName('id_invoice').AsInteger := Values[i, cxColNoInvoice.Index];
           qd.FieldByName('jml_pembayaran').AsFloat := Values[i, cxColJmlDibayar.Index];
           qd.Post;
+
+          if Aplikasi.FAcc then begin
+            sNoJ := GetLastFak('jurnal');
+            UpdateFaktur(Copy(sNoJ,1,6));
+            id_akun := GetDefaultAkun('');
+            qjd := OpenRS('SELECT * FROM tbl_jurnal WHERE no_jurnal = ''%s''',[sNoJ]);
+            qjd.Insert;
+            qjd.FieldByName('id_ref').AsInteger := ID;
+            qjd.FieldbyName('tanggal').AsDateTime := Aplikasi.TanggalServer;
+            qjd.FieldByName('no_jurnal').AsString := sNoJ;
+            qjd.FieldByName('id_akun').AsInteger := id_akun;
+            qjd.FieldByName('debet').AsFloat := cxtbInv.DataController.Values[i, cxColJmlDibayar.Index];
+            qjd.FieldByName('keterangan').AsString := 'Pembayaran Penjualan, ' + cxlCustomer.Text;
+            qjd.FieldByName('dc').AsString := 'D';
+            qjd.FieldByName('no_trans').AsString := sNoBukti;
+            qjd.FieldByName('tglinput').AsDateTime := Aplikasi.NowServer;
+            qjd.Post;
+
+            id_akun := GetDefaultAkun('depositintransit');
+            qjd.Insert;
+            qjd.FieldByName('id_ref').AsInteger := ID;
+            qjd.FieldbyName('tanggal').AsDateTime := Aplikasi.TanggalServer;
+            qjd.FieldByName('no_jurnal').AsString := sNoJ;
+            qjd.FieldByName('id_akun').AsInteger := id_akun;
+            qjd.FieldByName('kredit').AsFloat := cxtbInv.DataController.Values[i, cxColJmlDibayar.Index];
+            qjd.FieldByName('keterangan').AsString := 'Pembayaran Penjualan, ' + cxlCustomer.Text;
+            qjd.FieldByName('dc').AsString := 'K';
+            qjd.FieldByName('no_trans').AsString := sNoBukti;
+            qjd.FieldByName('tglinput').AsDateTime := Aplikasi.NowServer;
+            qjd.Post;
+            qjd.Close;
+
+          end;
         end;
       end;
 
@@ -223,6 +263,26 @@ begin
   end;
 end;
 
+procedure TfrmInputPembayaranPenjualan.cxlCustomerPropertiesEditValueChanged(
+  Sender: TObject);
+var
+  q: TZQuery;
+begin
+  inherited;
+  try
+    zqrInv.Close;
+    zqrInv.ParamByName('id_cust').AsInteger := cxlCustomer.EditValue;
+    zqrInv.Open;
+
+    q := OpenRS('SELECT alamat, alamat2, kota, provinsi FROM tbl_customer WHERE id = %s',[cxlCustomer.EditValue]);
+    cxtAlamat.Text := q.FieldbyName('alamat').AsString + ' ' + q.FieldByname('alamat2').AsString +
+      ', ' + q.FieldByName('kota').AsString + ', ' + q.FieldByname('provinsi').AsString;
+    q.Close;
+
+  except
+  end;
+end;
+
 procedure TfrmInputPembayaranPenjualan.cxLuSupplierPropertiesChange(Sender: TObject);
 var
   q: TZQuery;
@@ -233,8 +293,7 @@ begin
     zqrInv.ParamByName('id_cust').AsInteger := cxlCustomer.EditValue;
     zqrInv.Open;
 
-    q := OpenRS('SELECT alamat, alamat2, kota, provinsi FROM tbl_customer ' +
-      'WHERE id = %s',[cxlCustomer.EditValue]);
+    q := OpenRS('SELECT alamat, alamat2, kota, provinsi FROM tbl_customer WHERE id = %s',[cxlCustomer.EditValue]);
     cxtAlamat.Text := q.FieldbyName('alamat').AsString + ' ' + q.FieldByname('alamat2').AsString +
       ', ' + q.FieldByName('kota').AsString + ', ' + q.FieldByname('provinsi').AsString;
     q.Close;
@@ -260,12 +319,14 @@ var
 begin
   inherited;
   if AItemIndex = cxColNoInvoice.Index then begin
-    q := OpenRS('SELECT SUM(qty * harga) subtotal, ' +
-      '(SELECT SUM(jml_pembayaran) FROM tbl_pembayaranpenjualan_det WHERE id_invoice = a.id_ref) jml_pembayaran ' +
-      'FROM tbl_invoicepenjualan_det a ' +
-      'WHERE a.id_ref = %s', [ADataController.Values[ARecordIndex, AItemIndex]]);
+    q := OpenRS('SELECT a.total, a.tanggal, a.tgl_jatuhtempo, ' +
+      '(SELECT SUM(jml_pembayaran) FROM tbl_pembayaranpenjualan_det WHERE id_invoice = a.id) jml_pembayaran ' +
+      'FROM tbl_invoicepenjualan_head a ' +
+      'WHERE a.id = %s', [ADataController.Values[ARecordIndex, AItemIndex]]);
     ADataController.Values[ARecordIndex, cxColSaldo.Index] :=
-      q.FieldByName('subtotal').AsFloat - q.FieldByName('jml_pembayaran').AsFloat;
+      q.FieldByName('total').AsFloat - q.FieldByName('jml_pembayaran').AsFloat;
+    ADataController.Values[ARecordIndex, cxColTglInvoice.Index] := q.FieldByName('tanggal').AsDateTime;
+    ADataController.Values[ARecordIndex, cxColTglJatuhTempo.Index] := q.FieldByName('tgl_jatuhtempo').AsDateTime;
     q.Close;
   end;
 end;

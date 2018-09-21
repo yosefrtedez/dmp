@@ -448,6 +448,7 @@ begin
       if Aplikasi.FAcc then begin
         sNoJ := GetLastFak('jurnal');
         UpdateFaktur(Copy(sNoJ,1,6));
+        qjd := OpenRS('SELECT * FROM tbl_jurnal WHERE no_jurnal = ''%s''',[sNoJ]);
       end;
 
       with cxtbSJ.DataController do begin
@@ -528,7 +529,6 @@ begin
           if Aplikasi.FAcc then begin
 
             id_akun := GetDefaultAkunBrg(Values[i, cxColIdBrg.Index], 'hpp');
-            qjd := OpenRS('SELECT * FROM tbl_jurnal WHERE no_jurnal = ''%s''',[sNoJ]);
             qjd.Insert;
             qjd.FieldByname('id_ref').AsInteger := ID;
             qjd.FieldByName('tanggal').AsDateTime := cxdTglDatang.Date;
@@ -553,8 +553,6 @@ begin
             qjd.FieldByName('no_trans').AsString := sNoBukti;
             qjd.FieldByName('tglinput').AsDateTime := Aplikasi.NowServer;
             qjd.Post;
-
-            qjd.Close;
           end;
 
         end;

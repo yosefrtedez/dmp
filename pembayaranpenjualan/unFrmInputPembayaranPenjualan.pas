@@ -85,9 +85,9 @@ uses
 
 procedure TfrmInputPembayaranPenjualan.btnSimpanClick(Sender: TObject);
 var
-  q, qh, qd, rs_fobj: TZQuery;
-  sNoBukti : string;
-  i, id : integer;
+  q, qh, qd, rs_fobj, qjd: TZQuery;
+  sNoBukti, sNoJ : string;
+  i, id, id_akun : integer;
   f0: Boolean;
 
 begin
@@ -148,6 +148,12 @@ begin
 
       if Self.Jenis = 'T' then  ID := LastInsertID;
 
+      if Aplikasi.FAcc then begin
+        sNoJ := GetLastFak('jurnal');
+        UpdateFaktur(Copy(sNoJ,1,6));
+        qjd := OpenRS('SELECT * FROM tbl_jurnal WHERE no_jurnal = ''%s''',[sNoJ]);
+      end;
+
       qd := OpenRS('SELECT * FROM tbl_pembayaranpenjualan_det WHERE id_ref = %d',[ID]);
       with cxtbInv.DataController do begin
         for i := 0 to RecordCount - 1 do begin
@@ -156,6 +162,36 @@ begin
           qd.FieldByName('id_invoice').AsInteger := Values[i, cxColNoInvoice.Index];
           qd.FieldByName('jml_pembayaran').AsFloat := Values[i, cxColJmlDibayar.Index];
           qd.Post;
+
+          if Aplikasi.FAcc then begin
+            id_akun := cxlAkun.EditValue;
+            qjd.Insert;
+            qjd.FieldByName('id_ref').AsInteger := ID;
+            qjd.FieldbyName('tanggal').AsDateTime := Aplikasi.TanggalServer;
+            qjd.FieldByName('no_jurnal').AsString := sNoJ;
+            qjd.FieldByName('id_akun').AsInteger := id_akun;
+            qjd.FieldByName('debet').AsFloat := cxtbInv.DataController.Values[i, cxColJmlDibayar.Index];
+            qjd.FieldByName('keterangan').AsString := 'Pembayaran Penjualan, ' + cxlCustomer.Text;
+            qjd.FieldByName('dc').AsString := 'D';
+            qjd.FieldByName('no_trans').AsString := sNoBukti;
+            qjd.FieldByName('tglinput').AsDateTime := Aplikasi.NowServer;
+            qjd.Post;
+
+            id_akun := GetDefaultAkun('piutangcustomer');
+            qjd.Insert;
+            qjd.FieldByName('id_ref').AsInteger := ID;
+            qjd.FieldbyName('tanggal').AsDateTime := Aplikasi.TanggalServer;
+            qjd.FieldByName('no_jurnal').AsString := sNoJ;
+            qjd.FieldByName('id_akun').AsInteger := id_akun;
+            qjd.FieldByName('kredit').AsFloat := cxtbInv.DataController.Values[i, cxColJmlDibayar.Index];
+            qjd.FieldByName('keterangan').AsString := 'Pembayaran Penjualan, ' + cxlCustomer.Text;
+            qjd.FieldByName('dc').AsString := 'K';
+            qjd.FieldByName('no_trans').AsString := sNoBukti;
+            qjd.FieldByName('tglinput').AsDateTime := Aplikasi.NowServer;
+            qjd.Post;
+            qjd.Close;
+
+          end;
         end;
       end;
 

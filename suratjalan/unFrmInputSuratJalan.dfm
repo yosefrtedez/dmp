@@ -3,6 +3,7 @@ inherited frmInputSuratJalan: TfrmInputSuratJalan
   ClientHeight = 687
   ClientWidth = 1119
   OnShow = FormShow
+  ExplicitTop = -13
   ExplicitWidth = 1119
   ExplicitHeight = 687
   PixelsPerInch = 96

@@ -1,4 +1,4 @@
-unit unFrmInputPembayaranPenjualan;
+unit unFrmInputPembayaranPembelian;
 
 interface
 
@@ -21,7 +21,7 @@ uses
   cxDBLookupEdit, cxLabel, DB, ZAbstractRODataset, ZDataset, cxMemo, Math;
 
 type
-  TfrmInputPembayaranPenjualan = class(TfrmTplInput)
+  TfrmInputPembayaranPembelian = class(TfrmTplInput)
     Label1: TLabel;
     cxgrdPP: TcxGrid;
     cxtbInv: TcxGridTableView;
@@ -31,13 +31,13 @@ type
     cxlbl5: TcxLabel;
     cxlbl6: TcxLabel;
     cxdTgl: TcxDateEdit;
-    cxlCustomer: TcxLookupComboBox;
+    cxlSupplier: TcxLookupComboBox;
     cxtAlamat: TcxTextEdit;
     cxtNoBukti: TcxTextEdit;
     zqrInv: TZReadOnlyQuery;
     dsInv: TDataSource;
-    zqrCustomer: TZReadOnlyQuery;
-    dsCustomer: TDataSource;
+    zqrSupplier: TZReadOnlyQuery;
+    dsSupplier: TDataSource;
     cxlbl14: TcxLabel;
     cxtKeterangan: TcxTextEdit;
     cxLabel1: TcxLabel;
@@ -50,7 +50,7 @@ type
     zqrAkun: TZReadOnlyQuery;
     dsAkun: TDataSource;
     cxtAkun: TcxTextEdit;
-    cxtbInvColumn1: TcxGridColumn;
+    cxColTglJatuhTempo: TcxGridColumn;
     cxmTerbilang: TcxMemo;
     procedure cxLuSupplierPropertiesChange(Sender: TObject);
     procedure btnSimpanClick(Sender: TObject);
@@ -64,7 +64,7 @@ type
     procedure cxlAkunPropertiesEditValueChanged(Sender: TObject);
     procedure cxtbInvDataControllerAfterPost(
       ADataController: TcxCustomDataController);
-    procedure cxlCustomerPropertiesEditValueChanged(Sender: TObject);
+    procedure cxlSupplierPropertiesEditValueChanged(Sender: TObject);
   private
     mStatus: string;
     procedure HitungTotal;
@@ -74,20 +74,20 @@ type
   end;
 
 var
-  frmInputPembayaranPembelian: TfrmInputPembayaranPenjualan;
+  frmInputPembayaranPembelian: TfrmInputPembayaranPembelian;
 
 implementation
 
 uses
-  unFrmUtama, unDM, unAplikasi, unTools, unFrmLstPembayaranPenjualan;
+  unFrmUtama, unDM, unAplikasi, unTools, unFrmLstPembayaranPembelian;
 
 {$R *.dfm}
 
-procedure TfrmInputPembayaranPenjualan.btnSimpanClick(Sender: TObject);
+procedure TfrmInputPembayaranPembelian.btnSimpanClick(Sender: TObject);
 var
-  q, qh, qd, rs_fobj: TZQuery;
-  sNoBukti : string;
-  i, id : integer;
+  q, qh, qd, rs_fobj, qjd: TZQuery;
+  sNoBukti, sNoJ : string;
+  i, id, id_akun : integer;
   f0: Boolean;
 
 begin
@@ -98,9 +98,9 @@ begin
     Abort;
   end;
 
-  if cxlCustomer.Text = '' then begin
-    MsgBox('Nama customer masih kosong.');
-    cxlCustomer.SetFocus;
+  if cxlSupplier.Text = '' then begin
+    MsgBox('Nama supplier masih kosong.');
+    cxlSupplier.SetFocus;
     Abort;
   end;
 
@@ -118,7 +118,7 @@ begin
     end;
 
     if Self.Jenis = 'T' then begin
-      sNoBukti := GetLastFak('pembayaran-penjualan');
+      sNoBukti := GetLastFak('pembayaran-pembelian');
       UpdateFaktur(Copy(sNoBukti,1,8));
     end
     else begin
@@ -128,19 +128,19 @@ begin
     try
       dm.zConn.StartTransaction;
 
-      qh := OpenRS('SELECT * FROM tbl_pembayaranpenjualan_head WHERE no_bukti = ''%s''',[sNoBukti]);
+      qh := OpenRS('SELECT * FROM tbl_pembayaranpembelian_head WHERE no_bukti = ''%s''',[sNoBukti]);
       if Self.Jenis = 'T' then begin
         qh.Insert;
       end
       else begin
         qh.Edit;
         ID := qh.FieldByName('id').AsInteger;
-        dm.zConn.ExecuteDirect(Format('DELETE FROM tbl_pembayaranpenjualan_det WHERE id_ref = %s',[Self.EditKey]));
+        dm.zConn.ExecuteDirect(Format('DELETE FROM tbl_pembayaranpembelian_det WHERE id_ref = %s',[Self.EditKey]));
       end;
 
       qh.FieldByName('no_bukti').AsString := sNoBukti;
       qh.FieldByName('tanggal').AsDateTime := cxdTgl.Date;
-      qh.FieldByName('id_cust').AsInteger := cxlCustomer.EditValue;
+      qh.FieldByName('id_supp').AsInteger := cxlSupplier.EditValue;
       qh.FieldByName('id_akun').AsInteger := cxlAkun.EditValue;
       qh.FieldByName('user').AsString := Aplikasi.NamaUser;
       qh.FieldByName('user_dept').AsString := Aplikasi.UserDept;
@@ -148,14 +148,73 @@ begin
 
       if Self.Jenis = 'T' then  ID := LastInsertID;
 
-      qd := OpenRS('SELECT * FROM tbl_pembayaranpenjualan_det WHERE id_ref = %d',[ID]);
+      qd := OpenRS('SELECT * FROM tbl_pembayaranpembelian_det WHERE id_ref = %d',[ID]);
       with cxtbInv.DataController do begin
         for i := 0 to RecordCount - 1 do begin
           qd.Insert;
           qd.FieldByName('id_ref').AsInteger := ID;
           qd.FieldByName('id_invoice').AsInteger := Values[i, cxColNoInvoice.Index];
           qd.FieldByName('jml_pembayaran').AsFloat := Values[i, cxColJmlDibayar.Index];
+          qd.FieldByName('idakun_bank').AsInteger := cxlAkun.EditValue;
           qd.Post;
+
+          if Aplikasi.FAcc then begin
+            sNoJ := GetLastFak('jurnal');
+            UpdateFaktur(Copy(sNoJ,1,6));
+            id_akun := GetDefaultAkun('hutang_usaha_supplier');
+            qjd := OpenRS('SELECT * FROM tbl_jurnal WHERE no_jurnal = ''%s''',[sNoJ]);
+            qjd.Insert;
+            qjd.FieldByName('id_ref').AsInteger := ID;
+            qjd.FieldbyName('tanggal').AsDateTime := Aplikasi.TanggalServer;
+            qjd.FieldByName('no_jurnal').AsString := sNoJ;
+            qjd.FieldByName('id_akun').AsInteger := id_akun;
+            qjd.FieldByName('debet').AsFloat := cxtbInv.DataController.Values[i, cxColJmlDibayar.Index];
+            qjd.FieldByName('keterangan').AsString := 'PEMBAYARAN PEMBELIAN, ' + cxlSupplier.Text;
+            qjd.FieldByName('dc').AsString := 'D';
+            qjd.FieldByName('no_trans').AsString := sNoBukti;
+            qjd.Post;
+
+            id_akun := GetDefaultAkun('depositintransit');
+            qjd.Insert;
+            qjd.FieldByName('id_ref').AsInteger := ID;
+            qjd.FieldbyName('tanggal').AsDateTime := Aplikasi.TanggalServer;
+            qjd.FieldByName('no_jurnal').AsString := sNoJ;
+            qjd.FieldByName('id_akun').AsInteger := id_akun;
+            qjd.FieldByName('kredit').AsFloat := cxtbInv.DataController.Values[i, cxColJmlDibayar.Index];
+            qjd.FieldByName('keterangan').AsString := 'PEMBAYARAN PEMBELIAN, ' + cxlSupplier.Text;
+            qjd.FieldByName('dc').AsString := 'K';
+            qjd.FieldByName('no_trans').AsString := sNoBukti;
+            qjd.Post;
+
+            {
+            if cxTbl.DataController.Values[i, cxColCair.Index] = 1 then begin
+              sAkun := GetDefaultAkun('depositintransit');
+              qjd.Insert;
+              qjd.FieldbyName('tanggal').AsDateTime := Aplikasi.TanggalServer;
+              qjd.FieldByName('no_jurnal').AsString := sNoJ;
+              qjd.FieldByName('no_trans').AsString := cxTbl.DataController.Values[i, cxColNoInvoice.Index];
+              qjd.FieldByName('akun').AsString := sAkun;
+              qjd.FieldByName('debet').AsFloat := cxTbl.DataController.Values[i, cxColDibayar.Index];
+              qjd.FieldByName('keterangan').AsString := 'PEMBAYARAN PEMBELIAN (AP)';
+              qjd.FieldByName('dc').AsString := 'D';
+              qjd.Post;
+
+              sAkun := cxtNoAkun.Text;
+              qjd.Insert;
+              qjd.FieldbyName('tanggal').AsDateTime := Aplikasi.TanggalServer;
+              qjd.FieldByName('no_jurnal').AsString := sNoJ;
+              qjd.FieldByName('no_trans').AsString := cxTbl.DataController.Values[i, cxColNoInvoice.Index];
+              qjd.FieldByName('akun').AsString := sAkun;
+              qjd.FieldByName('kredit').AsFloat := cxTbl.DataController.Values[i, cxColDibayar.Index];
+              qjd.FieldByName('keterangan').AsString := 'PEMBAYARAN PEMBELIAN (AP)';
+              qjd.FieldByName('dc').AsString := 'K';
+              qjd.Post;
+              qjd.Close;
+            end;
+            }
+            qjd.Close;
+
+          end;
         end;
       end;
 
@@ -165,10 +224,10 @@ begin
       qh.Close;
       qd.Close;
       Self.Jenis := '';
-      MsgBox('Transaksi Pembayaran Penjualan sudah disimpan dengan No. Bukti : ' + sNoBukti);
+      MsgBox('Transaksi Pembayaran Pembelian sudah disimpan dengan No. Bukti : ' + sNoBukti);
 
       if Assigned(Self.FormInduk) then
-        (Self.FormInduk as TfrmLstPembayaranPenjualan).btnRefreshClick(nil);
+        (Self.FormInduk as TfrmLstPembayaranPembelian).btnRefreshClick(nil);
 
       btnBatalClick(nil);
 
@@ -182,16 +241,17 @@ begin
   end;
 end;
 
-procedure TfrmInputPembayaranPenjualan.CekLunas;
+procedure TfrmInputPembayaranPembelian.CekLunas;
 var
   i: Integer;
   q: TZQuery;
   a,b: real;
 begin
   for i := 0 to cxtbInv.DataController.RecordCount - 1 do begin
-    q := OpenRS('SELECT SUM(qty * harga) subtotal, ' +
-      '(SELECT SUM(jml_pembayaran) FROM tbl_pembayaranpenjualan_det WHERE id_invoice = a.id_ref) jml_pembayaran ' +
-      'FROM tbl_invoicepenjualan_det a ' +
+    q := OpenRS('SELECT ' +
+      'SUM((a.qty * a.harga) - ((a.qty * a.harga) * a.disc_persen / 100)  + if(a.ppn = ''PPN'',((a.qty * a.harga) - ((a.qty * a.harga) * a.disc_persen / 100)) * 0.1,0)) subtotal, ' +
+      '(SELECT SUM(jml_pembayaran) FROM tbl_pembayaranpembelian_det WHERE id_invoice = a.id_ref) jml_pembayaran ' +
+      'FROM tbl_invoicepembelian_det a ' +
       'WHERE a.id_ref = %s', [cxtbInv.DataController.Values[i, cxColNoInvoice.Index]]);
     a := q.FieldByName('subtotal').AsFloat;
     b := q.FieldByName('jml_pembayaran').AsFloat;
@@ -200,7 +260,7 @@ begin
       try
         dm.zConn.StartTransaction;
         dm.zConn.ExecuteDirect(
-          Format('UPDATE tbl_invoicepenjualan_head SET f_completed = 1 WHERE id = %s',
+          Format('UPDATE tbl_invoicepembelian_head SET f_completed = 1 WHERE id = %s',
             [cxtbInv.DataController.Values[i, cxColNoInvoice.Index]])
         );
         dm.zConn.Commit;
@@ -214,7 +274,7 @@ begin
   end;
 end;
 
-procedure TfrmInputPembayaranPenjualan.cxlAkunPropertiesEditValueChanged(
+procedure TfrmInputPembayaranPembelian.cxlAkunPropertiesEditValueChanged(
   Sender: TObject);
 begin
   inherited;
@@ -224,7 +284,7 @@ begin
   end;
 end;
 
-procedure TfrmInputPembayaranPenjualan.cxlCustomerPropertiesEditValueChanged(
+procedure TfrmInputPembayaranPembelian.cxlSupplierPropertiesEditValueChanged(
   Sender: TObject);
 var
   q: TZQuery;
@@ -232,38 +292,36 @@ begin
   inherited;
   try
     zqrInv.Close;
-    zqrInv.ParamByName('id_cust').AsInteger := cxlCustomer.EditValue;
+    zqrInv.ParamByName('id_supp').AsInteger := cxlSupplier.EditValue;
     zqrInv.Open;
 
-    q := OpenRS('SELECT alamat, alamat2, kota, provinsi FROM tbl_customer WHERE id = %s',[cxlCustomer.EditValue]);
-    cxtAlamat.Text := q.FieldbyName('alamat').AsString + ' ' + q.FieldByname('alamat2').AsString +
-      ', ' + q.FieldByName('kota').AsString + ', ' + q.FieldByname('provinsi').AsString;
+    q := OpenRS('SELECT alamat, alamat2, kota, provinsi, negara FROM tbl_supplier WHERE id = %s',[cxlSupplier.EditValue]);
+      cxtAlamat.Text := q.FieldByName('alamat').AsString + ', ' + q.FieldByName('alamat2').AsString +
+      ', ' + q.FieldByname('kota').AsString + ', ' + q.FieldByName('provinsi').AsString;
     q.Close;
-
   except
   end;
 end;
 
-procedure TfrmInputPembayaranPenjualan.cxLuSupplierPropertiesChange(Sender: TObject);
+procedure TfrmInputPembayaranPembelian.cxLuSupplierPropertiesChange(Sender: TObject);
 var
   q: TZQuery;
 begin
   inherited;
   try
     zqrInv.Close;
-    zqrInv.ParamByName('id_cust').AsInteger := cxlCustomer.EditValue;
+    zqrInv.ParamByName('id_supp').AsInteger := cxlSupplier.EditValue;
     zqrInv.Open;
 
-    q := OpenRS('SELECT alamat, alamat2, kota, provinsi FROM tbl_customer WHERE id = %s',[cxlCustomer.EditValue]);
-    cxtAlamat.Text := q.FieldbyName('alamat').AsString + ' ' + q.FieldByname('alamat2').AsString +
-      ', ' + q.FieldByName('kota').AsString + ', ' + q.FieldByname('provinsi').AsString;
+    q := OpenRS('SELECT alamat, alamat2, kota, provinsi, negara FROM tbl_supplier WHERE id = %s',[cxlSupplier.EditValue]);
+      cxtAlamat.Text := q.FieldByName('alamat').AsString + ', ' + q.FieldByName('alamat2').AsString +
+      ', ' + q.FieldByname('kota').AsString + ', ' + q.FieldByName('provinsi').AsString;
     q.Close;
-
   except
   end;
 end;
 
-procedure TfrmInputPembayaranPenjualan.cxtbInvDataControllerAfterPost(
+procedure TfrmInputPembayaranPembelian.cxtbInvDataControllerAfterPost(
   ADataController: TcxCustomDataController);
 begin
   inherited;
@@ -273,24 +331,29 @@ begin
   end;
 end;
 
-procedure TfrmInputPembayaranPenjualan.cxtbInvDataControllerRecordChanged(
+procedure TfrmInputPembayaranPembelian.cxtbInvDataControllerRecordChanged(
   ADataController: TcxCustomDataController; ARecordIndex, AItemIndex: Integer);
 var
   q: TZQuery;
 begin
   inherited;
   if AItemIndex = cxColNoInvoice.Index then begin
-    q := OpenRS('SELECT SUM(qty * harga) subtotal, ' +
-      '(SELECT SUM(jml_pembayaran) FROM tbl_pembayaranpenjualan_det WHERE id_invoice = a.id_ref) jml_pembayaran ' +
-      'FROM tbl_invoicepenjualan_det a ' +
+    q := OpenRS('SELECT ' +
+      'SUM((a.qty * a.harga) - ((a.qty * a.harga) * a.disc_persen / 100)  + if(a.ppn = ''PPN'',((a.qty * a.harga) - ((a.qty * a.harga) * a.disc_persen / 100)) * 0.1,0)) subtotal, ' +
+      '(SELECT SUM(jml_pembayaran) FROM tbl_pembayaranpembelian_det WHERE id_invoice = a.id_ref) jml_pembayaran, ' +
+      'b.tgl_jatuhtempo, b.tanggal ' +
+      'FROM tbl_invoicepembelian_det a ' +
+      'LEFT JOIN tbl_invoicepembelian_head b ON a.id_ref = b.id ' +
       'WHERE a.id_ref = %s', [ADataController.Values[ARecordIndex, AItemIndex]]);
     ADataController.Values[ARecordIndex, cxColSaldo.Index] :=
       q.FieldByName('subtotal').AsFloat - q.FieldByName('jml_pembayaran').AsFloat;
+    ADataController.Values[ARecordIndex, cxColTglInvoice.Index] := q.FieldByName('tanggal').AsDateTime;
+    ADataController.Values[ARecordIndex, cxColTglJatuhTempo.Index] := q.FieldByname('tgl_jatuhtempo').AsDateTime;
     q.Close;
   end;
 end;
 
-procedure TfrmInputPembayaranPenjualan.cxtbTblPODataControllerBeforePost(
+procedure TfrmInputPembayaranPembelian.cxtbTblPODataControllerBeforePost(
   ADataController: TcxCustomDataController);
 var
   i,j,k: integer;
@@ -325,9 +388,10 @@ begin
     Abort;
   end
   else begin
-    q := OpenRS('SELECT SUM(qty * harga) subtotal, ' +
-      '(SELECT SUM(jml_pembayaran) FROM tbl_pembayaranpenjualan_det WHERE id_invoice = a.id_ref) jml_pembayaran ' +
-      'FROM tbl_invoicepenjualan_det a ' +
+    q := OpenRS('SELECT ' +
+      'SUM((a.qty * a.harga) - ((a.qty * a.harga) * a.disc_persen / 100)  + if(a.ppn = ''PPN'',((a.qty * a.harga) - ((a.qty * a.harga) * a.disc_persen / 100)) * 0.1,0)) subtotal, ' +
+      '(SELECT SUM(jml_pembayaran) FROM tbl_pembayaranpembelian_det WHERE id_invoice = a.id_ref) jml_pembayaran ' +
+      'FROM tbl_invoicepembelian_det a ' +
       'WHERE a.id_ref = %s', [ADataController.Values[i, cxColNoInvoice.Index]]);
     if q.FieldByName('subtotal').AsFloat - q.FieldByName('jml_pembayaran').AsFloat <
       ADataController.Values[i, cxColJmlDibayar.Index] then begin
@@ -341,14 +405,14 @@ begin
 end;
 
 
-procedure TfrmInputPembayaranPenjualan.FormCreate(Sender: TObject);
+procedure TfrmInputPembayaranPembelian.FormCreate(Sender: TObject);
 begin
   inherited;
-  zqrCustomer.Open;
+  zqrSupplier.Open;
   zqrAkun.Open;
 end;
 
-procedure TfrmInputPembayaranPenjualan.FormShow(Sender: TObject);
+procedure TfrmInputPembayaranPembelian.FormShow(Sender: TObject);
   var
    q,z : TZQuery;
    i, nomer: integer;
@@ -357,7 +421,7 @@ begin
 
   inherited;
   if Self.Jenis = 'T' then begin
-    sNoTrs := GetLastFak('pembayaran-penjualan');
+    sNoTrs := GetLastFak('pembayaran-pembelian');
     cxtNoBukti.Text := sNoTrs;
     cxdTgl.Date := Aplikasi.Tanggal;
   end;
@@ -413,7 +477,7 @@ begin
   }
 end;
 
-procedure TfrmInputPembayaranPenjualan.HitungTotal;
+procedure TfrmInputPembayaranPembelian.HitungTotal;
 var
   total: real;
   i: integer;

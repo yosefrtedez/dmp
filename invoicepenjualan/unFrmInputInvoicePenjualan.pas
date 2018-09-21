@@ -197,7 +197,7 @@ begin
 
         ppn := 0;
         if cxChkPPN.Checked then
-          ppn := cxsStlhDiskon.Value - (cxsStlhDiskon.Value * 10/100);
+          ppn := (cxsStlhDiskon.Value * 10/100);
 
         id_akun := GetDefaultAkun('piutangcustomer');
         qjd.Insert;
