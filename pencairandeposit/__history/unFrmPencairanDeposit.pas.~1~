@@ -1,0 +1,24 @@
+unit unFrmPencairanDeposit;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, unFrmTplInput, StdCtrls, ExtCtrls;
+
+type
+  TfrmPencairanDeposit = class(TfrmTplInput)
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmPencairanDeposit: TfrmPencairanDeposit;
+
+implementation
+
+{$R *.dfm}
+
+end.

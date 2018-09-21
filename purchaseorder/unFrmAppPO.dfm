@@ -36,6 +36,16 @@ inherited frmAppPO: TfrmAppPO
       TabOrder = 2
       OnClick = btnRefreshClick
     end
+    object btnKeluar: TButton
+      Left = 920
+      Top = 12
+      Width = 75
+      Height = 25
+      Anchors = [akTop, akRight]
+      Caption = 'Keluar'
+      TabOrder = 3
+      OnClick = btnKeluarClick
+    end
   end
   object cxgrd1: TcxGrid
     Left = 0

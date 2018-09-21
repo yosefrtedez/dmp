@@ -1385,7 +1385,7 @@ var
   sSQL: string;
   q: TZQuery;
 begin
-  sSQL := 'SELECT idakun_' + sJenis + ' FROM tbl_barang WHERE id_brg = ' + IntToStr(id_brg);
+  sSQL := 'SELECT idakun_' + sJenis + ' FROM tbl_barang WHERE id = ' + IntToStr(id_brg);
   q := OpenRS(sSQL);
   if not q.IsEmpty then
     Result := q.FieldByName('idakun_' + sJenis).AsInteger

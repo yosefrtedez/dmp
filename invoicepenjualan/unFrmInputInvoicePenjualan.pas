@@ -101,11 +101,10 @@ uses
 
 procedure TfrmInputInvoicePenjualan.btnSimpanClick(Sender: TObject);
 var
-  q, qh, qd, rs_sj: TZQuery;
-  sNoBukti : string;
-  i, id : integer;
+  q, qh, qd, rs_sj, qjd: TZQuery;
+  sNoBukti, sNoJ : string;
+  i, id, id_akun : integer;
   f0: Boolean;
-
 begin
 
   if (cxtbInv.DataController.EditState = [dceInsert, dceModified]) or
@@ -164,6 +163,9 @@ begin
 
       if Self.Jenis = 'T' then  ID := LastInsertID;
 
+      sNoJ := GetLastFak('faktur');
+      UpdateFaktur(Copy(sNoJ, 1,6));
+
       qd := OpenRS('SELECT * FROM tbl_invoicepenjualan_det WHERE id_ref = %d',[ID]);
       with cxtbInv.DataController do begin
         for i := 0 to RecordCount - 1 do begin
@@ -179,6 +181,20 @@ begin
           //qd.FieldByName('valuta').AsString := values[i, cxColValuta.Index];
           qd.FieldByName('keterangan').AsString := values[i, cxColKeterangan.Index];
           qd.Post;
+
+          id_akun := GetDefaultAkunBrg(Values[i, cxColKodeBrg.Index],'penjualan');
+          qjd := OpenRS('SELECT * FROM tbl_jurnal_det WHERE no_jurnal = ''%s''',[sNoJ]);
+          qjd.Insert;
+          qjd.FieldByName('id_ref').AsInteger := ID;
+          qjd.FieldbyName('tanggal').AsDateTime := Aplikasi.TanggalServer;
+          qjd.FieldByName('no_jurnal').AsString := sNoJ;
+          qjd.FieldByName('no_trans').AsString := sNoBukti;
+          qjd.FieldByName('id_akun').AsInteger := id_akun;
+          qjd.FieldByName('kredit').AsFloat := cxsStlhDiskon.Value;
+          qjd.FieldByName('dc').AsString := 'K';
+          qjd.Post;
+          qjd.Close;
+
         end;
       end;
       qh.Close;
@@ -188,6 +204,23 @@ begin
       dm.zConn.ExecuteDirect(
         Format('UPDATE tbl_sj_head SET f_inv = 1 WHERE id = %s',[cxLuSj.EditValue])
       );
+
+      if Aplikasi.FAcc then begin
+        id_akun := GetDefaultAkun('piutangcustomer');
+
+        qjd.Insert;
+        qjd.FieldByName('id_ref').AsInteger := ID;
+        qjd.FieldbyName('tanggal').AsDateTime := Aplikasi.TanggalServer;
+        qjd.FieldByName('no_jurnal').AsString := sNoJ;
+        qjd.FieldByName('no_trans').AsString := sNoBukti;
+        qjd.FieldByName('id_akun').AsInteger := id_akun;
+        qjd.FieldByName('debet').AsFloat := cxsHargaTotal.Value;
+        qjd.FieldByName('dc').AsString := 'D';
+        qjd.Post;
+
+
+
+      end;
 
       dm.zConn.Commit;
 

@@ -299,9 +299,12 @@ object frmUtama: TfrmUtama
           Caption = 'Invoice Pembelian'
           OnClick = mnAkt_InvoicePembelianClick
         end
-        object PembayaranPembelian1: TMenuItem
+        object mnAKT_PembayaranPembelian: TMenuItem
           Caption = 'Pembayaran Pembelian'
-          OnClick = PembayaranPembelian1Click
+          OnClick = mnAKT_PembayaranPembelianClick
+        end
+        object mnAkt_PencairanDeposit: TMenuItem
+          Caption = 'Pencairan Deposit'
         end
       end
       object Penjualan1: TMenuItem
@@ -314,6 +317,12 @@ object frmUtama: TfrmUtama
           Caption = 'Pembayaran Penjualan'
           OnClick = PembayaranPenjualan1Click
         end
+      end
+      object N7: TMenuItem
+        Caption = '-'
+      end
+      object mnAkt_LaporanDetailJurnal: TMenuItem
+        Caption = 'Laporan Detail Jurnal'
       end
     end
     object mnSet: TMenuItem

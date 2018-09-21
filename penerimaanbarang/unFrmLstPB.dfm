@@ -2,7 +2,6 @@ inherited frmLstPB: TfrmLstPB
   Caption = 'Penerimaan Barang'
   ClientHeight = 572
   OnCreate = FormCreate
-  ExplicitWidth = 1016
   ExplicitHeight = 572
   PixelsPerInch = 96
   TextHeight = 13

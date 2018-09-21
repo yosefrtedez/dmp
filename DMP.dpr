@@ -100,7 +100,8 @@ uses
   unFrmLapInvoicePenjualan in 'laporan\unFrmLapInvoicePenjualan.pas' {frmLapInvoicePenjualan},
   unFrmLapInvoicePembelian in 'laporan\unFrmLapInvoicePembelian.pas' {frmLapInvoicePembelian},
   unFrmInputPembayaranPenjualan in 'pembayaranpenjualan\unFrmInputPembayaranPenjualan.pas' {frmInputPembayaranPenjualan},
-  unFrmLstPembayaranPenjualan in 'pembayaranpenjualan\unFrmLstPembayaranPenjualan.pas' {frmLstPembayaranPenjualan};
+  unFrmLstPembayaranPenjualan in 'pembayaranpenjualan\unFrmLstPembayaranPenjualan.pas' {frmLstPembayaranPenjualan},
+  unFrmPencairanDeposit in 'pencairandeposit\unFrmPencairanDeposit.pas' {frmPencairanDeposit};
 
 {$R *.res}
 

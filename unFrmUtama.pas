@@ -79,7 +79,7 @@ type
     mnAkt_Pembelian: TMenuItem;
     Penjualan1: TMenuItem;
     mnAkt_InvoicePembelian: TMenuItem;
-    PembayaranPembelian1: TMenuItem;
+    mnAKT_PembayaranPembelian: TMenuItem;
     InvoicePenjualan1: TMenuItem;
     PembayaranPenjualan1: TMenuItem;
     mnPpic_SoMts: TMenuItem;
@@ -90,6 +90,9 @@ type
     mnMkt_LapOustandingSO: TMenuItem;
     mnSet_UbahPassword: TMenuItem;
     Button1: TButton;
+    mnAkt_PencairanDeposit: TMenuItem;
+    N7: TMenuItem;
+    mnAkt_LaporanDetailJurnal: TMenuItem;
     procedure FormShow(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure mnMst_BarangJasaClick(Sender: TObject);
@@ -138,7 +141,7 @@ type
     procedure mnSet_UbahPasswordClick(Sender: TObject);
     procedure InvoicePenjualan1Click(Sender: TObject);
     procedure mnAkt_InvoicePembelianClick(Sender: TObject);
-    procedure PembayaranPembelian1Click(Sender: TObject);
+    procedure mnAKT_PembayaranPembelianClick(Sender: TObject);
     procedure PembayaranPenjualan1Click(Sender: TObject);
     procedure Button1Click(Sender: TObject);
   private
@@ -1136,7 +1139,7 @@ begin
   end;
 end;
 
-procedure TfrmUtama.PembayaranPembelian1Click(Sender: TObject);
+procedure TfrmUtama.mnAKT_PembayaranPembelianClick(Sender: TObject);
 var
   f: TfrmLstPembayaranPembelian;
   ts: TcxTabSheet;

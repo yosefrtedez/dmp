@@ -3,7 +3,7 @@ inherited frmInputPB: TfrmInputPB
   ClientHeight = 739
   ClientWidth = 1172
   OnShow = FormShow
-  ExplicitTop = -65
+  ExplicitTop = -106
   ExplicitWidth = 1172
   ExplicitHeight = 739
   PixelsPerInch = 96
@@ -482,8 +482,8 @@ inherited frmInputPB: TfrmInputPB
     Width = 177
   end
   object cxGrdPB2: TcxGrid
-    Left = 322
-    Top = 566
+    Left = 34
+    Top = 270
     Width = 1150
     Height = 293
     Anchors = [akLeft, akTop, akRight]

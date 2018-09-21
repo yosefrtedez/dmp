@@ -189,9 +189,9 @@ end;
 procedure TfrmInputPB.btnSimpan2Click(Sender: TObject);
 var
   sNoTrs: string;
-  q, qh,qd, hst, qbrg: TZQuery;
+  q, qh,qd, hst, qbrg, q_sa, qpo: TZQuery;
   i, ID: Integer;
-  sAkhir, hppAkhir, hpp: real;
+  sAkhir, hppAkhir, hpp, hrg: real;
   f0: boolean;
   lstPOClose: TStringList;
 begin
@@ -299,6 +299,7 @@ begin
       hst := OpenRS('SELECT * FROM tbl_history WHERE no_bukti = ''%s''',[sNoTrs]);
       with cxtbPB2.DataController do begin
         for i := 0 to RecordCount - 1 do begin
+
           hst.Insert;
           hst.FieldByName('id_ref').AsInteger := ID;
           hst.FieldByName('no_bukti').AsString := sNoTrs;
@@ -511,7 +512,7 @@ begin
             hppAkhir := q_sa.FieldByName('hpp').AsFloat;
             q_sa.Close;
 
-            qpo := OpenRS('SELECT IFNULL(harga,0), ppn harga FROM tbl_po_det WHERE id_ref = %s AND id_brg = %s',
+            qpo := OpenRS('SELECT IFNULL(harga,0) harga, ppn FROM tbl_po_det WHERE id_ref = %s AND id_brg = %s',
               [Values[i, cxColIdPO.Index], Values[i, cxColIdBrg.Index]]);
             hrg := qpo.FieldByName('harga').AsFloat;
 
@@ -576,37 +577,38 @@ begin
           qbrg.Post;
           qbrg.Close;
 
-          {
           if Aplikasi.FAcc then begin
             id_akun := GetDefaultAkunBrg(Values[i, cxColIdBrg.Index], 'persediaan');
-            qjd := OpenRS('SELECT * FROM tbl_jurnal_det WHERE no_jurnal = ''%s''',[sNoJ]);
-            qjd.Insert;
-            qjd.FieldByName('id_ref').AsInteger := ID;
-            qjd.FieldbyName('tanggal').AsDateTime := Aplikasi.TanggalServer;
-            qjd.FieldByName('no_jurnal').AsString := sNoJ;
-            qjd.FieldByName('no_trans').AsString := sNoTrs;
-            qjd.FieldByName('id_akun').AsInteger := id_akun;
-            qjd.FieldByName('debet').AsFloat := hrg * Values[i, cxColQtyDatang.Index];
-            totHutang := totHutang + qjd.FieldByName('debet').AsFloat;
-            qjd.FieldByName('keterangan').AsString := 'Penerimaan Barang : ' + sNoTrs;
-            qjd.FieldByName('dc').AsString := 'D';
-            qjd.Post;
-
-            if f_ppn then begin
-              totPPN := totPPN + ((hrg * Values[i, cxColQtyDatang.Index]) * (10/100));
-              id_akun := GetDefaultAkun('ppnmasukanblmfaktur');
+            if id_akun <> 0 then begin
+              qjd := OpenRS('SELECT * FROM tbl_jurnal WHERE no_jurnal = ''%s''',[sNoJ]);
               qjd.Insert;
-              qjd.FieldByName('tanggal').AsDateTime := Aplikasi.TanggalServer;
+              qjd.FieldByName('id_ref').AsInteger := ID;
+              qjd.FieldbyName('tanggal').AsDateTime := Aplikasi.TanggalServer;
               qjd.FieldByName('no_jurnal').AsString := sNoJ;
               qjd.FieldByName('no_trans').AsString := sNoTrs;
               qjd.FieldByName('id_akun').AsInteger := id_akun;
-              qjd.FieldByName('debet').AsFloat := (hrg * Values[i, cxColQtyDatang.Index]) * (10/100);
-              qjd.FieldByName('keterangan').AsString := 'PPN Masukan Belum Difakturkan';
+              qjd.FieldByName('debet').AsFloat := hrg * Values[i, cxColQtyDatang.Index];
+              totHutang := totHutang + qjd.FieldByName('debet').AsFloat;
+              qjd.FieldByName('keterangan').AsString := 'Penerimaan Barang : ' + sNoTrs;
               qjd.FieldByName('dc').AsString := 'D';
               qjd.Post;
+
+              if f_ppn then begin
+                totPPN := totPPN + ((hrg * Values[i, cxColQtyDatang.Index]) * (10/100));
+                id_akun := GetDefaultAkun('ppnmasukanblmfaktur');
+                qjd.Insert;
+                qjd.FieldByName('id_ref').AsInteger := ID;
+                qjd.FieldByName('tanggal').AsDateTime := Aplikasi.TanggalServer;
+                qjd.FieldByName('no_jurnal').AsString := sNoJ;
+                qjd.FieldByName('no_trans').AsString := sNoTrs;
+                qjd.FieldByName('id_akun').AsInteger := id_akun;
+                qjd.FieldByName('debet').AsFloat := (hrg * Values[i, cxColQtyDatang.Index]) * (10/100);
+                qjd.FieldByName('keterangan').AsString := 'PPN Masukan Belum Difakturkan';
+                qjd.FieldByName('dc').AsString := 'D';
+                qjd.Post;
+              end;
             end;
           end;
-          }
 
         end;
       end;
@@ -616,12 +618,13 @@ begin
     if Aplikasi.FAcc then begin
       id_akun := GetDefaultAkun('hutangbelum');
       qjd.Insert;
+      qjd.FieldByName('id_ref').AsInteger := ID;
       qjd.FieldByName('tanggal').AsDateTime := Aplikasi.TanggalServer;
       qjd.FieldByName('no_jurnal').AsString := sNoJ;
       qjd.FieldByName('no_trans').AsString := sNoTrs;
       qjd.FieldByName('id_akun').AsInteger := id_akun;
       qjd.FieldByName('kredit').AsFloat := totHutang + totPPN;
-      qjd.FieldByName('keterangan').AsString := '';
+      qjd.FieldByName('keterangan').AsString := 'Hutang Belum Difakturkan, ' + cxlSupp.Text;
       qjd.FieldByName('dc').AsString := 'K';
       qjd.Post;
       qjd.Close;

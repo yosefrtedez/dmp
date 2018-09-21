@@ -17,7 +17,7 @@ uses
   dxSkinscxPCPainter, cxCustomData, cxFilter, cxData, cxDataStorage, cxEdit, DB,
   cxDBData, cxGridLevel, cxClasses, cxGridCustomView, cxGridCustomTableView,
   cxGridTableView, cxGridDBTableView, cxGrid, cxCheckBox, cxSpinEdit, cxTextEdit,
-  ZAbstractRODataset, ZDataset, cxContainer, cxLabel;
+  ZAbstractRODataset, ZDataset, cxContainer, cxLabel, cxPC;
 
 type
   TfrmAppPO = class(TfrmTplInput)
@@ -62,6 +62,7 @@ type
     cxtbPODetColumn1: TcxGridDBColumn;
     cxtbPODetColumn2: TcxGridDBColumn;
     btnRefresh: TButton;
+    btnKeluar: TButton;
     procedure FormShow(Sender: TObject);
     procedure btnSimpanClick(Sender: TObject);
     procedure cxtbPOHeadFocusedRecordChanged(Sender: TcxCustomGridTableView;
@@ -69,6 +70,7 @@ type
       ANewItemRecordFocusingChanged: Boolean);
     procedure FormCreate(Sender: TObject);
     procedure btnRefreshClick(Sender: TObject);
+    procedure btnKeluarClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -84,6 +86,14 @@ uses
   unTools, unAplikasi, unDM;
 
 {$R *.dfm}
+
+procedure TfrmAppPO.btnKeluarClick(Sender: TObject);
+var
+  ts: TcxTabSheet;
+begin
+  ts := (Self.parent as TcxTabSheet);
+  ts.Free;
+end;
 
 procedure TfrmAppPO.btnRefreshClick(Sender: TObject);
 begin

@@ -145,8 +145,19 @@ type
     procedure cxsBrtTaliPropertiesChange(Sender: TObject);
     procedure cxtbSatuanDataControllerBeforeDelete(
       ADataController: TcxCustomDataController; ARecordIndex: Integer);
-    procedure cxlAkunPersediaan2PropertiesChange(Sender: TObject);
-    procedure cxlAkunPenjualan2PropertiesChange(Sender: TObject);
+    procedure cxlAkunPersediaanPropertiesEditValueChanged(Sender: TObject);
+    procedure cxlAkunPersediaan2PropertiesEditValueChanged(Sender: TObject);
+    procedure cxlAkunPenjualan2PropertiesEditValueChanged(Sender: TObject);
+    procedure cxlAkunPenjualanPropertiesEditValueChanged(Sender: TObject);
+    procedure cxlAkunReturPenjualan2PropertiesEditValueChanged(Sender: TObject);
+    procedure cxlAkunReturPenjualanPropertiesEditValueChanged(Sender: TObject);
+    procedure cxlAkunDiskonPenjualan2PropertiesEditValueChanged(
+      Sender: TObject);
+    procedure cxlAkunDiskonPenjualanPropertiesEditValueChanged(Sender: TObject);
+    procedure cxlAkunHPPPropertiesEditValueChanged(Sender: TObject);
+    procedure cxlAkunHPP2PropertiesEditValueChanged(Sender: TObject);
+    procedure cxlAkunReturPembelianPropertiesEditValueChanged(Sender: TObject);
+    procedure cxlAkunReturPembelian2PropertiesEditValueChanged(Sender: TObject);
   private
     //
   public
@@ -224,6 +235,13 @@ begin
     if cxChkDijual.Checked then
       q.FieldByName('f_dijual').AsInteger := 1;
 
+    q.FieldByName('idakun_persediaan').AsInteger := cxlAkunPersediaan.EditValue;
+    q.FieldByName('idakun_penjualan').AsInteger := cxlAkunPenjualan.EditValue;
+    q.FieldByName('idakun_returpenjualan').AsInteger := cxlAkunReturPenjualan.EditValue;
+    q.FieldByName('idakun_diskonpenjualan').AsInteger := cxlAkunDiskonPenjualan.EditValue;
+    q.FieldByName('idakun_hpp').AsInteger := cxlAkunHPP.EditValue;
+    q.FieldByName('idakun_returpembelian').AsInteger := cxlAkunReturPembelian.EditValue;
+
     q.Post;
 
     if Self.Jenis = 'T' then
@@ -290,7 +308,6 @@ begin
       end;
     end;
 
-
     MsgBox('Data barang sudah disimpan.');
 
     if Self.Jenis = 'T' then begin
@@ -308,18 +325,88 @@ begin
 
 end;
 
-procedure TfrmInputBarangJasa.cxlAkunPenjualan2PropertiesChange(
+procedure TfrmInputBarangJasa.cxlAkunDiskonPenjualan2PropertiesEditValueChanged(
+  Sender: TObject);
+begin
+  inherited;
+  cxlAkunDiskonPenjualan.EditValue := cxlAkunDiskonPenjualan2.EditValue;
+end;
+
+procedure TfrmInputBarangJasa.cxlAkunDiskonPenjualanPropertiesEditValueChanged(
+  Sender: TObject);
+begin
+  inherited;
+  cxlAkunDiskonPenjualan.EditValue := cxlAkunDiskonPenjualan2.EditValue;
+end;
+
+procedure TfrmInputBarangJasa.cxlAkunHPP2PropertiesEditValueChanged(
+  Sender: TObject);
+begin
+  inherited;
+  cxlAkunHPP.EditValue := cxlAkunHPP2.EditValue;
+end;
+
+procedure TfrmInputBarangJasa.cxlAkunHPPPropertiesEditValueChanged(
+  Sender: TObject);
+begin
+  inherited;
+  cxlAkunHPP2.EditValue := cxlAkunHPP.EditValue;
+end;
+
+procedure TfrmInputBarangJasa.cxlAkunPenjualan2PropertiesEditValueChanged(
   Sender: TObject);
 begin
   inherited;
   cxlAkunPenjualan.EditValue := cxlAkunPenjualan2.EditValue;
 end;
 
-procedure TfrmInputBarangJasa.cxlAkunPersediaan2PropertiesChange(
+procedure TfrmInputBarangJasa.cxlAkunPenjualanPropertiesEditValueChanged(
+  Sender: TObject);
+begin
+  inherited;
+  cxlAkunPenjualan2.EditValue := cxlAkunPenjualan.EditValue;
+end;
+
+procedure TfrmInputBarangJasa.cxlAkunPersediaan2PropertiesEditValueChanged(
   Sender: TObject);
 begin
   inherited;
   cxlAkunPersediaan.EditValue := cxlAkunPersediaan2.EditValue;
+end;
+
+procedure TfrmInputBarangJasa.cxlAkunPersediaanPropertiesEditValueChanged(
+  Sender: TObject);
+begin
+  inherited;
+  cxlAkunPersediaan2.EditValue := cxlAkunPersediaan.EditValue;
+end;
+
+procedure TfrmInputBarangJasa.cxlAkunReturPembelian2PropertiesEditValueChanged(
+  Sender: TObject);
+begin
+  inherited;
+  cxlAkunReturPembelian.EditValue := cxlAkunReturPembelian2.EditValue;
+end;
+
+procedure TfrmInputBarangJasa.cxlAkunReturPembelianPropertiesEditValueChanged(
+  Sender: TObject);
+begin
+  inherited;
+  cxlAkunReturPembelian2.EditValue := cxlAkunReturPembelian.EditValue;
+end;
+
+procedure TfrmInputBarangJasa.cxlAkunReturPenjualan2PropertiesEditValueChanged(
+  Sender: TObject);
+begin
+  inherited;
+  cxlAkunReturPenjualan.EditValue := cxlAkunReturPenjualan2.EditValue;
+end;
+
+procedure TfrmInputBarangJasa.cxlAkunReturPenjualanPropertiesEditValueChanged(
+  Sender: TObject);
+begin
+  inherited;
+  cxlAkunReturPenjualan2.EditValue := cxlAkunReturPenjualan.EditValue;
 end;
 
 procedure TfrmInputBarangJasa.cxsBrtPerIkatPropertiesChange(Sender: TObject);
@@ -456,6 +543,14 @@ begin
       cxChkDijual.Checked := True;
     if q.FieldByName('f_dibeli').AsInteger = 1 then
       cxChkDibeli.Checked := True;
+
+    cxlAkunPersediaan.EditValue := q.FieldByName('idakun_persediaan').AsInteger;
+    cxlAkunPenjualan.EditValue := q.FieldByName('idakun_penjualan').AsInteger;
+    cxlAkunReturPenjualan.EditValue := q.FieldByName('idakun_returpenjualan').AsInteger;
+    cxlAkunDiskonPenjualan.EditValue := q.FieldByName('idakun_diskonpenjualan').AsInteger;
+    cxlAkunHPP.EditValue := q.FieldByName('idakun_hpp').AsInteger;
+    cxlAkunReturPembelian.EditValue := q.FieldByName('idakun_returpembelian').AsInteger;
+
     q.Close;
 
     q := OpenRS('SELECT * FROM tbl_konv_brg WHERE id_barang = %d',[ID]);
