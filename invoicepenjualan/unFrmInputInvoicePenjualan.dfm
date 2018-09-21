@@ -1,11 +1,11 @@
 inherited frmInputInvoicePenjualan: TfrmInputInvoicePenjualan
   Caption = 'Input Invoice Pembelian'
-  ClientHeight = 690
+  ClientHeight = 724
   ClientWidth = 1098
   OnShow = FormShow
-  ExplicitTop = -40
+  ExplicitTop = -26
   ExplicitWidth = 1098
-  ExplicitHeight = 690
+  ExplicitHeight = 724
   PixelsPerInch = 96
   TextHeight = 13
   inherited Panel1: TPanel
@@ -26,7 +26,7 @@ inherited frmInputInvoicePenjualan: TfrmInputInvoicePenjualan
     end
   end
   inherited Panel2: TPanel
-    Top = 641
+    Top = 675
     Width = 1098
     TabOrder = 26
     ExplicitTop = 641

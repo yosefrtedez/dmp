@@ -3,13 +3,14 @@ inherited frmInputInvoicePenjualan: TfrmInputInvoicePenjualan
   ClientHeight = 690
   ClientWidth = 1098
   OnShow = FormShow
+  ExplicitTop = -40
   ExplicitWidth = 1098
   ExplicitHeight = 690
   PixelsPerInch = 96
   TextHeight = 13
   inherited Panel1: TPanel
     Width = 1098
-    ExplicitWidth = 1063
+    ExplicitWidth = 1098
     object Label1: TLabel
       Left = 10
       Top = 13
@@ -27,9 +28,9 @@ inherited frmInputInvoicePenjualan: TfrmInputInvoicePenjualan
   inherited Panel2: TPanel
     Top = 641
     Width = 1098
-    TabOrder = 24
+    TabOrder = 26
     ExplicitTop = 641
-    ExplicitWidth = 1063
+    ExplicitWidth = 1098
   end
   object cxgrdPP: TcxGrid
     Left = 10
@@ -37,8 +38,7 @@ inherited frmInputInvoicePenjualan: TfrmInputInvoicePenjualan
     Width = 1080
     Height = 293
     Anchors = [akLeft, akTop, akRight]
-    TabOrder = 13
-    ExplicitWidth = 1045
+    TabOrder = 15
     object cxtbInv: TcxGridTableView
       NavigatorButtons.ConfirmDelete = False
       NavigatorButtons.Insert.Enabled = False
@@ -302,9 +302,9 @@ inherited frmInputInvoicePenjualan: TfrmInputInvoicePenjualan
     Properties.Alignment.Horz = taRightJustify
     Properties.DisplayFormat = '#,#0.00'
     Properties.MaxValue = 100.000000000000000000
-    Properties.ReadOnly = False
+    Properties.ReadOnly = True
     Properties.ValueType = vtFloat
-    TabOrder = 14
+    TabOrder = 16
     Width = 121
   end
   object DPP: TcxLabel
@@ -319,7 +319,7 @@ inherited frmInputInvoicePenjualan: TfrmInputInvoicePenjualan
     Properties.DisplayFormat = '#,#0.00'
     Properties.MaxValue = 100.000000000000000000
     Properties.ValueType = vtFloat
-    TabOrder = 16
+    TabOrder = 18
     Width = 121
   end
   object cxsPPN: TcxSpinEdit
@@ -329,14 +329,14 @@ inherited frmInputInvoicePenjualan: TfrmInputInvoicePenjualan
     Properties.DisplayFormat = '#,#0.00'
     Properties.MaxValue = 100.000000000000000000
     Properties.ValueType = vtFloat
-    TabOrder = 21
+    TabOrder = 23
     Width = 121
   end
   object cxChkPPN: TcxCheckBox
     Left = 848
     Top = 607
     Caption = 'PPN (10%)'
-    TabOrder = 20
+    TabOrder = 22
     Width = 82
   end
   object cxLabel5: TcxLabel
@@ -351,7 +351,7 @@ inherited frmInputInvoicePenjualan: TfrmInputInvoicePenjualan
     Properties.DisplayFormat = '#,#0.00'
     Properties.MaxValue = 100.000000000000000000
     Properties.ValueType = vtFloat
-    TabOrder = 18
+    TabOrder = 20
     Width = 121
   end
   object cxLabel6: TcxLabel
@@ -366,7 +366,19 @@ inherited frmInputInvoicePenjualan: TfrmInputInvoicePenjualan
     Properties.DisplayFormat = '#,#0.00'
     Properties.MaxValue = 100.000000000000000000
     Properties.ValueType = vtFloat
-    TabOrder = 22
+    TabOrder = 24
+    Width = 121
+  end
+  object cxLabel2: TcxLabel
+    Left = 330
+    Top = 200
+    Caption = 'Tgl. Jatuh Tempo'
+  end
+  object cxdTglJatuhTempo: TcxDateEdit
+    Left = 423
+    Top = 197
+    Properties.ReadOnly = True
+    TabOrder = 12
     Width = 121
   end
   object zqrSjHead: TZReadOnlyQuery

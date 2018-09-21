@@ -163,6 +163,9 @@ begin
 
       if Self.Jenis = 'T' then  ID := LastInsertID;
 
+      sNoJ := GetLastFak('faktur');
+      UpdateFaktur(Copy(sNoJ, 1,6));
+
       qd := OpenRS('SELECT * FROM tbl_invoicepenjualan_det WHERE id_ref = %d',[ID]);
       with cxtbInv.DataController do begin
         for i := 0 to RecordCount - 1 do begin
@@ -189,30 +192,63 @@ begin
       );
 
       if Aplikasi.FAcc then begin
+        sNoJ := GetLastFak('jurnal');
+        UpdateFaktur(Copy(sNoJ,1,6));
+
         id_akun := GetDefaultAkun('piutangcustomer');
-        qjd := OpenRS('SELECT * FROM tbl_jurnal_det WHERE no_jurnal = ''%s''',[sNoJ]);
         qjd.Insert;
         qjd.FieldByName('id_ref').AsInteger := ID;
         qjd.FieldbyName('tanggal').AsDateTime := Aplikasi.TanggalServer;
         qjd.FieldByName('no_jurnal').AsString := sNoJ;
         qjd.FieldByName('no_trans').AsString := sNoBukti;
         qjd.FieldByName('id_akun').AsInteger := id_akun;
-        qjd.FieldByName('debet').AsFloat := cxsHargaTotal.Value;
+        if cxChkPPN then
+
+        qjd.FieldByName('debet').AsFloat := cxsHargaTotal.Value - cxsPPN.Value;
+        qjd.FieldByName('keterangan').AsString := 'Invoice Penjualan, ' + cxLuCustomer.Text;
         qjd.FieldByName('dc').AsString := 'D';
+        qjd.FieldByName('no_trans').AsString := sNoBukti;
         qjd.Post;
 
-        id_akun := GetDefaultAkun('piutangcustomer');
+        id_akun := GetDefaultAkun('piutangbelum');
         qjd.Insert;
         qjd.FieldByName('id_ref').AsInteger := ID;
         qjd.FieldbyName('tanggal').AsDateTime := Aplikasi.TanggalServer;
         qjd.FieldByName('no_jurnal').AsString := sNoJ;
         qjd.FieldByName('no_trans').AsString := sNoBukti;
         qjd.FieldByName('id_akun').AsInteger := id_akun;
-        qjd.FieldByName('kredit').AsFloat := cxsStlhDiskon.Value;
+        qjd.FieldByName('kredit').AsFloat := cxsHargaTotal.Value - cxsPPN.Value;
+        qjd.FieldByName('keterangan').AsString := 'Invoice Penjualan, ' + cxLuCustomer.Text;
         qjd.FieldByName('dc').AsString := 'K';
+        qjd.FieldByName('no_trans').AsString := sNoBukti;
         qjd.Post;
 
-           
+        id_akun := GetDefaultAkun('ppnkeluarblmfaktur');
+        qjd.Insert;
+        qjd.FieldByName('id_ref').AsInteger := ID;
+        qjd.FieldbyName('tanggal').AsDateTime := Aplikasi.TanggalServer;
+        qjd.FieldByName('no_jurnal').AsString := sNoJ;
+        qjd.FieldByName('no_trans').AsString := sNoBukti;
+        qjd.FieldByName('id_akun').AsInteger := id_akun;
+        qjd.FieldByName('debet').AsFloat := cxsPPN.Value;
+        qjd.FieldByName('keterangan').AsString := 'Invoice Penjualan, ' + cxLuCustomer.Text;
+        qjd.FieldByName('dc').AsString := 'D';
+        qjd.FieldByName('no_trans').AsString := sNoBukti;
+        qjd.Post;
+
+        id_akun := GetDefaultAkun('ppnkeluaran');
+        qjd.Insert;
+        qjd.FieldByName('id_ref').AsInteger := ID;
+        qjd.FieldbyName('tanggal').AsDateTime := Aplikasi.TanggalServer;
+        qjd.FieldByName('no_jurnal').AsString := sNoJ;
+        qjd.FieldByName('no_trans').AsString := sNoBukti;
+        qjd.FieldByName('id_akun').AsInteger := id_akun;
+        qjd.FieldByName('kredit').AsFloat := cxsPPN.Value;
+        qjd.FieldByName('keterangan').AsString := 'Invoice Penjualan, ' + cxLuCustomer.Text;
+        qjd.FieldByName('dc').AsString := 'K';
+        qjd.FieldByName('no_trans').AsString := sNoBukti;
+        qjd.Post;
+
       end;
 
       dm.zConn.Commit;
