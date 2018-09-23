@@ -1122,15 +1122,15 @@ end;
 
 procedure TfrmUtama.mnWhl_TransferBarangClick(Sender: TObject);
 var
-  f: TfrmLstTransferBarang;
+  f: TfrmLstPembayaranPembelian;
   ts: TcxTabSheet;
 begin
-  if not CekTabOpen('Transfer Barang') then begin
+  if not CekTabOpen('Pembayaran Pembelian') then begin
     ToggleMainPage;
     ts := TcxTabSheet.Create(Self);
     ts.PageControl := pgMain;
 
-    f := TfrmLstTransferBarang.Create(Self);
+    f := TfrmLstPembayaranPembelian.Create(Self);
     f.Parent := ts;
     ts.Caption := f.Caption;
     f.Show;

@@ -51,6 +51,10 @@ type
     zqrAkunKas: TZReadOnlyQuery;
     dsAkunKas: TDataSource;
     cxChkPosting: TcxCheckBox;
+    rptBKK: TfrxReport;
+    zqrBKK: TZReadOnlyQuery;
+    dsBKK: TDataSource;
+    fdbBKK: TfrxDBDataset;
     cxColNoAkun2: TcxGridColumn;
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -200,6 +204,11 @@ begin
           end;
       end;
       }
+
+      zqrBKK.Close;
+      zqrBKK.ParamByName('no_bukti').AsString := sNoBukti;
+      zqrBKK.Open;
+      //rptBKK.ShowReport(True);
 
       dm.zConn.Commit;
 

@@ -128,7 +128,7 @@ begin
     qj.FieldByName('id_akun').AsString := zqrPK.FieldByName('id_akun').AsString;
     qj.FieldByName('debet').AsFloat := qh.FieldByName('jumlah').AsFloat;
     qj.FieldByName('jenis_trs').AsString := 'BKK';
-    qj.FieldByName('tgl_input').AsDateTime := Aplikasi.NowServer;
+    qj.FieldByName('tglinput').AsDateTime := Aplikasi.NowServer;
     qj.Post;
 
     qh.Close;
@@ -142,7 +142,7 @@ begin
       qj.FieldByName('id_akun').AsInteger := qd.FieldByName('id_akun').AsInteger;
       qj.FieldByName('kredit').AsFloat := qd.FieldByName('jumlah').AsFloat;
       qj.FieldByName('jenis_trs').AsString := 'BKK';
-      qj.FieldByName('tgl_input').AsDateTime := Aplikasi.NowServer;
+      qj.FieldByName('tglinput').AsDateTime := Aplikasi.NowServer;
       qj.Post;
       qd.Next;
     end;

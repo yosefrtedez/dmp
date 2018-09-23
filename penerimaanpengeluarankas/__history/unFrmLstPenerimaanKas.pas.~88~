@@ -220,8 +220,8 @@ begin
   with f do begin
     zqrKasMasuk.ParamByName('id').AsInteger := zqrPK.FieldByName('id').AsInteger;
     zqrKasMasuk.Open;
-    mm := rptKasMasuk.FindObject('mmTerbilang') as TfrxMemoView;
-    mm.Text := Terbilang(FloatToStr(zqrPK.FieldByName('sebesar').AsFloat));
+    mm := rptKasMasuk.FindObject('mmTerbilas') as TfrxMemoView;
+    mm.Text := Terbilang(FloatToStr(zqrPK.FieldByName('sebesar').AsString);
     rptKasMasuk.ShowReport(true);
   end;
   f.Free;

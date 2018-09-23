@@ -17,7 +17,7 @@ uses
   cxFilter, cxData, cxDataStorage, cxEdit, DB, cxDBData, StdCtrls, cxGridLevel,
   cxClasses, cxGridCustomView, cxGridCustomTableView, cxGridTableView,
   cxGridDBTableView, cxGrid, ExtCtrls, cxPC, ZAbstractRODataset, ZDataset,
-  cxCheckBox, cxContainer, cxLabel, cxSpinEdit, frxClass;
+  cxCheckBox, cxContainer, cxLabel, cxSpinEdit;
 
 type
   TfrmLstPenerimaanKas = class(TfrmTplGrid)
@@ -142,7 +142,7 @@ begin
       qj.FieldByName('id_akun').AsInteger := qd.FieldByName('id_akun').AsInteger;
       qj.FieldByName('debet').AsFloat := qd.FieldByName('jumlah').AsFloat;
       qj.FieldByName('jenis_trs').AsString := 'BKM';
-      qj.FieldByName('tglinput').AsDateTime := Aplikasi.NowServer;
+      qj.FieldByName('tgl_input').AsDateTime := Aplikasi.NowServer;
       qj.Post;
       qd.Next;
     end;
@@ -211,7 +211,6 @@ end;
 procedure TfrmLstPenerimaanKas.Button1Click(Sender: TObject);
 var
   f: TfrmLapKasMasukKasKeluar;
-  mm: TfrxMemoView;
 begin
   inherited;
   if zqrPK.FieldByName('f_posting').AsInteger = 0 then Abort;
@@ -220,8 +219,6 @@ begin
   with f do begin
     zqrKasMasuk.ParamByName('id').AsInteger := zqrPK.FieldByName('id').AsInteger;
     zqrKasMasuk.Open;
-    mm := rptKasMasuk.FindObject('mmTerbilang') as TfrxMemoView;
-    mm.Text := Terbilang(FloatToStr(zqrPK.FieldByName('sebesar').AsFloat));
     rptKasMasuk.ShowReport(true);
   end;
   f.Free;

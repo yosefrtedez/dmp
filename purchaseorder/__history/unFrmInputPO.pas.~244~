@@ -244,7 +244,7 @@ begin
           //qd.FieldByName('disc_rp').AsFloat := Values[i, cxColDiscRp.Index];
           qd.Post;
 
-          UpdateHargaSupp(cxlSupplier.EditValue, StrToInt(Values[i, cxColDeskripsi.Index]), Values[i, cxColHarga.Index]);
+          UpdateHargaSupp(cxlSupplier.EditValue, StrToInt(Values[i, cxColDeskripsi.Index]));
         end;
       end;
       dm.zConn.Commit;

@@ -78,6 +78,7 @@ var
   sNoTrs : string;
 begin
 
+
   if (cxTblTransBarang.DataController.EditState = [dceInsert, dceModified]) or (cxTblTransBarang.DataController.EditState = [dceEdit, dceModified]) then begin
     MsgBox('Mohon selesaikan pengeditan detail sebelum disimpan. ' + Chr(10) + Chr(13) +
       'Klik tombol centang hijau.');
@@ -346,70 +347,74 @@ var
   sa: real;
 begin
   inherited;
+    {
+    if AItemIndex = cxColKode.Index then begin
+      try
+        cxTblTransBarang.BeginUpdate;
+        z := OpenRS('SELECT a.id_satuan,a.kode,b.satuan FROM tbl_barang a join tbl_satuan b on a.id_satuan=b.id where a.id = %s',
+          [ADataController.Values[ARecordIndex, AItemIndex]]) ;
+        with cxTblTransBarang.DataController do begin
+          Values[ARecordIndex, cxColDeskripsi.Index] := ADataController.Values[ARecordIndex, AItemIndex];
+          Values[ARecordIndex, cxColKodeBrg2.Index] := z.FieldByName('kode').AsString;
+          Values[ARecordIndex, cxColSatuan.Index] := z.FieldByName('satuan').AsString ;
+          Values[ARecordIndex, cxColIdSatuan.Index] := z.FieldByName('id_satuan').AsInteger ;
+        end;
+        z.Close ;
 
-  if AItemIndex = cxColKode.Index then begin
-    try
-      cxTblTransBarang.BeginUpdate;
-      z := OpenRS('SELECT a.id_satuan,a.kode,b.satuan FROM tbl_barang a join tbl_satuan b on a.id_satuan=b.id where a.id = %s',
-        [ADataController.Values[ARecordIndex, AItemIndex]]) ;
-      with cxTblTransBarang.DataController do begin
-        Values[ARecordIndex, cxColDeskripsi.Index] := ADataController.Values[ARecordIndex, AItemIndex];
-        Values[ARecordIndex, cxColKodeBrg2.Index] := z.FieldByName('kode').AsString;
-        Values[ARecordIndex, cxColSatuan.Index] := z.FieldByName('satuan').AsString ;
-        Values[ARecordIndex, cxColIdSatuan.Index] := z.FieldByName('id_satuan').AsInteger ;
+        //Menampilkan Stock Gudang Asal
+        z := OpenRS('SELECT sf_get_stokakhir(''%s'',''%s'') as stok',
+          [ADataController.Values[ARecordIndex, cxColDeskripsi.Index],ADataController.Values[ARecordIndex, cxColGudangAsal.Index]]) ;
+        ADataController.Values[ARecordIndex, cxColStock.Index] := z.FieldByName('stok').AsFloat ;
+        z.Close ;
+
+      finally
+        cxTblTransBarang.EndUpdate;
       end;
-      z.Close ;
+    end;
+    }
+    if AItemIndex = cxColDeskripsi.Index then begin
+      try
+        cxTblTransBarang.BeginUpdate;
+        z := OpenRS('SELECT a.id_satuan,a.kode,b.satuan FROM tbl_barang a join tbl_satuan b on a.id_satuan=b.id where a.id =%s',
+          [ADataController.Values[ARecordIndex, cxColDeskripsi.Index]]) ;
+        with cxTblTransBarang.DataController do begin
+          Values[ARecordIndex, cxColKodeBrg2.Index] := z.FieldByName('kode').AsString;
+          Values[ARecordIndex, cxColKode.Index] := ADataController.Values[ARecordIndex, AItemIndex];
+          Values[ARecordIndex, cxColSatuan.Index] := z.FieldByName('satuan').AsString ;
+          Values[ARecordIndex, cxColIdSatuan.Index] := z.FieldByName('id_satuan').AsInteger ;
+          Values[ARecordIndex, cxColKode.Index] := z.FieldByName('kode').AsString ;
+        end;
+        z.Close ;
+
+        //Menampilkan Stock Gudang Asal
+        z := OpenRS('SELECT sf_get_stokakhir(''%s'',''%s'') as stok',
+          [ADataController.Values[ARecordIndex, cxColDeskripsi.Index],ADataController.Values[ARecordIndex, cxColGudangAsal.Index]]);
+        ADataController.Values[i, cxColStock.Index] := z.FieldByName('stok').AsFloat ;
+        z.Close ;
+      finally
+        cxTblTransBarang.EndUpdate;
+      end;
+   end
+   {
+   else if AItemIndex = cxColGudangAsal.Index then begin
+      if (ADataController.Values[ARecordIndex, cxColGudangAsal.Index]=ADataController.Values[ARecordIndex, cxColGudangTujuan.Index]) then begin
+        MsgBox('Gudang Asal tidak boleh sama dengan Gudang Tujuan');
+        Abort;
+      end;
 
       //Menampilkan Stock Gudang Asal
-      z := OpenRS('SELECT sf_get_stokakhir(''%s'',''%s'') as stok',
-        [ADataController.Values[ARecordIndex, cxColDeskripsi.Index],ADataController.Values[ARecordIndex, cxColGudangAsal.Index]]) ;
-      ADataController.Values[ARecordIndex, cxColStock.Index] := z.FieldByName('stok').AsFloat ;
-      z.Close ;
+      sa := unTools.GetStokAkhir(ADataController.Values[ARecordIndex, cxColDeskripsi.Index],
+        ADataController.Values[ARecordIndex, cxColGudangAsal.Index]);
+      ADataController.Values[ARecordIndex, cxColStock.Index] := sa;
 
-    finally
-      cxTblTransBarang.EndUpdate;
-    end;
-  end
-  else if AItemIndex = cxColDeskripsi.Index then begin
-    try
-      cxTblTransBarang.BeginUpdate;
-      z := OpenRS('SELECT a.id_satuan,a.kode,b.satuan FROM tbl_barang a join tbl_satuan b on a.id_satuan=b.id where a.id =%s',
-        [ADataController.Values[ARecordIndex, cxColDeskripsi.Index]]) ;
-      with cxTblTransBarang.DataController do begin
-        Values[ARecordIndex, cxColKodeBrg2.Index] := z.FieldByName('kode').AsString;
-        Values[ARecordIndex, cxColKode.Index] := ADataController.Values[ARecordIndex, AItemIndex];
-        Values[ARecordIndex, cxColSatuan.Index] := z.FieldByName('satuan').AsString ;
-        Values[ARecordIndex, cxColIdSatuan.Index] := z.FieldByName('id_satuan').AsInteger ;
+   end
+   else if AItemIndex = cxColGudangTujuan.Index then begin
+      if (ADataController.Values[ARecordIndex, cxColGudangAsal.Index]=ADataController.Values[ARecordIndex, cxColGudangTujuan.Index]) then begin
+        MsgBox('Gudang Tujuan tidak boleh sama dengan Gudang Asal');
+        Abort;
       end;
-      z.Close ;
-
-      //Menampilkan Stock Gudang Asal
-      z := OpenRS('SELECT sf_get_stokakhir(''%s'',''%s'') as stok',
-        [ADataController.Values[ARecordIndex, cxColDeskripsi.Index],ADataController.Values[ARecordIndex, cxColGudangAsal.Index]]);
-      ADataController.Values[i, cxColStock.Index] := z.FieldByName('stok').AsFloat ;
-      z.Close ;
-    finally
-      cxTblTransBarang.EndUpdate;
-    end;
-  end
-  else if AItemIndex = cxColGudangAsal.Index then begin
-    if (ADataController.Values[ARecordIndex, cxColGudangAsal.Index]=ADataController.Values[ARecordIndex, cxColGudangTujuan.Index]) then begin
-      MsgBox('Gudang Asal tidak boleh sama dengan Gudang Tujuan');
-      Abort;
-    end;
-
-    //Menampilkan Stock Gudang Asal
-    sa := unTools.GetStokAkhir(ADataController.Values[ARecordIndex, cxColDeskripsi.Index],
-      ADataController.Values[ARecordIndex, cxColGudangAsal.Index]);
-    ADataController.Values[ARecordIndex, cxColStock.Index] := sa;
-
-  end
-  else if AItemIndex = cxColGudangTujuan.Index then begin
-    if (ADataController.Values[ARecordIndex, cxColGudangAsal.Index]=ADataController.Values[ARecordIndex, cxColGudangTujuan.Index]) then begin
-      MsgBox('Gudang Tujuan tidak boleh sama dengan Gudang Asal');
-      Abort;
-    end;
-  end;
+   end;
+   }
 end;
 
 procedure TfrmInputTransferBarang.FormCreate(Sender: TObject);
@@ -479,6 +484,7 @@ begin
 
       cxTblTransBarang.DataController.OnRecordChanged := frmInputTransferBarang.cxTblTransBarangDataControllerRecordChanged ;
     end;
+
 
   end;
 end;

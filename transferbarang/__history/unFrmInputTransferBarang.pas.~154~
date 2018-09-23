@@ -78,6 +78,7 @@ var
   sNoTrs : string;
 begin
 
+
   if (cxTblTransBarang.DataController.EditState = [dceInsert, dceModified]) or (cxTblTransBarang.DataController.EditState = [dceEdit, dceModified]) then begin
     MsgBox('Mohon selesaikan pengeditan detail sebelum disimpan. ' + Chr(10) + Chr(13) +
       'Klik tombol centang hijau.');
@@ -392,6 +393,7 @@ begin
       cxTblTransBarang.EndUpdate;
     end;
   end
+
   else if AItemIndex = cxColGudangAsal.Index then begin
     if (ADataController.Values[ARecordIndex, cxColGudangAsal.Index]=ADataController.Values[ARecordIndex, cxColGudangTujuan.Index]) then begin
       MsgBox('Gudang Asal tidak boleh sama dengan Gudang Tujuan');
@@ -479,6 +481,7 @@ begin
 
       cxTblTransBarang.DataController.OnRecordChanged := frmInputTransferBarang.cxTblTransBarangDataControllerRecordChanged ;
     end;
+
 
   end;
 end;

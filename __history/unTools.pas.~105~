@@ -89,8 +89,6 @@ function GetDefaultAkun(jenis: string): integer;
 
 function GetHargaCust(id_cust, id_brg: Integer): real;
 procedure UpdateHargaCust(id_cust, id_brg: Integer; harga: real);
-function GetHargaSupp(id_supp, id_brg: Integer): real;
-procedure UpdateHargaSupp(id_supp, id_brg: Integer; harga: real);
 
 implementation
 
@@ -1427,34 +1425,6 @@ begin
   else
     q.Edit;
   q.FieldByName('id_cust').AsInteger := id_cust;
-  q.FieldByName('id_brg').AsInteger := id_brg;
-  q.FieldByName('harga').AsFloat := harga;
-  q.Post;
-  q.Close;
-end;
-
-function GetHargaSupp(id_supp, id_brg: Integer): real;
-var
-  q: TZQuery;
-begin
-  q := OpenRS('SELECT harga FROM tbl_historyhargabeli WHERE id_supp = %d AND id_brg = %d', [id_supp, id_brg]);
-  if not q.IsEmpty then
-    Result := q.FieldByName('harga').AsFloat
-  else
-    Result := 0;
-  q.Close;
-end;
-
-procedure UpdateHargaSupp(id_supp, id_brg: Integer; harga: real);
-var
-  q: TZQuery;
-begin
-  q := OpenRS('SELECT * FROM tbl_historyhargabeli WHERE id_supp = %d AND id_brg = %d', [id_supp, id_brg]);
-  if q.IsEmpty then
-    q.Insert
-  else
-    q.Edit;
-  q.FieldByName('id_supp').AsInteger := id_supp;
   q.FieldByName('id_brg').AsInteger := id_brg;
   q.FieldByName('harga').AsFloat := harga;
   q.Post;

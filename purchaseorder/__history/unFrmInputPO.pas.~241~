@@ -243,8 +243,6 @@ begin
           qd.FieldByName('disc_persen').AsFloat := Values[i, cxColDiscPersen.Index];
           //qd.FieldByName('disc_rp').AsFloat := Values[i, cxColDiscRp.Index];
           qd.Post;
-
-          UpdateHargaSupp(cxlSupplier.EditValue, StrToInt(Values[i, cxColDeskripsi.Index]), Values[i, cxColHarga.Index]);
         end;
       end;
       dm.zConn.Commit;
@@ -494,8 +492,6 @@ begin
       ADataController.Values[ARecordIndex, cxColPPn.Index] := 'NON PPN';
       ADataController.Values[ARecordIndex, cxColValuta.Index] := 'IDR';
       ADataController.Values[ARecordIndex, cxColKodeBrg2.Index] := q.FieldByName('kode').AsString;
-      ADataController.Values[ARecordIndex, cxColHarga.Index] :=
-        unTools.GetHargaSupp(cxlSupplier.EditValue, StrToInt(ADataController.Values[ARecordIndex, cxColDeskripsi.Index]));
       q.Close;
     finally
       cxtbTblPO.EndUpdate

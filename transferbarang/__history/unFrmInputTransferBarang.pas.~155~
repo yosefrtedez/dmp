@@ -78,6 +78,7 @@ var
   sNoTrs : string;
 begin
 
+
   if (cxTblTransBarang.DataController.EditState = [dceInsert, dceModified]) or (cxTblTransBarang.DataController.EditState = [dceEdit, dceModified]) then begin
     MsgBox('Mohon selesaikan pengeditan detail sebelum disimpan. ' + Chr(10) + Chr(13) +
       'Klik tombol centang hijau.');
@@ -479,6 +480,7 @@ begin
 
       cxTblTransBarang.DataController.OnRecordChanged := frmInputTransferBarang.cxTblTransBarangDataControllerRecordChanged ;
     end;
+
 
   end;
 end;
