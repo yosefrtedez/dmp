@@ -221,7 +221,7 @@ begin
     zqrKasMasuk.ParamByName('id').AsInteger := zqrPK.FieldByName('id').AsInteger;
     zqrKasMasuk.Open;
     mm := rptKasMasuk.FindObject('mmTerbilang') as TfrxMemoView;
-    mm.Text := Terbilang(FloatToStr(zqrPK.FieldByName('sebesar').AsFloat));
+    mm.Text := 'Terbilang : ' + Terbilang(FloatToStr(zqrPK.FieldByName('sebesar').AsFloat));
     rptKasMasuk.ShowReport(true);
   end;
   f.Free;

@@ -117,6 +117,8 @@ inherited frmInputPengeluaranKas: TfrmInputPengeluaranKas
       end
       object cxColMemo: TcxGridColumn
         Caption = 'Memo'
+        PropertiesClassName = 'TcxTextEditProperties'
+        Properties.CharCase = ecUpperCase
         Width = 333
       end
       object cxColNoAkun2: TcxGridColumn

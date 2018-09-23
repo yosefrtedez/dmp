@@ -121,6 +121,7 @@ inherited frmLstPengeluaranKas: TfrmLstPengeluaranKas
       Anchors = [akTop, akRight]
       Caption = 'Posting'
       TabOrder = 0
+      Visible = False
       OnClick = btnPostingClick
     end
     object Button1: TButton

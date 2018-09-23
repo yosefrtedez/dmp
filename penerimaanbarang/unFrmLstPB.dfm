@@ -1,11 +1,14 @@
 inherited frmLstPB: TfrmLstPB
   Caption = 'Penerimaan Barang'
   ClientHeight = 572
+  ClientWidth = 1019
   OnCreate = FormCreate
+  ExplicitWidth = 1019
   ExplicitHeight = 572
   PixelsPerInch = 96
   TextHeight = 13
   inherited Panel1: TPanel
+    Width = 1019
     object Label1: TLabel
       Left = 10
       Top = 16
@@ -22,6 +25,7 @@ inherited frmLstPB: TfrmLstPB
   end
   inherited Panel2: TPanel
     Top = 523
+    Width = 1019
     TabOrder = 4
     ExplicitTop = 523
     inherited btnTambah: TButton
@@ -33,6 +37,9 @@ inherited frmLstPB: TfrmLstPB
     inherited btnHapus: TButton
       OnClick = btnHapusClick
     end
+    inherited btnKeluar: TButton
+      Left = 936
+    end
     inherited btnRefresh: TButton
       OnClick = btnRefreshClick
     end
@@ -40,10 +47,11 @@ inherited frmLstPB: TfrmLstPB
   object cxgrd1: TcxGrid
     Left = 0
     Top = 49
-    Width = 1016
+    Width = 1019
     Height = 233
     Align = alClient
     TabOrder = 1
+    ExplicitWidth = 1016
     object cxtbPBHead: TcxGridDBTableView
       NavigatorButtons.ConfirmDelete = False
       OnFocusedRecordChanged = cxtbPBHeadFocusedRecordChanged
@@ -160,23 +168,39 @@ inherited frmLstPB: TfrmLstPB
   object Panel3: TPanel
     Left = 0
     Top = 282
-    Width = 1016
+    Width = 1019
     Height = 41
     Align = alBottom
     TabOrder = 2
+    ExplicitWidth = 1016
+    DesignSize = (
+      1019
+      41)
     object cxLabel1: TcxLabel
       Left = 10
       Top = 11
       Caption = 'Detail Penerimaan Barang'
     end
+    object btnInputHarga: TButton
+      Left = 936
+      Top = 9
+      Width = 75
+      Height = 25
+      Anchors = [akTop, akRight]
+      Caption = 'Input Harga'
+      TabOrder = 0
+      OnClick = btnInputHargaClick
+      ExplicitLeft = 933
+    end
   end
   object cxGrid1: TcxGrid
     Left = 0
     Top = 323
-    Width = 1016
+    Width = 1019
     Height = 200
     Align = alBottom
     TabOrder = 3
+    ExplicitWidth = 1016
     object cxtbPBDet: TcxGridDBTableView
       NavigatorButtons.ConfirmDelete = False
       DataController.DataSource = dsPBDet

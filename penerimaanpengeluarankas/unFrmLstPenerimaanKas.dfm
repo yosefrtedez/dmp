@@ -118,6 +118,7 @@ inherited frmLstPenerimaanKas: TfrmLstPenerimaanKas
       Anchors = [akTop, akRight]
       Caption = 'Posting'
       TabOrder = 0
+      Visible = False
       OnClick = btnPostingClick
     end
     object cxLabel1: TcxLabel

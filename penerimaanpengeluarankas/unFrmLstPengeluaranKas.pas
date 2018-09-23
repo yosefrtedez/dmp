@@ -215,14 +215,13 @@ var
 begin
   inherited;
   if zqrPK.FieldByName('f_posting').AsInteger = 0 then Abort;
-  
 
   f := TfrmLapKasMasukKasKeluar.Create(Self);
   with f do begin
     zqrKasKeluar.ParamByName('id').AsInteger := zqrPK.FieldByName('id').AsInteger;
     zqrKasKeluar.Open;
     mm := rptKasKeluar.FindObject('mmTerbilang') as TfrxMemoView;
-    mm.Text := Terbilang(zqrPK.FieldByName('Jumlah').AsString);
+    mm.Text := 'Terbilang : ' + Terbilang(zqrPK.FieldByName('Jumlah').AsString);
     rptKasKeluar.ShowReport(true);
   end;
   f.Free;

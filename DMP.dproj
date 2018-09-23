@@ -334,6 +334,9 @@
 			<DCCReference Include="pencairandeposit\unFrmPencairanDeposit.pas">
 				<Form>frmPencairanDeposit</Form>
 			</DCCReference>
+			<DCCReference Include="penerimaanbarang\unFrmInputPBHarga.pas">
+				<Form>frmInputPBHarga</Form>
+			</DCCReference>
 			<BuildConfiguration Include="Base">
 				<Key>Base</Key>
 			</BuildConfiguration>

@@ -80,8 +80,8 @@ uses unDM, unTools, unFrmLstPenerimaanKas;
 procedure TfrmInputPenerimaanKas.btnSimpanClick(Sender: TObject);
 var
   ID, i: Integer;
-  sNoBukti: string;
-  qc, qh, qd: TZQuery;
+  sNoBukti, sNoJ: string;
+  qc, qh, qd, qj: TZQuery;
 begin
 
   if cxlAkunKas.Text = '' then begin
@@ -165,6 +165,44 @@ begin
           end;
         end;
       end;
+
+      sNoJ := GetLastFak('jurnal');
+      UpdateFaktur(Copy(sNoJ,1,6));
+
+      qj := OpenRS('SELECT * FROM tbl_jurnal WHERE no_jurnal = ''%s''',[sNoJ]);
+
+      qj.Insert;
+      qj.FieldByName('id_ref').AsInteger := ID;
+      qj.FieldByName('tanggal').AsDateTime := cxdTanggal.Date;
+      qj.FieldByName('no_jurnal').AsString := sNoJ;
+      qj.FieldByName('no_trans').AsString := sNoBukti;
+      qj.FieldByName('id_akun').AsString := cxlAkunKas.EditValue;
+      qj.FieldByName('kredit').AsFloat := cxsSebesar.Value;
+      qj.FieldByName('jenis_trs').AsString := 'BKM';
+      qj.FieldByName('tglinput').AsDateTime := Aplikasi.NowServer;
+      qj.FieldByName('dc').AsString := 'K';
+      qj.Post;
+
+      for i := 0 to cxtbPK.DataController.RecordCount - 1 do begin
+        qj.Insert;
+        qj.FieldByName('id_ref').AsInteger := ID;
+        qj.FieldByName('tanggal').AsDateTime := cxdTanggal.Date;
+        qj.FieldByName('no_jurnal').AsString := sNoJ;
+        qj.FieldByName('no_trans').AsString := sNoBukti;
+        qj.FieldByName('id_akun').AsInteger := cxtbPK.DataController.Values[i, cxColNoAkun.Index];
+        qj.FieldByName('debet').AsFloat := cxtbPK.DataController.Values[i, cxColJumlah.Index];
+        qj.FieldByName('jenis_trs').AsString := 'BKM';
+        qj.FieldByName('tglinput').AsDateTime := Aplikasi.NowServer;
+        qj.FieldByName('dc').AsString := 'D';
+        qj.Post;
+        qd.Next;
+      end;
+
+      qj.Close;
+
+      dm.zConn.ExecuteDirect(
+        Format('UPDATE tbl_penerimaankas_head SET f_posting = 1 WHERE id = %d',[id])
+      );
 
       MsgBox('Penerimaan kas sudah disimpan dengan nomor : ' + sNoBukti);
 

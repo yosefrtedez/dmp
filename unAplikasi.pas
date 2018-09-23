@@ -316,7 +316,8 @@ type
 
     property FAcc: boolean read mFAcc write mFAcc;
 
-    procedure AddHistAvg(id_ref: Integer; no_bukti: string; avg: Real);
+    procedure AddHistAvg(id_brg, id_ref: Integer; no_bukti: string; avg: Real);
+    procedure AddHistPPN(id_ref: Integer; tanggal: TDateTime; no_bukti: string; id_brg: Integer; qty,harga,ppn: Real; jenis: string);
   end;
 
 implementation
@@ -733,7 +734,7 @@ begin
   q := nil;
 end;
 
-procedure TAplikasi.AddHistAvg(id_ref: Integer; no_bukti: string; avg: Real);
+procedure TAplikasi.AddHistAvg(id_brg, id_ref: Integer; no_bukti: string; avg: Real);
 var
   q: TZQuery;
 begin
@@ -741,10 +742,34 @@ begin
     dm.zConn.StartTransaction;
     q := OpenRS('SELECT * FROM tbl_history_hpp WHERE id_ref = %d', [id_ref]);
     q.Insert;
+    q.FieldByName('id_brg').AsInteger := id_brg;
     q.FieldByName('id_ref').AsInteger := id_ref;
     q.FieldByName('tanggal').AsDateTime := Aplikasi.TanggalServer;
     q.FieldByName('no_bukti').AsString := no_bukti;
     q.FieldByName('avg').AsFloat := avg;
+    q.Post;
+    dm.zConn.Commit
+  except;
+  end;
+end;
+
+procedure TAplikasi.AddHistPPN(id_ref: Integer; tanggal: TDateTime;
+  no_bukti: string; id_brg: Integer; qty, harga, ppn: Real; jenis: string);
+var
+  q: TZQuery;
+begin
+  try
+    dm.zConn.StartTransaction;
+    q := OpenRS('SELECT * FROM tbl_history_ppn WHERE id_ref = %d', [id_ref]);
+    q.Insert;
+    q.FieldByName('id_ref').AsInteger := id_ref;
+    q.FieldByName('tanggal').AsDateTime := tanggal;
+    q.FieldByName('no_bukti').AsString := no_bukti;
+    q.FieldByName('id_brg').AsInteger := id_brg;
+    q.FieldByName('qty').AsFloat := qty;
+    q.FieldByName('harga').AsFloat := harga;
+    q.FieldByName('ppn').AsFloat := ppn;
+    q.FieldByName('jenis').AsString := jenis;
     q.Post;
     dm.zConn.Commit
   except;

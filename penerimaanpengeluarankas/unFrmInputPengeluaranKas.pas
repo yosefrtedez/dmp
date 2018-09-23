@@ -83,7 +83,7 @@ var
   ID, i: Integer;
   sNoBukti: string;
   sNoTrs, sNoJ, sAkun: string;
-  qc,qh, qd, qjd: TZQuery;
+  qc,qh, qd, qjd, qj: TZQuery;
 begin
   if cxlAkunKas.Text = '' then begin
     MsgBox('Mohon pilih akun kas.');
@@ -167,39 +167,40 @@ begin
         end;
       end;
 
-      {
-      sAkun := cxtNoAkun.Text;
       sNoJ := GetLastFak('jurnal');
-      UpdateFaktur(copy(sNoJ,1,6));
-      qjd := OpenRS('select * from tbl_jurnal_det where no_jurnal = ''%s''', [sNoj]);
-      qjd.Insert;
-      qjd.FieldByName('id_ref').AsInteger := ID;
-      qjd.FieldByName('tanggal').AsDateTime := cxdTanggal.Date;
-      qjd.FieldByName('no_jurnal').AsString := sNoJ;
-      qjd.FieldByName('no_invoice').AsString := '';
-      qjd.FieldByName('no_trans').AsString := sNoBukti;
-      qjd.FieldByName('akun').AsString := cxlAkunKas.Text;
-      qjd.FieldByName('kredit').AsFloat := cxsSebesar.Value;
-      qjd.FieldByName('keterangan').AsString := cxtMemo.Text;
-      qjd.Post;
+      UpdateFaktur(Copy(sNoJ,1,6));
 
-      for I := 0 to cxtbPK.DataController.RecordCount -1 do begin
-          with cxtbPK.DataController do begin
-            with qjd do begin
-              Insert;
-              qjd.FieldByName('id_ref').AsInteger := ID;
-              qjd.FieldByName('tanggal').AsDateTime := cxdTanggal.Date;
-              qjd.FieldByName('no_jurnal').AsString := sNoJ;
-              qjd.FieldByName('no_invoice').AsString := '';
-              qjd.FieldByName('no_trans').AsString := sNoBukti;
-              qjd.FieldByName('akun').AsString := Values[i, cxColNoAkun.Index];
-              qjd.FieldByName('debet').AsFloat := Values[i, cxColJumlah.Index];
-              qjd.FieldByName('keterangan').AsString := Values[i, cxColMemo.Index];
-              Post;
-            end;
-          end;
+      qj := OpenRS('SELECT * FROM tbl_jurnal WHERE no_jurnal = ''%s''',[sNoJ]);
+
+      qj.Insert;
+      qj.FieldByName('id_ref').AsInteger := ID;
+      qj.FieldByName('tanggal').AsDateTime := cxdTanggal.Date;
+      qj.FieldByName('no_jurnal').AsString := sNoJ;
+      qj.FieldByName('no_trans').AsString := sNoBukti;
+      qj.FieldByName('id_akun').AsString := cxlAkunKas.EditValue;
+      qj.FieldByName('debet').AsFloat := cxsSebesar.Value;
+      qj.FieldByName('jenis_trs').AsString := 'BKK';
+      qj.FieldByName('tglinput').AsDateTime := Aplikasi.NowServer;
+      qj.FieldByName('dc').AsString := 'D';
+      qj.Post;
+
+      for i := 0 to cxtbPK.DataController.RecordCount - 1 do begin
+        qj.Insert;
+        qj.FieldByName('id_ref').AsInteger := ID;
+        qj.FieldByName('tanggal').AsDateTime := cxdTanggal.Date;
+        qj.FieldByName('no_jurnal').AsString := sNoJ;
+        qj.FieldByName('no_trans').AsString := sNoBukti;
+        qj.FieldByName('id_akun').AsInteger := cxtbPK.DataController.Values[i, cxColNoAkun.Index];
+        qj.FieldByName('kredit').AsFloat := cxtbPK.DataController.Values[i, cxColJumlah.Index];
+        qj.FieldByName('jenis_trs').AsString := 'BKK';
+        qj.FieldByName('tglinput').AsDateTime := Aplikasi.NowServer;
+        qj.Post;
+        qd.Next;
       end;
-      }
+
+      dm.zConn.ExecuteDirect(
+        Format('UPDATE tbl_pengeluarankas_head SET f_posting = 1 WHERE id = %d',[id])
+      );
 
       dm.zConn.Commit;
 

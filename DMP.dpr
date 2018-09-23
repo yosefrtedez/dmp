@@ -101,7 +101,8 @@ uses
   unFrmLapInvoicePembelian in 'laporan\unFrmLapInvoicePembelian.pas' {frmLapInvoicePembelian},
   unFrmInputPembayaranPenjualan in 'pembayaranpenjualan\unFrmInputPembayaranPenjualan.pas' {frmInputPembayaranPenjualan},
   unFrmLstPembayaranPenjualan in 'pembayaranpenjualan\unFrmLstPembayaranPenjualan.pas' {frmLstPembayaranPenjualan},
-  unFrmPencairanDeposit in 'pencairandeposit\unFrmPencairanDeposit.pas' {frmPencairanDeposit};
+  unFrmPencairanDeposit in 'pencairandeposit\unFrmPencairanDeposit.pas' {frmPencairanDeposit},
+  unFrmInputPBHarga in 'penerimaanbarang\unFrmInputPBHarga.pas' {frmInputPBHarga};
 
 {$R *.res}
 
@@ -111,6 +112,7 @@ begin
   Application.CreateForm(TDM, DM);
   Application.CreateForm(TfrmUtama, frmUtama);
   Application.CreateForm(TfrmLogin, frmLogin);
+  Application.CreateForm(TfrmInputPBHarga, frmInputPBHarga);
   frmUtama.Show;
 
   frmLogin.ShowModal;

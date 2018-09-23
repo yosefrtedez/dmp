@@ -61,6 +61,7 @@ type
     cxtbPBHeadColumn2: TcxGridDBColumn;
     cxtbPBDetColumn2: TcxGridDBColumn;
     cxtbPBHeadColumn3: TcxGridDBColumn;
+    btnInputHarga: TButton;
     procedure btnTambahClick(Sender: TObject);
     procedure cxtbPBHeadFocusedRecordChanged(Sender: TcxCustomGridTableView;
       APrevFocusedRecord, AFocusedRecord: TcxCustomGridRecord;
@@ -69,6 +70,7 @@ type
     procedure FormCreate(Sender: TObject);
     procedure btnEditClick(Sender: TObject);
     procedure btnHapusClick(Sender: TObject);
+    procedure btnInputHargaClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -80,7 +82,7 @@ var
 
 implementation
 
-uses unFrmInputPB, unFrmUtama, unDM, unTools;
+uses unFrmInputPB, unFrmUtama, unDM, unTools, unFrmInputPBHarga;
 
 {$R *.dfm}
 
@@ -147,6 +149,29 @@ begin
         MsgBox('Error: ' + E.Message);
       end;
     end;
+  end;
+end;
+
+procedure TfrmLstPB.btnInputHargaClick(Sender: TObject);
+var
+  f: TfrmInputPBHarga;
+  ts: TcxTabSheet;
+begin
+  inherited;
+
+  if not fu.CekTabOpen('Input Harga Penerimaan Barang') then begin
+    ts := TcxTabSheet.Create(Self);
+    ts.PageControl := frmUtama.pgMain;
+    f := TfrmInputPBHarga.Create(Self);
+    f.TabSheet := Self.Parent as TcxTabSheet;
+    f.FormInduk := Self;
+    f.Jenis := 'E';
+    f.EditKey := zqrPBHead.FieldByName('id').AsString;
+    f.Parent := ts;
+    f.Caption := 'Input Harga Penerimaan Barang';
+    ts.Caption := f.Caption;
+    f.Show;
+    fu.pgMain.ActivePage := ts;
   end;
 end;
 
