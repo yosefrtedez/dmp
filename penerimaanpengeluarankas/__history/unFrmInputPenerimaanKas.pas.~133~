@@ -1,4 +1,4 @@
-unit unFrmInputPengeluaranKas;
+unit unFrmInputPenerimaanKas;
 
 interface
 
@@ -18,11 +18,10 @@ uses
   cxDataStorage, DB, cxDBData, cxGridLevel, cxClasses, cxGridCustomView,
   cxGridCustomTableView, cxGridTableView, cxGridDBTableView, cxGrid, cxMaskEdit,
   cxDropDownEdit, cxCalendar, cxLookupEdit, cxDBLookupEdit, cxDBLookupComboBox,
-  cxSpinEdit, cxButtonEdit, ZDataset, ZAbstractRODataset, cxCheckBox, frxClass,
-  frxDBSet;
+  cxSpinEdit, cxButtonEdit, ZDataset, ZAbstractRODataset, cxCheckBox;
 
 type
-  TfrmInputPengeluaranKas = class(TfrmTplInput)
+  TfrmInputPenerimaanKas = class(TfrmTplInput)
     Label13: TLabel;
     cxLabel1: TcxLabel;
     cxtNoBukti: TcxTextEdit;
@@ -37,7 +36,7 @@ type
     cxLabel6: TcxLabel;
     cxtTerbilang: TcxTextEdit;
     cxsSebesar: TcxSpinEdit;
-    cxtPenerima: TcxTextEdit;
+    cxtDari: TcxTextEdit;
     cxtNoAkun: TcxTextEdit;
     cxLabel7: TcxLabel;
     cxtMemo: TcxTextEdit;
@@ -51,10 +50,6 @@ type
     zqrAkunKas: TZReadOnlyQuery;
     dsAkunKas: TDataSource;
     cxChkPosting: TcxCheckBox;
-    rptBKK: TfrxReport;
-    zqrBKK: TZReadOnlyQuery;
-    dsBKK: TDataSource;
-    fdbBKK: TfrxDBDataset;
     cxColNoAkun2: TcxGridColumn;
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -74,28 +69,28 @@ type
   end;
 
 var
-  frmInputPengeluaranKas: TfrmInputPengeluaranKas;
+  frmInputPenerimaanKas: TfrmInputPenerimaanKas;
 
 implementation
 
-uses unDM, unTools;
+uses unDM, unTools, unFrmLstPenerimaanKas;
 
 {$R *.dfm}
 
-procedure TfrmInputPengeluaranKas.btnSimpanClick(Sender: TObject);
+procedure TfrmInputPenerimaanKas.btnSimpanClick(Sender: TObject);
 var
   ID, i: Integer;
-  sNoBukti: string;
-  sNoTrs, sNoJ, sAkun: string;
-  qh, qd, qjd: TZQuery;
+  sNoBukti, sNoJ: string;
+  qc, qh, qd, qj: TZQuery;
 begin
+
   if cxlAkunKas.Text = '' then begin
     MsgBox('Mohon pilih akun kas.');
     cxlAkunKas.SetFocus;
   end
-  else if Trim(cxtPenerima.Text) = '' then begin
+  else if Trim(cxtDari.Text) = '' then begin
     MsgBox('Mohon isi pemberi dana (dari).');
-    cxtPenerima.SetFocus;
+    cxtDari.SetFocus;
   end
   else if Trim(cxtMemo.Text) = '' then begin
     MsgBox('Mohon isi Memo / Keterangan.');
@@ -109,18 +104,28 @@ begin
       Abort;
     end;
 
+    if Self.Jenis = 'E' then begin
+      qc := OpenRS('SELECT f_posting FROM tbl_penerimaankas_head WHERE id = %s',[Self.EditKey]);
+      if qc.FieldByname('f_posting').AsInteger = 1 then begin
+        MsgBox('Transaksi ini tidak bisa di edit karena sudah di posting.');
+        qc.Close;
+        Abort;
+      end;
+      qc.Close;
+    end;
+
     try
       dm.zConn.StartTransaction;
 
       if Self.Jenis = 'T' then begin
-        sNoBukti := GetLastFak('pengeluaran_kas');
+        sNoBukti := GetLastFak('penerimaan_kas');
         UpdateFaktur(Copy(sNoBukti,1,8));
       end
       else begin
         sNoBukti := cxtNoBukti.Text;
       end;
 
-      qh := OpenRS('SELECT * FROM tbl_pengeluarankas_head WHERE no_bukti = ''%s''',[sNoBukti]);
+      qh := OpenRS('SELECT * FROM tbl_penerimaankas_head WHERE no_bukti = ''%s''',[sNoBukti]);
       if Self.Jenis = 'T' then
         qh.Insert
       else begin
@@ -131,83 +136,86 @@ begin
       with qh do begin
         FieldByName('no_bukti').AsString := sNoBukti;
         FieldByName('tanggal').AsDateTime := cxdTanggal.Date;
-        FieldByName('id_akun').AsString := cxlAkunKas.EditValue;
-        FieldByName('penerima').AsString := Trim(cxtPenerima.Text);
+        FieldByName('id_akun').AsInteger := cxlAkunKas.EditValue;
+        FieldByName('dari').AsString := Trim(cxtDari.Text);
         FieldByName('memo').AsString := Trim(cxtMemo.Text);
-        FieldByName('jumlah').AsFloat := cxsSebesar.Value;
+        FieldByName('sebesar').AsFloat := cxsSebesar.Value;
         FieldByName('user').AsString := Aplikasi.NamaUser;
-        FieldByName('user_dept').AsString := Aplikasi.UserDept;
+        FieldByname('user_dept').AsString := Aplikasi.UserDept;
         Post;
       end;
 
       if Self.Jenis = 'T' then ID := LastInsertID;
 
       if Self.Jenis = 'E' then
-        dm.zConn.ExecuteDirect(Format('DELETE FROM tbl_pengeluarankas_det WHERE id_ref = %d', [ID]));
+        dm.zConn.ExecuteDirect(Format('DELETE FROM tbl_penerimaankas_det WHERE id_ref = %d', [ID]));
 
-      qd := OpenRS('SELECT * FROM tbl_pengeluarankas_det WHERE id_ref = %d',[ID]);
+      qd := OpenRS('SELECT * FROM tbl_penerimaankas_det WHERE id_ref = %d',[ID]);
       for i := 0 to cxtbPK.DataController.RecordCount - 1 do begin
         with cxtbPK.DataController do begin
           with qd do begin
             Insert;
             qd.FieldByName('id_ref').AsInteger := ID;
             qd.FieldByName('no_bukti').AsString := sNoBukti;
-            qd.FieldByName('noakun').AsString := Values[i, cxColnoAkun2.Index];
+            qd.FieldByName('noakun').AsString := Values[i, cxColNoAkun2.Index];
             qd.FieldByName('jumlah').AsFloat := Values[i, cxColJumlah.Index];
             qd.FieldByName('memo').AsString := Values[i, cxColMemo.Index];
-            qd.FieldByname('id_akun').AsInteger := Values[i, cxColNoAkun.Index];
+            qd.FieldByName('id_akun').AsInteger := Values[i, cxColNoAkun.Index];
             Post;
           end;
         end;
       end;
 
-      {
-      sAkun := cxtNoAkun.Text;
       sNoJ := GetLastFak('jurnal');
-      UpdateFaktur(copy(sNoJ,1,6));
-      qjd := OpenRS('select * from tbl_jurnal_det where no_jurnal = ''%s''', [sNoj]);
-      qjd.Insert;
-      qjd.FieldByName('id_ref').AsInteger := ID;
-      qjd.FieldByName('tanggal').AsDateTime := cxdTanggal.Date;
-      qjd.FieldByName('no_jurnal').AsString := sNoJ;
-      qjd.FieldByName('no_invoice').AsString := '';
-      qjd.FieldByName('no_trans').AsString := sNoBukti;
-      qjd.FieldByName('akun').AsString := cxlAkunKas.Text;
-      qjd.FieldByName('kredit').AsFloat := cxsSebesar.Value;
-      qjd.FieldByName('keterangan').AsString := cxtMemo.Text;
-      qjd.Post;
+      UpdateFaktur(Copy(sNoJ,1,6));
 
-      for I := 0 to cxtbPK.DataController.RecordCount -1 do begin
-          with cxtbPK.DataController do begin
-            with qjd do begin
-              Insert;
-              qjd.FieldByName('id_ref').AsInteger := ID;
-              qjd.FieldByName('tanggal').AsDateTime := cxdTanggal.Date;
-              qjd.FieldByName('no_jurnal').AsString := sNoJ;
-              qjd.FieldByName('no_invoice').AsString := '';
-              qjd.FieldByName('no_trans').AsString := sNoBukti;
-              qjd.FieldByName('akun').AsString := Values[i, cxColNoAkun.Index];
-              qjd.FieldByName('debet').AsFloat := Values[i, cxColJumlah.Index];
-              qjd.FieldByName('keterangan').AsString := Values[i, cxColMemo.Index];
-              Post;
-            end;
-          end;
+      qj := OpenRS('SELECT * FROM tbl_jurnal WHERE no_jurnal = ''%s''',[sNoJ]);
+
+      qj.Insert;
+      qj.FieldByName('id_ref').AsInteger := ID;
+      qj.FieldByName('tanggal').AsDateTime := cxdTanggal.Date;
+      qj.FieldByName('no_jurnal').AsString := sNoJ;
+      qj.FieldByName('no_trans').AsString := sNoBukti;
+      qj.FieldByName('id_akun').AsString := cxlAkunKas.EditValue;
+      qj.FieldByName('kredit').AsFloat := cxsSebesar.Value;
+      qj.FieldByName('jenis_trs').AsString := 'BKM';
+      qj.FieldByName('tglinput').AsDateTime := Aplikasi.NowServer;
+      qj.FieldByName('keterangan').AsString := cxtMemo.Text;
+      qj.FieldByName('dc').AsString := 'K';
+      qj.Post;
+
+      for i := 0 to cxtbPK.DataController.RecordCount - 1 do begin
+        qj.Insert;
+        qj.FieldByName('id_ref').AsInteger := ID;
+        qj.FieldByName('tanggal').AsDateTime := cxdTanggal.Date;
+        qj.FieldByName('no_jurnal').AsString := sNoJ;
+        qj.FieldByName('no_trans').AsString := sNoBukti;
+        qj.FieldByName('id_akun').AsInteger := cxtbPK.DataController.Values[i, cxColNoAkun.Index];
+        qj.FieldByName('debet').AsFloat := cxtbPK.DataController.Values[i, cxColJumlah.Index];
+        qj.FieldByName('jenis_trs').AsString := 'BKM';
+        qj.FieldByName('tglinput').AsDateTime := Aplikasi.NowServer;
+        qj.FieldByName('keterangan').AsString := cxtbPK.DataController.Values[i, cxColMemo.Index];
+        qj.FieldByName('dc').AsString := 'D';
+        qj.Post;
+        qd.Next;
       end;
-      }
 
-      zqrBKK.Close;
-      zqrBKK.ParamByName('no_bukti').AsString := sNoBukti;
-      zqrBKK.Open;
-      //rptBKK.ShowReport(True);
+      qj.Close;
+
+      dm.zConn.ExecuteDirect(
+        Format('UPDATE tbl_penerimaankas_head SET f_posting = 1 WHERE id = %d',[id])
+      );
+
+      MsgBox('Penerimaan kas sudah disimpan dengan nomor : ' + sNoBukti);
 
       dm.zConn.Commit;
 
-      MsgBox('Pengeluaran kas sudah disimpan dengan nomor : ' + sNoBukti);
-
+      if Assigned(Self.FormInduk) then
+        (Self.FormInduk as TFrmLstPenerimaanKas).btnRefreshClick(nil);
 
       btnBatalClick(nil);
-      inherited;
 
+      inherited;
     except
       on E: Exception do begin
         dm.zConn.Rollback;
@@ -219,7 +227,7 @@ begin
 
 end;
 
-procedure TfrmInputPengeluaranKas.cxlAkunPropertiesEditValueChanged(
+procedure TfrmInputPenerimaanKas.cxlAkunPropertiesEditValueChanged(
   Sender: TObject);
 begin
   inherited;
@@ -229,7 +237,7 @@ begin
   end;
 end;
 
-procedure TfrmInputPengeluaranKas.cxtbPKDataControllerAfterPost(
+procedure TfrmInputPenerimaanKas.cxtbPKDataControllerAfterPost(
   ADataController: TcxCustomDataController);
 var
   total: real;
@@ -244,7 +252,7 @@ begin
   cxtTerbilang.Text := Terbilang(IntToStr(cxsSebesar.EditValue));
 end;
 
-procedure TfrmInputPengeluaranKas.cxtbPKDataControllerBeforePost(
+procedure TfrmInputPenerimaanKas.cxtbPKDataControllerBeforePost(
   ADataController: TcxCustomDataController);
 var
   i,j,k: integer;
@@ -271,7 +279,7 @@ begin
 
 end;
 
-procedure TfrmInputPengeluaranKas.cxtbPKDataControllerRecordChanged(
+procedure TfrmInputPenerimaanKas.cxtbPKDataControllerRecordChanged(
   ADataController: TcxCustomDataController; ARecordIndex, AItemIndex: Integer);
 var
   q: TZQuery;
@@ -292,14 +300,14 @@ begin
   end;
 end;
 
-procedure TfrmInputPengeluaranKas.FormCreate(Sender: TObject);
+procedure TfrmInputPenerimaanKas.FormCreate(Sender: TObject);
 begin
   inherited;
   zqrAkunKas.Open;
   zqrAkunDet.Open;
 end;
 
-procedure TfrmInputPengeluaranKas.FormShow(Sender: TObject);
+procedure TfrmInputPenerimaanKas.FormShow(Sender: TObject);
 var
   q: TZQuery;
   total: real;
@@ -307,26 +315,27 @@ var
 begin
   inherited;
   if Self.Jenis = 'T' then
-    cxtNoBukti.Text := GetLastFak('pengeluaran_kas')
+    cxtNoBukti.Text := GetLastFak('penerimaan_kas')
   else begin
-    q := OpenRS('SELECT * FROM tbl_pengeluarankas_head WHERE id = %s', [Self.EditKey]);
+    q := OpenRS('SELECT * FROM tbl_penerimaankas_head WHERE id = %s', [Self.EditKey]);
     cxtNoBukti.Text := q.FieldByName('no_bukti').AsString;
     cxdTanggal.Date := q.FieldByName('tanggal').AsDateTime;
-    cxlAkunKas.EditValue := q.FieldByName('akunkas').AsString;
-    cxtPenerima.Text := q.FieldByName('penerima').AsString;
+    cxlAkunKas.EditValue := q.FieldByName('id_akun').AsInteger;
+    cxtDari.Text := q.FieldByName('dari').AsString;
     cxtMemo.Text := q.FieldByName('memo').AsString;
     q.Close;
 
-    q := OpenRS('SELECT * FROM tbl_pengeluarankas_det WHERE id_ref = %s',[Self.EditKey]);
+    q := OpenRS('SELECT * FROM tbl_penerimaankas_det WHERE id_ref = %s',[Self.EditKey]);
     total := 0;
     cxtbPK.DataController.OnRecordChanged := nil;
     while not q.Eof do begin
       with cxtbPK.DataController do begin
         i := AppendRecord;
-        Values[i, cxColNoAkun.Index] := q.FieldByName('noakun').AsString;
-        Values[i, cxColNamaAkun.Index] := q.FieldByName('noakun').AsString;
+        Values[i, cxColNoAkun.Index] := q.FieldByName('id_akun').AsInteger;
+        Values[i, cxColNamaAkun.Index] := q.FieldByName('id_akun').AsInteger;
         Values[i, cxColJumlah.Index] := q.FieldByName('jumlah').AsString;
         Values[i, cxColMemo.Index] := q.FieldByName('memo').AsString;
+        Values[i, cxColNoAkun2.Index] := q.FieldByName('noakun').AsString;
         total := total + q.FieldByName('jumlah').AsFloat;
       end;
       q.Next;

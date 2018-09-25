@@ -180,6 +180,7 @@ begin
       qj.FieldByName('kredit').AsFloat := cxsSebesar.Value;
       qj.FieldByName('jenis_trs').AsString := 'BKM';
       qj.FieldByName('tglinput').AsDateTime := Aplikasi.NowServer;
+      qj.FieldByName('keterangan').AsString := cxtMemo.Text;
       qj.FieldByName('dc').AsString := 'K';
       qj.Post;
 
@@ -193,6 +194,7 @@ begin
         qj.FieldByName('debet').AsFloat := cxtbPK.DataController.Values[i, cxColJumlah.Index];
         qj.FieldByName('jenis_trs').AsString := 'BKM';
         qj.FieldByName('tglinput').AsDateTime := Aplikasi.NowServer;
+        qj.FieldByName('keterangan').AsString := VarToStr(cxtbPK.DataController.Values[i, cxColMemo.Index]);
         qj.FieldByName('dc').AsString := 'D';
         qj.Post;
         qd.Next;

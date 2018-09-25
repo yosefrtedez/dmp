@@ -1,0 +1,30 @@
+unit unFrmLapAkunting_RPT;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, frxClass, frxDBSet, DB, ZAbstractRODataset, ZDataset;
+
+type
+  TfrmLapAkunting_RPT = class(TForm)
+    zqrKasHarian: TZReadOnlyQuery;
+    dsKasHarian: TDataSource;
+    fdbKasHarian: TfrxDBDataset;
+    rptKasHarian: TfrxReport;
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmLapAkunting_RPT: TfrmLapAkunting_RPT;
+
+implementation
+
+uses unDM;
+
+{$R *.dfm}
+
+end.

@@ -1,4 +1,4 @@
-unit unFrmLapTransaksi;
+unit unFrmLapAkunting;
 
 interface
 
@@ -17,7 +17,7 @@ uses
   cxEdit, cxTextEdit, cxMaskEdit, cxDropDownEdit, cxCalendar, cxLabel;
 
 type
-  TfrmLapTransaksi = class(TfrmTplInput)
+  TfrmLapAkunting = class(TfrmTplInput)
     lstBox: TListBox;
     pgParam: TcxPageControl;
     ts01: TcxTabSheet;
@@ -30,29 +30,29 @@ type
     procedure btnCetakClick(Sender: TObject);
     procedure lstBoxClick(Sender: TObject);
   private
-    procedure CetakLapMasterBarang;
-  public
     procedure CetakLapHistTransaksiMasuk;
     procedure CetakLapHistTransaksiKeluar;
+  public
+
   end;
 
 var
-  frmLapTransaksi: TfrmLapTransaksi;
+  frmLapTransaksi: TfrmLapAkunting;
 
 implementation
 
-uses unFrmLapMasterData;
+uses unFrmLapMasterData, unFrmRptTransaksi;
 
 {$R *.dfm}
 
-procedure TfrmLapTransaksi.FormCreate(Sender: TObject);
+procedure TfrmLapAkunting.FormCreate(Sender: TObject);
 begin
   inherited;
-  lstBox.Items.Add('01. History Transaksi Masuk');
+  lstBox.Items.Add('01. Kas Harian');
   lstBox.Items.Add('02. History Transaksi Keluar');
 end;
 
-procedure TfrmLapTransaksi.lstBoxClick(Sender: TObject);
+procedure TfrmLapAkunting.lstBoxClick(Sender: TObject);
 begin
   inherited;
   if lstBox.ItemIndex = 0 then
@@ -61,29 +61,47 @@ begin
     ts01.Visible := True;
 end;
 
-procedure TfrmLapTransaksi.btnCetakClick(Sender: TObject);
+procedure TfrmLapAkunting.btnCetakClick(Sender: TObject);
 begin
   inherited;
 
-  if lstBox.ItemIndex = 0 then begin
-    CetakLapMasterBarang;
-  end;
+  if lstBox.ItemIndex = 0 then
+    CetakLapHistTransaksiMasuk
+  else if lstBox.ItemIndex = 1 then
+    CetakLapHistTransaksiKeluar;
 
 end;
 
-procedure TfrmLapTransaksi.CetakLapMasterBarang;
-//var
-
-//  f: TfrmLapTransaksiData;
+procedure TfrmLapAkunting.CetakLapHistTransaksiKeluar;
+var
+  f: TfrmRptTransaksi;
 begin
-  {
-  f := TfrmLapTransaksiData.Create(nil);
+
+  f := TfrmRptTransaksi.Create(nil);
   with f do begin
-    zqrMstBarang.Open;
-    rptMstBarang.ShowReport(True);
+    zqrLapRekapTrsKeluar.Close;
+    zqrLapRekapTrsKeluar.ParamByName('tgl1').AsDate := cxdTgl1.Date;
+    zqrLapRekapTrsKeluar.ParamByName('tgl2').AsDate := cxdTgl2.Date;
+    zqrLapRekapTrsKeluar.Open;
+    rptLapRekapTrsKeluar.ShowReport(True);
   end;
   f.Free;
-  }
+
+end;
+
+procedure TfrmLapAkunting.CetakLapHistTransaksiMasuk;
+var
+  f: TfrmRptTransaksi;
+begin
+  f := TfrmRptTransaksi.Create(nil);
+  with f do begin
+    zqrLapRekapTrsMasuk.Close;
+    zqrLapRekapTrsMasuk.ParamByName('tgl1').AsDate := cxdTgl1.Date;
+    zqrLapRekapTrsMasuk.ParamByName('tgl2').AsDate := cxdTgl2.Date;
+    zqrLapRekapTrsMasuk.Open;
+    rptLapRekapTrsMasuk.ShowReport(True);
+  end;
+  f.Free;
 end;
 
 end.

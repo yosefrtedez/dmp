@@ -102,7 +102,9 @@ uses
   unFrmInputPembayaranPenjualan in 'pembayaranpenjualan\unFrmInputPembayaranPenjualan.pas' {frmInputPembayaranPenjualan},
   unFrmLstPembayaranPenjualan in 'pembayaranpenjualan\unFrmLstPembayaranPenjualan.pas' {frmLstPembayaranPenjualan},
   unFrmPencairanDeposit in 'pencairandeposit\unFrmPencairanDeposit.pas' {frmPencairanDeposit},
-  unFrmInputPBHarga in 'penerimaanbarang\unFrmInputPBHarga.pas' {frmInputPBHarga};
+  unFrmInputPBHarga in 'penerimaanbarang\unFrmInputPBHarga.pas' {frmInputPBHarga},
+  unFrmLapAkunting in 'laporan\unFrmLapAkunting.pas' {frmLapAkunting},
+  unFrmLapAkunting_RPT in 'laporan\RPT\unFrmLapAkunting_RPT.pas' {frmLapAkunting_RPT};
 
 {$R *.res}
 
@@ -112,7 +114,7 @@ begin
   Application.CreateForm(TDM, DM);
   Application.CreateForm(TfrmUtama, frmUtama);
   Application.CreateForm(TfrmLogin, frmLogin);
-  Application.CreateForm(TfrmInputPBHarga, frmInputPBHarga);
+  Application.CreateForm(TfrmLapAkunting_RPT, frmLapAkunting_RPT);
   frmUtama.Show;
 
   frmLogin.ShowModal;

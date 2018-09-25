@@ -337,6 +337,12 @@
 			<DCCReference Include="penerimaanbarang\unFrmInputPBHarga.pas">
 				<Form>frmInputPBHarga</Form>
 			</DCCReference>
+			<DCCReference Include="laporan\unFrmLapAkunting.pas">
+				<Form>frmLapAkunting</Form>
+			</DCCReference>
+			<DCCReference Include="laporan\RPT\unFrmLapAkunting_RPT.pas">
+				<Form>frmLapAkunting_RPT</Form>
+			</DCCReference>
 			<BuildConfiguration Include="Base">
 				<Key>Base</Key>
 			</BuildConfiguration>

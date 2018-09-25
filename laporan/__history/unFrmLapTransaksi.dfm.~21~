@@ -1,5 +1,6 @@
 inherited frmLapTransaksi: TfrmLapTransaksi
   Caption = 'frmLapMaster'
+  OnCreate = FormCreate
   ExplicitWidth = 894
   ExplicitHeight = 553
   PixelsPerInch = 96
@@ -48,6 +49,9 @@ inherited frmLapTransaksi: TfrmLapTransaksi
       Caption = '01'
       ImageIndex = 0
       TabVisible = False
+      ExplicitTop = 21
+      ExplicitWidth = 349
+      ExplicitHeight = 323
       object cxLabel1: TcxLabel
         Left = 16
         Top = 14

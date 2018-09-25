@@ -1,4 +1,4 @@
-inherited frmLapTransaksi: TfrmLapTransaksi
+inherited frmLapAkunting: TfrmLapAkunting
   Caption = 'frmLapMaster'
   ExplicitWidth = 894
   ExplicitHeight = 553

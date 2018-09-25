@@ -1,4 +1,4 @@
-inherited frmLapTransaksi: TfrmLapTransaksi
+inherited frmLapAkunting: TfrmLapAkunting
   Caption = 'frmLapMaster'
   ExplicitWidth = 894
   ExplicitHeight = 553
@@ -28,18 +28,18 @@ inherited frmLapTransaksi: TfrmLapTransaksi
     Width = 361
     Height = 345
     ItemHeight = 13
-    TabOrder = 0
+    TabOrder = 1
     OnClick = lstBoxClick
   end
   object pgParam: TcxPageControl
     Left = 378
-    Top = 11
+    Top = 8
     Width = 367
     Height = 345
     ActivePage = ts01
     LookAndFeel.NativeStyle = True
     Style = 7
-    TabOrder = 1
+    TabOrder = 0
     ClientRectBottom = 344
     ClientRectLeft = 1
     ClientRectRight = 366
@@ -48,28 +48,6 @@ inherited frmLapTransaksi: TfrmLapTransaksi
       Caption = '01'
       ImageIndex = 0
       TabVisible = False
-      object cxLabel1: TcxLabel
-        Left = 16
-        Top = 14
-        Caption = 'Tanggal'
-      end
-      object cxdTgl1: TcxDateEdit
-        Left = 64
-        Top = 13
-        TabOrder = 0
-        Width = 121
-      end
-      object cxLabel2: TcxLabel
-        Left = 192
-        Top = 14
-        Caption = 'S/D'
-      end
-      object cxdTgl2: TcxDateEdit
-        Left = 219
-        Top = 13
-        TabOrder = 1
-        Width = 121
-      end
     end
   end
   object btnCetak: TButton

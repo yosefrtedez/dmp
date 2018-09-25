@@ -25,10 +25,11 @@ type
     Label1: TLabel;
     Button1: TButton;
     Button2: TButton;
-    Button3: TButton;
+    btnAkunting: TButton;
     procedure FormCreate(Sender: TObject);
     procedure btnMasterDataClick(Sender: TObject);
     procedure btnTransaksiClick(Sender: TObject);
+    procedure btnAkuntingClick(Sender: TObject);
   private
     lstFrame: TStringList;
     procedure HideAllFrame;
@@ -42,7 +43,7 @@ var
 
 implementation
 
-uses unTools, unFrmLapMaster, unFrmLapTransaksi;
+uses unTools, unFrmLapMaster, unFrmLapTransaksi, unFrmLapAkunting;
 
 {$R *.dfm}
 
@@ -110,6 +111,26 @@ begin
     ts.Caption := '01';
 
     f := TfrmLapTransaksi.Create(Self);
+    f.Parent := ts;
+    ts.Caption := f.Caption;
+    f.Show;
+
+    pg.ActivePage := ts;
+  end;
+end;
+
+procedure TfrmMenuLaporan.btnAkuntingClick(Sender: TObject);
+var
+  f: TfrmLapAkunting;
+  ts: TcxTabSheet;
+begin
+  if not CekTabOpen('01') then begin
+    ts := TcxTabSheet.Create(Self);
+    ts.PageControl := pg;
+    ts.TabVisible := False;
+    ts.Caption := '01';
+
+    f := TfrmLapAkunting.Create(Self);
     f.Parent := ts;
     ts.Caption := f.Caption;
     f.Show;

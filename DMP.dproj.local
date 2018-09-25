@@ -150,5 +150,7 @@
     <Transaction>2018/08/27 12.21.19.094.dfm,D:\108 JSP\My Project\05. Felgito\02. Source Code\Unit1.dfm=D:\108 JSP\My Project\05. Felgito\02. Source Code\laporan\unFrmLapInvoicePembelian.dfm</Transaction>
     <Transaction>2018/09/21 14.51.56.406.pas,D:\108 JSP\My Project\05. Felgito\02. Source Code\Unit1.pas=D:\108 JSP\My Project\05. Felgito\02. Source Code\pencairandeposit\unFrmPencairanDeposit.pas</Transaction>
     <Transaction>2018/09/21 14.51.56.406.dfm,D:\108 JSP\My Project\05. Felgito\02. Source Code\Unit1.dfm=D:\108 JSP\My Project\05. Felgito\02. Source Code\pencairandeposit\unFrmPencairanDeposit.dfm</Transaction>
+    <Transaction>2018/09/25 20.39.33.372.pas,D:\108 JSP\My Project\05. Felgito\02. Source Code\Unit1.pas=D:\108 JSP\My Project\05. Felgito\02. Source Code\laporan\RPT\unFrmLapAkunting_RPT.pas</Transaction>
+    <Transaction>2018/09/25 20.39.33.372.dfm,D:\108 JSP\My Project\05. Felgito\02. Source Code\Unit1.dfm=D:\108 JSP\My Project\05. Felgito\02. Source Code\laporan\RPT\unFrmLapAkunting_RPT.dfm</Transaction>
   </Transactions>
 </BorlandProject>

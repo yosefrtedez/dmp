@@ -85,14 +85,14 @@ inherited frmMenuLaporan: TfrmMenuLaporan
       TabOrder = 3
       OnClick = btnTransaksiClick
     end
-    object btnAkunting: TButton
+    object Button3: TButton
       Left = 10
       Top = 205
       Width = 196
       Height = 43
       Caption = 'Akunting'
       TabOrder = 4
-      OnClick = btnAkuntingClick
+      OnClick = Button3Click
     end
   end
   object pg: TcxPageControl

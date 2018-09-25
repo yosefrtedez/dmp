@@ -1,0 +1,109 @@
+object frmLapAkunting_RPT: TfrmLapAkunting_RPT
+  Left = 0
+  Top = 0
+  Caption = 'frmLapAkunting_RPT'
+  ClientHeight = 299
+  ClientWidth = 635
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  OldCreateOrder = False
+  PixelsPerInch = 96
+  TextHeight = 13
+  object zqrKasHarian: TZReadOnlyQuery
+    Connection = DM.zConn
+    Active = True
+    SQL.Strings = (
+      
+        'select a.tanggal, a.no_jurnal, a.no_trans, b.noakun, a.debet, a.' +
+        'kredit, a.keterangan'
+      'from tbl_jurnal a'
+      'left join tbl_coa b on a.id_akun = b.id'
+      'where a.jenis_trs in ('#39'BKM'#39','#39'BKK'#39') order by a.id;')
+    Params = <>
+    Left = 88
+    Top = 16
+  end
+  object dsKasHarian: TDataSource
+    DataSet = zqrKasHarian
+    Left = 176
+    Top = 16
+  end
+  object fdbKasHarian: TfrxDBDataset
+    UserName = 'fdbKasHarian'
+    CloseDataSource = False
+    FieldAliases.Strings = (
+      'tanggal=tanggal'
+      'no_jurnal=no_jurnal'
+      'no_trans=no_trans'
+      'noakun=noakun'
+      'debet=debet'
+      'kredit=kredit'
+      'keterangan=keterangan')
+    DataSet = zqrKasHarian
+    BCDToCurrency = True
+    Left = 256
+    Top = 16
+  end
+  object rptKasHarian: TfrxReport
+    Version = '4.12.6'
+    DotMatrixReport = False
+    IniFile = '\Software\Fast Reports'
+    PreviewOptions.Buttons = [pbPrint, pbLoad, pbSave, pbExport, pbZoom, pbFind, pbOutline, pbPageSetup, pbTools, pbEdit, pbNavigator, pbExportQuick]
+    PreviewOptions.Zoom = 1.000000000000000000
+    PrintOptions.Printer = 'Default'
+    PrintOptions.PrintOnSheet = 0
+    ReportOptions.CreateDate = 43290.646343148200000000
+    ReportOptions.LastChange = 43318.578788831000000000
+    ScriptLanguage = 'PascalScript'
+    ScriptText.Strings = (
+      'var'
+      '  sa: real;                            '
+      ''
+      'procedure MasterData1OnBeforePrint(Sender: TfrxComponent);'
+      'begin'
+      '  sa := sa + <fdbKasHarian."debet"> - <fdbKasHarian."kredit">;'
+      
+        '  Memo1.text := FormatFloat('#39'#,#0.00'#39',sa);                      ' +
+        '                                                                ' +
+        '        '
+      'end;'
+      ''
+      'begin'
+      '  sa := 5000;                                       '
+      'end.')
+    Left = 336
+    Top = 24
+    Datasets = <
+      item
+        DataSet = fdbKasHarian
+        DataSetName = 'fdbKasHarian'
+      end>
+    Variables = <
+      item
+        Name = ' New Category1'
+        Value = Null
+      end
+      item
+        Name = 'saldo_awal'
+        Value = ''
+      end>
+    Style = <>
+    object Data: TfrxDataPage
+      Height = 1000.000000000000000000
+      Width = 1000.000000000000000000
+    end
+    object Page1: TfrxReportPage
+      PaperWidth = 210.000000000000000000
+      PaperHeight = 138.000000000000000000
+      PaperSize = 256
+      LeftMargin = 5.000000000000000000
+      RightMargin = 5.000000000000000000
+      TopMargin = 5.000000000000000000
+      BottomMargin = 5.000000000000000000
+    end
+  end
+end

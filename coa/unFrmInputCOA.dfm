@@ -1,6 +1,8 @@
 inherited frmInputCOA: TfrmInputCOA
   Caption = 'Input COA'
   OnShow = FormShow
+  ExplicitWidth = 894
+  ExplicitHeight = 553
   PixelsPerInch = 96
   TextHeight = 13
   inherited Panel1: TPanel
@@ -145,7 +147,6 @@ inherited frmInputCOA: TfrmInputCOA
   end
   object zqrInduk: TZReadOnlyQuery
     Connection = DM.zConn
-    Active = True
     SQL.Strings = (
       'SELECT noakun, nama FROM tbl_coa '
       'ORDER BY nama')
@@ -160,7 +161,6 @@ inherited frmInputCOA: TfrmInputCOA
   end
   object zqrTipeAkun: TZReadOnlyQuery
     Connection = DM.zConn
-    Active = True
     SQL.Strings = (
       'SELECT id, tipe FROM tbl_tipe_akun')
     Params = <>

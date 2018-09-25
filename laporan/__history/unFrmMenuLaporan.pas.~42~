@@ -4,7 +4,7 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, unFrmTplInput, StdCtrls, ExtCtrls, unFrmeLapMaster, unFrmeTplLap,
+  Dialogs, unFrmTplInput, StdCtrls, ExtCtrls, unFrmeTplLap,
   cxPC, cxGraphics, cxControls, cxLookAndFeels, cxLookAndFeelPainters,
   dxSkinsCore, dxSkinBlack, dxSkinBlue, dxSkinCaramel, dxSkinCoffee,
   dxSkinDarkRoom, dxSkinDarkSide, dxSkinFoggy, dxSkinGlassOceans,
@@ -22,8 +22,14 @@ type
     btnMasterData: TButton;
     btnTransaksi: TButton;
     pg: TcxPageControl;
+    Label1: TLabel;
+    Button1: TButton;
+    Button2: TButton;
+    Button3: TButton;
     procedure FormCreate(Sender: TObject);
     procedure btnMasterDataClick(Sender: TObject);
+    procedure btnTransaksiClick(Sender: TObject);
+    procedure Button3Click(Sender: TObject);
   private
     lstFrame: TStringList;
     procedure HideAllFrame;
@@ -37,7 +43,7 @@ var
 
 implementation
 
-uses unTools, unFrmLapMaster;
+uses unTools, unFrmLapMaster, unFrmLapTransaksi, unFrmLapAkunting;
 
 {$R *.dfm}
 
@@ -48,7 +54,7 @@ var
   f: TfrmLapMaster;
   ts: TcxTabSheet;
 begin
-  if CekTabOpen('01') then begin
+  if not CekTabOpen('01') then begin
     ts := TcxTabSheet.Create(Self);
     ts.PageControl := pg;
     ts.TabVisible := False;
@@ -93,6 +99,46 @@ begin
   }
 end;
 
+procedure TfrmMenuLaporan.btnTransaksiClick(Sender: TObject);
+var
+  f: TfrmLapAkunting;
+  ts: TcxTabSheet;
+begin
+  if not CekTabOpen('01') then begin
+    ts := TcxTabSheet.Create(Self);
+    ts.PageControl := pg;
+    ts.TabVisible := False;
+    ts.Caption := '01';
+
+    f := TfrmLapAkunting.Create(Self);
+    f.Parent := ts;
+    ts.Caption := f.Caption;
+    f.Show;
+
+    pg.ActivePage := ts;
+  end;
+end;
+
+procedure TfrmMenuLaporan.Button3Click(Sender: TObject);
+var
+  f: TfrmLapTransaksi;
+  ts: TcxTabSheet;
+begin
+  if not CekTabOpen('01') then begin
+    ts := TcxTabSheet.Create(Self);
+    ts.PageControl := pg;
+    ts.TabVisible := False;
+    ts.Caption := '01';
+
+    f := TfrmLapTransaksi.Create(Self);
+    f.Parent := ts;
+    ts.Caption := f.Caption;
+    f.Show;
+
+    pg.ActivePage := ts;
+  end;
+end;
+
 function TfrmMenuLaporan.CekTabOpen(sCaption: string): Boolean;
 var
   i: Integer;
@@ -102,14 +148,14 @@ begin
   f := False;
   for i := 0 to pg.TabCount - 1 do begin
     if sCaption = pg.Tabs[i].Caption then begin
-      ts := pgMain.Pages[i];
+      ts := pg.Pages[i];
       f := True;
       Break;
     end;
   end;
 
   if f then begin
-    pgMain.ActivePage := ts;
+    pg.ActivePage := ts;
   end;
 
   Result := f;

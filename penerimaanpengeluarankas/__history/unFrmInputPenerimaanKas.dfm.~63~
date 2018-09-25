@@ -2,7 +2,6 @@ inherited frmInputPenerimaanKas: TfrmInputPenerimaanKas
   Caption = 'Input Penerimaan Kas'
   ClientHeight = 599
   ClientWidth = 1102
-  OnCreate = FormCreate
   OnShow = FormShow
   ExplicitWidth = 1102
   ExplicitHeight = 599
@@ -29,10 +28,8 @@ inherited frmInputPenerimaanKas: TfrmInputPenerimaanKas
     Top = 550
     Width = 1102
     TabOrder = 18
+    ExplicitTop = 550
     ExplicitWidth = 1102
-    inherited btnSimpan: TButton
-      OnClick = btnSimpanClick
-    end
   end
   object cxLabel1: TcxLabel
     Left = 10
@@ -123,9 +120,11 @@ inherited frmInputPenerimaanKas: TfrmInputPenerimaanKas
       end
       object cxColMemo: TcxGridColumn
         Caption = 'Memo'
+        PropertiesClassName = 'TcxTextEditProperties'
+        Properties.CharCase = ecUpperCase
         Width = 333
       end
-      object cxNoAkun2: TcxGridColumn
+      object cxColNoAkun2: TcxGridColumn
         Visible = False
       end
     end
@@ -227,6 +226,7 @@ inherited frmInputPenerimaanKas: TfrmInputPenerimaanKas
     Caption = 'Posting'
     Properties.ReadOnly = False
     TabOrder = 3
+    Visible = False
     Width = 73
   end
   object zqrAkunDet: TZReadOnlyQuery

@@ -80,6 +80,7 @@ begin
   inherited;
   zqrCOA.Close;
   zqrCOA.Open;
+  treeCOA.FullExpand;
 end;
 
 procedure TfrmLstCOA.btnTambahClick(Sender: TObject);
