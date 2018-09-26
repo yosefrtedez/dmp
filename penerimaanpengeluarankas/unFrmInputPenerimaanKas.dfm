@@ -3,6 +3,7 @@ inherited frmInputPenerimaanKas: TfrmInputPenerimaanKas
   ClientHeight = 599
   ClientWidth = 1102
   OnShow = FormShow
+  ExplicitTop = -69
   ExplicitWidth = 1102
   ExplicitHeight = 599
   PixelsPerInch = 96

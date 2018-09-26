@@ -236,8 +236,8 @@ begin
   try
 
     if Self.Jenis = 'E' then begin
-      MsgBox('Transaksi tidak bisa di simpan karena sudah di posting.');
-      Abort;
+      //MsgBox('Transaksi tidak bisa di simpan karena sudah di posting.');
+      //Abort;
     end;
 
     dm.zConn.StartTransaction;
@@ -247,7 +247,7 @@ begin
       UpdateFaktur(Copy(sNoTrs,1,7));
     end
     else begin
-
+      sNoTrs := cxtNoBukti.Text;
     end;
 
     qh := OpenRS('SELECT * FROM tbl_pb_head WHERE no_bukti = ''%s''',[sNoTrs]);
@@ -272,8 +272,9 @@ begin
 
     if Self.Jenis = 'E' then begin
       dm.zConn.ExecuteDirect(Format('DELETE FROM tbl_pb_det WHERE id_ref = %d',[ID]));
-      dm.zConn.ExecuteDirect(Format('DELETE FROM tbl_history WHERE id_ref = %d AND LEFT(no_bukti) = ''PB''',
-        [ID])
+      //dm.zConn.ExecuteDirect(Format('DELETE FROM tbl_history WHERE id_ref = %d AND LEFT(no_bukti,2) = ''PB''',
+      //  [ID])
+      dm.zConn.ExecuteDirect(Format('DELETE FROM tbl_history WHERE no_bukti = ''%s''',[]))
       );
     end
     else begin
@@ -496,6 +497,7 @@ begin
     if Aplikasi.FAcc then begin
       sNoJ := GetLastFak('jurnal');
       UpdateFaktur(Copy(sNoJ,1,6));
+      qjd := OpenRS('SELECT * FROM tbl_jurnal WHERE no_jurnal = ''%s''',[sNoJ]);
     end;
 
     if cxChkPosting.Checked then begin
@@ -523,7 +525,7 @@ begin
             hpp := ((hppAkhir * sAkhir) + (Values[i, cxColQtyDatang.Index] * hrg)) /
               (sAkhir + Values[i, cxColQtyDatang.Index]);
 
-            Aplikasi.AddHistAvg(ID, sNoTrs, hpp);
+            Aplikasi.AddHistAvg(Values[i, cxColIdBrg.Index], ID, sNoTrs, hpp);
           end;
 
           hst.Insert;
@@ -580,7 +582,6 @@ begin
           if Aplikasi.FAcc then begin
             id_akun := GetDefaultAkunBrg(Values[i, cxColIdBrg.Index], 'persediaan');
             if id_akun <> 0 then begin
-              qjd := OpenRS('SELECT * FROM tbl_jurnal WHERE no_jurnal = ''%s''',[sNoJ]);
               qjd.Insert;
               qjd.FieldByName('id_ref').AsInteger := ID;
               qjd.FieldbyName('tanggal').AsDateTime := Aplikasi.TanggalServer;
@@ -606,6 +607,18 @@ begin
                 qjd.FieldByName('keterangan').AsString := 'PPN Masukan Belum Difakturkan';
                 qjd.FieldByName('dc').AsString := 'D';
                 qjd.Post;
+
+                if f_ppn then
+                  Aplikasi.AddHistPPN(
+                    ID,
+                    cxdTglDatang.Date,
+                    sNoTrs,
+                    Values[i, cxColIdBrg.Index],
+                    Values[i, cxColQtyDatang.Index],
+                    hrg,
+                    (hrg * Values[i, cxColQtyDatang.Index]) * (10/100),
+                    'B'
+                  );
               end;
             end;
           end;

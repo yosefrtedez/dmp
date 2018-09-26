@@ -134,6 +134,11 @@ type
     cxlAkunReturPembelian2: TcxLookupComboBox;
     zqrCoa: TZReadOnlyQuery;
     dsCoa: TDataSource;
+    cxTabSheet6: TcxTabSheet;
+    cxLabel36: TcxLabel;
+    cxtUInput: TcxTextEdit;
+    cxLabel37: TcxLabel;
+    cxtUEdit: TcxTextEdit;
     procedure btnSimpanClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -550,6 +555,12 @@ begin
     cxlAkunDiskonPenjualan.EditValue := q.FieldByName('idakun_diskonpenjualan').AsInteger;
     cxlAkunHPP.EditValue := q.FieldByName('idakun_hpp').AsInteger;
     cxlAkunReturPembelian.EditValue := q.FieldByName('idakun_returpembelian').AsInteger;
+
+    if not q.FieldByname('user_input').IsNull then
+      cxtUInput.Text := q.FieldByname('user_input').AsString + ', ' + FormatDateTime('dd-MM-yyyy', q.FieldByname('tgl_input').AsDateTime);
+
+    if not q.FieldByname('user_edit').IsNull then
+      cxtUEdit.Text := q.FieldByname('user_edit').AsString + ', ' + FormatDateTime('dd-MM-yyyy', q.FieldByname('tgl_edit').AsDateTime);
 
     q.Close;
 

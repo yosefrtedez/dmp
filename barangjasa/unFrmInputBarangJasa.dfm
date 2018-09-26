@@ -3,7 +3,6 @@ inherited frmInputBarangJasa: TfrmInputBarangJasa
   ClientHeight = 663
   ClientWidth = 1058
   OnShow = FormShow
-  ExplicitTop = -52
   ExplicitWidth = 1058
   ExplicitHeight = 663
   PixelsPerInch = 96
@@ -113,7 +112,7 @@ inherited frmInputBarangJasa: TfrmInputBarangJasa
     Top = 264
     Width = 1042
     Height = 344
-    ActivePage = cxTabSheet2
+    ActivePage = cxTabSheet6
     Anchors = [akLeft, akTop, akRight, akBottom]
     Style = 7
     TabOrder = 17
@@ -792,6 +791,36 @@ inherited frmInputBarangJasa: TfrmInputBarangJasa
         Width = 406
       end
     end
+    object cxTabSheet6: TcxTabSheet
+      Caption = 'User Input / Edit'
+      ImageIndex = 5
+      ExplicitLeft = 2
+      ExplicitTop = 22
+      object cxLabel36: TcxLabel
+        Left = 15
+        Top = 27
+        Caption = 'Input'
+      end
+      object cxtUInput: TcxTextEdit
+        Left = 62
+        Top = 26
+        Properties.ReadOnly = True
+        TabOrder = 0
+        Width = 226
+      end
+      object cxLabel37: TcxLabel
+        Left = 15
+        Top = 54
+        Caption = 'Edit'
+      end
+      object cxtUEdit: TcxTextEdit
+        Left = 62
+        Top = 53
+        Properties.ReadOnly = True
+        TabOrder = 2
+        Width = 226
+      end
+    end
   end
   object cxLabel6: TcxLabel
     Left = 10
@@ -885,13 +914,13 @@ inherited frmInputBarangJasa: TfrmInputBarangJasa
     SQL.Strings = (
       'SELECT * FROM tbl_tipe_brg ORDER BY tipe')
     Params = <>
-    Left = 656
-    Top = 184
+    Left = 760
+    Top = 112
   end
   object dsTipe: TDataSource
     DataSet = zqrTipe
-    Left = 736
-    Top = 184
+    Left = 792
+    Top = 112
   end
   object cxPropertiesStore1: TcxPropertiesStore
     Components = <>
@@ -904,13 +933,13 @@ inherited frmInputBarangJasa: TfrmInputBarangJasa
     SQL.Strings = (
       'SELECT * FROM tbl_jenis_harga')
     Params = <>
-    Left = 504
-    Top = 144
+    Left = 568
+    Top = 56
   end
   object dsHrg: TDataSource
     DataSet = zqrHrg
-    Left = 584
-    Top = 144
+    Left = 608
+    Top = 56
   end
   object zqrCoa: TZReadOnlyQuery
     Connection = DM.zConn
@@ -921,12 +950,12 @@ inherited frmInputBarangJasa: TfrmInputBarangJasa
       'WHERE trim(induk) <> '#39#39
       'ORDER BY nama ')
     Params = <>
-    Left = 480
-    Top = 200
+    Left = 696
+    Top = 56
   end
   object dsCoa: TDataSource
     DataSet = zqrCoa
-    Left = 552
-    Top = 200
+    Left = 728
+    Top = 56
   end
 end

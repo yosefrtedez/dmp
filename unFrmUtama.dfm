@@ -82,8 +82,8 @@ object frmUtama: TfrmUtama
     Visible = False
   end
   object Button1: TButton
-    Left = 712
-    Top = 360
+    Left = 462
+    Top = 407
     Width = 75
     Height = 25
     Caption = 'Button1'

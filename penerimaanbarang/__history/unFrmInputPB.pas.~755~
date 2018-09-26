@@ -236,8 +236,8 @@ begin
   try
 
     if Self.Jenis = 'E' then begin
-      MsgBox('Transaksi tidak bisa di simpan karena sudah di posting.');
-      Abort;
+      //MsgBox('Transaksi tidak bisa di simpan karena sudah di posting.');
+      //Abort;
     end;
 
     dm.zConn.StartTransaction;
@@ -247,7 +247,7 @@ begin
       UpdateFaktur(Copy(sNoTrs,1,7));
     end
     else begin
-
+      sNoTrs := cxtNoBukti.Text;
     end;
 
     qh := OpenRS('SELECT * FROM tbl_pb_head WHERE no_bukti = ''%s''',[sNoTrs]);
@@ -272,8 +272,9 @@ begin
 
     if Self.Jenis = 'E' then begin
       dm.zConn.ExecuteDirect(Format('DELETE FROM tbl_pb_det WHERE id_ref = %d',[ID]));
-      dm.zConn.ExecuteDirect(Format('DELETE FROM tbl_history WHERE id_ref = %d AND LEFT(no_bukti) = ''PB''',
-        [ID])
+      //dm.zConn.ExecuteDirect(Format('DELETE FROM tbl_history WHERE id_ref = %d AND LEFT(no_bukti,2) = ''PB''',
+      //  [ID])
+      dm.zConn.ExecuteDirect(Format('DELETE FROM tbl_history WHERE no_bukti = ''%s''',[sNoTrs]));
       );
     end
     else begin
@@ -295,7 +296,6 @@ begin
       end;
     end;
 
-    {
     if cxChkPosting.Checked then begin
       hst := OpenRS('SELECT * FROM tbl_history WHERE no_bukti = ''%s''',[sNoTrs]);
       with cxtbPB2.DataController do begin
@@ -348,7 +348,6 @@ begin
       end;
       dm.zConn.ExecuteDirect(Format('UPDATE tbl_pb_head SET f_posted = 1 WHERE id = %d',[ID]));
     end;
-    }
 
     dm.zConn.Commit;
 
@@ -608,6 +607,18 @@ begin
                 qjd.FieldByName('keterangan').AsString := 'PPN Masukan Belum Difakturkan';
                 qjd.FieldByName('dc').AsString := 'D';
                 qjd.Post;
+
+                if f_ppn then
+                  Aplikasi.AddHistPPN(
+                    ID,
+                    cxdTglDatang.Date,
+                    sNoTrs,
+                    Values[i, cxColIdBrg.Index],
+                    Values[i, cxColQtyDatang.Index],
+                    hrg,
+                    (hrg * Values[i, cxColQtyDatang.Index]) * (10/100),
+                    'B'
+                  );
               end;
             end;
           end;

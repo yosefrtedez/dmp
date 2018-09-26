@@ -496,6 +496,7 @@ begin
     if Aplikasi.FAcc then begin
       sNoJ := GetLastFak('jurnal');
       UpdateFaktur(Copy(sNoJ,1,6));
+      qjd := OpenRS('SELECT * FROM tbl_jurnal WHERE no_jurnal = ''%s''',[sNoJ]);
     end;
 
     if cxChkPosting.Checked then begin
@@ -523,7 +524,7 @@ begin
             hpp := ((hppAkhir * sAkhir) + (Values[i, cxColQtyDatang.Index] * hrg)) /
               (sAkhir + Values[i, cxColQtyDatang.Index]);
 
-            Aplikasi.AddHistAvg(ID, sNoTrs, hpp);
+            Aplikasi.AddHistAvg(Values[i, cxColIdBrg.Index], ID, sNoTrs, hpp);
           end;
 
           hst.Insert;
@@ -580,7 +581,6 @@ begin
           if Aplikasi.FAcc then begin
             id_akun := GetDefaultAkunBrg(Values[i, cxColIdBrg.Index], 'persediaan');
             if id_akun <> 0 then begin
-              qjd := OpenRS('SELECT * FROM tbl_jurnal WHERE no_jurnal = ''%s''',[sNoJ]);
               qjd.Insert;
               qjd.FieldByName('id_ref').AsInteger := ID;
               qjd.FieldbyName('tanggal').AsDateTime := Aplikasi.TanggalServer;
@@ -597,6 +597,7 @@ begin
                 totPPN := totPPN + ((hrg * Values[i, cxColQtyDatang.Index]) * (10/100));
                 id_akun := GetDefaultAkun('ppnmasukanblmfaktur');
                 qjd.Insert;
+                qjd.FieldByName('id_ref').AsInteger := ID;
                 qjd.FieldByName('tanggal').AsDateTime := Aplikasi.TanggalServer;
                 qjd.FieldByName('no_jurnal').AsString := sNoJ;
                 qjd.FieldByName('no_trans').AsString := sNoTrs;
@@ -605,6 +606,18 @@ begin
                 qjd.FieldByName('keterangan').AsString := 'PPN Masukan Belum Difakturkan';
                 qjd.FieldByName('dc').AsString := 'D';
                 qjd.Post;
+
+                if f_ppn then
+                  Aplikasi.AddHistPPN(
+                    ID,
+                    cxdTglDatang.Date,
+                    sNoTrs,
+                    Values[i, cxColIdBrg.Index],
+                    Values[i, cxColQtyDatang.Index],
+                    hrg,
+                    (hrg * Values[i, cxColQtyDatang.Index]) * (10/100),
+                    'B'
+                  );
               end;
             end;
           end;

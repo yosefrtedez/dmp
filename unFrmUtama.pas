@@ -1266,10 +1266,14 @@ begin
   mnPpic_MasterSchedule.Visible := False;
   mnPur_ReturPembelian.Visible := False;
   mnPur_AppReturPembelian.Visible := False;
+
   if Aplikasi.FAcc then
     mnAKT.Visible := True
   else
     mnAKT.Visible := False;
+
+  if (Aplikasi.NamaUser = 'YUDIT') or (Aplikasi.NamaUser = 'FELGITO') or (Aplikasi.NamaUser = 'HENDRA') then
+    mnAKT.Visible := True;
 
   //mnAKT.Visible := True;
 end;

@@ -9,6 +9,7 @@ inherited frmLstPB: TfrmLstPB
   TextHeight = 13
   inherited Panel1: TPanel
     Width = 1019
+    ExplicitWidth = 1019
     object Label1: TLabel
       Left = 10
       Top = 16
@@ -28,6 +29,7 @@ inherited frmLstPB: TfrmLstPB
     Width = 1019
     TabOrder = 4
     ExplicitTop = 523
+    ExplicitWidth = 1019
     inherited btnTambah: TButton
       OnClick = btnTambahClick
     end
@@ -39,6 +41,7 @@ inherited frmLstPB: TfrmLstPB
     end
     inherited btnKeluar: TButton
       Left = 936
+      ExplicitLeft = 936
     end
     inherited btnRefresh: TButton
       OnClick = btnRefreshClick
@@ -51,7 +54,6 @@ inherited frmLstPB: TfrmLstPB
     Height = 233
     Align = alClient
     TabOrder = 1
-    ExplicitWidth = 1016
     object cxtbPBHead: TcxGridDBTableView
       NavigatorButtons.ConfirmDelete = False
       OnFocusedRecordChanged = cxtbPBHeadFocusedRecordChanged
@@ -172,7 +174,6 @@ inherited frmLstPB: TfrmLstPB
     Height = 41
     Align = alBottom
     TabOrder = 2
-    ExplicitWidth = 1016
     DesignSize = (
       1019
       41)
@@ -189,8 +190,8 @@ inherited frmLstPB: TfrmLstPB
       Anchors = [akTop, akRight]
       Caption = 'Input Harga'
       TabOrder = 0
+      Visible = False
       OnClick = btnInputHargaClick
-      ExplicitLeft = 933
     end
   end
   object cxGrid1: TcxGrid
@@ -200,7 +201,6 @@ inherited frmLstPB: TfrmLstPB
     Height = 200
     Align = alBottom
     TabOrder = 3
-    ExplicitWidth = 1016
     object cxtbPBDet: TcxGridDBTableView
       NavigatorButtons.ConfirmDelete = False
       DataController.DataSource = dsPBDet
