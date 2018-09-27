@@ -27,7 +27,13 @@ type
     cxdTgl1: TcxDateEdit;
     cxLabel3: TcxLabel;
     cxdTgl2: TcxDateEdit;
-    cxTabSheet1: TcxTabSheet;
+    ts02: TcxTabSheet;
+    cxLookupComboBox1: TcxLookupComboBox;
+    cxLabel1: TcxLabel;
+    cxLabel4: TcxLabel;
+    cxDateEdit1: TcxDateEdit;
+    cxLabel5: TcxLabel;
+    cxDateEdit2: TcxDateEdit;
     procedure FormCreate(Sender: TObject);
     procedure btnCetakClick(Sender: TObject);
     procedure lstBoxClick(Sender: TObject);
@@ -71,21 +77,29 @@ begin
   inherited;
   lstBox.Items.Add('01. Rekapitulasi Pengeluaran Kas');
   lstBox.Items.Add('02. Rekapitulasi Penerimaan Kas');
-  lstBox.Items.Add('03. Daftar Jurnal');
+  lstBox.Items.Add('03. Buku Kas');
+  lstBox.Items.Add('04. Daftar Jurnal');
 
   cxdTgl1.Date := unTools.FDOM(Aplikasi.TanggalServer);
   cxdTgl2.Date := unTools.LDOM(Aplikasi.TanggalServer);
+  pgParam.ActivePage := ts01;
 end;
 
 procedure TfrmLapAkunting.lstBoxClick(Sender: TObject);
+var
+  ts: TcxTabSheet;
 begin
   inherited;
   if lstBox.ItemIndex = 0 then
-    ts01.Visible := True
-  else if lstBox.ItemIndex = 0 then
-    ts01.Visible := True
+    ts := ts01
   else if lstBox.ItemIndex = 1 then
-    ts01.Visible := True;
+    ts := ts01
+  else if lstBox.ItemIndex = 2 then
+    ts := ts02
+  else if lstBox.ItemIndex = 3 then
+    ts := ts01;
+  ts.PageIndex := 0;
+  pgParam.ActivePage := ts;
 end;
 
 procedure TfrmLapAkunting.RekapPenerimaanKas;

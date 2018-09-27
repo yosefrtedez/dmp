@@ -36,7 +36,7 @@ inherited frmLapAkunting: TfrmLapAkunting
     Top = 11
     Width = 463
     Height = 345
-    ActivePage = ts02
+    ActivePage = ts01
     LookAndFeel.NativeStyle = True
     Style = 7
     TabOrder = 1
@@ -48,6 +48,8 @@ inherited frmLapAkunting: TfrmLapAkunting
       Caption = '01'
       ImageIndex = 0
       TabVisible = False
+      ExplicitLeft = 0
+      ExplicitTop = 0
       object cxLabel2: TcxLabel
         Left = 19
         Top = 12
@@ -71,44 +73,12 @@ inherited frmLapAkunting: TfrmLapAkunting
         Width = 121
       end
     end
-    object ts02: TcxTabSheet
-      Caption = 'ts02'
+    object cxTabSheet1: TcxTabSheet
+      Caption = 'cxTabSheet1'
       ImageIndex = 0
       TabVisible = False
-      object cxLookupComboBox1: TcxLookupComboBox
-        Left = 70
-        Top = 11
-        Properties.ListColumns = <>
-        TabOrder = 0
-        Width = 275
-      end
-      object cxLabel1: TcxLabel
-        Left = 22
-        Top = 12
-        Caption = 'Akun'
-      end
-      object cxLabel4: TcxLabel
-        Left = 22
-        Top = 39
-        Caption = 'Tanggal'
-      end
-      object cxDateEdit1: TcxDateEdit
-        Left = 70
-        Top = 38
-        TabOrder = 2
-        Width = 121
-      end
-      object cxLabel5: TcxLabel
-        Left = 197
-        Top = 39
-        Caption = 'S/D'
-      end
-      object cxDateEdit2: TcxDateEdit
-        Left = 224
-        Top = 38
-        TabOrder = 3
-        Width = 121
-      end
+      ExplicitTop = 21
+      ExplicitHeight = 323
     end
   end
   object btnCetak: TButton

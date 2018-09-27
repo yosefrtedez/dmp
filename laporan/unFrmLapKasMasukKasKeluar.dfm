@@ -17,8 +17,8 @@ object frmLapKasMasukKasKeluar: TfrmLapKasMasukKasKeluar
     Connection = DM.zConn
     SQL.Strings = (
       
-        'SELECT a.*, b.noakun, b.nama nama_head,  c.jumlah, d.noakun noak' +
-        'un_det, d.nama nama_det, c.memo memo_det'
+        'SELECT a.*, b.noakun, b.nama nama_head, c.jumlah jmldet, d.noaku' +
+        'n noakun_det, d.nama nama_det, c.memo memo_det'
       'FROM tbl_penerimaankas_head a'
       'LEFT JOIN tbl_coa b ON b.id = a.id_akun'
       'LEFT JOIN tbl_penerimaankas_det c on c.id_ref = a.id'
@@ -62,7 +62,7 @@ object frmLapKasMasukKasKeluar: TfrmLapKasMasukKasKeluar
       'f_posting=f_posting'
       'noakun=noakun'
       'nama_head=nama_head'
-      'jumlah=jumlah'
+      'jmldet=jmldet'
       'noakun_det=noakun_det'
       'nama_det=nama_det'
       'memo_det=memo_det')
@@ -145,7 +145,7 @@ object frmLapKasMasukKasKeluar: TfrmLapKasMasukKasKeluar
           Width = 143.622140000000000000
           Height = 18.897650000000000000
           ShowHint = False
-          DataField = 'jumlah'
+          DataField = 'jmldet'
           DataSet = fdbKasMasuk
           DataSetName = 'fdbKasMasuk'
           DisplayFormat.FormatStr = '#,#0.00'
@@ -157,7 +157,7 @@ object frmLapKasMasukKasKeluar: TfrmLapKasMasukKasKeluar
           Font.Style = []
           HAlign = haRight
           Memo.UTF8W = (
-            '[fdbKasMasuk."jumlah"]')
+            '[fdbKasMasuk."jmldet"]')
           ParentFont = False
         end
         object fdbKasMasuknoakun_det: TfrxMemoView
@@ -530,7 +530,7 @@ object frmLapKasMasukKasKeluar: TfrmLapKasMasukKasKeluar
           Font.Style = []
           HAlign = haRight
           Memo.UTF8W = (
-            '[SUM(<fdbKasMasuk."jumlah">,MasterData1)]')
+            '[SUM(<fdbKasMasuk."jmldet">,MasterData1)]')
           ParentFont = False
         end
         object Memo13: TfrxMemoView
@@ -619,8 +619,8 @@ object frmLapKasMasukKasKeluar: TfrmLapKasMasukKasKeluar
     Connection = DM.zConn
     SQL.Strings = (
       
-        'SELECT a.*, b.noakun, b.nama nama_head,  c.jumlah, d.noakun noak' +
-        'un_det, d.nama nama_det, c.memo memo_det'
+        'SELECT a.*, b.noakun, b.nama nama_head, c.jumlah jmldet, d.noaku' +
+        'n noakun_det, d.nama nama_det, c.memo memo_det'
       'FROM tbl_pengeluarankas_head a'
       'LEFT JOIN tbl_coa b ON b.id = a.id_akun'
       'LEFT JOIN tbl_pengeluarankas_det c on c.id_ref = a.id'
@@ -667,7 +667,7 @@ object frmLapKasMasukKasKeluar: TfrmLapKasMasukKasKeluar
       'id_akun=id_akun'
       'noakun=noakun'
       'nama_head=nama_head'
-      'jumlah_1=jumlah_1'
+      'jmldet=jmldet'
       'noakun_det=noakun_det'
       'nama_det=nama_det'
       'memo_det=memo_det')
@@ -750,7 +750,7 @@ object frmLapKasMasukKasKeluar: TfrmLapKasMasukKasKeluar
           Width = 143.622140000000000000
           Height = 18.897650000000000000
           ShowHint = False
-          DataField = 'jumlah'
+          DataField = 'jmldet'
           DataSet = fdbKasKeluar
           DataSetName = 'fdbKasKeluar'
           DisplayFormat.FormatStr = '#,#0.00'
@@ -762,7 +762,7 @@ object frmLapKasMasukKasKeluar: TfrmLapKasMasukKasKeluar
           Font.Style = []
           HAlign = haRight
           Memo.UTF8W = (
-            '[fdbKasKeluar."jumlah"]')
+            '[fdbKasKeluar."jmldet"]')
           ParentFont = False
         end
         object fdbKasMasuknoakun_det: TfrxMemoView
@@ -1135,7 +1135,7 @@ object frmLapKasMasukKasKeluar: TfrmLapKasMasukKasKeluar
           Font.Style = []
           HAlign = haRight
           Memo.UTF8W = (
-            '[SUM(<fdbKasKeluar."jumlah">,MasterData1)]')
+            '[SUM(<fdbKasKeluar."jmldet">,MasterData1)]')
           ParentFont = False
         end
         object Memo13: TfrxMemoView
