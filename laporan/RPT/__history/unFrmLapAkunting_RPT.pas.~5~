@@ -19,10 +19,6 @@ type
     dsPenerimaanKas: TDataSource;
     fdbPenerimaanKas: TfrxDBDataset;
     rptPenerimaanKas: TfrxReport;
-    zqrJurnal: TZReadOnlyQuery;
-    dsJurnal: TDataSource;
-    fdbJurnal: TfrxDBDataset;
-    rptJurnal: TfrxReport;
   private
     { Private declarations }
   public

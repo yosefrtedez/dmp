@@ -775,6 +775,7 @@ object frmLapAkunting_RPT: TfrmLapAkunting_RPT
   end
   object zqrJurnal: TZReadOnlyQuery
     Connection = DM.zConn
+    Active = True
     SQL.Strings = (
       'select a.*, b.noakun, b.nama namaakun '
       'from tbl_jurnal a'

@@ -1010,8 +1010,8 @@ object frmLapAkunting_RPT: TfrmLapAkunting_RPT
           Font.Style = []
           Memo.UTF8W = (
             
-              '[fdbJurnal."keterangan"] ([fdbJurnal."noakun"], [fdbJurnal."nama' +
-              'akun"])')
+              '([fdbJurnal."noakun"], [fdbJurnal."namaakun"]) - [fdbJurnal."ket' +
+              'erangan"]')
           ParentFont = False
           VAlign = vaCenter
         end

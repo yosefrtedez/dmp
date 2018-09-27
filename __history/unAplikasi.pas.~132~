@@ -317,7 +317,7 @@ type
     property FAcc: boolean read mFAcc write mFAcc;
 
     procedure AddHistAvg(id_brg, id_ref: Integer; no_bukti: string; avg: Real);
-    procedure AddHistPPN(tanggal: TDateTime; no_bukti: string; id_brg: Integer; qty,harga,ppn: Real);
+    procedure AddHistPPN(id_ref: Integer; tanggal: TDateTime; no_bukti: string; id_brg: Integer; qty,harga,ppn: Real; jenis: string);
   end;
 
 implementation
@@ -332,7 +332,7 @@ begin
     self.demo := false;
     self.version := self.version + ' - ( DEMO VERSION )';
     {$ELSE}
-    mJudulAplikasi := 'PT. DMP - 200918.1716';
+    mJudulAplikasi := 'PT. DMP - 270918.0711';
     Self.version := '';
     Self.Ver := '17112015_0902';
     self.demo := false;
@@ -753,7 +753,8 @@ begin
   end;
 end;
 
-procedure AddHistPPN(id_ref: Integer; tanggal: TDateTime; no_bukti: string; id_brg: Integer; qty,harga,ppn: Real);
+procedure TAplikasi.AddHistPPN(id_ref: Integer; tanggal: TDateTime;
+  no_bukti: string; id_brg: Integer; qty, harga, ppn: Real; jenis: string);
 var
   q: TZQuery;
 begin
@@ -763,11 +764,12 @@ begin
     q.Insert;
     q.FieldByName('id_ref').AsInteger := id_ref;
     q.FieldByName('tanggal').AsDateTime := tanggal;
-    q.FieldByName('no_bukti').AsInteger := no_bukti;
-    q.FieldByName('id_brg').AsInteger := id_brg;
-    q.FieldByName('tanggal').AsDateTime := Aplikasi.TanggalServer;
     q.FieldByName('no_bukti').AsString := no_bukti;
-    q.FieldByName('avg').AsFloat := avg;
+    q.FieldByName('id_brg').AsInteger := id_brg;
+    q.FieldByName('qty').AsFloat := qty;
+    q.FieldByName('harga').AsFloat := harga;
+    q.FieldByName('ppn').AsFloat := ppn;
+    q.FieldByName('jenis').AsString := jenis;
     q.Post;
     dm.zConn.Commit
   except;

@@ -1,10 +1,9 @@
-inherited frmInputPenerimaanKas: TfrmInputPenerimaanKas
+inherited frmInputPengeluaranKas: TfrmInputPengeluaranKas
   Caption = 'Input Penerimaan Kas'
-  ClientHeight = 599
   ClientWidth = 1102
   OnShow = FormShow
   ExplicitWidth = 1102
-  ExplicitHeight = 599
+  ExplicitHeight = 553
   PixelsPerInch = 96
   TextHeight = 13
   inherited Panel1: TPanel
@@ -13,9 +12,9 @@ inherited frmInputPenerimaanKas: TfrmInputPenerimaanKas
     object Label13: TLabel
       Left = 10
       Top = 13
-      Width = 181
+      Width = 186
       Height = 19
-      Caption = 'Input Penerimaan Kas'
+      Caption = 'Input Pengeluaran Kas'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -16
@@ -25,10 +24,8 @@ inherited frmInputPenerimaanKas: TfrmInputPenerimaanKas
     end
   end
   inherited Panel2: TPanel
-    Top = 550
     Width = 1102
     TabOrder = 18
-    ExplicitTop = 550
     ExplicitWidth = 1102
   end
   object cxLabel1: TcxLabel
@@ -120,6 +117,8 @@ inherited frmInputPenerimaanKas: TfrmInputPenerimaanKas
       end
       object cxColMemo: TcxGridColumn
         Caption = 'Memo'
+        PropertiesClassName = 'TcxTextEditProperties'
+        Properties.CharCase = ecUpperCase
         Width = 333
       end
       object cxColNoAkun2: TcxGridColumn
@@ -163,7 +162,7 @@ inherited frmInputPenerimaanKas: TfrmInputPenerimaanKas
   object cxLabel4: TcxLabel
     Left = 10
     Top = 144
-    Caption = 'Dari'
+    Caption = 'Penerima'
   end
   object cxLabel5: TcxLabel
     Left = 10
@@ -192,7 +191,7 @@ inherited frmInputPenerimaanKas: TfrmInputPenerimaanKas
     TabOrder = 11
     Width = 169
   end
-  object cxtDari: TcxTextEdit
+  object cxtPenerima: TcxTextEdit
     Left = 104
     Top = 143
     Properties.CharCase = ecUpperCase

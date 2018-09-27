@@ -3,7 +3,7 @@ object frmLapAkunting_RPT: TfrmLapAkunting_RPT
   Top = 0
   Caption = 'frmLapAkunting_RPT'
   ClientHeight = 299
-  ClientWidth = 670
+  ClientWidth = 635
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -775,35 +775,14 @@ object frmLapAkunting_RPT: TfrmLapAkunting_RPT
   end
   object zqrJurnal: TZReadOnlyQuery
     Connection = DM.zConn
+    Active = True
     SQL.Strings = (
       'select a.*, b.noakun, b.nama namaakun '
       'from tbl_jurnal a'
-      'left join tbl_coa b on a.id_akun = b.id'
-      'where a.tanggal between :tgl1 and :tgl2')
-    Params = <
-      item
-        DataType = ftUnknown
-        Name = 'tgl1'
-        ParamType = ptUnknown
-      end
-      item
-        DataType = ftUnknown
-        Name = 'tgl2'
-        ParamType = ptUnknown
-      end>
+      'left join tbl_coa b on a.id_akun = b.id;')
+    Params = <>
     Left = 88
     Top = 160
-    ParamData = <
-      item
-        DataType = ftUnknown
-        Name = 'tgl1'
-        ParamType = ptUnknown
-      end
-      item
-        DataType = ftUnknown
-        Name = 'tgl2'
-        ParamType = ptUnknown
-      end>
   end
   object dsJurnal: TDataSource
     DataSet = zqrJurnal
@@ -1010,8 +989,8 @@ object frmLapAkunting_RPT: TfrmLapAkunting_RPT
           Font.Style = []
           Memo.UTF8W = (
             
-              '[fdbJurnal."keterangan"] ([fdbJurnal."noakun"], [fdbJurnal."nama' +
-              'akun"])')
+              '([fdbJurnal."noakun"], [fdbJurnal."namaakun"]) - [fdbJurnal."ket' +
+              'erangan"]')
           ParentFont = False
           VAlign = vaCenter
         end

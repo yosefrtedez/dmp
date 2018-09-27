@@ -4,8 +4,7 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, frxClass, frxDBSet, DB, ZAbstractRODataset, ZDataset, frxExportXLS,
-  frxExportPDF;
+  Dialogs, frxClass, frxDBSet, DB, ZAbstractRODataset, ZDataset;
 
 type
   TfrmLapAkunting_RPT = class(TForm)
@@ -13,16 +12,6 @@ type
     dsPengeluaranKas: TDataSource;
     fdbPengeluaranKas: TfrxDBDataset;
     rptPengeluaranKas: TfrxReport;
-    frxPDFExport1: TfrxPDFExport;
-    frxXLSExport1: TfrxXLSExport;
-    zqrPenerimaanKas: TZReadOnlyQuery;
-    dsPenerimaanKas: TDataSource;
-    fdbPenerimaanKas: TfrxDBDataset;
-    rptPenerimaanKas: TfrxReport;
-    zqrJurnal: TZReadOnlyQuery;
-    dsJurnal: TDataSource;
-    fdbJurnal: TfrxDBDataset;
-    rptJurnal: TfrxReport;
   private
     { Private declarations }
   public

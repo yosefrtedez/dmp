@@ -73,7 +73,7 @@ inherited frmLapTransaksi: TfrmLapTransaksi
     end
   end
   object btnCetak: TButton
-    Left = 11
+    Left = 8
     Top = 362
     Width = 75
     Height = 25

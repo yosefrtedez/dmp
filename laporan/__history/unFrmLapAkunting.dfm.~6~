@@ -73,13 +73,6 @@ inherited frmLapAkunting: TfrmLapAkunting
         Width = 121
       end
     end
-    object cxTabSheet1: TcxTabSheet
-      Caption = 'cxTabSheet1'
-      ImageIndex = 0
-      TabVisible = False
-      ExplicitTop = 21
-      ExplicitHeight = 323
-    end
   end
   object btnCetak: TButton
     Left = 11

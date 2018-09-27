@@ -3,7 +3,7 @@ object frmLapAkunting_RPT: TfrmLapAkunting_RPT
   Top = 0
   Caption = 'frmLapAkunting_RPT'
   ClientHeight = 299
-  ClientWidth = 670
+  ClientWidth = 635
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -1010,8 +1010,8 @@ object frmLapAkunting_RPT: TfrmLapAkunting_RPT
           Font.Style = []
           Memo.UTF8W = (
             
-              '[fdbJurnal."keterangan"] ([fdbJurnal."noakun"], [fdbJurnal."nama' +
-              'akun"])')
+              '([fdbJurnal."noakun"], [fdbJurnal."namaakun"]) - [fdbJurnal."ket' +
+              'erangan"]')
           ParentFont = False
           VAlign = vaCenter
         end

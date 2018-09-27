@@ -34,7 +34,6 @@ type
   private
     procedure RekapPengeluaranKas;
     procedure RekapPenerimaanKas;
-    procedure DaftarJurnal;
   public
 
   end;
@@ -48,30 +47,12 @@ uses unFrmLapMasterData, unFrmRptTransaksi, unFrmLapAkunting_RPT, unTools, unDM;
 
 {$R *.dfm}
 
-procedure TfrmLapAkunting.DaftarJurnal;
-var
-  f: TfrmLapAkunting_RPT;
-  mm: TfrxMemoView;
-begin
-  f := TfrmLapAkunting_RPT.Create(Self);
-  with f do begin
-    zqrJurnal.ParamByName('tgl1').AsDate := cxdTgl1.Date;
-    zqrJurnal.ParamByName('tgl2').AsDate := cxdTgl2.Date;
-    zqrJurnal.Open;
-
-    mm := rptJurnal.FindObject('mmPeriode') as TfrxMemoView;
-    mm.Text := 'Periode : ' + FormatDateTime('dd-MM-yyyy', cxdTgl1.Date) + ' S/D ' + FormatDateTime('dd-MM-yyyy', cxdTgl2.Date);
-    rptJurnal.ShowReport(True);
-    Release;
-  end;
-end;
-
 procedure TfrmLapAkunting.FormCreate(Sender: TObject);
 begin
   inherited;
   lstBox.Items.Add('01. Rekapitulasi Pengeluaran Kas');
   lstBox.Items.Add('02. Rekapitulasi Penerimaan Kas');
-  lstBox.Items.Add('03. Daftar Jurnal');
+  lstBox.Items.Add('03. History Transaksi Keluar');
 
   cxdTgl1.Date := unTools.FDOM(Aplikasi.TanggalServer);
   cxdTgl2.Date := unTools.LDOM(Aplikasi.TanggalServer);
@@ -83,8 +64,6 @@ begin
   if lstBox.ItemIndex = 0 then
     ts01.Visible := True
   else if lstBox.ItemIndex = 0 then
-    ts01.Visible := True
-  else if lstBox.ItemIndex = 1 then
     ts01.Visible := True;
 end;
 
@@ -131,9 +110,8 @@ begin
   if lstBox.ItemIndex = 0 then
     RekapPengeluaranKas
   else if lstBox.ItemIndex = 1 then
-    RekapPenerimaanKas
-  else if lstBox.ItemIndex = 2 then
-    DaftarJurnal;
+    //CetakLapHistTransaksiKeluar;
+
 end;
 
 end.

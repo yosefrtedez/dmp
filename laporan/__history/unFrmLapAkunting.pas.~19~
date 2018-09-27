@@ -14,7 +14,8 @@ uses
   dxSkinOffice2010Silver, dxSkinPumpkin, dxSkinSeven, dxSkinSharp, dxSkinSilver,
   dxSkinSpringTime, dxSkinStardust, dxSkinSummer2008, dxSkinsDefaultPainters,
   dxSkinValentine, dxSkinXmas2008Blue, dxSkinscxPCPainter, cxPC, cxContainer,
-  cxEdit, cxTextEdit, cxMaskEdit, cxDropDownEdit, cxCalendar, cxLabel;
+  cxEdit, cxTextEdit, cxMaskEdit, cxDropDownEdit, cxCalendar, cxLabel,
+  cxLookupEdit, cxDBLookupEdit, cxDBLookupComboBox, frxClass;
 
 type
   TfrmLapAkunting = class(TfrmTplInput)
@@ -22,16 +23,16 @@ type
     pgParam: TcxPageControl;
     ts01: TcxTabSheet;
     btnCetak: TButton;
-    cxLabel1: TcxLabel;
-    cxdTgl1: TcxDateEdit;
     cxLabel2: TcxLabel;
+    cxdTgl1: TcxDateEdit;
+    cxLabel3: TcxLabel;
     cxdTgl2: TcxDateEdit;
+    cxTabSheet1: TcxTabSheet;
     procedure FormCreate(Sender: TObject);
     procedure btnCetakClick(Sender: TObject);
     procedure lstBoxClick(Sender: TObject);
   private
-    procedure CetakLapHistTransaksiMasuk;
-    procedure CetakLapHistTransaksiKeluar;
+    procedure RekapPengeluaranKas;
   public
 
   end;
@@ -41,15 +42,16 @@ var
 
 implementation
 
-uses unFrmLapMasterData, unFrmRptTransaksi;
+uses unFrmLapMasterData, unFrmRptTransaksi, unFrmLapAkunting_RPT;
 
 {$R *.dfm}
 
 procedure TfrmLapAkunting.FormCreate(Sender: TObject);
 begin
   inherited;
-  lstBox.Items.Add('01. History Transaksi Masuk');
-  lstBox.Items.Add('02. History Transaksi Keluar');
+  lstBox.Items.Add('01. Rekapitulasi Pengeluaran Kas');
+  lstBox.Items.Add('02. Rekapitulasi Penerimaan Kas');
+  lstBox.Items.Add('03. History Transaksi Keluar');
 end;
 
 procedure TfrmLapAkunting.lstBoxClick(Sender: TObject);
@@ -61,47 +63,33 @@ begin
     ts01.Visible := True;
 end;
 
+procedure TfrmLapAkunting.RekapPengeluaranKas;
+var
+  f: TfrmLapAkunting_RPT;
+  mm: TfrxMemoView;
+begin
+  f := TfrmLapAkunting_RPT.Create(Self);
+  with f do begin
+    zqrPengeluaranKas.ParamByName('tgl1').AsDate := cxdTgl1.Date;
+    zqrPengeluaranKas.ParamByName('tgl2').AsDate := cxdTgl2.Date;
+    zqrPengeluaranKas.Open;
+
+    mm := rptPengeluaranKas.FindObject('mmPeriode') as TfrxMemoView;
+    mm.Text := 'Periode : ' + cxdTgl1.Text + ' S/D ' + cxdTgl2.Text;
+    rptPengeluaranKas.ShowReport(True);
+    Release;
+  end;
+end;
+
 procedure TfrmLapAkunting.btnCetakClick(Sender: TObject);
 begin
   inherited;
 
   if lstBox.ItemIndex = 0 then
-    CetakLapHistTransaksiMasuk
+    RekapPengeluaranKas
   else if lstBox.ItemIndex = 1 then
-    CetakLapHistTransaksiKeluar;
+    //CetakLapHistTransaksiKeluar;
 
-end;
-
-procedure TfrmLapAkunting.CetakLapHistTransaksiKeluar;
-var
-  f: TfrmRptTransaksi;
-begin
-
-  f := TfrmRptTransaksi.Create(nil);
-  with f do begin
-    zqrLapRekapTrsKeluar.Close;
-    zqrLapRekapTrsKeluar.ParamByName('tgl1').AsDate := cxdTgl1.Date;
-    zqrLapRekapTrsKeluar.ParamByName('tgl2').AsDate := cxdTgl2.Date;
-    zqrLapRekapTrsKeluar.Open;
-    rptLapRekapTrsKeluar.ShowReport(True);
-  end;
-  f.Free;
-
-end;
-
-procedure TfrmLapAkunting.CetakLapHistTransaksiMasuk;
-var
-  f: TfrmRptTransaksi;
-begin
-  f := TfrmRptTransaksi.Create(nil);
-  with f do begin
-    zqrLapRekapTrsMasuk.Close;
-    zqrLapRekapTrsMasuk.ParamByName('tgl1').AsDate := cxdTgl1.Date;
-    zqrLapRekapTrsMasuk.ParamByName('tgl2').AsDate := cxdTgl2.Date;
-    zqrLapRekapTrsMasuk.Open;
-    rptLapRekapTrsMasuk.ShowReport(True);
-  end;
-  f.Free;
 end;
 
 end.

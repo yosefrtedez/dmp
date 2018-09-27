@@ -65,7 +65,6 @@ begin
     Release;
   end;
 end;
-
 procedure TfrmLapAkunting.FormCreate(Sender: TObject);
 begin
   inherited;
@@ -131,9 +130,8 @@ begin
   if lstBox.ItemIndex = 0 then
     RekapPengeluaranKas
   else if lstBox.ItemIndex = 1 then
-    RekapPenerimaanKas
-  else if lstBox.ItemIndex = 2 then
-    DaftarJurnal;
+    RekapPenerimaanKas;
+
 end;
 
 end.
