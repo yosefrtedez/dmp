@@ -178,11 +178,11 @@ begin
       qj.FieldByName('no_jurnal').AsString := sNoJ;
       qj.FieldByName('no_trans').AsString := sNoBukti;
       qj.FieldByName('id_akun').AsString := cxlAkunKas.EditValue;
-      qj.FieldByName('debet').AsFloat := cxsSebesar.Value;
+      qj.FieldByName('kredit').AsFloat := cxsSebesar.Value;
       qj.FieldByName('jenis_trs').AsString := 'BKK';
       qj.FieldByName('tglinput').AsDateTime := Aplikasi.NowServer;
       qj.FieldByName('keterangan').AsString := cxtMemo.Text;
-      qj.FieldByName('dc').AsString := 'D';
+      qj.FieldByName('dc').AsString := 'K';
       qj.Post;
 
       for i := 0 to cxtbPK.DataController.RecordCount - 1 do begin
@@ -192,10 +192,11 @@ begin
         qj.FieldByName('no_jurnal').AsString := sNoJ;
         qj.FieldByName('no_trans').AsString := sNoBukti;
         qj.FieldByName('id_akun').AsInteger := cxtbPK.DataController.Values[i, cxColNoAkun.Index];
-        qj.FieldByName('kredit').AsFloat := cxtbPK.DataController.Values[i, cxColJumlah.Index];
+        qj.FieldByName('debet').AsFloat := cxtbPK.DataController.Values[i, cxColJumlah.Index];
         qj.FieldByName('jenis_trs').AsString := 'BKK';
         qj.FieldByName('keterangan').AsString := VarToStr(cxtbPK.DataController.Values[i, cxColMemo.Index]);
         qj.FieldByName('tglinput').AsDateTime := Aplikasi.NowServer;
+        qj.FieldByName('dc').AsString := 'D';
         qj.Post;
         qd.Next;
       end;

@@ -38,6 +38,7 @@ type
     dsInduk: TDataSource;
     zqrTipeAkun: TZReadOnlyQuery;
     dsTipeAkun: TDataSource;
+    cxChkKas: TcxCheckBox;
     procedure btnSimpanClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -101,6 +102,10 @@ begin
     q.FieldByName('induk').AsString := VarToStr(cxlIndukAkun.EditValue);
     qh := OpenRS('SELECT id FROM tbl_coa WHERE induk = ''%s''',[VarToStr(cxlIndukAkun.EditValue)]);
     q.FieldByName('id_induk').AsInteger := qh.FieldByName('id').AsInteger;
+    if cxChkKas.Checked then
+      q.FieldByname('fkas').AsInteger := 1
+    else
+      q.FieldByName('fkas').AsInteger := 0;
     qh.Close;
     q.Post;
 
@@ -146,6 +151,8 @@ begin
     cxtNoAkun.Text := q.FieldByName('noakun').AsString;
     cxtNamaAKun.Text := q.FieldByName('nama').AsString;
     cxtNoAkun.Enabled := False;
+    if q.FieldByName('fkas').AsInteger = 1 then
+      cxChkKas.Checked := True;
   end;
   q.Close;
 end;

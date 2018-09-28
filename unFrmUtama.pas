@@ -1272,7 +1272,8 @@ begin
   else
     mnAKT.Visible := False;
 
-  if (Aplikasi.NamaUser = 'YUDIT') or (Aplikasi.NamaUser = 'FELGITO') or (Aplikasi.NamaUser = 'HENDRA') then
+  if (Aplikasi.NamaUser = 'YUDIT') or (Aplikasi.NamaUser = 'FELGITO') or (Aplikasi.NamaUser = 'HENDRA')
+    or (Aplikasi.NamaUser = 'ADMIN') then
     mnAKT.Visible := True;
 
   //mnAKT.Visible := True;

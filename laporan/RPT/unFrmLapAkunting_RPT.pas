@@ -23,6 +23,10 @@ type
     dsJurnal: TDataSource;
     fdbJurnal: TfrxDBDataset;
     rptJurnal: TfrxReport;
+    zqrBukuKas: TZReadOnlyQuery;
+    dsBukuKas: TDataSource;
+    fdbBukuKas: TfrxDBDataset;
+    rptBukuKas: TfrxReport;
   private
     { Private declarations }
   public

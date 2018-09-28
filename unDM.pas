@@ -48,6 +48,9 @@ var
   lstSec: TStringList;
 begin
   Aplikasi := TAplikasi.Create;
+
+  Aplikasi.Periode := 1;  // sementara
+
   if ParamStr(2) = '/debug' then Aplikasi.debug := true;
 
   Aplikasi.AppPath := ExtractFilePath(Application.ExeName);

@@ -75,10 +75,22 @@ inherited frmLapAkunting: TfrmLapAkunting
       Caption = 'ts02'
       ImageIndex = 0
       TabVisible = False
-      object cxLookupComboBox1: TcxLookupComboBox
+      object cxlAkun02: TcxLookupComboBox
         Left = 70
         Top = 11
-        Properties.ListColumns = <>
+        Properties.DropDownAutoSize = True
+        Properties.KeyFieldNames = 'id'
+        Properties.ListColumns = <
+          item
+            Caption = 'Akun'
+            FieldName = 'nama'
+          end
+          item
+            Caption = 'No. Akun'
+            FieldName = 'noakun'
+          end>
+        Properties.ListOptions.SyncMode = True
+        Properties.ListSource = dsAkun
         TabOrder = 0
         Width = 275
       end
@@ -92,7 +104,7 @@ inherited frmLapAkunting: TfrmLapAkunting
         Top = 39
         Caption = 'Tanggal'
       end
-      object cxDateEdit1: TcxDateEdit
+      object cxdTgl02_1: TcxDateEdit
         Left = 70
         Top = 38
         TabOrder = 2
@@ -103,7 +115,7 @@ inherited frmLapAkunting: TfrmLapAkunting
         Top = 39
         Caption = 'S/D'
       end
-      object cxDateEdit2: TcxDateEdit
+      object cxdTgl02_2: TcxDateEdit
         Left = 224
         Top = 38
         TabOrder = 3
@@ -119,5 +131,19 @@ inherited frmLapAkunting: TfrmLapAkunting
     Caption = 'Cetak'
     TabOrder = 4
     OnClick = btnCetakClick
+  end
+  object zqrAkun: TZReadOnlyQuery
+    Connection = DM.zConn
+    SQL.Strings = (
+      'select id, noakun, nama '
+      'from tbl_coa where fkas = 1 and id_induk > 0;')
+    Params = <>
+    Left = 648
+    Top = 416
+  end
+  object dsAkun: TDataSource
+    DataSet = zqrAkun
+    Left = 792
+    Top = 440
   end
 end

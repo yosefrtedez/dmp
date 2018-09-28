@@ -15,7 +15,8 @@ uses
   dxSkinSpringTime, dxSkinStardust, dxSkinSummer2008, dxSkinsDefaultPainters,
   dxSkinValentine, dxSkinXmas2008Blue, dxSkinscxPCPainter, cxPC, cxContainer,
   cxEdit, cxTextEdit, cxMaskEdit, cxDropDownEdit, cxCalendar, cxLabel,
-  cxLookupEdit, cxDBLookupEdit, cxDBLookupComboBox, frxClass;
+  cxLookupEdit, cxDBLookupEdit, cxDBLookupComboBox, frxClass, DB,
+  ZAbstractRODataset, ZDataset;
 
 type
   TfrmLapAkunting = class(TfrmTplInput)
@@ -28,18 +29,21 @@ type
     cxLabel3: TcxLabel;
     cxdTgl2: TcxDateEdit;
     ts02: TcxTabSheet;
-    cxLookupComboBox1: TcxLookupComboBox;
+    cxlAkun02: TcxLookupComboBox;
     cxLabel1: TcxLabel;
     cxLabel4: TcxLabel;
-    cxDateEdit1: TcxDateEdit;
+    cxdTgl02_1: TcxDateEdit;
     cxLabel5: TcxLabel;
-    cxDateEdit2: TcxDateEdit;
+    cxdTgl02_2: TcxDateEdit;
+    zqrAkun: TZReadOnlyQuery;
+    dsAkun: TDataSource;
     procedure FormCreate(Sender: TObject);
     procedure btnCetakClick(Sender: TObject);
     procedure lstBoxClick(Sender: TObject);
   private
     procedure RekapPengeluaranKas;
     procedure RekapPenerimaanKas;
+    procedure BukuKas;
     procedure DaftarJurnal;
   public
 
@@ -53,6 +57,41 @@ implementation
 uses unFrmLapMasterData, unFrmRptTransaksi, unFrmLapAkunting_RPT, unTools, unDM;
 
 {$R *.dfm}
+
+procedure TfrmLapAkunting.BukuKas;
+var
+  f: TfrmLapAkunting_RPT;
+  mm: TfrxMemoView;
+  sa: real;
+  q: TZQuery;
+begin
+  if cxlAkun02.Text = '' then begin
+    MsgBox('Mohon pilih akun kas.');
+    Abort;
+  end;
+
+  f := TfrmLapAkunting_RPT.Create(Self);
+  with f do begin
+    zqrBukuKas.ParamByName('tgl1').AsDate := cxdTgl02_1.Date;
+    zqrBukuKas.ParamByName('tgl2').AsDate := cxdTgl02_2.Date;
+    zqrBukuKas.ParamByName('id_akun').AsInteger := cxlAkun02.EditValue;
+    zqrJurnal.Open;
+
+    mm := rptBukuKas.FindObject('mmPeriode') as TfrxMemoView;
+    mm.Text := 'Periode : ' + FormatDateTime('dd-MM-yyyy', cxdTgl02_1.Date) + ' S/D ' +
+      FormatDateTime('dd-MM-yyyy', cxdTgl02_2.Date);
+
+    mm := rptBukuKas.FindObject('mmAkun') as TfrxMemoView;
+    mm.Text := 'Akun : ' + cxlAkun02.Text + '(' + zqrAkun.FieldByName('noakun').AsString + ')';
+
+    q := OpenRS('SELECT sf_saldoawal_akun(%s, ''%s'', %d) as saldoawal',
+      [cxlAkun02.EditValue, FormatDateTime('yyyy-MM-dd', cxdTgl02_1.Date), Aplikasi.Periode]);
+
+    rptBukuKas.Variables['saldo_awal'] := q.FieldByName('saldoawal').AsFloat;
+    rptBukuKas.ShowReport(True);
+    Release;
+  end;
+end;
 
 procedure TfrmLapAkunting.DaftarJurnal;
 var
@@ -82,7 +121,13 @@ begin
 
   cxdTgl1.Date := unTools.FDOM(Aplikasi.TanggalServer);
   cxdTgl2.Date := unTools.LDOM(Aplikasi.TanggalServer);
+
+  cxdTgl02_1.Date := unTools.FDOM(Aplikasi.TanggalServer);
+  cxdTgl02_2.Date := unTools.LDOM(Aplikasi.TanggalServer);
+
   pgParam.ActivePage := ts01;
+
+  zqrAkun.Open;
 end;
 
 procedure TfrmLapAkunting.lstBoxClick(Sender: TObject);
@@ -147,6 +192,8 @@ begin
   else if lstBox.ItemIndex = 1 then
     RekapPenerimaanKas
   else if lstBox.ItemIndex = 2 then
+    BukuKas
+  else if lstBox.ItemIndex = 3 then
     DaftarJurnal;
 end;
 
