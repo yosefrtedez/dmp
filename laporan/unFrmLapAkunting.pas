@@ -118,6 +118,9 @@ begin
   lstBox.Items.Add('02. Rekapitulasi Penerimaan Kas');
   lstBox.Items.Add('03. Buku Kas');
   lstBox.Items.Add('04. Daftar Jurnal');
+  lstBox.Items.Add('05. Neraca');
+  lstBox.Items.Add('06. Buku Besar');
+  lstBox.Items.Add('07. Laba Rugi');
 
   cxdTgl1.Date := unTools.FDOM(Aplikasi.TanggalServer);
   cxdTgl2.Date := unTools.LDOM(Aplikasi.TanggalServer);

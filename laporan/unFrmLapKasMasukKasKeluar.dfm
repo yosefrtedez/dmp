@@ -17,8 +17,8 @@ object frmLapKasMasukKasKeluar: TfrmLapKasMasukKasKeluar
     Connection = DM.zConn
     SQL.Strings = (
       
-        'SELECT a.*, b.noakun, b.nama nama_head, c.jumlah jmldet, d.noaku' +
-        'n noakun_det, d.nama nama_det, c.memo memo_det'
+        'SELECT a.*, b.noakun noakun2, b.nama nama_head, c.jumlah jmldet,' +
+        ' d.noakun noakun_det, d.nama nama_det, c.memo memo_det'
       'FROM tbl_penerimaankas_head a'
       'LEFT JOIN tbl_coa b ON b.id = a.id_akun'
       'LEFT JOIN tbl_penerimaankas_det c on c.id_ref = a.id'
@@ -60,7 +60,7 @@ object frmLapKasMasukKasKeluar: TfrmLapKasMasukKasKeluar
       'tglinput=tglinput'
       'tgledit=tgledit'
       'f_posting=f_posting'
-      'noakun=noakun'
+      'noakun2=noakun2'
       'nama_head=nama_head'
       'jmldet=jmldet'
       'noakun_det=noakun_det'
@@ -165,11 +165,11 @@ object frmLapKasMasukKasKeluar: TfrmLapKasMasukKasKeluar
           Width = 102.047310000000000000
           Height = 18.897650000000000000
           ShowHint = False
-          DataField = 'noakun'
+          DataField = 'noakun_det'
           DataSet = fdbKasMasuk
           DataSetName = 'fdbKasMasuk'
           Memo.UTF8W = (
-            '[fdbKasMasuk."noakun"]')
+            '[fdbKasMasuk."noakun_det"]')
         end
       end
       object GroupHeader1: TfrxGroupHeader
@@ -619,8 +619,8 @@ object frmLapKasMasukKasKeluar: TfrmLapKasMasukKasKeluar
     Connection = DM.zConn
     SQL.Strings = (
       
-        'SELECT a.*, b.noakun, b.nama nama_head, c.jumlah jmldet, d.noaku' +
-        'n noakun_det, d.nama nama_det, c.memo memo_det'
+        'SELECT a.*, b.noakun noakun2, b.nama nama_head, c.jumlah jmldet,' +
+        ' d.noakun noakun_det, d.nama nama_det, c.memo memo_det'
       'FROM tbl_pengeluarankas_head a'
       'LEFT JOIN tbl_coa b ON b.id = a.id_akun'
       'LEFT JOIN tbl_pengeluarankas_det c on c.id_ref = a.id'
@@ -665,7 +665,7 @@ object frmLapKasMasukKasKeluar: TfrmLapKasMasukKasKeluar
       'tgledit=tgledit'
       'f_posting=f_posting'
       'id_akun=id_akun'
-      'noakun=noakun'
+      'noakun2=noakun2'
       'nama_head=nama_head'
       'jmldet=jmldet'
       'noakun_det=noakun_det'
@@ -770,11 +770,11 @@ object frmLapKasMasukKasKeluar: TfrmLapKasMasukKasKeluar
           Width = 120.944960000000000000
           Height = 18.897650000000000000
           ShowHint = False
-          DataField = 'noakun'
+          DataField = 'noakun_det'
           DataSet = fdbKasKeluar
           DataSetName = 'fdbKasKeluar'
           Memo.UTF8W = (
-            '[fdbKasKeluar."noakun"]')
+            '[fdbKasKeluar."noakun_det"]')
         end
       end
       object GroupHeader1: TfrxGroupHeader

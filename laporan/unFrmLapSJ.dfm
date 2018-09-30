@@ -872,7 +872,7 @@ object frmLapSJ: TfrmLapSJ
           Font.Height = -13
           Font.Name = 'Arial'
           Font.Style = []
-          HAlign = haCenter
+          HAlign = haRight
           Memo.UTF8W = (
             '[fdbSJ01."hargaikat"]')
           ParentFont = False
@@ -1587,7 +1587,7 @@ object frmLapSJ: TfrmLapSJ
           Font.Height = -13
           Font.Name = 'Arial'
           Font.Style = []
-          HAlign = haCenter
+          HAlign = haRight
           Memo.UTF8W = (
             '[fdbSJ01."hargaikat"]')
           ParentFont = False

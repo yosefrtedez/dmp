@@ -27,6 +27,10 @@ type
     cxlKategoriBrg: TcxLookupComboBox;
     zqrKategori: TZReadOnlyQuery;
     dsKategori: TDataSource;
+    cxLabel2: TcxLabel;
+    cxlSubKategori: TcxLookupComboBox;
+    zqrSubKategori: TZReadOnlyQuery;
+    dsSubKategori: TDataSource;
     procedure FormCreate(Sender: TObject);
     procedure btnCetakClick(Sender: TObject);
     procedure lstBoxClick(Sender: TObject);
@@ -52,6 +56,10 @@ begin
   lstBox.Items.Add('02. Customer');
   lstBox.Items.Add('03. Supplier');
   zqrKategori.Open;
+  zqrSubKategori.Open;
+
+  cxlKategoriBrg.EditValue := 0;
+  cxlSubKategori.EditValue := 0;
 end;
 
 procedure TfrmLapMaster.lstBoxClick(Sender: TObject);
@@ -76,12 +84,25 @@ procedure TfrmLapMaster.CetakLapMasterBarang;
 var
   f: TfrmLapMasterData;
 begin
+
+  if cxlSubKategori.EditValue > 0 then
+    if cxlKategoriBrg.EditValue = 0 then begin
+      MsgBox('Mohon Pilih kategori barang.');
+      Abort;
+    end;
+
   f := TfrmLapMasterData.Create(nil);
   with f do begin
     if cxlKategoriBrg.EditValue = 0 then
-      zqrMstBarang.SQL.Strings[7] := ''
+      zqrMstBarang.SQL.Strings[8] := ''
     else
       zqrMstBarang.ParamByname('id_kategori').AsString := cxlKategoriBrg.EditValue;
+
+    if cxlSubKategori.EditValue = 0 then
+      zqrMstBarang.SQL.Strings[9] := ''
+    else
+      zqrMstBarang.ParamByName('id_subkategori').AsString := cxlSubKategori.EditValue;
+
     zqrMstBarang.Open;
     rptMstBarang.ShowReport(True);
   end;

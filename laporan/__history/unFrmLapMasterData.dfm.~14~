@@ -54,7 +54,6 @@ object frmLapMasterData: TfrmLapMasterData
         Top = 18.897650000000000000
         Width = 755.906000000000000000
         object Memo1: TfrxMemoView
-          Left = 11.338590000000000000
           Top = 7.559060000000000000
           Width = 298.582870000000000000
           Height = 18.897650000000000000
@@ -71,7 +70,7 @@ object frmLapMasterData: TfrmLapMasterData
       end
       object MasterData1: TfrxMasterData
         Height = 22.677180000000000000
-        Top = 173.858380000000000000
+        Top = 166.299320000000000000
         Width = 755.906000000000000000
         DataSet = fdbMstBarang
         DataSetName = 'fdbMstBarang'
@@ -90,8 +89,8 @@ object frmLapMasterData: TfrmLapMasterData
           ParentFont = False
         end
         object fdbMstBarangdeskripsi: TfrxMemoView
-          Left = 128.504020000000000000
-          Width = 302.362400000000000000
+          Left = 139.842610000000000000
+          Width = 313.700990000000000000
           Height = 18.897650000000000000
           ShowHint = False
           DataField = 'deskripsi'
@@ -106,15 +105,70 @@ object frmLapMasterData: TfrmLapMasterData
             '[fdbMstBarang."deskripsi"]')
           ParentFont = False
         end
+        object fdbMstBarangkode: TfrxMemoView
+          Left = 34.015770000000000000
+          Width = 102.047310000000000000
+          Height = 18.897650000000000000
+          ShowHint = False
+          DataField = 'kode'
+          DataSet = fdbMstBarang
+          DataSetName = 'fdbMstBarang'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -11
+          Font.Name = 'Arial'
+          Font.Style = []
+          Memo.UTF8W = (
+            '[fdbMstBarang."kode"]')
+          ParentFont = False
+        end
+        object fdbMstBarangstok: TfrxMemoView
+          Left = 457.323130000000000000
+          Width = 68.031540000000000000
+          Height = 18.897650000000000000
+          ShowHint = False
+          DataField = 'stok'
+          DataSet = fdbMstBarang
+          DataSetName = 'fdbMstBarang'
+          DisplayFormat.FormatStr = '#,#0.00'
+          DisplayFormat.Kind = fkNumeric
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -11
+          Font.Name = 'Arial'
+          Font.Style = []
+          HAlign = haRight
+          Memo.UTF8W = (
+            '[fdbMstBarang."stok"]')
+          ParentFont = False
+        end
+        object fdbMstBarangsatuan: TfrxMemoView
+          Left = 529.134200000000000000
+          Width = 68.031540000000000000
+          Height = 18.897650000000000000
+          ShowHint = False
+          DataField = 'satuan'
+          DataSet = fdbMstBarang
+          DataSetName = 'fdbMstBarang'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -11
+          Font.Name = 'Arial'
+          Font.Style = []
+          HAlign = haCenter
+          Memo.UTF8W = (
+            '[fdbMstBarang."satuan"]')
+          ParentFont = False
+        end
       end
       object PageHeader1: TfrxPageHeader
-        Height = 34.015770000000000000
+        Height = 26.456710000000000000
         Top = 79.370130000000000000
         Width = 755.906000000000000000
         object Memo2: TfrxMemoView
           Left = 34.015770000000000000
           Top = 3.779530000000000000
-          Width = 94.488250000000000000
+          Width = 102.047310000000000000
           Height = 18.897650000000000000
           ShowHint = False
           Font.Charset = DEFAULT_CHARSET
@@ -146,9 +200,9 @@ object frmLapMasterData: TfrmLapMasterData
           ParentFont = False
         end
         object Memo4: TfrxMemoView
-          Left = 132.283550000000000000
+          Left = 139.842610000000000000
           Top = 3.779530000000000000
-          Width = 298.582870000000000000
+          Width = 313.700990000000000000
           Height = 18.897650000000000000
           ShowHint = False
           Font.Charset = DEFAULT_CHARSET
@@ -160,23 +214,73 @@ object frmLapMasterData: TfrmLapMasterData
             'Deskripsi')
           ParentFont = False
         end
+        object Line2: TfrxLineView
+          Top = 24.456710000000000000
+          Width = 752.126470000000000000
+          ShowHint = False
+          Diagonal = True
+        end
+        object Memo5: TfrxMemoView
+          Left = 457.323130000000000000
+          Top = 3.779530000000000000
+          Width = 68.031540000000000000
+          Height = 18.897650000000000000
+          ShowHint = False
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -11
+          Font.Name = 'Arial'
+          Font.Style = []
+          HAlign = haRight
+          Memo.UTF8W = (
+            'Stok')
+          ParentFont = False
+        end
+        object Memo6: TfrxMemoView
+          Left = 529.134200000000000000
+          Top = 3.779530000000000000
+          Width = 68.031540000000000000
+          Height = 18.897650000000000000
+          ShowHint = False
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -11
+          Font.Name = 'Arial'
+          Font.Style = []
+          HAlign = haCenter
+          Memo.UTF8W = (
+            'Satuan')
+          ParentFont = False
+        end
       end
     end
   end
   object zqrMstBarang: TZReadOnlyQuery
     Connection = DM.zConn
-    Active = True
     SQL.Strings = (
-      'SELECT a.id, a.deskripsi, '
+      'SELECT a.id, a.kode,  a.deskripsi, a.stok,'
       'b.satuan, '
       'c.kategori'
       ' FROM '
       'tbl_barang a'
       'LEFT JOIN tbl_satuan b ON a.id_satuan = b.id'
-      'LEFT JOIN tbl_kategori_brg c ON c.id = a.id_kategori')
-    Params = <>
+      'LEFT JOIN tbl_kategori_brg c ON c.id = a.id_kategori'
+      'LEFT JOIN tbl_subkategori_brg d ON d.id = a.id_subkategori'
+      'WHERE a.id_kategori = :id_kategori')
+    Params = <
+      item
+        DataType = ftUnknown
+        Name = 'id_kategori'
+        ParamType = ptUnknown
+      end>
     Left = 104
     Top = 16
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'id_kategori'
+        ParamType = ptUnknown
+      end>
   end
   object dsMstBarang: TDataSource
     DataSet = zqrMstBarang
@@ -188,12 +292,50 @@ object frmLapMasterData: TfrmLapMasterData
     CloseDataSource = False
     FieldAliases.Strings = (
       'id=id'
+      'kode=kode'
       'deskripsi=deskripsi'
+      'stok=stok'
       'satuan=satuan'
       'kategori=kategori')
     DataSet = zqrMstBarang
     BCDToCurrency = True
     Left = 264
     Top = 16
+  end
+  object frxXLSExport1: TfrxXLSExport
+    UseFileCache = True
+    ShowProgress = True
+    OverwritePrompt = False
+    DataOnly = False
+    ExportEMF = True
+    AsText = False
+    Background = True
+    FastExport = True
+    PageBreaks = True
+    EmptyLines = True
+    SuppressPageHeadersFooters = False
+    Left = 352
+    Top = 24
+  end
+  object frxPDFExport1: TfrxPDFExport
+    UseFileCache = True
+    ShowProgress = True
+    OverwritePrompt = False
+    DataOnly = False
+    PrintOptimized = False
+    Outline = False
+    Background = False
+    HTMLTags = True
+    Author = 'FastReport'
+    Subject = 'FastReport PDF export'
+    ProtectionFlags = [ePrint, eModify, eCopy, eAnnot]
+    HideToolbar = False
+    HideMenubar = False
+    HideWindowUI = False
+    FitWindow = False
+    CenterWindow = False
+    PrintScaling = False
+    Left = 440
+    Top = 24
   end
 end

@@ -17,8 +17,8 @@ object frmLapKasMasukKasKeluar: TfrmLapKasMasukKasKeluar
     Connection = DM.zConn
     SQL.Strings = (
       
-        'SELECT a.*, b.noakun, b.nama nama_head,  c.jumlah, d.noakun noak' +
-        'un_det, d.nama nama_det, c.memo memo_det'
+        'SELECT a.*, b.noakun noakun2, b.nama nama_head, c.jumlah jmldet,' +
+        ' d.noakun noakun_det, d.nama nama_det, c.memo memo_det'
       'FROM tbl_penerimaankas_head a'
       'LEFT JOIN tbl_coa b ON b.id = a.id_akun'
       'LEFT JOIN tbl_penerimaankas_det c on c.id_ref = a.id'
@@ -60,9 +60,9 @@ object frmLapKasMasukKasKeluar: TfrmLapKasMasukKasKeluar
       'tglinput=tglinput'
       'tgledit=tgledit'
       'f_posting=f_posting'
-      'noakun=noakun'
+      'noakun2=noakun2'
       'nama_head=nama_head'
-      'jumlah=jumlah'
+      'jmldet=jmldet'
       'noakun_det=noakun_det'
       'nama_det=nama_det'
       'memo_det=memo_det')
@@ -109,7 +109,7 @@ object frmLapKasMasukKasKeluar: TfrmLapKasMasukKasKeluar
       BottomMargin = 5.000000000000000000
       object MasterData1: TfrxMasterData
         Height = 22.677180000000000000
-        Top = 230.551330000000000000
+        Top = 222.992270000000000000
         Width = 755.906000000000000000
         DataSet = fdbKasMasuk
         DataSetName = 'fdbKasMasuk'
@@ -130,8 +130,8 @@ object frmLapKasMasukKasKeluar: TfrmLapKasMasukKasKeluar
           ParentFont = False
         end
         object fdbKasMasukmemo_det: TfrxMemoView
-          Left = 230.551330000000000000
-          Width = 343.937230000000000000
+          Left = 143.622140000000000000
+          Width = 430.866420000000000000
           Height = 18.897650000000000000
           ShowHint = False
           DataField = 'memo_det'
@@ -145,7 +145,7 @@ object frmLapKasMasukKasKeluar: TfrmLapKasMasukKasKeluar
           Width = 143.622140000000000000
           Height = 18.897650000000000000
           ShowHint = False
-          DataField = 'jumlah'
+          DataField = 'jmldet'
           DataSet = fdbKasMasuk
           DataSetName = 'fdbKasMasuk'
           DisplayFormat.FormatStr = '#,#0.00'
@@ -157,22 +157,23 @@ object frmLapKasMasukKasKeluar: TfrmLapKasMasukKasKeluar
           Font.Style = []
           HAlign = haRight
           Memo.UTF8W = (
-            '[fdbKasMasuk."jumlah"]')
+            '[fdbKasMasuk."jmldet"]')
           ParentFont = False
         end
         object fdbKasMasuknoakun_det: TfrxMemoView
           Left = 34.015770000000000000
-          Width = 192.756030000000000000
+          Width = 102.047310000000000000
           Height = 18.897650000000000000
           ShowHint = False
+          DataField = 'noakun2'
           DataSet = fdbKasMasuk
           DataSetName = 'fdbKasMasuk'
           Memo.UTF8W = (
-            '[<fdbKasMasuk."nama_det">] ([<fdbKasMasuk."noakun_det">])')
+            '[fdbKasMasuk."noakun2"]')
         end
       end
       object GroupHeader1: TfrxGroupHeader
-        Height = 187.338900000000000000
+        Height = 179.779840000000000000
         Top = 18.897650000000000000
         Width = 755.906000000000000000
         Condition = 'fdbKasMasuk."id"'
@@ -312,21 +313,21 @@ object frmLapKasMasukKasKeluar: TfrmLapKasMasukKasKeluar
           ParentFont = False
         end
         object Line5: TfrxLineView
-          Top = 154.677490000000000000
+          Top = 149.677490000000000000
           Width = 755.905511810000000000
           ShowHint = False
           Diagonal = True
         end
         object Line6: TfrxLineView
-          Top = 185.252320000000000000
+          Top = 177.252320000000000000
           Width = 755.905511810000000000
           ShowHint = False
           Diagonal = True
         end
         object Memo92: TfrxMemoView
           Left = 30.236240000000000000
-          Top = 161.236550000000000000
-          Width = 196.535560000000000000
+          Top = 155.236550000000000000
+          Width = 105.826840000000000000
           Height = 18.897650000000000000
           ShowHint = False
           Font.Charset = DEFAULT_CHARSET
@@ -335,11 +336,11 @@ object frmLapKasMasukKasKeluar: TfrmLapKasMasukKasKeluar
           Font.Name = 'Arial'
           Font.Style = []
           Memo.UTF8W = (
-            'Nama Akun')
+            'No. Akun')
           ParentFont = False
         end
         object Memo96: TfrxMemoView
-          Top = 161.236550000000000000
+          Top = 155.236550000000000000
           Width = 30.236240000000000000
           Height = 18.897650000000000000
           ShowHint = False
@@ -457,9 +458,9 @@ object frmLapKasMasukKasKeluar: TfrmLapKasMasukKasKeluar
             '[fdbKasMasuk."nama_head"]')
         end
         object Memo8: TfrxMemoView
-          Left = 230.551330000000000000
-          Top = 161.236550000000000000
-          Width = 343.937230000000000000
+          Left = 143.622140000000000000
+          Top = 155.236550000000000000
+          Width = 430.866420000000000000
           Height = 18.897650000000000000
           ShowHint = False
           Font.Charset = DEFAULT_CHARSET
@@ -473,7 +474,7 @@ object frmLapKasMasukKasKeluar: TfrmLapKasMasukKasKeluar
         end
         object Memo11: TfrxMemoView
           Left = 578.268090000000000000
-          Top = 161.236550000000000000
+          Top = 155.236550000000000000
           Width = 143.622140000000000000
           Height = 18.897650000000000000
           ShowHint = False
@@ -490,11 +491,11 @@ object frmLapKasMasukKasKeluar: TfrmLapKasMasukKasKeluar
       end
       object GroupFooter1: TfrxGroupFooter
         Height = 120.944960000000000000
-        Top = 275.905690000000000000
+        Top = 268.346630000000000000
         Width = 755.906000000000000000
         object Memo12: TfrxMemoView
           Left = 181.417440000000000000
-          Top = 37.795300000000000000
+          Top = 50.795300000000000000
           Width = 94.488250000000000000
           Height = 18.897650000000000000
           ShowHint = False
@@ -529,7 +530,7 @@ object frmLapKasMasukKasKeluar: TfrmLapKasMasukKasKeluar
           Font.Style = []
           HAlign = haRight
           Memo.UTF8W = (
-            '[SUM(<fdbKasMasuk."jumlah">,MasterData1)]')
+            '[SUM(<fdbKasMasuk."jmldet">,MasterData1)]')
           ParentFont = False
         end
         object Memo13: TfrxMemoView
@@ -555,7 +556,7 @@ object frmLapKasMasukKasKeluar: TfrmLapKasMasukKasKeluar
         end
         object Memo14: TfrxMemoView
           Left = 28.236240000000000000
-          Top = 37.795300000000000000
+          Top = 50.795300000000000000
           Width = 94.488250000000000000
           Height = 18.897650000000000000
           ShowHint = False
@@ -577,7 +578,7 @@ object frmLapKasMasukKasKeluar: TfrmLapKasMasukKasKeluar
         end
         object Memo15: TfrxMemoView
           Left = 341.937230000000000000
-          Top = 37.795300000000000000
+          Top = 50.795300000000000000
           Width = 94.488250000000000000
           Height = 18.897650000000000000
           ShowHint = False
@@ -598,12 +599,13 @@ object frmLapKasMasukKasKeluar: TfrmLapKasMasukKasKeluar
           Diagonal = True
         end
         object mmTerbilang: TfrxMemoView
-          Width = 449.764070000000000000
-          Height = 30.236240000000000000
+          Top = 3.000000000000000000
+          Width = 461.102660000000000000
+          Height = 41.574830000000000000
           ShowHint = False
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clBlack
-          Font.Height = -11
+          Font.Height = -13
           Font.Name = 'Arial'
           Font.Style = []
           Memo.UTF8W = (
@@ -617,8 +619,8 @@ object frmLapKasMasukKasKeluar: TfrmLapKasMasukKasKeluar
     Connection = DM.zConn
     SQL.Strings = (
       
-        'SELECT a.*, b.noakun, b.nama nama_head,  c.jumlah, d.noakun noak' +
-        'un_det, d.nama nama_det, c.memo memo_det'
+        'SELECT a.*, b.noakun noakun2, b.nama nama_head, c.jumlah jmldet,' +
+        ' d.noakun noakun_det, d.nama nama_det, c.memo memo_det'
       'FROM tbl_pengeluarankas_head a'
       'LEFT JOIN tbl_coa b ON b.id = a.id_akun'
       'LEFT JOIN tbl_pengeluarankas_det c on c.id_ref = a.id'
@@ -663,9 +665,9 @@ object frmLapKasMasukKasKeluar: TfrmLapKasMasukKasKeluar
       'tgledit=tgledit'
       'f_posting=f_posting'
       'id_akun=id_akun'
-      'noakun=noakun'
+      'noakun2=noakun2'
       'nama_head=nama_head'
-      'jumlah_1=jumlah_1'
+      'jmldet=jmldet'
       'noakun_det=noakun_det'
       'nama_det=nama_det'
       'memo_det=memo_det')
@@ -712,7 +714,7 @@ object frmLapKasMasukKasKeluar: TfrmLapKasMasukKasKeluar
       BottomMargin = 5.000000000000000000
       object MasterData1: TfrxMasterData
         Height = 22.677180000000000000
-        Top = 230.551330000000000000
+        Top = 222.992270000000000000
         Width = 755.906000000000000000
         DataSet = fdbKasKeluar
         DataSetName = 'fdbKasKeluar'
@@ -733,8 +735,8 @@ object frmLapKasMasukKasKeluar: TfrmLapKasMasukKasKeluar
           ParentFont = False
         end
         object fdbKasMasukmemo_det: TfrxMemoView
-          Left = 230.551330000000000000
-          Width = 343.937230000000000000
+          Left = 158.740260000000000000
+          Width = 415.748300000000000000
           Height = 18.897650000000000000
           ShowHint = False
           DataField = 'memo_det'
@@ -748,7 +750,7 @@ object frmLapKasMasukKasKeluar: TfrmLapKasMasukKasKeluar
           Width = 143.622140000000000000
           Height = 18.897650000000000000
           ShowHint = False
-          DataField = 'jumlah'
+          DataField = 'jmldet'
           DataSet = fdbKasKeluar
           DataSetName = 'fdbKasKeluar'
           DisplayFormat.FormatStr = '#,#0.00'
@@ -760,20 +762,23 @@ object frmLapKasMasukKasKeluar: TfrmLapKasMasukKasKeluar
           Font.Style = []
           HAlign = haRight
           Memo.UTF8W = (
-            '[fdbKasKeluar."jumlah"]')
+            '[fdbKasKeluar."jmldet"]')
           ParentFont = False
         end
         object fdbKasMasuknoakun_det: TfrxMemoView
           Left = 34.015770000000000000
-          Width = 192.756030000000000000
+          Width = 120.944960000000000000
           Height = 18.897650000000000000
           ShowHint = False
+          DataField = 'noakun_det'
           DataSet = fdbKasKeluar
           DataSetName = 'fdbKasKeluar'
+          Memo.UTF8W = (
+            '[fdbKasKeluar."noakun_det"]')
         end
       end
       object GroupHeader1: TfrxGroupHeader
-        Height = 187.338900000000000000
+        Height = 181.031850000000000000
         Top = 18.897650000000000000
         Width = 755.906000000000000000
         Condition = 'fdbKasKeluar."id"'
@@ -913,21 +918,21 @@ object frmLapKasMasukKasKeluar: TfrmLapKasMasukKasKeluar
           ParentFont = False
         end
         object Line5: TfrxLineView
-          Top = 154.677490000000000000
+          Top = 149.677490000000000000
           Width = 755.905511810000000000
           ShowHint = False
           Diagonal = True
         end
         object Line6: TfrxLineView
-          Top = 185.252320000000000000
+          Top = 177.252320000000000000
           Width = 755.905511810000000000
           ShowHint = False
           Diagonal = True
         end
         object Memo92: TfrxMemoView
-          Left = 30.236240000000000000
-          Top = 161.236550000000000000
-          Width = 196.535560000000000000
+          Left = 34.015770000000000000
+          Top = 155.236550000000000000
+          Width = 120.944960000000000000
           Height = 18.897650000000000000
           ShowHint = False
           Font.Charset = DEFAULT_CHARSET
@@ -940,7 +945,7 @@ object frmLapKasMasukKasKeluar: TfrmLapKasMasukKasKeluar
           ParentFont = False
         end
         object Memo96: TfrxMemoView
-          Top = 161.236550000000000000
+          Top = 155.236550000000000000
           Width = 30.236240000000000000
           Height = 18.897650000000000000
           ShowHint = False
@@ -1058,9 +1063,9 @@ object frmLapKasMasukKasKeluar: TfrmLapKasMasukKasKeluar
             '[fdbKasKeluar."nama_head"]')
         end
         object Memo8: TfrxMemoView
-          Left = 230.551330000000000000
-          Top = 161.236550000000000000
-          Width = 343.937230000000000000
+          Left = 158.740260000000000000
+          Top = 155.236550000000000000
+          Width = 415.748300000000000000
           Height = 18.897650000000000000
           ShowHint = False
           Font.Charset = DEFAULT_CHARSET
@@ -1074,7 +1079,7 @@ object frmLapKasMasukKasKeluar: TfrmLapKasMasukKasKeluar
         end
         object Memo11: TfrxMemoView
           Left = 578.268090000000000000
-          Top = 161.236550000000000000
+          Top = 155.236550000000000000
           Width = 143.622140000000000000
           Height = 18.897650000000000000
           ShowHint = False
@@ -1091,11 +1096,11 @@ object frmLapKasMasukKasKeluar: TfrmLapKasMasukKasKeluar
       end
       object GroupFooter1: TfrxGroupFooter
         Height = 120.944960000000000000
-        Top = 275.905690000000000000
+        Top = 268.346630000000000000
         Width = 755.906000000000000000
         object Memo12: TfrxMemoView
           Left = 181.417440000000000000
-          Top = 37.795300000000000000
+          Top = 51.795300000000000000
           Width = 94.488250000000000000
           Height = 18.897650000000000000
           ShowHint = False
@@ -1130,7 +1135,7 @@ object frmLapKasMasukKasKeluar: TfrmLapKasMasukKasKeluar
           Font.Style = []
           HAlign = haRight
           Memo.UTF8W = (
-            '[SUM(<fdbKasKeluar."jumlah">,MasterData1)]')
+            '[SUM(<fdbKasKeluar."jmldet">,MasterData1)]')
           ParentFont = False
         end
         object Memo13: TfrxMemoView
@@ -1156,7 +1161,7 @@ object frmLapKasMasukKasKeluar: TfrmLapKasMasukKasKeluar
         end
         object Memo14: TfrxMemoView
           Left = 28.236240000000000000
-          Top = 37.795300000000000000
+          Top = 51.795300000000000000
           Width = 94.488250000000000000
           Height = 18.897650000000000000
           ShowHint = False
@@ -1178,7 +1183,7 @@ object frmLapKasMasukKasKeluar: TfrmLapKasMasukKasKeluar
         end
         object Memo15: TfrxMemoView
           Left = 341.937230000000000000
-          Top = 37.795300000000000000
+          Top = 51.795300000000000000
           Width = 94.488250000000000000
           Height = 18.897650000000000000
           ShowHint = False
@@ -1199,12 +1204,12 @@ object frmLapKasMasukKasKeluar: TfrmLapKasMasukKasKeluar
           Diagonal = True
         end
         object mmTerbilang: TfrxMemoView
-          Width = 438.425480000000000000
-          Height = 30.236240000000000000
+          Width = 457.323130000000000000
+          Height = 45.354360000000000000
           ShowHint = False
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clBlack
-          Font.Height = -11
+          Font.Height = -13
           Font.Name = 'Arial'
           Font.Style = []
           Memo.UTF8W = (

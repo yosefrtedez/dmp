@@ -265,18 +265,11 @@ object frmLapMasterData: TfrmLapMasterData
       'tbl_barang a'
       'LEFT JOIN tbl_satuan b ON a.id_satuan = b.id'
       'LEFT JOIN tbl_kategori_brg c ON c.id = a.id_kategori'
-      'LEFT JOIN tbl_subkategori_brg d ON d.id = a.id_subkategori'
-      'WHERE a.id_kategori = :id_kategori'
-      'AND a.id_subkategori = :id_subkategori')
+      'WHERE a.id_kategori = :id_kategori')
     Params = <
       item
         DataType = ftUnknown
         Name = 'id_kategori'
-        ParamType = ptUnknown
-      end
-      item
-        DataType = ftUnknown
-        Name = 'id_subkategori'
         ParamType = ptUnknown
       end>
     Left = 104
@@ -285,11 +278,6 @@ object frmLapMasterData: TfrmLapMasterData
       item
         DataType = ftUnknown
         Name = 'id_kategori'
-        ParamType = ptUnknown
-      end
-      item
-        DataType = ftUnknown
-        Name = 'id_subkategori'
         ParamType = ptUnknown
       end>
   end

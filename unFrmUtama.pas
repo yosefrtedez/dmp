@@ -321,6 +321,7 @@ begin
     ts := TcxTabSheet.Create(Self);
     ts.PageControl := pgMain;
 
+    ts.Caption := 'Penerimaan Kas';
     f := TfrmLstPenerimaanKas.Create(Self);
     f.Parent := ts;
     ts.Caption := f.Caption;
@@ -340,6 +341,7 @@ begin
     ts := TcxTabSheet.Create(Self);
     ts.PageControl := pgMain;
 
+    ts.Caption := 'Pengeluaran Kas';
     f := TfrmLstPengeluaranKas.Create(Self);
     f.Parent := ts;
     ts.Caption := f.Caption;

@@ -62,6 +62,8 @@ procedure TfrmLapAkunting.BukuKas;
 var
   f: TfrmLapAkunting_RPT;
   mm: TfrxMemoView;
+  sa: real;
+  q: TZQuery;
 begin
   if cxlAkun02.Text = '' then begin
     MsgBox('Mohon pilih akun kas.');
@@ -70,14 +72,22 @@ begin
 
   f := TfrmLapAkunting_RPT.Create(Self);
   with f do begin
-    //zqrBukuKas.ParamByName('tgl1').AsDate := cxdTgl02_1.Date;
-    //zqrBukuKas.ParamByName('tgl2').AsDate := cxdTgl02_2.Date;
+    zqrBukuKas.ParamByName('tgl1').AsDate := cxdTgl02_1.Date;
+    zqrBukuKas.ParamByName('tgl2').AsDate := cxdTgl02_2.Date;
+    zqrBukuKas.ParamByName('id_akun').AsInteger := cxlAkun02.EditValue;
     zqrJurnal.Open;
 
-    mm := rptJurnal.FindObject('mmPeriode') as TfrxMemoView;
+    mm := rptBukuKas.FindObject('mmPeriode') as TfrxMemoView;
     mm.Text := 'Periode : ' + FormatDateTime('dd-MM-yyyy', cxdTgl02_1.Date) + ' S/D ' +
       FormatDateTime('dd-MM-yyyy', cxdTgl02_2.Date);
-    rptBukuKas.Variables['saldo_awal'] := 5000;
+
+    mm := rptBukuKas.FindObject('mmAkun') as TfrxMemoView;
+    mm.Text := 'Akun : ' + cxlAkun02.Text + '(' + zqrAkun.FieldByName('noakun').AsString + ')';
+
+    q := OpenRS('SELECT sf_saldoawal_akun(%s, ''%s'', %d) as saldoawal',
+      [cxlAkun02.EditValue, FormatDateTime('yyyy-MM-dd', cxdTgl02_1.Date), Aplikasi.Periode]);
+
+    rptBukuKas.Variables['saldo_awal'] := q.FieldByName('saldoawal').AsFloat;
     rptBukuKas.ShowReport(True);
     Release;
   end;
@@ -107,11 +117,20 @@ begin
   lstBox.Items.Add('01. Rekapitulasi Pengeluaran Kas');
   lstBox.Items.Add('02. Rekapitulasi Penerimaan Kas');
   lstBox.Items.Add('03. Buku Kas');
-  lstBox.Items.Add('04. Daftar Jurnal');
+  lstBox.Items.Add('04. Daftar Jurnal')
+  lstBox.Items.Add('05. Neraca');
+  lstBox.Items.Add('06. Buku Besar');
+  lstBox.Items.Add('07. Laba Rugi');
 
   cxdTgl1.Date := unTools.FDOM(Aplikasi.TanggalServer);
   cxdTgl2.Date := unTools.LDOM(Aplikasi.TanggalServer);
+
+  cxdTgl02_1.Date := unTools.FDOM(Aplikasi.TanggalServer);
+  cxdTgl02_2.Date := unTools.LDOM(Aplikasi.TanggalServer);
+
   pgParam.ActivePage := ts01;
+
+  zqrAkun.Open;
 end;
 
 procedure TfrmLapAkunting.lstBoxClick(Sender: TObject);

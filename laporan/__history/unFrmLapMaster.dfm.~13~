@@ -117,6 +117,7 @@ inherited frmLapMaster: TfrmLapMaster
   end
   object zqrSubKategori: TZReadOnlyQuery
     Connection = DM.zConn
+    Active = True
     SQL.Strings = (
       'SELECT 0 as id, '#39'SEMUA'#39' as subkategori '
       'UNION '

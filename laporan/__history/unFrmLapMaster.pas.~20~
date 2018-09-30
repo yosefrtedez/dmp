@@ -27,6 +27,10 @@ type
     cxlKategoriBrg: TcxLookupComboBox;
     zqrKategori: TZReadOnlyQuery;
     dsKategori: TDataSource;
+    cxLabel2: TcxLabel;
+    cxlSubKategori: TcxLookupComboBox;
+    zqrSubKategori: TZReadOnlyQuery;
+    dsSubKategori: TDataSource;
     procedure FormCreate(Sender: TObject);
     procedure btnCetakClick(Sender: TObject);
     procedure lstBoxClick(Sender: TObject);
@@ -48,9 +52,9 @@ uses unFrmLapMasterData, unDM, unTools;
 procedure TfrmLapMaster.FormCreate(Sender: TObject);
 begin
   inherited;
-  lstBox.Items.Add('Master Barang / Persediaan');
-  lstBox.Items.Add('Customer');
-  lstBox.Items.Add('Supplier');
+  lstBox.Items.Add('01. Master Barang / Persediaan');
+  lstBox.Items.Add('02. Customer');
+  lstBox.Items.Add('03. Supplier');
   zqrKategori.Open;
 end;
 
@@ -78,7 +82,9 @@ var
 begin
   f := TfrmLapMasterData.Create(nil);
   with f do begin
-    if cxlKategoriBrg.EditValue > 0 then
+    if cxlKategoriBrg.EditValue = 0 then
+      zqrMstBarang.SQL.Strings[8] := ''
+    else
       zqrMstBarang.ParamByname('id_kategori').AsString := cxlKategoriBrg.EditValue;
     zqrMstBarang.Open;
     rptMstBarang.ShowReport(True);

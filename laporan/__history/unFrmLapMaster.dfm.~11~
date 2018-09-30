@@ -59,7 +59,6 @@ inherited frmLapMaster: TfrmLapMaster
       object cxlKategoriBrg: TcxLookupComboBox
         Left = 14
         Top = 28
-        Properties.DropDownAutoSize = True
         Properties.KeyFieldNames = 'id'
         Properties.ListColumns = <
           item
@@ -75,17 +74,16 @@ inherited frmLapMaster: TfrmLapMaster
         Top = 56
         Caption = 'Sub Kategori'
       end
-      object cxlSubKategori: TcxLookupComboBox
+      object cxLookupComboBox1: TcxLookupComboBox
         Left = 14
         Top = 76
-        Properties.DropDownAutoSize = True
         Properties.KeyFieldNames = 'id'
         Properties.ListColumns = <
           item
-            Caption = 'Sub Kategori'
-            FieldName = 'subkategori'
+            Caption = 'Kategori'
+            FieldName = 'kategori'
           end>
-        Properties.ListSource = dsSubKategori
+        Properties.ListSource = dsKategori
         TabOrder = 3
         Width = 293
       end
@@ -107,27 +105,12 @@ inherited frmLapMaster: TfrmLapMaster
       'UNION '
       'SELECT id, kategori FROM tbl_kategori_brg')
     Params = <>
-    Left = 248
-    Top = 392
+    Left = 768
+    Top = 40
   end
   object dsKategori: TDataSource
     DataSet = zqrKategori
-    Left = 272
-    Top = 448
-  end
-  object zqrSubKategori: TZReadOnlyQuery
-    Connection = DM.zConn
-    SQL.Strings = (
-      'SELECT 0 as id, '#39'SEMUA'#39' as subkategori '
-      'UNION '
-      'SELECT id, subkategori FROM tbl_subkategori_brg')
-    Params = <>
-    Left = 416
-    Top = 392
-  end
-  object dsSubKategori: TDataSource
-    DataSet = zqrSubKategori
-    Left = 440
-    Top = 448
+    Left = 792
+    Top = 96
   end
 end
