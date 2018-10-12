@@ -249,7 +249,10 @@ begin
     total := total + ADataController.Values[i, cxColJumlah.Index];
   end;
   cxsSebesar.Value := total;
-  cxtTerbilang.Text := Terbilang(IntToStr(cxsSebesar.EditValue));
+  try
+    cxtTerbilang.Text := Terbilang(IntToStr(cxsSebesar.EditValue));
+  except
+  end;
 end;
 
 procedure TfrmInputPengeluaranKas.cxtbPKDataControllerBeforePost(
@@ -267,10 +270,10 @@ begin
     Abort;
   end;
 
-  if (VarIsNull(cxColJumlah.EditValue)) or (cxColJumlah.EditValue <= 0) then begin
-    MsgBox('Jumlah pengeluaran harus di isi.');
-    Abort;
-  end;
+  //if (VarIsNull(cxColJumlah.EditValue)) or (cxColJumlah.EditValue <= 0) then begin
+  //  MsgBox('Jumlah pengeluaran harus di isi.');
+  //  Abort;
+  //end;
 
   if (VarIsNull(cxColMemo.EditValue)) or (Trim(cxColMemo.EditValue) = '') then begin
     MsgBox('Memo / Keterangan detail transaksi harus di isi.');

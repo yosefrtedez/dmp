@@ -108,12 +108,12 @@ object frmKartuStok: TfrmKartuStok
     OnClick = btnProsesClick
   end
   object btnKeluar: TButton
-    Left = 16
-    Top = 540
+    Left = 97
+    Top = 538
     Width = 75
     Height = 25
     Caption = 'Keluar'
-    TabOrder = 10
+    TabOrder = 11
     OnClick = btnKeluarClick
   end
   object cxlGdg: TcxLookupComboBox
@@ -142,6 +142,15 @@ object frmKartuStok: TfrmKartuStok
     Properties.ReadOnly = True
     TabOrder = 8
     Width = 120
+  end
+  object btnExcel: TButton
+    Left = 16
+    Top = 538
+    Width = 75
+    Height = 25
+    Caption = 'Excel'
+    TabOrder = 10
+    OnClick = btnExcelClick
   end
   object zqrKS: TZReadOnlyQuery
     Connection = DM.zConn

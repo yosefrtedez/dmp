@@ -2,9 +2,7 @@ inherited frmInputBarangKeluar: TfrmInputBarangKeluar
   Caption = 'Input Barang Keluar'
   ClientHeight = 771
   ClientWidth = 1165
-  OnCreate = FormCreate
   OnShow = FormShow
-  ExplicitTop = -90
   ExplicitWidth = 1165
   ExplicitHeight = 771
   PixelsPerInch = 96
@@ -29,12 +27,9 @@ inherited frmInputBarangKeluar: TfrmInputBarangKeluar
   inherited Panel2: TPanel
     Top = 722
     Width = 1165
-    TabOrder = 30
+    TabOrder = 29
     ExplicitTop = 722
     ExplicitWidth = 1165
-    inherited btnSimpan: TButton
-      OnClick = btnSimpanClick
-    end
   end
   object cxlbl1: TcxLabel
     Left = 11
@@ -72,7 +67,7 @@ inherited frmInputBarangKeluar: TfrmInputBarangKeluar
   end
   object cxgrdPP: TcxGrid
     Left = 10
-    Top = 254
+    Top = 255
     Width = 1147
     Height = 195
     Anchors = [akLeft, akTop, akRight]
@@ -295,14 +290,14 @@ inherited frmInputBarangKeluar: TfrmInputBarangKeluar
     Properties.DisplayFormat = '#,#0.00'
     Properties.MaxValue = 100.000000000000000000
     Properties.ValueType = vtFloat
-    TabOrder = 27
+    TabOrder = 26
     Width = 121
   end
   object cxChkPPN: TcxCheckBox
     Left = 824
     Top = 538
     Caption = 'PPN (10%)'
-    TabOrder = 26
+    TabOrder = 25
     OnClick = cxChkPPNClick
     Width = 82
   end
@@ -333,7 +328,7 @@ inherited frmInputBarangKeluar: TfrmInputBarangKeluar
     Properties.DisplayFormat = '#,#0.00'
     Properties.MaxValue = 100.000000000000000000
     Properties.ValueType = vtFloat
-    TabOrder = 28
+    TabOrder = 27
     Width = 121
   end
   object cxLabel5: TcxLabel
@@ -390,15 +385,6 @@ inherited frmInputBarangKeluar: TfrmInputBarangKeluar
     Top = 223
     TabOrder = 14
     Width = 146
-  end
-  object Button1: TButton
-    Left = 448
-    Top = 528
-    Width = 75
-    Height = 25
-    Caption = 'Button1'
-    TabOrder = 25
-    OnClick = Button1Click
   end
   object zqrSupplier: TZReadOnlyQuery
     Connection = DM.zConn

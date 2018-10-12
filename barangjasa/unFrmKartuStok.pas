@@ -18,7 +18,8 @@ uses
   cxMaskEdit, cxDropDownEdit, cxCalendar, cxLabel, cxGridLevel, cxClasses,
   cxGridCustomView, cxGridCustomTableView, cxGridTableView, cxGridDBTableView,
   cxGrid, ZAbstractRODataset, ZDataset, cxLookupEdit, cxDBLookupEdit,
-  cxDBLookupComboBox, ZAbstractDataset, ZStoredProcedure, DateUtils, cxSpinEdit;
+  cxDBLookupComboBox, ZAbstractDataset, ZStoredProcedure, DateUtils, cxSpinEdit,
+  cxGridExportLink, ShellAPI;
 
 type
   TfrmKartuStok = class(TForm)
@@ -46,9 +47,11 @@ type
     cxLabel4: TcxLabel;
     cxsSA: TcxSpinEdit;
     cxtbKSColumn1: TcxGridDBColumn;
+    btnExcel: TButton;
     procedure btnProsesClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure btnKeluarClick(Sender: TObject);
+    procedure btnExcelClick(Sender: TObject);
   private
     mIdBrg: integer;
   public
@@ -63,6 +66,20 @@ implementation
 uses unAplikasi, unDM, unTools;
 
 {$R *.dfm}
+
+procedure TfrmKartuStok.btnExcelClick(Sender: TObject);
+begin
+  inherited;
+  try
+  ExportGridToExcel(aplikasi.AppPath + '\tmp.xls', cxGrid1);
+  ShellExecute(Handle,'open', PChar(aplikasi.AppPath + '\tmp.xls'),''
+    ,nil,SW_SHOWNORMAL);
+  except
+    on E: Exception do begin
+      MsgBox('Error: ' + E.Message);
+    end;
+  end;
+end;
 
 procedure TfrmKartuStok.btnKeluarClick(Sender: TObject);
 begin
@@ -84,7 +101,7 @@ begin
   //q.Properties.Add('checkparam=false');
   s := FormatFloat('#,#0.00', sa);
   if DecimalSeparator = '.' then
-    s := StringReplace(s,',','.',[rfReplaceall])
+    s := StringReplace(s,',','',[rfReplaceall])
   else if DecimalSeparator = ',' then begin
     s := StringReplace(s,'.','',[rfReplaceAll]);
     s := StringReplace(s,',','.',[rfReplaceAll]);

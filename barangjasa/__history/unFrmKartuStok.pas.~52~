@@ -18,7 +18,7 @@ uses
   cxMaskEdit, cxDropDownEdit, cxCalendar, cxLabel, cxGridLevel, cxClasses,
   cxGridCustomView, cxGridCustomTableView, cxGridTableView, cxGridDBTableView,
   cxGrid, ZAbstractRODataset, ZDataset, cxLookupEdit, cxDBLookupEdit,
-  cxDBLookupComboBox, ZAbstractDataset, ZStoredProcedure, DateUtils;
+  cxDBLookupComboBox, ZAbstractDataset, ZStoredProcedure, DateUtils, cxSpinEdit;
 
 type
   TfrmKartuStok = class(TForm)
@@ -43,8 +43,14 @@ type
     dsGdg: TDataSource;
     zspKS: TZStoredProc;
     cxlGdg: TcxLookupComboBox;
+    cxLabel4: TcxLabel;
+    cxsSA: TcxSpinEdit;
+    cxtbKSColumn1: TcxGridDBColumn;
+    btnExcel: TButton;
     procedure btnProsesClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
+    procedure btnKeluarClick(Sender: TObject);
+    procedure btnExcelClick(Sender: TObject);
   private
     mIdBrg: integer;
   public
@@ -60,6 +66,25 @@ uses unAplikasi, unDM, unTools;
 
 {$R *.dfm}
 
+procedure TfrmKartuStok.btnExcelClick(Sender: TObject);
+begin
+  inherited;
+  try
+  ExportGridToExcel(aplikasi.AppPath + '\tmp.xls', cxtbKS);
+  ShellExecute(Handle,'open', PChar(aplikasi.AppPath + '\tmp.xls'),''
+    ,nil,SW_SHOWNORMAL);
+  except
+    on E: Exception do begin
+      MsgBox('Error: ' + E.Message);
+    end;
+  end;
+end;;
+
+procedure TfrmKartuStok.btnKeluarClick(Sender: TObject);
+begin
+  ModalResult := mrOk;
+end;
+
 procedure TfrmKartuStok.btnProsesClick(Sender: TObject);
 var
   q: TZQuery;
@@ -69,29 +94,31 @@ begin
   q := OpenRS('SELECT sf_getstokawal2(%d, %s, ''%s'') as sa',
     [mIdBrg, cxlGdg.EditValue, FormatDateTime('yyyy-mm-dd', IncDay(cxdTgl1.Date,-1))]);
   sa := q.FieldByName('sa').AsFloat;
+  cxsSA.Value := sa;
   q.Close;
 
   //q.Properties.Add('checkparam=false');
   s := FormatFloat('#,#0.00', sa);
-  s := StringReplace(s,',','.',[rfReplaceall]);
+  if DecimalSeparator = '.' then
+    s := StringReplace(s,',','',[rfReplaceall])
+  else if DecimalSeparator = ',' then begin
+    s := StringReplace(s,'.','',[rfReplaceAll]);
+    s := StringReplace(s,',','.',[rfReplaceAll]);
+  end;
   q.SQL.Text := Format('call sp_kartustok(%d, %s, %s, ''%s'', ''%s'')',
     [mIdBrg, cxlGdg.EditValue, s, FormatDateTime('yyyy-mm-dd', cxdTgl1.Date), FormatDateTime('yyyy-mm-dd', cxdTgl2.Date)]);
-  MsgBox(q.SQL.Text);
-  {
-  q.ParamByName('a').AsInteger := mIdBrg;
-  q.ParamByName('b').AsInteger := cxlGdg.EditValue;
-  q.ParamByName('c').AsFloat := sa;
-  q.ParamByName('d').AsString := FormatDateTime('yyyy-mm-dd', cxdTgl1.Date);
-  q.ParamByName('e').AsString := FormatDateTime('yyyy-mm-dd', cxdTgl2.Date);
-  }
+  // MsgBox(q.SQL.Text);
   q.ExecSQL;
 
   zqrKS.SQL.Text := 'SELECT * FROM _ks';
   zqrKS.Open;
+
 end;
 
 procedure TfrmKartuStok.FormCreate(Sender: TObject);
 begin
+  cxdTgl1.Date := unTools.FDOM(Aplikasi.TanggalServer);
+  cxdTgl2.Date := unTools.LDOM(Aplikasi.TanggalServer);
   zqrGdg.Open;
 end;
 
