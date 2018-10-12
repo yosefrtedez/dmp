@@ -63,6 +63,7 @@ inherited frmLstPO: TfrmLstPO
       DataController.Summary.FooterSummaryItems = <>
       DataController.Summary.SummaryGroups = <>
       FilterRow.Visible = True
+      OptionsBehavior.FocusCellOnTab = True
       OptionsView.CellTextMaxLineCount = 10
       Preview.MaxLineCount = 10
       object cxColTblHeadno_bukti: TcxGridDBColumn
@@ -85,12 +86,19 @@ inherited frmLstPO: TfrmLstPO
       end
       object cxColTblHeadkontak: TcxGridDBColumn
         DataBinding.FieldName = 'kontak'
+        Visible = False
         Options.Editing = False
         Width = 120
+      end
+      object cxtbPOHeadColumn1: TcxGridDBColumn
+        Caption = 'Tanggal'
+        DataBinding.FieldName = 'tanggal'
+        Width = 78
       end
       object cxColTblHeadtgl_required: TcxGridDBColumn
         Caption = 'Tgl Kedatangan'
         DataBinding.FieldName = 'tgl_required'
+        Visible = False
         Options.Editing = False
         Width = 90
       end
@@ -202,6 +210,7 @@ inherited frmLstPO: TfrmLstPO
           Column = cxtbPODetColumn2
         end>
       DataController.Summary.SummaryGroups = <>
+      OptionsBehavior.FocusCellOnTab = True
       OptionsView.Footer = True
       object cxtbPODetkode_brg: TcxGridDBColumn
         Caption = 'Kode Brg.'
@@ -288,7 +297,7 @@ inherited frmLstPO: TfrmLstPO
       Height = 25
       Anchors = [akTop, akRight]
       Caption = 'Cetak PO'
-      TabOrder = 1
+      TabOrder = 2
       OnClick = btnCetakPOClick
     end
     object btnBatalApproval: TButton
@@ -296,17 +305,28 @@ inherited frmLstPO: TfrmLstPO
       Top = 9
       Width = 112
       Height = 25
+      Anchors = [akTop, akRight]
       Caption = 'Batalkan Approval'
-      TabOrder = 0
+      TabOrder = 1
       OnClick = btnBatalApprovalClick
+    end
+    object btnTutupPO: TButton
+      Left = 888
+      Top = 9
+      Width = 74
+      Height = 25
+      Anchors = [akTop, akRight]
+      Caption = 'Tutup PO'
+      TabOrder = 0
+      OnClick = btnTutupPOClick
     end
   end
   object zqrPO: TZReadOnlyQuery
     Connection = DM.zConn
     SQL.Strings = (
       
-        'SELECT a.id, a.no_bukti, a.tgl_required, jenis_po, a.user, a.use' +
-        'r_dept, a.pembayaran, a.f_app, a.f_completed,'
+        'SELECT a.tanggal, a.id, a.no_bukti, a.tgl_required, jenis_po, a.' +
+        'user, a.user_dept, a.pembayaran, a.f_app, a.f_completed,'
       'b.nama, b.kontak, c.no_bukti no_pp, d.nama nama_supplier'
       'FROM tbl_po_head a '
       'LEFT JOIN tbl_supplier b ON a.kode_supp = b.kode'

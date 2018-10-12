@@ -345,9 +345,10 @@ inherited frmLstPO: TfrmLstPO
     Connection = DM.zConn
     AutoCalcFields = False
     SQL.Strings = (
+      'SELECT a.*, b.deskripsi, a.qty, c.satuan, a.harga, a.mata_uang, '
       
-        'SELECT a.*, b.deskripsi, a.qty, c.satuan, a.harga, a.mata_uang, ' +
-        'a.qty * a.harga subtotal,'
+        'IF(a.ppn='#39'PPN'#39', (a.qty * a.harga) + ((a.qty * a.harga) * (10/100' +
+        ')), (a.qty * a.harga)) subtotal,'
       
         '(SELECT SUM(qty) FROM tbl_pb_det WHERE id_brg = a.id_brg AND id_' +
         'po = a.id_ref) qty_terima'
