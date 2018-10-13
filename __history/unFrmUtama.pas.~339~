@@ -91,6 +91,8 @@ type
     mnSet_UbahPassword: TMenuItem;
     Button1: TButton;
     mnAkt_PencairanDeposit: TMenuItem;
+    N7: TMenuItem;
+    mnAkt_LaporanDetailJurnal: TMenuItem;
     procedure FormShow(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure mnMst_BarangJasaClick(Sender: TObject);
@@ -319,6 +321,7 @@ begin
     ts := TcxTabSheet.Create(Self);
     ts.PageControl := pgMain;
 
+    ts.Caption := 'Penerimaan Kas';
     f := TfrmLstPenerimaanKas.Create(Self);
     f.Parent := ts;
     ts.Caption := f.Caption;
@@ -338,6 +341,7 @@ begin
     ts := TcxTabSheet.Create(Self);
     ts.PageControl := pgMain;
 
+    ts.Caption := 'Pengeluaran Kas';
     f := TfrmLstPengeluaranKas.Create(Self);
     f.Parent := ts;
     ts.Caption := f.Caption;
@@ -1120,15 +1124,15 @@ end;
 
 procedure TfrmUtama.mnWhl_TransferBarangClick(Sender: TObject);
 var
-  f: TfrmLstPembayaranPembelian;
+  f: TfrmLstTransferBarang;
   ts: TcxTabSheet;
 begin
-  if not CekTabOpen('Pembayaran Pembelian') then begin
+  if not CekTabOpen('Transfer Barang') then begin
     ToggleMainPage;
     ts := TcxTabSheet.Create(Self);
     ts.PageControl := pgMain;
 
-    f := TfrmLstPembayaranPembelian.Create(Self);
+    f := TfrmLstTransferBarang.Create(Self);
     f.Parent := ts;
     ts.Caption := f.Caption;
     f.Show;
@@ -1264,10 +1268,15 @@ begin
   mnPpic_MasterSchedule.Visible := False;
   mnPur_ReturPembelian.Visible := False;
   mnPur_AppReturPembelian.Visible := False;
+
   if Aplikasi.FAcc then
     mnAKT.Visible := True
   else
     mnAKT.Visible := False;
+
+  if (Aplikasi.NamaUser = 'YUDIT') or (Aplikasi.NamaUser = 'FELGITO') or (Aplikasi.NamaUser = 'HENDRA')
+    or (Aplikasi.NamaUser = 'ADMIN') then
+    mnAKT.Visible := True;
 
   //mnAKT.Visible := True;
 end;
@@ -1281,41 +1290,8 @@ procedure TfrmUtama.Button1Click(Sender: TObject);
 var
   q: TZQuery;
 begin
-  q := TZQuery.Create(Self);
-  q.Connection := DM.zConn;
-  try
-    dm.zConn.AutoCommit := True;
-    q.Connection.StartTransaction;
-
-    q.SQL.Text := 'insert into tbl_a set nama = ''Yosef''';
-    q.ExecSQL;
-    q.SQL.Text := 'insert into tbl_b set namaa = ''Oke''';
-    q.ExecSQL;
-    q.Connection.Commit;
-
-    {
-    q.SQL.Text := 'SELECT * FROM tbl_a';
-    q.Open;
-    q.Insert;
-    q.FieldByname('nama').AsString := 'Yosef';
-    q.Post;
-    q.Close;
-
-    q.SQL.Text := 'SELECT * FROM tbl_b';
-    q.Open;
-    q.Insert;
-    q.FieldByname('nama').Value := 'yosef';
-    q.Post;
-    q.Close;
-    }
-
-    //dm.zConn.Commit;
-  except
-    on E: Exception do begin
-      MsgBox(E.Message);
-      q.Connection.Rollback;
-    end;
-  end;
+  q := OpenRS('SELECT sf_get_stokakhir(%s,%s) as aa',['1','1']);
+  MsgBox(q.FieldByName('aa').AsString);
 
 end;
 

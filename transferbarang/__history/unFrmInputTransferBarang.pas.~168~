@@ -78,7 +78,6 @@ var
   sNoTrs : string;
 begin
 
-
   if (cxTblTransBarang.DataController.EditState = [dceInsert, dceModified]) or (cxTblTransBarang.DataController.EditState = [dceEdit, dceModified]) then begin
     MsgBox('Mohon selesaikan pengeditan detail sebelum disimpan. ' + Chr(10) + Chr(13) +
       'Klik tombol centang hijau.');
@@ -361,9 +360,9 @@ begin
       end;
       z.Close ;
 
-      //Menampilkan Stock Gudang Asal
-      z := OpenRS('SELECT sf_get_stokakhir(''%s'',''%s'') as stok',
+      z := OpenRS('SELECT sf_get_stokakhir(%s,%s) as stok',
         [ADataController.Values[ARecordIndex, cxColDeskripsi.Index],ADataController.Values[ARecordIndex, cxColGudangAsal.Index]]) ;
+
       ADataController.Values[ARecordIndex, cxColStock.Index] := z.FieldByName('stok').AsFloat ;
       z.Close ;
 
@@ -385,10 +384,10 @@ begin
       z.Close ;
 
       //Menampilkan Stock Gudang Asal
-      z := OpenRS('SELECT sf_get_stokakhir(''%s'',''%s'') as stok',
-        [ADataController.Values[ARecordIndex, cxColDeskripsi.Index],ADataController.Values[ARecordIndex, cxColGudangAsal.Index]]);
+      z := OpenRS('SELECT sf_get_stokakhir(%s,%s) as stok',
+        [ADataController.Values[ARecordIndex, cxColDeskripsi.Index], ADataController.Values[ARecordIndex, cxColGudangAsal.Index]]);
       ADataController.Values[i, cxColStock.Index] := z.FieldByName('stok').AsFloat ;
-      z.Close ;
+      z.Close;
     finally
       cxTblTransBarang.EndUpdate;
     end;

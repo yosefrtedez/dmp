@@ -82,7 +82,7 @@ object frmUtama: TfrmUtama
     Visible = False
   end
   object Button1: TButton
-    Left = 462
+    Left = 455
     Top = 407
     Width = 75
     Height = 25
@@ -273,6 +273,12 @@ object frmUtama: TfrmUtama
       object mnPur_AppReturPembelian: TMenuItem
         Caption = 'Approval Retur Pembelian'
         OnClick = mnPur_AppReturPembelianClick
+      end
+      object N8: TMenuItem
+        Caption = '-'
+      end
+      object mnPur_InputHargaPOPB: TMenuItem
+        Caption = 'Input Harga Beli PO / Penerimaan'
       end
     end
     object mnAKT: TMenuItem

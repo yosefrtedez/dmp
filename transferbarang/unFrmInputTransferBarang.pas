@@ -360,11 +360,12 @@ begin
       end;
       z.Close ;
 
-      //Menampilkan Stock Gudang Asal
-      z := OpenRS('SELECT sf_get_stokakhir(''%s'',''%s'') as stok',
-        [ADataController.Values[ARecordIndex, cxColDeskripsi.Index],ADataController.Values[ARecordIndex, cxColGudangAsal.Index]]) ;
+      {
+      z := OpenRS('SELECT sf_get_stokakhir(%s,%s) as stok',
+        [ADataController.Values[ARecordIndex, cxColDeskripsi.Index],ADataController.Values[ARecordIndex, cxColGudangAsal.Index]]);
       ADataController.Values[ARecordIndex, cxColStock.Index] := z.FieldByName('stok').AsFloat ;
       z.Close ;
+      }
 
     finally
       cxTblTransBarang.EndUpdate;
@@ -383,11 +384,14 @@ begin
       end;
       z.Close ;
 
+      {
       //Menampilkan Stock Gudang Asal
-      z := OpenRS('SELECT sf_get_stokakhir(''%s'',''%s'') as stok',
-        [ADataController.Values[ARecordIndex, cxColDeskripsi.Index],ADataController.Values[ARecordIndex, cxColGudangAsal.Index]]);
+      z := OpenRS('SELECT sf_get_stokakhir(%s,%s) as stok',
+        [ADataController.Values[ARecordIndex, cxColDeskripsi.Index], ADataController.Values[ARecordIndex, cxColGudangAsal.Index]]);
       ADataController.Values[i, cxColStock.Index] := z.FieldByName('stok').AsFloat ;
-      z.Close ;
+      z.Close;
+      }
+
     finally
       cxTblTransBarang.EndUpdate;
     end;

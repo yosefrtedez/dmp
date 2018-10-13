@@ -1,4 +1,3 @@
-
 unit unAplikasi;
 
 interface
@@ -106,6 +105,7 @@ type
     mSatProd: Integer;
     mExeName: string;
     mFAcc: boolean;
+    mPeriode: Integer;
 
     procedure SetNamaToko(value: string);
     function GetNamaToko: string;
@@ -315,6 +315,7 @@ type
     property ExeName: string read mExeName write mExeName;
 
     property FAcc: boolean read mFAcc write mFAcc;
+    property Periode: integer read mPeriode write mPeriode;
 
     procedure AddHistAvg(id_brg, id_ref: Integer; no_bukti: string; avg: Real);
     procedure AddHistPPN(id_ref: Integer; tanggal: TDateTime; no_bukti: string; id_brg: Integer; qty,harga,ppn: Real; jenis: string);
@@ -332,7 +333,7 @@ begin
     self.demo := false;
     self.version := self.version + ' - ( DEMO VERSION )';
     {$ELSE}
-    mJudulAplikasi := 'PT. DMP - 270918.1055';
+    mJudulAplikasi := 'PT. DMP - 12102018.1732';
     Self.version := '';
     Self.Ver := '17112015_0902';
     self.demo := false;

@@ -93,6 +93,8 @@ type
     mnAkt_PencairanDeposit: TMenuItem;
     N7: TMenuItem;
     mnAkt_LaporanDetailJurnal: TMenuItem;
+    N8: TMenuItem;
+    mnPur_InputHargaPOPB: TMenuItem;
     procedure FormShow(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure mnMst_BarangJasaClick(Sender: TObject);
@@ -1290,41 +1292,8 @@ procedure TfrmUtama.Button1Click(Sender: TObject);
 var
   q: TZQuery;
 begin
-  q := TZQuery.Create(Self);
-  q.Connection := DM.zConn;
-  try
-    dm.zConn.AutoCommit := True;
-    q.Connection.StartTransaction;
-
-    q.SQL.Text := 'insert into tbl_a set nama = ''Yosef''';
-    q.ExecSQL;
-    q.SQL.Text := 'insert into tbl_b set namaa = ''Oke''';
-    q.ExecSQL;
-    q.Connection.Commit;
-
-    {
-    q.SQL.Text := 'SELECT * FROM tbl_a';
-    q.Open;
-    q.Insert;
-    q.FieldByname('nama').AsString := 'Yosef';
-    q.Post;
-    q.Close;
-
-    q.SQL.Text := 'SELECT * FROM tbl_b';
-    q.Open;
-    q.Insert;
-    q.FieldByname('nama').Value := 'yosef';
-    q.Post;
-    q.Close;
-    }
-
-    //dm.zConn.Commit;
-  except
-    on E: Exception do begin
-      MsgBox(E.Message);
-      q.Connection.Rollback;
-    end;
-  end;
+  q := OpenRS('SELECT sf_get_stokakhir(%s,%s) as aa',['1','1']);
+  MsgBox(q.FieldByName('aa').AsString);
 
 end;
 

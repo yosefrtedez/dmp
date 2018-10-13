@@ -124,12 +124,15 @@ inherited frmInputTransferBarang: TfrmInputTransferBarang
       object cxColDeskripsi: TcxGridColumn
         Caption = 'Deskripsi'
         PropertiesClassName = 'TcxLookupComboBoxProperties'
+        Properties.DropDownAutoSize = True
         Properties.KeyFieldNames = 'id'
         Properties.ListColumns = <
           item
+            Caption = 'Deskripsi'
             FieldName = 'deskripsi'
           end
           item
+            Caption = 'Kode'
             FieldName = 'kode'
           end>
         Properties.ListSource = dsBarang
