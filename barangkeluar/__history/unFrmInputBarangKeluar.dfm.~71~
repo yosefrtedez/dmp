@@ -67,7 +67,7 @@ inherited frmInputBarangKeluar: TfrmInputBarangKeluar
   end
   object cxgrdPP: TcxGrid
     Left = 10
-    Top = 254
+    Top = 255
     Width = 1147
     Height = 195
     Anchors = [akLeft, akTop, akRight]

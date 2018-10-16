@@ -181,7 +181,7 @@ begin
 
       qh.FieldByName('no_bukti').AsString := sNoBukti;
       qh.FieldByName('keterangan').AsString := cxtKeterangan.Text;
-      qh.FieldByName('tanggal').AsDateTime := Aplikasi.Tanggal;
+      qh.FieldByName('tanggal').AsDateTime := cxdTglDatang.Date;
       qh.FieldByName('user').AsString := Aplikasi.NamaUser;
       qh.FieldByName('user_dept').AsString := Aplikasi.UserDept;
       qh.FieldByName('tgl_input').AsDateTime := Aplikasi.Tanggal;
@@ -212,7 +212,7 @@ begin
             qd.FieldByName('id_ref').AsString := qh.FieldByName('id').AsString;
           end;
           qd.FieldByName('no_bukti').AsString := sNoBukti;
-          qd.FieldByName('kode_brg').AsString := Values[i, cxColKodeBrg2.Index];
+          qd.FieldByName('kode_brg').AsString := GetKodeBrg(Values[i, cxColDeskripsi.Index]);
           qd.FieldByName('id_brg').AsInteger := Values[i, cxColDeskripsi.Index];
           qd.FieldByName('qty').AsFloat := Values[i, cxColQty.Index];
           qd.FieldByName('id_satuan').AsString := Values[i, cxColIdSatuan.Index];
@@ -231,11 +231,12 @@ begin
           end;
           qd.Post;
 
-          { 01/08/2018
+          { 01/08/2018 }
           with qhst do begin
             Insert;
+            FieldByName('id_ref').AsInteger := ID;
             FieldByName('no_bukti').AsString := sNoBukti;
-            FieldByName('tanggal').AsDateTime := Aplikasi.TanggalServer;
+            FieldByName('tanggal').AsDateTime := cxdTglDatang.Date;
             FieldByName('kode_brg').AsString := Values[i, cxColKodeBrg.Index];
             FieldByName('id_brg').AsInteger := Values[i, cxColDeskripsi.Index];
             FieldByName('qty').AsFloat := Values[i, cxColQty.Index];
@@ -245,6 +246,8 @@ begin
             if not VarIsNull(Values[i, cxColKeterangan.Index]) then
               FieldByName('keterangan').AsString := Values[i, cxColKeterangan.Index];
             FieldByName('tgl_input').AsDateTime := Aplikasi.NowServer;
+            FieldByName('user').AsString := Aplikasi.NamaUser;
+            FieldByname('user_dept').AsString := Aplikasi.UserDept;
             Post;
           end;
 
@@ -267,23 +270,29 @@ begin
           qbrg.FieldByName('stok').AsFloat := qbrg.FieldByName('stok').AsFloat - Values[i, cxColQty.Index];
           qbrg.Post;
           qbrg.Close;
-          }
 
         end;
       end;
+      dm.zConn.ExecuteDirect(
+        Format('UPDATE tbl_trskeluar_head SET f_posting = 1 WHERE id = %d',[ID])
+      );
       dm.zConn.Commit;
       qh.Close;
       qd.Close;
       Self.Jenis := '';
       MsgBox('Transaksi barang keluar sudah disimpan dengan No. Bukti : ' + sNoBukti);
 
-      if Assigned(Self.FormInduk) then
-        (Self.FormInduk as TFrmLstBarangKeluar).btnRefreshClick(nil);
+      if Assigned(Self.FormInduk) then begin
+        try
+          (Self.FormInduk as TFrmLstBarangKeluar).btnRefreshClick(nil);
+          (Self.FormInduk as TfrmLstBarangKeluar).zqrBarangKeluar.Last;
+        except
+        end;
+      end;
 
       inherited;
 
       btnBatalClick(nil);
-
 
     except
       on E: Exception do begin

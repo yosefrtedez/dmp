@@ -3,7 +3,7 @@ inherited frmInputPB: TfrmInputPB
   ClientHeight = 739
   ClientWidth = 1172
   OnShow = FormShow
-  ExplicitTop = -209
+  ExplicitTop = -33
   ExplicitWidth = 1172
   ExplicitHeight = 739
   PixelsPerInch = 96

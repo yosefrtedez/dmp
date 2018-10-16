@@ -139,7 +139,7 @@ begin
             qd.FieldByName('id_ref').AsString := qh.FieldByName('id').AsString;
           end;
           qd.FieldByName('no_bukti').AsString := sNoBukti;
-          qd.FieldByName('kode_brg').AsString := Values[i, cxColKodeBrg2.Index];
+          qd.FieldByName('kode_brg').AsString := GetKodeBrg(Values[i, cxColDeskripsi.Index]);
           qd.FieldByName('id_brg').AsInteger := Values[i, cxColDeskripsi.Index];
           qd.FieldByName('qty').AsFloat := Values[i, cxColQty.Index];
           qd.FieldByName('id_satuan').AsString := Values[i, cxColIdSatuan.Index];
@@ -156,7 +156,7 @@ begin
             Insert;
             FieldByName('no_bukti').AsString := sNoBukti;
             FieldByName('tanggal').AsDateTime := cxdTglDatang.Date;
-            FieldByName('kode_brg').AsString := Values[i, cxColKodeBrg.Index];
+            FieldByName('kode_brg').AsString := GetKodeBrg(Values[i, cxColDeskripsi.Index]);
             FieldByName('id_brg').AsInteger := Values[i, cxColDeskripsi.Index];
             FieldByName('qty').AsFloat := Values[i, cxColQty.Index];
             FieldByName('tipe').AsString := 'i';
@@ -182,7 +182,7 @@ begin
           if qbrg.IsEmpty then begin
             qbrg.Insert;
             qbrg.FieldByName('id_brg').AsInteger := Values[i, cxColDeskripsi.Index];
-            qbrg.FieldByName('kode_brg').AsString := Values[i, cxColKodeBrg.Index];
+            qbrg.FieldByName('kode_brg').AsString := GetKodeBrg(Values[i, cxColDeskripsi.Index]);
             qbrg.FieldByName('id_gdg').AsInteger := Values[i, cxColGudang.Index];
           end
           else

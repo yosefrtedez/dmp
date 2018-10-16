@@ -286,7 +286,7 @@ begin
         qd.FieldByName('id_ref').AsInteger := ID;
         qd.FieldByName('no_bukti').AsString := sNoTrs;
         qd.FieldByName('id_brg').AsInteger := Values[i, cxColKodeBrg2.Index];
-        qd.FieldByname('kode_brg').AsString := Values[i, cxColKodeBrg2.Index];
+        qd.FieldByname('kode_brg').AsString := GetKodeBrg(Values[i, cxColKodeBrg2.Index]);
         qd.FieldByname('qty').AsFloat := Values[i, cxColQtyDatang2.Index];
         qd.FieldByName('id_satuan').AsInteger := Values[i, cxColIdSatuan22.Index];
         qd.FieldbyName('id_gdg').AsInteger := Values[i, cxColGdg2.Index];
@@ -305,7 +305,7 @@ begin
           hst.FieldByname('tanggal').AsDateTime := cxdTglDatang.Date;
           hst.FieldByName('id_brg').AsInteger := Values[i, cxColKodeBrg2.Index];
           hst.FieldByName('id_gdg').AsInteger := Values[i, cxColGdg2.Index];
-          hst.FieldByname('kode_brg').AsString := Values[i, cxColKodeBrg2.Index];
+          hst.FieldByname('kode_brg').AsString := GetKodeBrg(Values[i, cxColKodeBrg2.Index]);
           hst.FieldByname('qty').AsFloat := Values[i, cxColQtyDatang2.Index];
           hst.FieldByName('id_satuan').AsInteger := Values[i, cxColIdSatuan22.Index];
           hst.FieldByName('id_pb').AsInteger := ID;
@@ -646,6 +646,7 @@ begin
     MsgBox('Penerimaan barang sudah disimpan dengan nomor: ' + sNoTrs);
 
     lstPOClose := CheckPOComplete;
+
     if lstPOClose.Count > 0 then begin
       MsgBox('PO : ' + lstPOClose.CommaText + ' sudah selesai.');
     end;

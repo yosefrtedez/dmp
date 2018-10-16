@@ -80,7 +80,6 @@ var
   f0: Boolean;
 
 begin
-  inherited;
 
   if (cxtbBarangMasuk.DataController.EditState = [dceInsert, dceModified]) or
     (cxtbBarangMasuk.DataController.EditState = [dceEdit, dceModified]) then begin
@@ -118,11 +117,12 @@ begin
 
       qh.FieldByName('no_bukti').AsString := sNoBukti;
       qh.FieldByName('keterangan').AsString := cxtKeterangan.Text;
-      qh.FieldByName('tanggal').AsDateTime := Aplikasi.Tanggal;
+      qh.FieldByName('tanggal').AsDateTime := cxdTglDatang.Date;
       qh.FieldByName('user').AsString := Aplikasi.NamaUser;
       qh.FieldByName('user_dept').AsString := Aplikasi.UserDept;
       qh.FieldByName('tgl_input').AsDateTime := Aplikasi.Tanggal;
       qh.FieldByName('jenistrs').AsString := cxCmbJenisTrs.Text;
+      qh.FieldByName('tgl_edit').AsDateTime := Aplikasi.NowServer;
       qh.Post;
 
       if Self.Jenis = 'T' then  ID := LastInsertID;
@@ -151,11 +151,11 @@ begin
           end;
           qd.Post;
 
-          { 01/08
+          { 01/08 }
           with qhst do begin
             Insert;
             FieldByName('no_bukti').AsString := sNoBukti;
-            FieldByName('tanggal').AsDateTime := Aplikasi.TanggalServer;
+            FieldByName('tanggal').AsDateTime := cxdTglDatang.Date;
             FieldByName('kode_brg').AsString := Values[i, cxColKodeBrg.Index];
             FieldByName('id_brg').AsInteger := Values[i, cxColDeskripsi.Index];
             FieldByName('qty').AsFloat := Values[i, cxColQty.Index];
@@ -165,6 +165,8 @@ begin
             if not VarIsNull(Values[i, cxColKeterangan.Index]) then
               FieldByName('keterangan').AsString := Values[i, cxColKeterangan.Index];
             FieldByName('tgl_input').AsDateTime := Aplikasi.NowServer;
+            FieldByName('user').AsString := Aplikasi.NamaUser;
+            FieldByName('user_dept').AsString := Aplikasi.UserDept;
             Post;
           end;
 
@@ -189,17 +191,27 @@ begin
           qbrg.FieldByName('stok').AsFloat := qbrg.FieldByName('stok').AsFloat + Values[i, cxColQty.Index];
           qbrg.Post;
           qbrg.Close;
-          }
+
         end;
       end;
+      dm.zConn.ExecuteDirect(
+        Format('UPDATE tbl_trsmasuk_head SET f_posting = 1 WHERE id = %d',[ID])
+      );
       dm.zConn.Commit;
       qh.Close;
       qd.Close;
       Self.Jenis := '';
       MsgBox('Transaksi barang masuk sudah disimpan dengan No. Bukti : ' + sNoBukti);
-      if Assigned(Self.FormInduk) then
-        (Self.FormInduk as TfrmLstBarangMasuk).btnRefreshClick(nil);
+
+      if Assigned(Self.FormInduk) then begin
+        try
+          (Self.FormInduk as TfrmLstBarangMasuk).btnRefreshClick(nil);
+          (Self.FormInduk as TfrmLstBarangmasuk).zqrBarangMasuk.Last;
+        except
+        end;
+      end;
       btnBatalClick(nil);
+      inherited;
     except
       on E: Exception do begin
         dm.zConn.Rollback;

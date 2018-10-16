@@ -91,6 +91,7 @@ function GetHargaCust(id_cust, id_brg: Integer): real;
 procedure UpdateHargaCust(id_cust, id_brg: Integer; harga: real);
 function GetHargaSupp(id_supp, id_brg: Integer): real;
 procedure UpdateHargaSupp(id_supp, id_brg: Integer; harga: real);
+function GetKodeBrg(id_brg: Variant): string;
 
 implementation
 
@@ -1458,6 +1459,19 @@ begin
   q.FieldByName('id_brg').AsInteger := id_brg;
   q.FieldByName('harga').AsFloat := harga;
   q.Post;
+  q.Close;
+end;
+
+function GetKodeBrg(id_brg: Variant): string;
+var
+  q: TZQuery;
+  s: string;
+begin
+  q := OpenRS('SELECT kode FROM tbl_barang WHERE id = ''%s''',[id_brg]);
+  s := '';
+  if not q.IsEmpty then
+    s := q.FieldByname('kode').AsString;
+  Result := s;
   q.Close;
 end;
 
