@@ -759,6 +759,22 @@ object frmLapSJ: TfrmLapSJ
         Value = 
           '((SUM(<fdbSJ01."qty">*<fdbSJ01."harga">)-((<fdbSJ01."diskon">/10' +
           '0)*SUM(<fdbSJ01."qty">*<fdbSJ01."harga">)))/1.1)*(10/100)'
+      end
+      item
+        Name = 'Subtotal'
+        Value = 
+          '<fdbSJ01."hargaikat">*<fdbSJ01."qty">*<fdbSJ01."jml_ikat_per_kar' +
+          'ung">'
+      end
+      item
+        Name = 'DPP'
+        Value = '(SUM(<Subtotal>)-((<fdbSJ01."diskon">/100)*SUM(<Subtotal>)))/1.1'
+      end
+      item
+        Name = 'PPN10'
+        Value = 
+          '((SUM(<Subtotal>)-((<fdbSJ01."diskon">/100)*SUM(<Subtotal>)))/1.' +
+          '1)*(10/100)'
       end>
     Style = <>
     object Data: TfrxDataPage
@@ -806,8 +822,8 @@ object frmLapSJ: TfrmLapSJ
           ParentFont = False
         end
         object fdbSJ01qty: TfrxMemoView
-          Left = 438.425480000000000000
-          Width = 98.267780000000000000
+          Left = 408.189240000000000000
+          Width = 56.692950000000000000
           Height = 18.897650000000000000
           ShowHint = False
           DataField = 'qty'
@@ -825,7 +841,7 @@ object frmLapSJ: TfrmLapSJ
         end
         object fdbSJ01jml_ikat_per_karung: TfrxMemoView
           Left = 336.378170000000000000
-          Width = 98.267780000000000000
+          Width = 71.811070000000000000
           Height = 18.897650000000000000
           ShowHint = False
           DataField = 'jml_ikat_per_karung'
@@ -842,8 +858,8 @@ object frmLapSJ: TfrmLapSJ
           ParentFont = False
         end
         object fdbSJ01hrgjual: TfrxMemoView
-          Left = 540.472790000000000000
-          Width = 86.929190000000000000
+          Left = 468.661720000000000000
+          Width = 71.811070000000000000
           Height = 18.897650000000000000
           ShowHint = False
           DataField = 'hargaikat'
@@ -856,14 +872,14 @@ object frmLapSJ: TfrmLapSJ
           Font.Height = -13
           Font.Name = 'Arial'
           Font.Style = []
-          HAlign = haCenter
+          HAlign = haRight
           Memo.UTF8W = (
             '[fdbSJ01."hargaikat"]')
           ParentFont = False
         end
         object Memo22: TfrxMemoView
-          Left = 631.181510000000000000
-          Width = 120.944960000000000000
+          Left = 544.252320000000000000
+          Width = 86.929190000000000000
           Height = 18.897650000000000000
           ShowHint = False
           DataSet = fdbSJ01
@@ -877,12 +893,29 @@ object frmLapSJ: TfrmLapSJ
           Font.Style = []
           HAlign = haRight
           Memo.UTF8W = (
-            '[<fdbSJ01."harga">*<fdbSJ01."qty">]')
+            '[Subtotal]')
+          ParentFont = False
+        end
+        object fdbSJ01ket_detail: TfrxMemoView
+          Left = 634.961040000000000000
+          Width = 120.944960000000000000
+          Height = 18.897650000000000000
+          ShowHint = False
+          DataField = 'ket_detail'
+          DataSet = fdbSJ01
+          DataSetName = 'fdbSJ01'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = []
+          Memo.UTF8W = (
+            '[fdbSJ01."ket_detail"]')
           ParentFont = False
         end
       end
       object GroupHeader1: TfrxGroupHeader
-        Height = 173.858267716535400000
+        Height = 173.858267720000000000
         Top = 71.811070000000000000
         Width = 755.906000000000000000
         Condition = 'fdbSJ01."id"'
@@ -1007,7 +1040,7 @@ object frmLapSJ: TfrmLapSJ
         object Memo8: TfrxMemoView
           Left = 336.378170000000000000
           Top = 148.519790000000000000
-          Width = 98.267780000000000000
+          Width = 71.811070000000000000
           Height = 18.897650000000000000
           ShowHint = False
           Font.Charset = DEFAULT_CHARSET
@@ -1017,13 +1050,13 @@ object frmLapSJ: TfrmLapSJ
           Font.Style = []
           HAlign = haCenter
           Memo.UTF8W = (
-            'Jml. Ikat / Bal')
+            'J. Ikat / Bal')
           ParentFont = False
         end
         object Memo9: TfrxMemoView
-          Left = 438.425480000000000000
+          Left = 408.189240000000000000
           Top = 148.519790000000000000
-          Width = 98.267780000000000000
+          Width = 56.692950000000000000
           Height = 18.897650000000000000
           ShowHint = False
           Font.Charset = DEFAULT_CHARSET
@@ -1037,9 +1070,9 @@ object frmLapSJ: TfrmLapSJ
           ParentFont = False
         end
         object Memo10: TfrxMemoView
-          Left = 540.472790000000000000
+          Left = 468.661720000000000000
           Top = 148.519790000000000000
-          Width = 86.929190000000000000
+          Width = 71.811070000000000000
           Height = 18.897650000000000000
           ShowHint = False
           Font.Charset = DEFAULT_CHARSET
@@ -1059,9 +1092,9 @@ object frmLapSJ: TfrmLapSJ
           Frame.Typ = [ftTop]
         end
         object Memo21: TfrxMemoView
-          Left = 631.181510000000000000
+          Left = 544.252320000000000000
           Top = 148.519790000000000000
-          Width = 120.944960000000000000
+          Width = 86.929190000000000000
           Height = 18.897650000000000000
           ShowHint = False
           Font.Charset = DEFAULT_CHARSET
@@ -1130,11 +1163,26 @@ object frmLapSJ: TfrmLapSJ
           Width = 245.669450000000000000
           Height = 18.897650000000000000
           ShowHint = False
-          DataField = 'kota'
           DataSet = fdbSJ01
           DataSetName = 'fdbSJ01'
           Memo.UTF8W = (
-            '[fdbSJ01."kota"]')
+            '[fdbSJ01."kota_1"]')
+        end
+        object Memo30: TfrxMemoView
+          Left = 634.961040000000000000
+          Top = 148.535433070000000000
+          Width = 120.944960000000000000
+          Height = 18.897650000000000000
+          ShowHint = False
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = []
+          HAlign = haCenter
+          Memo.UTF8W = (
+            'Keterangan')
+          ParentFont = False
         end
       end
       object GroupFooter1: TfrxGroupFooter
@@ -1148,7 +1196,7 @@ object frmLapSJ: TfrmLapSJ
           Frame.Typ = [ftTop]
         end
         object Memo11: TfrxMemoView
-          Left = 532.913730000000000000
+          Left = 411.968770000000000000
           Top = 3.779530000000000000
           Width = 94.488250000000000000
           Height = 18.897650000000000000
@@ -1157,7 +1205,7 @@ object frmLapSJ: TfrmLapSJ
             'Sub Total')
         end
         object SysMemo1: TfrxSysMemoView
-          Left = 631.181510000000000000
+          Left = 510.236550000000000000
           Top = 3.779530000000000000
           Width = 120.944960000000000000
           Height = 18.897650000000000000
@@ -1171,11 +1219,11 @@ object frmLapSJ: TfrmLapSJ
           Font.Style = []
           HAlign = haRight
           Memo.UTF8W = (
-            '[SUM(<fdbSJ01."qty">*<fdbSJ01."harga">)]')
+            '[SUM(<Subtotal>,MasterData1)]')
           ParentFont = False
         end
         object Memo12: TfrxMemoView
-          Left = 532.913730000000000000
+          Left = 411.968770000000000000
           Top = 26.456710000000000000
           Width = 94.488250000000000000
           Height = 18.897650000000000000
@@ -1184,7 +1232,7 @@ object frmLapSJ: TfrmLapSJ
             'Diskon (%)')
         end
         object Memo13: TfrxMemoView
-          Left = 532.913730000000000000
+          Left = 411.968770000000000000
           Top = 49.133890000000000000
           Width = 94.488250000000000000
           Height = 18.897650000000000000
@@ -1193,7 +1241,7 @@ object frmLapSJ: TfrmLapSJ
             'Stlh. Diskon')
         end
         object Memo14: TfrxMemoView
-          Left = 532.913730000000000000
+          Left = 411.968770000000000000
           Top = 71.811070000000000000
           Width = 94.488250000000000000
           Height = 18.897650000000000000
@@ -1202,7 +1250,7 @@ object frmLapSJ: TfrmLapSJ
             'DPP')
         end
         object Memo15: TfrxMemoView
-          Left = 532.913730000000000000
+          Left = 411.968770000000000000
           Top = 94.488250000000000000
           Width = 94.488250000000000000
           Height = 18.897650000000000000
@@ -1211,7 +1259,7 @@ object frmLapSJ: TfrmLapSJ
             'PPN 10%')
         end
         object Memo16: TfrxMemoView
-          Left = 532.913730000000000000
+          Left = 411.968770000000000000
           Top = 117.165430000000000000
           Width = 94.488250000000000000
           Height = 18.897650000000000000
@@ -1220,7 +1268,7 @@ object frmLapSJ: TfrmLapSJ
             'Total')
         end
         object fdbSJ01diskon: TfrxMemoView
-          Left = 631.181510000000000000
+          Left = 510.236550000000000000
           Top = 26.456710000000000000
           Width = 120.944960000000000000
           Height = 18.897650000000000000
@@ -1238,7 +1286,7 @@ object frmLapSJ: TfrmLapSJ
           ParentFont = False
         end
         object Memo18: TfrxMemoView
-          Left = 631.181510000000000000
+          Left = 510.236550000000000000
           Top = 49.133890000000000000
           Width = 120.944960000000000000
           Height = 18.897650000000000000
@@ -1252,13 +1300,11 @@ object frmLapSJ: TfrmLapSJ
           Font.Style = []
           HAlign = haRight
           Memo.UTF8W = (
-            
-              '[SUM(<fdbSJ01."qty">*<fdbSJ01."harga">)-((<fdbSJ01."diskon">/100' +
-              ')*SUM(<fdbSJ01."qty">*<fdbSJ01."harga">))]')
+            '[SUM(<Subtotal>)-((<fdbSJ01."diskon">/100)*SUM(<Subtotal>))]')
           ParentFont = False
         end
         object Memo19: TfrxMemoView
-          Left = 631.181510000000000000
+          Left = 510.236550000000000000
           Top = 71.811070000000000000
           Width = 120.944960000000000000
           Height = 18.897650000000000000
@@ -1272,13 +1318,11 @@ object frmLapSJ: TfrmLapSJ
           Font.Style = []
           HAlign = haRight
           Memo.UTF8W = (
-            
-              '[(SUM(<fdbSJ01."qty">*<fdbSJ01."harga">)-((<fdbSJ01."diskon">/10' +
-              '0)*SUM(<fdbSJ01."qty">*<fdbSJ01."harga">)))/1.1]')
+            '[DPP]')
           ParentFont = False
         end
         object Memo20: TfrxMemoView
-          Left = 631.181510000000000000
+          Left = 510.236550000000000000
           Top = 94.488250000000000000
           Width = 120.944960000000000000
           Height = 18.897650000000000000
@@ -1292,13 +1336,11 @@ object frmLapSJ: TfrmLapSJ
           Font.Style = []
           HAlign = haRight
           Memo.UTF8W = (
-            
-              '[((SUM(<fdbSJ01."qty">*<fdbSJ01."harga">)-((<fdbSJ01."diskon">/1' +
-              '00)*SUM(<fdbSJ01."qty">*<fdbSJ01."harga">)))/1.1)*(10/100)]')
+            '[PPN10]')
           ParentFont = False
         end
         object Memo23: TfrxMemoView
-          Left = 631.181510000000000000
+          Left = 510.236550000000000000
           Top = 117.165430000000000000
           Width = 120.944960000000000000
           Height = 18.897650000000000000
@@ -1312,9 +1354,7 @@ object frmLapSJ: TfrmLapSJ
           Font.Style = []
           HAlign = haRight
           Memo.UTF8W = (
-            
-              '[((SUM(<fdbSJ01."qty">*<fdbSJ01."harga">)-((<fdbSJ01."diskon">/1' +
-              '00)*SUM(<fdbSJ01."qty">*<fdbSJ01."harga">)))/1.1)+<PPN>]')
+            '[<DPP>+<PPN10>]')
           ParentFont = False
         end
         object Memo24: TfrxMemoView
@@ -1478,6 +1518,10 @@ object frmLapSJ: TfrmLapSJ
         Value = 
           '((SUM(<fdbSJ01."qty">*<fdbSJ01."hrgjual">)-((<fdbSJ01."diskon">/' +
           '100)*SUM(<fdbSJ01."qty">*<fdbSJ01."hrgjual">)))/1.1)*(10/100)'
+      end
+      item
+        Name = 'Subtotal'
+        Value = '<fdbSJ01."harga">*<fdbSJ01."qty">'
       end>
     Style = <>
     object Data: TfrxDataPage
@@ -1575,7 +1619,7 @@ object frmLapSJ: TfrmLapSJ
           Font.Height = -13
           Font.Name = 'Arial'
           Font.Style = []
-          HAlign = haCenter
+          HAlign = haRight
           Memo.UTF8W = (
             '[fdbSJ01."hargaikat"]')
           ParentFont = False
@@ -1596,7 +1640,7 @@ object frmLapSJ: TfrmLapSJ
           Font.Style = []
           HAlign = haRight
           Memo.UTF8W = (
-            '[<fdbSJ01."harga">*<fdbSJ01."qty">]')
+            '[Subtotal]')
           ParentFont = False
         end
       end
@@ -1870,7 +1914,7 @@ object frmLapSJ: TfrmLapSJ
           Font.Style = []
           HAlign = haRight
           Memo.UTF8W = (
-            '[SUM(<fdbSJ01."qty">*<fdbSJ01."harga">)]')
+            '[SUM(<Subtotal>,MasterData1)]')
           ParentFont = False
         end
         object Memo12: TfrxMemoView
@@ -1924,9 +1968,7 @@ object frmLapSJ: TfrmLapSJ
           Font.Style = []
           HAlign = haRight
           Memo.UTF8W = (
-            
-              '[SUM(<fdbSJ01."qty">*<fdbSJ01."harga">)-((<fdbSJ01."diskon">/100' +
-              ')*SUM(<fdbSJ01."qty">*<fdbSJ01."harga">))]')
+            '[SUM(<Subtotal>)-((<fdbSJ01."diskon">/100)*SUM(<Subtotal>))]')
           ParentFont = False
         end
         object Memo24: TfrxMemoView
