@@ -2,8 +2,8 @@ object frmUtama: TfrmUtama
   Left = 0
   Top = 0
   Caption = 'frmUtama'
-  ClientHeight = 523
-  ClientWidth = 1014
+  ClientHeight = 590
+  ClientWidth = 1106
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -27,8 +27,8 @@ object frmUtama: TfrmUtama
   end
   object stsBar: TdxStatusBar
     Left = 0
-    Top = 499
-    Width = 1014
+    Top = 566
+    Width = 1106
     Height = 24
     Panels = <
       item
@@ -55,6 +55,8 @@ object frmUtama: TfrmUtama
     Font.Height = -11
     Font.Name = 'Tahoma'
     Font.Style = []
+    ExplicitTop = 499
+    ExplicitWidth = 1014
   end
   object pgMain: TcxPageControl
     Left = 8
@@ -82,8 +84,8 @@ object frmUtama: TfrmUtama
     Visible = False
   end
   object Button1: TButton
-    Left = 712
-    Top = 360
+    Left = 455
+    Top = 407
     Width = 75
     Height = 25
     Caption = 'Button1'
@@ -274,6 +276,12 @@ object frmUtama: TfrmUtama
         Caption = 'Approval Retur Pembelian'
         OnClick = mnPur_AppReturPembelianClick
       end
+      object N8: TMenuItem
+        Caption = '-'
+      end
+      object mnPur_InputHargaPOPB: TMenuItem
+        Caption = 'Input Harga Beli PO / Penerimaan'
+      end
     end
     object mnAKT: TMenuItem
       Caption = 'AKT'
@@ -299,9 +307,12 @@ object frmUtama: TfrmUtama
           Caption = 'Invoice Pembelian'
           OnClick = mnAkt_InvoicePembelianClick
         end
-        object PembayaranPembelian1: TMenuItem
+        object mnAKT_PembayaranPembelian: TMenuItem
           Caption = 'Pembayaran Pembelian'
-          OnClick = PembayaranPembelian1Click
+          OnClick = mnAKT_PembayaranPembelianClick
+        end
+        object mnAkt_PencairanDeposit: TMenuItem
+          Caption = 'Pencairan Deposit'
         end
       end
       object Penjualan1: TMenuItem
@@ -314,6 +325,12 @@ object frmUtama: TfrmUtama
           Caption = 'Pembayaran Penjualan'
           OnClick = PembayaranPenjualan1Click
         end
+      end
+      object N7: TMenuItem
+        Caption = '-'
+      end
+      object mnAkt_LaporanDetailJurnal: TMenuItem
+        Caption = 'Laporan Detail Jurnal'
       end
     end
     object mnSet: TMenuItem

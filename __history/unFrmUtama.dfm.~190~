@@ -82,12 +82,13 @@ object frmUtama: TfrmUtama
     Visible = False
   end
   object Button1: TButton
-    Left = 712
-    Top = 360
+    Left = 455
+    Top = 407
     Width = 75
     Height = 25
     Caption = 'Button1'
     TabOrder = 2
+    Visible = False
     OnClick = Button1Click
   end
   object MainMenu: TMainMenu
@@ -273,6 +274,12 @@ object frmUtama: TfrmUtama
         Caption = 'Approval Retur Pembelian'
         OnClick = mnPur_AppReturPembelianClick
       end
+      object N8: TMenuItem
+        Caption = '-'
+      end
+      object mnPur_InputHargaPOPB: TMenuItem
+        Caption = 'Input Harga Beli PO / Penerimaan'
+      end
     end
     object mnAKT: TMenuItem
       Caption = 'AKT'
@@ -298,9 +305,12 @@ object frmUtama: TfrmUtama
           Caption = 'Invoice Pembelian'
           OnClick = mnAkt_InvoicePembelianClick
         end
-        object PembayaranPembelian1: TMenuItem
+        object mnAKT_PembayaranPembelian: TMenuItem
           Caption = 'Pembayaran Pembelian'
-          OnClick = PembayaranPembelian1Click
+          OnClick = mnAKT_PembayaranPembelianClick
+        end
+        object mnAkt_PencairanDeposit: TMenuItem
+          Caption = 'Pencairan Deposit'
         end
       end
       object Penjualan1: TMenuItem
@@ -313,6 +323,12 @@ object frmUtama: TfrmUtama
           Caption = 'Pembayaran Penjualan'
           OnClick = PembayaranPenjualan1Click
         end
+      end
+      object N7: TMenuItem
+        Caption = '-'
+      end
+      object mnAkt_LaporanDetailJurnal: TMenuItem
+        Caption = 'Laporan Detail Jurnal'
       end
     end
     object mnSet: TMenuItem

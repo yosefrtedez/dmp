@@ -2,8 +2,8 @@ object frmUtama: TfrmUtama
   Left = 0
   Top = 0
   Caption = 'frmUtama'
-  ClientHeight = 523
-  ClientWidth = 1014
+  ClientHeight = 614
+  ClientWidth = 1126
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -27,8 +27,8 @@ object frmUtama: TfrmUtama
   end
   object stsBar: TdxStatusBar
     Left = 0
-    Top = 499
-    Width = 1014
+    Top = 590
+    Width = 1126
     Height = 24
     Panels = <
       item
@@ -55,6 +55,8 @@ object frmUtama: TfrmUtama
     Font.Height = -11
     Font.Name = 'Tahoma'
     Font.Style = []
+    ExplicitTop = 499
+    ExplicitWidth = 1014
   end
   object pgMain: TcxPageControl
     Left = 8
@@ -278,7 +280,7 @@ object frmUtama: TfrmUtama
         Caption = '-'
       end
       object mnPur_InputHargaPOPB: TMenuItem
-        Caption = 'Input Harga Beli PO / Penerimaan'
+        Caption = 'Input Harga Beli Penerimaan'
       end
     end
     object mnAKT: TMenuItem

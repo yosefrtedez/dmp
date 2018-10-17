@@ -1146,11 +1146,10 @@ object frmLapSJ: TfrmLapSJ
           Width = 245.669450000000000000
           Height = 18.897650000000000000
           ShowHint = False
-          DataField = 'kota'
           DataSet = fdbSJ01
           DataSetName = 'fdbSJ01'
           Memo.UTF8W = (
-            '[fdbSJ01."kota"]')
+            '[fdbSJ01."kota_1"]')
         end
       end
       object GroupFooter1: TfrxGroupFooter
