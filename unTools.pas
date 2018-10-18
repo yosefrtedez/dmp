@@ -92,6 +92,7 @@ procedure UpdateHargaCust(id_cust, id_brg: Integer; harga: real);
 function GetHargaSupp(id_supp, id_brg: Integer): real;
 procedure UpdateHargaSupp(id_supp, id_brg: Integer; harga: real);
 function GetKodeBrg(id_brg: Variant): string;
+function GetWewenang(NamaUser, NamaMenu: string): string;
 
 implementation
 
@@ -1472,6 +1473,19 @@ begin
   if not q.IsEmpty then
     s := q.FieldByname('kode').AsString;
   Result := s;
+  q.Close;
+end;
+
+function GetWewenang(NamaUser, NamaMenu: string): string;
+var
+  q: TZQuery;
+begin
+  q := OpenRS('SELECT CONVERT(CONCAT(b,i,e,h), CHAR(10)) as wewenang FROM tbl_wewenang WHERE nama = ''%s'' AND nm_comp = ''%s''',
+    [NamaUser, NamaMenu]);
+  if not q.IsEmpty then
+    Result := q.FieldByName('wewenang').AsString
+  else
+    Result := '';
   q.Close;
 end;
 

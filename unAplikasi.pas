@@ -105,6 +105,7 @@ type
     mSatProd: Integer;
     mExeName: string;
     mFAcc: boolean;
+    mFAcc2: boolean;
     mPeriode: Integer;
 
     procedure SetNamaToko(value: string);
@@ -315,6 +316,7 @@ type
     property ExeName: string read mExeName write mExeName;
 
     property FAcc: boolean read mFAcc write mFAcc;
+    property FAcc2: Boolean read mFAcc2 write mFAcc2;
     property Periode: integer read mPeriode write mPeriode;
 
     procedure AddHistAvg(id_brg, id_ref: Integer; no_bukti: string; avg: Real);

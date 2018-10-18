@@ -28,8 +28,8 @@ inherited frmInputPBHarga: TfrmInputPBHarga
   inherited Panel2: TPanel
     Top = 684
     Width = 1172
-    TabOrder = 32
-    ExplicitTop = 690
+    TabOrder = 30
+    ExplicitTop = 684
     ExplicitWidth = 1172
     inherited btnSimpan: TButton
       Left = 11
@@ -109,28 +109,28 @@ inherited frmInputPBHarga: TfrmInputPBHarga
       end>
     Properties.ListSource = dsPO
     Properties.OnChange = cxlNoPPPropertiesChange
-    TabOrder = 5
+    TabOrder = 4
     Visible = False
     Width = 146
   end
   object cxdTglPO: TcxDateEdit
     Left = 682
     Top = 188
-    TabOrder = 26
+    TabOrder = 25
     Visible = False
     Width = 146
   end
   object cxdTglDatang: TcxDateEdit
     Left = 112
     Top = 143
-    TabOrder = 14
+    TabOrder = 13
     Width = 146
   end
   object cxtAlamat: TcxTextEdit
     Left = 112
     Top = 115
     Properties.ReadOnly = True
-    TabOrder = 11
+    TabOrder = 10
     Width = 396
   end
   object cxtNoBukti: TcxTextEdit
@@ -144,14 +144,14 @@ inherited frmInputPBHarga: TfrmInputPBHarga
     Left = 112
     Top = 170
     Properties.CharCase = ecUpperCase
-    TabOrder = 22
+    TabOrder = 21
     Width = 113
   end
   object cxtSopir: TcxTextEdit
     Left = 268
     Top = 170
     Properties.CharCase = ecUpperCase
-    TabOrder = 23
+    TabOrder = 22
     Width = 198
   end
   object cxgrpbx1: TcxGroupBox
@@ -210,7 +210,7 @@ inherited frmInputPBHarga: TfrmInputPBHarga
       '14 Hari'
       '30 Hari'
       '45 Hari')
-    TabOrder = 16
+    TabOrder = 15
     Visible = False
     Width = 198
   end
@@ -227,7 +227,7 @@ inherited frmInputPBHarga: TfrmInputPBHarga
     Properties.Items.Strings = (
       'IDR'
       'USD')
-    TabOrder = 17
+    TabOrder = 16
     Visible = False
     Width = 63
   end
@@ -246,198 +246,22 @@ inherited frmInputPBHarga: TfrmInputPBHarga
     Left = 112
     Top = 198
     Properties.CharCase = ecUpperCase
-    TabOrder = 28
+    TabOrder = 27
     Width = 464
   end
   object cxtRate: TcxTextEdit
     Left = 1033
     Top = 161
-    TabOrder = 18
+    TabOrder = 17
     Visible = False
     Width = 113
-  end
-  object cxgrdPP: TcxGrid
-    Left = 10
-    Top = 229
-    Width = 1150
-    Height = 293
-    Anchors = [akLeft, akTop, akRight]
-    TabOrder = 30
-    object cxtbPB: TcxGridTableView
-      NavigatorButtons.ConfirmDelete = False
-      NavigatorButtons.Insert.Visible = False
-      NavigatorButtons.Append.Visible = False
-      NavigatorButtons.Delete.Visible = True
-      NavigatorButtons.Refresh.Visible = False
-      NavigatorButtons.SaveBookmark.Visible = False
-      NavigatorButtons.GotoBookmark.Visible = False
-      NavigatorButtons.Filter.Visible = False
-      DataController.Summary.DefaultGroupSummaryItems = <>
-      DataController.Summary.FooterSummaryItems = <
-        item
-          Format = '#,##.00'
-          Kind = skSum
-          Column = cxColQtyPO
-        end
-        item
-          Format = '#,##.00'
-          Kind = skSum
-          Column = cxColTotal
-        end>
-      DataController.Summary.SummaryGroups = <>
-      DataController.OnBeforePost = cxtbPBDataControllerBeforePost
-      DataController.OnRecordChanged = cxtbPBDataControllerRecordChanged
-      OptionsBehavior.FocusCellOnTab = True
-      OptionsData.Inserting = False
-      OptionsView.Navigator = True
-      OptionsView.GroupByBox = False
-      object cxColNo: TcxGridColumn
-        Caption = 'No'
-        PropertiesClassName = 'TcxTextEditProperties'
-        Properties.ReadOnly = False
-        Visible = False
-        Width = 32
-      end
-      object cxColKodeBrg: TcxGridColumn
-        Caption = 'Kode Brg'
-        PropertiesClassName = 'TcxTextEditProperties'
-        Properties.ReadOnly = True
-        Width = 95
-      end
-      object cxColDeskripsi: TcxGridColumn
-        Caption = 'Deskripsi'
-        PropertiesClassName = 'TcxTextEditProperties'
-        Properties.ReadOnly = True
-        Width = 219
-      end
-      object cxColNoPO: TcxGridColumn
-        Caption = 'No. PO'
-        PropertiesClassName = 'TcxTextEditProperties'
-        Properties.ReadOnly = True
-        Width = 96
-      end
-      object cxColTglPO: TcxGridColumn
-        Caption = 'Tgl. PO'
-        DataBinding.ValueType = 'DateTime'
-        PropertiesClassName = 'TcxDateEditProperties'
-        Properties.ReadOnly = True
-        Width = 81
-      end
-      object cxColQtyPO: TcxGridColumn
-        Caption = 'Qty. PO'
-        DataBinding.ValueType = 'Float'
-        PropertiesClassName = 'TcxSpinEditProperties'
-        Properties.Alignment.Horz = taRightJustify
-        Properties.DisplayFormat = '#,##.00'
-        Properties.ReadOnly = True
-      end
-      object cxColQtyTerima: TcxGridColumn
-        Caption = 'Qty. Sudah Terima'
-        DataBinding.ValueType = 'Float'
-        PropertiesClassName = 'TcxSpinEditProperties'
-        Properties.Alignment.Horz = taRightJustify
-        Properties.DisplayFormat = '#,#0.00'
-        Properties.ReadOnly = True
-        Properties.ValueType = vtFloat
-        Width = 108
-      end
-      object cxColQtyDatang: TcxGridColumn
-        Caption = 'Qty. Datang'
-        DataBinding.ValueType = 'Float'
-        PropertiesClassName = 'TcxSpinEditProperties'
-        Properties.Alignment.Horz = taRightJustify
-        Properties.DisplayFormat = '#,#0.00'
-        Properties.ReadOnly = False
-        Properties.ValueType = vtFloat
-        Options.Editing = False
-        Width = 83
-      end
-      object cxColSatuan: TcxGridColumn
-        Caption = 'Satuan'
-        PropertiesClassName = 'TcxTextEditProperties'
-        Properties.ReadOnly = True
-        Width = 82
-      end
-      object cxColHarga: TcxGridColumn
-        Caption = 'Harga'
-        DataBinding.ValueType = 'Float'
-        PropertiesClassName = 'TcxSpinEditProperties'
-        Properties.DisplayFormat = '#,##.00'
-        Properties.ReadOnly = True
-        Visible = False
-        Width = 88
-      end
-      object cxColGdg: TcxGridColumn
-        Caption = 'Gudang'
-        PropertiesClassName = 'TcxLookupComboBoxProperties'
-        Properties.KeyFieldNames = 'id'
-        Properties.ListColumns = <
-          item
-            Caption = 'Gudang'
-            FieldName = 'nama'
-          end>
-        Properties.ListSource = dsGdg
-        Width = 106
-      end
-      object cxColPPn: TcxGridColumn
-        Caption = 'PPN'
-        PropertiesClassName = 'TcxComboBoxProperties'
-        Properties.Items.Strings = (
-          'NON PPN'
-          'PPN')
-        Properties.ReadOnly = True
-        Visible = False
-      end
-      object cxColValuta: TcxGridColumn
-        Caption = 'Valuta'
-        PropertiesClassName = 'TcxComboBoxProperties'
-        Properties.Items.Strings = (
-          'IDR'
-          'USD')
-        Visible = False
-        Width = 61
-      end
-      object cxColKeterangan: TcxGridColumn
-        Caption = 'Keterangan'
-        PropertiesClassName = 'TcxTextEditProperties'
-        Width = 200
-      end
-      object cxColTotal: TcxGridColumn
-        Caption = 'Total'
-        DataBinding.ValueType = 'Float'
-        PropertiesClassName = 'TcxSpinEditProperties'
-        Properties.DisplayFormat = '#,##.00'
-        Properties.ReadOnly = False
-        Visible = False
-        Options.Editing = False
-        Width = 112
-      end
-      object cxColIdSatuan: TcxGridColumn
-        DataBinding.ValueType = 'Integer'
-        Visible = False
-      end
-      object cxColIdBrg: TcxGridColumn
-        Visible = False
-      end
-      object cxColIdGdg: TcxGridColumn
-        DataBinding.ValueType = 'Integer'
-        PropertiesClassName = 'TcxSpinEditProperties'
-        Visible = False
-      end
-      object cxColIdPO: TcxGridColumn
-        Visible = False
-      end
-    end
-    object cxgrdlvl1Grid1Level1: TcxGridLevel
-      GridView = cxtbPB
-    end
   end
   object cxChkPosting: TcxCheckBox
     Left = 1048
     Top = 139
     Caption = 'Posting'
     State = cbsChecked
-    TabOrder = 13
+    TabOrder = 12
     Visible = False
     Width = 65
   end
@@ -452,7 +276,7 @@ inherited frmInputPBHarga: TfrmInputPBHarga
       end>
     Properties.ListSource = dsSupp
     Properties.OnChange = cxlSuppPropertiesChange
-    TabOrder = 9
+    TabOrder = 8
     OnExit = cxlSuppExit
     Width = 396
   end
@@ -460,7 +284,7 @@ inherited frmInputPBHarga: TfrmInputPBHarga
     Left = 455
     Top = 61
     Caption = 'Selesai'
-    TabOrder = 4
+    TabOrder = 3
     Visible = False
     Width = 121
   end
@@ -470,24 +294,15 @@ inherited frmInputPBHarga: TfrmInputPBHarga
     Width = 75
     Height = 25
     Caption = 'Pilih PO'
-    TabOrder = 8
-    OnClick = btnPilihPOClick
-  end
-  object cxChkPBTanpaPO: TcxCheckBox
-    Left = 264
-    Top = 61
-    Caption = 'Penerimaan Barang Tanpa PO'
-    TabOrder = 3
-    OnClick = cxChkPBTanpaPOClick
-    Width = 177
+    TabOrder = 7
   end
   object cxGrdPB2: TcxGrid
-    Left = 34
-    Top = 270
+    Left = 10
+    Top = 229
     Width = 1150
     Height = 293
     Anchors = [akLeft, akTop, akRight]
-    TabOrder = 31
+    TabOrder = 29
     object cxtbPB2: TcxGridTableView
       NavigatorButtons.ConfirmDelete = False
       NavigatorButtons.Insert.Visible = False
@@ -531,6 +346,7 @@ inherited frmInputPBHarga: TfrmInputPBHarga
             FieldName = 'deskripsi'
           end>
         Properties.ListSource = dsBarang
+        Properties.ReadOnly = True
         Width = 95
       end
       object cxColDeskripsi2: TcxGridColumn
@@ -549,6 +365,7 @@ inherited frmInputPBHarga: TfrmInputPBHarga
             FieldName = 'kode'
           end>
         Properties.ListSource = dsBarang
+        Properties.ReadOnly = True
         Width = 219
       end
       object cxColQtyDatang2: TcxGridColumn
@@ -557,6 +374,7 @@ inherited frmInputPBHarga: TfrmInputPBHarga
         PropertiesClassName = 'TcxSpinEditProperties'
         Properties.Alignment.Horz = taRightJustify
         Properties.DisplayFormat = '#,#0.00'
+        Properties.ReadOnly = True
         Properties.ValueType = vtFloat
         Width = 85
       end
@@ -600,11 +418,13 @@ inherited frmInputPBHarga: TfrmInputPBHarga
             FieldName = 'nama'
           end>
         Properties.ListSource = dsGdg
+        Properties.ReadOnly = True
         Width = 106
       end
       object cxColKeterangan2: TcxGridColumn
         Caption = 'Keterangan'
         PropertiesClassName = 'TcxTextEditProperties'
+        Properties.ReadOnly = True
         Width = 200
       end
       object cxColKodeBrg22: TcxGridColumn
@@ -630,6 +450,7 @@ inherited frmInputPBHarga: TfrmInputPBHarga
         PropertiesClassName = 'TcxSpinEditProperties'
         Properties.Alignment.Horz = taRightJustify
         Properties.DisplayFormat = '#,#0.00'
+        Properties.ReadOnly = True
         Width = 92
       end
     end

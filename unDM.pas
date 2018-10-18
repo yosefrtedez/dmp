@@ -93,12 +93,16 @@ begin
     if ParamStr(2) = '/admin:admin1' then begin
       aplikasi.debug := true;
     end;
-    if ParamStr(3) = '/acc' then
-      Aplikasi.FAcc := true;
+    //if ParamStr(3) = '/acc' then
+    //  Aplikasi.FAcc := true;
   end
   else begin
     CekUpdate;
   end;
+
+  // 18/10/2018
+  // aktifkan modul akunting
+  Aplikasi.FAcc := True;
 
   if (FileExists(FileIni)) then begin
 

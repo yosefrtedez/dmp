@@ -221,6 +221,15 @@ begin
   Self.NamaMenu := 'mnPur_PB';
   Self.TerapkanWewenang(Self.NamaMenu);
   zqrPBHead.Open;
+
+  if GetWewenang(Aplikasi.NamaUser, 'InputHargaPB') = '1100' then
+    btnInputHarga.Visible := True
+  else
+    btnInputHarga.Visible := False;
+
+  if Pos(Aplikasi.NamaUser, 'ADMIN;FELGITO;HENDRA') > 0 then
+    btnInputHarga.Visible := True;
+
 end;
 
 end.
