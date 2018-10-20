@@ -3,7 +3,7 @@ inherited frmInputPBHarga: TfrmInputPBHarga
   ClientHeight = 733
   ClientWidth = 1172
   OnShow = FormShow
-  ExplicitTop = -44
+  ExplicitTop = -94
   ExplicitWidth = 1172
   ExplicitHeight = 733
   PixelsPerInch = 96
@@ -306,7 +306,7 @@ inherited frmInputPBHarga: TfrmInputPBHarga
     object cxtbPB2: TcxGridTableView
       NavigatorButtons.ConfirmDelete = False
       NavigatorButtons.Insert.Visible = False
-      NavigatorButtons.Append.Visible = True
+      NavigatorButtons.Append.Visible = False
       NavigatorButtons.Delete.Visible = True
       NavigatorButtons.Refresh.Visible = False
       NavigatorButtons.SaveBookmark.Visible = False
@@ -327,7 +327,8 @@ inherited frmInputPBHarga: TfrmInputPBHarga
       DataController.OnBeforePost = cxtbPB2DataControllerBeforePost
       DataController.OnRecordChanged = cxtbPB2DataControllerRecordChanged
       OptionsBehavior.FocusCellOnTab = True
-      OptionsData.Appending = True
+      OptionsData.Deleting = False
+      OptionsData.Inserting = False
       OptionsView.Navigator = True
       OptionsView.GroupByBox = False
       object cxColKodeBrg2: TcxGridColumn

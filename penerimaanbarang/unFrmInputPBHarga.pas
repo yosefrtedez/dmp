@@ -233,6 +233,16 @@ begin
                 0,
                 'B'
               );
+
+            hst := OpenRS('SELECT * FROM tbl_history WHERE no_bukti = ''%s'' AND id_brg = ''%s''',
+              [sNoTrs,Values[i, cxColKodeBrg2.Index]]);
+            if not hst.IsEmpty then begin
+              hst.Edit;
+              hst.FieldByname('avgcost').AsFloat := hpp;
+              hst.Post;
+            end;
+            hst.Close;
+
           end;
 
           {
@@ -277,9 +287,11 @@ begin
               qjd.FieldByName('no_jurnal').AsString := sNoJ;
               qjd.FieldByName('no_trans').AsString := sNoTrs;
               qjd.FieldByName('id_akun').AsInteger := id_akun;
+              qjd.FieldByName('debet').AsFloat := hrg * Values[i, cxColQtyDatang2.Index];
               totHutang := totHutang + qjd.FieldByName('debet').AsFloat;
               qjd.FieldByName('keterangan').AsString := 'Penerimaan Barang : ' + sNoTrs;
               qjd.FieldByName('dc').AsString := 'D';
+              qjd.FieldByname('tglinput').AsDateTime := Aplikasi.NowServer;
               qjd.Post;
 
               if f_ppn then begin
@@ -294,6 +306,7 @@ begin
                 qjd.FieldByName('debet').AsFloat := (hrg * Values[i, cxColQtyDatang2.Index]) * (10/100);
                 qjd.FieldByName('keterangan').AsString := 'PPN Masukan Belum Difakturkan';
                 qjd.FieldByName('dc').AsString := 'D';
+                qjd.FieldByname('tglinput').AsDateTime := Aplikasi.NowServer;
                 qjd.Post;
               end;
             end;
@@ -314,6 +327,7 @@ begin
       qjd.FieldByName('kredit').AsFloat := totHutang + totPPN;
       qjd.FieldByName('keterangan').AsString := 'Hutang Belum Difakturkan, ' + cxlSupp.Text;
       qjd.FieldByName('dc').AsString := 'K';
+      qjd.FieldByname('tglinput').AsDateTime := Aplikasi.NowServer;
       qjd.Post;
       qjd.Close;
     end;

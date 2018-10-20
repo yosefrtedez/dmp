@@ -216,7 +216,7 @@ begin
         qjd.FieldByName('keterangan').AsString := 'Hutang Belum Difakturkan, ' + cxlSupplier.Text;
         qjd.FieldByName('dc').AsString := 'D';
         qjd.FieldByName('no_trans').AsString := sNoBukti;
-        qjd.FieldByName('tglinput').AsDateTime := Aplikasi.NowServer;
+        qjd.FieldByName('tgl_input').AsDateTime := Aplikasi.NowServer;
         qjd.Post;
 
         id_akun := GetDefaultAkun('hutang_usaha_supplier');
@@ -229,7 +229,7 @@ begin
         qjd.FieldByName('keterangan').AsString := 'Hutang Usaha Supplier, ' + cxlSupplier.Text;
         qjd.FieldByName('dc').AsString := 'K';
         qjd.FieldByName('no_trans').AsString := sNoBukti;
-        qjd.FieldByname('tglinput').AsDateTime := Aplikasi.NowServer;
+        qjd.FieldByname('tgl_input').AsDateTime := Aplikasi.NowServer;
         qjd.Post;
 
         if cxsPPN.Value > 0 then begin
@@ -243,7 +243,6 @@ begin
           qjd.FieldByName('keterangan').AsString := 'PPN Masukan, ' + cxlSupplier.Text;
           qjd.FieldByName('dc').AsString := 'D';
           qjd.FieldByName('no_trans').AsString := sNoBukti;
-          qjd.FieldByname('tglinput').AsDateTime := Aplikasi.NowServer;
           qjd.Post;
 
           id_akun := GetDefaultAkun('ppnmasukanblmfaktur');
@@ -256,7 +255,6 @@ begin
           qjd.FieldByName('keterangan').AsString := 'PPN Masukan Belum Difakturkan, ' + cxlSupplier.Text;
           qjd.FieldByName('dc').AsString := 'K';
           qjd.FieldByName('no_trans').AsString := sNoBukti;
-          qjd.FieldByName('tglinput').AsDateTime := Aplikasi.NowServer;
           qjd.Post;
         end;
 

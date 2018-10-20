@@ -2,9 +2,7 @@ inherited frmInputSuratJalan: TfrmInputSuratJalan
   Caption = 'Input Surat Jalan'
   ClientHeight = 687
   ClientWidth = 1119
-  Position = poDesigned
   OnShow = FormShow
-  ExplicitTop = -5
   ExplicitWidth = 1119
   ExplicitHeight = 687
   PixelsPerInch = 96

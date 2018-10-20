@@ -2,9 +2,8 @@ inherited frmInputSuratJalan: TfrmInputSuratJalan
   Caption = 'Input Surat Jalan'
   ClientHeight = 687
   ClientWidth = 1119
-  Position = poDesigned
   OnShow = FormShow
-  ExplicitTop = -5
+  ExplicitTop = -48
   ExplicitWidth = 1119
   ExplicitHeight = 687
   PixelsPerInch = 96
@@ -82,7 +81,7 @@ inherited frmInputSuratJalan: TfrmInputSuratJalan
     Left = 112
     Top = 224
     Properties.CharCase = ecUpperCase
-    TabOrder = 17
+    TabOrder = 18
     Width = 416
   end
   object cxgSJ: TcxGrid
@@ -451,12 +450,12 @@ inherited frmInputSuratJalan: TfrmInputSuratJalan
     Width = 137
   end
   object cxgSJTanpaSO: TcxGrid
-    Left = 75
-    Top = 251
+    Left = 155
+    Top = 197
     Width = 1103
     Height = 211
     Anchors = [akLeft, akTop, akRight]
-    TabOrder = 19
+    TabOrder = 16
     object cxtbSJTanpaSO: TcxGridTableView
       NavigatorButtons.ConfirmDelete = False
       NavigatorButtons.PriorPage.Visible = False

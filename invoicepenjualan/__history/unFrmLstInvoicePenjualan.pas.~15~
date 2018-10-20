@@ -116,24 +116,23 @@ end;
 }
 var
   f: TFrmLapSJ;
-  q: TZQuery;
-  id: integer;
 begin
   inherited;
-
-  q := OpenRS('SELECT id_sj FROM tbl_invoicepenjualan_head WHERE id = ' + zqrInvPenjualan.FieldByname('id').AsString);
-  id := q.FieldByName('id_sj').AsInteger;
 
   f := TfrmLapSJ.Create(Self);
   with f do begin
     zqrSJ01.Close;
-    zqrSJ01.ParamByName('id').AsInteger := id;
+    zqrSJ01.ParamByName('id').AsInteger := zqrSJ.FieldByName('id').AsInteger;
     zqrSJ01.Open;
+    if zqrSJ.FieldByName('f_ppn').AsInteger = 1 then
+      rptSJ01.ShowReport(True)
+    else
+      rptSJ01NonPPN.ShowReport(True);
 
-    //if zqrSJ.FieldByName('f_ppn').AsInteger = 1 then
+    if zqrSJ.FieldByName('f_ppn').AsInteger = 1 then
       rptFakturPenjualan.ShowReport(True)
-    //else
-    //  rptFakturPenjualanNonPPN.ShowReport(True);
+    else
+      rptFakturPenjualanNonPPN.ShowReport(True);
   end;
 end;
 

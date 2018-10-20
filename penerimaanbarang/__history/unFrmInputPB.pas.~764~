@@ -356,13 +356,8 @@ begin
       MsgBox('PO : ' + lstPOClose.CommaText + ' sudah selesai.');
     end;
 
-    if Assigned(Self.FormInduk) then begin
-      try
+    if Assigned(Self.FormInduk) then
         (Self.FormInduk as TFrmLstPB).btnRefreshClick(nil);
-        (Self.FormInduk as TfrmLstPB).zqrPBHead.Last;
-      except
-      end;
-    end;
 
     btnBatalClick(nil);
 

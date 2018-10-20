@@ -356,13 +356,8 @@ begin
       MsgBox('PO : ' + lstPOClose.CommaText + ' sudah selesai.');
     end;
 
-    if Assigned(Self.FormInduk) then begin
-      try
+    if Assigned(Self.FormInduk) then
         (Self.FormInduk as TFrmLstPB).btnRefreshClick(nil);
-        (Self.FormInduk as TfrmLstPB).zqrPBHead.Last;
-      except
-      end;
-    end;
 
     btnBatalClick(nil);
 
@@ -644,7 +639,6 @@ begin
       qjd.FieldByName('kredit').AsFloat := totHutang + totPPN;
       qjd.FieldByName('keterangan').AsString := 'Hutang Belum Difakturkan, ' + cxlSupp.Text;
       qjd.FieldByName('dc').AsString := 'K';
-      qjd.FieldByname('tglinput').AsDateTime := Aplikasi.NowServer;
       qjd.Post;
       qjd.Close;
     end;

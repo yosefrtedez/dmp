@@ -356,13 +356,8 @@ begin
       MsgBox('PO : ' + lstPOClose.CommaText + ' sudah selesai.');
     end;
 
-    if Assigned(Self.FormInduk) then begin
-      try
+    if Assigned(Self.FormInduk) then
         (Self.FormInduk as TFrmLstPB).btnRefreshClick(nil);
-        (Self.FormInduk as TfrmLstPB).zqrPBHead.Last;
-      except
-      end;
-    end;
 
     btnBatalClick(nil);
 
@@ -595,7 +590,6 @@ begin
               totHutang := totHutang + qjd.FieldByName('debet').AsFloat;
               qjd.FieldByName('keterangan').AsString := 'Penerimaan Barang : ' + sNoTrs;
               qjd.FieldByName('dc').AsString := 'D';
-              qjd.FieldByName('tglinput').AsDateTime := Aplikasi.NowServer;
               qjd.Post;
 
               if f_ppn then begin
@@ -610,7 +604,6 @@ begin
                 qjd.FieldByName('debet').AsFloat := (hrg * Values[i, cxColQtyDatang.Index]) * (10/100);
                 qjd.FieldByName('keterangan').AsString := 'PPN Masukan Belum Difakturkan';
                 qjd.FieldByName('dc').AsString := 'D';
-                qjd.FieldByname('tglinput').AsDateTime := Aplikasi.NowServer;
                 qjd.Post;
 
                 if f_ppn then
@@ -644,7 +637,6 @@ begin
       qjd.FieldByName('kredit').AsFloat := totHutang + totPPN;
       qjd.FieldByName('keterangan').AsString := 'Hutang Belum Difakturkan, ' + cxlSupp.Text;
       qjd.FieldByName('dc').AsString := 'K';
-      qjd.FieldByname('tglinput').AsDateTime := Aplikasi.NowServer;
       qjd.Post;
       qjd.Close;
     end;

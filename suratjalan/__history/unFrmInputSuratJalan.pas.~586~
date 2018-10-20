@@ -313,7 +313,6 @@ begin
             qjd.Insert;
             qjd.FieldByname('id_ref').AsInteger := ID;
             qjd.FieldByName('tanggal').AsDateTime := cxdTglDatang.Date;
-            qjd.FieldByName('no_trans').AsString := sNoBukti;
             qjd.FieldByName('no_jurnal').AsString := sNoJ;
             qjd.FieldByname('id_akun').AsInteger := id_akun;
             qjd.FieldbyName('debet').AsFloat := GetHpp(Values[i, cxColKodeBrg2.Index]) * Values[i, cxColQty2.Index];
@@ -326,7 +325,6 @@ begin
             qjd.Insert;
             qjd.FieldByname('id_ref').AsInteger := ID;
             qjd.FieldByName('tanggal').AsDateTime := cxdTglDatang.Date;
-            qjd.FieldByName('no_trans').AsString := sNoBukti;
             qjd.FieldByName('no_jurnal').AsString := sNoJ;
             qjd.FieldByname('id_akun').AsInteger := id_akun;
             qjd.FieldbyName('kredit').AsFloat := GetHpp(Values[i, cxColKodeBrg2.Index]) * Values[i, cxColQty2.Index];
@@ -1446,10 +1444,7 @@ begin
       if cxChkPPN.Checked then
         ppn := (10 / 100) * cxsDPP.Value;
 
-      if cxsDPP.Value = 0 then
-        cxsHargaTotal.Value := cxsStlhDiskon.Value
-      else
-        cxsHargaTotal.Value := cxsDPP.Value + ppn;
+      cxsHargaTotal.Value := cxsDPP.Value + ppn;
     end
     else begin
       tot := 0;

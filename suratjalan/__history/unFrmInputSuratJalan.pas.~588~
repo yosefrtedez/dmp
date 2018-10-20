@@ -1446,10 +1446,7 @@ begin
       if cxChkPPN.Checked then
         ppn := (10 / 100) * cxsDPP.Value;
 
-      if cxsDPP.Value = 0 then
-        cxsHargaTotal.Value := cxsStlhDiskon.Value
-      else
-        cxsHargaTotal.Value := cxsDPP.Value + ppn;
+      cxsHargaTotal.Value := cxsDPP.Value + ppn;
     end
     else begin
       tot := 0;

@@ -155,15 +155,15 @@ inherited frmInputBarangMasuk: TfrmInputBarangMasuk
         Properties.KeyFieldNames = 'id'
         Properties.ListColumns = <
           item
-            Caption = 'Nama Gudang'
-            FieldName = 'nama'
-          end
-          item
             Caption = 'Kode'
             FieldName = 'kode'
+          end
+          item
+            Caption = 'ID'
+            FieldName = 'id'
           end>
         Properties.ListSource = dsGudang
-        Width = 116
+        Width = 80
       end
       object cxColSatuan: TcxGridColumn
         Caption = 'Satuan'
