@@ -117,12 +117,18 @@ end;
 var
   f: TFrmLapSJ;
   q: TZQuery;
-  id: integer;
+  id, ppn: integer;
 begin
   inherited;
 
   q := OpenRS('SELECT id_sj FROM tbl_invoicepenjualan_head WHERE id = ' + zqrInvPenjualan.FieldByname('id').AsString);
+
   id := q.FieldByName('id_sj').AsInteger;
+  q.Close;
+
+  q := OpenRS('SELECT * FROM tbl_sj_head WHERE id = %d',[id]);
+  ppn := q.FieldByName('f_ppn').AsInteger;
+  q.Close;
 
   f := TfrmLapSJ.Create(Self);
   with f do begin
@@ -130,10 +136,10 @@ begin
     zqrSJ01.ParamByName('id').AsInteger := id;
     zqrSJ01.Open;
 
-    //if zqrSJ.FieldByName('f_ppn').AsInteger = 1 then
+    if ppn = 1 then
       rptFakturPenjualan.ShowReport(True)
-    //else
-    //  rptFakturPenjualanNonPPN.ShowReport(True);
+    else
+      rptFakturPenjualanNonPPN.ShowReport(True);
   end;
 end;
 
