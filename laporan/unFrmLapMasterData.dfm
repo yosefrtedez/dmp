@@ -258,7 +258,10 @@ object frmLapMasterData: TfrmLapMasterData
   object zqrMstBarang: TZReadOnlyQuery
     Connection = DM.zConn
     SQL.Strings = (
-      'SELECT a.id, a.kode,  a.deskripsi, a.stok,'
+      'SELECT a.id, a.kode,  a.deskripsi, '
+      
+        '(SELECT IFNULL(SUM(IF(tipe='#39'i'#39',qty,0)),0) - IFNULL(SUM(IF(tipe='#39 +
+        'o'#39',qty,0)),0) from tbl_history WHERE id_brg = a.id) stok,'
       'b.satuan, '
       'c.kategori'
       ' FROM '

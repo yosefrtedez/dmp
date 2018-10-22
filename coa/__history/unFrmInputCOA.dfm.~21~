@@ -1,6 +1,5 @@
 inherited frmInputCOA: TfrmInputCOA
   Caption = 'Input COA'
-  OnCreate = FormCreate
   OnShow = FormShow
   ExplicitWidth = 894
   ExplicitHeight = 553
@@ -10,9 +9,9 @@ inherited frmInputCOA: TfrmInputCOA
     object Label13: TLabel
       Left = 10
       Top = 16
-      Width = 96
+      Width = 89
       Height = 19
-      Caption = 'Input Akun '
+      Caption = 'Input COA '
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -16
@@ -22,9 +21,7 @@ inherited frmInputCOA: TfrmInputCOA
     end
   end
   inherited Panel2: TPanel
-    inherited btnSimpan: TButton
-      OnClick = btnSimpanClick
-    end
+    TabOrder = 16
   end
   object cxlTipeAkun: TcxLookupComboBox
     Left = 91
@@ -37,37 +34,37 @@ inherited frmInputCOA: TfrmInputCOA
       end>
     Properties.ListOptions.SyncMode = True
     Properties.ListSource = dsTipeAkun
-    TabOrder = 2
+    TabOrder = 1
     Width = 254
   end
   object cxCmbDK: TcxComboBox
     Left = 91
-    Top = 190
+    Top = 198
     Properties.DropDownListStyle = lsEditFixedList
-    TabOrder = 3
+    TabOrder = 14
     Visible = False
     Width = 121
   end
   object cxLabel7: TcxLabel
     Left = 10
-    Top = 192
+    Top = 200
     Caption = 'Default'
     Transparent = True
     Visible = False
   end
   object cxsSaldoAwal: TcxSpinEdit
     Left = 91
-    Top = 165
+    Top = 171
     Properties.DisplayFormat = '#,#0.00'
     Properties.EditFormat = '#,#0.00'
     Properties.ValueType = vtFloat
-    TabOrder = 5
+    TabOrder = 12
     Visible = False
     Width = 121
   end
   object cxLabel5: TcxLabel
     Left = 10
-    Top = 167
+    Top = 173
     Caption = 'Saldo Awal'
     Transparent = True
     Visible = False
@@ -75,28 +72,28 @@ inherited frmInputCOA: TfrmInputCOA
   object cxtNamaAKun: TcxTextEdit
     Tag = 1
     Left = 91
-    Top = 140
+    Top = 144
     Properties.CharCase = ecUpperCase
-    TabOrder = 7
+    TabOrder = 10
     Width = 379
   end
   object cxLabel2: TcxLabel
     Left = 10
-    Top = 142
+    Top = 146
     Caption = 'Nama Akun'
     Transparent = True
   end
   object cxtNoAkun: TcxTextEdit
     Tag = 1
     Left = 91
-    Top = 114
+    Top = 117
     Properties.CharCase = ecUpperCase
-    TabOrder = 9
+    TabOrder = 8
     Width = 114
   end
   object cxLabel1: TcxLabel
     Left = 10
-    Top = 116
+    Top = 119
     Caption = 'No. Akun'
     Transparent = True
   end
@@ -104,11 +101,11 @@ inherited frmInputCOA: TfrmInputCOA
     Left = 303
     Top = 89
     Properties.ReadOnly = True
-    TabOrder = 11
+    TabOrder = 5
     Width = 82
   end
   object cxlIndukAkun: TcxLookupComboBox
-    Left = 88
+    Left = 91
     Top = 90
     Properties.DropDownWidth = 400
     Properties.GridMode = True
@@ -126,7 +123,7 @@ inherited frmInputCOA: TfrmInputCOA
     Properties.ListOptions.SyncMode = True
     Properties.ListSource = dsInduk
     Properties.OnChange = cxlIndukAkunPropertiesChange
-    TabOrder = 12
+    TabOrder = 6
     Width = 209
   end
   object cxLabel3: TcxLabel
@@ -139,8 +136,8 @@ inherited frmInputCOA: TfrmInputCOA
     Left = 350
     Top = 63
     Caption = ' Aktif'
-    TabOrder = 14
-    Width = 121
+    TabOrder = 2
+    Width = 59
   end
   object cxLabel4: TcxLabel
     Left = 10
@@ -148,18 +145,15 @@ inherited frmInputCOA: TfrmInputCOA
     Caption = 'Tipe Akun'
     Transparent = True
   end
-  object Button1: TButton
-    Left = 448
-    Top = 360
-    Width = 75
-    Height = 25
-    Caption = 'Button1'
-    TabOrder = 16
-    OnClick = Button1Click
+  object cxChkKas: TcxCheckBox
+    Left = 415
+    Top = 63
+    Caption = 'Kas / Bank'
+    TabOrder = 3
+    Width = 121
   end
   object zqrInduk: TZReadOnlyQuery
     Connection = DM.zConn
-    Active = True
     SQL.Strings = (
       'SELECT noakun, nama FROM tbl_coa '
       'ORDER BY nama')
@@ -174,7 +168,6 @@ inherited frmInputCOA: TfrmInputCOA
   end
   object zqrTipeAkun: TZReadOnlyQuery
     Connection = DM.zConn
-    Active = True
     SQL.Strings = (
       'SELECT id, tipe FROM tbl_tipe_akun')
     Params = <>

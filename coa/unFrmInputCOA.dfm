@@ -23,17 +23,17 @@ inherited frmInputCOA: TfrmInputCOA
   inherited Panel2: TPanel
     TabOrder = 16
   end
-  object cxlTipeAkun: TcxLookupComboBox
+  object cxlKlasifikasi: TcxLookupComboBox
     Left = 91
     Top = 63
     Properties.KeyFieldNames = 'id'
     Properties.ListColumns = <
       item
-        Caption = 'Tipe Akun'
-        FieldName = 'tipe'
+        Caption = 'Klasifikasi'
+        FieldName = 'namasubklasifikasi'
       end>
     Properties.ListOptions.SyncMode = True
-    Properties.ListSource = dsTipeAkun
+    Properties.ListSource = dsSubKlasifikasi
     TabOrder = 1
     Width = 254
   end
@@ -142,7 +142,7 @@ inherited frmInputCOA: TfrmInputCOA
   object cxLabel4: TcxLabel
     Left = 10
     Top = 65
-    Caption = 'Tipe Akun'
+    Caption = 'Klasifikasi'
     Transparent = True
   end
   object cxChkKas: TcxCheckBox
@@ -178,5 +178,18 @@ inherited frmInputCOA: TfrmInputCOA
     DataSet = zqrTipeAkun
     Left = 704
     Top = 128
+  end
+  object zqrSubKlasifikasi: TZReadOnlyQuery
+    Connection = DM.zConn
+    SQL.Strings = (
+      'SELECT * FROM tbl_subklasifikasi')
+    Params = <>
+    Left = 616
+    Top = 232
+  end
+  object dsSubKlasifikasi: TDataSource
+    DataSet = zqrSubKlasifikasi
+    Left = 704
+    Top = 240
   end
 end

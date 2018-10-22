@@ -1,10 +1,11 @@
 object DM: TDM
   OldCreateOrder = False
   OnCreate = DataModuleCreate
-  Height = 124
-  Width = 203
+  Height = 90
+  Width = 185
   object zConn: TZConnection
     ControlsCodePage = cCP_UTF16
+    TransactIsolationLevel = tiReadCommitted
     Connected = True
     DesignConnection = True
     HostName = 'localhost'

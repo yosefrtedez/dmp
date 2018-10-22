@@ -1,8 +1,6 @@
 inherited frmLstSuratJalan: TfrmLstSuratJalan
   Caption = 'Surat Jalan'
   OnCreate = FormCreate
-  ExplicitWidth = 1016
-  ExplicitHeight = 508
   PixelsPerInch = 96
   TextHeight = 13
   inherited Panel1: TPanel
@@ -23,31 +21,16 @@ inherited frmLstSuratJalan: TfrmLstSuratJalan
   inherited Panel2: TPanel
     TabOrder = 4
     inherited btnTambah: TButton
-      TabOrder = 2
       OnClick = btnTambahClick
     end
     inherited btnEdit: TButton
-      Left = 435
-      Top = 6
-      TabOrder = 0
-      Visible = False
       OnClick = btnEditClick
-      ExplicitLeft = 435
-      ExplicitTop = 6
     end
     inherited btnHapus: TButton
-      Left = 532
-      Top = 6
-      TabOrder = 1
-      Visible = False
       OnClick = btnHapusClick
-      ExplicitLeft = 532
-      ExplicitTop = 6
     end
     inherited btnRefresh: TButton
-      Left = 91
       OnClick = btnRefreshClick
-      ExplicitLeft = 91
     end
   end
   object cxgrd1: TcxGrid
@@ -113,7 +96,7 @@ inherited frmLstSuratJalan: TfrmLstSuratJalan
       end
       object cxtbSJColumn1: TcxGridDBColumn
         Caption = 'Customer'
-        DataBinding.FieldName = 'nama_cust'
+        DataBinding.FieldName = 'nama_customer'
         Width = 307
       end
       object cxColTblTrsMasukHeaduser: TcxGridDBColumn
@@ -127,6 +110,14 @@ inherited frmLstSuratJalan: TfrmLstSuratJalan
         DataBinding.FieldName = 'user_dept'
         Options.Editing = False
         Width = 72
+      end
+      object cxtbSJColumn4: TcxGridDBColumn
+        Caption = 'Tanpa SO'
+        DataBinding.FieldName = 'jenis_sj'
+        PropertiesClassName = 'TcxCheckBoxProperties'
+        Properties.ValueChecked = 1
+        Properties.ValueUnchecked = 0
+        Width = 60
       end
     end
     object cxTblDet: TcxGridDBTableView
@@ -205,6 +196,7 @@ inherited frmLstSuratJalan: TfrmLstSuratJalan
       Anchors = [akTop, akRight]
       Caption = 'Posting'
       TabOrder = 0
+      Visible = False
       OnClick = btnPostingClick
     end
     object Button1: TButton
@@ -318,7 +310,9 @@ inherited frmLstSuratJalan: TfrmLstSuratJalan
       'LEFT JOIN tbl_barang b ON a.id_brg = b.id'
       'LEFT JOIN tbl_satuan c ON a.id_satuan = c.id'
       'LEFT JOIN tbl_gudang d ON d.id = a.id_gdg'
-      'LEFT JOIN tbl_so_det e ON e.id_ref = a.id_so'
+      
+        'LEFT JOIN tbl_so_det e ON e.id_ref = a.id_so AND e.id_brg = a.id' +
+        '_brg'
       'where a.id_ref = :id_ref')
     Params = <
       item

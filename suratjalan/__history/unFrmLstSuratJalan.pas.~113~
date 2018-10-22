@@ -97,14 +97,22 @@ var
  q: TZQuery;
 begin
   inherited;
+  //MsgBox('Mohon maaf, modul ini belum bisa digunakan.');
+  //Abort;
+
+  //cek jenis SJ, jika tanpa SO, bisa di edit
+  if zqrSJ.FieldByName('jenis_sj').AsInteger = 0 then begin
+    MsgBox('Transaksi Surat Jalan menggunakan SO tidak bisa di edit.');
+    Abort;
+  end;
 
   if not fu.CekTabOpen('Edit Surat Jalan') then begin
     ts := TcxTabSheet.Create(Self);
     ts.PageControl := frmUtama.pgMain;
-    if zqrSJ.FieldByName('f_posting').AsString = '1' then begin
-      MsgBox('Mohon Maaf, surat jalan tidak bisa diedit, karena sudah di posting.');
-      Abort;
-    end;
+    //if zqrSJ.FieldByName('f_posting').AsString = '1' then begin
+    //  MsgBox('Mohon Maaf, surat jalan tidak bisa diedit, karena sudah di posting.');
+    //  Abort;
+    //end;
     f := TfrmInputSuratJalan.Create(Self);
     f.TabSheet := Self.Parent as TcxTabSheet;
     f.FormInduk := Self;
@@ -126,6 +134,9 @@ var
   i, id: Integer;
 begin
   inherited;
+
+  if zqrSJ.IsEmpty then Abort;
+  
   i := QBox(Self, 'Hapus Surat Jalan Nomor : ' + zqrSJ.FieldByName('no_bukti').AsString + ' ?','Hapus');
   if i = IDYES then begin
     try
@@ -138,6 +149,7 @@ begin
       dm.zConn.Commit;
 
       MsgBox('Surat jalan dengan Nomor : ' + zqrSJ.FieldByname('no_bukti').AsString + ' sudah berhasil dihapus.');
+      MsgBox('Lakukan kalkulasi ulang stok dari menu Setting - Kalkulasi Ulang.');
 
       zqrSJ.Close;
       zqrSJ.Open;
@@ -346,10 +358,6 @@ begin
   inherited;
   Self.TerapkanWewenang('mnMkt_SuratJalan');
   zqrSJ.Open;
-
-  btnHapus.Visible := False;
-  //btnEdit.Visible := False;
-
   cxColTblTrsMasukHeadno_bukti.SortOrder := soAscending;
 end;
 

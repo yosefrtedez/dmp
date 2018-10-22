@@ -180,6 +180,7 @@ inherited frmLstSuratJalan: TfrmLstSuratJalan
     Height = 41
     Align = alBottom
     TabOrder = 2
+    ExplicitTop = 212
     DesignSize = (
       1016
       41)
@@ -195,19 +196,30 @@ inherited frmLstSuratJalan: TfrmLstSuratJalan
       Height = 25
       Anchors = [akTop, akRight]
       Caption = 'Posting'
-      TabOrder = 0
+      TabOrder = 1
       Visible = False
       OnClick = btnPostingClick
     end
     object Button1: TButton
-      Left = 759
+      Left = 424
       Top = 9
       Width = 249
       Height = 25
       Anchors = [akTop, akRight]
       Caption = 'Cetak Faktur Penjualan + Surat Jalan'
-      TabOrder = 1
+      TabOrder = 0
+      Visible = False
       OnClick = Button1Click
+    end
+    object Button2: TButton
+      Left = 903
+      Top = 9
+      Width = 105
+      Height = 25
+      Anchors = [akTop, akRight]
+      Caption = 'Cetak Surat Jalan'
+      TabOrder = 2
+      OnClick = Button2Click
     end
   end
   object cxGrid1: TcxGrid

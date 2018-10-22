@@ -19,7 +19,7 @@ uses
 
 type
   TfrmInputCOA = class(TfrmTplInput)
-    cxlTipeAkun: TcxLookupComboBox;
+    cxlKlasifikasi: TcxLookupComboBox;
     cxCmbDK: TcxComboBox;
     cxLabel7: TcxLabel;
     cxsSaldoAwal: TcxSpinEdit;
@@ -38,6 +38,9 @@ type
     dsInduk: TDataSource;
     zqrTipeAkun: TZReadOnlyQuery;
     dsTipeAkun: TDataSource;
+    cxChkKas: TcxCheckBox;
+    zqrSubKlasifikasi: TZReadOnlyQuery;
+    dsSubKlasifikasi: TDataSource;
     procedure btnSimpanClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -65,10 +68,10 @@ var
   q, qh: TZQuery;
   stmp: string;
 begin
-  inherited;
 
-  if Trim(cxlTipeAkun.Text) = '' then begin
-    MsgBox('Mohon isi tipe akun.');
+
+  if Trim(cxlKlasifikasi.Text) = '' then begin
+    MsgBox('Mohon isi klasifikasi akun.');
     cxlTipeAkun.SetFocus;
   end
   else if Trim(cxtNoAkun.Text) = '' then begin
@@ -95,21 +98,28 @@ begin
       q.Insert
     else
       q.Edit;
-    q.FieldByName('tipe').AsString := cxlTipeAkun.EditValue;
+    //q.FieldByName('tipe').AsString := cxlTipeAkun.EditValue;
     q.FieldByName('noakun').AsString := Trim(cxtNoAkun.Text);
     q.FieldByName('nama').AsString := Trim(cxtNamaAKun.Text);
     q.FieldByName('induk').AsString := VarToStr(cxlIndukAkun.EditValue);
     qh := OpenRS('SELECT id FROM tbl_coa WHERE induk = ''%s''',[VarToStr(cxlIndukAkun.EditValue)]);
     q.FieldByName('id_induk').AsInteger := qh.FieldByName('id').AsInteger;
+    if cxChkKas.Checked then
+      q.FieldByname('fkas').AsInteger := 1
+    else
+      q.FieldByName('fkas').AsInteger := 0;
     qh.Close;
+    q.FieldByName('id_subklasifikasi').AsInteger := cxlKlasifikasi.EditValue;
     q.Post;
 
     MsgBox('Data COA sudah berhasil disimpan.');
 
-    //if Assigned(Self.FormInduk) then
-    //  (Self.FormInduk as TFrmLstCOA).btnRefreshClick(nil);
+    if Assigned(Self.FormInduk) then
+      (Self.FormInduk as TFrmLstCOA).btnRefreshClick(nil);
 
     btnBatalClick(nil);
+
+    inherited;
   end;
 end;
 
@@ -130,6 +140,7 @@ begin
   inherited;
   zqrInduk.Open;
   zqrTipeAkun.Open;
+  zqrSubKlasifikasi.Open;
 end;
 
 procedure TfrmInputCOA.FormShow(Sender: TObject);
@@ -144,6 +155,8 @@ begin
     cxtNoAkun.Text := q.FieldByName('noakun').AsString;
     cxtNamaAKun.Text := q.FieldByName('nama').AsString;
     cxtNoAkun.Enabled := False;
+    if q.FieldByName('fkas').AsInteger = 1 then
+      cxChkKas.Checked := True;
   end;
   q.Close;
 end;

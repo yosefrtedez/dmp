@@ -19,7 +19,7 @@ uses
 
 type
   TfrmInputCOA = class(TfrmTplInput)
-    cxlTipeAkun: TcxLookupComboBox;
+    cxlKlasifikasi: TcxLookupComboBox;
     cxCmbDK: TcxComboBox;
     cxLabel7: TcxLabel;
     cxsSaldoAwal: TcxSpinEdit;
@@ -39,6 +39,8 @@ type
     zqrTipeAkun: TZReadOnlyQuery;
     dsTipeAkun: TDataSource;
     cxChkKas: TcxCheckBox;
+    zqrSubKlasifikasi: TZReadOnlyQuery;
+    dsSubKlasifikasi: TDataSource;
     procedure btnSimpanClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -62,15 +64,14 @@ uses unTools, unAplikasi, unDM, unFrmLstCOA;
 procedure TfrmInputCOA.btnSimpanClick(Sender: TObject);
 var
   f: boolean;
-  i: Integer;
-  q, qh: TZQuery;
+  i, id_k, id_subk: Integer;
+  q, qh, qk: TZQuery;
   stmp: string;
 begin
 
-
-  if Trim(cxlTipeAkun.Text) = '' then begin
-    MsgBox('Mohon isi tipe akun.');
-    cxlTipeAkun.SetFocus;
+  if Trim(cxlKlasifikasi.Text) = '' then begin
+    MsgBox('Mohon isi klasifikasi akun.');
+    cxlKlasifikasi.SetFocus;
   end
   else if Trim(cxtNoAkun.Text) = '' then begin
     MsgBox('Mohon isi nomor akun.');
@@ -91,12 +92,18 @@ begin
       end
     end;
 
+    qk := OpenRS('SELECT id_kualifikasi, id FROM tbl_subklasifikasi WHERE namasubklasifikasi = ''%s''',
+      [cxlKlasifikasi.Text]);
+    id_k := qk.FieldByName('id_kualifikasi').AsInteger;
+    id_subk := qk.FieldByName('id').AsInteger;
+    qk.Close;
+
     q := OpenRS('SELECT * FROM tbl_coa WHERE nama = ''%s''',[Trim(cxtNoAkun.Text)]);
     if Self.Jenis = 'T' then
       q.Insert
     else
       q.Edit;
-    q.FieldByName('tipe').AsString := cxlTipeAkun.EditValue;
+    //q.FieldByName('tipe').AsString := cxlTipeAkun.EditValue;
     q.FieldByName('noakun').AsString := Trim(cxtNoAkun.Text);
     q.FieldByName('nama').AsString := Trim(cxtNamaAKun.Text);
     q.FieldByName('induk').AsString := VarToStr(cxlIndukAkun.EditValue);
@@ -107,6 +114,8 @@ begin
     else
       q.FieldByName('fkas').AsInteger := 0;
     qh.Close;
+    q.FieldByName('id_kualifikasi').AsInteger := id_k;
+    q.FieldByName('id_subklasifikasi').AsInteger := id_subk;
     q.Post;
 
     MsgBox('Data COA sudah berhasil disimpan.');
@@ -137,6 +146,7 @@ begin
   inherited;
   zqrInduk.Open;
   zqrTipeAkun.Open;
+  zqrSubKlasifikasi.Open;
 end;
 
 procedure TfrmInputCOA.FormShow(Sender: TObject);
@@ -146,7 +156,7 @@ begin
   inherited;
   q := OpenRS('SELECT * FROM tbl_coa WHERE noakun = ''%s''',[Self.EditKey]);
   if not q.IsEmpty then begin
-    cxlTipeAkun.EditValue := q.FieldByName('tipe').AsString;
+    cxlKlasifikasi.EditValue := q.FieldByName('id_subklasifikasi').AsString;
     cxlIndukAkun.EditValue := q.FieldByName('induk').Value;
     cxtNoAkun.Text := q.FieldByName('noakun').AsString;
     cxtNamaAKun.Text := q.FieldByName('nama').AsString;

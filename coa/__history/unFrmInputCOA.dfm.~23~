@@ -1,6 +1,5 @@
 inherited frmInputCOA: TfrmInputCOA
   Caption = 'Input COA'
-  OnCreate = FormCreate
   OnShow = FormShow
   ExplicitWidth = 894
   ExplicitHeight = 553
@@ -22,9 +21,7 @@ inherited frmInputCOA: TfrmInputCOA
     end
   end
   inherited Panel2: TPanel
-    inherited btnSimpan: TButton
-      OnClick = btnSimpanClick
-    end
+    TabOrder = 16
   end
   object cxlTipeAkun: TcxLookupComboBox
     Left = 91
@@ -37,7 +34,7 @@ inherited frmInputCOA: TfrmInputCOA
       end>
     Properties.ListOptions.SyncMode = True
     Properties.ListSource = dsTipeAkun
-    TabOrder = 2
+    TabOrder = 1
     Width = 254
   end
   object cxCmbDK: TcxComboBox
@@ -139,18 +136,24 @@ inherited frmInputCOA: TfrmInputCOA
     Left = 350
     Top = 63
     Caption = ' Aktif'
-    TabOrder = 3
-    Width = 121
+    TabOrder = 2
+    Width = 59
   end
   object cxLabel4: TcxLabel
     Left = 10
     Top = 65
-    Caption = 'Tipe Akun'
+    Caption = 'Klasifikasi'
     Transparent = True
+  end
+  object cxChkKas: TcxCheckBox
+    Left = 415
+    Top = 63
+    Caption = 'Kas / Bank'
+    TabOrder = 3
+    Width = 121
   end
   object zqrInduk: TZReadOnlyQuery
     Connection = DM.zConn
-    Active = True
     SQL.Strings = (
       'SELECT noakun, nama FROM tbl_coa '
       'ORDER BY nama')
@@ -165,7 +168,6 @@ inherited frmInputCOA: TfrmInputCOA
   end
   object zqrTipeAkun: TZReadOnlyQuery
     Connection = DM.zConn
-    Active = True
     SQL.Strings = (
       'SELECT id, tipe FROM tbl_tipe_akun')
     Params = <>
@@ -176,5 +178,15 @@ inherited frmInputCOA: TfrmInputCOA
     DataSet = zqrTipeAkun
     Left = 704
     Top = 128
+  end
+  object zqrSubKlasifikasi: TZReadOnlyQuery
+    Params = <>
+    Left = 616
+    Top = 232
+  end
+  object dsSubKlasifikasi: TDataSource
+    DataSet = zqrSubKlasifikasi
+    Left = 704
+    Top = 240
   end
 end
