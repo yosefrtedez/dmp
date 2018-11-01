@@ -77,11 +77,11 @@ type
     mnPrd_LapPengambilanBB: TMenuItem;
     mnPrd_LapInputHP: TMenuItem;
     mnAkt_Pembelian: TMenuItem;
-    Penjualan1: TMenuItem;
+    mnAkt_Penjualan: TMenuItem;
     mnAkt_InvoicePembelian: TMenuItem;
     mnAKT_PembayaranPembelian: TMenuItem;
-    InvoicePenjualan1: TMenuItem;
-    PembayaranPenjualan1: TMenuItem;
+    mnAkt_InvoicePenjualan: TMenuItem;
+    mnAkt_PembayaranPenjualan: TMenuItem;
     mnPpic_SoMts: TMenuItem;
     N6: TMenuItem;
     mnPur_OutstandingPO: TMenuItem;
@@ -95,6 +95,8 @@ type
     mnAkt_LaporanDetailJurnal: TMenuItem;
     N8: TMenuItem;
     mnPur_InputHargaPOPB: TMenuItem;
+    Memo1: TMemo;
+    mnMst_HPPBarang: TMenuItem;
     procedure FormShow(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure mnMst_BarangJasaClick(Sender: TObject);
@@ -141,11 +143,12 @@ type
     procedure mnPur_OutstandingPOClick(Sender: TObject);
     procedure mnMkt_LapOustandingSOClick(Sender: TObject);
     procedure mnSet_UbahPasswordClick(Sender: TObject);
-    procedure InvoicePenjualan1Click(Sender: TObject);
+    procedure mnAkt_InvoicePenjualanClick(Sender: TObject);
     procedure mnAkt_InvoicePembelianClick(Sender: TObject);
     procedure mnAKT_PembayaranPembelianClick(Sender: TObject);
-    procedure PembayaranPenjualan1Click(Sender: TObject);
+    procedure mnAkt_PembayaranPenjualanClick(Sender: TObject);
     procedure Button1Click(Sender: TObject);
+    procedure mnMst_HPPBarangClick(Sender: TObject);
   private
     procedure PGChange(Sender: TObject);
   public
@@ -178,7 +181,8 @@ uses
   unFrmLapHasilProduksi, unFrmLapPengambilanBB, unFrmLapOutstandingPO,
   unFrmLapOutstandingSO, unFrmUbahPassword, unFrmLstInvoicePenjualan,
   unFrmLstInvoicePembelian, unFrmLstPembayaranPembelian,
-  unFrmInputPembayaranPenjualan, unFrmLstPembayaranPenjualan;
+  unFrmInputPembayaranPenjualan, unFrmLstPembayaranPenjualan,
+  unFrmLstBarangJasaHPP;
 
 {$R *.dfm}
 
@@ -275,7 +279,7 @@ begin
   end;
 end;
 
-procedure TfrmUtama.InvoicePenjualan1Click(Sender: TObject);
+procedure TfrmUtama.mnAkt_InvoicePenjualanClick(Sender: TObject);
 var
   f: TfrmLstInvoicePenjualan;
   ts: TcxTabSheet;
@@ -535,6 +539,25 @@ begin
     ts.PageControl := pgMain;
 
     f := TfrmLstFormula.Create(Self);
+    f.Parent := ts;
+    ts.Caption := f.Caption;
+    f.Show;
+
+    pgMain.ActivePage := ts;
+  end;
+end;
+
+procedure TfrmUtama.mnMst_HPPBarangClick(Sender: TObject);
+var
+  f: TfrmLstBarangJasaHPP;
+  ts: TcxTabSheet;
+begin
+  if not CekTabOpen('Barang dan Jasa HPP') then begin
+    ToggleMainPage;
+    ts := TcxTabSheet.Create(Self);
+    ts.PageControl := pgMain;
+
+    f := TfrmLstBarangJasaHPP.Create(Self);
     f.Parent := ts;
     ts.Caption := f.Caption;
     f.Show;
@@ -1162,7 +1185,7 @@ begin
   end;
 end;
 
-procedure TfrmUtama.PembayaranPenjualan1Click(Sender: TObject);
+procedure TfrmUtama.mnAkt_PembayaranPenjualanClick(Sender: TObject);
 var
   f: TfrmLstPembayaranPenjualan;
   ts: TcxTabSheet;
@@ -1290,11 +1313,129 @@ end;
 
 procedure TfrmUtama.Button1Click(Sender: TObject);
 var
-  q: TZQuery;
+  q, q2: TZQuery;
+  lhpp, lsa: real;
+  i, id_brg: Integer;
 begin
-  q := OpenRS('SELECT sf_get_stokakhir(%s,%s) as aa',['1','1']);
-  MsgBox(q.FieldByName('aa').AsString);
+  {
+  q := OpenRS('SELECT * FROM _tbl_hpp ORDER BY id');
 
+  i := 1;
+  lsa := 0;
+  while not q.Eof do begin
+    if i = 1 then
+      lhpp := (q.FieldByName('qty_pb').AsFloat * q.FieldByName('harga').AsFloat) / q.FieldByname('sa').AsFloat
+    else
+      lhpp := ((q.FieldByName('qty_pb').AsFloat * q.FieldByName('harga').AsFloat) +
+        (lsa * lhpp)) / (q.FieldByName('qty_pb').AsFloat + lsa);
+    lsa := q.FieldByName('sa').AsFloat;
+    q.Edit;
+    q.FieldByName('hpp').AsFloat := lhpp;
+    q.Post;
+    q.Next;
+    Inc(i);
+  end;
+  q.Close;
+  }
+
+  // version 2
+  {
+  q := OpenRS(Memo1.Lines.Text);
+
+  i := 1;
+  lsa := 0;
+  lhpp := 0;
+  id_brg := 0;
+
+  dm.zConn.ExecuteDirect('DELETE FROM tbl_history_hpp');
+  q2 := OpenRS('SELECT * FROM tbl_history_hpp');
+
+
+  Screen.Cursor := crSQLWait;
+  while not q.Eof do begin
+    if id_brg <> q.FieldByname('id_brg').AsInteger then begin
+      id_brg := q.FieldByName('id_brg').AsInteger;
+      lhpp := 0;
+    end;
+
+    lhpp := ((q.FieldByName('qty').AsFloat * q.FieldByName('harga').AsFloat) +
+      (q.FieldByName('s_akhir').AsFloat * lhpp)) / (q.FieldByName('qty').AsFloat + q.FieldByname('s_akhir').AsFloat);
+
+    q2.Insert;
+    q2.FieldByName('id_ref').AsInteger := q.FieldByName('id_ref').AsInteger;
+    q2.FieldByName('tanggal').AsDateTime := q.FieldByname('tanggal').AsDateTime;
+    q2.FieldByName('no_bukti').AsString := q.FieldByName('no_bukti').AsString;
+    q2.FieldByName('id_brg').AsInteger := q.FieldByName('id_brg').AsInteger;
+    q2.FieldByName('qty').AsFloat := q.FieldByName('qty').AsFloat;
+    q2.FieldByName('harga').AsFloat := q.FieldByName('harga').AsFloat;
+    q2.FieldByName('sa').AsFloat := q.FieldByName('s_akhir').AsFloat;
+    q2.FieldByname('avg').AsFloat := lhpp;
+    q2.Post;
+
+    id_brg := q.FieldByName('id_brg').AsInteger;
+    q.Next;
+    Inc(i);
+  end;
+  q.Close;
+  Screen.Cursor := crDefault;
+  }
+
+  // version 3
+  dm.zConn.ExecuteDirect('call sp_tmp_ks');
+  q := OpenRS('select a.no_bukti, a.tanggal, a.id_brg, a.masuk as qty, a.keluar, ifnull(b.harga,0) harga, a.stok_akhir ' +
+    'from _ks a ' +
+    'left join tbl_pb_det b on a.no_bukti = b.no_bukti and b.id_brg = a.id_brg ' +
+    '-- where a.id_brg in (93,94) '  +
+    'order by a.id_brg, a.tanggal, a.id');
+
+  i := 1;
+  lsa := 0;
+  lhpp := 0;
+  id_brg := 0;
+
+  dm.zConn.ExecuteDirect('DELETE FROM tbl_history_hpp');
+  q2 := OpenRS('SELECT * FROM tbl_history_hpp');
+
+  Screen.Cursor := crSQLWait;
+  while not q.Eof do begin
+    if id_brg <> q.FieldByname('id_brg').AsInteger then begin
+      id_brg := q.FieldByName('id_brg').AsInteger;
+      lhpp := 0;
+      lsa := 0;
+      i := 1;
+    end;
+
+    if (Copy(q.FieldByname('no_bukti').AsString,1,2) = 'PB') or (Copy(q.FieldByname('no_bukti').AsString,1,2) = 'IN') then begin
+      try
+        if i = 1 then
+          lhpp := ((q.FieldByName('qty').AsFloat * q.FieldByName('harga').AsFloat)) /
+            q.FieldByName('qty').AsFloat
+        else
+          lhpp := ((q.FieldByName('qty').AsFloat * q.FieldByName('harga').AsFloat) +
+            (lsa * lhpp)) / (q.FieldByName('qty').AsFloat + lsa);
+
+        q2.Insert;
+        //q2.FieldByName('id_ref').AsInteger := q.FieldByName('id_ref').AsInteger;
+        q2.FieldByName('tanggal').AsDateTime := q.FieldByname('tanggal').AsDateTime;
+        q2.FieldByName('no_bukti').AsString := q.FieldByName('no_bukti').AsString;
+        q2.FieldByName('id_brg').AsInteger := q.FieldByName('id_brg').AsInteger;
+        q2.FieldByName('qty').AsFloat := q.FieldByName('qty').AsFloat;
+        q2.FieldByName('harga').AsFloat := q.FieldByName('harga').AsFloat;
+        q2.FieldByName('sa').AsFloat := lsa;
+        q2.FieldByname('avg').AsFloat := lhpp;
+        q2.Post;
+      except
+      end;
+    end;
+
+    lsa := q.FieldByName('stok_akhir').AsFloat;
+
+    id_brg := q.FieldByName('id_brg').AsInteger;
+    q.Next;
+    Inc(i);
+  end;
+  q.Close;
+  Screen.Cursor := crDefault;
 end;
 
 function TfrmUtama.CekTabOpen(sCaption: string): Boolean;

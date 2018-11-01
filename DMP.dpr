@@ -104,7 +104,8 @@ uses
   unFrmPencairanDeposit in 'pencairandeposit\unFrmPencairanDeposit.pas' {frmPencairanDeposit},
   unFrmInputPBHarga in 'penerimaanbarang\unFrmInputPBHarga.pas' {frmInputPBHarga},
   unFrmLapAkunting in 'laporan\unFrmLapAkunting.pas' {frmLapAkunting},
-  unFrmLapAkunting_RPT in 'laporan\RPT\unFrmLapAkunting_RPT.pas' {frmLapAkunting_RPT};
+  unFrmLapAkunting_RPT in 'laporan\RPT\unFrmLapAkunting_RPT.pas' {frmLapAkunting_RPT},
+  unFrmLstBarangJasaHPP in 'barangjasa\unFrmLstBarangJasaHPP.pas' {frmLstBarangJasaHPP};
 
 {$R *.res}
 
@@ -115,6 +116,7 @@ begin
   Application.CreateForm(TfrmUtama, frmUtama);
   Application.CreateForm(TfrmLogin, frmLogin);
   Application.CreateForm(TfrmLapAkunting_RPT, frmLapAkunting_RPT);
+  Application.CreateForm(TfrmLstBarangJasaHPP, frmLstBarangJasaHPP);
   frmUtama.Show;
 
   frmLogin.ShowModal;

@@ -55,8 +55,6 @@ object frmUtama: TfrmUtama
     Font.Height = -11
     Font.Name = 'Tahoma'
     Font.Style = []
-    ExplicitTop = 499
-    ExplicitWidth = 1014
   end
   object pgMain: TcxPageControl
     Left = 8
@@ -68,7 +66,7 @@ object frmUtama: TfrmUtama
     Options = [pcoAlwaysShowGoDialogButton, pcoCloseButton, pcoGradient, pcoGradientClientArea, pcoRedrawOnResize]
     ParentBackground = False
     Style = 5
-    TabOrder = 1
+    TabOrder = 2
     Visible = False
     ClientRectBottom = 193
     ClientRectRight = 441
@@ -89,9 +87,43 @@ object frmUtama: TfrmUtama
     Width = 75
     Height = 25
     Caption = 'Button1'
-    TabOrder = 2
+    TabOrder = 3
     Visible = False
     OnClick = Button1Click
+  end
+  object Memo1: TMemo
+    Left = 560
+    Top = 166
+    Width = 646
+    Height = 242
+    Lines.Strings = (
+      'select * from ('
+      
+        'select a.id_ref, d.tanggal, aa.no_bukti, a.id_brg, a.qty, a.harg' +
+        'a, sf_get_stokakhirtgl(a.id_brg, date_sub(d.tanggal, interval 1 '
+      'day)) s_akhir'
+      'from tbl_pb_det a '
+      'inner join tbl_pb_head aa on a.id_ref = aa.id'
+      'left join tbl_barang b on a.id_brg = b.id'
+      'left join tbl_satuan c on c.id = a.id_satuan'
+      
+        'left join tbl_history d on d.no_bukti = a.no_bukti and d.id_brg ' +
+        '= a.id_brg'
+      'left join tbl_po_head e on e.id = a.id_po'
+      'union'
+      
+        'select a.id_ref, b.tanggal, aa.no_bukti, a.id_brg, a.qty, 0, sf_' +
+        'get_stokakhirtgl(a.id_brg, date_sub(b.tanggal, interval 1 day)) '
+      's_akhir '
+      'from tbl_trsmasuk_det a'
+      'left join tbl_trsmasuk_head aa on a.id_ref = aa.id'
+      
+        'left join tbl_history b on b.no_bukti = aa.no_bukti and b.id_brg' +
+        ' = a.id_brg'
+      ') z'
+      'order by z.id_brg, z.tanggal;')
+    TabOrder = 1
+    Visible = False
   end
   object MainMenu: TMainMenu
     Left = 40
@@ -119,6 +151,10 @@ object frmUtama: TfrmUtama
       object mnMst_BarangJasa: TMenuItem
         Caption = 'Barang dan Jasa'
         OnClick = mnMst_BarangJasaClick
+      end
+      object mnMst_HPPBarang: TMenuItem
+        Caption = 'HPP Barang'
+        OnClick = mnMst_HPPBarangClick
       end
       object mnMst_Customer: TMenuItem
         Caption = 'Customer'
@@ -315,15 +351,15 @@ object frmUtama: TfrmUtama
           Caption = 'Pencairan Deposit'
         end
       end
-      object Penjualan1: TMenuItem
+      object mnAkt_Penjualan: TMenuItem
         Caption = 'Penjualan'
-        object InvoicePenjualan1: TMenuItem
+        object mnAkt_InvoicePenjualan: TMenuItem
           Caption = 'Invoice Penjualan'
-          OnClick = InvoicePenjualan1Click
+          OnClick = mnAkt_InvoicePenjualanClick
         end
-        object PembayaranPenjualan1: TMenuItem
+        object mnAkt_PembayaranPenjualan: TMenuItem
           Caption = 'Pembayaran Penjualan'
-          OnClick = PembayaranPenjualan1Click
+          OnClick = mnAkt_PembayaranPenjualanClick
         end
       end
       object N7: TMenuItem

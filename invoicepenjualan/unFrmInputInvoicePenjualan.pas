@@ -82,6 +82,14 @@ type
       ADataController: TcxCustomDataController);
     procedure cxLuCustomerClick(Sender: TObject);
     procedure cxLuSjPropertiesChange(Sender: TObject);
+    procedure cxtbInvDataControllerRecordChanged(
+      ADataController: TcxCustomDataController; ARecordIndex,
+      AItemIndex: Integer);
+    procedure cxtbInvDataControllerBeforePost(
+      ADataController: TcxCustomDataController);
+    procedure cxGrid1TableView1DataControllerRecordChanged(
+      ADataController: TcxCustomDataController; ARecordIndex,
+      AItemIndex: Integer);
   private
     mStatus: string;
     procedure HitungTotal;
@@ -289,6 +297,13 @@ begin
   AText := IntToStr(Row+1);
 end;
 
+procedure TfrmInputInvoicePenjualan.cxGrid1TableView1DataControllerRecordChanged(
+  ADataController: TcxCustomDataController; ARecordIndex, AItemIndex: Integer);
+begin
+  inherited;
+  MsgBox('a');
+end;
+
 procedure TfrmInputInvoicePenjualan.cxLuCustomerClick(Sender: TObject);
 var
   q: TZQuery;
@@ -374,6 +389,7 @@ begin
       q.Next;
     end;
     HitungTotal;
+    cxtbInv.DataController.OnRecordChanged := cxtbInvDataControllerRecordChanged;
   finally
 
   end;
@@ -398,12 +414,36 @@ begin
   end;
 end;
 
+procedure TfrmInputInvoicePenjualan.cxtbInvDataControllerBeforePost(
+  ADataController: TcxCustomDataController);
+begin
+  inherited;
+  //
+  MsgBox('ok');
+end;
+
+procedure TfrmInputInvoicePenjualan.cxtbInvDataControllerRecordChanged(
+  ADataController: TcxCustomDataController; ARecordIndex, AItemIndex: Integer);
+begin
+  if AItemIndex = cxColHarga.Index then begin
+    try
+      cxtbInv.BeginUpdate;
+      ADataController.Values[ARecordIndex, cxColTotal.Index] :=
+        ADataController.Values[ARecordIndex, cxColQty.Index] * ADataController.Values[ARecordIndex, cxColHarga.Index];
+      HitungTotal;
+      cxtbInv.EndUpdate;
+    except
+    end;
+  end;
+end;
+
 procedure TfrmInputInvoicePenjualan.cxtbTblPODataControllerBeforePost(
   ADataController: TcxCustomDataController);
 var
   i,j,k: integer;
   v: variant;
 begin
+  {
   inherited;
   i := ADataController.FocusedRowIndex;
   k := ADataController.GetEditingRecordIndex;
@@ -439,7 +479,7 @@ begin
     MsgBox('harga tidak boleh minus');
     abort
   end;
-
+  }
 end;
 
 
@@ -451,6 +491,18 @@ var
   i: Integer ;
 begin
   inherited;
+
+  if AItemIndex = cxColHarga.Index then begin
+    try
+      cxtbInv.BeginUpdate;
+      ADataController.Values[ARecordIndex, cxColTotal.Index] :=
+        ADataController.Values[ARecordIndex, cxColQty.Index] * ADataController.Values[ARecordIndex, cxColHarga.Index];
+      HitungTotal;
+      cxtbInv.EndUpdate;
+    except
+    end;
+  end;
+
   {
   if AItemIndex = cxColKodeBrg.Index then begin
     try

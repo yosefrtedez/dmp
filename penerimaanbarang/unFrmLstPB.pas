@@ -159,6 +159,11 @@ var
 begin
   inherited;
 
+  if zqrPBHead.FIeldByName('jenis_pb').AsInteger = 0 then begin
+    MsgBox('Modul ini khusus untuk Penerimaan Barang tanpa PO.');
+    Abort;
+  end;
+
   if not fu.CekTabOpen('Input Harga Penerimaan Barang') then begin
     ts := TcxTabSheet.Create(Self);
     ts.PageControl := frmUtama.pgMain;

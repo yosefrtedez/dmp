@@ -3,7 +3,7 @@ inherited frmInputInvoicePenjualan: TfrmInputInvoicePenjualan
   ClientHeight = 724
   ClientWidth = 1098
   OnShow = FormShow
-  ExplicitTop = -26
+  ExplicitTop = -18
   ExplicitWidth = 1098
   ExplicitHeight = 724
   PixelsPerInch = 96
@@ -29,7 +29,7 @@ inherited frmInputInvoicePenjualan: TfrmInputInvoicePenjualan
     Top = 675
     Width = 1098
     TabOrder = 26
-    ExplicitTop = 641
+    ExplicitTop = 675
     ExplicitWidth = 1098
   end
   object cxgrdPP: TcxGrid
@@ -65,8 +65,8 @@ inherited frmInputInvoicePenjualan: TfrmInputInvoicePenjualan
           Column = cxColTotal
         end>
       DataController.Summary.SummaryGroups = <>
-      DataController.OnBeforePost = cxtbTblPODataControllerBeforePost
-      DataController.OnRecordChanged = cxtbTblPODataControllerRecordChanged
+      DataController.OnBeforePost = cxtbInvDataControllerBeforePost
+      DataController.OnRecordChanged = cxtbInvDataControllerRecordChanged
       OptionsBehavior.FocusCellOnTab = True
       OptionsData.Appending = True
       OptionsView.Navigator = True
@@ -134,9 +134,10 @@ inherited frmInputInvoicePenjualan: TfrmInputInvoicePenjualan
         Caption = 'Harga'
         DataBinding.ValueType = 'Float'
         PropertiesClassName = 'TcxSpinEditProperties'
+        Properties.Alignment.Horz = taRightJustify
         Properties.DisplayFormat = '#,##.00'
+        Properties.ValueType = vtFloat
         HeaderAlignmentHorz = taRightJustify
-        Options.Editing = False
         Width = 88
       end
       object cxColPPN: TcxGridColumn
@@ -144,8 +145,10 @@ inherited frmInputInvoicePenjualan: TfrmInputInvoicePenjualan
         PropertiesClassName = 'TcxComboBoxProperties'
         Properties.DropDownListStyle = lsFixedList
         Properties.Items.Strings = (
+          ''
           'PPN'
           'NON PPN')
+        Visible = False
         Options.Editing = False
       end
       object cxColValuta: TcxGridColumn

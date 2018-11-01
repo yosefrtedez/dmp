@@ -10,7 +10,7 @@ object DM: TDM
     DesignConnection = True
     HostName = 'localhost'
     Port = 0
-    Database = 'dmp_db'
+    Database = 'dmp_db3'
     User = 'root'
     Password = 'samator'
     Protocol = 'mysql-5'

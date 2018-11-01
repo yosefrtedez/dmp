@@ -343,6 +343,9 @@
 			<DCCReference Include="laporan\RPT\unFrmLapAkunting_RPT.pas">
 				<Form>frmLapAkunting_RPT</Form>
 			</DCCReference>
+			<DCCReference Include="barangjasa\unFrmLstBarangJasaHPP.pas">
+				<Form>frmLstBarangJasaHPP</Form>
+			</DCCReference>
 			<BuildConfiguration Include="Base">
 				<Key>Base</Key>
 			</BuildConfiguration>

@@ -342,7 +342,7 @@ procedure TfrmSPK.FormShow(Sender: TObject);
 var
   q, qspk: TZQuery;
   i: integer;
-  sa: real;
+  sa, conv: real;
 begin
   inherited;
 
@@ -357,7 +357,9 @@ begin
   cxsQtySPK.Value := q.FieldByName('qty_spk').AsFloat;
   cxsQtySO.Value := q.FieldbyName('qty_so').AsFloat;
   cxsQtySOKG.Value := q.FieldByName('qty_kg').AsFloat;
+
   mIdBrg := q.FieldByname('id_brg').AsInteger;
+  conv := GetKonversiSat(mIdBrg, 2);
   q.Close;
 
   qspk := OpenRS('SELECT IFNULL(SUM(qty),0) spk_total FROM tbl_spk WHERE id_so = %d',[mIDSO]);

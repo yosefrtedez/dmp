@@ -528,7 +528,15 @@ begin
             hpp := ((hppAkhir * sAkhir) + (Values[i, cxColQtyDatang.Index] * hrg)) /
               (sAkhir + Values[i, cxColQtyDatang.Index]);
 
-            Aplikasi.AddHistAvg(Values[i, cxColIdBrg.Index], ID, sNoTrs, hpp);
+            Aplikasi.AddHistAvg(
+              Values[i, cxColIdBrg.Index],
+              ID,
+              sNoTrs,
+              Values[i, cxColQtyDatang.Index],
+              hpp,
+              hrg
+            );
+
           end;
 
           hst.Insert;

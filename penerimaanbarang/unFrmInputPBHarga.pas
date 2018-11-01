@@ -220,7 +220,14 @@ begin
             hpp := ((hppAkhir * sAkhir) + (Values[i, cxColQtyDatang2.Index] * hrg)) /
               (sAkhir + Values[i, cxColQtyDatang2.Index]);
 
-            Aplikasi.AddHistAvg(Values[i, cxColKodeBrg2.Index], ID, sNoTrs, hpp);
+            Aplikasi.AddHistAvg(
+              Values[i, cxColKodeBrg2.Index],
+              ID,
+              sNoTrs,
+              Values[i, cxColQtyDatang2.Index],
+              hpp,
+              hrg
+            );
 
             if f_ppn then
               Aplikasi.AddHistPPN(

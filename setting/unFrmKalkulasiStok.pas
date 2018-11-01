@@ -4,7 +4,18 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, ComCtrls, StdCtrls, ZDataSet;
+  Dialogs, ComCtrls, StdCtrls, ZDataSet, cxGraphics, cxControls, cxLookAndFeels,
+  cxLookAndFeelPainters, cxContainer, cxEdit, dxSkinsCore, dxSkinBlack,
+  dxSkinBlue, dxSkinCaramel, dxSkinCoffee, dxSkinDarkRoom, dxSkinDarkSide,
+  dxSkinFoggy, dxSkinGlassOceans, dxSkiniMaginary, dxSkinLilian,
+  dxSkinLiquidSky, dxSkinLondonLiquidSky, dxSkinMcSkin, dxSkinMoneyTwins,
+  dxSkinOffice2007Black, dxSkinOffice2007Blue, dxSkinOffice2007Green,
+  dxSkinOffice2007Pink, dxSkinOffice2007Silver, dxSkinOffice2010Black,
+  dxSkinOffice2010Blue, dxSkinOffice2010Silver, dxSkinPumpkin, dxSkinSeven,
+  dxSkinSharp, dxSkinSilver, dxSkinSpringTime, dxSkinStardust, dxSkinSummer2008,
+  dxSkinsDefaultPainters, dxSkinValentine, dxSkinXmas2008Blue, cxCheckBox,
+  cxTextEdit, cxMaskEdit, cxDropDownEdit, cxLookupEdit, cxDBLookupEdit,
+  cxDBLookupComboBox, DB, ZAbstractRODataset;
 
 type
   TfrmKalkulasiStok = class(TForm)
@@ -13,11 +24,15 @@ type
     btnBatal: TButton;
     RichEdit1: TRichEdit;
     Label1: TLabel;
+    cxChkHitungHPP: TcxCheckBox;
+    cxlBrg: TcxLookupComboBox;
+    zqrBrg: TZReadOnlyQuery;
+    dsBrg: TDataSource;
     procedure btnProsesClick(Sender: TObject);
     procedure btnBatalClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
   private
-    { Private declarations }
+    procedure HitungHPP;
   public
     { Public declarations }
   end;
@@ -38,6 +53,13 @@ var
   sql, sGdg: string;
   stok: Extended;
 begin
+  if cxChkHitungHPP.Checked then begin
+    if Trim(cxlBrg.Text) = '' then begin
+      MsgBox('Pilih kode barang / semua.');
+      Abort;
+    end;
+  end;
+
   q2 := OpenRS('SELECT * FROM tbl_gudang WHERE f_aktif = 1 ORDER BY kode');
 
   Label1.Caption := '';
@@ -187,6 +209,8 @@ begin
   btnProses.Enabled := True;
   btnBatal.Enabled := True;
 
+  if cxChkHitungHPP.Checked then Self.HitungHPP;
+
   MsgBox('Proses kalkulasi stok selesai.');
 
   Close;
@@ -202,6 +226,123 @@ procedure TfrmKalkulasiStok.FormClose(Sender: TObject;
   var Action: TCloseAction);
 begin
   Release;
+end;
+
+procedure TfrmKalkulasiStok.HitungHPP;
+var
+  q, q2: TZQuery;
+  lhpp, lsa: real;
+  i, id_brg, row: Integer;
+
+begin
+
+  // version 3
+  dm.zConn.ExecuteDirect('call sp_tmp_ks');
+  if cxlBrg.Text = ' SEMUA' then
+    q := OpenRS('select a.no_bukti, a.tanggal, a.id_brg, a.masuk as qty, a.keluar, ifnull(b.harga,0) harga, a.stok_akhir ' +
+      'from _ks a ' +
+      'left join tbl_pb_det b on a.no_bukti = b.no_bukti and b.id_brg = a.id_brg ' +
+      '-- where a.id_brg in (93,94) '  +
+      'order by a.id_brg, a.tanggal, a.id')
+  else
+    q := OpenRS('select a.no_bukti, a.tanggal, a.id_brg, a.masuk as qty, a.keluar, ifnull(b.harga,0) harga, a.stok_akhir ' +
+      'from _ks a ' +
+      'left join tbl_pb_det b on a.no_bukti = b.no_bukti and b.id_brg = a.id_brg ' +
+      'where a.id_brg = ' + VarToStr(cxlBrg.EditValue) + ' ' +
+      'order by a.id_brg, a.tanggal, a.id');
+
+  i := 1;
+  lsa := 0;
+  lhpp := 0;
+  id_brg := 0;
+
+  q.Last;
+  row := q.RecordCount;
+  q.First;
+
+  if cxlBrg.Text = ' SEMUA' then
+    dm.zConn.ExecuteDirect('DELETE FROM tbl_history_hpp')
+  else
+    dm.zConn.ExecuteDirect('DELETE FROM tbl_history_hpp WHERE id_brg = ' +
+      VarToStr(cxlBrg.EditValue));
+
+  q2 := OpenRS('SELECT * FROM tbl_history_hpp');
+
+  Screen.Cursor := crSQLWait;
+
+  prgBar.Position := 0;
+  prgBar.Max := row;
+  label1.Caption := 'Hitung HPP';
+
+  while not q.Eof do begin
+    Application.ProcessMessages;
+    Self.Refresh;
+
+    if id_brg <> q.FieldByname('id_brg').AsInteger then begin
+      id_brg := q.FieldByName('id_brg').AsInteger;
+      lhpp := 0;
+      lsa := 0;
+      i := 1;
+    end;
+
+    if (Copy(q.FieldByname('no_bukti').AsString,1,2) = 'PB') or (Copy(q.FieldByname('no_bukti').AsString,1,2) = 'IN') then begin
+      try
+        if i = 1 then
+          lhpp := ((q.FieldByName('qty').AsFloat * q.FieldByName('harga').AsFloat)) /
+            q.FieldByName('qty').AsFloat
+        else
+          lhpp := ((q.FieldByName('qty').AsFloat * q.FieldByName('harga').AsFloat) +
+            (lsa * lhpp)) / (q.FieldByName('qty').AsFloat + lsa);
+
+        q2.Insert;
+        q2.FieldByName('tanggal').AsDateTime := q.FieldByname('tanggal').AsDateTime;
+        q2.FieldByName('no_bukti').AsString := q.FieldByName('no_bukti').AsString;
+        q2.FieldByName('id_brg').AsInteger := q.FieldByName('id_brg').AsInteger;
+        q2.FieldByName('qty').AsFloat := q.FieldByName('qty').AsFloat;
+        q2.FieldByName('harga').AsFloat := q.FieldByName('harga').AsFloat;
+        q2.FieldByName('sa').AsFloat := lsa;
+        q2.FieldByname('avg').AsFloat := lhpp;
+        q2.Post;
+      except
+      end;
+    end;
+
+    lsa := q.FieldByName('stok_akhir').AsFloat;
+
+    id_brg := q.FieldByName('id_brg').AsInteger;
+    q.Next;
+    Inc(i);
+    prgBar.Position := prgBar.Position + 1;
+  end;
+  q.Close;
+
+  try
+    dm.zConn.ExecuteDirect('DELETE FROM tbl_hpp');
+    q2 := OpenRS('SELECT * FROM tbl_hpp');
+
+    q := OpenRS('select a.id_brg, a.avg ' +
+      'from tbl_history_hpp a ' +
+      'inner join (select max(id) id from tbl_history_hpp group by id_brg) b on a.id = b.id');
+    q.Last;
+    prgBar.Position := 0;
+    prgBar.Max := q.RecordCount;
+    q.First;
+    while not q.Eof do begin
+      Application.ProcessMessages;
+      Self.Refresh;
+      q2.Insert;
+      q2.FieldByName('id_brg').AsInteger := q.FieldByName('id_brg').AsInteger;
+      q2.FieldByname('avg').AsFloat := q.FieldByname('avg').AsFloat;
+      q2.Post;
+      prgBar.Position := prgBar.Position + 1;
+      q.Next;
+    end;
+    q.Close;
+    q2.Close;
+  except
+    Screen.Cursor := crDefault;
+  end;
+  Screen.Cursor := crDefault;
 end;
 
 end.
