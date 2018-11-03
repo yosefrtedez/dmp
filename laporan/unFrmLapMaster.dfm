@@ -49,8 +49,6 @@ inherited frmLapMaster: TfrmLapMaster
       Caption = '01'
       ImageIndex = 0
       TabVisible = False
-      ExplicitTop = 21
-      ExplicitHeight = 323
       object cxLabel1: TcxLabel
         Left = 14
         Top = 8

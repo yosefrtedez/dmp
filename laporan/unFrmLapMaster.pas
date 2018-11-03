@@ -94,12 +94,12 @@ begin
   f := TfrmLapMasterData.Create(nil);
   with f do begin
     if cxlKategoriBrg.EditValue = 0 then
-      zqrMstBarang.SQL.Strings[8] := ''
+      zqrMstBarang.SQL.Strings[9] := ''
     else
       zqrMstBarang.ParamByname('id_kategori').AsString := cxlKategoriBrg.EditValue;
 
     if cxlSubKategori.EditValue = 0 then
-      zqrMstBarang.SQL.Strings[9] := ''
+      zqrMstBarang.SQL.Strings[10] := ''
     else
       zqrMstBarang.ParamByName('id_subkategori').AsString := cxlSubKategori.EditValue;
 
