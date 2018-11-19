@@ -1,6 +1,8 @@
 inherited frmSettingProgram: TfrmSettingProgram
   Caption = 'Setting Program'
   OnShow = FormShow
+  ExplicitWidth = 894
+  ExplicitHeight = 553
   PixelsPerInch = 96
   TextHeight = 13
   inherited Panel1: TPanel
@@ -124,7 +126,6 @@ inherited frmSettingProgram: TfrmSettingProgram
     object cxTabSheet1: TcxTabSheet
       Caption = 'Default Gudang dan Satuan'
       ImageIndex = 0
-      ExplicitHeight = 171
       object GroupBox1: TGroupBox
         Left = 13
         Top = 3
@@ -218,12 +219,10 @@ inherited frmSettingProgram: TfrmSettingProgram
       Caption = 'cxTabSheet2'
       ImageIndex = 1
       TabVisible = False
-      ExplicitHeight = 171
     end
   end
   object zqrGdg: TZReadOnlyQuery
     Connection = DM.zConn
-    Active = True
     SQL.Strings = (
       'SELECT * FROM tbl_gudang')
     Params = <>

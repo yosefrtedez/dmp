@@ -65,6 +65,7 @@ type
     cxsQtySOKG: TcxSpinEdit;
     clblSat2: TcxLabel;
     cxColStok: TcxGridColumn;
+    clblSat3: TcxLabel;
     procedure FormShow(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure cxtbBomDataControllerRecordChanged(
@@ -374,6 +375,12 @@ begin
 
   if Self.Jenis = 'T' then
     cxtNoSPK.Text := GetLastFak('spk');
+
+  // cek satuan
+  conv := GetKonversiSat(mIdBrg, Aplikasi.SatProd);
+  if conv > 0 then begin
+    cxsQtySOKG.Value := conv * cxsQtySO.Value;
+  end;
 
   if Self.Jenis = 'E' then begin
     q := OpenRS('SELECT * FROM tbl_spk WHERE id = %d',[mIDSPK]);

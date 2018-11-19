@@ -137,7 +137,7 @@ procedure TfrmPengambilanBahanBaku.cxtbBomDetDataControllerAfterPost(
   ADataController: TcxCustomDataController);
 var
   q, qh, qjd: TZQuery;
-  i, j, id_akun, id: integer;
+  i, j, id_akun, id, id_spk: integer;
   sNoBukti, sNoJ: string;
 begin
   inherited;
@@ -159,7 +159,8 @@ begin
     q.FieldByName('id_spk').AsInteger := zqrSPK.FieldByName('id').AsInteger;
     q.FieldByName('id_brg').AsInteger := ADataController.Values[i, cxColKodeBrg2.Index];
     q.FieldByName('qty').AsFloat := ADataController.Values[i, cxColQtyInput.Index];
-    q.FieldByName('operator').AsString := ADataController.Values[i, cxColOperator.INdex];
+    if not VarIsNull(ADataController.Values[i, cxColOperator.Index]) then
+      q.FieldByName('operator').AsString := ADataController.Values[i, cxColOperator.INdex];
     q.FieldByName('id_gdg').AsInteger := ADataController.Values[i, cxColGdg.Index];
     q.FieldByName('id_satuan').AsInteger := ADataController.Values[i, cxColIdSatuan2.Index];
     q.FieldByName('user').AsString := Aplikasi.NamaUser;
@@ -169,11 +170,13 @@ begin
     id := LastInsertID;
     q.Close;
 
+    id_spk := zqrSPK.FieldByName('id').AsInteger;
+
     qh := OpenRS('SELECT * FROM tbl_history WHERE no_bukti = ''%s''',[sNoBukti]);
     qh.Insert;
     qh.FieldByName('id_ref').AsInteger := id;
     qh.FieldByName('no_bukti').AsString := sNobukti;
-    qh.FieldByName('tanggal').AsString :=  ADataController.Values[i, cxColTanggal.Index];
+    qh.FieldByName('tanggal').AsDateTime :=  ADataController.Values[i, cxColTanggal.Index];
     qh.FieldByName('kode_brg').AsString := ADataController.Values[i, cxColKodeBrg3.Index];
     qh.FieldByName('id_brg').AsInteger := ADataController.Values[i, cxColKodeBrg2.Index];
     qh.FieldByName('qty').AsFloat := ADataController.Values[i, cxColQtyInput.Index];
@@ -184,6 +187,8 @@ begin
     qh.FieldByName('tipe').AsString := 'o';
     qh.FieldbyName('user').AsString := Aplikasi.NamaUser;
     qh.FieldByName('user_dept').AsString := Aplikasi.UserDept;
+    qh.FieldByname('id_spk').AsInteger := id_spk;
+    qh.FieldByname('avgcost').AsFloat := GetHPP(ADataController.Values[i, cxColKodeBrg2.Index]);
     qh.Post;
     qh.Close;
 
@@ -217,6 +222,8 @@ begin
       qjd.FieldByName('id_akun').AsInteger := id_akun;
       qjd.FieldByName('debet').AsFloat := ADataController.Values[i, cxColQtyInput.Index] *
         GetHPP(ADataController.Values[i, cxColKodeBrg2.Index]);
+      qjd.FieldByName('keterangan').AsString := 'Pengambilan bahan baku: ' + ADataController.Values[i, cxColKodeBrg2.Index];
+      qjd.FieldByName('tglinput').AsDateTime := Aplikasi.NowServer;
       qjd.FieldByName('dc').AsString := 'D';
       qjd.Post;
 
@@ -226,9 +233,11 @@ begin
       qjd.FieldByName('tanggal').AsDateTime := Aplikasi.TanggalServer;
       qjd.FieldByName('no_jurnal').AsString := sNoJ;
       qjd.FieldByName('no_trans').AsString := sNoBukti;
-      qjd.FieldByName('akun').AsInteger := id_akun;
+      qjd.FieldByName('id_akun').AsInteger := id_akun;
       qjd.FieldByName('kredit').AsFloat := ADataController.Values[i, cxColQtyInput.Index] *
         GetHPP(ADataController.Values[i, cxColKodeBrg2.Index]);
+      qjd.FieldByName('keterangan').AsString := 'Pengambilan bahan baku: ' + ADataController.Values[i, cxColKodeBrg2.Index];
+      qjd.FieldByName('tglinput').AsDateTime := Aplikasi.NowServer;
       qjd.FieldByName('dc').AsString := 'K';
       qjd.Post;
 
@@ -243,6 +252,9 @@ begin
     //q.Close;
 
     Screen.Cursor := crDefault;
+
+    MsgBox('Transaksi pengambilan bahan baku sudah disimpan.');
+
   except
     on E: Exception do begin
       dm.zConn.Rollback;

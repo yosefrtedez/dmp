@@ -23,7 +23,7 @@ inherited frmSPK: TfrmSPK
   end
   inherited Panel2: TPanel
     Top = 619
-    TabOrder = 29
+    TabOrder = 30
     ExplicitTop = 619
   end
   object cxLabel1: TcxLabel
@@ -70,7 +70,7 @@ inherited frmSPK: TfrmSPK
     Top = 338
     Width = 875
     Height = 198
-    TabOrder = 28
+    TabOrder = 29
     object cxtbBom: TcxGridTableView
       NavigatorButtons.ConfirmDelete = False
       NavigatorButtons.Insert.Visible = False
@@ -151,6 +151,7 @@ inherited frmSPK: TfrmSPK
       end
       object cxColId: TcxGridColumn
         DataBinding.ValueType = 'Integer'
+        Visible = False
       end
       object cxColKodeBrg2: TcxGridColumn
         Visible = False
@@ -187,12 +188,12 @@ inherited frmSPK: TfrmSPK
   object cxLabel8: TcxLabel
     Left = 7
     Top = 227
-    Caption = 'Qty. SPK'
+    Caption = 'Qty. SPK (KG)'
   end
   object cxdTglPrd: TcxDateEdit
     Left = 101
     Top = 254
-    TabOrder = 23
+    TabOrder = 24
     Width = 121
   end
   object cxlMesin: TcxLookupComboBox
@@ -205,7 +206,7 @@ inherited frmSPK: TfrmSPK
         FieldName = 'nama'
       end>
     Properties.ListSource = dsMesin
-    TabOrder = 25
+    TabOrder = 26
     Width = 177
   end
   object cxsQtySPK: TcxSpinEdit
@@ -302,6 +303,11 @@ inherited frmSPK: TfrmSPK
   object clblSat2: TcxLabel
     Left = 199
     Top = 199
+    Caption = 'Sat'
+  end
+  object clblSat3: TcxLabel
+    Left = 199
+    Top = 227
     Caption = 'Sat'
   end
   object zqrMesin: TZReadOnlyQuery

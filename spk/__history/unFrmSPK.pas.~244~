@@ -65,6 +65,7 @@ type
     cxsQtySOKG: TcxSpinEdit;
     clblSat2: TcxLabel;
     cxColStok: TcxGridColumn;
+    clblSat3: TcxLabel;
     procedure FormShow(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure cxtbBomDataControllerRecordChanged(
@@ -190,8 +191,10 @@ begin
           if Self.Jenis = 'T' then
             qd.Insert
           else begin
-            qd.Locate('id',VarArrayOf([Values[i, cxColId.Index]]),[]);
-            qd.Edit;
+            if qd.Locate('id',VarArrayOf([Values[i, cxColId.Index]]),[]) then
+              qd.Edit
+            else
+              qd.Insert;
           end;
           qd.FieldByName('id_spk').AsInteger := ID;
           qd.FieldByName('kode_brg').AsString := Values[i, cxColKodeBrg2.Index];
@@ -228,7 +231,7 @@ var
   q: TZQuery;
 begin
   q := OpenRS('SELECT b.no_spk, a.qty FROM tbl_bom a ' +
-    'LEFT JOIN tbl_spk b ON a.id_spk = b.id_spk ' +
+    'LEFT JOIN tbl_spk b ON a.id_spk = b.id ' +
     'WHERE a.id_brg = %d AND b.f_completed = 0',[id_brg]);
   if not q.IsEmpty then begin
     MsgBox('Barang ini digunakan di SPK : ' + q.FieldByName('no_spk').AsString + Chr(10) + Chr(13) +
@@ -340,7 +343,7 @@ procedure TfrmSPK.FormShow(Sender: TObject);
 var
   q, qspk: TZQuery;
   i: integer;
-  sa: real;
+  sa, conv: real;
 begin
   inherited;
 
@@ -355,7 +358,9 @@ begin
   cxsQtySPK.Value := q.FieldByName('qty_spk').AsFloat;
   cxsQtySO.Value := q.FieldbyName('qty_so').AsFloat;
   cxsQtySOKG.Value := q.FieldByName('qty_kg').AsFloat;
+
   mIdBrg := q.FieldByname('id_brg').AsInteger;
+  conv := GetKonversiSat(mIdBrg, 2);
   q.Close;
 
   qspk := OpenRS('SELECT IFNULL(SUM(qty),0) spk_total FROM tbl_spk WHERE id_so = %d',[mIDSO]);
@@ -370,6 +375,13 @@ begin
 
   if Self.Jenis = 'T' then
     cxtNoSPK.Text := GetLastFak('spk');
+
+  // cek satuan
+  //q := OpenRS('SELECT * FROM tbl_konv_brg WHERE id_barang = %d AND id_satuan = %d',
+  //  [mIdBrg, Aplikasi.SatProd]);
+  if not q.IsEmpty then begin
+    cxsQtySOKG.Value := q.FieldByname('qty').AsFloat * cxsQtySO.Value;
+  end;
 
   if Self.Jenis = 'E' then begin
     q := OpenRS('SELECT * FROM tbl_spk WHERE id = %d',[mIDSPK]);
@@ -392,6 +404,9 @@ begin
         Values[i, cxColSatuan.Index] := q.FieldByName('satuan2').AsString;
         Values[i, cxColIdSatuan.Index] := q.FieldByName('id_satuan').AsInteger;
         Values[i, cxColId.Index] := q.FieldByName('id').AsInteger;
+
+        sa := GetStokAkhir(q.FieldByName('id_brg').AsInteger, Aplikasi.GdgBB);
+        Values[i, cxColStok.Index] := sa;
       end;
       q.Next;
     end;

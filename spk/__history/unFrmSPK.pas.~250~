@@ -65,6 +65,7 @@ type
     cxsQtySOKG: TcxSpinEdit;
     clblSat2: TcxLabel;
     cxColStok: TcxGridColumn;
+    clblSat3: TcxLabel;
     procedure FormShow(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure cxtbBomDataControllerRecordChanged(
@@ -190,8 +191,10 @@ begin
           if Self.Jenis = 'T' then
             qd.Insert
           else begin
-            qd.Locate('id',VarArrayOf([Values[i, cxColId.Index]]),[]);
-            qd.Edit;
+            if qd.Locate('id',VarArrayOf([Values[i, cxColId.Index]]),[]) then
+              qd.Edit
+            else
+              qd.Insert;
           end;
           qd.FieldByName('id_spk').AsInteger := ID;
           qd.FieldByName('kode_brg').AsString := Values[i, cxColKodeBrg2.Index];
@@ -340,7 +343,7 @@ procedure TfrmSPK.FormShow(Sender: TObject);
 var
   q, qspk: TZQuery;
   i: integer;
-  sa: real;
+  sa, conv: real;
 begin
   inherited;
 
@@ -355,7 +358,9 @@ begin
   cxsQtySPK.Value := q.FieldByName('qty_spk').AsFloat;
   cxsQtySO.Value := q.FieldbyName('qty_so').AsFloat;
   cxsQtySOKG.Value := q.FieldByName('qty_kg').AsFloat;
+
   mIdBrg := q.FieldByname('id_brg').AsInteger;
+  conv := GetKonversiSat(mIdBrg, 2);
   q.Close;
 
   qspk := OpenRS('SELECT IFNULL(SUM(qty),0) spk_total FROM tbl_spk WHERE id_so = %d',[mIDSO]);
@@ -370,6 +375,14 @@ begin
 
   if Self.Jenis = 'T' then
     cxtNoSPK.Text := GetLastFak('spk');
+
+  // cek satuan
+  //q := OpenRS('SELECT * FROM tbl_konv_brg WHERE id_barang = %d AND id_satuan = %d',
+  //  [mIdBrg, Aplikasi.SatProd]);
+  conv := GetKonversiSat(mIdBrg, Aplikasi.SatProd);
+  if conv > 0 then begin
+    cxsQtySOKG.Value := conv * cxsQtySO.Value;
+  end;
 
   if Self.Jenis = 'E' then begin
     q := OpenRS('SELECT * FROM tbl_spk WHERE id = %d',[mIDSPK]);

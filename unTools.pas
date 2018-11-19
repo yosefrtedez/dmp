@@ -1338,7 +1338,7 @@ function GetHpp(id_brg: integer): real;
 var
   q: TZQuery;
 begin
-  q := OpenRS('SELECT sf_get_hpp(%d) hpp',[id_brg]);
+  q := OpenRS('SELECT IFNULL(sf_get_hpp(%d),0) hpp',[id_brg]);
   Result := q.FieldByName('hpp').AsFloat;
   q.Close;
 end;
