@@ -204,6 +204,10 @@ begin
     cxlTipe.SetFocus;
   end
   else begin
+
+    // simpan perhitungan
+    btnSimpanClick(nil);
+
     q := OpenRS('SELECT * FROM tbl_barang WHERE kode = ''%s''',[cxtKode.Text]);
 
     if Self.Jenis = 'T' then

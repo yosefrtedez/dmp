@@ -3,6 +3,7 @@ inherited frmInputBarangJasa: TfrmInputBarangJasa
   ClientHeight = 663
   ClientWidth = 1058
   OnShow = FormShow
+  ExplicitTop = -22
   ExplicitWidth = 1058
   ExplicitHeight = 663
   PixelsPerInch = 96
