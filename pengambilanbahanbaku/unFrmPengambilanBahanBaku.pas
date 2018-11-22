@@ -222,7 +222,8 @@ begin
       qjd.FieldByName('id_akun').AsInteger := id_akun;
       qjd.FieldByName('debet').AsFloat := ADataController.Values[i, cxColQtyInput.Index] *
         GetHPP(ADataController.Values[i, cxColKodeBrg2.Index]);
-      qjd.FieldByName('keterangan').AsString := 'Pengambilan bahan baku: ' + ADataController.Values[i, cxColKodeBrg2.Index];
+      qjd.FieldByName('keterangan').AsString := 'Pengambilan bahan baku: ' +
+        ADataController.Values[i, cxColKodeBrg3.Index];
       qjd.FieldByName('tglinput').AsDateTime := Aplikasi.NowServer;
       qjd.FieldByName('dc').AsString := 'D';
       qjd.Post;
@@ -236,7 +237,8 @@ begin
       qjd.FieldByName('id_akun').AsInteger := id_akun;
       qjd.FieldByName('kredit').AsFloat := ADataController.Values[i, cxColQtyInput.Index] *
         GetHPP(ADataController.Values[i, cxColKodeBrg2.Index]);
-      qjd.FieldByName('keterangan').AsString := 'Pengambilan bahan baku: ' + ADataController.Values[i, cxColKodeBrg2.Index];
+      qjd.FieldByName('keterangan').AsString := 'Pengambilan bahan baku: ' +
+        ADataController.Values[i, cxColKodeBrg3.Index];
       qjd.FieldByName('tglinput').AsDateTime := Aplikasi.NowServer;
       qjd.FieldByName('dc').AsString := 'K';
       qjd.Post;
