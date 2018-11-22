@@ -134,6 +134,11 @@ type
     cxlAkunReturPembelian2: TcxLookupComboBox;
     zqrCoa: TZReadOnlyQuery;
     dsCoa: TDataSource;
+    cxTabSheet6: TcxTabSheet;
+    cxLabel36: TcxLabel;
+    cxtUInput: TcxTextEdit;
+    cxLabel37: TcxLabel;
+    cxtUEdit: TcxTextEdit;
     procedure btnSimpanClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -156,6 +161,8 @@ type
     procedure cxlAkunDiskonPenjualanPropertiesEditValueChanged(Sender: TObject);
     procedure cxlAkunHPPPropertiesEditValueChanged(Sender: TObject);
     procedure cxlAkunHPP2PropertiesEditValueChanged(Sender: TObject);
+    procedure cxlAkunReturPembelianPropertiesEditValueChanged(Sender: TObject);
+    procedure cxlAkunReturPembelian2PropertiesEditValueChanged(Sender: TObject);
   private
     //
   public
@@ -233,6 +240,13 @@ begin
     if cxChkDijual.Checked then
       q.FieldByName('f_dijual').AsInteger := 1;
 
+    q.FieldByName('idakun_persediaan').AsInteger := cxlAkunPersediaan.EditValue;
+    q.FieldByName('idakun_penjualan').AsInteger := cxlAkunPenjualan.EditValue;
+    q.FieldByName('idakun_returpenjualan').AsInteger := cxlAkunReturPenjualan.EditValue;
+    q.FieldByName('idakun_diskonpenjualan').AsInteger := cxlAkunDiskonPenjualan.EditValue;
+    q.FieldByName('idakun_hpp').AsInteger := cxlAkunHPP.EditValue;
+    q.FieldByName('idakun_returpembelian').AsInteger := cxlAkunReturPembelian.EditValue;
+
     q.Post;
 
     if Self.Jenis = 'T' then
@@ -298,7 +312,6 @@ begin
         end;
       end;
     end;
-
 
     MsgBox('Data barang sudah disimpan.');
 
@@ -373,6 +386,20 @@ begin
   cxlAkunPersediaan2.EditValue := cxlAkunPersediaan.EditValue;
 end;
 
+procedure TfrmInputBarangJasa.cxlAkunReturPembelian2PropertiesEditValueChanged(
+  Sender: TObject);
+begin
+  inherited;
+  cxlAkunReturPembelian.EditValue := cxlAkunReturPembelian2.EditValue;
+end;
+
+procedure TfrmInputBarangJasa.cxlAkunReturPembelianPropertiesEditValueChanged(
+  Sender: TObject);
+begin
+  inherited;
+  cxlAkunReturPembelian2.EditValue := cxlAkunReturPembelian.EditValue;
+end;
+
 procedure TfrmInputBarangJasa.cxlAkunReturPenjualan2PropertiesEditValueChanged(
   Sender: TObject);
 begin
@@ -402,10 +429,10 @@ procedure TfrmInputBarangJasa.cxsBrtTaliPropertiesChange(Sender: TObject);
 begin
   inherited;
   try
-    cxsBrtTotalPerKrg.Value :=
-      cxsBrtPerKarungPlusKantong.Value +
-      cxsBrtTali.Value +
-      cxsBrtKarung.Value;
+    //cxsBrtTotalPerKrg.Value :=
+    //  cxsBrtPerKarungPlusKantong.Value +
+    //  cxsBrtTali.Value +
+    //  cxsBrtKarung.Value;
   except
 
   end;
@@ -431,6 +458,13 @@ begin
       (cxsStdBrtKantong.Value *
       cxsJmlSlopPerIkat.Value *
       cxsJmlIkatPerKarung.Value) + cxsBrtPerKarung.Value;
+
+    cxsBrtTotalPerKrg.Value :=
+      (cxsStdBrtKantong.Value *
+      cxsJmlSlopPerIkat.Value *
+      cxsJmlIkatPerKarung.Value) + cxsBrtPerKarung.Value +
+      cxsBrtTali.Value +
+      cxsBrtKarung.Value;
   except
 
   end;
@@ -521,6 +555,20 @@ begin
       cxChkDijual.Checked := True;
     if q.FieldByName('f_dibeli').AsInteger = 1 then
       cxChkDibeli.Checked := True;
+
+    cxlAkunPersediaan.EditValue := q.FieldByName('idakun_persediaan').AsInteger;
+    cxlAkunPenjualan.EditValue := q.FieldByName('idakun_penjualan').AsInteger;
+    cxlAkunReturPenjualan.EditValue := q.FieldByName('idakun_returpenjualan').AsInteger;
+    cxlAkunDiskonPenjualan.EditValue := q.FieldByName('idakun_diskonpenjualan').AsInteger;
+    cxlAkunHPP.EditValue := q.FieldByName('idakun_hpp').AsInteger;
+    cxlAkunReturPembelian.EditValue := q.FieldByName('idakun_returpembelian').AsInteger;
+
+    if not q.FieldByname('user_input').IsNull then
+      cxtUInput.Text := q.FieldByname('user_input').AsString + ', ' + FormatDateTime('dd-MM-yyyy', q.FieldByname('tgl_input').AsDateTime);
+
+    if not q.FieldByname('user_edit').IsNull then
+      cxtUEdit.Text := q.FieldByname('user_edit').AsString + ', ' + FormatDateTime('dd-MM-yyyy', q.FieldByname('tgl_edit').AsDateTime);
+
     q.Close;
 
     q := OpenRS('SELECT * FROM tbl_konv_brg WHERE id_barang = %d',[ID]);

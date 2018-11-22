@@ -180,7 +180,6 @@ inherited frmLstSuratJalan: TfrmLstSuratJalan
     Height = 41
     Align = alBottom
     TabOrder = 2
-    ExplicitTop = 212
     DesignSize = (
       1016
       41)

@@ -112,7 +112,7 @@ inherited frmInputBarangJasa: TfrmInputBarangJasa
     Top = 264
     Width = 1042
     Height = 344
-    ActivePage = cxTabSheet6
+    ActivePage = cxTabSheet4
     Anchors = [akLeft, akTop, akRight, akBottom]
     Style = 7
     TabOrder = 17
@@ -232,6 +232,8 @@ inherited frmInputBarangJasa: TfrmInputBarangJasa
     object cxTabSheet4: TcxTabSheet
       Caption = 'Spesifikasi'
       ImageIndex = 3
+      ExplicitLeft = 2
+      ExplicitTop = 22
       object cxLabel7: TcxLabel
         Left = 14
         Top = 16
@@ -332,8 +334,7 @@ inherited frmInputBarangJasa: TfrmInputBarangJasa
         Top = 231
         Properties.DisplayFormat = '#,#0.00'
         Properties.ValueType = vtFloat
-        Properties.OnChange = cxsJmlIkatPerKarungPropertiesChange
-        TabOrder = 28
+        TabOrder = 29
         Width = 121
       end
       object cxLabel22: TcxLabel
@@ -347,7 +348,7 @@ inherited frmInputBarangJasa: TfrmInputBarangJasa
         Properties.DisplayFormat = '#,#0.00'
         Properties.ReadOnly = True
         Properties.ValueType = vtFloat
-        TabOrder = 30
+        TabOrder = 31
         Width = 121
       end
       object cxLabel23: TcxLabel
@@ -360,7 +361,6 @@ inherited frmInputBarangJasa: TfrmInputBarangJasa
         Top = 42
         Properties.DisplayFormat = '#,#0.00'
         Properties.ValueType = vtFloat
-        Properties.OnChange = cxsStdBrtKantongPropertiesChange
         TabOrder = 5
         Width = 121
       end
@@ -388,7 +388,6 @@ inherited frmInputBarangJasa: TfrmInputBarangJasa
         Top = 96
         Properties.DisplayFormat = '#,#0.00'
         Properties.ValueType = vtFloat
-        Properties.OnChange = cxsBrtTaliPropertiesChange
         TabOrder = 13
         Width = 121
       end
@@ -441,9 +440,17 @@ inherited frmInputBarangJasa: TfrmInputBarangJasa
         Top = 204
         Properties.DisplayFormat = '#,#0.00'
         Properties.ValueType = vtFloat
-        Properties.OnChange = cxsBrtPerIkatPropertiesChange
-        TabOrder = 26
+        TabOrder = 27
         Width = 121
+      end
+      object Button1: TButton
+        Left = 459
+        Top = 177
+        Width = 75
+        Height = 25
+        Caption = 'Hitung'
+        TabOrder = 25
+        OnClick = Button1Click
       end
     end
     object cxTabSheet5: TcxTabSheet
@@ -794,8 +801,6 @@ inherited frmInputBarangJasa: TfrmInputBarangJasa
     object cxTabSheet6: TcxTabSheet
       Caption = 'User Input / Edit'
       ImageIndex = 5
-      ExplicitLeft = 2
-      ExplicitTop = 22
       object cxLabel36: TcxLabel
         Left = 15
         Top = 27
@@ -943,7 +948,6 @@ inherited frmInputBarangJasa: TfrmInputBarangJasa
   end
   object zqrCoa: TZReadOnlyQuery
     Connection = DM.zConn
-    Active = True
     SQL.Strings = (
       'SELECT id, noakun, nama '
       'FROM tbl_coa '
