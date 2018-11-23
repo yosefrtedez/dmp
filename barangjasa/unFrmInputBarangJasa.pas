@@ -139,7 +139,6 @@ type
     cxtUInput: TcxTextEdit;
     cxLabel37: TcxLabel;
     cxtUEdit: TcxTextEdit;
-    Button1: TButton;
     procedure btnSimpanClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -164,7 +163,6 @@ type
     procedure cxlAkunHPP2PropertiesEditValueChanged(Sender: TObject);
     procedure cxlAkunReturPembelianPropertiesEditValueChanged(Sender: TObject);
     procedure cxlAkunReturPembelian2PropertiesEditValueChanged(Sender: TObject);
-    procedure Button1Click(Sender: TObject);
   private
     //
   public
@@ -204,10 +202,6 @@ begin
     cxlTipe.SetFocus;
   end
   else begin
-
-    // simpan perhitungan
-    btnSimpanClick(nil);
-
     q := OpenRS('SELECT * FROM tbl_barang WHERE kode = ''%s''',[cxtKode.Text]);
 
     if Self.Jenis = 'T' then
@@ -336,28 +330,6 @@ begin
 
 end;
 
-procedure TfrmInputBarangJasa.Button1Click(Sender: TObject);
-begin
-  inherited;
-    try
-    //cxsBrtPerKarungPlusKantong.Value :=
-    //  (cxsStdBrtKantong.Value *
-    //  cxsJmlSlopPerIkat.Value *
-    //  cxsJmlIkatPerKarung.Value) + cxsBrtPerKarung.Value;
-
-    cxsBrtTotalPerKrg.Value :=
-      (cxsStdBrtKantong.Value *
-      cxsJmlSlopPerIkat.Value *
-      cxsJmlIkatPerKarung.Value) + cxsBrtPerKarung.Value +
-      cxsBrtTali.Value +
-      cxsBrtKarung.Value;
-
-    //MsgBox(cxsBrtTotalPerKrg.Value);
-  except
-
-  end;
-end;
-
 procedure TfrmInputBarangJasa.cxlAkunDiskonPenjualan2PropertiesEditValueChanged(
   Sender: TObject);
 begin
@@ -457,10 +429,10 @@ procedure TfrmInputBarangJasa.cxsBrtTaliPropertiesChange(Sender: TObject);
 begin
   inherited;
   try
-    //cxsBrtTotalPerKrg.Value :=
-    //  cxsBrtPerKarungPlusKantong.Value +
-    //  cxsBrtTali.Value +
-    //  cxsBrtKarung.Value;
+    cxsBrtTotalPerKrg.Value :=
+      cxsBrtPerKarungPlusKantong.Value +
+      cxsBrtTali.Value +
+      cxsBrtKarung.Value;
   except
 
   end;
@@ -486,13 +458,6 @@ begin
       (cxsStdBrtKantong.Value *
       cxsJmlSlopPerIkat.Value *
       cxsJmlIkatPerKarung.Value) + cxsBrtPerKarung.Value;
-
-    cxsBrtTotalPerKrg.Value :=
-      (cxsStdBrtKantong.Value *
-      cxsJmlSlopPerIkat.Value *
-      cxsJmlIkatPerKarung.Value) + cxsBrtPerKarung.Value +
-      cxsBrtTali.Value +
-      cxsBrtKarung.Value;
   except
 
   end;
