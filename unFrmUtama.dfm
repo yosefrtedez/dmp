@@ -264,6 +264,9 @@ object frmUtama: TfrmUtama
         Caption = 'Input Hasil Produksi '
         OnClick = mnPrd_InputHslProdClick
       end
+      object mnPrd_KalkulasiHPPHasilProduksi: TMenuItem
+        Caption = 'Kalkulasi HPP Hasil Produksi'
+      end
       object mnPrd_LapInputHP: TMenuItem
         Caption = 'Laporan Input Hasil Produksi'
         OnClick = mnPrd_LapInputHPClick

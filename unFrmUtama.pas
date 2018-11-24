@@ -97,6 +97,7 @@ type
     mnPur_InputHargaPOPB: TMenuItem;
     Memo1: TMemo;
     mnMst_HPPBarang: TMenuItem;
+    mnPrd_KalkulasiHPPHasilProduksi: TMenuItem;
     procedure FormShow(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure mnMst_BarangJasaClick(Sender: TObject);

@@ -251,8 +251,9 @@ end;
 procedure TfrmInputHasilProduksi.cxtbHslProdDataControllerBeforePost(
   ADataController: TcxCustomDataController);
 var
-  i: integer;
+  i,r,c, idspk: integer;
   berr: boolean;
+  q: TZQuery;
 begin
   inherited;
   i := ADataController.GetFocusedRecordIndex;
@@ -265,7 +266,7 @@ begin
     if VarIsNull(Values[i, cxColMesin.Index]) then berr := false;
     if VarIsNull(Values[i, cxColQtyProd.Index]) then berr := false;
     if VarIsNull(Values[i, cxColQtyProdKG.Index]) then berr := false;
-    
+
   end;
   if not berr then begin
     MsgBox('Mohon lengkapi inputan yang masih kosong.');
@@ -273,6 +274,17 @@ begin
   end;
 
   if ADataController.Values[i, cxColStatus.Index] = 1 then Abort;
+
+  // cek apakah sudah ada pengambilan bahan baku
+  r := cxtbSPK.DataController.GetFocusedRecordIndex;
+  idspk := cxtbSPK.DataController.Values[r, cxtbSPKid.Index];
+  q := OpenRS('SELECT * FROM tbl_history WHERE id_spk = %d AND LEFT(no_bukti,3) = ''PBB''',[idspk]);
+  if q.IsEmpty then begin
+    MsgBox('Transaksi pengambilan bahan baku belum dilakukan.');
+    q.Close;
+    Abort;
+  end;
+  q.Close;
 
 end;
 procedure TfrmInputHasilProduksi.cxtbHslProdDataControllerNewRecord(
