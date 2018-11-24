@@ -105,7 +105,8 @@ uses
   unFrmInputPBHarga in 'penerimaanbarang\unFrmInputPBHarga.pas' {frmInputPBHarga},
   unFrmLapAkunting in 'laporan\unFrmLapAkunting.pas' {frmLapAkunting},
   unFrmLapAkunting_RPT in 'laporan\RPT\unFrmLapAkunting_RPT.pas' {frmLapAkunting_RPT},
-  unFrmLstBarangJasaHPP in 'barangjasa\unFrmLstBarangJasaHPP.pas' {frmLstBarangJasaHPP};
+  unFrmLstBarangJasaHPP in 'barangjasa\unFrmLstBarangJasaHPP.pas' {frmLstBarangJasaHPP},
+  unFrmKalkulasiHPPHasilProduksi in 'kalkulasihpphasilproduksi\unFrmKalkulasiHPPHasilProduksi.pas' {frmKalkulasiHPPHasilProduksi};
 
 {$R *.res}
 
@@ -117,6 +118,7 @@ begin
   Application.CreateForm(TfrmLogin, frmLogin);
   Application.CreateForm(TfrmLapAkunting_RPT, frmLapAkunting_RPT);
   Application.CreateForm(TfrmLstBarangJasaHPP, frmLstBarangJasaHPP);
+  Application.CreateForm(TfrmKalkulasiHPPHasilProduksi, frmKalkulasiHPPHasilProduksi);
   frmUtama.Show;
 
   frmLogin.ShowModal;

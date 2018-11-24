@@ -97,7 +97,15 @@ uses
   unFrmInputInvoicePenjualan in 'invoicepenjualan\unFrmInputInvoicePenjualan.pas' {frmInputInvoicePenjualan},
   unFrmLstInvoicePenjualan in 'invoicepenjualan\unFrmLstInvoicePenjualan.pas' {frmLstInvoicePenjualan},
   unFrmLapKasMasukKasKeluar in 'laporan\unFrmLapKasMasukKasKeluar.pas' {frmLapKasMasukKasKeluar},
-  unFrmLapInvoicePenjualan in 'laporan\unFrmLapInvoicePenjualan.pas' {frmLapInvoicePenjualan};
+  unFrmLapInvoicePenjualan in 'laporan\unFrmLapInvoicePenjualan.pas' {frmLapInvoicePenjualan},
+  unFrmLapInvoicePembelian in 'laporan\unFrmLapInvoicePembelian.pas' {frmLapInvoicePembelian},
+  unFrmInputPembayaranPenjualan in 'pembayaranpenjualan\unFrmInputPembayaranPenjualan.pas' {frmInputPembayaranPenjualan},
+  unFrmLstPembayaranPenjualan in 'pembayaranpenjualan\unFrmLstPembayaranPenjualan.pas' {frmLstPembayaranPenjualan},
+  unFrmPencairanDeposit in 'pencairandeposit\unFrmPencairanDeposit.pas' {frmPencairanDeposit},
+  unFrmInputPBHarga in 'penerimaanbarang\unFrmInputPBHarga.pas' {frmInputPBHarga},
+  unFrmLapAkunting in 'laporan\unFrmLapAkunting.pas' {frmLapAkunting},
+  unFrmLapAkunting_RPT in 'laporan\RPT\unFrmLapAkunting_RPT.pas' {frmLapAkunting_RPT},
+  unFrmLstBarangJasaHPP in 'barangjasa\unFrmLstBarangJasaHPP.pas' {frmLstBarangJasaHPP};
 
 {$R *.res}
 
@@ -107,7 +115,8 @@ begin
   Application.CreateForm(TDM, DM);
   Application.CreateForm(TfrmUtama, frmUtama);
   Application.CreateForm(TfrmLogin, frmLogin);
-  Application.CreateForm(TfrmLapInvoicePenjualan, frmLapInvoicePenjualan);
+  Application.CreateForm(TfrmLapAkunting_RPT, frmLapAkunting_RPT);
+  Application.CreateForm(TfrmLstBarangJasaHPP, frmLstBarangJasaHPP);
   frmUtama.Show;
 
   frmLogin.ShowModal;

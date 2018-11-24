@@ -346,6 +346,9 @@
 			<DCCReference Include="barangjasa\unFrmLstBarangJasaHPP.pas">
 				<Form>frmLstBarangJasaHPP</Form>
 			</DCCReference>
+			<DCCReference Include="kalkulasihpphasilproduksi\unFrmKalkulasiHPPHasilProduksi.pas">
+				<Form>frmKalkulasiHPPHasilProduksi</Form>
+			</DCCReference>
 			<BuildConfiguration Include="Base">
 				<Key>Base</Key>
 			</BuildConfiguration>
