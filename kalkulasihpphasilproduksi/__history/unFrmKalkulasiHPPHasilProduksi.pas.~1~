@@ -8,7 +8,6 @@ uses
 
 type
   TfrmKalkulasiHPPHasilProduksi = class(TfrmTplGrid)
-    Label13: TLabel;
   private
     { Private declarations }
   public

@@ -65,6 +65,7 @@ type
     cxsQtySOKG: TcxSpinEdit;
     clblSat2: TcxLabel;
     cxColStok: TcxGridColumn;
+    clblSat3: TcxLabel;
     procedure FormShow(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure cxtbBomDataControllerRecordChanged(
@@ -103,7 +104,6 @@ var
   q, qh, qd: TZQuery;
   ID, i: integer;
 begin
-
 
   if (cxtbBom.DataController.EditState = [dceInsert, dceModified]) or (cxtbBom.DataController.EditState = [dceEdit, dceModified]) then begin
     MsgBox('Mohon selesaikan pengeditan detail sebelum disimpan. #10#13' +
@@ -212,6 +212,8 @@ begin
       dm.zConn.Commit;
 
       MsgBox('SPK sudah disimpan dengan nomor: ' + sNoSPK);
+
+
 
       btnBatalClick(nil);
       inherited;
@@ -376,12 +378,10 @@ begin
     cxtNoSPK.Text := GetLastFak('spk');
 
   // cek satuan
-  q := OpenRS('SELECT * FROM tbl_konv_brg WHERE id_barang = %d AND id_satuan = %d',
-    [mIdBrg, Aplikasi.SatProd]);
-  if not q.IsEmpty then begin
-    cxsQtySOKG.Value := q.FieldByname('qty').AsFloat * cxsQtySO.Value;
+  conv := GetKonversiSat(mIdBrg, Aplikasi.SatProd);
+  if conv > 0 then begin
+    cxsQtySOKG.Value := conv * cxsQtySO.Value;
   end;
-
 
   if Self.Jenis = 'E' then begin
     q := OpenRS('SELECT * FROM tbl_spk WHERE id = %d',[mIDSPK]);

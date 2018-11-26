@@ -174,6 +174,7 @@ begin
     f.IDMO := zqrMO.FieldByName('id').AsInteger;
     f.Parent := ts;
     ts.Caption := f.Caption;
+    f.FormInduk := Self;
     f.Show;
 
     frmUtama.pgMain.ActivePage := ts;

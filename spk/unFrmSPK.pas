@@ -94,7 +94,7 @@ var
 
 implementation
 
-uses unTools, unDM;
+uses unTools, unDM, unFrmMasterOrder;
 
 {$R *.dfm}
 
@@ -104,7 +104,6 @@ var
   q, qh, qd: TZQuery;
   ID, i: integer;
 begin
-
 
   if (cxtbBom.DataController.EditState = [dceInsert, dceModified]) or (cxtbBom.DataController.EditState = [dceEdit, dceModified]) then begin
     MsgBox('Mohon selesaikan pengeditan detail sebelum disimpan. #10#13' +
@@ -213,6 +212,13 @@ begin
       dm.zConn.Commit;
 
       MsgBox('SPK sudah disimpan dengan nomor: ' + sNoSPK);
+
+      if Assigned(Self.FormInduk) then begin
+        try
+          (Self.FormInduk as TFrmMasterOrder).btnProsesClick(nil);
+        except
+        end;
+      end;
 
       btnBatalClick(nil);
       inherited;

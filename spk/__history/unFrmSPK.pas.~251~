@@ -377,10 +377,9 @@ begin
     cxtNoSPK.Text := GetLastFak('spk');
 
   // cek satuan
-  //q := OpenRS('SELECT * FROM tbl_konv_brg WHERE id_barang = %d AND id_satuan = %d',
-  //  [mIdBrg, Aplikasi.SatProd]);
-  if not q.IsEmpty then begin
-    cxsQtySOKG.Value := q.FieldByname('qty').AsFloat * cxsQtySO.Value;
+  conv := GetKonversiSat(mIdBrg, Aplikasi.SatProd);
+  if conv > 0 then begin
+    cxsQtySOKG.Value := conv * cxsQtySO.Value;
   end;
 
   if Self.Jenis = 'E' then begin

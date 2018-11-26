@@ -65,6 +65,8 @@ type
     cxtbMOColumn2: TcxGridDBColumn;
     cxtbMOColumn3: TcxGridDBColumn;
     cxtbMOColumn4: TcxGridDBColumn;
+    cxCmbJenisSO: TcxComboBox;
+    btnRefresh: TButton;
     procedure btnProsesClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure Button1Click(Sender: TObject);
@@ -73,6 +75,7 @@ type
     procedure cxtbMOFocusedRecordChanged(Sender: TcxCustomGridTableView;
       APrevFocusedRecord, AFocusedRecord: TcxCustomGridRecord;
       ANewItemRecordFocusingChanged: Boolean);
+    procedure btnRefreshClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -115,8 +118,29 @@ begin
     //SQL.Text := cxMemo2.Lines.Text;
     ParamByName('tgl1').AsDateTime := cxdTgl1.Date;
     ParamByName('tgl2').AsDateTime := cxdTgl2.Date;
+    if cxCmbJenisSO.Text = 'MTS' then
+      SQL.Strings[2] := 'AND LEFT(no_so,3) = ''MTS'''
+    else if cxCmbJenisSO.Text = 'SO CUSTOMER' then
+      SQL.Strings[2] := 'AND LEFT(no_so,3) = ''SO/'''
+    else
+      SQL.Strings[2] := '-- ';
     Open;
+    cxtbMOno_mo.SortOrder := soAscending;
     Screen.Cursor := crDefault;
+  end;
+end;
+
+procedure TfrmMasterOrder.btnRefreshClick(Sender: TObject);
+var
+  bm: Variant;
+begin
+  inherited;
+  try
+    bm := zqrMO.Bookmark;
+    zqrMO.Close;
+    zqrMO.Open;
+    zqrMO.Bookmark := bm;
+  except
   end;
 end;
 
@@ -183,6 +207,9 @@ begin
   inherited;
   cxdTgl1.Date := FDOM(Date);
   cxdTgl2.Date := LDOM(Date);
+
+  cxCmbJenisSO.Properties.Items.CommaText := 'SEMUA,MTS,"SO CUSTOMER"';
+  cxCmbJenisSO.ItemIndex := 1;
 end;
 
 end.
