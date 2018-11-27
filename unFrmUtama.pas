@@ -150,6 +150,7 @@ type
     procedure mnAkt_PembayaranPenjualanClick(Sender: TObject);
     procedure Button1Click(Sender: TObject);
     procedure mnMst_HPPBarangClick(Sender: TObject);
+    procedure mnPrd_KalkulasiHPPHasilProduksiClick(Sender: TObject);
   private
     procedure PGChange(Sender: TObject);
   public
@@ -183,7 +184,7 @@ uses
   unFrmLapOutstandingSO, unFrmUbahPassword, unFrmLstInvoicePenjualan,
   unFrmLstInvoicePembelian, unFrmLstPembayaranPembelian,
   unFrmInputPembayaranPenjualan, unFrmLstPembayaranPenjualan,
-  unFrmLstBarangJasaHPP;
+  unFrmLstBarangJasaHPP, unFrmKalkulasiHPPHasilProduksi;
 
 {$R *.dfm}
 
@@ -742,6 +743,26 @@ begin
     pgMain.ActivePage := ts;
   end;
 end;
+
+procedure TfrmUtama.mnPrd_KalkulasiHPPHasilProduksiClick(Sender: TObject);
+var
+  f: TfrmKalkulasiHPPHasilProduksi;
+  ts: TcxTabSheet;
+begin
+  if not CekTabOpen('Kalkulasi HPP Hasil Produksi') then begin
+    ToggleMainPage;
+    ts := TcxTabSheet.Create(Self);
+    ts.PageControl := pgMain;
+
+    f := TfrmKalkulasiHPPHasilProduksi.Create(Self);
+    f.Parent := ts;
+    ts.Caption := f.Caption;
+    f.Show;
+
+    pgMain.ActivePage := ts;
+  end;
+end;
+
 
 procedure TfrmUtama.mnPrd_LapInputHPClick(Sender: TObject);
 var

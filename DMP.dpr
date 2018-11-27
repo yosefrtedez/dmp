@@ -116,9 +116,6 @@ begin
   Application.CreateForm(TDM, DM);
   Application.CreateForm(TfrmUtama, frmUtama);
   Application.CreateForm(TfrmLogin, frmLogin);
-  Application.CreateForm(TfrmLapAkunting_RPT, frmLapAkunting_RPT);
-  Application.CreateForm(TfrmLstBarangJasaHPP, frmLstBarangJasaHPP);
-  Application.CreateForm(TfrmKalkulasiHPPHasilProduksi, frmKalkulasiHPPHasilProduksi);
   frmUtama.Show;
 
   frmLogin.ShowModal;

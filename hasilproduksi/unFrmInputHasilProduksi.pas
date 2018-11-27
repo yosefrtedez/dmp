@@ -41,7 +41,7 @@ type
     Label13: TLabel;
     dsSPK: TDataSource;
     zqrSPK: TZReadOnlyQuery;
-    cxtbSPKColumn1: TcxGridDBColumn;
+    cxColQtySPK: TcxGridDBColumn;
     cxtbSPKColumn2: TcxGridDBColumn;
     dsMesin: TDataSource;
     zqrMesin: TZReadOnlyQuery;
@@ -92,7 +92,8 @@ type
     procedure cxtbHslProdDataControllerBeforeDelete(
       ADataController: TcxCustomDataController; ARecordIndex: Integer);
   private
-    { Private declarations }
+    function GetHPPProd(id_spk: Integer): Real;
+    function GetTotalHP(id_spk: Integer): Real;
   public
     { Public declarations }
   end;
@@ -125,6 +126,7 @@ var
   sNoBukti, sNoJ: string;
   dt: TDateTime;
   yy, mm, dd : Word;
+  qtySPK: real;
 begin
   inherited;
   try
@@ -179,6 +181,9 @@ begin
     qh.FieldbyName('user').AsString := Aplikasi.NamaUser;
     qh.FieldByName('user_dept').AsString := Aplikasi.UserDept;
     qh.FieldByName('tgl_input').AsDateTime := Aplikasi.NowServer;
+    qtySPK := cxtbSPK.DataController.Values[j, cxColQtySPK.Index];
+    qh.FieldByName('avgcost').AsFloat :=
+      (GetHppProd(zqrSPK.FieldByName('id').AsInteger) / qtySPK) * ADataController.Values[i, cxColQtyProd.Index];
     qh.Post;
     qh.Close;
 
@@ -231,6 +236,8 @@ begin
     dm.zConn.Commit;
 
     Screen.Cursor := crDefault;
+
+    MsgBox('Hasil produksi sudah berhasil disimpan.');
   except
     on E: Exception do begin
       dm.zConn.Rollback;
@@ -348,6 +355,26 @@ begin
   zqrGdg.Open;
   cxdTgl1.Date := unTools.FDOM(Aplikasi.TanggalServer);
   cxdTgl2.Date := unTools.LDOM(Aplikasi.TanggalServer);
+end;
+
+function TfrmInputHasilProduksi.GetHPPProd(id_spk: Integer): Real;
+var
+  q: TZQuery;
+begin
+  q := OpenRS('SELECT SUM(qty * avgcost) hpp FROM tbl_history WHERE LEFT(no_bukti,3) = ''PBB'' ' +
+    'AND id_spk = %d',[id_spk]);
+  Result := q.FieldByName('hpp').AsFloat;
+  q.Close;
+end;
+
+function TfrmInputHasilProduksi.GetTotalHP(id_spk: Integer): Real;
+var
+  q: TZQuery;
+begin
+  q := OpenRS('SELECT SUM(qty) hp FROM tbl_history WHERE LEFT(no_bukti,3) = ''HPR'' ' +
+    'AND id_spk = %d',[id_spk]);
+  Result := q.FieldByName('hp').AsFloat;
+  q.Close;
 end;
 
 end.

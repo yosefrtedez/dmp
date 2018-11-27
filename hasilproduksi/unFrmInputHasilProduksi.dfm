@@ -125,7 +125,7 @@ inherited frmInputHasilProduksi: TfrmInputHasilProduksi
         DataBinding.FieldName = 'deskripsi'
         Width = 197
       end
-      object cxtbSPKColumn1: TcxGridDBColumn
+      object cxColQtySPK: TcxGridDBColumn
         Caption = 'Qty. SPK'
         DataBinding.FieldName = 'qty_spk'
         PropertiesClassName = 'TcxSpinEditProperties'

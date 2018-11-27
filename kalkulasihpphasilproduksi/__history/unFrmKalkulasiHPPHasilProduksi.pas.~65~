@@ -1,0 +1,143 @@
+unit unFrmKalkulasiHPPHasilProduksi;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, unFrmTplGrid, StdCtrls, ExtCtrls, cxGraphics, cxControls,
+  cxLookAndFeels, cxLookAndFeelPainters, cxContainer, cxEdit, dxSkinsCore,
+  dxSkinBlack, dxSkinBlue, dxSkinCaramel, dxSkinCoffee, dxSkinDarkRoom,
+  dxSkinDarkSide, dxSkinFoggy, dxSkinGlassOceans, dxSkiniMaginary, dxSkinLilian,
+  dxSkinLiquidSky, dxSkinLondonLiquidSky, dxSkinMcSkin, dxSkinMoneyTwins,
+  dxSkinOffice2007Black, dxSkinOffice2007Blue, dxSkinOffice2007Green,
+  dxSkinOffice2007Pink, dxSkinOffice2007Silver, dxSkinOffice2010Black,
+  dxSkinOffice2010Blue, dxSkinOffice2010Silver, dxSkinPumpkin, dxSkinSeven,
+  dxSkinSharp, dxSkinSilver, dxSkinSpringTime, dxSkinStardust, dxSkinSummer2008,
+  dxSkinsDefaultPainters, dxSkinValentine, dxSkinXmas2008Blue, cxLabel,
+  cxTextEdit, cxMaskEdit, cxDropDownEdit, cxCalendar, cxStyles,
+  dxSkinscxPCPainter, cxCustomData, cxFilter, cxData, cxDataStorage, DB,
+  cxDBData, cxGridLevel, cxClasses, cxGridCustomView, cxGridCustomTableView,
+  cxGridTableView, cxGridDBTableView, cxGrid, ZAbstractRODataset, ZDataset,
+  cxSpinEdit;
+
+type
+  TfrmKalkulasiHPPHasilProduksi = class(TfrmTplGrid)
+    Label13: TLabel;
+    Panel3: TPanel;
+    cxdTgl1: TcxDateEdit;
+    cxLabel1: TcxLabel;
+    cxLabel2: TcxLabel;
+    cxdTgl2: TcxDateEdit;
+    btnProses: TButton;
+    cxGrid1Level1: TcxGridLevel;
+    cxGrid1: TcxGrid;
+    Button1: TButton;
+    zqrSPK: TZReadOnlyQuery;
+    Panel4: TPanel;
+    cxtbSPK: TcxGridTableView;
+    cxColNoSPK: TcxGridColumn;
+    cxColDeskripsi: TcxGridColumn;
+    cxColQtyHP: TcxGridColumn;
+    cxColNoSO: TcxGridColumn;
+    cxColHPP: TcxGridColumn;
+    cxColIdSPK: TcxGridColumn;
+    cxColQtySPK: TcxGridColumn;
+    cxGrid2: TcxGrid;
+    cxtbBOM: TcxGridTableView;
+    cxColKodeBrg: TcxGridColumn;
+    cxColDeskripsi2: TcxGridColumn;
+    cxColQtyBOM: TcxGridColumn;
+    cxColQtyPengambilan: TcxGridColumn;
+    cxGridLevel1: TcxGridLevel;
+    procedure btnProsesClick(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+    procedure cxtbSPKFocusedRecordChanged(Sender: TcxCustomGridTableView;
+      APrevFocusedRecord, AFocusedRecord: TcxCustomGridRecord;
+      ANewItemRecordFocusingChanged: Boolean);
+  private
+    function GetHPPProd(id_spk: Integer): Real;
+  public
+    { Public declarations }
+  end;
+
+var
+  frmKalkulasiHPPHasilProduksi: TfrmKalkulasiHPPHasilProduksi;
+
+implementation
+
+uses unTools, unDM;
+
+{$R *.dfm}
+
+procedure TfrmKalkulasiHPPHasilProduksi.btnProsesClick(Sender: TObject);
+var
+  q: TZQuery;
+  i: integer;
+begin
+  inherited;
+  zqrSPK.Close;
+  zqrSPK.ParamByName('tgl1').AsDate := cxdTgl1.Date;
+  zqrSPK.ParamByName('tgl2').AsDate := cxdTgl2.Date;
+  zqrSPK.Open;
+
+  with cxtbSPK.DataController do begin
+    RecordCount := 0;
+    while not zqrSPK.Eof do begin
+      i := AppendRecord;
+      Values[i, cxColNoSPK.Index] := zqrSPK.FieldByName('no_spk').AsString;
+      Values[i, cxColNoSO.Index] := zqrSPK.FieldByName('no_so').AsString;
+      Values[i, cxColDeskripsi.Index] := zqrSPK.FieldByName('deskripsi').AsString;
+      Values[i, cxColQtySPK.Index] := zqrSPK.FieldByName('qty_spk').AsFloat;
+      Values[i, cxColIdSPK.Index] := zqrSPK.FieldByname('id').AsInteger;
+      zqrSPK.Next;
+    end;
+  end;
+
+end;
+
+procedure TfrmKalkulasiHPPHasilProduksi.cxtbSPKFocusedRecordChanged(
+  Sender: TcxCustomGridTableView; APrevFocusedRecord,
+  AFocusedRecord: TcxCustomGridRecord; ANewItemRecordFocusingChanged: Boolean);
+var
+  q: TZQuery;
+  i, r,id_spk: integer;
+begin
+  inherited;
+  r := cxtbSPK.DataController.GetFocusedRecordIndex;
+  id_spk := cxtbSPK.DataController.Values[r, cxColIdSPK.Index];
+
+  q := OpenRS('SELECT a.id_brg, b.kode, b.deskripsi ' +
+    'FROM tbl_trspengambilanbb a ' +
+    'LEFT JOIN tbl_barang b ON a.id_brg = b.id ' +
+    'WHERE a.id_spk = %d',[id_spk]);
+
+  with cxtbBOM.DataController do begin
+    RecordCount := 0;
+    while not q.Eof do begin
+      i := AppendRecord;
+      Values[i, cxColKodeBrg.Index] := q.FieldByName('kode').AsString;
+      Values[i, cxColDeskripsi2.Index] := q.FieldByname('deskripsi').AsString;
+      q.Next;
+    end;
+  end;
+  q.Close;
+
+end;
+
+procedure TfrmKalkulasiHPPHasilProduksi.FormCreate(Sender: TObject);
+begin
+  inherited;
+  cxdTgl1.Date := unTools.FDOM(Aplikasi.TanggalServer);
+  cxdTgl2.Date := unTools.LDOM(Aplikasi.TanggalServer);
+end;
+
+function TfrmKalkulasiHPPHasilProduksi.GetHPPProd(id_spk: Integer): Real;
+var
+  q: TZQuery;
+begin
+  q := OpenRS('SELECT SUM(qty * avgcost) hpp FROM tbl_history WHERE LEFT(no_bukti,3) = ''PBB'' ' +
+    'AND id_spk = %d',[id_spk]);
+  Result := q.FieldByName('hpp').AsFloat;
+end;
+
+end.

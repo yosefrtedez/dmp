@@ -87,7 +87,6 @@ var
   tbl_tmp: TZTable;
 begin
 
-
   if (cxtbMTS.DataController.EditState = [dceInsert, dceModified]) or
     (cxtbMTS.DataController.EditState = [dceEdit, dceModified]) then begin
     MsgBox('Mohon selesaikan pengeditan detail sebelum disimpan.');
@@ -190,6 +189,7 @@ begin
           FieldByName('keterangan').AsString := VarToStr(Values[i, cxColKeterangan2.Index]);
           if not VarIsNull(Values[i, cxColQtyProd.Index]) then
             FieldByName('qty_kg').AsFloat := Values[i, cxColQtyProd.Index];
+          FieldByName('id_satuan').AsInteger := Values[i, cxColIdSatuan2.Index];
           Post;
         end;
 

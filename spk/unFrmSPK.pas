@@ -348,7 +348,7 @@ end;
 procedure TfrmSPK.FormShow(Sender: TObject);
 var
   q, qspk: TZQuery;
-  i: integer;
+  i, id_satuan: integer;
   sa, conv: real;
 begin
   inherited;
@@ -367,6 +367,7 @@ begin
 
   mIdBrg := q.FieldByname('id_brg').AsInteger;
   conv := GetKonversiSat(mIdBrg, 2);
+  id_satuan := q.FieldByName('id_satuan').AsInteger;
   q.Close;
 
   qspk := OpenRS('SELECT IFNULL(SUM(qty),0) spk_total FROM tbl_spk WHERE id_so = %d',[mIDSO]);
@@ -382,10 +383,14 @@ begin
   if Self.Jenis = 'T' then
     cxtNoSPK.Text := GetLastFak('spk');
 
-  // cek satuan
-  conv := GetKonversiSat(mIdBrg, Aplikasi.SatProd);
-  if conv > 0 then begin
-    cxsQtySOKG.Value := conv * cxsQtySO.Value;
+  // cek satuan jika satuan sudah KG maka tidak perlu konversi
+  if id_satuan = Aplikasi.SatProd then
+    cxsQtySOKG.Value := cxsQtySO.Value
+  else begin
+    conv := GetKonversiSat(mIdBrg, Aplikasi.SatProd);
+    if conv > 0 then begin
+      cxsQtySOKG.Value := conv * cxsQtySO.Value;
+    end;
   end;
 
   if Self.Jenis = 'E' then begin
