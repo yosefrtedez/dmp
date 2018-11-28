@@ -308,7 +308,7 @@ inherited frmSPK: TfrmSPK
   object clblSat3: TcxLabel
     Left = 199
     Top = 227
-    Caption = 'Sat'
+    Caption = 'KG'
   end
   object zqrMesin: TZReadOnlyQuery
     Connection = DM.zConn

@@ -2,8 +2,8 @@ object frmUtama: TfrmUtama
   Left = 0
   Top = 0
   Caption = 'frmUtama'
-  ClientHeight = 614
-  ClientWidth = 1126
+  ClientHeight = 648
+  ClientWidth = 1129
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -27,8 +27,8 @@ object frmUtama: TfrmUtama
   end
   object stsBar: TdxStatusBar
     Left = 0
-    Top = 590
-    Width = 1126
+    Top = 624
+    Width = 1129
     Height = 24
     Panels = <
       item
@@ -60,15 +60,15 @@ object frmUtama: TfrmUtama
     Left = 8
     Top = 239
     Width = 441
-    Height = 193
+    Height = 242
     HotTrack = True
     LookAndFeel.SkinName = ''
     Options = [pcoAlwaysShowGoDialogButton, pcoCloseButton, pcoGradient, pcoGradientClientArea, pcoRedrawOnResize]
     ParentBackground = False
     Style = 5
-    TabOrder = 2
+    TabOrder = 1
     Visible = False
-    ClientRectBottom = 193
+    ClientRectBottom = 242
     ClientRectRight = 441
     ClientRectTop = 0
   end
@@ -92,8 +92,8 @@ object frmUtama: TfrmUtama
     OnClick = Button1Click
   end
   object Memo1: TMemo
-    Left = 560
-    Top = 166
+    Left = 455
+    Top = 239
     Width = 646
     Height = 242
     Lines.Strings = (
@@ -122,7 +122,7 @@ object frmUtama: TfrmUtama
         ' = a.id_brg'
       ') z'
       'order by z.id_brg, z.tanggal;')
-    TabOrder = 1
+    TabOrder = 2
     Visible = False
   end
   object MainMenu: TMainMenu

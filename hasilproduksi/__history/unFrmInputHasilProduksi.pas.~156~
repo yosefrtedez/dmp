@@ -121,7 +121,7 @@ end;
 procedure TfrmInputHasilProduksi.cxtbHslProdDataControllerAfterPost(
   ADataController: TcxCustomDataController);
 var
-  q, qh, qjd: TZQuery;
+  q, qh, qjd, qhpp: TZQuery;
   i, j, id_akun: integer;
   sNoBukti, sNoJ: string;
   dt: TDateTime;
@@ -183,9 +183,30 @@ begin
     qh.FieldByName('tgl_input').AsDateTime := Aplikasi.NowServer;
     qtySPK := cxtbSPK.DataController.Values[j, cxColQtySPK.Index];
     qh.FieldByName('avgcost').AsFloat :=
-      (GetHpp(zqrSPK.FieldByName('id').AsInteger) / qtySPK) * ADataController.Values[i, cxColQtyProd.Index];
+      (GetHppProd(zqrSPK.FieldByName('id').AsInteger) / qtySPK) * ADataController.Values[i, cxColQtyProd.Index];
     qh.Post;
     qh.Close;
+
+    // update tbl hpp
+    qhpp := OpenRS('SELECT * FROM tbl_hpp WHERE id_brg = %s',[zqrSPK.FieldByName('id_brg').AsString]);
+    if not qhpp.IsEmpty then
+      qhpp.Edit
+    else
+      qhpp.Insert;
+    qhpp.FieldByName('id_brg').AsInteger := zqrSPK.FieldByName('id_brg').AsInteger;
+    qhpp.FieldByName('avg').AsFloat :=
+      (GetHppProd(zqrSPK.FieldByName('id').AsInteger) / qtySPK) * ADataController.Values[i, cxColQtyProd.Index];
+    qhpp.Post;
+    qhpp.Close;
+
+    Aplikasi.AddHistAvg(
+      zqrSPK.FieldByName('id_brg').AsInteger,
+      ID,
+      sNoTrs,
+      Values[i, cxColQtyDatang.Index],
+      hpp,
+      hrg
+    );
 
     q := OpenRS('SELECT id, stok FROM tbl_barang WHERE id = %d',[zqrSPK.FieldByName('id_brg').AsInteger]);
     q.Edit;
@@ -236,6 +257,8 @@ begin
     dm.zConn.Commit;
 
     Screen.Cursor := crDefault;
+
+    MsgBox('Hasil produksi sudah berhasil disimpan.');
   except
     on E: Exception do begin
       dm.zConn.Rollback;

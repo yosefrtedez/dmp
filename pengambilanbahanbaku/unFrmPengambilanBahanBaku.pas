@@ -189,6 +189,7 @@ begin
     qh.FieldByName('user_dept').AsString := Aplikasi.UserDept;
     qh.FieldByname('id_spk').AsInteger := id_spk;
     qh.FieldByname('avgcost').AsFloat := GetHPP(ADataController.Values[i, cxColKodeBrg2.Index]);
+    qh.FieldByName('tgl_input').AsDateTime := Aplikasi.NowServer;
     qh.Post;
     qh.Close;
 

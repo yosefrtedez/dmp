@@ -71,8 +71,8 @@ inherited frmPengambilanBahanBaku: TfrmPengambilanBahanBaku
       Caption = 'S/D'
     end
     object btnProses: TButton
-      Left = 341
-      Top = 12
+      Left = 340
+      Top = 13
       Width = 75
       Height = 25
       Caption = 'Proses'

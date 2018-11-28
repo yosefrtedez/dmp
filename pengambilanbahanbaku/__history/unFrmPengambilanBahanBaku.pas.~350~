@@ -137,7 +137,7 @@ procedure TfrmPengambilanBahanBaku.cxtbBomDetDataControllerAfterPost(
   ADataController: TcxCustomDataController);
 var
   q, qh, qjd: TZQuery;
-  i, j, id_akun, id: integer;
+  i, j, id_akun, id, id_spk: integer;
   sNoBukti, sNoJ: string;
 begin
   inherited;
@@ -170,6 +170,8 @@ begin
     id := LastInsertID;
     q.Close;
 
+    id_spk := zqrSPK.FieldByName('id').AsInteger;
+
     qh := OpenRS('SELECT * FROM tbl_history WHERE no_bukti = ''%s''',[sNoBukti]);
     qh.Insert;
     qh.FieldByName('id_ref').AsInteger := id;
@@ -185,6 +187,8 @@ begin
     qh.FieldByName('tipe').AsString := 'o';
     qh.FieldbyName('user').AsString := Aplikasi.NamaUser;
     qh.FieldByName('user_dept').AsString := Aplikasi.UserDept;
+    qh.FieldByname('id_spk').AsInteger := id_spk;
+    qh.FieldByname('avgcost').AsFloat := GetHPP(ADataController.Values[i, cxColKodeBrg2.Index]);
     qh.Post;
     qh.Close;
 
@@ -218,7 +222,8 @@ begin
       qjd.FieldByName('id_akun').AsInteger := id_akun;
       qjd.FieldByName('debet').AsFloat := ADataController.Values[i, cxColQtyInput.Index] *
         GetHPP(ADataController.Values[i, cxColKodeBrg2.Index]);
-      qjd.FieldByName('keterangan').AsString := 'Pengambilan bahan baku: ' + ADataController.Values[i, cxColKodeBrg2.Index];
+      qjd.FieldByName('keterangan').AsString := 'Pengambilan bahan baku: ' +
+        ADataController.Values[i, cxColKodeBrg3.Index];
       qjd.FieldByName('tglinput').AsDateTime := Aplikasi.NowServer;
       qjd.FieldByName('dc').AsString := 'D';
       qjd.Post;
@@ -229,9 +234,12 @@ begin
       qjd.FieldByName('tanggal').AsDateTime := Aplikasi.TanggalServer;
       qjd.FieldByName('no_jurnal').AsString := sNoJ;
       qjd.FieldByName('no_trans').AsString := sNoBukti;
-      qjd.FieldByName('akun').AsInteger := id_akun;
+      qjd.FieldByName('id_akun').AsInteger := id_akun;
       qjd.FieldByName('kredit').AsFloat := ADataController.Values[i, cxColQtyInput.Index] *
         GetHPP(ADataController.Values[i, cxColKodeBrg2.Index]);
+      qjd.FieldByName('keterangan').AsString := 'Pengambilan bahan baku: ' +
+        ADataController.Values[i, cxColKodeBrg3.Index];
+      qjd.FieldByName('tglinput').AsDateTime := Aplikasi.NowServer;
       qjd.FieldByName('dc').AsString := 'K';
       qjd.Post;
 
@@ -246,6 +254,9 @@ begin
     //q.Close;
 
     Screen.Cursor := crDefault;
+
+    MsgBox('Transaksi pengambilan bahan baku sudah disimpan.');
+
   except
     on E: Exception do begin
       dm.zConn.Rollback;

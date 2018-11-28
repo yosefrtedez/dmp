@@ -121,8 +121,8 @@ end;
 procedure TfrmInputHasilProduksi.cxtbHslProdDataControllerAfterPost(
   ADataController: TcxCustomDataController);
 var
-  q, qh, qjd: TZQuery;
-  i, j, id_akun: integer;
+  q, qh, qjd, qhpp: TZQuery;
+  i, j, id_akun, ID: integer;
   sNoBukti, sNoJ: string;
   dt: TDateTime;
   yy, mm, dd : Word;
@@ -162,6 +162,7 @@ begin
     q.FieldByName('tgl_edit').AsDateTime := Aplikasi.NowServer;
     ADataController.Values[i, cxColStatus.Index] := 1;
     q.Post;
+    ID := LastInsertID;
     q.Close;
 
     qh := OpenRS('SELECT * FROM tbl_history WHERE no_bukti = ''%s''',[sNoBukti]);
@@ -186,6 +187,27 @@ begin
       (GetHppProd(zqrSPK.FieldByName('id').AsInteger) / qtySPK) * ADataController.Values[i, cxColQtyProd.Index];
     qh.Post;
     qh.Close;
+
+    // update tbl hpp dan history hpp
+    qhpp := OpenRS('SELECT * FROM tbl_hpp WHERE id_brg = %s',[zqrSPK.FieldByName('id_brg').AsString]);
+    if not qhpp.IsEmpty then
+      qhpp.Edit
+    else
+      qhpp.Insert;
+    qhpp.FieldByName('id_brg').AsInteger := zqrSPK.FieldByName('id_brg').AsInteger;
+    qhpp.FieldByName('avg').AsFloat :=
+      (GetHppProd(zqrSPK.FieldByName('id').AsInteger) / qtySPK) * ADataController.Values[i, cxColQtyProd.Index];
+    qhpp.Post;
+    qhpp.Close;
+
+    Aplikasi.AddHistAvg(
+      zqrSPK.FieldByName('id_brg').AsInteger,
+      ID,
+      sNoBukti,
+      ADataController.Values[i, cxColQtyProd.Index],
+      (GetHppProd(zqrSPK.FieldByName('id').AsInteger) / qtySPK) * ADataController.Values[i, cxColQtyProd.Index],
+      0
+    );
 
     q := OpenRS('SELECT id, stok FROM tbl_barang WHERE id = %d',[zqrSPK.FieldByName('id_brg').AsInteger]);
     q.Edit;
