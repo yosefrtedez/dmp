@@ -646,7 +646,7 @@ object frmLapSJ: TfrmLapSJ
       'c.nama, c.alamat, c.kota,'
       'd.deskripsi, b.keterangan ket_detail,'
       'e.jml_ikat_per_karung,'
-      'IF(a.jenis_sj=1,b.hrgikat,f.hargaikat) hargaikat'
+      'IF(a.jenis_sj=0,b.hrgikat,b.hrgikat) hargaikat'
       'FROM tbl_sj_head a'
       'INNER JOIN tbl_sj_det b ON a.id = b.id_ref'
       'LEFT JOIN tbl_customer c ON c.id = a.id_cust'

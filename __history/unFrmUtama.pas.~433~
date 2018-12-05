@@ -97,6 +97,8 @@ type
     mnPur_InputHargaPOPB: TMenuItem;
     Memo1: TMemo;
     mnMst_HPPBarang: TMenuItem;
+    mnPrd_KalkulasiHPPHasilProduksi: TMenuItem;
+    mnMkt_EditSOSJ: TMenuItem;
     procedure FormShow(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure mnMst_BarangJasaClick(Sender: TObject);
@@ -149,6 +151,8 @@ type
     procedure mnAkt_PembayaranPenjualanClick(Sender: TObject);
     procedure Button1Click(Sender: TObject);
     procedure mnMst_HPPBarangClick(Sender: TObject);
+    procedure mnPrd_KalkulasiHPPHasilProduksiClick(Sender: TObject);
+    procedure mnMkt_EditSOSJClick(Sender: TObject);
   private
     procedure PGChange(Sender: TObject);
   public
@@ -182,7 +186,7 @@ uses
   unFrmLapOutstandingSO, unFrmUbahPassword, unFrmLstInvoicePenjualan,
   unFrmLstInvoicePembelian, unFrmLstPembayaranPembelian,
   unFrmInputPembayaranPenjualan, unFrmLstPembayaranPenjualan,
-  unFrmLstBarangJasaHPP;
+  unFrmLstBarangJasaHPP, unFrmKalkulasiHPPHasilProduksi, unFrmLstEditSOSJ;
 
 {$R *.dfm}
 
@@ -415,6 +419,25 @@ begin
   end;
 end;
 
+procedure TfrmUtama.mnMkt_EditSOSJClick(Sender: TObject);
+var
+  f: TfrmLstEditSOSJ;
+  ts: TcxTabSheet;
+begin
+  if not CekTabOpen('Laporan Outstanding Sales Order') then begin
+    ToggleMainPage;
+    ts := TcxTabSheet.Create(Self);
+    ts.PageControl := pgMain;
+
+    f := TfrmLapOutstandingSO.Create(Self);
+    f.Parent := ts;
+    ts.Caption := f.Caption;
+    f.Show;
+
+    pgMain.ActivePage := ts;
+  end;
+end;
+
 procedure TfrmUtama.mnMkt_LapOustandingSOClick(Sender: TObject);
 var
   f: TfrmLapOutstandingSO;
@@ -433,6 +456,7 @@ begin
     pgMain.ActivePage := ts;
   end;
 end;
+
 procedure TfrmUtama.mnMkt_SalesOrderClick(Sender: TObject);
 var
   f: TfrmLstSO;
@@ -549,10 +573,10 @@ end;
 
 procedure TfrmUtama.mnMst_HPPBarangClick(Sender: TObject);
 var
-  f: TfrmLstBarangJasaHPP
+  f: TfrmLstBarangJasaHPP;
   ts: TcxTabSheet;
 begin
-  if not CekTabOpen('Barang dan Jasa') then begin
+  if not CekTabOpen('Barang dan Jasa HPP') then begin
     ToggleMainPage;
     ts := TcxTabSheet.Create(Self);
     ts.PageControl := pgMain;
@@ -741,6 +765,26 @@ begin
     pgMain.ActivePage := ts;
   end;
 end;
+
+procedure TfrmUtama.mnPrd_KalkulasiHPPHasilProduksiClick(Sender: TObject);
+var
+  f: TfrmKalkulasiHPPHasilProduksi;
+  ts: TcxTabSheet;
+begin
+  if not CekTabOpen('Kalkulasi HPP Hasil Produksi') then begin
+    ToggleMainPage;
+    ts := TcxTabSheet.Create(Self);
+    ts.PageControl := pgMain;
+
+    f := TfrmKalkulasiHPPHasilProduksi.Create(Self);
+    f.Parent := ts;
+    ts.Caption := f.Caption;
+    f.Show;
+
+    pgMain.ActivePage := ts;
+  end;
+end;
+
 
 procedure TfrmUtama.mnPrd_LapInputHPClick(Sender: TObject);
 var

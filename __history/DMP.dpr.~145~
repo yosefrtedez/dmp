@@ -100,7 +100,14 @@ uses
   unFrmLapInvoicePenjualan in 'laporan\unFrmLapInvoicePenjualan.pas' {frmLapInvoicePenjualan},
   unFrmLapInvoicePembelian in 'laporan\unFrmLapInvoicePembelian.pas' {frmLapInvoicePembelian},
   unFrmInputPembayaranPenjualan in 'pembayaranpenjualan\unFrmInputPembayaranPenjualan.pas' {frmInputPembayaranPenjualan},
-  unFrmLstPembayaranPenjualan in 'pembayaranpenjualan\unFrmLstPembayaranPenjualan.pas' {frmLstPembayaranPenjualan};
+  unFrmLstPembayaranPenjualan in 'pembayaranpenjualan\unFrmLstPembayaranPenjualan.pas' {frmLstPembayaranPenjualan},
+  unFrmPencairanDeposit in 'pencairandeposit\unFrmPencairanDeposit.pas' {frmPencairanDeposit},
+  unFrmInputPBHarga in 'penerimaanbarang\unFrmInputPBHarga.pas' {frmInputPBHarga},
+  unFrmLapAkunting in 'laporan\unFrmLapAkunting.pas' {frmLapAkunting},
+  unFrmLapAkunting_RPT in 'laporan\RPT\unFrmLapAkunting_RPT.pas' {frmLapAkunting_RPT},
+  unFrmLstBarangJasaHPP in 'barangjasa\unFrmLstBarangJasaHPP.pas' {frmLstBarangJasaHPP},
+  unFrmKalkulasiHPPHasilProduksi in 'kalkulasihpphasilproduksi\unFrmKalkulasiHPPHasilProduksi.pas' {frmKalkulasiHPPHasilProduksi},
+  unFrmLstEditSOSJ in 'editsosj\unFrmLstEditSOSJ.pas' {frmLstEditSOSJ};
 
 {$R *.res}
 

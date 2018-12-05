@@ -106,7 +106,9 @@ uses
   unFrmLapAkunting in 'laporan\unFrmLapAkunting.pas' {frmLapAkunting},
   unFrmLapAkunting_RPT in 'laporan\RPT\unFrmLapAkunting_RPT.pas' {frmLapAkunting_RPT},
   unFrmLstBarangJasaHPP in 'barangjasa\unFrmLstBarangJasaHPP.pas' {frmLstBarangJasaHPP},
-  unFrmKalkulasiHPPHasilProduksi in 'kalkulasihpphasilproduksi\unFrmKalkulasiHPPHasilProduksi.pas' {frmKalkulasiHPPHasilProduksi};
+  unFrmKalkulasiHPPHasilProduksi in 'kalkulasihpphasilproduksi\unFrmKalkulasiHPPHasilProduksi.pas' {frmKalkulasiHPPHasilProduksi},
+  unFrmLstEditSOSJ in 'editsosj\unFrmLstEditSOSJ.pas' {frmLstEditSOSJ},
+  unFrmEditSJ in 'editsosj\unFrmEditSJ.pas' {frmEditSJ};
 
 {$R *.res}
 

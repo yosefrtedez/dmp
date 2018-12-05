@@ -349,6 +349,12 @@
 			<DCCReference Include="kalkulasihpphasilproduksi\unFrmKalkulasiHPPHasilProduksi.pas">
 				<Form>frmKalkulasiHPPHasilProduksi</Form>
 			</DCCReference>
+			<DCCReference Include="editsosj\unFrmLstEditSOSJ.pas">
+				<Form>frmLstEditSOSJ</Form>
+			</DCCReference>
+			<DCCReference Include="editsosj\unFrmEditSJ.pas">
+				<Form>frmEditSJ</Form>
+			</DCCReference>
 			<BuildConfiguration Include="Base">
 				<Key>Base</Key>
 			</BuildConfiguration>

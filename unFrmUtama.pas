@@ -98,6 +98,7 @@ type
     Memo1: TMemo;
     mnMst_HPPBarang: TMenuItem;
     mnPrd_KalkulasiHPPHasilProduksi: TMenuItem;
+    mnMkt_EditSOSJ: TMenuItem;
     procedure FormShow(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure mnMst_BarangJasaClick(Sender: TObject);
@@ -151,6 +152,7 @@ type
     procedure Button1Click(Sender: TObject);
     procedure mnMst_HPPBarangClick(Sender: TObject);
     procedure mnPrd_KalkulasiHPPHasilProduksiClick(Sender: TObject);
+    procedure mnMkt_EditSOSJClick(Sender: TObject);
   private
     procedure PGChange(Sender: TObject);
   public
@@ -184,7 +186,7 @@ uses
   unFrmLapOutstandingSO, unFrmUbahPassword, unFrmLstInvoicePenjualan,
   unFrmLstInvoicePembelian, unFrmLstPembayaranPembelian,
   unFrmInputPembayaranPenjualan, unFrmLstPembayaranPenjualan,
-  unFrmLstBarangJasaHPP, unFrmKalkulasiHPPHasilProduksi;
+  unFrmLstBarangJasaHPP, unFrmKalkulasiHPPHasilProduksi, unFrmLstEditSOSJ;
 
 {$R *.dfm}
 
@@ -417,6 +419,25 @@ begin
   end;
 end;
 
+procedure TfrmUtama.mnMkt_EditSOSJClick(Sender: TObject);
+var
+  f: TfrmLstEditSOSJ;
+  ts: TcxTabSheet;
+begin
+  if not CekTabOpen('Edit SO / SJ') then begin
+    ToggleMainPage;
+    ts := TcxTabSheet.Create(Self);
+    ts.PageControl := pgMain;
+
+    f := TfrmLstEditSOSJ.Create(Self);
+    f.Parent := ts;
+    ts.Caption := f.Caption;
+    f.Show;
+
+    pgMain.ActivePage := ts;
+  end;
+end;
+
 procedure TfrmUtama.mnMkt_LapOustandingSOClick(Sender: TObject);
 var
   f: TfrmLapOutstandingSO;
@@ -435,6 +456,7 @@ begin
     pgMain.ActivePage := ts;
   end;
 end;
+
 procedure TfrmUtama.mnMkt_SalesOrderClick(Sender: TObject);
 var
   f: TfrmLstSO;

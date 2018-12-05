@@ -203,6 +203,10 @@ object frmUtama: TfrmUtama
         Caption = 'Surat Jalan '
         OnClick = mnMkt_SuratJalanClick
       end
+      object mnMkt_EditSOSJ: TMenuItem
+        Caption = 'Edit SO / SJ'
+        OnClick = mnMkt_EditSOSJClick
+      end
       object mnMkt_ReturPenjualan: TMenuItem
         Caption = 'Retur Penjualan'
       end
