@@ -146,7 +146,7 @@ type
   end;
 
 var
-  frmEditSJ: TfrmEditSJ;
+  frmEditSJ: TfrmInputSuratJalan;
 
 implementation
 

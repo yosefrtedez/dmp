@@ -121,18 +121,28 @@ end;
 procedure TfrmInputHasilProduksi.cxtbHslProdDataControllerAfterPost(
   ADataController: TcxCustomDataController);
 var
-  q, qh, qjd, qhpp: TZQuery;
+  q, qh, qjd, qhpp, q_sa: TZQuery;
   i, j, id_akun, ID: integer;
   sNoBukti, sNoJ: string;
   dt: TDateTime;
   yy, mm, dd : Word;
-  qtySPK: real;
+  qtySPK, hpp_akhir, hpp, sa: real;
 begin
   inherited;
   try
     Screen.Cursor := crSQLWait;
 
     dm.zConn.StartTransaction;
+
+    // ambil stok akhir
+    q_sa := OpenRS('SELECT sf_get_stokakhir_all(%s) sa',[zqrSPK.FieldByName('id_brg').AsString]);
+    sa := q_sa.FieldByName('sa').AsFloat;
+    q_sa.Close;
+
+    // ambil hpp_akhir
+    q_sa := OpenRS('SELECT sf_get_hpp(%s) hpp',[zqrSPK.FieldByName('id_brg').AsString]);
+    hpp_akhir := q_sa.FieldByName('hpp').AsFloat;
+    q_sa.Close;
 
     i := ADataController.GetFocusedRecordIndex;
     j := cxtbSPK.DataController.GetFocusedRecordIndex;
@@ -183,8 +193,15 @@ begin
     qh.FieldByName('user_dept').AsString := Aplikasi.UserDept;
     qh.FieldByName('tgl_input').AsDateTime := Aplikasi.NowServer;
     qtySPK := cxtbSPK.DataController.Values[j, cxColQtySPK.Index];
-    qh.FieldByName('avgcost').AsFloat :=
-      (GetHppProd(zqrSPK.FieldByName('id').AsInteger) / qtySPK) * ADataController.Values[i, cxColQtyProd.Index];
+
+    // hitung hpp
+    hpp := GetHppProd(zqrSPK.FieldByName('id').AsInteger);
+    hpp := (GetHppProd(zqrSPK.FieldByName('id').AsInteger) / qtySPK) * ADataController.Values[i, cxColQtyProd.Index];
+    hpp := ((hpp_akhir * sa) + hpp) / (sa + ADataController.Values[i, cxColQtyProd.Index]);
+
+    //qh.FieldByName('avgcost').AsFloat :=
+    //  (GetHppProd(zqrSPK.FieldByName('id').AsInteger) / qtySPK) * ADataController.Values[i, cxColQtyProd.Index];
+    qh.FieldByName('avgcost').AsFloat := hpp;
     qh.Post;
     qh.Close;
 
@@ -195,8 +212,9 @@ begin
     else
       qhpp.Insert;
     qhpp.FieldByName('id_brg').AsInteger := zqrSPK.FieldByName('id_brg').AsInteger;
-    qhpp.FieldByName('avg').AsFloat :=
-      (GetHppProd(zqrSPK.FieldByName('id').AsInteger) / qtySPK) * ADataController.Values[i, cxColQtyProd.Index];
+    //qhpp.FieldByName('avg').AsFloat :=
+    //  (GetHppProd(zqrSPK.FieldByName('id').AsInteger) / qtySPK) * ADataController.Values[i, cxColQtyProd.Index];
+    qhpp.FieldByName('avg').AsFloat := hpp;
     qhpp.Post;
     qhpp.Close;
 
@@ -205,7 +223,8 @@ begin
       ID,
       sNoBukti,
       ADataController.Values[i, cxColQtyProd.Index],
-      (GetHppProd(zqrSPK.FieldByName('id').AsInteger) / qtySPK) * ADataController.Values[i, cxColQtyProd.Index],
+      //(GetHppProd(zqrSPK.FieldByName('id').AsInteger) / qtySPK) * ADataController.Values[i, cxColQtyProd.Index],
+      hpp,
       0
     );
 
