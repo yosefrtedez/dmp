@@ -21,19 +21,19 @@ inherited frmInputCOA: TfrmInputCOA
     end
   end
   inherited Panel2: TPanel
-    TabOrder = 15
+    TabOrder = 16
   end
-  object cxlTipeAkun: TcxLookupComboBox
+  object cxlKlasifikasi: TcxLookupComboBox
     Left = 91
     Top = 63
     Properties.KeyFieldNames = 'id'
     Properties.ListColumns = <
       item
-        Caption = 'Tipe Akun'
-        FieldName = 'tipe'
+        Caption = 'Klasifikasi'
+        FieldName = 'namasubklasifikasi'
       end>
     Properties.ListOptions.SyncMode = True
-    Properties.ListSource = dsTipeAkun
+    Properties.ListSource = dsSubKlasifikasi
     TabOrder = 1
     Width = 254
   end
@@ -41,7 +41,7 @@ inherited frmInputCOA: TfrmInputCOA
     Left = 91
     Top = 198
     Properties.DropDownListStyle = lsEditFixedList
-    TabOrder = 13
+    TabOrder = 14
     Visible = False
     Width = 121
   end
@@ -58,7 +58,7 @@ inherited frmInputCOA: TfrmInputCOA
     Properties.DisplayFormat = '#,#0.00'
     Properties.EditFormat = '#,#0.00'
     Properties.ValueType = vtFloat
-    TabOrder = 11
+    TabOrder = 12
     Visible = False
     Width = 121
   end
@@ -74,7 +74,7 @@ inherited frmInputCOA: TfrmInputCOA
     Left = 91
     Top = 144
     Properties.CharCase = ecUpperCase
-    TabOrder = 9
+    TabOrder = 10
     Width = 379
   end
   object cxLabel2: TcxLabel
@@ -88,7 +88,7 @@ inherited frmInputCOA: TfrmInputCOA
     Left = 91
     Top = 117
     Properties.CharCase = ecUpperCase
-    TabOrder = 7
+    TabOrder = 8
     Width = 114
   end
   object cxLabel1: TcxLabel
@@ -101,7 +101,7 @@ inherited frmInputCOA: TfrmInputCOA
     Left = 303
     Top = 89
     Properties.ReadOnly = True
-    TabOrder = 4
+    TabOrder = 5
     Width = 82
   end
   object cxlIndukAkun: TcxLookupComboBox
@@ -123,7 +123,7 @@ inherited frmInputCOA: TfrmInputCOA
     Properties.ListOptions.SyncMode = True
     Properties.ListSource = dsInduk
     Properties.OnChange = cxlIndukAkunPropertiesChange
-    TabOrder = 5
+    TabOrder = 6
     Width = 209
   end
   object cxLabel3: TcxLabel
@@ -137,17 +137,23 @@ inherited frmInputCOA: TfrmInputCOA
     Top = 63
     Caption = ' Aktif'
     TabOrder = 2
-    Width = 121
+    Width = 59
   end
   object cxLabel4: TcxLabel
     Left = 10
     Top = 65
-    Caption = 'Tipe Akun'
+    Caption = 'Klasifikasi'
     Transparent = True
+  end
+  object cxChkKas: TcxCheckBox
+    Left = 415
+    Top = 63
+    Caption = 'Kas / Bank'
+    TabOrder = 3
+    Width = 121
   end
   object zqrInduk: TZReadOnlyQuery
     Connection = DM.zConn
-    Active = True
     SQL.Strings = (
       'SELECT noakun, nama FROM tbl_coa '
       'ORDER BY nama')
@@ -162,7 +168,6 @@ inherited frmInputCOA: TfrmInputCOA
   end
   object zqrTipeAkun: TZReadOnlyQuery
     Connection = DM.zConn
-    Active = True
     SQL.Strings = (
       'SELECT id, tipe FROM tbl_tipe_akun')
     Params = <>
@@ -173,5 +178,18 @@ inherited frmInputCOA: TfrmInputCOA
     DataSet = zqrTipeAkun
     Left = 704
     Top = 128
+  end
+  object zqrSubKlasifikasi: TZReadOnlyQuery
+    Connection = DM.zConn
+    SQL.Strings = (
+      'SELECT * FROM tbl_subklasifikasi')
+    Params = <>
+    Left = 616
+    Top = 232
+  end
+  object dsSubKlasifikasi: TDataSource
+    DataSet = zqrSubKlasifikasi
+    Left = 704
+    Top = 240
   end
 end

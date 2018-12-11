@@ -22,25 +22,15 @@ uses
 type
   TfrmLstCOA = class(TfrmTplGrid)
     Label13: TLabel;
-    cxtbCOA: TcxGridDBTableView;
-    cxgCOALevel1: TcxGridLevel;
-    cxgCOA: TcxGrid;
     zqrCOA: TZReadOnlyQuery;
     dsCOA: TDataSource;
-    cxtbCOAnoakun: TcxGridDBColumn;
-    cxtbCOAnama: TcxGridDBColumn;
-    cxtbCOAinduk: TcxGridDBColumn;
-    cxtbCOAf_subakun: TcxGridDBColumn;
-    cxtbCOAf_aktif: TcxGridDBColumn;
-    cxtbCOAsawal: TcxGridDBColumn;
-    cxtbCOAdfl: TcxGridDBColumn;
-    cxDBTreeList1: TcxDBTreeList;
-    cxDBTreeList1cxDBTreeListColumn1: TcxDBTreeListColumn;
+    treeCOA: TcxDBTreeList;
+    cxColNoAkun: TcxDBTreeListColumn;
     cxDBTreeList1cxDBTreeListColumn2: TcxDBTreeListColumn;
     procedure btnTambahClick(Sender: TObject);
     procedure btnEditClick(Sender: TObject);
-    procedure btnRefreshClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
+    procedure btnRefreshClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -90,7 +80,7 @@ begin
   inherited;
   zqrCOA.Close;
   zqrCOA.Open;
-  //cxtbCOA.DataController.UpdateItems(False);
+  treeCOA.FullExpand;
 end;
 
 procedure TfrmLstCOA.btnTambahClick(Sender: TObject);
@@ -119,6 +109,8 @@ begin
   inherited;
   zqrCOA.Open;
   //zqrCOA.Refresh;
+  treeCOA.FullExpand;
+  cxColNoAkun.SortOrder := soAscending;
 end;
 
 procedure TfrmLstCOA.RefreshGrid;

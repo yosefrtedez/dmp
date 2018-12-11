@@ -27,6 +27,8 @@ type
     treeCOA: TcxDBTreeList;
     cxColNoAkun: TcxDBTreeListColumn;
     cxDBTreeList1cxDBTreeListColumn2: TcxDBTreeListColumn;
+    treeCOAcxDBTreeListColumn1: TcxDBTreeListColumn;
+    treeCOAcxDBTreeListColumn2: TcxDBTreeListColumn;
     procedure btnTambahClick(Sender: TObject);
     procedure btnEditClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);

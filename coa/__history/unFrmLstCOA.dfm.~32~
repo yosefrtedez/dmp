@@ -28,6 +28,9 @@ inherited frmLstCOA: TfrmLstCOA
     inherited btnEdit: TButton
       OnClick = btnEditClick
     end
+    inherited btnRefresh: TButton
+      OnClick = btnRefreshClick
+    end
   end
   object treeCOA: TcxDBTreeList
     Left = 0
@@ -41,13 +44,14 @@ inherited frmLstCOA: TfrmLstCOA
     DataController.DataSource = dsCOA
     DataController.ParentField = 'induk'
     DataController.KeyField = 'noakun'
+    OptionsBehavior.GoToNextCellOnTab = True
+    OptionsBehavior.IncSearch = True
+    OptionsBehavior.IncSearchItem = cxDBTreeList1cxDBTreeListColumn2
+    OptionsData.Editing = False
+    OptionsData.Deleting = False
     RootValue = -1
     TabOrder = 1
-    ExplicitLeft = 32
-    ExplicitTop = 80
-    ExplicitWidth = 250
-    ExplicitHeight = 150
-    object cxDBTreeList1cxDBTreeListColumn1: TcxDBTreeListColumn
+    object cxColNoAkun: TcxDBTreeListColumn
       Caption.Text = 'No. Akun'
       DataBinding.FieldName = 'noakun'
       Width = 100
@@ -67,11 +71,34 @@ inherited frmLstCOA: TfrmLstCOA
       Summary.FooterSummaryItems = <>
       Summary.GroupFooterSummaryItems = <>
     end
+    object treeCOAcxDBTreeListColumn1: TcxDBTreeListColumn
+      Caption.Text = 'Klasifikasi'
+      DataBinding.FieldName = 'namaklasifikasi'
+      Width = 174
+      Position.ColIndex = 2
+      Position.RowIndex = 0
+      Position.BandIndex = 0
+      Summary.FooterSummaryItems = <>
+      Summary.GroupFooterSummaryItems = <>
+    end
+    object treeCOAcxDBTreeListColumn2: TcxDBTreeListColumn
+      Caption.Text = 'Subklasifikasi'
+      DataBinding.FieldName = 'namasubklasifikasi'
+      Width = 167
+      Position.ColIndex = 3
+      Position.RowIndex = 0
+      Position.BandIndex = 0
+      Summary.FooterSummaryItems = <>
+      Summary.GroupFooterSummaryItems = <>
+    end
   end
   object zqrCOA: TZReadOnlyQuery
     Connection = DM.zConn
     SQL.Strings = (
-      'SELECT * FROM tbl_coa')
+      'SELECT a.*, b.namaklasifikasi, c.namasubklasifikasi'
+      'FROM tbl_coa a'
+      'LEFT JOIN tbl_klasifikasi b ON a.id_klasifikasi = b.id'
+      'LEFT JOIN tbl_subklasifikasi c ON a.id_subklasifikasi = c.id')
     Params = <>
     Left = 704
     Top = 144
